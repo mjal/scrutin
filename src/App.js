@@ -5,19 +5,27 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+				<h1>
+					End-to-end encrypted<br />
+					Formally verified<br />
+					Election app
+				</h1>
       </header>
+
+			<h2>Setup election:</h2>
+			<p>
+				1. Add candidates
+				<br />
+				2. Add voters
+				<br/>
+				3. Start election
+			</p>
+
+			<h2>Vote:</h2>
+			<p>
+				1. Login
+				2. Vote (Select + send)
+			</p>
     </div>
   );
 }
