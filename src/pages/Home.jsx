@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom"
 
-export default function() {
+export default function({state, dispatch}) {
 	return (
 		<div>
+			{state.voters.map(voter =>
+				<h4>Voter {voter}</h4>
+			)}
 			<h2>Setup election:</h2>
 			<p>
 				<Link to="/candidates">Add candidates</Link>
