@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter,
@@ -7,6 +6,7 @@ import {
 } from "react-router-dom";
 import Home from './pages/Home.jsx'
 import CandidateList from './pages/CandidateList.jsx'
+import VoterList from './pages/VoterList.jsx'
 
 function App() {
   return (
