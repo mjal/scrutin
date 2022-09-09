@@ -1,31 +1,31 @@
 import logo from './logo.svg';
 import './App.css';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
+import Home from './pages/Home.jsx'
+import CandidateList from './pages/CandidateList.jsx'
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
 				<h1>
+					Scrutin:<br />
 					End-to-end encrypted<br />
 					Formally verified<br />
 					Election app
 				</h1>
       </header>
-
-			<h2>Setup election:</h2>
-			<p>
-				1. Add candidates
-				<br />
-				2. Add voters
-				<br/>
-				3. Start election
-			</p>
-
-			<h2>Vote:</h2>
-			<p>
-				1. Login
-				2. Vote (Select + send)
-			</p>
+			<BrowserRouter>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/candidates" element={<CandidateList />} />
+					<Route path="/voters" element={<VoterList />} />
+				</Routes>
+			</BrowserRouter>
     </div>
   );
 }
