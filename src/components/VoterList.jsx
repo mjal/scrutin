@@ -8,7 +8,7 @@ export default function({state, dispatch}) {
 		return (
 			<p key={voter}>
 				{voter} - 
-				<a onClick={() => dispatch({type: "removeVoter", voter: voter})}>
+				<a onClick={() => dispatch({type: "removeVoter", value: voter})}>
 					(remove)
 				</a>
 			</p>
@@ -16,7 +16,7 @@ export default function({state, dispatch}) {
 	}
 
 	const addVoter = () => {
-		dispatch({type: "addVoter", voter: voterName})
+		dispatch({type: "addVoter", value: voterName})
 		setVoterName("")
 	}
 
