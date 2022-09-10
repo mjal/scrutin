@@ -2,6 +2,8 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
+import * as VoterList from "../components/VoterList.bs.js";
+import * as CandidateList from "../components/CandidateList.bs.js";
 import * as Core from "@material-ui/core";
 
 function s(string) {
@@ -23,7 +25,13 @@ function Home(Props) {
                   onChange: updateElectionName,
                   value: state.electionName,
                   variant: "outlined"
-                }), "", React.createElement("br", undefined), React.createElement(Core.Button, {
+                }), React.createElement(CandidateList.make, {
+                  dispatch: dispatch,
+                  state: state
+                }), React.createElement(VoterList.make, {
+                  state: state,
+                  dispatch: dispatch
+                }), React.createElement("br", undefined), React.createElement(Core.Button, {
                   children: "Create Election",
                   variant: "contained"
                 }));

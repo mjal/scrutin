@@ -17,7 +17,7 @@ let initialState = {
   candidates: []
 }
 
-let reducer = (state: state, action: action) : state => {
+let reducer = (state, action) => {
   switch (action) {
     | SetElectionName(electionName) =>
       {...state, electionName: electionName}

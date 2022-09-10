@@ -14,10 +14,8 @@ let make = (~state: State.state, ~dispatch: State.action => unit) => {
 			value=Mui.TextField.Value.string(state.electionName)
       onChange=updateElectionName
 		/>
-    {/*
 		<CandidateList state={state} dispatch={dispatch} />
 		<VoterList state={state} dispatch={dispatch} />
-    */React.string("")}
     <br />
 		<Mui.Button variant=#contained>{React.string("Create Election")}</Mui.Button>
 	</div>
