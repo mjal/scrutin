@@ -1,4 +1,13 @@
+open Mui
+
 let s = (string) => Mui.Box.Value.string(string)
+
+module Fetch = {
+  type response
+
+  @send external json: response => Js.Promise.t<'a> = "json"
+  @val external fetch: string => Js.Promise.t<response> = "fetch"
+}
 
 @react.component
 let make = (~state: State.state, ~dispatch: State.action => unit) => {
@@ -6,8 +15,12 @@ let make = (~state: State.state, ~dispatch: State.action => unit) => {
   let updateElectionName = (event) =>
     dispatch(SetElectionName(ReactEvent.Form.currentTarget(event)["value"]))
 
+  let onClick = _ => {
+    RescriptReactRouter.push("/election/1")
+  }
+
 	<div>
-		<Mui.TextField
+		<TextField
       id="outlined-basic"
       label=React.string("Nom de l'élection")
       variant=#outlined
@@ -17,6 +30,6 @@ let make = (~state: State.state, ~dispatch: State.action => unit) => {
 		<CandidateList state={state} dispatch={dispatch} />
 		<VoterList state={state} dispatch={dispatch} />
     <br />
-		<Mui.Button variant=#contained>{React.string("Create Election")}</Mui.Button>
+		<Button variant=#contained onClick>{React.string("Create Election")}</Button>
 	</div>
 }

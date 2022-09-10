@@ -24,7 +24,7 @@ let make = (~name, ~dispatch) => {
   >
     <ListItemAvatar>
       <Avatar>
-        <Folder />
+        <PersonIcon />
       </Avatar>
     </ListItemAvatar>
     <ListItemText

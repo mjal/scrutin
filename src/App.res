@@ -1,22 +1,20 @@
-@react.component
-let make = () => {
+let default = () => {
   let (state, dispatch) = React.useReducer(State.reducer, State.initialState)
 
+  let url = RescriptReactRouter.useUrl()
+
 	<Mui.Container fixed=true>
-		<Mui.Box
-		  display=Mui.Box.Value.string("flex")
-		  justifyContent=Mui.Box.Value.string("center")
-		  alignItems=Mui.Box.Value.string("center")
-		  minHeight=Mui.Box.Value.string("30vh")
-		>
-			<h1>
-        {"Scrutin:"->React.string}
-        <br />
-        {"end-to-end encrypted"->React.string}
-        <br />
-        {"verifiable election app"->React.string}
-			</h1>
-		</Mui.Box>
-		<Home state={state} dispatch={dispatch} />
+    <Header />
+    {
+      switch url.path {
+        | list{"election", id} =>
+          <Election state dispatch id />
+        | list{} =>
+	    	  <Home state dispatch />
+        | _ =>
+          // TODO <NotFound />
+	    	  <Home state dispatch />
+      }
+    }
   </Mui.Container>
 }

@@ -24,14 +24,14 @@ let make = (~state: State.state, ~dispatch: State.action => unit) => {
 
 	<div>
 		<h2>{"Votants"->rs}</h2>
-    <Mui.List>
+    <List>
       {
         Js.Array2.map(state.voters, email =>
           <Voter key={email} name={email} dispatch={dispatch} />
         )->React.array
       }
-    </Mui.List>
-		<Mui.TextField label=React.string("Email") variant=#outlined value={TextField.Value.string(email)} onChange />
-		<Mui.Button variant=#contained size=#large onClick={addVoter} onKeyDown>{React.string("Ajouter")}</Mui.Button>
+    </List>
+		<TextField label=React.string("Email") variant=#outlined value={TextField.Value.string(email)} onChange />
+		<Button variant=#contained size=#large onClick={addVoter} onKeyDown>{React.string("Ajouter")}</Button>
 	</div>
 }
