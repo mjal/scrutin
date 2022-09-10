@@ -39,8 +39,7 @@ function App() {
 				<h1>
 					Scrutin:<br />
 					End-to-end encrypted<br />
-					Formally verified<br />
-					Election app
+					Verified election app
 				</h1>
       </header>
 			<BrowserRouter>
