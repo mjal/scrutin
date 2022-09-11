@@ -36,7 +36,7 @@ let make = (~state: State.state, ~dispatch: State.action => unit) => {
       id="outlined-basic"
       label=React.string("Nom de l'élection")
       variant=#outlined
-			value=Mui.TextField.Value.string(state.electionName)
+			value=Mui.TextField.Value.string(state.election.name)
       onChange=updateElectionName
 		/>
 		<CandidateList state={state} dispatch={dispatch} />

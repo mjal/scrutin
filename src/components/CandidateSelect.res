@@ -11,8 +11,8 @@ let make = (~dispatch: State.action => (), ~state: State.state) => {
 	<div>
 		<h2>{"Selectionnez votre candidat"->React.string}</h2>
     <RadioGroup>
-      {Js.Array2.map(state.candidates, name =>
-        <FormControlLabel value={Any.make(name)} control={<Radio />} label={name->rs} />
+      {Js.Array2.map(state.election.candidates, candidate =>
+        <FormControlLabel value={Any.make(candidate.name)} control={<Radio />} label={candidate.name->rs} />
       )->React.array}
     </RadioGroup>
 		<Button variant=#contained size=#large onClick>{"Voter"->rs}</Button>

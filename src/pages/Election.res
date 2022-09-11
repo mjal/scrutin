@@ -6,7 +6,7 @@ let rs = (string) => React.string(string)
 let make = (~state: State.state, ~dispatch, ~id) => {
 
 	<div>
-    <h2>{rs(state.electionName)}</h2>
+    <h2>{rs(state.election.name)}</h2>
 		<CandidateSelect state dispatch />
 	</div>
 }

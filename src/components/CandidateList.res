@@ -21,8 +21,8 @@ let make = (~dispatch: State.action => (), ~state: State.state) => {
 	<div>
 		<h2>{"Candidats"->React.string}</h2>
     <Mui.List>
-    {Js.Array2.map(state.candidates, name =>
-      <Candidate key={name} name={name} dispatch={dispatch} />
+    {Js.Array2.map(state.election.candidates, candidate =>
+      <Candidate key={candidate.name} name={candidate.name} dispatch={dispatch} />
     )->React.array}
 		</Mui.List>
 		<Mui.TextField label=React.string("Prénom") variant=#outlined value={Mui.TextField.Value.string(firstName)} onChange={onChangeFirstName} />

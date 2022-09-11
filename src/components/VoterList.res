@@ -26,8 +26,8 @@ let make = (~state: State.state, ~dispatch: State.action => unit) => {
 		<h2>{"Votants"->rs}</h2>
     <List>
       {
-        Js.Array2.map(state.voters, email =>
-          <Voter key={email} name={email} dispatch={dispatch} />
+        Js.Array2.map(state.election.voters, voter =>
+          <Voter key={voter.name} name={voter.name} dispatch={dispatch} />
         )->React.array
       }
     </List>
