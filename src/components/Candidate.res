@@ -1,25 +1,13 @@
-open Mui
-open Mui.Box
-
-let rs = React.string
+open Mui; open Helper
 
 @react.component
 let make = (~name, ~dispatch) => {
-
-  let onClick = _ => {
-    dispatch(State.RemoveVoter(name))
-  }
-
-  <ListItem
-  >
+  <ListItem>
     <ListItemAvatar>
       <Avatar>
         <PersonIcon />
       </Avatar>
     </ListItemAvatar>
-    <ListItemText
-      primary={name->rs}
-      secondary={"Description"->rs}
-    />
+    <ListItemText primary={name->rs} secondary={"Description"->rs} />
   </ListItem>
 }

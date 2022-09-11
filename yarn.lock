@@ -1895,6 +1895,11 @@
   resolved "https://registry.npmjs.org/@rushstack/eslint-patch/-/eslint-patch-1.1.4.tgz"
   integrity sha512-LwzQKA4vzIct1zNZzBmRKI9QuNpLgTQMEjsQLf3BXuGYb3QPTP4Yjf6mkdX+X1mYttZ808QpOwAzZjv28kq7DA==
 
+"@ryyppy/rescript-promise@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@ryyppy/rescript-promise/-/rescript-promise-2.1.0.tgz#a33861274c41360cfbe872cf489f3dcb8dd526e6"
+  integrity sha512-+dW6msBrj2Lr2hbEMX+HoWCvN89qVjl94RwbYWJgHQuj8jm/izdPC0YzxgpGoEFdeAEW2sOozoLcYHxT6o5WXQ==
+
 "@sinclair/typebox@^0.24.1":
   version "0.24.39"
   resolved "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.24.39.tgz"
@@ -7973,6 +7978,11 @@ rescript-material-ui@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/rescript-material-ui/-/rescript-material-ui-3.0.2.tgz#81bdf7a6e9e3528137e7ea23b1ead76b5577a201"
   integrity sha512-TxD7UekhXlK9uYIuHhAERnATzgT2MCPrbqazYVlfy06dOqElHG5OCiafI0/39dNuwwYnWoDZWOC+fG/AZ+8T7A==
+
+rescript-webapi@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/rescript-webapi/-/rescript-webapi-0.6.1.tgz#b7e578c743b08e09f259938a6e9300c238020591"
+  integrity sha512-I/eeHOcsUfWbCf6u15zd+rKxMz9awSjjdRa8eFtl2X+HjDNs0mJxoC4uFFK9dIazYcmY2VpuK5TTpOPXvdkhDw==
 
 rescript@^10.0.1:
   version "10.0.1"

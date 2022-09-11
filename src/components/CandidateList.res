@@ -1,3 +1,5 @@
+open Mui; open Helper
+
 @react.component
 let make = (~dispatch: State.action => (), ~state: State.state) => {
 	let (firstName, setFirstName) = React.useState(_ => "")
@@ -11,22 +13,28 @@ let make = (~dispatch: State.action => (), ~state: State.state) => {
     setLastName(ReactEvent.Form.currentTarget(event)["value"])
   }
 
-  // TODO: Form and onSubmit ?
-  let onClick = e => {
+  let onSubmit = e => {
     dispatch(State.AddCandidate(lastName ++ " " ++ firstName))
-    setFirstName(_=>"")
-    setLastName(_=>"")
+    setFirstName(_ => "")
+    setLastName(_ => "")
+    ReactEvent.Synthetic.preventDefault(e)
   }
 
 	<div>
-		<h2>{"Candidats"->React.string}</h2>
-    <Mui.List>
-    {Js.Array2.map(state.election.candidates, candidate =>
-      <Candidate key={candidate.name} name={candidate.name} dispatch={dispatch} />
-    )->React.array}
-		</Mui.List>
-		<Mui.TextField label=React.string("Prénom") variant=#outlined value={Mui.TextField.Value.string(firstName)} onChange={onChangeFirstName} />
-		<Mui.TextField label=React.string("Nom") variant=#outlined value={Mui.TextField.Value.string(lastName)} onChange={onChangeLastName} />
-		<Mui.Button variant=#contained size=#large onClick>{React.string("Ajouter")}</Mui.Button>
+		<h2>{"Candidats"->rs}</h2>
+    <List>
+      {
+        state.election.candidates
+        -> Js.Array2.map(candidate =>
+          <Candidate key={candidate.name} name={candidate.name} dispatch={dispatch} />
+        )
+        -> React.array
+      }
+		</List>
+    <form onSubmit>
+		  <TextField label=rs("Prénom") variant=#outlined value={texts(firstName)} onChange={onChangeFirstName} />
+		  <TextField label=rs("Nom") variant=#outlined value={texts(lastName)} onChange={onChangeLastName} />
+		  <Button \"type"=Mui.Button.Type.string("submit") variant=#contained size=#large>{rs("Ajouter")}</Button>
+    </form>
 	</div>
 }

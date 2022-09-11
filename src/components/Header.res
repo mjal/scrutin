@@ -1,17 +1,19 @@
+open Mui; open Helper
+
 @react.component
 let make = () => {
-	<Mui.Box
-	  display=Mui.Box.Value.string("flex")
-	  justifyContent=Mui.Box.Value.string("center")
-	  alignItems=Mui.Box.Value.string("center")
-	  minHeight=Mui.Box.Value.string("30vh")
+	<Box
+	  display=boxs("flex")
+	  justifyContent=boxs("center")
+	  alignItems=boxs("center")
+	  minHeight=boxs("30vh")
 	>
 		<h1>
-      {"Scrutin:"->React.string}
+      {rs("Scrutin:")}
       <br />
-      {"end-to-end encrypted"->React.string}
+      {rs("end-to-end encrypted")}
       <br />
-      {"verifiable election app"->React.string}
+      {rs("verifiable election app")}
 		</h1>
-	</Mui.Box>
+	</Box>
 }
