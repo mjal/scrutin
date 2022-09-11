@@ -16,7 +16,19 @@ let make = (~state: State.state, ~dispatch: State.action => unit) => {
     dispatch(SetElectionName(ReactEvent.Form.currentTarget(event)["value"]))
 
   let onClick = _ => {
-    RescriptReactRouter.push("/election/1")
+    %raw(`
+      fetch('http://0.0.0.0:8000/elections/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({...state, name: state.electionName})
+      })
+      .then(response => response.json())
+      .then(data => console.log(data))
+    `)
+
+    ()
+
+    //RescriptReactRouter.push("/election/1")
   }
 
 	<div>
