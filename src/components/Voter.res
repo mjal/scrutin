@@ -4,7 +4,7 @@ open Mui; open Helper
 let make = (~name, ~dispatch) => {
 
   let onClick = _ =>
-    dispatch(State.RemoveVoter(name))
+    dispatch(Action.RemoveVoter(name))
 
   <ListItem>
     <ListItemAvatar>

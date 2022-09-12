@@ -1,7 +1,7 @@
 open Mui; open Helper
 
 @react.component
-let make = (~state: State.state, ~dispatch: State.action => unit) => {
+let make = (~state: State.state, ~dispatch: Action.t => unit) => {
 	let (email, setEmail) = React.useState(_ => "")
 
 	let addVoter = _ => {

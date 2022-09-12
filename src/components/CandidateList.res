@@ -1,7 +1,7 @@
 open Mui; open Helper
 
 @react.component
-let make = (~dispatch: State.action => (), ~state: State.state) => {
+let make = (~dispatch: Action.t => (), ~state: State.state) => {
 	let (firstName, setFirstName) = React.useState(_ => "")
 	let (lastName, setLastName) = React.useState(_ => "")
 
@@ -14,7 +14,7 @@ let make = (~dispatch: State.action => (), ~state: State.state) => {
   }
 
   let onSubmit = e => {
-    dispatch(State.AddCandidate(lastName ++ " " ++ firstName))
+    dispatch(Action.AddCandidate(lastName ++ " " ++ firstName))
     setFirstName(_ => "")
     setLastName(_ => "")
     ReactEvent.Synthetic.preventDefault(e)

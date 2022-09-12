@@ -1,74 +1,25 @@
-type user = { token: string }
-
-type voter = { name: string }
-
-type candidate = { name: string }
-
-type election = {
-  name: string,
-  voters: array<voter>,
-  candidates: array<candidate>
+module User = {
+  type t = { token: string }
 }
 
 type state = {
-  user: user,
-  election: election
+  user: User.t,
+  election: Election.t,
+  loading: bool
 }
 
 let initialState = {
-  user: {
-    token: ""
-  },
-  election: {
-    name: "Élection sans nom",
-    voters: [],
-    candidates: []
-  },
+  user: { token: "" },
+  election: Election.initial,
+  loading: false
 }
 
-type action =
-  | SetElectionName(string)
-  | AddVoter(string)
-  | RemoveVoter(string)
-  | AddCandidate(string)
-  | RemoveCandidate(string)
-
-let reducer = (state, action) => {
+let reducer = (state, action: Action.t) => {
   switch (action) {
-    | SetElectionName(name) => {
+    | SetLoading(loading) => { ...state, loading }
+    | _ => {
       ...state,
-      election: {
-        ...state.election,
-        name: name
-      }
-    }
-    | AddVoter(name) => {
-      ...state,
-      election: {
-        ...state.election,
-        voters: Js.Array.concat([{ name: name } : voter], state.election.voters)
-      }
-    }
-    | RemoveVoter(name) => {
-      ...state,
-      election: {
-        ...state.election,
-        voters: Js.Array2.filter(state.election.voters, voter => voter.name != name)
-      }
-    }
-    | AddCandidate(name) => {
-      ...state,
-      election: {
-        ...state.election,
-        candidates: Js.Array.concat([{ name: name } : candidate], state.election.candidates)
-      }
-    }
-    | RemoveCandidate(name) => {
-      ...state,
-      election: {
-        ...state.election,
-        candidates: Js.Array2.filter(state.election.candidates, e => e.name != name)
-      }
+      election: Election.reducer(state.election, action)
     }
   }
 }
