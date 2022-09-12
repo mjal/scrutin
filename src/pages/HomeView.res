@@ -10,21 +10,18 @@ let make = (~state: State.state, ~dispatch: Action.t => unit) => {
     dispatch(SetElectionName(ReactEvent.Form.currentTarget(event)["value"]))
 
   let onClick = _ => {
-    let a = Webapi.Fetch.fetchWithInit(
-      "http://localhost:8000/elections/",
-      Webapi.Fetch.RequestInit.make(
-        ~method_=Post,
-        ~body=Webapi.Fetch.BodyInit.make(Js.Json.stringify(Election.to_json(state.election))),
-        ~headers=Webapi.Fetch.HeadersInit.make({"Content-Type": "application/json"}),
-        (),
-      ),
-    )
-    ->Promise.then(Webapi.Fetch.Response.json)
-    ->Promise.thenResolve(Election.from_json)
-    ->Promise.thenResolve(election => {
-      let id = election.id
-      RescriptReactRouter.push(j`/election/$id`)
+    state.election
+    -> Election.post
+    -> Promise.then(res => {
+      res
+      -> Webapi.Fetch.Response.json
+      -> Promise.thenResolve(Election.from_json)
+      -> Promise.thenResolve(election => {
+        let id = election.id
+        RescriptReactRouter.push(j`/election/$id`)
+      })
     })
+    -> ignore
   }
 
 	<div>

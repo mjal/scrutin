@@ -103,3 +103,25 @@ let reducer = (election, action) => {
     | _ => election
   }
 }
+
+let get = (id) => {
+  Webapi.Fetch.fetch(j`http://localhost:8000/elections/$id`)
+  -> Promise.then(Webapi.Fetch.Response.json)
+}
+
+let post = (election) => {
+  let headers = {
+    "Content-Type": "application/json"
+  }
+  -> Webapi.Fetch.HeadersInit.make
+
+  let body = election
+  -> to_json
+  -> Js.Json.stringify
+  -> Webapi.Fetch.BodyInit.make
+
+  Webapi.Fetch.fetchWithInit(
+    `${Config.api_url}/elections/`,
+    Webapi.Fetch.RequestInit.make(~method_=Post, ~body, ~headers, ()),
+  )
+}

@@ -16,13 +16,12 @@ let default = () => {
           }
           if !state.loading && state.election.id != id {
             dispatch(SetLoading(true))
-            Webapi.Fetch.fetch(j`http://localhost:8000/elections/$id`)
-            ->Promise.then(Webapi.Fetch.Response.json)
-            ->Promise.thenResolve(o => {
+            Election.get(id)
+            -> Promise.thenResolve(o => {
               dispatch(LoadElectionJson(o))
               dispatch(SetLoading(false))
             })
-            ->ignore
+            -> ignore
           }
 
           if state.loading {
