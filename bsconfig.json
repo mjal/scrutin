@@ -18,6 +18,7 @@
     "@rescript/react",
     "rescript-material-ui",
     "@ryyppy/rescript-promise",
-    "rescript-webapi"
+    "rescript-webapi",
+    "rescript-react-native"
   ]
 }
