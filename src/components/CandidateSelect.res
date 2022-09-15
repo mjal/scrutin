@@ -1,21 +1,21 @@
-open Mui; open Helper
+open ReactNative; open Helper
 
 @react.component
 let make = (~dispatch, ~state: State.state) => {
   let onClick = _ => ()
 
-	<div>
-		<h2>{rs("Selectionnez votre candidat")}</h2>
-    <RadioGroup>
+	<View>
+		<Text>{rs("Selectionnez votre candidat")}</Text>
+    <View>
       {
         state.election.candidates
         -> Js.Array2.map(candidate =>
-          <FormControlLabel value={Any.make(candidate.name)} control={<Radio />} label={rs(candidate.name)} />
+          <Text>{rs(candidate.name)}</Text>
         )
         -> React.array
       }
-    </RadioGroup>
-		<Button variant=#contained size=#large onClick>{rs("Voter")}</Button>
-	</div>
+    </View>
+		<Button title="Voter" onPress={_ => ()} />
+	</View>
 }
 

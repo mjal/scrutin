@@ -1,4 +1,4 @@
-open Mui; open Helper
+open ReactNative; open Helper
 
 @react.component
 let make = (~state: State.state, ~dispatch: Action.t => unit) => {
@@ -12,24 +12,18 @@ let make = (~state: State.state, ~dispatch: Action.t => unit) => {
   let onChange = (event) =>
     setEmail(ReactEvent.Form.currentTarget(event)["value"])
 
-	let onClick = _ => addVoter()
+	let onPress = _ => addVoter()
 
-	let onKeyDown = event => {
-		if ReactEvent.Keyboard.key(event) == "Enter" {
-      addVoter()
-		}
-	}
-
-	<div>
-		<h2>{"Votants"->rs}</h2>
-    <List>
+	<View>
+		<Text>{"Votants"->rs}</Text>
+    <View>
       {
         state.election.voters
         -> Js.Array2.map(voter => <Voter key={voter.name} name={voter.name} dispatch={dispatch} />)
         -> React.array
       }
-    </List>
-		<TextField label=rs("Email") variant=#outlined value={texts(email)} onChange />
-		<Button variant=#contained size=#large onClick onKeyDown>{rs("Ajouter")}</Button>
-	</div>
+    </View>
+		<TextInput value={email} onChangeText={(s) => setEmail(_ => s)} />
+		<Button onPress title="Ajouter" />
+	</View>
 }

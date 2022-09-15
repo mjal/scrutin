@@ -1,4 +1,4 @@
-open Mui; open Helper
+open ReactNative; open Helper
 
 @scope("window") @val
 external alert: string => unit = "alert2"
@@ -9,7 +9,7 @@ let make = (~state: State.state, ~dispatch: Action.t => unit) => {
   let updateElectionName = (event) =>
     dispatch(SetElectionName(ReactEvent.Form.currentTarget(event)["value"]))
 
-  let onClick = _ => {
+  let onPress = _ => {
     state.election
     -> Election.post
     -> Promise.then(res => {
@@ -24,7 +24,8 @@ let make = (~state: State.state, ~dispatch: Action.t => unit) => {
     -> ignore
   }
 
-	<div>
+	<View>
+    {/*
 		<TextField
       label=rs("Nom de l'élection")
       variant=#outlined
@@ -33,7 +34,7 @@ let make = (~state: State.state, ~dispatch: Action.t => unit) => {
 		/>
 		<CandidateList state dispatch />
 		<VoterList state dispatch />
-    <br />
-		<Button variant=#contained onClick>{rs("Create Election")}</Button>
-	</div>
+    */rs("")}
+		<Button onPress title="Create Election" />
+	</View>
 }

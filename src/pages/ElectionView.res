@@ -1,9 +1,9 @@
+open ReactNative; open Helper
+
 @react.component
 let make = (~state: State.state, ~dispatch, ~id) => {
-  open Helper
-
-	<div>
-    <h2>{rs(state.election.name)}</h2>
+	<View>
+    <Text>{rs(state.election.name)}</Text>
 		<CandidateSelect state dispatch />
-	</div>
+	</View>
 }

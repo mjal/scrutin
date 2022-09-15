@@ -1,12 +1,13 @@
-open Mui; open Helper
+open ReactNative; open Helper
 
-let default = () => {
+@react.component
+let make = () => {
   let (state, dispatch) = React.useReducer(State.reducer, State.initialState)
 
-  let url = RescriptReactRouter.useUrl()
-
-	<Mui.Container fixed=true>
+	<View>
     <Header />
+    {
+    /*
     {
       switch url.path {
         | list{"election", id_str} =>
@@ -36,5 +37,8 @@ let default = () => {
 	    	  <HomeView state dispatch />
       }
     }
-  </Mui.Container>
+    */
+    <Text>{rs("")}</Text>
+    }
+  </View>
 }
