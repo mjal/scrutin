@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.0",
+    "@rescript-react-native/paper": "^3.0.6",
     "@rescript/react": "^0.10.3",
     "@ryyppy/rescript-promise": "^2.1.0",
     "expo": "~46.0.9",
@@ -19,6 +20,7 @@
     "react": "18.0.0",
     "react-dom": "18.0.0",
     "react-native": "0.69.5",
+    "react-native-paper": "^4.12.4",
     "react-native-web": "~0.18.7",
     "rescript": "^10.0.1",
     "rescript-material-ui": "^3.0.2",

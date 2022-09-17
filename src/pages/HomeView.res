@@ -1,4 +1,4 @@
-open ReactNative; open Helper
+open Paper; open Helper
 
 @scope("window") @val
 external alert: string => unit = "alert2"
@@ -24,7 +24,14 @@ let make = (~state: State.state, ~dispatch: Action.t => unit) => {
     -> ignore
   }
 
-	<View>
+	<ReactNative.View>
+
+    <Paper.TextInput
+      mode=#flat
+      label="Nom de l'élection"
+			value=state.election.name
+    />
+
     {/*
 		<TextField
       label=rs("Nom de l'élection")
@@ -35,6 +42,6 @@ let make = (~state: State.state, ~dispatch: Action.t => unit) => {
 		<CandidateList state dispatch />
 		<VoterList state dispatch />
     */rs("")}
-		<Button onPress title="Create Election" />
-	</View>
+		<Button onPress mode=#contained>{rs("Create Election")}</Button>
+	</ReactNative.View>
 }
