@@ -1,13 +1,18 @@
-open Paper; open Helper
+open Helper
+open ReactNative;
+open Paper;
 
-@scope("window") @val
-external alert: string => unit = "alert2"
+let styles = {
+  open Style
+  StyleSheet.create({
+    "divider": viewStyle(
+      ~margin=dp(20.),
+    ())
+  })
+}
 
 @react.component
 let make = (~state: State.state, ~dispatch: Action.t => unit) => {
-
-  let updateElectionName = (event) =>
-    dispatch(SetElectionName(ReactEvent.Form.currentTarget(event)["value"]))
 
   let onPress = _ => {
     state.election
@@ -24,24 +29,22 @@ let make = (~state: State.state, ~dispatch: Action.t => unit) => {
     -> ignore
   }
 
-	<ReactNative.View>
+  <ReactNative.View>
 
     <Paper.TextInput
       mode=#flat
       label="Nom de l'élection"
 			value=state.election.name
+      onChangeText={text => dispatch(SetElectionName(text))}
     />
+    <Divider style=styles["divider"] />
 
-    {/*
-		<TextField
-      label=rs("Nom de l'élection")
-      variant=#outlined
-			value=texts(state.election.name)
-      onChange=updateElectionName
-		/>
-		<CandidateList state dispatch />
-		<VoterList state dispatch />
-    */rs("")}
-		<Button onPress mode=#contained>{rs("Create Election")}</Button>
-	</ReactNative.View>
+    <CandidateList state dispatch />
+    <Divider style=styles["divider"] />
+
+    <VoterList state dispatch />
+    <Divider style=styles["divider"] />
+
+    <Button onPress mode=#contained>{rs("Create Election")}</Button>
+  </ReactNative.View>
 }
