@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "scrutin2",
-    "slug": "scrutin2",
+    "name": "Scrutin",
+    "slug": "scrutin",
+    "owner": "mlalisse",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

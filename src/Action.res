@@ -6,3 +6,4 @@ type t =
   | AddCandidate(string)
   | RemoveCandidate(string)
   | LoadElectionJson(Js.Json.t)
+  | PostElection

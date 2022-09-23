@@ -1,4 +1,6 @@
-open ReactNative; open Helper
+open Helper
+open ReactNative
+open Paper
 
 @react.component
 let make = (~state: State.state, ~dispatch: Action.t => unit) => {
@@ -15,15 +17,18 @@ let make = (~state: State.state, ~dispatch: Action.t => unit) => {
 	let onPress = _ => addVoter()
 
 	<View>
-		<Paper.Text>{"Votants"->rs}</Paper.Text>
-    <View>
-      {/*
+    <List.Section title="Votants">
+      {
         state.election.voters
-        -> Js.Array2.map(voter => <Voter key={voter.name} name={voter.name} dispatch={dispatch} />)
+        -> Js.Array2.map(voter => {
+          <Voter name=voter.name key=voter.name dispatch />
+        })
         -> React.array
-      */""->rs}
+      }
+    </List.Section>
+    <View>
+		  <TextInput mode=#flat value={email} onChangeText={txt => setEmail(_ => txt)} />
+		  <Button onPress>{rs("Ajouter")}</Button>
     </View>
-		<TextInput value={email} onChangeText={(s) => setEmail(_ => s)} />
-		<Button onPress title="Ajouter" />
 	</View>
 }

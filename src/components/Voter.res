@@ -1,21 +1,16 @@
-open Mui; open Helper
+open Helper
+open ReactNative
+open Paper
 
 @react.component
 let make = (~name, ~dispatch) => {
-
-  let onClick = _ =>
-    dispatch(Action.RemoveVoter(name))
-
-  <ListItem>
-    <ListItemAvatar>
-      <Avatar>
-        <PersonIcon />
-      </Avatar>
-    </ListItemAvatar>
-    <ListItemText primary=rs(name) secondary=rs("Description") />
-    <IconButton onClick edge=IconButton.Edge.end>
-      <DeleteIcon />
-    </IconButton>
-  </ListItem>
+  <List.Item title=name
+    left={_ => <List.Icon icon=Icon.name("account-tie") />} 
+    right={_ =>
+      <Button onPress={_ => dispatch(Action.RemoveVoter(name)) }>
+        <List.Icon icon=Icon.name("delete") />
+      </Button>
+    }
+  />
 }
 

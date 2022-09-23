@@ -1,1 +1,1 @@
-let api_url = "http://localhost:8000"
+let api_url = "http://scrutin-app.herokuapp.com"
