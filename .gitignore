@@ -12,3 +12,7 @@ web-build/
 
 # macOS
 .DS_Store
+
+# rescript build artefacts
+lib/bs
+*.bs.js
