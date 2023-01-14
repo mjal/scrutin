@@ -4,7 +4,14 @@ open ReactNative
 
 @react.component
 let make = () => {
-    <SafeAreaView>
-        <Text>{"Hello from rescript 3"->React.string}</Text>
-    </SafeAreaView>
+  let (state, dispatch) = UseTea.useTea(State.reducer, State.initial)
+
+  <State.StateContext.Provider value=state>
+    <State.DispatchContext.Provider value=dispatch>
+      <SafeAreaView>
+          <Text>{"Hello with context"->React.string}</Text>
+          <HomeView></HomeView>
+      </SafeAreaView>
+    </State.DispatchContext.Provider>
+  </State.StateContext.Provider>
 }
