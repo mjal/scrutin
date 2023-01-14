@@ -19,6 +19,7 @@ let styles = {
 
 @react.component
 let make = () => {
+  //let url = RescriptReactRouter.useUrl()
   let (state, dispatch) = UseTea.useTea(State.reducer, State.initial)
 
   <State.StateContext.Provider value=state>

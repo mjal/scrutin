@@ -13,7 +13,7 @@ let make = () => {
     >
     </TextInput>
     <Text>{"Choice list"->rs}</Text>
-    <Text>{"Voter list"->rs}</Text>
-    <Button title="Create an election" onPress={_ => ()}/>
+    <VoterList />
+    <Button title="Create" onPress={_ => ()}/>
 	</View>
 }
