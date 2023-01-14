@@ -2,6 +2,21 @@
 
 open ReactNative
 
+let styles = {
+  open Style
+  StyleSheet.create({
+    "title": textStyle(
+      ~textAlign=#center,
+      ~fontSize=20.0,
+      ()
+    ),
+    "subtitle": textStyle(
+      ~textAlign=#center,
+      ()
+    ),
+  })
+}
+
 @react.component
 let make = () => {
   let (state, dispatch) = UseTea.useTea(State.reducer, State.initial)
@@ -12,7 +27,7 @@ let make = () => {
         <Text style=styles["title"]>{"Scrutin.app"->rs}</Text>
         <Text style=styles["subtitle"]>{"Enjoy end-to-end encrypted elections"->rs}</Text>
         //<HomeView></HomeView>
-        <ElectionView></ElectionView>
+        <ElectionNew></ElectionNew>
       </SafeAreaView>
     </State.DispatchContext.Provider>
   </State.StateContext.Provider>

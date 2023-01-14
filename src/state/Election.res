@@ -12,7 +12,7 @@ type t = {
 
 let initial = {
   id: 0,
-  name: "Election sans nom",
+  name: "",
   voters: [],
   choices: [],
   ballots: []

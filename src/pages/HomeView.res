@@ -1,35 +1,5 @@
 open ReactNative
 
-let styles = {
-  open Style
-  StyleSheet.create({
-    "container": viewStyle(
-      ~maxHeight=600.->dp,
-      ~width=80.->pct,
-      //~justifyContent=#flexStart,
-      ~alignItems=#center,
-      ~margin=auto,
-      (),
-    ),
-    "cornerThing": viewStyle(
-      ~position=#absolute,
-      ~top=100.->dp,
-      ~right=-20.->dp,
-      ~transform=[rotate(~rotate=4.->deg)],
-      (),
-    ),
-    "title": textStyle(
-      ~textAlign=#center,
-      ~fontSize=20.0,
-      ()
-    ),
-    "subtitle": textStyle(
-      ~textAlign=#center,
-      ()
-    ),
-  })
-}
-
 @react.component
 let make = () => {
   let (state, dispatch) = State.useContextReducer()
