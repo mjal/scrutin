@@ -1,17 +1,15 @@
 open ReactNative
+
 @react.component
 let make = () => {
-  <View></View>
-}
-/*
+  let (state, dispatch) = State.useContextReducer()
 
-open ReactNative; open Helper
-
-@react.component
-let make = (~state: State.state, ~dispatch, ~id) => {
-	<View>
-    <Text>{rs(state.election.name)}</Text>
-		<CandidateSelect state dispatch />
+  <View>
+    <Text>{state.election.name->rs}</Text>
+    <TextInput
+			value=state.election.name
+      onChangeText={text => dispatch(SetElectionName(text))}
+    >
+    </TextInput>
 	</View>
 }
-*/

@@ -9,8 +9,10 @@ let make = () => {
   <State.StateContext.Provider value=state>
     <State.DispatchContext.Provider value=dispatch>
       <SafeAreaView>
-          <Text>{"Hello with context"->React.string}</Text>
-          <HomeView></HomeView>
+        <Text style=styles["title"]>{"Scrutin.app"->rs}</Text>
+        <Text style=styles["subtitle"]>{"Enjoy end-to-end encrypted elections"->rs}</Text>
+        //<HomeView></HomeView>
+        <ElectionView></ElectionView>
       </SafeAreaView>
     </State.DispatchContext.Provider>
   </State.StateContext.Provider>

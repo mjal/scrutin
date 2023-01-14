@@ -1,5 +1,4 @@
 open ReactNative
-open Helper
 
 let styles = {
   open Style
@@ -36,15 +35,7 @@ let make = () => {
   let (state, dispatch) = State.useContextReducer()
 
   <View>
-    <Text style=styles["title"]>{"Scrutin.app"->rs}</Text>
-    <Text style=styles["subtitle"]>{"Enjoy end-to-end encrypted elections"->rs}</Text>
-    <Button title="Click me" onPress={_ => ()}/>
-    <Text>{state.election.name->rs}</Text>
-    <TextInput
-			value=state.election.name
-      onChangeText={text => dispatch(SetElectionName(text))}
-    >
-    </TextInput>
+    <Button title="Create an election" onPress={_ => ()}/>
   </View>
 }
 /*
