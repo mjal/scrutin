@@ -1,0 +1,29 @@
+{
+  "name": "scrutin",
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    }
+  ],
+  "package-specs": [
+    {
+      "module": "es6",
+      "in-source": true
+    }
+  ],
+  "suffix": ".bs.js",
+  "reason": { "react-jsx": 3 },
+  "bs-dependencies": [
+    "@glennsl/rescript-json-combinators",
+    "@rescript/react",
+    "@ryyppy/rescript-promise",
+    "rescript-react-native",
+    "rescript-use-tea",
+    "rescript-webapi"
+  ],
+  "bsc-flags": [
+    "-open Belt", 
+    "-open JsonCombinators"
+  ]
+}
