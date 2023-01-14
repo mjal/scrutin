@@ -1,3 +1,10 @@
+/**
+ * Do not modify this file - it is a proxy to your `App.re` file
+ * located in the `src/` folder.
+ */
+export { make as default } from "./src/App.bs.js";
+
+/*
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -18,3 +25,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+*/
