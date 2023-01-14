@@ -6,7 +6,9 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "re:build": "rescript",
+    "re:start": "rescript build -w"
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
