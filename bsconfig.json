@@ -24,6 +24,7 @@
   ],
   "bsc-flags": [
     "-open Belt", 
-    "-open JsonCombinators"
+    "-open JsonCombinators",
+    "-open Helper"
   ]
 }
