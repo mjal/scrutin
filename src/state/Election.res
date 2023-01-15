@@ -69,6 +69,7 @@ let reducer = (election, action) => {
       ...election,
       name: name
     }
+    // TODO: Generate unique negative index. Use it for RemoveVoter and index=
     | AddVoter(email) => {
       ...election,
       voters: election.voters -> Array.concat([{ id: 0, email: email }: Voter.t])
@@ -77,6 +78,7 @@ let reducer = (election, action) => {
       ...election,
       voters: election.voters -> Array.keep(voter => voter.email != email)
     }
+    // TODO: Generate unique negative index. Use it for RemoveChoice and index=
     | AddChoice(name) => {
       ...election,
       choices: election.choices -> Array.concat([{ id: 0, name: name }: Choice.t])

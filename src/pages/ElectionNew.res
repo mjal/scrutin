@@ -1,5 +1,16 @@
 open ReactNative
 
+let styles = {
+  open Style
+  StyleSheet.create({
+    "section-title": textStyle(
+      ~textAlign=#center,
+      ~fontSize=20.0,
+      ()
+    )
+  })
+}
+
 @react.component
 let make = () => {
   let (state, dispatch) = State.useContextReducer()
@@ -12,7 +23,9 @@ let make = () => {
       onChangeText={text => dispatch(SetElectionName(text))}
     >
     </TextInput>
-    <Text>{"Choice list"->rs}</Text>
+    <Text style=styles["section-title"]>{"Choices"->rs}</Text>
+    <ChoiceList />
+    <Text style=styles["section-title"]>{"Voters"->rs}</Text>
     <VoterList />
     <Button title="Create" onPress={_ => ()}/>
 	</View>

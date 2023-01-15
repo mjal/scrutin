@@ -32,7 +32,6 @@ let make = () => {
 	}
 
 	<View>
-    <Text>{"Votants:"->rs}</Text>
     <View>
       {
         state.election.voters
