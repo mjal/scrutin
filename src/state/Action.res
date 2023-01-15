@@ -10,3 +10,4 @@ type t =
   | LoadElection(Js.Json.t)
   | PostElection
   | BallotCreate(int)
+  | Navigate(Route.t)

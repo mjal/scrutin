@@ -4,14 +4,16 @@ type t = {
   election: Election.t,
   user: User.t,
   ballot: SentBallot.t,
-  loading: bool
+  loading: bool,
+  route: Route.t
 }
 
 let initial = {
   election: Election.initial,
   user: { token: "" },
   ballot: SentBallot.initial,
-  loading: false
+  loading: false,
+  route: Home
 }
 
 let effectLoadElection = id => {
@@ -77,6 +79,8 @@ let reducer = (state, action: Action.t) => {
     | SetToken(token) => {
       ({...state, user: {token: token}}, [])
     }
+    | Navigate(route) =>
+      ({...state, route}, [])
     | _ =>
     ({
       ...state,

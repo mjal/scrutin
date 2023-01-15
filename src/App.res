@@ -27,8 +27,11 @@ let make = () => {
       <SafeAreaView>
         <Text style=styles["title"]>{"Scrutin.app"->rs}</Text>
         <Text style=styles["subtitle"]>{"Enjoy end-to-end encrypted elections"->rs}</Text>
-        //<HomeView></HomeView>
-        <ElectionNew></ElectionNew>
+        {switch state.route {
+          | Home => <HomeView></HomeView>
+          | ElectionNew => <ElectionNew></ElectionNew>
+          | _ => <Text>{"Not found"->rs}</Text>
+        }}
       </SafeAreaView>
     </State.DispatchContext.Provider>
   </State.StateContext.Provider>
