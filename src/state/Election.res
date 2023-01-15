@@ -44,7 +44,6 @@ let from_json = (json) => {
     | Ok(result) => result
     | Error(error) => {
       raise(DecodeError({error}))
-      initial
     }
   }
 }

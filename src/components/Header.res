@@ -1,5 +1,4 @@
 open ReactNative
-open Helper
 
 @react.component
 let make = () => {

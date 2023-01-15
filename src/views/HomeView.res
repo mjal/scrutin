@@ -2,7 +2,7 @@ open ReactNative
 
 @react.component
 let make = () => {
-  let (state, dispatch) = State.useContextReducer()
+  let (_, dispatch) = State.useContextReducer()
 
   <View>
     <Button title="Create an election" onPress={_ => dispatch(Navigate(Route.ElectionNew))}/>

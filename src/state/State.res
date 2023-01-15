@@ -68,7 +68,7 @@ let reducer = (state, action: Action.t) => {
     | PostElection => (state, [ effectCreateElection(state) ])
     | BallotCreate(choiceId) => {
       let newState = {...state, ballot:
-        {...state.ballot,
+        {
           electionId: state.election.id,
           choiceId,
           token: state.user.token
@@ -105,7 +105,7 @@ module StateContext = {
 
 // NOTE: Boilerplate for React's useContext hook
 module DispatchContext = {
-  let context = React.createContext((action: Action.t) => ())
+  let context = React.createContext((_action: Action.t) => ())
 
   module Provider = {
     let provider = React.Context.provider(context)
