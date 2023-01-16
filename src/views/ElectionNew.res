@@ -27,6 +27,6 @@ let make = () => {
     <ChoiceList />
     <Text style=styles["section-title"]>{"Voters"->rs}</Text>
     <VoterList />
-    <Button title="Create" onPress={_ => ()}/>
+    <Button title="Create" onPress={_ => dispatch(PostElection)}/>
 	</View>
 }
