@@ -9,6 +9,7 @@ type t =
   | RemoveChoice(string)
   | FetchElection(int)
   | LoadElection(Js.Json.t)
+  | LoadElections(array<Js.Json.t>)
   | PostElection
   | BallotCreate(int)
   | Navigate(Route.t)

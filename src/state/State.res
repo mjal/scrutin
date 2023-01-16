@@ -7,6 +7,7 @@ type t = {
 
   // Elections fetched from the servers
   elections: array<Election.t>,
+  elections_loading: bool,
 
  // The current user (now only to store the voting token)
   user: User.t,
@@ -28,14 +29,18 @@ let initial = {
   ballot: SentBallot.initial,
   loading: false,
   route: Home,
-  elections: []
+  elections: [],
+  elections_loading: false
 }
 
 let effectLoadElections = () => {
   dispatch => {
     Election.getAll()
-    -> Promise.thenResolve(elections => {
-      Js.log(elections)
+    -> Promise.thenResolve(res => {
+      switch Js.Json.decodeArray(res) {
+        | Some(json_array) => dispatch(Action.LoadElections(json_array))
+        | None => dispatch(Action.LoadElections([]))
+      }
     }) -> ignore
   }
 }
@@ -81,7 +86,7 @@ let effectBallotCreate = state => {
 
 let reducer = (state, action: Action.t) => {
   switch (action) {
-    | Init => ({...state, init: true}, [effectLoadElections()])
+    | Init => ({...state, elections_loading: true, init: true}, [effectLoadElections()])
     | FetchElection(id) => ({
       ...state,
       loading: true,
@@ -91,6 +96,11 @@ let reducer = (state, action: Action.t) => {
       ...state,
       loading: false,
       election: json->Election.from_json
+    }, [])
+    | LoadElections(jsons) => ({
+      ...state,
+      elections_loading: false,
+      elections: Js.Array2.map(jsons, Election.from_json)
     }, [])
     | PostElection => (state, [ effectCreateElection(state) ])
     | BallotCreate(choiceId) => {

@@ -9,6 +9,7 @@ let make = () => {
     <Button title="Nouvelle election" onPress={_ => dispatch(Navigate(Route.ElectionNew))}/>
     <View style=shared_styles["separator"] />
     <Text style=shared_styles["title"]>{"Current elections"->rs}</Text>
+    <ElectionList />
   </View>
 }
 /*
