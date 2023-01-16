@@ -1,25 +1,5 @@
 open ReactNative
 
-let styles = {
-  open Style
-  StyleSheet.create({
-    "row": viewStyle(
-      ~flexDirection=#row,
-      ~padding=10.0->dp,
-      ()
-    ),
-    "col": viewStyle(
-      ~flex=1.0,
-      ~padding=5.0->dp,
-      ()
-    ),
-    "smallButton": textStyle(
-      ~height=15.0->dp,
-      ()
-    )
-  })
-}
-
 @react.component
 let make = () => {
   let (state, dispatch) = State.useContextReducer()
@@ -41,11 +21,11 @@ let make = () => {
         -> React.array
       }
     </View>
-    <View style=styles["row"]>
-      <View style=styles["col"]>
+    <View style=shared_styles["row"]>
+      <View style=shared_styles["col"]>
 		    <TextInput value={email} onChangeText={txt => setEmail(_ => txt)} placeholder="Email" />
       </View>
-      <View style=styles["col"]>
+      <View style=shared_styles["col"]>
         //<View style=styles["smallButton"]>
           <Button onPress={_ => addVoter()} title="Ajouter"></Button>
         //</View>

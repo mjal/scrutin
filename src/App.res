@@ -2,21 +2,6 @@
 
 open ReactNative
 
-let styles = {
-  open Style
-  StyleSheet.create({
-    "title": textStyle(
-      ~textAlign=#center,
-      ~fontSize=20.0,
-      ()
-    ),
-    "subtitle": textStyle(
-      ~textAlign=#center,
-      ()
-    ),
-  })
-}
-
 @react.component
 let make = () => {
   //let url = RescriptReactRouter.useUrl()
@@ -29,8 +14,8 @@ let make = () => {
   <State.StateContext.Provider value=state>
     <State.DispatchContext.Provider value=dispatch>
       <SafeAreaView>
-        <Text style=styles["title"]>{"Scrutin.app"->rs}</Text>
-        <Text style=styles["subtitle"]>{"Enjoy end-to-end encrypted elections"->rs}</Text>
+        <Text style=shared_styles["title"]>{"Scrutin.app"->rs}</Text>
+        <Text style=shared_styles["subtitle"]>{"Enjoy end-to-end encrypted elections"->rs}</Text>
         {switch state.route {
           | Home => <HomeView></HomeView>
           | ElectionNew => <ElectionNew></ElectionNew>
