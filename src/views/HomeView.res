@@ -5,7 +5,7 @@ let make = () => {
   let (_, dispatch) = State.useContextReducer()
 
   <View>
-    <Button title="Create an election" onPress={_ => dispatch(Navigate(Route.ElectionNew))}/>
+    <Button title="Nouvelle election" onPress={_ => dispatch(Navigate(Route.ElectionNew))}/>
   </View>
 }
 /*
