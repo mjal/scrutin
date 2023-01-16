@@ -37,7 +37,7 @@ let effectCreateElection = state => {
     -> Promise.thenResolve(Election.from_json)
     -> Promise.thenResolve(election => {
       let id = election.id
-      dispatch(Navigate(Route.ElectionShow(id)))
+      dispatch(Action.Navigate(Route.ElectionShow(id)))
     })
     -> ignore
   }
