@@ -53,6 +53,11 @@ let get = (id) => {
   -> Promise.then(Webapi.Fetch.Response.json)
 }
 
+let getAll = () => {
+  Webapi.Fetch.fetch(j`${Config.api_url}/elections`)
+  -> Promise.then(Webapi.Fetch.Response.json)
+}
+
 let post = (election) => {
   Helper.post(`${Config.api_url}/elections/`, election -> to_json)
 }

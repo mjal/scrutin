@@ -31,6 +31,15 @@ let initial = {
   elections: []
 }
 
+let effectLoadElections = () => {
+  dispatch => {
+    Election.getAll()
+    -> Promise.thenResolve(elections => {
+      Js.log(elections)
+    }) -> ignore
+  }
+}
+
 @val external urlHash: string = "window.location.hash"
 
 let effectLoadElection = id => {
@@ -72,7 +81,7 @@ let effectBallotCreate = state => {
 
 let reducer = (state, action: Action.t) => {
   switch (action) {
-    | Init => ({...state, init: true}, [])
+    | Init => ({...state, init: true}, [effectLoadElections()])
     | FetchElection(id) => ({
       ...state,
       loading: true,
