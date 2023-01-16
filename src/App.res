@@ -22,6 +22,10 @@ let make = () => {
   //let url = RescriptReactRouter.useUrl()
   let (state, dispatch) = UseTea.useTea(State.reducer, State.initial)
 
+  if !state.init {
+    dispatch(Action.Init)
+  }
+
   <State.StateContext.Provider value=state>
     <State.DispatchContext.Provider value=dispatch>
       <SafeAreaView>

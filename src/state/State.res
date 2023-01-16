@@ -1,9 +1,12 @@
 type t = {
+  // Is the app init ?
+  init: bool,
+
   // The current election (when creating a new election, or when showing an election)
   election: Election.t,
 
   // Elections fetched from the servers
-  elections: array<Election.t>, 
+  elections: array<Election.t>,
 
  // The current user (now only to store the voting token)
   user: User.t,
@@ -19,6 +22,7 @@ type t = {
 }
 
 let initial = {
+  init: false,
   election: Election.initial,
   user: { token: "" },
   ballot: SentBallot.initial,
@@ -68,6 +72,7 @@ let effectBallotCreate = state => {
 
 let reducer = (state, action: Action.t) => {
   switch (action) {
+    | Init => ({...state, init: true}, [])
     | FetchElection(id) => ({
       ...state,
       loading: true,

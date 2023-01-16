@@ -1,5 +1,6 @@
 // TODO: Rename to ModelAction instead of ActionModel
 type t =
+  | Init
   | SetElectionName(string)
   | SetToken(string)
   | AddVoter(string)
