@@ -37,7 +37,7 @@ let effectCreateElection = state => {
     -> Promise.thenResolve(Election.from_json)
     -> Promise.thenResolve(election => {
       let id = election.id
-      RescriptReactRouter.push(j`/elections/$id/admin`)
+      dispatch(Navigate(Route.ElectionShow(id)))
     })
     -> ignore
   }
