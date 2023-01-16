@@ -1,11 +1,21 @@
-@val external urlHash: string = "window.location.hash"
-
 type t = {
+  // The current election (when creating a new election, or when showing an election)
   election: Election.t,
+
+  // Elections fetched from the servers
+  elections: array<Election.t>, 
+
+ // The current user (now only to store the voting token)
   user: User.t,
-  ballot: SentBallot.t,
+
+  // The ballot to send when we want to vote
+  ballot: SentBallot.t, 
+
+  // Is the app waiting for remote data ?
   loading: bool,
-  route: Route.t
+
+  // A basic router
+  route: Route.t,
 }
 
 let initial = {
@@ -13,8 +23,11 @@ let initial = {
   user: { token: "" },
   ballot: SentBallot.initial,
   loading: false,
-  route: Home
+  route: Home,
+  elections: []
 }
+
+@val external urlHash: string = "window.location.hash"
 
 let effectLoadElection = id => {
   dispatch => {
