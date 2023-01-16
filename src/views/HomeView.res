@@ -1,11 +1,29 @@
 open ReactNative
 
+let styles = {
+  open Style
+  StyleSheet.create({
+    "separator": viewStyle(
+      ~height=20.0->dp,
+      ()
+    ),
+    "section-title": textStyle(
+      ~textAlign=#center,
+      ~fontSize=20.0,
+      ()
+    )
+  })
+}
+
 @react.component
 let make = () => {
   let (_, dispatch) = State.useContextReducer()
 
   <View>
+    <View style=styles["separator"] />
     <Button title="Nouvelle election" onPress={_ => dispatch(Navigate(Route.ElectionNew))}/>
+    <View style=styles["separator"] />
+    <Text style=styles["section-title"]>{"Current elections"->rs}</Text>
   </View>
 }
 /*
