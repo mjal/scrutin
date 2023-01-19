@@ -4,11 +4,11 @@ open ReactNative
 let make = (~voter: Voter.t) => {
   let (_, dispatch) = State.useContextReducer()
 
-  <View style=shared_styles["row"]>
-    <View style=shared_styles["col"]>
-    <Text>{voter.email->rs}</Text>
+  <View style=X.styles["row"]>
+    <View style=X.styles["col"]>
+    <Text>{voter.email -> React.string}</Text>
     </View>
-    <View style=shared_styles["col"]>
+    <View style=X.styles["col"]>
       <Button color=Color.rosybrown onPress={_ => dispatch(Action.RemoveVoter(voter.email)) } title="Remove"></Button>
     </View>
   </View>

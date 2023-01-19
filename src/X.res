@@ -1,16 +1,3 @@
-// /!\ WARNING: There is currently a bug in the build system. /!\
-// Whenever you modify this file, you should remove the line with "-open Helper" in bsconfig.js and try to build the project.
-// Then only you can insert the line again, and the project will successfully build.
-
-let bind = Belt.Option.flatMap
-let css  = ReactDOMStyle.make
-
-let rs = React.string
-//let texts = Mui.TextField.Value.string
-//let boxs = Mui.Box.Value.string
-
-let ra = React.array
-
 // Forms
 let ev = (event) => ReactEvent.Form.target(event)["value"] 
 let prevent = (f) =>
@@ -35,7 +22,7 @@ let post = (url, json) => {
   )
 }
 
-let shared_styles = {
+let styles = {
   open ReactNative
   open Style
 

@@ -21,11 +21,11 @@ let make = () => {
         -> React.array
       }
     </View>
-    <View style=shared_styles["row"]>
-      <View style=shared_styles["col"]>
+    <View style=X.styles["row"]>
+      <View style=X.styles["col"]>
 		    <TextInput value={email} onChangeText={txt => setEmail(_ => txt)} placeholder="Email" />
       </View>
-      <View style=shared_styles["col"]>
+      <View style=X.styles["col"]>
         //<View style=styles["smallButton"]>
           <Button onPress={_ => addVoter()} title="Ajouter"></Button>
         //</View>

@@ -24,14 +24,14 @@ let make = () => {
             {
               Js.log(election.name)
               if election.name == "" {
-              <Text style=styles["grey"]>{"Election sans nom"->rs}</Text>
+              <Text style=styles["grey"]>{"Election sans nom" -> React.string}</Text>
             } else {
-              <Text>{election.name->rs}</Text>
+              <Text>{election.name -> React.string}</Text>
             }}
-            <View style=shared_styles["separator"] />
+            <View style=X.styles["separator"] />
           </View>
         )
-        -> ra
+        -> React.array
       }
     </View>
   }

@@ -5,10 +5,10 @@ let make = () => {
   let (_, dispatch) = State.useContextReducer()
 
   <View>
-    <View style=shared_styles["separator"] />
+    <View style=X.styles["separator"] />
     <Button title="Nouvelle election" onPress={_ => dispatch(Navigate(Route.ElectionNew))}/>
-    <View style=shared_styles["separator"] />
-    <Text style=shared_styles["title"]>{"Current elections"->rs}</Text>
+    <View style=X.styles["separator"] />
+    <Text style=X.styles["title"]>{"Current elections" -> React.string}</Text>
     <ElectionList />
   </View>
 }

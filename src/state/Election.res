@@ -59,12 +59,12 @@ let getAll = () => {
 }
 
 let post = (election) => {
-  Helper.post(`${Config.api_url}/elections/`, election -> to_json)
+  X.post(`${Config.api_url}/elections/`, election -> to_json)
 }
 
 let post_ballot = (election, ballot: SentBallot.t) => {
   let election_id = election.id -> Int.toString
-  Helper.post(`${Config.api_url}/elections/${election_id}/ballots`, ballot -> SentBallot.to_json)
+  X.post(`${Config.api_url}/elections/${election_id}/ballots`, ballot -> SentBallot.to_json)
 }
 
 let reducer = (election, action) => {

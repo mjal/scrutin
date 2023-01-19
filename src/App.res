@@ -14,12 +14,12 @@ let make = () => {
   <State.StateContext.Provider value=state>
     <State.DispatchContext.Provider value=dispatch>
       <SafeAreaView>
-        <Text style=shared_styles["title"]>{"Scrutin.app"->rs}</Text>
-        <Text style=shared_styles["subtitle"]>{"Enjoy end-to-end encrypted elections"->rs}</Text>
+        <Text style=X.styles["title"]>{"Scrutin.app" -> React.string}</Text>
+        <Text style=X.styles["subtitle"]>{"Enjoy end-to-end encrypted elections"  -> React.string}</Text>
         {switch state.route {
           | Home => <HomeView></HomeView>
           | ElectionNew => <ElectionNew></ElectionNew>
-          | _ => <Text>{"Not found"->rs}</Text>
+          | _ => <Text>{"Not found" -> React.string}</Text>
         }}
       </SafeAreaView>
     </State.DispatchContext.Provider>
