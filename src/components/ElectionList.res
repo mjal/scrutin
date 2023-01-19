@@ -9,7 +9,7 @@ let styles = {
 
 @react.component
 let make = () => {
-  let (state, _dispatch) = State.useContextReducer()
+  let (state, dispatch) = State.useContextReducer()
 
   Js.log(state.elections)
 
@@ -20,13 +20,15 @@ let make = () => {
       {
         state.elections
         -> Js.Array2.map((election) =>
-          <View>
+          <View onClick={_ => dispatch(Action.Navigate(Route.ElectionShow(election.id)))}>
             {
               Js.log(election.name)
               if election.name == "" {
               <Text style=styles["grey"]>{"Election sans nom" -> React.string}</Text>
             } else {
-              <Text>{election.name -> React.string}</Text>
+              <Text>
+                {election.name -> React.string}
+              </Text>
             }}
             <View style=X.styles["separator"] />
           </View>

@@ -117,7 +117,11 @@ let reducer = (state, action: Action.t) => {
       ({...state, user: {token: token}}, [])
     }
     | Navigate(route) =>
-      ({...state, route}, [])
+      let effects = switch route {
+        | ElectionShow(id) => [effectLoadElection(id)]
+        | _ => []
+      }
+      ({...state, route}, effects)
     | _ =>
     ({
       ...state,

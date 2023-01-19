@@ -19,7 +19,7 @@ let make = () => {
         {switch state.route {
           | Home => <HomeView></HomeView>
           | ElectionNew => <ElectionNew></ElectionNew>
-          | _ => <Text>{"Not found" -> React.string}</Text>
+          | ElectionShow(_id) => <ElectionShow></ElectionShow>
         }}
       </SafeAreaView>
     </State.DispatchContext.Provider>
