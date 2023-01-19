@@ -11,17 +11,20 @@ let make = () => {
     dispatch(Action.Init)
   }
 
-  <State.StateContext.Provider value=state>
-    <State.DispatchContext.Provider value=dispatch>
-      <SafeAreaView>
-        <Text style=X.styles["title"]>{"Scrutin.app" -> React.string}</Text>
-        <Text style=X.styles["subtitle"]>{"Enjoy end-to-end encrypted elections"  -> React.string}</Text>
-        {switch state.route {
-          | Home => <HomeView></HomeView>
-          | ElectionNew => <ElectionNew></ElectionNew>
-          | ElectionShow(_id) => <ElectionShow></ElectionShow>
-        }}
-      </SafeAreaView>
-    </State.DispatchContext.Provider>
-  </State.StateContext.Provider>
+  <Paper.PaperProvider>
+    <State.StateContext.Provider value=state>
+      <State.DispatchContext.Provider value=dispatch>
+        <SafeAreaView>
+          <Paper.Appbar />
+          <Text style=X.styles["title"]>{"Scrutin.app" -> React.string}</Text>
+          <Text style=X.styles["subtitle"]>{"Enjoy end-to-end encrypted elections"  -> React.string}</Text>
+          {switch state.route {
+            | Home => <HomeView></HomeView>
+            | ElectionNew => <ElectionNew></ElectionNew>
+            | ElectionShow(_id) => <ElectionShow></ElectionShow>
+          }}
+        </SafeAreaView>
+      </State.DispatchContext.Provider>
+    </State.StateContext.Provider>
+  </Paper.PaperProvider>
 }

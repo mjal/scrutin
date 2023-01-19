@@ -20,7 +20,8 @@
     "@ryyppy/rescript-promise",
     "rescript-react-native",
     "rescript-use-tea",
-    "rescript-webapi"
+    "rescript-webapi",
+    "@rescript-react-native/paper"
   ],
   "bsc-flags": [
     "-open Belt", 
