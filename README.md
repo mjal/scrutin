@@ -4,6 +4,11 @@
 
 ```bash
 npm install
-npm run re:start
+```
+
+## Develop environment
+
+```bash
+npm run re:start # or use vscode plugin to compile
 npm start # in another tab
 ```
