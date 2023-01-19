@@ -16,6 +16,13 @@ let make = () => {
     <ChoiceList />
     <Text style=X.styles["title"]>{"Voters" -> React.string}</Text>
     <VoterList />
-    <Button title="Create" onPress={_ => dispatch(PostElection)}/>
+    <View style=X.styles["row"]>
+      <View style=X.styles["col"]>
+        <Button color=Color.rosybrown title="Back" onPress={_ => dispatch(Action.Navigate(Route.Home))}/>
+      </View>
+      <View style=X.styles["col"]>
+        <Button title="Create" onPress={_ => dispatch(PostElection)}/>
+      </View>
+    </View>
 	</View>
 }
