@@ -1,29 +1,23 @@
 open ReactNative
+open! Paper
+
 @react.component
 let make = () => {
-  <View></View>
-}
-/*
+  let (state, _dispatch) = State.useContextReducer()
 
-open ReactNative; open Helper
-
-@react.component
-let make = (~dispatch, ~state: State.state) => {
-  let onClick = _ => ()
-
-	<View>
-		<Text>{rs("Selectionnez votre candidat")}</Text>
-    <View>
+  <View>
+    <List.Section title="Choices">
       {
-        state.election.candidates
-        -> Js.Array2.map(candidate =>
-          <Text>{rs(candidate.name)}</Text>
-        )
+        state.election.choices
+        -> Js.Array2.map(choice => {
+          <List.Item title=choice.name>
+          </List.Item>
+        })
         -> React.array
       }
-    </View>
-		<Button title="Voter" onPress={_ => ()} />
-	</View>
+    </List.Section>
+    <Button mode=#contained onPress={_ => ()}>
+      {"Voter" -> React.string}
+    </Button>
+  </View>
 }
-
-*/

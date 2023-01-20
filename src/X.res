@@ -30,6 +30,7 @@ let styles = {
     "title": textStyle(
       ~textAlign=#center,
       ~fontSize=20.0,
+      ~color=Color.black,
       ()
     ),
     "subtitle": textStyle(

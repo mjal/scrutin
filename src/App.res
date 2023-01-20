@@ -23,7 +23,7 @@ let make = () => {
     | ElectionShow(_id) => <ElectionShow></ElectionShow>
   }
 
-  <Paper.PaperProvider>
+  <PaperProvider>
     <State.StateContext.Provider value=state>
       <State.DispatchContext.Provider value=dispatch>
         <SafeAreaView>
@@ -35,5 +35,5 @@ let make = () => {
         </SafeAreaView>
       </State.DispatchContext.Provider>
     </State.StateContext.Provider>
-  </Paper.PaperProvider>
+  </PaperProvider>
 }

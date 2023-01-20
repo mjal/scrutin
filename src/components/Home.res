@@ -5,7 +5,9 @@ open! Paper
 let make = () => {
   let (_, dispatch) = State.useContextReducer()
 
-  <View>
+  let theme = ThemeProvider.useTheme()
+
+  <View style=ThemeProvider.Theme.colors.surface(theme)>
     <View style=X.styles["separator"] />
     <Button mode=#contained onPress={_ => dispatch(Navigate(Route.ElectionNew))}>
       {"Creer une nouvelle election" -> React.string}

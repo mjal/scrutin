@@ -1,24 +1,31 @@
 open ReactNative
+open! Paper
 
 @react.component
 let make = () => {
   let (state, dispatch) = State.useContextReducer()
 
   <View>
-    <Text>{state.election.name -> React.string}</Text>
-    <Text style=X.styles["title"]>{"Choices" -> React.string}</Text>
-    <ElectionNew_ChoiceList />
+    <Title style=X.styles["title"]>{state.election.name -> React.string}</Title>
+    <View style=X.styles["separator"] />
+    <ElectionShow_ChoiceSelect />
     <Text style=X.styles["title"]>{"Voters" -> React.string}</Text>
     <ElectionNew_VoterList />
     <View style=X.styles["row"]>
       <View style=X.styles["col"]>
-        <Button color=Color.rosybrown title="Home" onPress={_ => dispatch(Action.Navigate(Route.Home))}/>
+        <Button onPress={_ => dispatch(Action.Navigate(Route.Home))}>
+          {"Home" -> React.string}
+        </Button>
       </View>
       <View style=X.styles["col"]>
-        <Button title="Vote" onPress={_ => ()}/>
+        <Button onPress={_ => ()}>
+          {"Vote" -> React.string}
+        </Button>
       </View>
       <View style=X.styles["col"]>
-        <Button title="Close" onPress={_ => ()}/>
+        <Button onPress={_ => ()}>
+          {"Results" -> React.string}
+        </Button>
       </View>
     </View>
 	</View>
