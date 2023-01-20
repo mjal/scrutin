@@ -1,28 +1,62 @@
 open ReactNative
+open! Paper
 
 @react.component
 let make = () => {
   let (state, dispatch) = State.useContextReducer()
+  let (visibleVoter, setVisibleVoter) = React.useState(_ => false)
+  let (visibleChoice, setVisibleChoice) = React.useState(_ => false)
+
+  let onSubmit = _ => {
+    if Array.length(state.election.choices) < 2 {
+      setVisibleChoice(_ => true)
+    } else if Array.length(state.election.voters) < 1 {
+      setVisibleVoter(_ => true)
+    } else {
+      dispatch(PostElection)
+    }
+  }
 
   <View>
-    <Paper.TextInput
+    <TextInput
       mode=#flat
       label="Nom de l'élection"
 			value=state.election.name
       onChangeText={text => dispatch(SetElectionName(text))}
     >
-    </Paper.TextInput>
+    </TextInput>
     <Text style=X.styles["title"]>{"Choices" -> React.string}</Text>
     <ChoiceList />
     <Text style=X.styles["title"]>{"Voters" -> React.string}</Text>
     <VoterList />
     <View style=X.styles["row"]>
       <View style=X.styles["col"]>
-        <Button color=Color.rosybrown title="Back" onPress={_ => dispatch(Action.Navigate(Route.Home))}/>
+        <Button color=Color.rosybrown onPress={_ => dispatch(Action.Navigate(Route.Home))}>
+          <Text>{"Back" -> React.string}</Text>
+        </Button>
       </View>
       <View style=X.styles["col"]>
-        <Button title="Create" onPress={_ => dispatch(PostElection)}/>
+        <Button onPress=onSubmit>
+          <Text>{"Create election" -> React.string}</Text>
+        </Button>
       </View>
     </View>
+
+    <View style=X.styles["separator"] />
+    <View style=X.styles["separator"] />
+
+    <Snackbar
+      visible={visibleChoice}
+      onDismiss={_ => setVisibleChoice(_ => false)}
+    >
+      {"You should have at least 2 choices" -> React.string}
+    </Snackbar>
+
+    <Snackbar
+      visible={visibleVoter}
+      onDismiss={_ => setVisibleVoter(_ => false)}
+    >
+      {"You should have at least 1 voter" -> React.string}
+    </Snackbar>
 	</View>
 }
