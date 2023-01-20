@@ -42,21 +42,20 @@ let make = () => {
       </View>
     </View>
 
-    <View style=X.styles["separator"] />
-    <View style=X.styles["separator"] />
+    <Portal>
+      <Snackbar
+        visible={visibleChoice}
+        onDismiss={_ => setVisibleChoice(_ => false)}
+      >
+        {"You should have at least 2 choices" -> React.string}
+      </Snackbar>
 
-    <Snackbar
-      visible={visibleChoice}
-      onDismiss={_ => setVisibleChoice(_ => false)}
-    >
-      {"You should have at least 2 choices" -> React.string}
-    </Snackbar>
-
-    <Snackbar
-      visible={visibleVoter}
-      onDismiss={_ => setVisibleVoter(_ => false)}
-    >
-      {"You should have at least 1 voter" -> React.string}
-    </Snackbar>
+      <Snackbar
+        visible={visibleVoter}
+        onDismiss={_ => setVisibleVoter(_ => false)}
+      >
+        {"You should have at least 1 voter" -> React.string}
+      </Snackbar>
+    </Portal>
 	</View>
 }
