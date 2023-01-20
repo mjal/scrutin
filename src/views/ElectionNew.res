@@ -31,12 +31,12 @@ let make = () => {
     <VoterList />
     <View style=X.styles["row"]>
       <View style=X.styles["col"]>
-        <Button color=Color.rosybrown onPress={_ => dispatch(Action.Navigate(Route.Home))}>
+        <Button mode=#outlined onPress={_ => dispatch(Action.Navigate(Route.Home))}>
           <Text>{"Back" -> React.string}</Text>
         </Button>
       </View>
       <View style=X.styles["col"]>
-        <Button onPress=onSubmit>
+        <Button mode=#contained onPress=onSubmit>
           <Text>{"Create election" -> React.string}</Text>
         </Button>
       </View>
