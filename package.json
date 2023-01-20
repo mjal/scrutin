@@ -14,7 +14,7 @@
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
     "@glennsl/rescript-json-combinators": "^1.0.0",
-    "@rescript-react-native/paper": "file:../paper",
+    "@rescript-react-native/paper": "git+https://github.com/scrutin-app/paper",
     "@rescript/react": "^0.10.3",
     "@ryyppy/rescript-promise": "^2.1.0",
     "email-validator": "^2.0.4",
