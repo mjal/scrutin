@@ -7,6 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "export:web": "expo export:web",
     "re:build": "rescript",
     "re:start": "rescript build -w"
   },
