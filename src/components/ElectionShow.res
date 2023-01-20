@@ -7,9 +7,9 @@ let make = () => {
   <View>
     <Text>{state.election.name -> React.string}</Text>
     <Text style=X.styles["title"]>{"Choices" -> React.string}</Text>
-    <ChoiceList />
+    <ElectionNew_ChoiceList />
     <Text style=X.styles["title"]>{"Voters" -> React.string}</Text>
-    <VoterList />
+    <ElectionNew_VoterList />
     <View style=X.styles["row"]>
       <View style=X.styles["col"]>
         <Button color=Color.rosybrown title="Home" onPress={_ => dispatch(Action.Navigate(Route.Home))}/>

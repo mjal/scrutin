@@ -18,7 +18,7 @@ let make = () => {
   }
 
   let view = switch state.route {
-    | Home => <HomeView></HomeView>
+    | Home => <Home></Home>
     | ElectionNew => <ElectionNew></ElectionNew>
     | ElectionShow(_id) => <ElectionShow></ElectionShow>
   }

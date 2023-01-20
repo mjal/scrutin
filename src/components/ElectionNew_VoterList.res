@@ -29,7 +29,7 @@ let make = () => {
       {
         state.election.voters
         -> Js.Array2.map(voter => {
-          <VoterItem voter=voter key=voter.email />
+          <ElectionNew_VoterItem voter=voter key=voter.email />
         })
         -> React.array
       }

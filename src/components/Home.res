@@ -15,6 +15,6 @@ let make = () => {
       <Text>{"Mes elections" -> React.string}</Text>
     </Title>
     <View style=X.styles["separator"] />
-    <ElectionList />
+    <Home_ElectionList />
   </View>
 }
