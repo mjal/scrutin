@@ -26,6 +26,7 @@ let make = () => {
   }
 
   // TODO: Delete
+  /*
   React.useEffect(() => {
     let (privkey, trustees) = Belenios.Trustees.create()
     Js.log(1)
@@ -40,8 +41,15 @@ let make = () => {
     Js.log(trustees)
     let ballot = Belenios.Election.vote(election, cred, [[1,0]], trustees)
     Js.log(ballot)
+    let (a, b) = Belenios.Election.decrypt(election, [ballot], trustees, pubcreds, privkey)
+    Js.log("=== Decryption ===")
+    Js.log(a)
+    Js.log(b)
+    let res = Belenios.Election.result(election, [ballot], trustees, pubcreds, a, b)
+    Js.log(res)
     None
   })
+  */
 
   <PaperProvider>
     <State.StateContext.Provider value=state>
