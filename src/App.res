@@ -3,6 +3,8 @@
 open ReactNative
 open Paper
 
+@module external belenios: 'a = "./belenios_jslib2"
+
 @react.component
 let make = () => {
   let (state, dispatch) = UseTea.useTea(State.reducer, State.initial)
@@ -22,6 +24,24 @@ let make = () => {
     | ElectionNew => <ElectionNew></ElectionNew>
     | ElectionShow(_id) => <ElectionShow></ElectionShow>
   }
+
+  // TODO: Delete
+  React.useEffect(() => {
+    let (privkey, trustees) = Belenios.Trustees.create()
+    Js.log(1)
+    Js.log(privkey)
+    Js.log(trustees)
+    Js.log(2)
+    let election = Belenios.Election.create("myelection", "amazing election2", ["Ok", "Not Ok"], trustees)
+    let uuid = election->Belenios.Election.uuid
+    let (pubcreds, privcreds) = Belenios.Credentials.create(uuid, 10)
+    let cred = Array.getExn(privcreds, 0)
+    Js.log(cred)
+    Js.log(trustees)
+    let ballot = Belenios.Election.vote(election, cred, [[1,0]], trustees)
+    Js.log(ballot)
+    None
+  })
 
   <PaperProvider>
     <State.StateContext.Provider value=state>

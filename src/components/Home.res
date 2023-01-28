@@ -7,7 +7,8 @@ let make = () => {
 
   let theme = ThemeProvider.useTheme()
 
-  <View style=ThemeProvider.Theme.colors.surface(theme)>
+  //<View style=ThemeProvider.Theme.colors>
+  <View>
     <View style=X.styles["separator"] />
     <Button mode=#contained onPress={_ => dispatch(Navigate(Route.ElectionNew))}>
       {"Creer une nouvelle election" -> React.string}
