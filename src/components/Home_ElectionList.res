@@ -1,4 +1,5 @@
 open ReactNative
+open! Paper
 
 let styles = {
   open Style
@@ -7,34 +8,30 @@ let styles = {
   })
 }
 
+let electionLink = (election : Election.t) => {
+  let (_, dispatch) = State.useContextReducer()
+
+  <List.Item
+    title=election.name
+    left={_ => <List.Icon icon=Icon.name("vote") />}
+    onPress={_ => dispatch(Action.Navigate(Route.ElectionShow(election.id)))}
+  />
+}
+
+
 @react.component
 let make = () => {
-  let (state, dispatch) = State.useContextReducer()
-
-  Js.log(state.elections)
+  let (state, _dispatch) = State.useContextReducer()
 
   if state.elections_loading {
     <ActivityIndicator />
   } else {
-    <View>
+    <List.Section title="Elections en cours">
       {
         state.elections
-        -> Js.Array2.map((election) =>
-          <View onClick={_ => dispatch(Action.Navigate(Route.ElectionShow(election.id)))}>
-            {
-              Js.log(election.name)
-              if election.name == "" {
-              <Text style=styles["grey"]>{"Election sans nom" -> React.string}</Text>
-            } else {
-              <Text>
-                {election.name -> React.string}
-              </Text>
-            }}
-            <View style=X.styles["separator"] />
-          </View>
-        )
+        -> Js.Array2.map(electionLink)
         -> React.array
       }
-    </View>
+    </List.Section>
   }
 }

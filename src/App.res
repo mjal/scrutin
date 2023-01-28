@@ -14,7 +14,7 @@ let make = () => {
   }
 
   let title = switch state.route {
-    | Home => "Home"
+    | Home => "Scrutin"
     | ElectionNew => "Nouvelle election"
     | _ => "Unknown"
   }
@@ -56,7 +56,11 @@ let make = () => {
       <State.DispatchContext.Provider value=dispatch>
         <SafeAreaView>
           <Appbar.Header>
-            <Appbar.BackAction onPress={_ => dispatch(Navigate(Route.Home))} />
+            {if state.route != Route.Home {
+              <Appbar.BackAction onPress={_ => dispatch(Navigate(Route.Home))} />
+            } else {
+              <></>
+            }}
             <Appbar.Content title={title -> React.string} />
           </Appbar.Header>
           {view}
