@@ -1,13 +1,6 @@
 open ReactNative
 open! Paper
 
-let styles = {
-  open Style
-  StyleSheet.create({
-    "grey": textStyle(~color="grey", ())
-  })
-}
-
 let electionLink = (election : Election.t) => {
   let (_, dispatch) = State.useContextReducer()
 
@@ -26,7 +19,7 @@ let make = () => {
   if state.elections_loading {
     <ActivityIndicator />
   } else {
-    <List.Section title="Elections en cours">
+    <List.Section title="Elections en cours" style=X.styles["margin-x"]>
       {
         state.elections
         -> Js.Array2.map(electionLink)

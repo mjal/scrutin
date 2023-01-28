@@ -57,6 +57,17 @@ let styles = {
     "smallButton": textStyle(
       ~height=15.0->dp,
       ()
-    )
+    ),
+
+    "margin-x": viewStyle(
+      ~marginLeft=15.0->dp,
+      ~marginRight=15.0->dp,
+      ()
+    ),
+
+    "pad-left": viewStyle(
+      ~marginLeft=40.0->dp,
+      ()
+    ),
   })
 }

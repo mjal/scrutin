@@ -57,11 +57,13 @@ let make = () => {
         <SafeAreaView>
           <Appbar.Header>
             {if state.route != Route.Home {
-              <Appbar.BackAction onPress={_ => dispatch(Navigate(Route.Home))} />
+              <>
+                <Appbar.BackAction onPress={_ => dispatch(Navigate(Route.Home))} />
+                <Appbar.Content title={title -> React.string} />
+              </>
             } else {
-              <></>
+              <Appbar.Content title={title -> React.string} style=X.styles["pad-left"] />
             }}
-            <Appbar.Content title={title -> React.string} />
           </Appbar.Header>
           {view}
         </SafeAreaView>
