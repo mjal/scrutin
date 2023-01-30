@@ -6,7 +6,6 @@ import * as Js_json from "rescript/lib/es6/js_json.js";
 import * as Election from "./Election.bs.js";
 import * as Js_string from "rescript/lib/es6/js_string.js";
 import * as SentBallot from "./SentBallot.bs.js";
-import * as RescriptReactRouter from "@rescript/react/src/RescriptReactRouter.bs.js";
 
 var initial_elections = [];
 
@@ -72,7 +71,7 @@ function effectCreateElection(state, dispatch) {
 
 function effectBallotCreate(state, dispatch) {
   Election.post_ballot(state.election, state.ballot).then(function (param) {
-        RescriptReactRouter.push("/elections/" + String(state.election.id) + "/success");
+        
       });
 }
 

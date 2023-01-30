@@ -78,7 +78,8 @@ let effectBallotCreate = state => {
   dispatch => {
     Election.post_ballot(state.election, state.ballot)
     -> Promise.thenResolve(_ => {
-      RescriptReactRouter.push(j`/elections/${state.election.id->Int.toString}/success`)
+      ()
+      //RescriptReactRouter.push(j`/elections/${state.election.id->Int.toString}/success`)
     })
     -> ignore
   }
