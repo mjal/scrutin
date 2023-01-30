@@ -30,7 +30,7 @@
     "react-native-web": "~0.18.9",
     "rescript-react-native": "^0.70.0",
     "rescript-use-tea": "git+https://github.com/mjal/rescript-use-tea.git",
-    "rescript-webapi": "^0.7.0"
+    "rescript-webapi": "git+https://github.com/scrutin-app/rescript-webapi.git"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
