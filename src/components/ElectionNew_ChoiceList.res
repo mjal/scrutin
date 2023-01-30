@@ -2,7 +2,7 @@ open ReactNative;
 
 @react.component
 let make = () => {
-  let (state, dispatch) = State.useContexts()
+  let (state, dispatch) = State.useContextReducer()
 
 	let (name, setName) = React.useState(_ => "")
 

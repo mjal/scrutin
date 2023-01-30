@@ -10,7 +10,7 @@ import * as ReactNativePaper from "react-native-paper";
 import * as ElectionNew_VoterItem from "./ElectionNew_VoterItem.bs.js";
 
 function ElectionNew_VoterList(Props) {
-  var match = State.useContexts(undefined);
+  var match = State.useContextReducer(undefined);
   var dispatch = match[1];
   var match$1 = React.useState(function () {
         return "";

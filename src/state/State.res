@@ -165,5 +165,5 @@ let useContextDispatch = _ =>
   React.useContext(DispatchContext.context)
 
 // TODO: rename useContextReducer to useContext
-let useContexts = _ =>
+let useContextReducer = _ =>
   (useContextState(), useContextDispatch())

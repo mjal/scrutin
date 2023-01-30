@@ -10,7 +10,7 @@ import * as ElectionNew_VoterList from "./ElectionNew_VoterList.bs.js";
 import * as ElectionNew_ChoiceList from "./ElectionNew_ChoiceList.bs.js";
 
 function ElectionNew(Props) {
-  var match = State.useContexts(undefined);
+  var match = State.useContextReducer(undefined);
   var dispatch = match[1];
   var state = match[0];
   var match$1 = React.useState(function () {

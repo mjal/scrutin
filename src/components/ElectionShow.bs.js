@@ -10,7 +10,7 @@ import * as ElectionNew_VoterList from "./ElectionNew_VoterList.bs.js";
 import * as ElectionShow_ChoiceSelect from "./ElectionShow_ChoiceSelect.bs.js";
 
 function ElectionShow(Props) {
-  var match = State.useContexts(undefined);
+  var match = State.useContextReducer(undefined);
   var dispatch = match[1];
   return React.createElement(ReactNative.View, {
               children: null

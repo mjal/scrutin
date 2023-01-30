@@ -297,7 +297,7 @@ function useContextDispatch(param) {
   return React.useContext(context$1);
 }
 
-function useContexts(param) {
+function useContextReducer(param) {
   return [
           React.useContext(context),
           React.useContext(context$1)
@@ -315,6 +315,6 @@ export {
   DispatchContext ,
   useContextState ,
   useContextDispatch ,
-  useContexts ,
+  useContextReducer ,
 }
 /* context Not a pure module */

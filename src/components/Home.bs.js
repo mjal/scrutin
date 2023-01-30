@@ -9,7 +9,7 @@ import * as Home_ElectionList from "./Home_ElectionList.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function Home(Props) {
-  var match = State.useContexts(undefined);
+  var match = State.useContextReducer(undefined);
   var dispatch = match[1];
   ReactNativePaper.useTheme();
   return React.createElement(ReactNative.View, {

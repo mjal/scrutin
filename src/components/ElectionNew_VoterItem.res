@@ -2,7 +2,7 @@ open ReactNative
 
 @react.component
 let make = (~voter: Voter.t) => {
-  let (_, dispatch) = State.useContexts()
+  let (_, dispatch) = State.useContextReducer()
 
   <View style=X.styles["row"]>
     <View style=X.styles["col"]>
