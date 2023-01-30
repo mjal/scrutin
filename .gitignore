@@ -16,5 +16,4 @@ web-build/
 
 # rescript build artefacts
 lib/bs
-*.bs.js
 .merlin
