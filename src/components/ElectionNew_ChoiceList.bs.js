@@ -8,7 +8,7 @@ import * as ReactNative from "react-native";
 import * as ElectionNew_ChoiceItem from "./ElectionNew_ChoiceItem.bs.js";
 
 function ElectionNew_ChoiceList(Props) {
-  var match = State.useContextReducer(undefined);
+  var match = State.useContexts(undefined);
   var dispatch = match[1];
   var match$1 = React.useState(function () {
         return "";

@@ -3,7 +3,7 @@ open! Paper
 
 @react.component
 let make = () => {
-  let (state, dispatch) = State.useContextReducer()
+  let (state, dispatch) = State.useContexts()
 
 	let (email, setEmail) = React.useState(_ => "")
 	let (error, setError) = React.useState(_ => false)

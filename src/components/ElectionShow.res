@@ -3,7 +3,7 @@ open! Paper
 
 @react.component
 let make = () => {
-  let (state, dispatch) = State.useContextReducer()
+  let (state, dispatch) = State.useContexts()
 
   <View>
     <Title style=X.styles["title"]>{state.election.name -> React.string}</Title>

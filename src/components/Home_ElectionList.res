@@ -4,7 +4,7 @@ open! Paper
 module ElectionLink = {
   @react.component
   let make = (~election : Election.t) => {
-    let (_, dispatch) = State.useContextReducer()
+    let (_, dispatch) = State.useContexts()
 
     <List.Item
       title=election.name
@@ -16,7 +16,7 @@ module ElectionLink = {
 
 @react.component
 let make = () => {
-  let (state, _dispatch) = State.useContextReducer()
+  let (state, _dispatch) = State.useContexts()
 
   if state.elections_loading {
     <ActivityIndicator />
