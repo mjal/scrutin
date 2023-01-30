@@ -23,7 +23,7 @@ let makeChoice = (choice : Choice.t) => {
 
 @react.component
 let make = () => {
-  let (state, _dispatch) = State.useContextReducer()
+  let (state, _dispatch) = State.useContexts()
 
   <View>
     <List.Section title="Choices" style=styles["margin-x"]>

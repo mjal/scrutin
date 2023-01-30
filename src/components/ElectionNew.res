@@ -3,7 +3,7 @@ open! Paper
 
 @react.component
 let make = () => {
-  let (state, dispatch) = State.useContextReducer()
+  let (state, dispatch) = State.useContexts()
   let (visibleVoter, setVisibleVoter) = React.useState(_ => false)
   let (visibleChoice, setVisibleChoice) = React.useState(_ => false)
 

@@ -8,7 +8,7 @@ import * as ReactNative from "react-native";
 
 function ElectionNew_ChoiceItem(Props) {
   var choice = Props.choice;
-  var match = State.useContextReducer(undefined);
+  var match = State.useContexts(undefined);
   var dispatch = match[1];
   return React.createElement(ReactNative.View, {
               style: X.styles.row,

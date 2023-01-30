@@ -7,7 +7,7 @@ import * as React from "react";
 import * as ReactNativePaper from "react-native-paper";
 
 function electionLink(election) {
-  var match = State.useContextReducer(undefined);
+  var match = State.useContexts(undefined);
   var dispatch = match[1];
   return React.createElement(ReactNativePaper.List.Item, {
               onPress: (function (param) {
@@ -28,7 +28,7 @@ function electionLink(election) {
 }
 
 function Home_ElectionList(Props) {
-  var match = State.useContextReducer(undefined);
+  var match = State.useContexts(undefined);
   var state = match[0];
   if (state.elections_loading) {
     return React.createElement(ReactNativePaper.ActivityIndicator, {});

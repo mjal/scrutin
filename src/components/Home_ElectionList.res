@@ -2,7 +2,7 @@ open ReactNative
 open! Paper
 
 let electionLink = (election : Election.t) => {
-  let (_, dispatch) = State.useContextReducer()
+  let (_, dispatch) = State.useContexts()
 
   <List.Item
     title=election.name
@@ -14,7 +14,7 @@ let electionLink = (election : Election.t) => {
 
 @react.component
 let make = () => {
-  let (state, _dispatch) = State.useContextReducer()
+  let (state, _dispatch) = State.useContexts()
 
   if state.elections_loading {
     <ActivityIndicator />

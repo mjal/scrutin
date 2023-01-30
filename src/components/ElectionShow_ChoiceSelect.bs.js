@@ -39,7 +39,7 @@ function makeChoice(choice) {
 }
 
 function ElectionShow_ChoiceSelect(Props) {
-  var match = State.useContextReducer(undefined);
+  var match = State.useContexts(undefined);
   return React.createElement(ReactNative.View, {
               children: null
             }, React.createElement(ReactNativePaper.List.Section, {
