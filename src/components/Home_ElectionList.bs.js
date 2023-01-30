@@ -4,9 +4,11 @@ import * as X from "../X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as State from "../state/State.bs.js";
 import * as React from "react";
+import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as ReactNativePaper from "react-native-paper";
 
-function electionLink(election) {
+function Home_ElectionList$ElectionLink(Props) {
+  var election = Props.election;
   var match = State.useContextReducer(undefined);
   var dispatch = match[1];
   return React.createElement(ReactNativePaper.List.Item, {
@@ -27,6 +29,10 @@ function electionLink(election) {
             });
 }
 
+var ElectionLink = {
+  make: Home_ElectionList$ElectionLink
+};
+
 function Home_ElectionList(Props) {
   var match = State.useContextReducer(undefined);
   var state = match[0];
@@ -35,7 +41,11 @@ function Home_ElectionList(Props) {
   } else {
     return React.createElement(ReactNativePaper.List.Section, {
                 title: "Elections en cours",
-                children: state.elections.map(electionLink),
+                children: Belt_Array.map(state.elections, (function (election) {
+                        return React.createElement(Home_ElectionList$ElectionLink, {
+                                    election: election
+                                  });
+                      })),
                 style: X.styles["margin-x"]
               });
   }
@@ -44,7 +54,7 @@ function Home_ElectionList(Props) {
 var make = Home_ElectionList;
 
 export {
-  electionLink ,
+  ElectionLink ,
   make ,
 }
 /* X Not a pure module */

@@ -1,16 +1,18 @@
 open ReactNative
 open! Paper
 
-let electionLink = (election : Election.t) => {
-  let (_, dispatch) = State.useContextReducer()
+module ElectionLink = {
+  @react.component
+  let make = (~election : Election.t) => {
+    let (_, dispatch) = State.useContextReducer()
 
-  <List.Item
-    title=election.name
-    left={_ => <List.Icon icon=Icon.name("vote") />}
-    onPress={_ => dispatch(Action.Navigate(Route.ElectionShow(election.id)))}
-  />
+    <List.Item
+      title=election.name
+      left={_ => <List.Icon icon=Icon.name("vote") />}
+      onPress={_ => dispatch(Action.Navigate(Route.ElectionShow(election.id)))}
+    />
+  }
 }
-
 
 @react.component
 let make = () => {
@@ -21,8 +23,9 @@ let make = () => {
   } else {
     <List.Section title="Elections en cours" style=X.styles["margin-x"]>
       {
-        state.elections
-        -> Js.Array2.map(electionLink)
+        Array.map(state.elections, (election) => {
+          <ElectionLink election />
+        })
         -> React.array
       }
     </List.Section>
