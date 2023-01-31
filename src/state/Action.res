@@ -2,6 +2,7 @@
 type t =
   | Init
   | SetElectionName(string)
+  | SetElectionBeleniosParams(string)
   | SetToken(string)
   | AddVoter(string)
   | RemoveVoter(string)

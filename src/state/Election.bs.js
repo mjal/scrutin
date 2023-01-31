@@ -25,7 +25,8 @@ var initial = {
   name: "",
   voters: initial_voters,
   choices: initial_choices,
-  ballots: initial_ballots
+  ballots: initial_ballots,
+  belenios_params: ""
 };
 
 function to_json(r) {
@@ -47,7 +48,8 @@ function from_json(json) {
                 name: field.required("name", Json_Decode$JsonCombinators.string),
                 voters: field.required("voters", Json_Decode$JsonCombinators.array(Voter.from_json)),
                 choices: field.required("choices", Json_Decode$JsonCombinators.array(Choice.from_json)),
-                ballots: field.required("ballots", Json_Decode$JsonCombinators.array(Ballot.from_json))
+                ballots: field.required("ballots", Json_Decode$JsonCombinators.array(Ballot.from_json)),
+                belenios_params: field.required("belenios_params", Json_Decode$JsonCombinators.string)
               };
       });
   var result = Json$JsonCombinators.decode(json, decode);
@@ -93,9 +95,19 @@ function reducer(election, action) {
                 name: action._0,
                 voters: election.voters,
                 choices: election.choices,
-                ballots: election.ballots
+                ballots: election.ballots,
+                belenios_params: election.belenios_params
               };
-    case /* AddVoter */2 :
+    case /* SetElectionBeleniosParams */1 :
+        return {
+                id: election.id,
+                name: election.name,
+                voters: election.voters,
+                choices: election.choices,
+                ballots: election.ballots,
+                belenios_params: action._0
+              };
+    case /* AddVoter */3 :
         return {
                 id: election.id,
                 name: election.name,
@@ -104,9 +116,10 @@ function reducer(election, action) {
                         email: action._0
                       }]),
                 choices: election.choices,
-                ballots: election.ballots
+                ballots: election.ballots,
+                belenios_params: election.belenios_params
               };
-    case /* RemoveVoter */3 :
+    case /* RemoveVoter */4 :
         var email = action._0;
         return {
                 id: election.id,
@@ -115,9 +128,10 @@ function reducer(election, action) {
                         return voter.email !== email;
                       })),
                 choices: election.choices,
-                ballots: election.ballots
+                ballots: election.ballots,
+                belenios_params: election.belenios_params
               };
-    case /* AddChoice */4 :
+    case /* AddChoice */5 :
         return {
                 id: election.id,
                 name: election.name,
@@ -126,9 +140,10 @@ function reducer(election, action) {
                         id: 0,
                         name: action._0
                       }]),
-                ballots: election.ballots
+                ballots: election.ballots,
+                belenios_params: election.belenios_params
               };
-    case /* RemoveChoice */5 :
+    case /* RemoveChoice */6 :
         var name = action._0;
         return {
                 id: election.id,
@@ -137,7 +152,8 @@ function reducer(election, action) {
                 choices: Belt_Array.keep(election.choices, (function (e) {
                         return e.name !== name;
                       })),
-                ballots: election.ballots
+                ballots: election.ballots,
+                belenios_params: election.belenios_params
               };
     default:
       return election;

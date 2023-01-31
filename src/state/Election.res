@@ -7,7 +7,8 @@ type t = {
   name: string,
   voters: array<Voter.t>,
   choices: array<Choice.t>,
-  ballots: array<Ballot.t>
+  ballots: array<Ballot.t>,
+  belenios_params: string
 }
 
 let initial = {
@@ -15,7 +16,8 @@ let initial = {
   name: "",
   voters: [],
   choices: [],
-  ballots: []
+  ballots: [],
+  belenios_params: ""
 }
 
 let to_json = (r) => {
@@ -38,7 +40,8 @@ let from_json = (json) => {
     name: field.required(. "name", string),
     voters: field.required(. "voters", array(Voter.from_json)), // TODO: Make it optional
     choices: field.required(. "choices", array(Choice.from_json)),
-    ballots: field.required(. "ballots", array(Ballot.from_json))
+    ballots: field.required(. "ballots", array(Ballot.from_json)),
+    belenios_params: field.required(. "belenios_params", string),
   })
   switch (json->Json.decode(decode)) {
     | Ok(result) => result
@@ -72,6 +75,10 @@ let reducer = (election, action) => {
     | SetElectionName(name) => {
       ...election,
       name: name
+    }
+    | SetElectionBeleniosParams(belenios_params) => {
+      ...election,
+      belenios_params: belenios_params
     }
     // TODO: Generate unique negative index. Use it for RemoveVoter and index=
     | AddVoter(email) => {

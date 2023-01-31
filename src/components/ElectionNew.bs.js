@@ -61,7 +61,7 @@ function ElectionNew(Props) {
                             mode: "outlined",
                             onPress: (function (param) {
                                 Curry._1(dispatch, {
-                                      TAG: /* Navigate */10,
+                                      TAG: /* Navigate */11,
                                       _0: /* Home */0
                                     });
                               }),

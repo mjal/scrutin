@@ -3,8 +3,10 @@
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Js_json from "rescript/lib/es6/js_json.js";
+import * as Belenios from "../Belenios.bs.js";
 import * as Election from "./Election.bs.js";
 import * as Js_string from "rescript/lib/es6/js_string.js";
+import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as SentBallot from "./SentBallot.bs.js";
 
 var initial_elections = [];
@@ -29,12 +31,12 @@ function effectLoadElections(param, dispatch) {
         var json_array = Js_json.decodeArray(res);
         if (json_array !== undefined) {
           return Curry._1(dispatch, {
-                      TAG: /* LoadElections */8,
+                      TAG: /* LoadElections */9,
                       _0: json_array
                     });
         } else {
           return Curry._1(dispatch, {
-                      TAG: /* LoadElections */8,
+                      TAG: /* LoadElections */9,
                       _0: []
                     });
         }
@@ -44,28 +46,37 @@ function effectLoadElections(param, dispatch) {
 function effectLoadElection(id, dispatch) {
   var token = Js_string.sliceToEnd(1, window.location.hash);
   Curry._1(dispatch, {
-        TAG: /* SetToken */1,
+        TAG: /* SetToken */2,
         _0: token
       });
   Election.get(id).then(function (o) {
         Curry._1(dispatch, {
-              TAG: /* LoadElection */7,
+              TAG: /* LoadElection */8,
               _0: o
             });
       });
 }
 
 function effectCreateElection(state, dispatch) {
+  var match = Belenios.Trustees.create(undefined);
+  var belenios_params = Belenios.Election.create(state.election.name, "description", Belt_Array.map(state.election.choices, (function (o) {
+              return o.name;
+            })), match[1]);
+  Curry._1(dispatch, {
+        TAG: /* SetElectionBeleniosParams */1,
+        _0: belenios_params
+      });
+  console.log(state.election);
   Election.post(state.election).then(function (prim) {
             return prim.json();
           }).then(Election.from_json).then(function (election) {
         var id = election.id;
-        return Curry._1(dispatch, {
-                    TAG: /* Navigate */10,
-                    _0: /* ElectionShow */{
-                      _0: id
-                    }
-                  });
+        Curry._1(dispatch, {
+              TAG: /* Navigate */11,
+              _0: /* ElectionShow */{
+                _0: id
+              }
+            });
       });
 }
 
@@ -103,7 +114,7 @@ function reducer(state, action) {
     }
   }
   switch (action.TAG | 0) {
-    case /* SetToken */1 :
+    case /* SetToken */2 :
         return [
                 {
                   init: state.init,
@@ -119,7 +130,7 @@ function reducer(state, action) {
                 },
                 []
               ];
-    case /* FetchElection */6 :
+    case /* FetchElection */7 :
         var id = action._0;
         return [
                 {
@@ -129,7 +140,8 @@ function reducer(state, action) {
                     name: Election.initial.name,
                     voters: Election.initial.voters,
                     choices: Election.initial.choices,
-                    ballots: Election.initial.ballots
+                    ballots: Election.initial.ballots,
+                    belenios_params: Election.initial.belenios_params
                   },
                   elections: state.elections,
                   elections_loading: state.elections_loading,
@@ -142,7 +154,7 @@ function reducer(state, action) {
                       return effectLoadElection(id, param);
                     })]
               ];
-    case /* LoadElection */7 :
+    case /* LoadElection */8 :
         return [
                 {
                   init: state.init,
@@ -156,7 +168,7 @@ function reducer(state, action) {
                 },
                 []
               ];
-    case /* LoadElections */8 :
+    case /* LoadElections */9 :
         return [
                 {
                   init: state.init,
@@ -170,7 +182,7 @@ function reducer(state, action) {
                 },
                 []
               ];
-    case /* BallotCreate */9 :
+    case /* BallotCreate */10 :
         var newState_init = state.init;
         var newState_election = state.election;
         var newState_elections = state.elections;
@@ -199,7 +211,7 @@ function reducer(state, action) {
                       return effectBallotCreate(newState, param);
                     })]
               ];
-    case /* Navigate */10 :
+    case /* Navigate */11 :
         var route = action._0;
         var effects;
         if (typeof route === "number") {

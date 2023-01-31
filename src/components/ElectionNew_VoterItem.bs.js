@@ -24,7 +24,7 @@ function ElectionNew_VoterItem(Props) {
                         color: "rosybrown",
                         onPress: (function (param) {
                             Curry._1(dispatch, {
-                                  TAG: /* RemoveVoter */3,
+                                  TAG: /* RemoveVoter */4,
                                   _0: voter.email
                                 });
                           }),

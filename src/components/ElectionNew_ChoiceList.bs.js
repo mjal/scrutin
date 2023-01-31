@@ -43,7 +43,7 @@ function ElectionNew_ChoiceList(Props) {
                       children: React.createElement(ReactNative.Button, {
                             onPress: (function (param) {
                                 Curry._1(dispatch, {
-                                      TAG: /* AddChoice */4,
+                                      TAG: /* AddChoice */5,
                                       _0: name
                                     });
                                 Curry._1(setName, (function (param) {

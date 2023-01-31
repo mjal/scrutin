@@ -63,7 +63,7 @@ function ElectionNew_VoterList(Props) {
                             onPress: (function (param) {
                                 if (EmailValidator.validate(email)) {
                                   Curry._1(dispatch, {
-                                        TAG: /* AddVoter */2,
+                                        TAG: /* AddVoter */3,
                                         _0: email
                                       });
                                   return Curry._1(setEmail, (function (param) {

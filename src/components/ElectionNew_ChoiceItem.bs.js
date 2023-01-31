@@ -24,7 +24,7 @@ function ElectionNew_ChoiceItem(Props) {
                         color: "rosybrown",
                         onPress: (function (param) {
                             Curry._1(dispatch, {
-                                  TAG: /* RemoveChoice */5,
+                                  TAG: /* RemoveChoice */6,
                                   _0: choice.name
                                 });
                           }),

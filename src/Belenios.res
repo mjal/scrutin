@@ -31,4 +31,8 @@ module Election = {
       return JSON.parse(e)["uuid"];
     }
   `)
+
+  external of_str: string => t = "%identity"
+  external to_str: t => string = "%identity"
+
 }

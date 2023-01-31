@@ -62,6 +62,21 @@ let effectLoadElection = id => {
 
 let effectCreateElection = state => {
   dispatch => {
+
+    let (privkey, trustees) = Belenios.Trustees.create()
+
+    let belenios_params = Belenios.Election.create(
+      state.election.name,
+      "description",
+      Array.map(state.election.choices, (o) => o.name),
+      trustees
+    )
+    
+
+    dispatch(Action.SetElectionBeleniosParams(Belenios.Election.to_str(belenios_params)))
+
+    Js.log(state.election)
+
     state.election
     -> Election.post
     -> Promise.then(Webapi.Fetch.Response.json)

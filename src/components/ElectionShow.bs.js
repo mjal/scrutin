@@ -30,7 +30,7 @@ function ElectionShow(Props) {
                       children: React.createElement(ReactNativePaper.Button, {
                             onPress: (function (param) {
                                 Curry._1(dispatch, {
-                                      TAG: /* Navigate */10,
+                                      TAG: /* Navigate */11,
                                       _0: /* Home */0
                                     });
                               }),

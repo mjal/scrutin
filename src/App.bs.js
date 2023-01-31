@@ -40,7 +40,7 @@ function App(Props) {
                                     children: state.route !== /* Home */0 ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.BackAction, {
                                                 onPress: (function (param) {
                                                     Curry._1(dispatch, {
-                                                          TAG: /* Navigate */10,
+                                                          TAG: /* Navigate */11,
                                                           _0: /* Home */0
                                                         });
                                                   })

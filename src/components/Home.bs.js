@@ -21,7 +21,7 @@ function Home(Props) {
                   style: X.styles["margin-x"],
                   onPress: (function (param) {
                       Curry._1(dispatch, {
-                            TAG: /* Navigate */10,
+                            TAG: /* Navigate */11,
                             _0: /* ElectionNew */1
                           });
                     }),
