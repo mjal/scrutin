@@ -23,7 +23,7 @@ let make = () => {
     <List.Section title="Elections en cours" style=X.styles["margin-x"]>
       {
         Array.map(state.elections, (election) => {
-          <ElectionLink election />
+          <ElectionLink election key=Int.toString(election.id) />
         })
         -> React.array
       }

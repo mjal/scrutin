@@ -43,7 +43,8 @@ function Home_ElectionList(Props) {
                 title: "Elections en cours",
                 children: Belt_Array.map(state.elections, (function (election) {
                         return React.createElement(Home_ElectionList$ElectionLink, {
-                                    election: election
+                                    election: election,
+                                    key: String(election.id)
                                   });
                       })),
                 style: X.styles["margin-x"]
