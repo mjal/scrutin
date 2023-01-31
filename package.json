@@ -9,8 +9,8 @@
     "web": "expo start --web",
     "export:web": "expo export:web",
     "export:web:_redirects": "echo '/*   /index.html   200' > web-build/_redirects",
-    "re:build": "rescript",
-    "re:start": "rescript build -w"
+    "re:build": "rescript build -with-deps",
+    "re:start": "rescript build -with-deps -w"
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",

@@ -10,9 +10,9 @@ import * as Config from "../Config.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as SentBallot from "./SentBallot.bs.js";
 import * as Caml_exceptions from "rescript/lib/es6/caml_exceptions.js";
-import * as Json$JsonCombinators from "@glennsl/rescript-json-combinators/src/Json.bs.js";
-import * as Json_Decode$JsonCombinators from "@glennsl/rescript-json-combinators/src/Json_Decode.bs.js";
-import * as Json_Encode$JsonCombinators from "@glennsl/rescript-json-combinators/src/Json_Encode.bs.js";
+import * as Json$JsonCombinators from "rescript-json-combinators/src/Json.bs.js";
+import * as Json_Decode$JsonCombinators from "rescript-json-combinators/src/Json_Decode.bs.js";
+import * as Json_Encode$JsonCombinators from "rescript-json-combinators/src/Json_Encode.bs.js";
 
 var initial_voters = [];
 
