@@ -29,7 +29,7 @@
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.9",
     "rescript-react-native": "^0.70.0",
-    "rescript-use-tea": "git+https://github.com/mjal/rescript-use-tea.git",
+    "rescript-use-tea": "git+https://github.com/scrutin-app/rescript-use-tea.git",
     "rescript-webapi": "git+https://github.com/scrutin-app/rescript-webapi.git"
   },
   "devDependencies": {
