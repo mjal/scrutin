@@ -3,6 +3,7 @@
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as State from "../state/State.bs.js";
 import * as React from "react";
+import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
 
@@ -13,7 +14,8 @@ var styles = ReactNative.StyleSheet.create({
       }
     });
 
-function makeChoice(choice) {
+function ElectionShow_ChoiceSelect$Choice(Props) {
+  var choice = Props.choice;
   var match = React.useState(function () {
         return false;
       });
@@ -38,13 +40,22 @@ function makeChoice(choice) {
             });
 }
 
+var Choice = {
+  make: ElectionShow_ChoiceSelect$Choice
+};
+
 function ElectionShow_ChoiceSelect(Props) {
   var match = State.useContexts(undefined);
   return React.createElement(ReactNative.View, {
               children: null
             }, React.createElement(ReactNativePaper.List.Section, {
                   title: "Choices",
-                  children: match[0].election.choices.map(makeChoice),
+                  children: Belt_Array.map(match[0].election.choices, (function (choice) {
+                          return React.createElement(ElectionShow_ChoiceSelect$Choice, {
+                                      choice: choice,
+                                      key: String(choice.id)
+                                    });
+                        })),
                   style: styles["margin-x"]
                 }), React.createElement(ReactNativePaper.Button, {
                   mode: "contained",
@@ -59,7 +70,7 @@ var make = ElectionShow_ChoiceSelect;
 
 export {
   styles ,
-  makeChoice ,
+  Choice ,
   make ,
 }
 /* styles Not a pure module */

@@ -12,13 +12,17 @@ let styles = {
   })
 }
 
-let makeChoice = (choice : Choice.t) => {
+module Choice = {
+  @react.component
+  let make = (~choice: Choice.t) => {
   let (checked, setChecked) = React.useState(_ => false)
-  <List.Item
-    title=choice.name
-    left={_ => <List.Icon icon=Icon.name(checked ? "checkbox-intermediate" : "checkbox-blank-outline") />}
-    onPress={_ => setChecked(_ => checked ? false : true)}
-  />
+
+    <List.Item
+      title=choice.name
+      left={_ => <List.Icon icon=Icon.name(checked ? "checkbox-intermediate" : "checkbox-blank-outline") />}
+      onPress={_ => setChecked(_ => checked ? false : true)}
+    />
+  } 
 }
 
 @react.component
@@ -29,7 +33,7 @@ let make = () => {
     <List.Section title="Choices" style=styles["margin-x"]>
       {
         state.election.choices
-        -> Js.Array2.map(makeChoice)
+        -> Array.map(choice => <Choice choice key=Int.toString(choice.id) />)
         -> React.array
       }
     </List.Section>
