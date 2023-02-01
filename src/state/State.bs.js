@@ -62,21 +62,30 @@ function effectCreateElection(state, dispatch) {
   var belenios_params = Belenios.Election.create(state.election.name, "description", Belt_Array.map(state.election.choices, (function (o) {
               return o.name;
             })), match[1]);
-  Curry._1(dispatch, {
-        TAG: /* SetElectionBeleniosParams */1,
-        _0: belenios_params
-      });
-  console.log(state.election);
-  Election.post(state.election).then(function (prim) {
+  var init = state.election;
+  var election_id = init.id;
+  var election_name = init.name;
+  var election_voters = init.voters;
+  var election_choices = init.choices;
+  var election_ballots = init.ballots;
+  var election = {
+    id: election_id,
+    name: election_name,
+    voters: election_voters,
+    choices: election_choices,
+    ballots: election_ballots,
+    belenios_params: belenios_params
+  };
+  Election.post(election).then(function (prim) {
             return prim.json();
           }).then(Election.from_json).then(function (election) {
         var id = election.id;
-        Curry._1(dispatch, {
-              TAG: /* Navigate */11,
-              _0: /* ElectionShow */{
-                _0: id
-              }
-            });
+        return Curry._1(dispatch, {
+                    TAG: /* Navigate */11,
+                    _0: /* ElectionShow */{
+                      _0: id
+                    }
+                  });
       });
 }
 
