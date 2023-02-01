@@ -46,9 +46,6 @@ function ElectionNew(Props) {
                             _0: text
                           });
                     })
-                }), React.createElement(ReactNativePaper.Text, {
-                  style: X.styles.title,
-                  children: "Choices"
                 }), React.createElement(ElectionNew_ChoiceList.make, {}), React.createElement(ReactNativePaper.Text, {
                   style: X.styles.title,
                   children: "Voters"

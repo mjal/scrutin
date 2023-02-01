@@ -5,59 +5,111 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as State from "../state/State.bs.js";
 import * as React from "react";
 import * as ReactNative from "react-native";
+import * as ReactNativePaper from "react-native-paper";
 import * as ElectionNew_ChoiceItem from "./ElectionNew_ChoiceItem.bs.js";
+
+var styles = ReactNative.StyleSheet.create({
+      modal: {
+        backgroundColor: "white",
+        margin: 10.0,
+        padding: 10.0
+      }
+    });
 
 function ElectionNew_ChoiceList(Props) {
   var match = State.useContexts(undefined);
   var dispatch = match[1];
+  var state = match[0];
   var match$1 = React.useState(function () {
         return "";
       });
   var setName = match$1[1];
   var name = match$1[0];
-  return React.createElement(ReactNative.View, {
-              children: null
-            }, React.createElement(ReactNative.View, {
-                  children: match[0].election.choices.map(function (choice) {
+  var addChoice = function (param) {
+    Curry._1(dispatch, {
+          TAG: /* AddChoice */5,
+          _0: name
+        });
+    Curry._1(setName, (function (param) {
+            return "";
+          }));
+  };
+  var match$2 = React.useState(function () {
+        return false;
+      });
+  var setVisible = match$2[1];
+  var hideModal = function (param) {
+    Curry._1(setVisible, (function (param) {
+            return false;
+          }));
+  };
+  return React.createElement(React.Fragment, undefined, React.createElement(ReactNative.View, {
+                  style: X.styles.row,
+                  children: null
+                }, React.createElement(ReactNative.View, {
+                      style: X.styles.col,
+                      children: React.createElement(ReactNativePaper.Text, {
+                            style: X.styles.title,
+                            children: "Choix"
+                          })
+                    }), React.createElement(ReactNative.View, {
+                      style: X.styles.col
+                    }), React.createElement(ReactNative.View, {
+                      style: X.styles.col,
+                      children: React.createElement(ReactNativePaper.Button, {
+                            mode: "contained",
+                            onPress: (function (param) {
+                                Curry._1(setVisible, (function (param) {
+                                        return true;
+                                      }));
+                              }),
+                            children: "Nouveau"
+                          })
+                    })), React.createElement(ReactNativePaper.HelperText, {
+                  visible: state.election.choices.length <= 2,
+                  type: "info",
+                  children: "Il faut au moins 2 choix !"
+                }), React.createElement(ReactNative.View, {
+                  children: state.election.choices.map(function (choice) {
                         return React.createElement(ElectionNew_ChoiceItem.make, {
                                     choice: choice,
                                     key: choice.name
                                   });
                       })
-                }), React.createElement(ReactNative.View, {
-                  style: X.styles.row,
-                  children: null
-                }, React.createElement(ReactNative.View, {
-                      style: X.styles.col,
-                      children: React.createElement(ReactNative.TextInput, {
-                            onChangeText: (function (txt) {
-                                Curry._1(setName, (function (param) {
-                                        return txt;
-                                      }));
-                              }),
-                            placeholder: "Choice 1",
-                            value: name
-                          })
-                    }), React.createElement(ReactNative.View, {
-                      style: X.styles.col,
-                      children: React.createElement(ReactNative.Button, {
-                            onPress: (function (param) {
-                                Curry._1(dispatch, {
-                                      TAG: /* AddChoice */5,
-                                      _0: name
-                                    });
-                                Curry._1(setName, (function (param) {
-                                        return "";
-                                      }));
-                              }),
-                            title: "Ajouter"
-                          })
-                    })));
+                }), React.createElement(ReactNativePaper.Portal, {
+                  children: React.createElement(ReactNativePaper.Modal, {
+                        visible: match$2[0],
+                        onDismiss: hideModal,
+                        children: React.createElement(ReactNative.View, {
+                              style: styles.modal,
+                              children: null
+                            }, React.createElement(ReactNativePaper.TextInput, {
+                                  mode: "flat",
+                                  label: "Nom du choix",
+                                  value: name,
+                                  onChangeText: (function (text) {
+                                      Curry._1(setName, (function (param) {
+                                              return text;
+                                            }));
+                                    })
+                                }), React.createElement(ReactNativePaper.Button, {
+                                  mode: "contained",
+                                  onPress: (function (param) {
+                                      addChoice(undefined);
+                                      Curry._1(setVisible, (function (param) {
+                                              return false;
+                                            }));
+                                    }),
+                                  children: "Ajouter"
+                                }))
+                      })
+                }));
 }
 
 var make = ElectionNew_ChoiceList;
 
 export {
+  styles ,
   make ,
 }
-/* X Not a pure module */
+/* styles Not a pure module */

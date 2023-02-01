@@ -25,7 +25,6 @@ let make = () => {
       onChangeText={text => dispatch(SetElectionName(text))}
     >
     </TextInput>
-    <Text style=X.styles["title"]>{"Choices" -> React.string}</Text>
     <ElectionNew_ChoiceList />
     <Text style=X.styles["title"]>{"Voters" -> React.string}</Text>
     <ElectionNew_VoterList />
