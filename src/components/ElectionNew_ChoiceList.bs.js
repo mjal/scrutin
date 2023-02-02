@@ -4,6 +4,7 @@ import * as X from "../X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as State from "../state/State.bs.js";
 import * as React from "react";
+import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
 import * as ElectionNew_ChoiceItem from "./ElectionNew_ChoiceItem.bs.js";
@@ -70,12 +71,12 @@ function ElectionNew_ChoiceList(Props) {
                   type: "info",
                   children: "Il faut au moins 2 choix !"
                 }), React.createElement(ReactNative.View, {
-                  children: state.election.choices.map(function (choice) {
-                        return React.createElement(ElectionNew_ChoiceItem.make, {
-                                    choice: choice,
-                                    key: choice.name
-                                  });
-                      })
+                  children: Belt_Array.mapWithIndex(state.election.choices, (function (i, choice) {
+                          return React.createElement(ElectionNew_ChoiceItem.make, {
+                                      choice: choice,
+                                      key: String(i)
+                                    });
+                        }))
                 }), React.createElement(ReactNativePaper.Portal, {
                   children: React.createElement(ReactNativePaper.Modal, {
                         visible: match$2[0],

@@ -54,8 +54,8 @@ let make = () => {
     <View>
       {
         state.election.choices
-        -> Js.Array2.map(choice => {
-          <ElectionNew_ChoiceItem choice key=choice.name />
+        -> Array.mapWithIndex((i, choice) => {
+          <ElectionNew_ChoiceItem choice key=Int.toString(i) />
         })
         -> React.array
       }
