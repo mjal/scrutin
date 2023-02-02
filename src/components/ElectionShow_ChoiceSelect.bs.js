@@ -50,10 +50,10 @@ function ElectionShow_ChoiceSelect(Props) {
               children: null
             }, React.createElement(ReactNativePaper.List.Section, {
                   title: "Choices",
-                  children: Belt_Array.map(match[0].election.choices, (function (choice) {
+                  children: Belt_Array.mapWithIndex(match[0].election.choices, (function (i, choice) {
                           return React.createElement(ElectionShow_ChoiceSelect$Choice, {
                                       choice: choice,
-                                      key: String(choice.id)
+                                      key: String(i)
                                     });
                         })),
                   style: styles["margin-x"]

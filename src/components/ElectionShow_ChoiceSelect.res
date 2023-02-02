@@ -33,7 +33,7 @@ let make = () => {
     <List.Section title="Choices" style=styles["margin-x"]>
       {
         state.election.choices
-        -> Array.map(choice => <Choice choice key=Int.toString(choice.id) />)
+        -> Array.mapWithIndex((i, choice) => <Choice choice key=Int.toString(i) />)
         -> React.array
       }
     </List.Section>
