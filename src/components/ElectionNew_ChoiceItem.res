@@ -8,6 +8,7 @@ let make = (~choice: Choice.t) => {
     <List.Item
       title=choice.name
       left={_ => <List.Icon icon=Icon.name("vote") />}
+      onPress={_ => ()}
       right={_ =>
         // Not working...
         <Button onPress={_ => {Js.log(1); dispatch(Action.RemoveChoice(choice.name))}}>

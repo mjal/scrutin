@@ -10,6 +10,9 @@ function ElectionNew_ChoiceItem(Props) {
   var match = State.useContexts(undefined);
   var dispatch = match[1];
   return React.createElement(ReactNativePaper.List.Item, {
+              onPress: (function (param) {
+                  
+                }),
               title: choice.name,
               left: (function (param) {
                   return React.createElement(ReactNativePaper.List.Icon, {
