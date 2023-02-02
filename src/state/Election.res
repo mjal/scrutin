@@ -28,6 +28,7 @@ let to_json = (r) => {
     "voters": array(Voter.to_json, r.voters),
     "choices": array(Choice.to_json, r.choices),
     "ballots": array(Ballot.to_json, r.ballots),
+    "belenios_params": string(r.belenios_params)
   })
 }
 

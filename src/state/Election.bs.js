@@ -35,7 +35,8 @@ function to_json(r) {
           name: r.name,
           voters: Json_Encode$JsonCombinators.array(Voter.to_json, r.voters),
           choices: Json_Encode$JsonCombinators.array(Choice.to_json, r.choices),
-          ballots: Json_Encode$JsonCombinators.array(Ballot.to_json, r.ballots)
+          ballots: Json_Encode$JsonCombinators.array(Ballot.to_json, r.ballots),
+          belenios_params: r.belenios_params
         };
 }
 
