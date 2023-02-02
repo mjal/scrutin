@@ -8,7 +8,9 @@ type t = {
   voters: array<Voter.t>,
   choices: array<Choice.t>,
   ballots: array<Ballot.t>,
-  belenios_params: string
+  params: string, // TODO: option<string> or option<Belenios.Election.t>
+  trustees: string, // TODO: option
+  creds: string // TODO: option
 }
 
 let initial = {
@@ -17,7 +19,9 @@ let initial = {
   voters: [],
   choices: [],
   ballots: [],
-  belenios_params: ""
+  params: "",
+  trustees: "",
+  creds: ""
 }
 
 let to_json = (r) => {
@@ -28,7 +32,9 @@ let to_json = (r) => {
     "voters": array(Voter.to_json, r.voters),
     "choices": array(Choice.to_json, r.choices),
     "ballots": array(Ballot.to_json, r.ballots),
-    "belenios_params": string(r.belenios_params)
+    "params": string(r.params),
+    "trustees": string(r.trustees),
+    "creds": string(r.creds)
   })
 }
 
@@ -42,7 +48,9 @@ let from_json = (json) => {
     voters: field.required(. "voters", array(Voter.from_json)), // TODO: Make it optional
     choices: field.required(. "choices", array(Choice.from_json)),
     ballots: field.required(. "ballots", array(Ballot.from_json)),
-    belenios_params: field.required(. "belenios_params", string),
+    params: field.required(. "params", string),
+    trustees: field.required(. "trustees", string),
+    creds: field.required(. "creds", string)
   })
   switch (json->Json.decode(decode)) {
     | Ok(result) => result
@@ -77,14 +85,14 @@ let reducer = (election, action) => {
       ...election,
       name: name
     }
-    | SetElectionBeleniosParams(belenios_params) => {
+    | SetElectionBelenios(params, trustees, creds) => {
       ...election,
-      belenios_params: belenios_params
+      params, trustees, creds
     }
     // TODO: Generate unique negative index. Use it for RemoveVoter and index=
     | AddVoter(email) => {
       ...election,
-      voters: election.voters -> Array.concat([{ id: 0, email: email }: Voter.t])
+      voters: election.voters -> Array.concat([{ id: 0, email: email, privCred: "" }: Voter.t])
     }
     | RemoveVoter(email) => {
       ...election,

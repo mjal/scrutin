@@ -8,6 +8,7 @@ import * as Election from "./Election.bs.js";
 import * as Js_string from "rescript/lib/es6/js_string.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as SentBallot from "./SentBallot.bs.js";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 
 var initial_elections = [];
 
@@ -59,22 +60,28 @@ function effectLoadElection(id, dispatch) {
 
 function effectCreateElection(state, dispatch) {
   var match = Belenios.Trustees.create(undefined);
-  var belenios_params = Belenios.Election.create(state.election.name, "description", Belt_Array.map(state.election.choices, (function (o) {
+  var trustees = match[1];
+  var params = Belenios.Election.create(state.election.name, "description", Belt_Array.map(state.election.choices, (function (o) {
               return o.name;
-            })), match[1]);
+            })), trustees);
+  var uuid = Belenios.Election.uuid(params);
+  var match$1 = Belenios.Credentials.create(uuid, 10);
   var init = state.election;
   var election_id = init.id;
   var election_name = init.name;
   var election_voters = init.voters;
   var election_choices = init.choices;
   var election_ballots = init.ballots;
+  var election_creds = Belt_Option.getExn(JSON.stringify(match$1[0]));
   var election = {
     id: election_id,
     name: election_name,
     voters: election_voters,
     choices: election_choices,
     ballots: election_ballots,
-    belenios_params: belenios_params
+    params: params,
+    trustees: trustees,
+    creds: election_creds
   };
   Election.post(election).then(function (prim) {
             return prim.json();
@@ -150,7 +157,9 @@ function reducer(state, action) {
                     voters: Election.initial.voters,
                     choices: Election.initial.choices,
                     ballots: Election.initial.ballots,
-                    belenios_params: Election.initial.belenios_params
+                    params: Election.initial.params,
+                    trustees: Election.initial.trustees,
+                    creds: Election.initial.creds
                   },
                   elections: state.elections,
                   elections_loading: state.elections_loading,

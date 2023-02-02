@@ -6,6 +6,9 @@ module Trustees = {
   type t
   module Privkey = { type t }
   @module("./belenios_jslib2") @scope("belenios") @val external create: () => (Privkey.t, t) = "genTrustee"
+
+  external of_str: string => t = "%identity"
+  external to_str: t => string = "%identity"
 }
 
 module Ballot = {
