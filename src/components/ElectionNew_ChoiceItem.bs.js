@@ -22,7 +22,6 @@ function ElectionNew_ChoiceItem(Props) {
               right: (function (param) {
                   return React.createElement(ReactNativePaper.Button, {
                               onPress: (function (param) {
-                                  console.log(1);
                                   Curry._1(dispatch, {
                                         TAG: /* RemoveChoice */6,
                                         _0: choice.name
