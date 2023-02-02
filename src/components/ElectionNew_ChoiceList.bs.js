@@ -92,16 +92,35 @@ function ElectionNew_ChoiceList(Props) {
                                               return text;
                                             }));
                                     })
-                                }), React.createElement(ReactNativePaper.Button, {
-                                  mode: "contained",
-                                  onPress: (function (param) {
-                                      addChoice(undefined);
-                                      Curry._1(setVisible, (function (param) {
-                                              return false;
-                                            }));
-                                    }),
-                                  children: "Ajouter"
-                                }))
+                                }), React.createElement(ReactNative.View, {
+                                  style: X.styles.row,
+                                  children: null
+                                }, React.createElement(ReactNative.View, {
+                                      style: X.styles.col,
+                                      children: React.createElement(ReactNativePaper.Button, {
+                                            onPress: (function (param) {
+                                                Curry._1(setName, (function (param) {
+                                                        return "";
+                                                      }));
+                                                Curry._1(setVisible, (function (param) {
+                                                        return false;
+                                                      }));
+                                              }),
+                                            children: "Retour"
+                                          })
+                                    }), React.createElement(ReactNative.View, {
+                                      style: X.styles.col,
+                                      children: React.createElement(ReactNativePaper.Button, {
+                                            mode: "contained",
+                                            onPress: (function (param) {
+                                                addChoice(undefined);
+                                                Curry._1(setVisible, (function (param) {
+                                                        return false;
+                                                      }));
+                                              }),
+                                            children: "Ajouter"
+                                          })
+                                    })))
                       })
                 }));
 }

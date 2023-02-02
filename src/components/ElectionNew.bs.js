@@ -49,33 +49,13 @@ function ElectionNew(Props) {
                 }), React.createElement(ElectionNew_ChoiceList.make, {}), React.createElement(ReactNativePaper.Text, {
                   style: X.styles.title,
                   children: "Voters"
-                }), React.createElement(ElectionNew_VoterList.make, {}), React.createElement(ReactNative.View, {
-                  style: X.styles.row,
-                  children: null
-                }, React.createElement(ReactNative.View, {
-                      style: X.styles.col,
-                      children: React.createElement(ReactNativePaper.Button, {
-                            mode: "outlined",
-                            onPress: (function (param) {
-                                Curry._1(dispatch, {
-                                      TAG: /* Navigate */11,
-                                      _0: /* Home */0
-                                    });
-                              }),
-                            children: React.createElement(ReactNativePaper.Text, {
-                                  children: "Back"
-                                })
-                          })
-                    }), React.createElement(ReactNative.View, {
-                      style: X.styles.col,
-                      children: React.createElement(ReactNativePaper.Button, {
-                            mode: "contained",
-                            onPress: onSubmit,
-                            children: React.createElement(ReactNativePaper.Text, {
-                                  children: "Create election"
-                                })
-                          })
-                    })), React.createElement(ReactNativePaper.Portal, {
+                }), React.createElement(ElectionNew_VoterList.make, {}), React.createElement(ReactNativePaper.Button, {
+                  mode: "contained",
+                  onPress: onSubmit,
+                  children: React.createElement(ReactNativePaper.Text, {
+                        children: "Create election"
+                      })
+                }), React.createElement(ReactNativePaper.Portal, {
                   children: null
                 }, React.createElement(ReactNativePaper.Snackbar, {
                       onDismiss: (function (param) {

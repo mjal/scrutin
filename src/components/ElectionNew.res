@@ -28,18 +28,9 @@ let make = () => {
     <ElectionNew_ChoiceList />
     <Text style=X.styles["title"]>{"Voters" -> React.string}</Text>
     <ElectionNew_VoterList />
-    <View style=X.styles["row"]>
-      <View style=X.styles["col"]>
-        <Button mode=#outlined onPress={_ => dispatch(Action.Navigate(Route.Home))}>
-          <Text>{"Back" -> React.string}</Text>
-        </Button>
-      </View>
-      <View style=X.styles["col"]>
-        <Button mode=#contained onPress=onSubmit>
-          <Text>{"Create election" -> React.string}</Text>
-        </Button>
-      </View>
-    </View>
+    <Button mode=#contained onPress=onSubmit>
+      <Text>{"Create election" -> React.string}</Text>
+    </Button>
 
     <Portal>
       <Snackbar

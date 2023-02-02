@@ -70,7 +70,14 @@ let make = () => {
             value=name
             onChangeText={text => setName(_ => text)}
           />
-          <Button mode=#contained onPress={_ => { addChoice(); hideModal()} }>{"Ajouter"->React.string}</Button>
+          <View style=X.styles["row"]>
+            <View style=X.styles["col"]>
+              <Button onPress={_ => { setName(_ => ""); hideModal()} }>{"Retour"->React.string}</Button>
+          </View>
+          <View style=X.styles["col"]>
+            <Button mode=#contained onPress={_ => { addChoice(); hideModal()} }>{"Ajouter"->React.string}</Button>
+          </View>
+          </View>
         </View>
       </Modal>
     </Portal>
