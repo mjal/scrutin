@@ -3,6 +3,7 @@
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as State from "../state/State.bs.js";
 import * as React from "react";
+import * as Caml_obj from "rescript/lib/es6/caml_obj.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
@@ -15,26 +16,17 @@ var styles = ReactNative.StyleSheet.create({
     });
 
 function ElectionShow_ChoiceSelect$Choice(Props) {
-  var choice = Props.choice;
-  var match = React.useState(function () {
-        return false;
-      });
-  var setChecked = match[1];
-  var checked = match[0];
+  var name = Props.name;
+  var selected = Props.selected;
+  var onSelect = Props.onSelect;
   return React.createElement(ReactNativePaper.List.Item, {
               onPress: (function (param) {
-                  Curry._1(setChecked, (function (param) {
-                          if (checked) {
-                            return false;
-                          } else {
-                            return true;
-                          }
-                        }));
+                  Curry._1(onSelect, undefined);
                 }),
-              title: choice.name,
+              title: name,
               left: (function (param) {
                   return React.createElement(ReactNativePaper.List.Icon, {
-                              icon: checked ? "checkbox-intermediate" : "checkbox-blank-outline"
+                              icon: selected ? "checkbox-intermediate" : "checkbox-blank-outline"
                             });
                 })
             });
@@ -45,25 +37,30 @@ var Choice = {
 };
 
 function ElectionShow_ChoiceSelect(Props) {
+  var currentChoice = Props.currentChoice;
+  var onChoiceChange = Props.onChoiceChange;
   var match = State.useContexts(undefined);
   return React.createElement(ReactNative.View, {
-              children: null
-            }, React.createElement(ReactNativePaper.List.Section, {
-                  title: "Choices",
-                  children: Belt_Array.mapWithIndex(match[0].election.choices, (function (i, choice) {
-                          return React.createElement(ElectionShow_ChoiceSelect$Choice, {
-                                      choice: choice,
-                                      key: String(i)
-                                    });
-                        })),
-                  style: styles["margin-x"]
-                }), React.createElement(ReactNativePaper.Button, {
-                  mode: "contained",
-                  onPress: (function (param) {
-                      
-                    }),
-                  children: "Voter"
-                }));
+              children: React.createElement(ReactNativePaper.List.Section, {
+                    title: "Choices",
+                    children: Belt_Array.mapWithIndex(match[0].election.choices, (function (i, choice) {
+                            var selected = Caml_obj.equal(currentChoice, /* Choice */{
+                                  _0: i
+                                });
+                            return React.createElement(ElectionShow_ChoiceSelect$Choice, {
+                                        name: choice.name,
+                                        selected: selected,
+                                        onSelect: (function (param) {
+                                            Curry._1(onChoiceChange, /* Choice */{
+                                                  _0: i
+                                                });
+                                          }),
+                                        key: String(i)
+                                      });
+                          })),
+                    style: styles["margin-x"]
+                  })
+            });
 }
 
 var make = ElectionShow_ChoiceSelect;

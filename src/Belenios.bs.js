@@ -42,7 +42,11 @@ function result(prim0, prim1, prim2, prim3, prim4, prim5) {
 }
 
 var uuid = (function(e) {
-      return JSON.parse(e)["uuid"];
+      console.log(1);
+      console.log(e);
+      var uuid = JSON.parse(e)["uuid"];
+      console.log(2)
+      return uuid;
     });
 
 var Election = {

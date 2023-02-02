@@ -92,7 +92,8 @@ function effectCreateElection(state, dispatch) {
     ballots: election_ballots,
     params: params,
     trustees: trustees,
-    creds: election_creds
+    creds: election_creds,
+    uuid: uuid
   };
   Election.post(election).then(function (prim) {
             return prim.json();
@@ -107,9 +108,10 @@ function effectCreateElection(state, dispatch) {
       });
 }
 
-function effectBallotCreate(state, dispatch) {
-  Election.post_ballot(state.election, state.ballot).then(function (param) {
-        
+function effectBallotCreate(state, token, selection, dispatch) {
+  var ballot = Election.createBallot(state.election, token, selection);
+  Election.post_ballot(state.election, ballot).then(function (res) {
+        console.log(res);
       });
 }
 
@@ -170,7 +172,8 @@ function reducer(state, action) {
                     ballots: Election.initial.ballots,
                     params: Election.initial.params,
                     trustees: Election.initial.trustees,
-                    creds: Election.initial.creds
+                    creds: Election.initial.creds,
+                    uuid: Election.initial.uuid
                   },
                   elections: state.elections,
                   elections_loading: state.elections_loading,
@@ -212,32 +215,12 @@ function reducer(state, action) {
                 []
               ];
     case /* BallotCreate */10 :
-        var newState_init = state.init;
-        var newState_election = state.election;
-        var newState_elections = state.elections;
-        var newState_elections_loading = state.elections_loading;
-        var newState_user = state.user;
-        var newState_ballot = {
-          electionId: state.election.id,
-          choiceId: action._0,
-          token: state.user.token
-        };
-        var newState_loading = state.loading;
-        var newState_route = state.route;
-        var newState = {
-          init: newState_init,
-          election: newState_election,
-          elections: newState_elections,
-          elections_loading: newState_elections_loading,
-          user: newState_user,
-          ballot: newState_ballot,
-          loading: newState_loading,
-          route: newState_route
-        };
+        var selection = action._1;
+        var token = action._0;
         return [
-                newState,
+                state,
                 [(function (param) {
-                      return effectBallotCreate(newState, param);
+                      return effectBallotCreate(state, token, selection, param);
                     })]
               ];
     case /* Navigate */11 :

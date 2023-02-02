@@ -12,5 +12,5 @@ type t =
   | LoadElection(Js.Json.t)
   | LoadElections(array<Js.Json.t>)
   | PostElection
-  | BallotCreate(int)
+  | BallotCreate(string, array<int>)
   | Navigate(Route.t)

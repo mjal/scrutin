@@ -13,6 +13,9 @@ module Trustees = {
 
 module Ballot = {
   type t
+
+  external of_str: string => t = "%identity"
+  external to_str: t => string = "%identity"
 }
 
 module PartialDecryption = {
@@ -31,7 +34,11 @@ module Election = {
 
   let uuid : (t) => string = %raw(`
     function(e) {
-      return JSON.parse(e)["uuid"];
+      console.log(1);
+      console.log(e);
+      var uuid = JSON.parse(e)["uuid"];
+      console.log(2)
+      return uuid;
     }
   `)
 

@@ -33,6 +33,7 @@ let initial = {
   elections_loading: false
 }
 
+// TODO: No need for closure, could be dispatch =>
 let effectLoadElections = () => {
   dispatch => {
     Election.getAll()
@@ -63,7 +64,7 @@ let effectLoadElection = id => {
 let effectCreateElection = state => {
   dispatch => {
 
-    let (privkey, trustees) = Belenios.Trustees.create()
+    let (_privkey, trustees) = Belenios.Trustees.create()
 
     let params = Belenios.Election.create(
       ~name=state.election.name,
@@ -87,6 +88,7 @@ let effectCreateElection = state => {
  
     let election = {
       ...state.election,
+      uuid,
       params: Belenios.Election.to_str(params),
       trustees: Belenios.Trustees.to_str(trustees),
       creds: Option.getExn(Js.Json.stringifyAny(pubcreds)),
@@ -105,10 +107,13 @@ let effectCreateElection = state => {
   }
 }
 
-let effectBallotCreate = state => {
+let effectBallotCreate = (state, token, selection) => {
   dispatch => {
-    Election.post_ballot(state.election, state.ballot)
-    -> Promise.thenResolve(_ => {
+    let ballot = Election.createBallot(state.election, token, selection)
+
+    Election.post_ballot(state.election, ballot)
+    -> Promise.thenResolve(res => {
+      Js.log(res)
       ()
       //RescriptReactRouter.push(j`/elections/${state.election.id->Int.toString}/success`)
     })
@@ -135,15 +140,8 @@ let reducer = (state, action: Action.t) => {
       elections: Js.Array2.map(jsons, Election.from_json)
     }, [])
     | PostElection => (state, [ effectCreateElection(state) ])
-    | BallotCreate(choiceId) => {
-      let newState = {...state, ballot:
-        {
-          electionId: state.election.id,
-          choiceId,
-          token: state.user.token
-        }
-      }
-      (newState, [ effectBallotCreate(newState) ])
+    | BallotCreate(token, selection) => {
+      (state, [ effectBallotCreate(state, token, selection) ])
     }
     | SetToken(token) => {
       ({...state, user: {token: token}}, [])

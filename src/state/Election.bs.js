@@ -7,8 +7,8 @@ import * as Voter from "./Voter.bs.js";
 import * as Ballot from "./Ballot.bs.js";
 import * as Choice from "./Choice.bs.js";
 import * as Config from "../Config.bs.js";
+import * as Belenios from "../Belenios.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
-import * as SentBallot from "./SentBallot.bs.js";
 import * as Caml_exceptions from "rescript/lib/es6/caml_exceptions.js";
 import * as Json$JsonCombinators from "rescript-json-combinators/src/Json.bs.js";
 import * as Json_Decode$JsonCombinators from "rescript-json-combinators/src/Json_Decode.bs.js";
@@ -28,7 +28,8 @@ var initial = {
   ballots: initial_ballots,
   params: "",
   trustees: "",
-  creds: ""
+  creds: "",
+  uuid: ""
 };
 
 function to_json(r) {
@@ -40,7 +41,8 @@ function to_json(r) {
           ballots: Json_Encode$JsonCombinators.array(Ballot.to_json, r.ballots),
           params: r.params,
           trustees: r.trustees,
-          creds: r.creds
+          creds: r.creds,
+          uuid: r.uuid
         };
 }
 
@@ -56,7 +58,8 @@ function from_json(json) {
                 ballots: field.required("ballots", Json_Decode$JsonCombinators.array(Ballot.from_json)),
                 params: field.required("params", Json_Decode$JsonCombinators.string),
                 trustees: field.required("trustees", Json_Decode$JsonCombinators.string),
-                creds: field.required("creds", Json_Decode$JsonCombinators.string)
+                creds: field.required("creds", Json_Decode$JsonCombinators.string),
+                uuid: field.required("uuid", Json_Decode$JsonCombinators.string)
               };
       });
   var result = Json$JsonCombinators.decode(json, decode);
@@ -88,7 +91,21 @@ function post(election) {
 
 function post_ballot(election, ballot) {
   var election_id = String(election.id);
-  return X.post("" + Config.api_url + "/elections/" + election_id + "/ballots", SentBallot.to_json(ballot));
+  return X.post("" + Config.api_url + "/elections/" + election_id + "/ballots", Ballot.to_json(ballot));
+}
+
+function createBallot(election, private_credential, selection) {
+  var params = election.params;
+  var trustees = election.trustees;
+  var ciphertext = Belenios.Election.vote(params, private_credential, [selection], trustees);
+  console.log("ciphertext");
+  console.log(ciphertext);
+  return {
+          electionId: election.id,
+          ciphertext: ciphertext,
+          private_credential: private_credential,
+          public_credential: ""
+        };
 }
 
 function reducer(election, action) {
@@ -105,7 +122,8 @@ function reducer(election, action) {
                 ballots: election.ballots,
                 params: election.params,
                 trustees: election.trustees,
-                creds: election.creds
+                creds: election.creds,
+                uuid: election.uuid
               };
     case /* SetElectionBelenios */1 :
         return {
@@ -116,7 +134,8 @@ function reducer(election, action) {
                 ballots: election.ballots,
                 params: action._0,
                 trustees: action._1,
-                creds: action._2
+                creds: action._2,
+                uuid: election.uuid
               };
     case /* AddVoter */3 :
         return {
@@ -132,7 +151,8 @@ function reducer(election, action) {
                 ballots: election.ballots,
                 params: election.params,
                 trustees: election.trustees,
-                creds: election.creds
+                creds: election.creds,
+                uuid: election.uuid
               };
     case /* RemoveVoter */4 :
         var email = action._0;
@@ -146,7 +166,8 @@ function reducer(election, action) {
                 ballots: election.ballots,
                 params: election.params,
                 trustees: election.trustees,
-                creds: election.creds
+                creds: election.creds,
+                uuid: election.uuid
               };
     case /* AddChoice */5 :
         return {
@@ -160,7 +181,8 @@ function reducer(election, action) {
                 ballots: election.ballots,
                 params: election.params,
                 trustees: election.trustees,
-                creds: election.creds
+                creds: election.creds,
+                uuid: election.uuid
               };
     case /* RemoveChoice */6 :
         var index = action._0;
@@ -174,7 +196,8 @@ function reducer(election, action) {
                 ballots: election.ballots,
                 params: election.params,
                 trustees: election.trustees,
-                creds: election.creds
+                creds: election.creds,
+                uuid: election.uuid
               };
     default:
       return election;
@@ -190,6 +213,7 @@ export {
   getAll ,
   post ,
   post_ballot ,
+  createBallot ,
   reducer ,
 }
 /* X Not a pure module */

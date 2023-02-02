@@ -1,6 +1,8 @@
 open ReactNative
 open! Paper
 
+type choice_t = Blank | Choice(int)
+
 let styles = {
   open Style
   StyleSheet.create({
@@ -14,31 +16,29 @@ let styles = {
 
 module Choice = {
   @react.component
-  let make = (~choice: Choice.t) => {
-  let (checked, setChecked) = React.useState(_ => false)
-
+  let make = (~name, ~selected, ~onSelect) => {
     <List.Item
-      title=choice.name
-      left={_ => <List.Icon icon=Icon.name(checked ? "checkbox-intermediate" : "checkbox-blank-outline") />}
-      onPress={_ => setChecked(_ => checked ? false : true)}
+      title=name
+      left={_ => <List.Icon icon=Icon.name(selected ? "checkbox-intermediate" : "checkbox-blank-outline") />}
+      onPress={_ => onSelect()}
     />
   } 
 }
 
 @react.component
-let make = () => {
-  let (state, _dispatch) = State.useContexts()
+let make = (~currentChoice, ~onChoiceChange) => {
+  let (state, _) = State.useContexts()
 
   <View>
     <List.Section title="Choices" style=styles["margin-x"]>
       {
         state.election.choices
-        -> Array.mapWithIndex((i, choice) => <Choice choice key=Int.toString(i) />)
+        -> Array.mapWithIndex((i, choice) => {
+          let selected = currentChoice == Choice(i)
+          <Choice name=choice.name selected onSelect={_ => onChoiceChange(Choice(i))} key=Int.toString(i) />
+        })
         -> React.array
       }
     </List.Section>
-    <Button mode=#contained onPress={_ => ()}>
-      {"Voter" -> React.string}
-    </Button>
   </View>
 }

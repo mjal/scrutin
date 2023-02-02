@@ -10,7 +10,8 @@ type t = {
   ballots: array<Ballot.t>,
   params: string, // TODO: option<string> or option<Belenios.Election.t>
   trustees: string, // TODO: option
-  creds: string // TODO: option
+  creds: string, // TODO: option
+  uuid: string
 }
 
 let initial = {
@@ -21,7 +22,8 @@ let initial = {
   ballots: [],
   params: "",
   trustees: "",
-  creds: ""
+  creds: "",
+  uuid: ""
 }
 
 let to_json = (r) => {
@@ -34,7 +36,8 @@ let to_json = (r) => {
     "ballots": array(Ballot.to_json, r.ballots),
     "params": string(r.params),
     "trustees": string(r.trustees),
-    "creds": string(r.creds)
+    "creds": string(r.creds),
+    "uuid": string(r.uuid)
   })
 }
 
@@ -50,7 +53,8 @@ let from_json = (json) => {
     ballots: field.required(. "ballots", array(Ballot.from_json)),
     params: field.required(. "params", string),
     trustees: field.required(. "trustees", string),
-    creds: field.required(. "creds", string)
+    creds: field.required(. "creds", string),
+    uuid: field.required(. "uuid", string)
   })
   switch (json->Json.decode(decode)) {
     | Ok(result) => result
@@ -74,9 +78,28 @@ let post = (election) => {
   X.post(`${Config.api_url}/elections/`, election -> to_json)
 }
 
-let post_ballot = (election, ballot: SentBallot.t) => {
+let post_ballot = (election, ballot: Ballot.t) => {
   let election_id = election.id -> Int.toString
-  X.post(`${Config.api_url}/elections/${election_id}/ballots`, ballot -> SentBallot.to_json)
+  X.post(`${Config.api_url}/elections/${election_id}/ballots`, ballot -> Ballot.to_json)
+}
+
+let createBallot = (election : t, private_credential : string, selection : array<int>) : Ballot.t => {
+  let params = Belenios.Election.of_str(election.params)
+  let trustees = Belenios.Trustees.of_str(election.trustees)
+
+  let ciphertext =
+    Belenios.Election.vote(params, private_credential, [selection], trustees)
+    -> Belenios.Ballot.to_str
+
+  Js.log("ciphertext")
+  Js.log(ciphertext)
+
+  {
+    electionId: election.id,
+    ciphertext,
+    public_credential: "", // TODO: Get from Belenios lib
+    private_credential
+  }
 }
 
 let reducer = (election, action) => {
