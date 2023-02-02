@@ -65,18 +65,29 @@ function effectCreateElection(state, dispatch) {
               return o.name;
             })), trustees);
   var uuid = Belenios.Election.uuid(params);
-  var match$1 = Belenios.Credentials.create(uuid, 10);
+  var match$1 = Belenios.Credentials.create(uuid, state.election.voters.length);
+  var pubcreds = match$1[0];
+  var creds = Belt_Array.zip(pubcreds, match$1[1]);
+  var voters = Belt_Array.map(Belt_Array.zip(state.election.voters, creds), (function (param) {
+          var match = param[1];
+          var voterWithoutCred = param[0];
+          return {
+                  id: voterWithoutCred.id,
+                  email: voterWithoutCred.email,
+                  privCred: match[1],
+                  pubCred: match[0]
+                };
+        }));
   var init = state.election;
   var election_id = init.id;
   var election_name = init.name;
-  var election_voters = init.voters;
   var election_choices = init.choices;
   var election_ballots = init.ballots;
-  var election_creds = Belt_Option.getExn(JSON.stringify(match$1[0]));
+  var election_creds = Belt_Option.getExn(JSON.stringify(pubcreds));
   var election = {
     id: election_id,
     name: election_name,
-    voters: election_voters,
+    voters: voters,
     choices: election_choices,
     ballots: election_ballots,
     params: params,

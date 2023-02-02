@@ -125,7 +125,8 @@ function reducer(election, action) {
                 voters: Belt_Array.concat(election.voters, [{
                         id: 0,
                         email: action._0,
-                        privCred: ""
+                        privCred: "",
+                        pubCred: ""
                       }]),
                 choices: election.choices,
                 ballots: election.ballots,

@@ -2,6 +2,7 @@ type t = {
   id: int,
   email: string,
   privCred: string, // TODO: option<string>
+  pubCred: string, // TODO: option<string>
 }
 
 let from_json = {
@@ -9,7 +10,8 @@ let from_json = {
   object(field => {
     id: field.required(. "id", int),
     email: field.required(. "email", string),
-    privCred: field.required(. "priv_cred", string)
+    privCred: field.required(. "priv_cred", string),
+    pubCred: field.required(. "pub_cred", string)
   })
 }
 
@@ -18,6 +20,7 @@ let to_json = r => {
   Unsafe.object({
     "id": int(r.id),
     "email": string(r.email),
-    "priv_cred": string(r.privCred)
+    "priv_cred": string(r.privCred),
+    "pub_cred": string(r.pubCred)
   })
 }

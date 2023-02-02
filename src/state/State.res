@@ -74,15 +74,23 @@ let effectCreateElection = state => {
 
     let uuid = Belenios.Election.uuid(params)
 
-    let (pubcreds, privcreds) = Belenios.Credentials.create(uuid, 10)
+    let (pubcreds, privcreds) = Belenios.Credentials.create(uuid, Array.length(state.election.voters))
+    let creds = Array.zip(pubcreds, privcreds)
 
     //dispatch(Action.SetElectionBeleniosParams(belenios_params))
 
+    let voters = Array.zip(state.election.voters, creds)
+    -> Array.map(((voterWithoutCred, (pubCred, privCred))) => {
+      let voter : Voter.t = {...voterWithoutCred, pubCred, privCred}
+      voter
+    })
+ 
     let election = {
       ...state.election,
       params: Belenios.Election.to_str(params),
       trustees: Belenios.Trustees.to_str(trustees),
-      creds: Option.getExn(Js.Json.stringifyAny(pubcreds))
+      creds: Option.getExn(Js.Json.stringifyAny(pubcreds)),
+      voters
     }
 
     election

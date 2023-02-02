@@ -92,7 +92,7 @@ let reducer = (election, action) => {
     // TODO: Generate unique negative index. Use it for RemoveVoter and index=
     | AddVoter(email) => {
       ...election,
-      voters: election.voters -> Array.concat([{ id: 0, email: email, privCred: "" }: Voter.t])
+      voters: election.voters -> Array.concat([{ id: 0, email: email, pubCred: "", privCred: "" }: Voter.t])
     }
     | RemoveVoter(email) => {
       ...election,
