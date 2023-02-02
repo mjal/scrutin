@@ -2,7 +2,7 @@ open ReactNative;
 open! Paper;
 
 @react.component
-let make = (~choice: Choice.t) => {
+let make = (~index, ~choice: Choice.t) => {
   let (_, dispatch) = State.useContexts()
 
   <List.Item
@@ -10,7 +10,7 @@ let make = (~choice: Choice.t) => {
     left={_ => <List.Icon icon=Icon.name("vote") />}
     onPress={_ => ()}
     right={_ =>
-      <Button onPress={_ => dispatch(Action.RemoveChoice(choice.name))}>
+      <Button onPress={_ => dispatch(Action.RemoveChoice(index))}>
         <List.Icon icon=Icon.name("delete") />
       </Button>
     }

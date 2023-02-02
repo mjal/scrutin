@@ -6,6 +6,7 @@ import * as React from "react";
 import * as ReactNativePaper from "react-native-paper";
 
 function ElectionNew_ChoiceItem(Props) {
+  var index = Props.index;
   var choice = Props.choice;
   var match = State.useContexts(undefined);
   var dispatch = match[1];
@@ -24,7 +25,7 @@ function ElectionNew_ChoiceItem(Props) {
                               onPress: (function (param) {
                                   Curry._1(dispatch, {
                                         TAG: /* RemoveChoice */6,
-                                        _0: choice.name
+                                        _0: index
                                       });
                                 }),
                               children: React.createElement(ReactNativePaper.List.Icon, {

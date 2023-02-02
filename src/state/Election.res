@@ -103,9 +103,9 @@ let reducer = (election, action) => {
       ...election,
       choices: election.choices -> Array.concat([{ id: 0, name: name }: Choice.t])
     }
-    | RemoveChoice(name) => {
+    | RemoveChoice(index) => {
       ...election,
-      choices: election.choices -> Array.keep(e => e.name != name)
+      choices: election.choices -> Array.keepWithIndex((_, i) => i != index)
     }
     | _ => election
   }

@@ -55,7 +55,7 @@ let make = () => {
       {
         state.election.choices
         -> Array.mapWithIndex((i, choice) => {
-          <ElectionNew_ChoiceItem choice key=Int.toString(i) />
+          <ElectionNew_ChoiceItem index=i choice key=Int.toString(i) />
         })
         -> React.array
       }
@@ -82,35 +82,4 @@ let make = () => {
       </Modal>
     </Portal>
   </>
-
-  //<List.Section title="Choix" style=X.styles["margin-x"]>
-  //  {
-  //    Array.map(state.election.choices, (choice) => {
-  //      <></>
-  //    })
-  //    -> React.array
-  //  }
-  //</List.Section>
-
-	//<View>
-  //  <View>
-  //    {
-  //      state.election.choices
-  //      -> Js.Array2.map(choice => {
-  //        <ElectionNew_ChoiceItem choice key=choice.name />
-  //      })
-  //      -> React.array
-  //    }
-  //  </View>
-  //  <View style=X.styles["row"]>
-  //    <View style=X.styles["col"]>
-	//	    <TextInput value={name} onChangeText={txt => setName(_ => txt)} placeholder="Choice 1" />
-  //    </View>
-  //    <View style=X.styles["col"]>
-  //      //<View style=styles["smallButton"]>
-  //        <Button onPress={_ => addChoice()} title="Ajouter"></Button>
-  //      //</View>
-  //    </View>
-  //  </View>
-	//</View>
 }

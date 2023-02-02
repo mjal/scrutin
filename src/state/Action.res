@@ -7,7 +7,7 @@ type t =
   | AddVoter(string)
   | RemoveVoter(string)
   | AddChoice(string)
-  | RemoveChoice(string)
+  | RemoveChoice(int)
   | FetchElection(int)
   | LoadElection(Js.Json.t)
   | LoadElections(array<Js.Json.t>)

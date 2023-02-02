@@ -163,13 +163,13 @@ function reducer(election, action) {
                 creds: election.creds
               };
     case /* RemoveChoice */6 :
-        var name = action._0;
+        var index = action._0;
         return {
                 id: election.id,
                 name: election.name,
                 voters: election.voters,
-                choices: Belt_Array.keep(election.choices, (function (e) {
-                        return e.name !== name;
+                choices: Belt_Array.keepWithIndex(election.choices, (function (param, i) {
+                        return i !== index;
                       })),
                 ballots: election.ballots,
                 params: election.params,

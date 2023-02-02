@@ -73,6 +73,7 @@ function ElectionNew_ChoiceList(Props) {
                 }), React.createElement(ReactNative.View, {
                   children: Belt_Array.mapWithIndex(state.election.choices, (function (i, choice) {
                           return React.createElement(ElectionNew_ChoiceItem.make, {
+                                      index: i,
                                       choice: choice,
                                       key: String(i)
                                     });
