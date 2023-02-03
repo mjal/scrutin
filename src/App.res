@@ -16,7 +16,13 @@ let make = () => {
   let title = switch state.route {
     | Home => "Scrutin"
     | ElectionNew => "Nouvelle election"
-    | _ => "Unknown"
+    | _ => {
+      if state.election.name != "" {
+        state.election.name
+      } else {
+       "Unamed election" 
+      }
+    }
   }
 
   let view = switch state.route {
