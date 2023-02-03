@@ -6,8 +6,6 @@ type choice_t = ElectionBooth_ChoiceSelect.choice_t
 @react.component
 let make = () => {
   let (state, dispatch) = State.useContexts()
-  let (token, setToken) = React.useState(_ => state.ballot.token)
-  let (choice : choice_t, setChoice) = React.useState(_ => ElectionBooth_ChoiceSelect.Blank)
 
   let nb_ballots = Array.length(state.election.ballots) -> Int.toString
   let nb_votes   = state.election.ballots

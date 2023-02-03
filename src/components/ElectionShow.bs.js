@@ -12,12 +12,6 @@ function ElectionShow(Props) {
   var match = State.useContexts(undefined);
   var dispatch = match[1];
   var state = match[0];
-  React.useState(function () {
-        return state.ballot.token;
-      });
-  React.useState(function () {
-        return /* Blank */0;
-      });
   var nb_ballots = String(state.election.ballots.length);
   var nb_votes = String(Belt_Array.keep(state.election.ballots, (function (ballot) {
               return ballot.ciphertext === "";
