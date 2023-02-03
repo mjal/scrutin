@@ -26,6 +26,9 @@ function Home_ElectionList$ElectionLink(Props) {
                   return React.createElement(ReactNativePaper.List.Icon, {
                               icon: "vote"
                             });
+                }),
+              right: (function (param) {
+                  return String(election.id);
                 })
             });
 }

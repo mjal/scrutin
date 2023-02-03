@@ -8,6 +8,7 @@ module ElectionLink = {
     <List.Item
       title=election.name
       left={_ => <List.Icon icon=Icon.name("vote") />}
+      right={_ => election.id -> Int.toString -> React.string}
       onPress={_ => dispatch(Action.Navigate(Route.ElectionShow(election.id)))}
     />
   }
