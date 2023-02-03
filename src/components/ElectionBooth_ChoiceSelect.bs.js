@@ -15,7 +15,7 @@ var styles = ReactNative.StyleSheet.create({
       }
     });
 
-function ElectionShow_ChoiceSelect$Choice(Props) {
+function ElectionBooth_ChoiceSelect$Choice(Props) {
   var name = Props.name;
   var selected = Props.selected;
   var onSelect = Props.onSelect;
@@ -33,10 +33,10 @@ function ElectionShow_ChoiceSelect$Choice(Props) {
 }
 
 var Choice = {
-  make: ElectionShow_ChoiceSelect$Choice
+  make: ElectionBooth_ChoiceSelect$Choice
 };
 
-function ElectionShow_ChoiceSelect(Props) {
+function ElectionBooth_ChoiceSelect(Props) {
   var currentChoice = Props.currentChoice;
   var onChoiceChange = Props.onChoiceChange;
   var match = State.useContexts(undefined);
@@ -47,7 +47,7 @@ function ElectionShow_ChoiceSelect(Props) {
                             var selected = Caml_obj.equal(currentChoice, /* Choice */{
                                   _0: i
                                 });
-                            return React.createElement(ElectionShow_ChoiceSelect$Choice, {
+                            return React.createElement(ElectionBooth_ChoiceSelect$Choice, {
                                         name: choice.name,
                                         selected: selected,
                                         onSelect: (function (param) {
@@ -63,7 +63,7 @@ function ElectionShow_ChoiceSelect(Props) {
             });
 }
 
-var make = ElectionShow_ChoiceSelect;
+var make = ElectionBooth_ChoiceSelect;
 
 export {
   styles ,

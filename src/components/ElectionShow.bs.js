@@ -4,72 +4,49 @@ import * as X from "../X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as State from "../state/State.bs.js";
 import * as React from "react";
-import * as Caml_obj from "rescript/lib/es6/caml_obj.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
-import * as ElectionShow_ChoiceSelect from "./ElectionShow_ChoiceSelect.bs.js";
 
 function ElectionShow(Props) {
   var match = State.useContexts(undefined);
   var dispatch = match[1];
   var state = match[0];
-  var match$1 = React.useState(function () {
+  React.useState(function () {
         return state.ballot.token;
       });
-  var setToken = match$1[1];
-  var token = match$1[0];
-  var match$2 = React.useState(function () {
+  React.useState(function () {
         return /* Blank */0;
       });
-  var setChoice = match$2[1];
-  var choice = match$2[0];
-  var vote = function (param) {
-    var selectionArray = Belt_Array.mapWithIndex(Belt_Array.make(state.election.choices.length, 0), (function (i, param) {
-            if (Caml_obj.equal(choice, /* Choice */{
-                    _0: i
-                  })) {
-              return 1;
-            } else {
-              return 0;
-            }
-          }));
-    Curry._1(dispatch, {
-          TAG: /* BallotCreate */10,
-          _0: token,
-          _1: selectionArray
-        });
-  };
+  var nb_ballots = String(state.election.ballots.length);
+  var nb_votes = String(Belt_Array.keep(state.election.ballots, (function (ballot) {
+              return ballot.ciphertext === "";
+            })).length);
   return React.createElement(ReactNative.View, {
               children: null
             }, React.createElement(ReactNativePaper.Title, {
                   style: X.styles.title,
                   children: state.election.name
+                }), React.createElement(ReactNativePaper.Title, {
+                  style: X.styles.subtitle,
+                  children: "" + nb_ballots + "/" + nb_votes + " voted"
                 }), React.createElement(ReactNative.View, {
                   style: X.styles.separator
-                }), React.createElement(ElectionShow_ChoiceSelect.make, {
-                  currentChoice: choice,
-                  onChoiceChange: (function (choice) {
-                      Curry._1(setChoice, (function (param) {
-                              return choice;
-                            }));
-                    })
-                }), React.createElement(ReactNativePaper.TextInput, {
-                  mode: "flat",
-                  label: "Token",
-                  value: token,
-                  onChangeText: (function (text) {
-                      Curry._1(setToken, (function (param) {
-                              return text.trim();
-                            }));
-                    })
                 }), React.createElement(ReactNative.View, {
                   style: X.styles.row,
                   children: null
                 }, React.createElement(ReactNative.View, {
                       style: X.styles.col,
                       children: React.createElement(ReactNativePaper.Button, {
-                            onPress: vote,
+                            onPress: (function (param) {
+                                Curry._1(dispatch, {
+                                      TAG: /* Navigate */11,
+                                      _0: {
+                                        TAG: /* ElectionBooth */1,
+                                        _0: state.election.id
+                                      }
+                                    });
+                              }),
                             children: "Vote"
                           })
                     }), React.createElement(ReactNative.View, {
@@ -78,7 +55,7 @@ function ElectionShow(Props) {
                             onPress: (function (param) {
                                 
                               }),
-                            children: "Results"
+                            children: "Close"
                           })
                     })));
 }

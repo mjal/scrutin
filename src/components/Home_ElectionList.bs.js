@@ -15,7 +15,8 @@ function Home_ElectionList$ElectionLink(Props) {
               onPress: (function (param) {
                   Curry._1(dispatch, {
                         TAG: /* Navigate */11,
-                        _0: /* ElectionShow */{
+                        _0: {
+                          TAG: /* ElectionShow */0,
                           _0: election.id
                         }
                       });

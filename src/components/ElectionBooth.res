@@ -9,30 +9,36 @@ let make = () => {
   let (token, setToken) = React.useState(_ => state.ballot.token)
   let (choice : choice_t, setChoice) = React.useState(_ => ElectionBooth_ChoiceSelect.Blank)
 
-  let nb_ballots = Array.length(state.election.ballots) -> Int.toString
-  let nb_votes   = state.election.ballots
-    -> Array.keep((ballot) => ballot.ciphertext == "")
-    -> Array.length
-    -> Int.toString
+  let vote = _ => {
+    let selectionArray =
+      Array.length(state.election.choices)
+      -> Array.make(0)
+      -> Array.mapWithIndex((i, _) => choice == Choice(i) ? 1 : 0)
+
+    dispatch(BallotCreate(token, selectionArray))
+  }
 
   <View>
     <Title style=X.styles["title"]>
       {state.election.name -> React.string}
     </Title>
-    <Title style=X.styles["subtitle"]>
-      {`${nb_ballots}/${nb_votes} voted` -> React.string}
-    </Title>
-
     <View style=X.styles["separator"] />
+    <ElectionBooth_ChoiceSelect currentChoice=choice onChoiceChange={choice => setChoice(_ => choice)} />
+    <TextInput
+      mode=#flat
+      label="Token"
+      value=token
+      onChangeText={text => setToken(_ => Js.String.trim(text))}
+    />
     <View style=X.styles["row"]>
       <View style=X.styles["col"]>
-        <Button onPress={_ => dispatch(Action.Navigate(Route.ElectionBooth(state.election.id))) }>
+        <Button onPress=vote>
           {"Vote" -> React.string}
         </Button>
       </View>
       <View style=X.styles["col"]>
-        <Button onPress={_ => ()}>
-          {"Close" -> React.string}
+        <Button onPress={_ => dispatch(Action.Navigate(Route.ElectionShow(state.election.id)))}>
+          {"Statistiques" -> React.string}
         </Button>
       </View>
     </View>

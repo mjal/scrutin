@@ -101,7 +101,7 @@ let effectCreateElection = state => {
     -> Promise.thenResolve(Election.from_json)
     -> Promise.thenResolve(election => {
       let id = election.id
-      dispatch(Action.Navigate(Route.ElectionShow(id)))
+      dispatch(Action.Navigate(Route.ElectionBooth(id)))
     })
     -> ignore
   }
@@ -148,6 +148,7 @@ let reducer = (state, action: Action.t) => {
     }
     | Navigate(route) =>
       let effects = switch route {
+        | ElectionBooth(id) => [effectLoadElection(id)]
         | ElectionShow(id) => [effectLoadElection(id)]
         | _ => []
       }

@@ -101,7 +101,8 @@ function effectCreateElection(state, dispatch) {
         var id = election.id;
         return Curry._1(dispatch, {
                     TAG: /* Navigate */11,
-                    _0: /* ElectionShow */{
+                    _0: {
+                      TAG: /* ElectionBooth */1,
                       _0: id
                     }
                   });

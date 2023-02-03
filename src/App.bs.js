@@ -9,6 +9,7 @@ import * as UseTea from "rescript-use-tea/src/UseTea.bs.js";
 import * as ElectionNew from "./components/ElectionNew.bs.js";
 import * as ElectionShow from "./components/ElectionShow.bs.js";
 import * as ReactNative from "react-native";
+import * as ElectionBooth from "./components/ElectionBooth.bs.js";
 import * as Belenios_jslib2 from "./belenios_jslib2";
 import * as ReactNativePaper from "react-native-paper";
 
@@ -26,9 +27,12 @@ function App(Props) {
       match$1 !== 0 ? "Nouvelle election" : "Scrutin"
     ) : "Unknown";
   var _id = state.route;
-  var view = typeof _id === "number" ? (
-      _id !== 0 ? React.createElement(ElectionNew.make, {}) : React.createElement(Home.make, {})
-    ) : React.createElement(ElectionShow.make, {});
+  var view;
+  view = typeof _id === "number" ? (
+      _id === /* Home */0 ? React.createElement(Home.make, {}) : React.createElement(ElectionNew.make, {})
+    ) : (
+      _id.TAG === /* ElectionShow */0 ? React.createElement(ElectionShow.make, {}) : React.createElement(ElectionBooth.make, {})
+    );
   return React.createElement(ReactNativePaper.Provider, {
               children: React.createElement(State.StateContext.Provider.make, {
                     value: state,

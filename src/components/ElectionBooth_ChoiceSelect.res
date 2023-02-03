@@ -22,7 +22,7 @@ module Choice = {
       left={_ => <List.Icon icon=Icon.name(selected ? "checkbox-intermediate" : "checkbox-blank-outline") />}
       onPress={_ => onSelect()}
     />
-  } 
+  }
 }
 
 @react.component
