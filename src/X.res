@@ -69,6 +69,13 @@ let styles = {
       ~marginLeft=40.0->dp,
       ()
     ),
+
+    "modal": textStyle(
+      ~padding=10.0->dp,
+      ~margin=10.0->dp,
+      ~backgroundColor=Color.white,
+      ()
+    )
   })
 }
 

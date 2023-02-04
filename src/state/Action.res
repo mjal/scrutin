@@ -5,7 +5,7 @@ type t =
   | SetElectionBelenios(string, string, string)
   | SetToken(string)
   | AddVoter(string)
-  | RemoveVoter(string)
+  | RemoveVoter(int)
   | AddChoice(string)
   | RemoveChoice(int)
   | FetchElection(int)

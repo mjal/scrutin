@@ -9,14 +9,6 @@ import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
 import * as ElectionNew_ChoiceItem from "./ElectionNew_ChoiceItem.bs.js";
 
-var styles = ReactNative.StyleSheet.create({
-      modal: {
-        backgroundColor: "white",
-        margin: 10.0,
-        padding: 10.0
-      }
-    });
-
 function ElectionNew_ChoiceList(Props) {
   var match = State.useContexts(undefined);
   var dispatch = match[1];
@@ -26,6 +18,10 @@ function ElectionNew_ChoiceList(Props) {
       });
   var setName = match$1[1];
   var name = match$1[0];
+  var match$2 = React.useState(function () {
+        return false;
+      });
+  var setshowModal = match$2[1];
   var addChoice = function (param) {
     Curry._1(dispatch, {
           TAG: /* AddChoice */5,
@@ -33,15 +29,6 @@ function ElectionNew_ChoiceList(Props) {
         });
     Curry._1(setName, (function (param) {
             return "";
-          }));
-  };
-  var match$2 = React.useState(function () {
-        return false;
-      });
-  var setVisible = match$2[1];
-  var hideModal = function (param) {
-    Curry._1(setVisible, (function (param) {
-            return false;
           }));
   };
   return React.createElement(React.Fragment, undefined, React.createElement(X.Row.make, {
@@ -59,7 +46,7 @@ function ElectionNew_ChoiceList(Props) {
                       children: React.createElement(ReactNativePaper.Button, {
                             mode: "contained",
                             onPress: (function (param) {
-                                Curry._1(setVisible, (function (param) {
+                                Curry._1(setshowModal, (function (param) {
                                         return true;
                                       }));
                               }),
@@ -67,7 +54,7 @@ function ElectionNew_ChoiceList(Props) {
                           })
                     })), React.createElement(ReactNativePaper.HelperText, {
                   visible: state.election.choices.length <= 2,
-                  type: "info",
+                  type: "error",
                   children: "Il faut au moins 2 choix !"
                 }), React.createElement(ReactNative.View, {
                   children: Belt_Array.mapWithIndex(state.election.choices, (function (i, choice) {
@@ -80,9 +67,13 @@ function ElectionNew_ChoiceList(Props) {
                 }), React.createElement(ReactNativePaper.Portal, {
                   children: React.createElement(ReactNativePaper.Modal, {
                         visible: match$2[0],
-                        onDismiss: hideModal,
+                        onDismiss: (function (param) {
+                            Curry._1(setshowModal, (function (param) {
+                                    return false;
+                                  }));
+                          }),
                         children: React.createElement(ReactNative.View, {
-                              style: styles.modal,
+                              style: X.styles.modal,
                               children: null
                             }, React.createElement(ReactNativePaper.TextInput, {
                                   mode: "flat",
@@ -101,7 +92,7 @@ function ElectionNew_ChoiceList(Props) {
                                                 Curry._1(setName, (function (param) {
                                                         return "";
                                                       }));
-                                                Curry._1(setVisible, (function (param) {
+                                                Curry._1(setshowModal, (function (param) {
                                                         return false;
                                                       }));
                                               }),
@@ -112,7 +103,7 @@ function ElectionNew_ChoiceList(Props) {
                                             mode: "contained",
                                             onPress: (function (param) {
                                                 addChoice(undefined);
-                                                Curry._1(setVisible, (function (param) {
+                                                Curry._1(setshowModal, (function (param) {
                                                         return false;
                                                       }));
                                               }),
@@ -126,7 +117,6 @@ function ElectionNew_ChoiceList(Props) {
 var make = ElectionNew_ChoiceList;
 
 export {
-  styles ,
   make ,
 }
-/* styles Not a pure module */
+/* X Not a pure module */

@@ -1,15 +1,17 @@
-open ReactNative
+open! Paper;
 
 @react.component
-let make = (~voter: Voter.t) => {
+let make = (~index, ~voter: Voter.t) => {
   let (_, dispatch) = State.useContexts()
 
-  <X.Row>
-    <X.Col>
-    <Text>{voter.email -> React.string}</Text>
-    </X.Col>
-    <X.Col>
-      <Button color=Color.rosybrown onPress={_ => dispatch(Action.RemoveVoter(voter.email)) } title="Remove"></Button>
-    </X.Col>
-  </X.Row>
+  <List.Item
+    title=voter.email
+    left={_ => <List.Icon icon=Icon.name("account") />}
+    onPress={_ => ()}
+    right={_ =>
+      <Button onPress={_ => dispatch(Action.RemoveVoter(index))}>
+        <List.Icon icon=Icon.name("delete") />
+      </Button>
+    }
+  />
 }

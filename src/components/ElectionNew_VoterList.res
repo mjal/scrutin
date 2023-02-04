@@ -4,53 +4,87 @@ open! Paper
 @react.component
 let make = () => {
   let (state, dispatch) = State.useContexts()
-
 	let (email, setEmail) = React.useState(_ => "")
-	let (error, setError) = React.useState(_ => false)
+	//let (error, setError) = React.useState(_ => false)
+  let (showModal, setshowModal) = React.useState(_ => false)
+  let (visibleError, setVisibleError) = React.useState(_ => false)
 
 	let addVoter = _ => {
+      Js.log("Add voter")
     if EmailValidator.validate(email) {
       dispatch(AddVoter(email))
       setEmail(_ => "")
+      setshowModal(_ => false)
+    } else {
+      setVisibleError(_ => true)
+      Js.log("Set error")
     }
 	}
 
-  let onChangeText = txt => {
-      setEmail(_ => txt)
-    if EmailValidator.validate(email) {
-      setError(_ => false)
-    } else {
-      setError(_ => true)
-    }
-  }
+  //let onChangeText = txt => {
+  //    setEmail(_ => txt)
+  //  if EmailValidator.validate(email) {
+  //    setError(_ => false)
+  //  } else {
+  //    setError(_ => true)
+  //  }
+  //}
 
 	<View>
+    <X.Row>
+      <X.Col>
+        <Text style=X.styles["title"]>{"Voters" -> React.string}</Text>
+      </X.Col>
+      <X.Col><Text>{React.string("")}</Text></X.Col>
+      <X.Col>
+        <Button
+          mode=#contained
+          onPress={_ => setshowModal(_ => true)}
+        >
+          {"Nouveau" -> React.string}
+        </Button>
+      </X.Col>
+    </X.Row>
+
+    <HelperText _type=#error visible={ Array.length(state.election.voters) <= 1}>
+      {"Il faut au moins 1 votant !"->React.string}
+    </HelperText>
+
     <View>
       {
         state.election.voters
-        -> Js.Array2.map(voter => {
-          <ElectionNew_VoterItem voter=voter key=voter.email />
+        -> Array.mapWithIndex((index, voter) => {
+          <ElectionNew_VoterItem index voter=voter key=voter.email />
         })
         -> React.array
       }
     </View>
-    <X.Row>
-      <X.Col>
-		    <TextInput
-          mode=#flat
-          value={email}
-          onChangeText
-          placeholder="Email"
-          error
-        />
-      </X.Col>
-      <X.Col>
-        //<View style=styles["smallButton"]>
-          <Button mode=#contained onPress={_ => addVoter()}>
-            <Text>{"Ajouter" -> React.string}</Text>
-          </Button>
-        //</View>
-      </X.Col>
-    </X.Row>
+
+    <Portal>
+      <Modal visible={showModal} onDismiss={_ => setshowModal(_ => false)}>
+        <View style=X.styles["modal"]>
+          <TextInput
+            mode=#flat
+            label="Email du participant"
+            value=email
+            onChangeText={text => setEmail(_ => text)}
+          />
+          <X.Row>
+            <X.Col>
+              <Button onPress={_ => { setEmail(_ => ""); setshowModal(_ => false)} }>{"Retour"->React.string}</Button>
+            </X.Col>
+            <X.Col>
+              <Button mode=#contained onPress=addVoter>{"Ajouter"->React.string}</Button>
+            </X.Col>
+          </X.Row>
+        </View>
+      </Modal>
+      <Snackbar
+        visible={visibleError}
+        onDismiss={_ => setVisibleError(_ => false)}
+      >
+        {"Invalid email" -> React.string}
+      </Snackbar>
+    </Portal>
 	</View>
 }

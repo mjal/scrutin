@@ -115,20 +115,20 @@ let reducer = (election, action) => {
     // TODO: Generate unique negative index. Use it for RemoveVoter and index=
     | AddVoter(email) => {
       ...election,
-      voters: election.voters -> Array.concat([{ id: 0, email: email, pubCred: "", privCred: "" }: Voter.t])
+      voters: Array.concat(election.voters, [{ id: 0, email: email, pubCred: "", privCred: "" }: Voter.t])
     }
-    | RemoveVoter(email) => {
+    | RemoveVoter(index) => {
       ...election,
-      voters: election.voters -> Array.keep(voter => voter.email != email)
+      voters: Array.keepWithIndex(election.voters, (_, i) => i != index)
     }
     // TODO: Generate unique negative index. Use it for RemoveChoice and index=
     | AddChoice(name) => {
       ...election,
-      choices: election.choices -> Array.concat([{ id: 0, name: name }: Choice.t])
+      choices: Array.concat(election.choices, [{ id: 0, name: name }: Choice.t])
     }
     | RemoveChoice(index) => {
       ...election,
-      choices: election.choices -> Array.keepWithIndex((_, i) => i != index)
+      choices: Array.keepWithIndex(election.choices, (_, i) => i != index)
     }
     | _ => election
   }

@@ -1,34 +1,17 @@
 open ReactNative;
 open! Paper;
 
-let styles = {
-  open Style
-
-  StyleSheet.create({
-    "modal": textStyle(
-      ~padding=10.0->dp,
-      ~margin=10.0->dp,
-      ~backgroundColor=Color.white,
-      ()
-    )
-  })
-}
-
 @react.component
 let make = () => {
   let (state, dispatch) = State.useContexts()
-
 	let (name, setName) = React.useState(_ => "")
+  let (showModal, setshowModal) = React.useState(_ => false);
 
 	let addChoice = _ => {
 		dispatch(AddChoice(name))
 		setName(_ => "")
 	}
 
-  let (visible, setVisible) = React.useState(_ => false);
-
-  let showModal = () => setVisible(_ => true);
-  let hideModal = () => setVisible(_ => false);
 
   <>
     <X.Row>
@@ -39,14 +22,14 @@ let make = () => {
       <X.Col>
         <Button
           mode=#contained
-          onPress={_ => showModal()}
+          onPress={_ => setshowModal(_ => true)}
         >
           {"Nouveau" -> React.string}
         </Button>
       </X.Col>
     </X.Row>
 
-    <HelperText _type=#info visible={ Array.length(state.election.choices) <= 2}>
+    <HelperText _type=#error visible={ Array.length(state.election.choices) <= 2}>
       {"Il faut au moins 2 choix !"->React.string}
     </HelperText>
 
@@ -61,8 +44,8 @@ let make = () => {
     </View>
 
     <Portal>
-      <Modal visible={visible} onDismiss={hideModal}>
-        <View style=styles["modal"]>
+      <Modal visible={showModal} onDismiss={_ => setshowModal(_ => false)}>
+        <View style=X.styles["modal"]>
           <TextInput
             mode=#flat
             label="Nom du choix"
@@ -71,10 +54,10 @@ let make = () => {
           />
           <X.Row>
             <X.Col>
-              <Button onPress={_ => { setName(_ => ""); hideModal()} }>{"Retour"->React.string}</Button>
+              <Button onPress={_ => { setName(_ => ""); setshowModal(_ => false)} }>{"Retour"->React.string}</Button>
             </X.Col>
             <X.Col>
-              <Button mode=#contained onPress={_ => { addChoice(); hideModal()} }>{"Ajouter"->React.string}</Button>
+              <Button mode=#contained onPress={_ => { addChoice(); setshowModal(_ => false)} }>{"Ajouter"->React.string}</Button>
             </X.Col>
           </X.Row>
         </View>

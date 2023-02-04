@@ -155,12 +155,12 @@ function reducer(election, action) {
                 uuid: election.uuid
               };
     case /* RemoveVoter */4 :
-        var email = action._0;
+        var index = action._0;
         return {
                 id: election.id,
                 name: election.name,
-                voters: Belt_Array.keep(election.voters, (function (voter) {
-                        return voter.email !== email;
+                voters: Belt_Array.keepWithIndex(election.voters, (function (param, i) {
+                        return i !== index;
                       })),
                 choices: election.choices,
                 ballots: election.ballots,
@@ -185,13 +185,13 @@ function reducer(election, action) {
                 uuid: election.uuid
               };
     case /* RemoveChoice */6 :
-        var index = action._0;
+        var index$1 = action._0;
         return {
                 id: election.id,
                 name: election.name,
                 voters: election.voters,
                 choices: Belt_Array.keepWithIndex(election.choices, (function (param, i) {
-                        return i !== index;
+                        return i !== index$1;
                       })),
                 ballots: election.ballots,
                 params: election.params,

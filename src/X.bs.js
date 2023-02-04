@@ -52,6 +52,11 @@ var styles = ReactNative.StyleSheet.create({
       },
       "pad-left": {
         marginLeft: 40.0
+      },
+      modal: {
+        backgroundColor: "white",
+        margin: 10.0,
+        padding: 10.0
       }
     });
 
