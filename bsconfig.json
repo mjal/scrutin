@@ -15,6 +15,7 @@
   "suffix": ".bs.js",
   "reason": { "react-jsx": 3 },
   "bs-dependencies": [
+    "@rescript-react-native/async-storage",
     "@rescript-react-native/paper",
     "@rescript/react",
     "@ryyppy/rescript-promise",
