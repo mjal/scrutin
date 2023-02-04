@@ -10,6 +10,7 @@ import * as ElectionNew from "./components/ElectionNew.bs.js";
 import * as ElectionShow from "./components/ElectionShow.bs.js";
 import * as ReactNative from "react-native";
 import * as ElectionBooth from "./components/ElectionBooth.bs.js";
+import * as ElectionResult from "./components/ElectionResult.bs.js";
 import * as Belenios_jslib2 from "./belenios_jslib2";
 import * as ReactNativePaper from "react-native-paper";
 
@@ -19,22 +20,63 @@ function App(Props) {
   var match = UseTea.useTea(State.reducer, State.initial);
   var dispatch = match[1];
   var state = match[0];
+  var match$1 = React.useState(function () {
+        return false;
+      });
+  var setVisibleMenu = match$1[1];
   React.useEffect((function () {
           Curry._1(dispatch, /* Init */0);
         }), []);
-  var match$1 = state.route;
-  var title = typeof match$1 === "number" ? (
-      match$1 !== 0 ? "Nouvelle election" : "Home"
+  var match$2 = state.route;
+  var title = typeof match$2 === "number" ? (
+      match$2 !== 0 ? "Nouvelle election" : "Home"
     ) : (
       state.election.name !== "" ? state.election.name : "Unamed election"
     );
   var _id = state.route;
   var view;
-  view = typeof _id === "number" ? (
-      _id === /* Home */0 ? React.createElement(Home.make, {}) : React.createElement(ElectionNew.make, {})
-    ) : (
-      _id.TAG === /* ElectionShow */0 ? React.createElement(ElectionShow.make, {}) : React.createElement(ElectionBooth.make, {})
-    );
+  if (typeof _id === "number") {
+    view = _id === /* Home */0 ? React.createElement(Home.make, {}) : React.createElement(ElectionNew.make, {});
+  } else {
+    switch (_id.TAG | 0) {
+      case /* ElectionShow */0 :
+          view = React.createElement(ElectionShow.make, {});
+          break;
+      case /* ElectionBooth */1 :
+          view = React.createElement(ElectionBooth.make, {});
+          break;
+      case /* ElectionResult */2 :
+          view = React.createElement(ElectionResult.make, {});
+          break;
+      
+    }
+  }
+  var tmp;
+  if (state.route !== /* Home */0) {
+    var __ = state.route;
+    tmp = React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.BackAction, {
+              onPress: (function (param) {
+                  Curry._1(dispatch, {
+                        TAG: /* Navigate */13,
+                        _0: /* Home */0
+                      });
+                })
+            }), React.createElement(ReactNativePaper.Appbar.Content, {
+              title: title
+            }), typeof __ === "number" ? React.createElement(React.Fragment, undefined) : React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.Action, {
+                    icon: "menu",
+                    onPress: (function (param) {
+                        Curry._1(setVisibleMenu, (function (param) {
+                                return true;
+                              }));
+                      })
+                  })));
+  } else {
+    tmp = React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.Content, {
+              title: title,
+              style: X.styles["pad-left"]
+            }));
+  }
   return React.createElement(ReactNativePaper.Provider, {
               children: React.createElement(State.StateContext.Provider.make, {
                     value: state,
@@ -44,19 +86,7 @@ function App(Props) {
                                 style: X.styles.layout,
                                 children: null
                               }, React.createElement(ReactNativePaper.Appbar.Header, {
-                                    children: state.route !== /* Home */0 ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.BackAction, {
-                                                onPress: (function (param) {
-                                                    Curry._1(dispatch, {
-                                                          TAG: /* Navigate */13,
-                                                          _0: /* Home */0
-                                                        });
-                                                  })
-                                              }), React.createElement(ReactNativePaper.Appbar.Content, {
-                                                title: title
-                                              })) : React.createElement(ReactNativePaper.Appbar.Content, {
-                                            title: title,
-                                            style: X.styles["pad-left"]
-                                          })
+                                    children: tmp
                                   }), view)
                         })
                   })

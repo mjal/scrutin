@@ -3,3 +3,4 @@ type t =
   | ElectionNew
   | ElectionShow(int)
   | ElectionBooth(int)
+  | ElectionResult(int)

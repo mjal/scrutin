@@ -178,6 +178,7 @@ let reducer = (state, action: Action.t) => {
       let effects = switch route {
         | ElectionBooth(id) => [effectLoadElection(id)]
         | ElectionShow(id) => [effectLoadElection(id)]
+        | ElectionResult(id) => [effectLoadElection(id)]
         | _ => []
       }
       ({...state, route}, effects)

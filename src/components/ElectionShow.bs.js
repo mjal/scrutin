@@ -95,6 +95,19 @@ function ElectionShow(Props) {
                             onPress: tally,
                             children: "Tally"
                           })
+                    }), React.createElement(X.Col.make, {
+                      children: React.createElement(ReactNativePaper.Button, {
+                            onPress: (function (param) {
+                                Curry._1(dispatch, {
+                                      TAG: /* Navigate */13,
+                                      _0: {
+                                        TAG: /* ElectionResult */2,
+                                        _0: state.election.id
+                                      }
+                                    });
+                              }),
+                            children: "Results"
+                          })
                     })), React.createElement(ReactNativePaper.Portal, {
                   children: React.createElement(ReactNativePaper.Snackbar, {
                         onDismiss: (function (param) {
