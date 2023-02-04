@@ -10,31 +10,7 @@ let make = () => {
   let (state, dispatch) = UseTea.useTea(State.reducer, State.initial)
 
   React.useEffect0(() => {
-    if !state.init {
-      Linking.getInitialURL()
-      -> Promise.thenResolve(res => {
-        let sUrl = res -> Js.Null.toOption -> Option.getWithDefault("")
-
-        let url = URL.make(sUrl)
-        let oResult = Js.Re.exec_(%re("/^\/elections\/(.*)/g"), URL.pathname(url))
-        let capture = switch oResult {
-        | Some(result) =>
-          switch Js.Re.captures(result)[1] {
-            | Some(str) => Js.toOption(str)
-            | None => None
-          }
-        | None => None
-        }
-
-        switch capture {
-          | Some(sId) => dispatch(Action.Navigate(ElectionBooth(sId -> Int.fromString -> Option.getWithDefault(0))))
-          | None => ()
-        }
-      }) -> ignore
-
-      dispatch(Action.Init)
-    }
-
+    dispatch(Action.Init)
     None
   })
 

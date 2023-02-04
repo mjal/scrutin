@@ -4,10 +4,13 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Js_json from "rescript/lib/es6/js_json.js";
 import * as Belenios from "../Belenios.bs.js";
+import * as Belt_Int from "rescript/lib/es6/belt_Int.js";
 import * as Election from "./Election.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as SentBallot from "./SentBallot.bs.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
+import * as Caml_option from "rescript/lib/es6/caml_option.js";
+import * as ReactNative from "react-native";
 import * as AsyncStorage from "@react-native-async-storage/async-storage";
 
 var initial_elections = [];
@@ -123,6 +126,31 @@ function effectPublishElectionResult(state, result, dispatch) {
       });
 }
 
+function effectGoToUrl(dispatch) {
+  ReactNative.Linking.getInitialURL().then(function (res) {
+        var sUrl = Belt_Option.getWithDefault(res === null ? undefined : Caml_option.some(res), "");
+        var url = new URL(sUrl);
+        var oResult = /^\/elections\/(.*)/g.exec(url.pathname);
+        var capture;
+        if (oResult !== null) {
+          var str = Belt_Array.get(oResult, 1);
+          capture = str !== undefined ? Caml_option.nullable_to_opt(Caml_option.valFromOption(str)) : undefined;
+        } else {
+          capture = undefined;
+        }
+        if (capture !== undefined) {
+          return Curry._1(dispatch, {
+                      TAG: /* Navigate */13,
+                      _0: {
+                        TAG: /* ElectionBooth */1,
+                        _0: Belt_Option.getWithDefault(Belt_Int.fromString(capture), 0)
+                      }
+                    });
+        }
+        
+      });
+}
+
 function reducer(state, action) {
   if (typeof action === "number") {
     if (action === /* Init */0) {
@@ -137,7 +165,10 @@ function reducer(state, action) {
                 loading: state.loading,
                 route: state.route
               },
-              [effectLoadElections]
+              [
+                effectGoToUrl,
+                effectLoadElections
+              ]
             ];
     } else {
       return [
@@ -351,6 +382,7 @@ export {
   effectCreateElection ,
   effectBallotCreate ,
   effectPublishElectionResult ,
+  effectGoToUrl ,
   reducer ,
   StateContext ,
   DispatchContext ,

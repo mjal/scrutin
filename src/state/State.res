@@ -124,9 +124,30 @@ let effectPublishElectionResult = (state, result) => {
   }
 }
 
+let effectGoToUrl = dispatch => {
+  ReactNative.Linking.getInitialURL()
+  -> Promise.thenResolve(res => {
+    let sUrl = res -> Js.Null.toOption -> Option.getWithDefault("")
+    let url = URL.make(sUrl)
+    let oResult = Js.Re.exec_(%re("/^\/elections\/(.*)/g"), URL.pathname(url))
+    let capture = switch oResult {
+    | Some(result) =>
+      switch Js.Re.captures(result)[1] {
+        | Some(str) => Js.toOption(str)
+        | None => None
+      }
+    | None => None
+    }
+    switch capture {
+      | Some(sId) => dispatch(Action.Navigate(ElectionBooth(sId -> Int.fromString -> Option.getWithDefault(0))))
+      | None => ()
+    }
+  }) -> ignore
+}
+
 let reducer = (state, action: Action.t) => {
   switch (action) {
-    | Init => ({...state, elections_loading: true, init: true}, [effectLoadElections])
+    | Init => ({...state, elections_loading: true, init: true}, [effectGoToUrl, effectLoadElections])
     | FetchElection(id) => ({
       ...state,
       loading: true,
