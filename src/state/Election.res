@@ -11,7 +11,8 @@ type t = {
   params: string, // TODO: option<string> or option<Belenios.Election.t>
   trustees: string, // TODO: option
   creds: string, // TODO: option
-  uuid: string
+  uuid: string,
+  result: string // TODO: option
 }
 
 let initial = {
@@ -23,7 +24,8 @@ let initial = {
   params: "",
   trustees: "",
   creds: "",
-  uuid: ""
+  uuid: "",
+  result: ""
 }
 
 let to_json = (r) => {
@@ -37,7 +39,8 @@ let to_json = (r) => {
     "params": string(r.params),
     "trustees": string(r.trustees),
     "creds": string(r.creds),
-    "uuid": string(r.uuid)
+    "uuid": string(r.uuid),
+    "result": string(r.result)
   })
 }
 
@@ -54,7 +57,8 @@ let from_json = (json) => {
     params: field.required(. "params", string),
     trustees: field.required(. "trustees", string),
     creds: field.required(. "creds", string),
-    uuid: field.required(. "uuid", string)
+    uuid: field.required(. "uuid", string),
+    result: field.required(. "result", string)
   })
   switch (json->Json.decode(decode)) {
     | Ok(result) => result
@@ -81,6 +85,13 @@ let post = (election) => {
 let post_ballot = (election, ballot: Ballot.t) => {
   let election_id = election.id -> Int.toString
   X.post(`${Config.api_url}/elections/${election_id}/ballots`, ballot -> Ballot.to_json)
+}
+
+let post_result = (election, result: string) => {
+  let election_id = election.id -> Int.toString
+  let dict = Js.Dict.empty()
+  Js.Dict.set(dict, "result", Js.Json.string(result))
+  X.post(`${Config.api_url}/elections/${election_id}/result`, Js.Json.object_(dict))
 }
 
 let createBallot = (election : t, private_credential : string, selection : array<int>) : Ballot.t => {
@@ -130,6 +141,7 @@ let reducer = (election, action) => {
       ...election,
       choices: Array.keepWithIndex(election.choices, (_, i) => i != index)
     }
+    | Election_SetResult(result) => {...election, result}
     | _ => election
   }
 }

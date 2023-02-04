@@ -54,7 +54,10 @@ function ElectionShow(Props) {
       var pubcreds = (JSON.parse(state.election.creds));
       var match = Belenios.Election.decrypt(params, ballots, trustees, pubcreds, privkey);
       var res = Belenios.Election.result(params, ballots, trustees, pubcreds, match[0], match[1]);
-      console.log(res);
+      Curry._1(dispatch, {
+            TAG: /* Election_PublishResult */0,
+            _0: res
+          });
     } else {
       Curry._1(setShowSnackbar, (function (param) {
               return true;
@@ -78,7 +81,7 @@ function ElectionShow(Props) {
                       children: React.createElement(ReactNativePaper.Button, {
                             onPress: (function (param) {
                                 Curry._1(dispatch, {
-                                      TAG: /* Navigate */11,
+                                      TAG: /* Navigate */13,
                                       _0: {
                                         TAG: /* ElectionBooth */1,
                                         _0: state.election.id

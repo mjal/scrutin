@@ -113,6 +113,17 @@ let effectBallotCreate = (state, token, selection) => {
   }
 }
 
+let effectPublishElectionResult = (state, result) => {
+  dispatch => {
+    Election.post_result(state.election, result)
+    -> Promise.thenResolve(_ => {
+      dispatch(Action.Election_SetResult(result))
+      ()
+    })
+    -> ignore
+  }
+}
+
 let reducer = (state, action: Action.t) => {
   switch (action) {
     | Init => ({...state, elections_loading: true, init: true}, [effectLoadElections])
@@ -132,6 +143,10 @@ let reducer = (state, action: Action.t) => {
       elections: Array.map(jsons, Election.from_json) -> Array.reverse
     }, [])
     | PostElection => (state, [ effectCreateElection(state) ])
+    | Election_PublishResult(result) => {
+      //let election = {...state.election, result}
+      (state, [effectPublishElectionResult(state, result)])
+    }
     | BallotCreate(token, selection) => {
       (state, [ effectBallotCreate(state, token, selection) ])
     }

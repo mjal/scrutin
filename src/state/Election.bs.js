@@ -29,7 +29,8 @@ var initial = {
   params: "",
   trustees: "",
   creds: "",
-  uuid: ""
+  uuid: "",
+  result: ""
 };
 
 function to_json(r) {
@@ -42,7 +43,8 @@ function to_json(r) {
           params: r.params,
           trustees: r.trustees,
           creds: r.creds,
-          uuid: r.uuid
+          uuid: r.uuid,
+          result: r.result
         };
 }
 
@@ -59,7 +61,8 @@ function from_json(json) {
                 params: field.required("params", Json_Decode$JsonCombinators.string),
                 trustees: field.required("trustees", Json_Decode$JsonCombinators.string),
                 creds: field.required("creds", Json_Decode$JsonCombinators.string),
-                uuid: field.required("uuid", Json_Decode$JsonCombinators.string)
+                uuid: field.required("uuid", Json_Decode$JsonCombinators.string),
+                result: field.required("result", Json_Decode$JsonCombinators.string)
               };
       });
   var result = Json$JsonCombinators.decode(json, decode);
@@ -94,6 +97,13 @@ function post_ballot(election, ballot) {
   return X.post("" + Config.api_url + "/elections/" + election_id + "/ballots", Ballot.to_json(ballot));
 }
 
+function post_result(election, result) {
+  var election_id = String(election.id);
+  var dict = {};
+  dict["result"] = result;
+  return X.post("" + Config.api_url + "/elections/" + election_id + "/result", dict);
+}
+
 function createBallot(election, private_credential, selection) {
   var params = election.params;
   var trustees = election.trustees;
@@ -113,7 +123,20 @@ function reducer(election, action) {
     return election;
   }
   switch (action.TAG | 0) {
-    case /* SetElectionName */0 :
+    case /* Election_SetResult */1 :
+        return {
+                id: election.id,
+                name: election.name,
+                voters: election.voters,
+                choices: election.choices,
+                ballots: election.ballots,
+                params: election.params,
+                trustees: election.trustees,
+                creds: election.creds,
+                uuid: election.uuid,
+                result: action._0
+              };
+    case /* SetElectionName */2 :
         return {
                 id: election.id,
                 name: action._0,
@@ -123,9 +146,10 @@ function reducer(election, action) {
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
-                uuid: election.uuid
+                uuid: election.uuid,
+                result: election.result
               };
-    case /* SetElectionBelenios */1 :
+    case /* SetElectionBelenios */3 :
         return {
                 id: election.id,
                 name: election.name,
@@ -135,9 +159,10 @@ function reducer(election, action) {
                 params: action._0,
                 trustees: action._1,
                 creds: action._2,
-                uuid: election.uuid
+                uuid: election.uuid,
+                result: election.result
               };
-    case /* AddVoter */3 :
+    case /* AddVoter */4 :
         return {
                 id: election.id,
                 name: election.name,
@@ -152,9 +177,10 @@ function reducer(election, action) {
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
-                uuid: election.uuid
+                uuid: election.uuid,
+                result: election.result
               };
-    case /* RemoveVoter */4 :
+    case /* RemoveVoter */5 :
         var index = action._0;
         return {
                 id: election.id,
@@ -167,9 +193,10 @@ function reducer(election, action) {
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
-                uuid: election.uuid
+                uuid: election.uuid,
+                result: election.result
               };
-    case /* AddChoice */5 :
+    case /* AddChoice */6 :
         return {
                 id: election.id,
                 name: election.name,
@@ -182,9 +209,10 @@ function reducer(election, action) {
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
-                uuid: election.uuid
+                uuid: election.uuid,
+                result: election.result
               };
-    case /* RemoveChoice */6 :
+    case /* RemoveChoice */7 :
         var index$1 = action._0;
         return {
                 id: election.id,
@@ -197,7 +225,8 @@ function reducer(election, action) {
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
-                uuid: election.uuid
+                uuid: election.uuid,
+                result: election.result
               };
     default:
       return election;
@@ -213,6 +242,7 @@ export {
   getAll ,
   post ,
   post_ballot ,
+  post_result ,
   createBallot ,
   reducer ,
 }

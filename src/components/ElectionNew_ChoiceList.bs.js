@@ -24,7 +24,7 @@ function ElectionNew_ChoiceList(Props) {
   var setshowModal = match$2[1];
   var addChoice = function (param) {
     Curry._1(dispatch, {
-          TAG: /* AddChoice */5,
+          TAG: /* AddChoice */6,
           _0: name
         });
     Curry._1(setName, (function (param) {

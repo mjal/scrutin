@@ -39,7 +39,8 @@ let make = () => {
       let tPrivkey = Belenios.Trustees.Privkey.of_str(sPrivkey)
       let (a, b) = Belenios.Election.decrypt(params, ballots, trustees, pubcreds, tPrivkey)
       let res = Belenios.Election.result(params, ballots, trustees, pubcreds, a, b)
-      Js.log(res)
+
+      dispatch(Action.Election_PublishResult(res))
     }
     | None => setShowSnackbar(_ => true)
     }

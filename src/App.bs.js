@@ -38,7 +38,7 @@ function App(Props) {
                   }
                   if (capture !== undefined) {
                     return Curry._1(dispatch, {
-                                TAG: /* Navigate */11,
+                                TAG: /* Navigate */13,
                                 _0: {
                                   TAG: /* ElectionBooth */1,
                                   _0: Belt_Option.getWithDefault(Belt_Int.fromString(capture), 0)
@@ -76,7 +76,7 @@ function App(Props) {
                                     children: state.route !== /* Home */0 ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.BackAction, {
                                                 onPress: (function (param) {
                                                     Curry._1(dispatch, {
-                                                          TAG: /* Navigate */11,
+                                                          TAG: /* Navigate */13,
                                                           _0: /* Home */0
                                                         });
                                                   })

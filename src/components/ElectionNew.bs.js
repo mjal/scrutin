@@ -41,7 +41,7 @@ function ElectionNew(Props) {
                   value: state.election.name,
                   onChangeText: (function (text) {
                       Curry._1(dispatch, {
-                            TAG: /* SetElectionName */0,
+                            TAG: /* SetElectionName */2,
                             _0: text
                           });
                     })

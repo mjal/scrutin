@@ -32,12 +32,12 @@ function effectLoadElections(dispatch) {
         var json_array = Js_json.decodeArray(res);
         if (json_array !== undefined) {
           return Curry._1(dispatch, {
-                      TAG: /* LoadElections */9,
+                      TAG: /* LoadElections */11,
                       _0: json_array
                     });
         } else {
           return Curry._1(dispatch, {
-                      TAG: /* LoadElections */9,
+                      TAG: /* LoadElections */11,
                       _0: []
                     });
         }
@@ -47,7 +47,7 @@ function effectLoadElections(dispatch) {
 function effectLoadElection(id, dispatch) {
   Election.get(id).then(function (o) {
         return Curry._1(dispatch, {
-                    TAG: /* LoadElection */8,
+                    TAG: /* LoadElection */10,
                     _0: o
                   });
       });
@@ -80,6 +80,7 @@ function effectCreateElection(state, dispatch) {
   var election_choices = init.choices;
   var election_ballots = init.ballots;
   var election_creds = Belt_Option.getExn(JSON.stringify(pubcreds));
+  var election_result = init.result;
   var election = {
     id: election_id,
     name: election_name,
@@ -89,14 +90,15 @@ function effectCreateElection(state, dispatch) {
     params: params,
     trustees: trustees,
     creds: election_creds,
-    uuid: uuid
+    uuid: uuid,
+    result: election_result
   };
   Election.post(election).then(function (prim) {
             return prim.json();
           }).then(Election.from_json).then(function (election) {
         var id = election.id;
         return Curry._1(dispatch, {
-                    TAG: /* Navigate */11,
+                    TAG: /* Navigate */13,
                     _0: {
                       TAG: /* ElectionBooth */1,
                       _0: id
@@ -109,6 +111,15 @@ function effectBallotCreate(state, token, selection, dispatch) {
   var ballot = Election.createBallot(state.election, token, selection);
   Election.post_ballot(state.election, ballot).then(function (res) {
         console.log(res);
+      });
+}
+
+function effectPublishElectionResult(state, result, dispatch) {
+  Election.post_result(state.election, result).then(function (param) {
+        Curry._1(dispatch, {
+              TAG: /* Election_SetResult */1,
+              _0: result
+            });
       });
 }
 
@@ -138,7 +149,15 @@ function reducer(state, action) {
     }
   }
   switch (action.TAG | 0) {
-    case /* SetToken */2 :
+    case /* Election_PublishResult */0 :
+        var result = action._0;
+        return [
+                state,
+                [(function (param) {
+                      return effectPublishElectionResult(state, result, param);
+                    })]
+              ];
+    case /* SetToken */8 :
         return [
                 {
                   init: state.init,
@@ -154,7 +173,7 @@ function reducer(state, action) {
                 },
                 []
               ];
-    case /* FetchElection */7 :
+    case /* FetchElection */9 :
         var id = action._0;
         return [
                 {
@@ -168,7 +187,8 @@ function reducer(state, action) {
                     params: Election.initial.params,
                     trustees: Election.initial.trustees,
                     creds: Election.initial.creds,
-                    uuid: Election.initial.uuid
+                    uuid: Election.initial.uuid,
+                    result: Election.initial.result
                   },
                   elections: state.elections,
                   elections_loading: state.elections_loading,
@@ -181,7 +201,7 @@ function reducer(state, action) {
                       return effectLoadElection(id, param);
                     })]
               ];
-    case /* LoadElection */8 :
+    case /* LoadElection */10 :
         return [
                 {
                   init: state.init,
@@ -195,7 +215,7 @@ function reducer(state, action) {
                 },
                 []
               ];
-    case /* LoadElections */9 :
+    case /* LoadElections */11 :
         return [
                 {
                   init: state.init,
@@ -209,7 +229,7 @@ function reducer(state, action) {
                 },
                 []
               ];
-    case /* BallotCreate */10 :
+    case /* BallotCreate */12 :
         var selection = action._1;
         var token = action._0;
         return [
@@ -218,7 +238,7 @@ function reducer(state, action) {
                       return effectBallotCreate(state, token, selection, param);
                     })]
               ];
-    case /* Navigate */11 :
+    case /* Navigate */13 :
         var route = action._0;
         var effects;
         if (typeof route === "number") {
@@ -330,6 +350,7 @@ export {
   effectLoadElection ,
   effectCreateElection ,
   effectBallotCreate ,
+  effectPublishElectionResult ,
   reducer ,
   StateContext ,
   DispatchContext ,
