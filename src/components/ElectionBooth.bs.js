@@ -5,6 +5,7 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as State from "../state/State.bs.js";
 import * as React from "react";
 import * as Caml_obj from "rescript/lib/es6/caml_obj.js";
+import * as Js_string from "rescript/lib/es6/js_string.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
@@ -24,6 +25,12 @@ function ElectionBooth(Props) {
       });
   var setChoice = match$2[1];
   var choice = match$2[0];
+  React.useEffect((function () {
+          var token = Js_string.sliceToEnd(1, window.location.hash);
+          Curry._1(setToken, (function (param) {
+                  return token;
+                }));
+        }), []);
   var vote = function (param) {
     var selectionArray = Belt_Array.mapWithIndex(Belt_Array.make(state.election.choices.length, 0), (function (i, param) {
             if (Caml_obj.equal(choice, /* Choice */{

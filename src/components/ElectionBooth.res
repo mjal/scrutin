@@ -9,6 +9,13 @@ let make = () => {
   let (token, setToken) = React.useState(_ => state.ballot.token)
   let (choice : choice_t, setChoice) = React.useState(_ => ElectionBooth_ChoiceSelect.Blank)
 
+  React.useEffect0(() => {
+    let token = URL.currentHash -> Js.String.sliceToEnd(~from=1)
+    setToken(_ => token)
+
+    None
+  })
+
   let vote = _ => {
     let selectionArray =
       Array.length(state.election.choices)

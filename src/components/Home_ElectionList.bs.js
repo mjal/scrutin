@@ -28,7 +28,9 @@ function Home_ElectionList$ElectionLink(Props) {
                             });
                 }),
               right: (function (param) {
-                  return String(election.id);
+                  return React.createElement(ReactNativePaper.Text, {
+                              children: String(election.id)
+                            });
                 })
             });
 }

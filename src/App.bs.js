@@ -23,31 +23,34 @@ function App(Props) {
   var match = UseTea.useTea(State.reducer, State.initial);
   var dispatch = match[1];
   var state = match[0];
-  if (!state.init) {
-    ReactNative.Linking.getInitialURL().then(function (res) {
-          var sUrl = Belt_Option.getWithDefault(res === null ? undefined : Caml_option.some(res), "");
-          var url = new URL(sUrl);
-          var oResult = /^\/elections\/(.*)/g.exec(url.pathname);
-          var capture;
-          if (oResult !== null) {
-            var str = Belt_Array.get(oResult, 1);
-            capture = str !== undefined ? Caml_option.nullable_to_opt(Caml_option.valFromOption(str)) : undefined;
-          } else {
-            capture = undefined;
-          }
-          if (capture !== undefined) {
-            return Curry._1(dispatch, {
-                        TAG: /* Navigate */11,
-                        _0: {
-                          TAG: /* ElectionBooth */1,
-                          _0: Belt_Option.getWithDefault(Belt_Int.fromString(capture), 0)
-                        }
-                      });
+  React.useEffect((function () {
+          if (!state.init) {
+            ReactNative.Linking.getInitialURL().then(function (res) {
+                  var sUrl = Belt_Option.getWithDefault(res === null ? undefined : Caml_option.some(res), "");
+                  var url = new URL(sUrl);
+                  var oResult = /^\/elections\/(.*)/g.exec(url.pathname);
+                  var capture;
+                  if (oResult !== null) {
+                    var str = Belt_Array.get(oResult, 1);
+                    capture = str !== undefined ? Caml_option.nullable_to_opt(Caml_option.valFromOption(str)) : undefined;
+                  } else {
+                    capture = undefined;
+                  }
+                  if (capture !== undefined) {
+                    return Curry._1(dispatch, {
+                                TAG: /* Navigate */11,
+                                _0: {
+                                  TAG: /* ElectionBooth */1,
+                                  _0: Belt_Option.getWithDefault(Belt_Int.fromString(capture), 0)
+                                }
+                              });
+                  }
+                  
+                });
+            Curry._1(dispatch, /* Init */0);
           }
           
-        });
-    Curry._1(dispatch, /* Init */0);
-  }
+        }), []);
   var match$1 = state.route;
   var title = typeof match$1 === "number" ? (
       match$1 !== 0 ? "Nouvelle election" : "Scrutin"

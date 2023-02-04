@@ -5,7 +5,6 @@ import * as React from "react";
 import * as Js_json from "rescript/lib/es6/js_json.js";
 import * as Belenios from "../Belenios.bs.js";
 import * as Election from "./Election.bs.js";
-import * as Js_string from "rescript/lib/es6/js_string.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as SentBallot from "./SentBallot.bs.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
@@ -27,7 +26,7 @@ var initial = {
   route: /* Home */0
 };
 
-function effectLoadElections(param, dispatch) {
+function effectLoadElections(dispatch) {
   Election.getAll(undefined).then(function (res) {
         var json_array = Js_json.decodeArray(res);
         if (json_array !== undefined) {
@@ -45,16 +44,11 @@ function effectLoadElections(param, dispatch) {
 }
 
 function effectLoadElection(id, dispatch) {
-  var token = Js_string.sliceToEnd(1, window.location.hash);
-  Curry._1(dispatch, {
-        TAG: /* SetToken */2,
-        _0: token
-      });
   Election.get(id).then(function (o) {
-        Curry._1(dispatch, {
-              TAG: /* LoadElection */8,
-              _0: o
-            });
+        return Curry._1(dispatch, {
+                    TAG: /* LoadElection */8,
+                    _0: o
+                  });
       });
 }
 
@@ -130,9 +124,7 @@ function reducer(state, action) {
                 loading: state.loading,
                 route: state.route
               },
-              [(function (param) {
-                    return effectLoadElections(undefined, param);
-                  })]
+              [effectLoadElections]
             ];
     } else {
       return [
@@ -226,6 +218,8 @@ function reducer(state, action) {
               ];
     case /* Navigate */11 :
         var route = action._0;
+        console.log("Navigate");
+        console.log(route);
         var effects;
         if (typeof route === "number") {
           effects = [];
@@ -235,6 +229,7 @@ function reducer(state, action) {
                 return effectLoadElection(id$1, param);
               })];
         }
+        console.log(effects);
         return [
                 {
                   init: state.init,

@@ -33,27 +33,18 @@ let initial = {
   elections_loading: false
 }
 
-// TODO: No need for closure, could be dispatch =>
-let effectLoadElections = () => {
-  dispatch => {
-    Election.getAll()
-    -> Promise.thenResolve(res => {
-      switch Js.Json.decodeArray(res) {
-        | Some(json_array) => dispatch(Action.LoadElections(json_array))
-        | None => dispatch(Action.LoadElections([]))
-      }
-    }) -> ignore
-  }
+let effectLoadElections = (dispatch) => {
+  Election.getAll()
+  -> Promise.thenResolve(res => {
+    switch Js.Json.decodeArray(res) {
+      | Some(json_array) => dispatch(Action.LoadElections(json_array))
+      | None => dispatch(Action.LoadElections([]))
+    }
+  }) -> ignore
 }
-
-@val external urlHash: string = "window.location.hash"
 
 let effectLoadElection = id => {
   dispatch => {
-    // Get the token from url
-    let token = urlHash -> Js.String.sliceToEnd(~from=1)
-    dispatch(Action.SetToken(token))
-
     Election.get(id)
     -> Promise.thenResolve(o => {
       dispatch(Action.LoadElection(o))
@@ -123,7 +114,7 @@ let effectBallotCreate = (state, token, selection) => {
 
 let reducer = (state, action: Action.t) => {
   switch (action) {
-    | Init => ({...state, elections_loading: true, init: true}, [effectLoadElections()])
+    | Init => ({...state, elections_loading: true, init: true}, [effectLoadElections])
     | FetchElection(id) => ({
       ...state,
       loading: true,
