@@ -44,7 +44,7 @@ let make = () => {
 
     <Portal>
       <Modal visible={showModal} onDismiss={_ => setshowModal(_ => false)}>
-        <View style=X.styles["modal"]>
+        <View style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]])>
           <TextInput
             mode=#flat
             label="Nom du choix"

@@ -74,7 +74,10 @@ function ElectionNew_ChoiceList(Props) {
                                   }));
                           }),
                         children: React.createElement(ReactNative.View, {
-                              style: X.styles.modal,
+                              style: ReactNative.StyleSheet.flatten([
+                                    X.styles.modal,
+                                    X.styles.layout
+                                  ]),
                               children: null
                             }, React.createElement(ReactNativePaper.TextInput, {
                                   mode: "flat",
