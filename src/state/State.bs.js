@@ -277,9 +277,14 @@ var Provider = {
   make: State$StateContext$Provider
 };
 
+function use(param) {
+  return React.useContext(context);
+}
+
 var StateContext = {
   context: context,
-  Provider: Provider
+  Provider: Provider,
+  use: use
 };
 
 var context$1 = React.createContext(function (_action) {
@@ -302,18 +307,15 @@ var Provider$1 = {
   make: State$DispatchContext$Provider
 };
 
-var DispatchContext = {
-  context: context$1,
-  Provider: Provider$1
-};
-
-function useContextState(param) {
-  return React.useContext(context);
-}
-
-function useContextDispatch(param) {
+function use$1(param) {
   return React.useContext(context$1);
 }
+
+var DispatchContext = {
+  context: context$1,
+  Provider: Provider$1,
+  use: use$1
+};
 
 function useContexts(param) {
   return [
@@ -331,8 +333,6 @@ export {
   reducer ,
   StateContext ,
   DispatchContext ,
-  useContextState ,
-  useContextDispatch ,
   useContexts ,
 }
 /* context Not a pure module */

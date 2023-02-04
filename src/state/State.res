@@ -153,7 +153,6 @@ let reducer = (state, action: Action.t) => {
   }
 }
 
-// NOTE: Boilerplate for React's useContext hook
 module StateContext = {
   let context = React.createContext(initial)
 
@@ -165,9 +164,10 @@ module StateContext = {
       React.createElement(provider, {"value": value, "children": children})
     }
   }
+
+  let use = () => React.useContext(context)
 }
 
-// NOTE: Boilerplate for React's useContext hook
 module DispatchContext = {
   let context = React.createContext((_action: Action.t) => ())
 
@@ -179,14 +179,8 @@ module DispatchContext = {
       React.createElement(provider, {"value": value, "children": children})
     }
   }
+
+  let use = () => React.useContext(context)
 }
 
-let useContextState = _ =>
-  React.useContext(StateContext.context)
-
-let useContextDispatch = _ =>
-  React.useContext(DispatchContext.context)
-
-// TODO: rename useContextReducer to useContext
-let useContexts = _ =>
-  (useContextState(), useContextDispatch())
+let useContexts = () => (StateContext.use(), DispatchContext.use())
