@@ -45,7 +45,7 @@ let make = () => {
       </X.Col>
       <X.Col>
         <Button onPress={_ => dispatch(Action.Navigate(Route.ElectionShow(state.election.id)))}>
-          {"Statistiques" -> React.string}
+          {"Admin" -> React.string}
         </Button>
       </X.Col>
     </X.Row>

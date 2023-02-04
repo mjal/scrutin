@@ -54,8 +54,9 @@ let effectLoadElection = id => {
 
 let effectCreateElection = state => {
   dispatch => {
+    let (privkey, trustees) = Belenios.Trustees.create()
 
-    let (_privkey, trustees) = Belenios.Trustees.create()
+    ReactNativeAsyncStorage.setItem(Belenios.Trustees.pubkey(trustees), Belenios.Trustees.Privkey.to_str(privkey)) -> ignore
 
     let params = Belenios.Election.create(
       ~name=state.election.name,
@@ -128,7 +129,7 @@ let reducer = (state, action: Action.t) => {
     | LoadElections(jsons) => ({
       ...state,
       elections_loading: false,
-      elections: Js.Array2.map(jsons, Election.from_json)
+      elections: Array.map(jsons, Election.from_json) -> Array.reverse
     }, [])
     | PostElection => (state, [ effectCreateElection(state) ])
     | BallotCreate(token, selection) => {

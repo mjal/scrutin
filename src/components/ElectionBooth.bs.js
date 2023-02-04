@@ -88,7 +88,7 @@ function ElectionBooth(Props) {
                                       }
                                     });
                               }),
-                            children: "Statistiques"
+                            children: "Admin"
                           })
                     })));
 }

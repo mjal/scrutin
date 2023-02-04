@@ -8,6 +8,7 @@ import * as Election from "./Election.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as SentBallot from "./SentBallot.bs.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
+import * as AsyncStorage from "@react-native-async-storage/async-storage";
 
 var initial_elections = [];
 
@@ -55,6 +56,7 @@ function effectLoadElection(id, dispatch) {
 function effectCreateElection(state, dispatch) {
   var match = Belenios.Trustees.create(undefined);
   var trustees = match[1];
+  AsyncStorage.default.setItem(Belenios.Trustees.pubkey(trustees), match[0]);
   var params = Belenios.Election.create(state.election.name, "description", Belt_Array.map(state.election.choices, (function (o) {
               return o.name;
             })), trustees);
@@ -198,7 +200,7 @@ function reducer(state, action) {
                 {
                   init: state.init,
                   election: state.election,
-                  elections: action._0.map(Election.from_json),
+                  elections: Belt_Array.reverse(Belt_Array.map(action._0, Election.from_json)),
                   elections_loading: false,
                   user: state.user,
                   ballot: state.ballot,
