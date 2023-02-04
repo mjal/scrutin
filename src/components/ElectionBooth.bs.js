@@ -70,17 +70,14 @@ function ElectionBooth(Props) {
                               return text.trim();
                             }));
                     })
-                }), React.createElement(ReactNative.View, {
-                  style: X.styles.row,
+                }), React.createElement(X.Row.make, {
                   children: null
-                }, React.createElement(ReactNative.View, {
-                      style: X.styles.col,
+                }, React.createElement(X.Col.make, {
                       children: React.createElement(ReactNativePaper.Button, {
                             onPress: vote,
                             children: "Vote"
                           })
-                    }), React.createElement(ReactNative.View, {
-                      style: X.styles.col,
+                    }), React.createElement(X.Col.make, {
                       children: React.createElement(ReactNativePaper.Button, {
                             onPress: (function (param) {
                                 Curry._1(dispatch, {

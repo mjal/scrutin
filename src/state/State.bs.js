@@ -218,8 +218,6 @@ function reducer(state, action) {
               ];
     case /* Navigate */11 :
         var route = action._0;
-        console.log("Navigate");
-        console.log(route);
         var effects;
         if (typeof route === "number") {
           effects = [];
@@ -229,7 +227,6 @@ function reducer(state, action) {
                 return effectLoadElection(id$1, param);
               })];
         }
-        console.log(effects);
         return [
                 {
                   init: state.init,

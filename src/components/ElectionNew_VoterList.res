@@ -34,8 +34,8 @@ let make = () => {
         -> React.array
       }
     </View>
-    <View style=X.styles["row"]>
-      <View style=X.styles["col"]>
+    <X.Row>
+      <X.Col>
 		    <TextInput
           mode=#flat
           value={email}
@@ -43,14 +43,14 @@ let make = () => {
           placeholder="Email"
           error
         />
-      </View>
-      <View style=X.styles["col"]>
+      </X.Col>
+      <X.Col>
         //<View style=styles["smallButton"]>
           <Button mode=#contained onPress={_ => addVoter()}>
             <Text>{"Ajouter" -> React.string}</Text>
           </Button>
         //</View>
-      </View>
-    </View>
+      </X.Col>
+    </X.Row>
 	</View>
 }

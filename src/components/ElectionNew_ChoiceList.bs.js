@@ -44,19 +44,16 @@ function ElectionNew_ChoiceList(Props) {
             return false;
           }));
   };
-  return React.createElement(React.Fragment, undefined, React.createElement(ReactNative.View, {
-                  style: X.styles.row,
+  return React.createElement(React.Fragment, undefined, React.createElement(X.Row.make, {
                   children: null
-                }, React.createElement(ReactNative.View, {
-                      style: X.styles.col,
+                }, React.createElement(X.Col.make, {
                       children: React.createElement(ReactNativePaper.Text, {
                             style: X.styles.title,
                             children: "Choix"
                           })
-                    }), React.createElement(ReactNative.View, {
-                      style: X.styles.col
-                    }), React.createElement(ReactNative.View, {
-                      style: X.styles.col,
+                    }), React.createElement(X.Col.make, {
+                      children: ""
+                    }), React.createElement(X.Col.make, {
                       children: React.createElement(ReactNativePaper.Button, {
                             mode: "contained",
                             onPress: (function (param) {
@@ -94,11 +91,9 @@ function ElectionNew_ChoiceList(Props) {
                                               return text;
                                             }));
                                     })
-                                }), React.createElement(ReactNative.View, {
-                                  style: X.styles.row,
+                                }), React.createElement(X.Row.make, {
                                   children: null
-                                }, React.createElement(ReactNative.View, {
-                                      style: X.styles.col,
+                                }, React.createElement(X.Col.make, {
                                       children: React.createElement(ReactNativePaper.Button, {
                                             onPress: (function (param) {
                                                 Curry._1(setName, (function (param) {
@@ -110,8 +105,7 @@ function ElectionNew_ChoiceList(Props) {
                                               }),
                                             children: "Retour"
                                           })
-                                    }), React.createElement(ReactNative.View, {
-                                      style: X.styles.col,
+                                    }), React.createElement(X.Col.make, {
                                       children: React.createElement(ReactNativePaper.Button, {
                                             mode: "contained",
                                             onPress: (function (param) {

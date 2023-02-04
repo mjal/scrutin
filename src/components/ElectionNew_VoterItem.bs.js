@@ -10,16 +10,13 @@ function ElectionNew_VoterItem(Props) {
   var voter = Props.voter;
   var match = State.useContexts(undefined);
   var dispatch = match[1];
-  return React.createElement(ReactNative.View, {
-              style: X.styles.row,
+  return React.createElement(X.Row.make, {
               children: null
-            }, React.createElement(ReactNative.View, {
-                  style: X.styles.col,
+            }, React.createElement(X.Col.make, {
                   children: React.createElement(ReactNative.Text, {
                         children: voter.email
                       })
-                }), React.createElement(ReactNative.View, {
-                  style: X.styles.col,
+                }), React.createElement(X.Col.make, {
                   children: React.createElement(ReactNative.Button, {
                         color: "rosybrown",
                         onPress: (function (param) {

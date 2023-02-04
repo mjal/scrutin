@@ -22,17 +22,17 @@ let make = () => {
     </Title>
 
     <View style=X.styles["separator"] />
-    <View style=X.styles["row"]>
-      <View style=X.styles["col"]>
+    <X.Row>
+      <X.Col>
         <Button onPress={_ => dispatch(Action.Navigate(Route.ElectionBooth(state.election.id))) }>
           {"Vote" -> React.string}
         </Button>
-      </View>
-      <View style=X.styles["col"]>
+      </X.Col>
+      <X.Col>
         <Button onPress={_ => ()}>
           {"Close" -> React.string}
         </Button>
-      </View>
-    </View>
+      </X.Col>
+    </X.Row>
 	</View>
 }

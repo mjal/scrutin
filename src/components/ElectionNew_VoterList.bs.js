@@ -44,11 +44,9 @@ function ElectionNew_VoterList(Props) {
                                     key: voter.email
                                   });
                       })
-                }), React.createElement(ReactNative.View, {
-                  style: X.styles.row,
+                }), React.createElement(X.Row.make, {
                   children: null
-                }, React.createElement(ReactNative.View, {
-                      style: X.styles.col,
+                }, React.createElement(X.Col.make, {
                       children: React.createElement(ReactNativePaper.TextInput, {
                             mode: "flat",
                             error: match$2[0],
@@ -56,8 +54,7 @@ function ElectionNew_VoterList(Props) {
                             value: email,
                             onChangeText: onChangeText
                           })
-                    }), React.createElement(ReactNative.View, {
-                      style: X.styles.col,
+                    }), React.createElement(X.Col.make, {
                       children: React.createElement(ReactNativePaper.Button, {
                             mode: "contained",
                             onPress: (function (param) {

@@ -31,21 +31,20 @@ let make = () => {
   let hideModal = () => setVisible(_ => false);
 
   <>
-    <View style=X.styles["row"]>
-      <View style=X.styles["col"]>
+    <X.Row>
+      <X.Col>
         <Text style=X.styles["title"]>{"Choix" -> React.string}</Text>
-      </View>
-      <View style=X.styles["col"]>
-      </View>
-      <View style=X.styles["col"]>
+      </X.Col>
+      <X.Col>{React.string("")}</X.Col>
+      <X.Col>
         <Button
           mode=#contained
           onPress={_ => showModal()}
         >
           {"Nouveau" -> React.string}
         </Button>
-      </View>
-    </View>
+      </X.Col>
+    </X.Row>
 
     <HelperText _type=#info visible={ Array.length(state.election.choices) <= 2}>
       {"Il faut au moins 2 choix !"->React.string}
@@ -70,14 +69,14 @@ let make = () => {
             value=name
             onChangeText={text => setName(_ => text)}
           />
-          <View style=X.styles["row"]>
-            <View style=X.styles["col"]>
+          <X.Row>
+            <X.Col>
               <Button onPress={_ => { setName(_ => ""); hideModal()} }>{"Retour"->React.string}</Button>
-          </View>
-          <View style=X.styles["col"]>
-            <Button mode=#contained onPress={_ => { addChoice(); hideModal()} }>{"Ajouter"->React.string}</Button>
-          </View>
-          </View>
+            </X.Col>
+            <X.Col>
+              <Button mode=#contained onPress={_ => { addChoice(); hideModal()} }>{"Ajouter"->React.string}</Button>
+            </X.Col>
+          </X.Row>
         </View>
       </Modal>
     </Portal>

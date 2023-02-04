@@ -71,3 +71,21 @@ let styles = {
     ),
   })
 }
+
+module Row = {
+  @react.component
+  let make = (~children) => {
+    <ReactNative.View style=styles["row"]>
+      {children}
+    </ReactNative.View>
+  }
+}
+
+module Col = {
+  @react.component
+  let make = (~children) => {
+    <ReactNative.View style=styles["col"]>
+      {children}
+    </ReactNative.View>
+  }
+}

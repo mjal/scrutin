@@ -26,11 +26,9 @@ function ElectionShow(Props) {
                   children: "" + nb_ballots + "/" + nb_votes + " voted"
                 }), React.createElement(ReactNative.View, {
                   style: X.styles.separator
-                }), React.createElement(ReactNative.View, {
-                  style: X.styles.row,
+                }), React.createElement(X.Row.make, {
                   children: null
-                }, React.createElement(ReactNative.View, {
-                      style: X.styles.col,
+                }, React.createElement(X.Col.make, {
                       children: React.createElement(ReactNativePaper.Button, {
                             onPress: (function (param) {
                                 Curry._1(dispatch, {
@@ -43,8 +41,7 @@ function ElectionShow(Props) {
                               }),
                             children: "Vote"
                           })
-                    }), React.createElement(ReactNative.View, {
-                      style: X.styles.col,
+                    }), React.createElement(X.Col.make, {
                       children: React.createElement(ReactNativePaper.Button, {
                             onPress: (function (param) {
                                 

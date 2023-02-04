@@ -4,12 +4,12 @@ open ReactNative
 let make = (~voter: Voter.t) => {
   let (_, dispatch) = State.useContexts()
 
-  <View style=X.styles["row"]>
-    <View style=X.styles["col"]>
+  <X.Row>
+    <X.Col>
     <Text>{voter.email -> React.string}</Text>
-    </View>
-    <View style=X.styles["col"]>
+    </X.Col>
+    <X.Col>
       <Button color=Color.rosybrown onPress={_ => dispatch(Action.RemoveVoter(voter.email)) } title="Remove"></Button>
-    </View>
-  </View>
+    </X.Col>
+  </X.Row>
 }

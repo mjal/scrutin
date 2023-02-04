@@ -37,17 +37,17 @@ let make = () => {
       value=token
       onChangeText={text => setToken(_ => Js.String.trim(text))}
     />
-    <View style=X.styles["row"]>
-      <View style=X.styles["col"]>
+    <X.Row>
+      <X.Col>
         <Button onPress=vote>
           {"Vote" -> React.string}
         </Button>
-      </View>
-      <View style=X.styles["col"]>
+      </X.Col>
+      <X.Col>
         <Button onPress={_ => dispatch(Action.Navigate(Route.ElectionShow(state.election.id)))}>
           {"Statistiques" -> React.string}
         </Button>
-      </View>
-    </View>
+      </X.Col>
+    </X.Row>
 	</View>
 }
