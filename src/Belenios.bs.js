@@ -16,9 +16,16 @@ function create$1(prim) {
   return Belenios_jslib2.belenios.genTrustee();
 }
 
+var pubkey = (function(e) {
+      var pubkey = JSON.parse(e)[0][1]["public_key"];
+      console.log(pubkey);
+      return pubkey;
+    });
+
 var Trustees = {
   Privkey: Privkey,
-  create: create$1
+  create: create$1,
+  pubkey: pubkey
 };
 
 var Ballot = {};
