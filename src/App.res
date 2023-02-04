@@ -39,7 +39,7 @@ let make = () => {
   })
 
   let title = switch state.route {
-    | Home => "Scrutin"
+    | Home => "Home"
     | ElectionNew => "Nouvelle election"
     | _ => {
       if state.election.name != "" {

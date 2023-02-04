@@ -53,7 +53,7 @@ function App(Props) {
         }), []);
   var match$1 = state.route;
   var title = typeof match$1 === "number" ? (
-      match$1 !== 0 ? "Nouvelle election" : "Scrutin"
+      match$1 !== 0 ? "Nouvelle election" : "Home"
     ) : (
       state.election.name !== "" ? state.election.name : "Unamed election"
     );
