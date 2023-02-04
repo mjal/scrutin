@@ -35,7 +35,7 @@ let make = () => {
       <X.Col>
         <Text style=X.styles["title"]>{"Choix" -> React.string}</Text>
       </X.Col>
-      <X.Col>{React.string("")}</X.Col>
+      <X.Col><Text>{React.string("")}</Text></X.Col>
       <X.Col>
         <Button
           mode=#contained

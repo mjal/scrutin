@@ -52,7 +52,9 @@ function ElectionNew_ChoiceList(Props) {
                             children: "Choix"
                           })
                     }), React.createElement(X.Col.make, {
-                      children: ""
+                      children: React.createElement(ReactNativePaper.Text, {
+                            children: ""
+                          })
                     }), React.createElement(X.Col.make, {
                       children: React.createElement(ReactNativePaper.Button, {
                             mode: "contained",
