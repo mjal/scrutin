@@ -52,12 +52,7 @@ function ElectionNew_ChoiceList(Props) {
                               }),
                             children: "Nouveau"
                           })
-                    })), React.createElement(ReactNativePaper.HelperText, {
-                  style: X.styles.center,
-                  visible: state.election.choices.length <= 2,
-                  type: "error",
-                  children: "Il faut au moins 2 choix !"
-                }), React.createElement(ReactNative.View, {
+                    })), React.createElement(ReactNative.View, {
                   children: Belt_Array.mapWithIndex(state.election.choices, (function (i, choice) {
                           return React.createElement(ElectionNew_ChoiceItem.make, {
                                       index: i,
@@ -65,6 +60,11 @@ function ElectionNew_ChoiceList(Props) {
                                       key: String(i)
                                     });
                         }))
+                }), React.createElement(ReactNativePaper.HelperText, {
+                  style: X.styles.center,
+                  visible: state.election.choices.length < 2,
+                  type: "error",
+                  children: "Il faut au moins 2 choix !"
                 }), React.createElement(ReactNativePaper.Portal, {
                   children: React.createElement(ReactNativePaper.Modal, {
                         visible: match$2[0],

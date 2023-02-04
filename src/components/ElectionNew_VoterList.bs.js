@@ -71,12 +71,7 @@ function ElectionNew_VoterList(Props) {
                               }),
                             children: "Nouveau"
                           })
-                    })), React.createElement(ReactNativePaper.HelperText, {
-                  style: X.styles.center,
-                  visible: state.election.voters.length <= 1,
-                  type: "error",
-                  children: "Il faut au moins 1 votant !"
-                }), React.createElement(ReactNative.View, {
+                    })), React.createElement(ReactNative.View, {
                   children: Belt_Array.mapWithIndex(state.election.voters, (function (index, voter) {
                           return React.createElement(ElectionNew_VoterItem.make, {
                                       index: index,
@@ -84,6 +79,11 @@ function ElectionNew_VoterList(Props) {
                                       key: voter.email
                                     });
                         }))
+                }), React.createElement(ReactNativePaper.HelperText, {
+                  style: X.styles.center,
+                  visible: state.election.voters.length < 1,
+                  type: "error",
+                  children: "Il faut au moins 1 votant !"
                 }), React.createElement(ReactNativePaper.Portal, {
                   children: null
                 }, React.createElement(ReactNativePaper.Modal, {
