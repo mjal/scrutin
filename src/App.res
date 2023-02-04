@@ -86,7 +86,7 @@ let make = () => {
   <PaperProvider>
     <State.StateContext.Provider value=state>
       <State.DispatchContext.Provider value=dispatch>
-        <SafeAreaView>
+        <SafeAreaView style=X.styles["layout"]>
           <Appbar.Header>
             {if state.route != Route.Home {
               <>

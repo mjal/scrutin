@@ -53,6 +53,7 @@ function ElectionNew_ChoiceList(Props) {
                             children: "Nouveau"
                           })
                     })), React.createElement(ReactNativePaper.HelperText, {
+                  style: X.styles.center,
                   visible: state.election.choices.length <= 2,
                   type: "error",
                   children: "Il faut au moins 2 choix !"

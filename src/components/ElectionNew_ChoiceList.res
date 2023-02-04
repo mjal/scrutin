@@ -29,7 +29,7 @@ let make = () => {
       </X.Col>
     </X.Row>
 
-    <HelperText _type=#error visible={ Array.length(state.election.choices) <= 2}>
+    <HelperText _type=#error visible={ Array.length(state.election.choices) <= 2} style=X.styles["center"]>
       {"Il faut au moins 2 choix !"->React.string}
     </HelperText>
 

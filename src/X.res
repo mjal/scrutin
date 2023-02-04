@@ -75,7 +75,19 @@ let styles = {
       ~margin=10.0->dp,
       ~backgroundColor=Color.white,
       ()
-    )
+    ),
+
+    "layout": {
+      if ReactNative.Platform.os == #web {
+        viewStyle(
+          ~width=800.0->dp,
+          ~alignSelf=#center,
+          ()
+        )
+      } else { viewStyle() }
+    },
+
+    "center": viewStyle(~alignSelf=#center, ())
   })
 }
 

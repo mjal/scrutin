@@ -25,9 +25,10 @@ let make = () => {
       onChangeText={text => dispatch(SetElectionName(text))}
     >
     </TextInput>
+    
     <ElectionNew_ChoiceList />
-    <Text style=X.styles["title"]>{"Voters" -> React.string}</Text>
     <ElectionNew_VoterList />
+
     <Button mode=#contained onPress=onSubmit>
       <Text>{"Create election" -> React.string}</Text>
     </Button>

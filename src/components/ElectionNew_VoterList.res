@@ -46,7 +46,7 @@ let make = () => {
       </X.Col>
     </X.Row>
 
-    <HelperText _type=#error visible={ Array.length(state.election.voters) <= 1}>
+    <HelperText _type=#error visible={ Array.length(state.election.voters) <= 1} style=X.styles["center"]>
       {"Il faut au moins 1 votant !"->React.string}
     </HelperText>
 

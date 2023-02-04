@@ -72,6 +72,7 @@ function ElectionNew_VoterList(Props) {
                             children: "Nouveau"
                           })
                     })), React.createElement(ReactNativePaper.HelperText, {
+                  style: X.styles.center,
                   visible: state.election.voters.length <= 1,
                   type: "error",
                   children: "Il faut au moins 1 votant !"

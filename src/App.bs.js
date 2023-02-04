@@ -70,6 +70,7 @@ function App(Props) {
                     children: React.createElement(State.DispatchContext.Provider.make, {
                           value: dispatch,
                           children: React.createElement(ReactNative.SafeAreaView, {
+                                style: X.styles.layout,
                                 children: null
                               }, React.createElement(ReactNativePaper.Appbar.Header, {
                                     children: state.route !== /* Home */0 ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.BackAction, {

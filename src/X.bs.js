@@ -57,6 +57,13 @@ var styles = ReactNative.StyleSheet.create({
         backgroundColor: "white",
         margin: 10.0,
         padding: 10.0
+      },
+      layout: ReactNative.Platform.OS === "web" ? ({
+            alignSelf: "center",
+            width: 800.0
+          }) : ({}),
+      center: {
+        alignSelf: "center"
       }
     });
 
