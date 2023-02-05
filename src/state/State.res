@@ -1,7 +1,4 @@
 type t = {
-  // Is the app init ?
-  init: bool,
-
   // The current election (when creating a new election, or when showing an election)
   election: Election.t,
 
@@ -20,7 +17,6 @@ type t = {
 }
 
 let initial = {
-  init: false,
   election: Election.initial,
   user: { token: "" },
   loading: false,
@@ -143,7 +139,7 @@ let effectGoToUrl = dispatch => {
 
 let reducer = (state, action: Action.t) => {
   switch (action) {
-    | Init => ({...state, elections_loading: true, init: true}, [effectGoToUrl, effectLoadElections])
+    | Init => ({...state, elections_loading: true}, [effectGoToUrl, effectLoadElections])
     | Election_Fetch(id) => ({
       ...state,
       loading: true,
@@ -182,35 +178,3 @@ let reducer = (state, action: Action.t) => {
     }, [])
   }
 }
-
-module StateContext = {
-  let context = React.createContext(initial)
-
-  module Provider = {
-    let provider = React.Context.provider(context)
-
-    @react.component
-    let make = (~value, ~children) => {
-      React.createElement(provider, {"value": value, "children": children})
-    }
-  }
-
-  let use = () => React.useContext(context)
-}
-
-module DispatchContext = {
-  let context = React.createContext((_action: Action.t) => ())
-
-  module Provider = {
-    let provider = React.Context.provider(context)
-
-    @react.component
-    let make = (~value, ~children) => {
-      React.createElement(provider, {"value": value, "children": children})
-    }
-  }
-
-  let use = () => React.useContext(context)
-}
-
-let useContexts = () => (StateContext.use(), DispatchContext.use())

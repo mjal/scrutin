@@ -27,7 +27,7 @@ module Choice = {
 
 @react.component
 let make = (~currentChoice, ~onChoiceChange) => {
-  let (state, _) = State.useContexts()
+  let (state, _) = Context.use()
 
   <View>
     <List.Section title="Choices" style=styles["margin-x"]>

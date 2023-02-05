@@ -3,7 +3,7 @@ open! Paper;
 
 @react.component
 let make = () => {
-  let (state, dispatch) = State.useContexts()
+  let (state, dispatch) = Context.use()
 	let (name, setName) = React.useState(_ => "")
   let (showModal, setshowModal) = React.useState(_ => false);
 

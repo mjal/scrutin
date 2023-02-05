@@ -5,7 +5,7 @@ type choice_t = ElectionBooth_ChoiceSelect.choice_t
 
 @react.component
 let make = () => {
-  let (state, dispatch) = State.useContexts()
+  let (state, dispatch) = Context.use()
   let (privkey, setPrivkey) = React.useState(_ => None)
   let (showSnackbar, setShowSnackbar) = React.useState(_ => false)
 

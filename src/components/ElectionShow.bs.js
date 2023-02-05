@@ -2,8 +2,8 @@
 
 import * as X from "../X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
-import * as State from "../state/State.bs.js";
 import * as React from "react";
+import * as Context from "../state/Context.bs.js";
 import * as Belenios from "../Belenios.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
@@ -12,7 +12,7 @@ import * as ReactNativePaper from "react-native-paper";
 import * as AsyncStorage from "@react-native-async-storage/async-storage";
 
 function ElectionShow(Props) {
-  var match = State.useContexts(undefined);
+  var match = Context.use(undefined);
   var dispatch = match[1];
   var state = match[0];
   var match$1 = React.useState(function () {

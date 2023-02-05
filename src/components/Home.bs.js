@@ -2,14 +2,14 @@
 
 import * as X from "../X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
-import * as State from "../state/State.bs.js";
 import * as React from "react";
+import * as Context from "../state/Context.bs.js";
 import * as ReactNative from "react-native";
 import * as Home_ElectionList from "./Home_ElectionList.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function Home(Props) {
-  var match = State.useContexts(undefined);
+  var match = Context.use(undefined);
   var dispatch = match[1];
   ReactNativePaper.useTheme();
   return React.createElement(ReactNative.View, {

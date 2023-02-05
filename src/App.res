@@ -35,8 +35,8 @@ let make = () => {
   }
 
   <PaperProvider>
-    <State.StateContext.Provider value=state>
-      <State.DispatchContext.Provider value=dispatch>
+    <Context.State.Provider value=state>
+      <Context.Dispatch.Provider value=dispatch>
         <SafeAreaView style=X.styles["layout"]>
           <Appbar.Header>
             {if state.route != Route.Home {
@@ -73,7 +73,7 @@ let make = () => {
           </Appbar.Header>
           {view}
         </SafeAreaView>
-      </State.DispatchContext.Provider>
-    </State.StateContext.Provider>
+      </Context.Dispatch.Provider>
+    </Context.State.Provider>
   </PaperProvider>
 }

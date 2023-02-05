@@ -3,7 +3,7 @@ open! Paper
 
 @react.component
 let make = () => {
-  let (state, dispatch) = State.useContexts()
+  let (state, dispatch) = Context.use()
 	let (email, setEmail) = React.useState(_ => "")
 	//let (error, setError) = React.useState(_ => false)
   let (showModal, setshowModal) = React.useState(_ => false)

@@ -3,7 +3,7 @@ open! Paper
 
 @react.component
 let make = () => {
-  let (_, dispatch) = State.useContexts()
+  let (_, dispatch) = Context.use()
 
   let _theme = ThemeProvider.useTheme()
 

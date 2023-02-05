@@ -3,7 +3,7 @@ open! Paper
 module ElectionLink = {
   @react.component
   let make = (~election : Election.t) => {
-    let (_, dispatch) = State.useContexts()
+    let (_, dispatch) = Context.use()
 
     <List.Item
       title=election.name
@@ -16,7 +16,7 @@ module ElectionLink = {
 
 @react.component
 let make = () => {
-  let (state, _dispatch) = State.useContexts()
+  let (state, _dispatch) = Context.use()
 
   if state.elections_loading {
     <ActivityIndicator />

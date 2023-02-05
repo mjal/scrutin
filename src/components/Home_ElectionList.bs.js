@@ -2,14 +2,14 @@
 
 import * as X from "../X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
-import * as State from "../state/State.bs.js";
 import * as React from "react";
+import * as Context from "../state/Context.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function Home_ElectionList$ElectionLink(Props) {
   var election = Props.election;
-  var match = State.useContexts(undefined);
+  var match = Context.use(undefined);
   var dispatch = match[1];
   return React.createElement(ReactNativePaper.List.Item, {
               onPress: (function (param) {
@@ -40,7 +40,7 @@ var ElectionLink = {
 };
 
 function Home_ElectionList(Props) {
-  var match = State.useContexts(undefined);
+  var match = Context.use(undefined);
   var state = match[0];
   if (state.elections_loading) {
     return React.createElement(ReactNativePaper.ActivityIndicator, {});

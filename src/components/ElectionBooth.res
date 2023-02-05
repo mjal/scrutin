@@ -5,7 +5,7 @@ type choice_t = ElectionBooth_ChoiceSelect.choice_t
 
 @react.component
 let make = () => {
-  let (state, dispatch) = State.useContexts()
+  let (state, dispatch) = Context.use()
   let (token, setToken) = React.useState(_ => "")
   let (choice : choice_t, setChoice) = React.useState(_ => ElectionBooth_ChoiceSelect.Blank)
 

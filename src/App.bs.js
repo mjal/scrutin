@@ -6,6 +6,7 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as State from "./state/State.bs.js";
 import * as React from "react";
 import * as UseTea from "rescript-use-tea/src/UseTea.bs.js";
+import * as Context from "./state/Context.bs.js";
 import * as ElectionNew from "./components/ElectionNew.bs.js";
 import * as ElectionShow from "./components/ElectionShow.bs.js";
 import * as ReactNative from "react-native";
@@ -72,9 +73,9 @@ function App(Props) {
             }));
   }
   return React.createElement(ReactNativePaper.Provider, {
-              children: React.createElement(State.StateContext.Provider.make, {
+              children: React.createElement(Context.State.Provider.make, {
                     value: state,
-                    children: React.createElement(State.DispatchContext.Provider.make, {
+                    children: React.createElement(Context.Dispatch.Provider.make, {
                           value: dispatch,
                           children: React.createElement(ReactNative.SafeAreaView, {
                                 style: X.styles.layout,

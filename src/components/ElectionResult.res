@@ -10,7 +10,7 @@ let getResultN = (results : results_t, i : int) : int => {
 
 @react.component
 let make = () => {
-  let (state, _dispatch) = State.useContexts()
+  let (state, _dispatch) = Context.use()
 
   <View>
     <Title style=X.styles["title"]>

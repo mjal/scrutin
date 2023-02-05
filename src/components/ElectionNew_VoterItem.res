@@ -2,7 +2,7 @@ open! Paper;
 
 @react.component
 let make = (~index, ~voter: Voter.t) => {
-  let (_, dispatch) = State.useContexts()
+  let (_, dispatch) = Context.use()
 
   <List.Item
     title=voter.email
