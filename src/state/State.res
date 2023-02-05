@@ -33,8 +33,8 @@ let effectLoadElections = (dispatch) => {
   Election.getAll()
   -> Promise.thenResolve(res => {
     switch Js.Json.decodeArray(res) {
-      | Some(json_array) => dispatch(Action.LoadElections(json_array))
-      | None => dispatch(Action.LoadElections([]))
+      | Some(json_array) => dispatch(Action.Election_LoadAll(json_array))
+      | None => dispatch(Action.Election_LoadAll([]))
     }
   }) -> ignore
 }
@@ -43,7 +43,7 @@ let effectLoadElection = id => {
   dispatch => {
     Election.get(id)
     -> Promise.thenResolve(o => {
-      dispatch(Action.LoadElection(o))
+      dispatch(Action.Election_Load(o))
     }) -> ignore
   }
 }
@@ -144,31 +144,28 @@ let effectGoToUrl = dispatch => {
 let reducer = (state, action: Action.t) => {
   switch (action) {
     | Init => ({...state, elections_loading: true, init: true}, [effectGoToUrl, effectLoadElections])
-    | FetchElection(id) => ({
+    | Election_Fetch(id) => ({
       ...state,
       loading: true,
       election: { ...Election.initial, id }
     }, [ effectLoadElection(id) ])
-    | LoadElection(json) => ({
+    | Election_Load(json) => ({
       ...state,
       loading: false,
       election: json->Election.from_json
     }, [])
-    | LoadElections(jsons) => ({
+    | Election_LoadAll(jsons) => ({
       ...state,
       elections_loading: false,
       elections: Array.map(jsons, Election.from_json) -> Array.reverse
     }, [])
-    | PostElection => (state, [ effectCreateElection(state) ])
+    | Election_Post => (state, [ effectCreateElection(state) ])
     | Election_PublishResult(result) => {
       //let election = {...state.election, result}
       (state, [effectPublishElectionResult(state, result)])
     }
-    | BallotCreate(token, selection) => {
+    | Ballot_Create(token, selection) => {
       (state, [ effectBallotCreate(state, token, selection) ])
-    }
-    | SetToken(token) => {
-      ({...state, user: {token: token}}, [])
     }
     | Navigate(route) =>
       let effects = switch route {

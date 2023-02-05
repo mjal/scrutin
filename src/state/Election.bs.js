@@ -136,7 +136,7 @@ function reducer(election, action) {
                 uuid: election.uuid,
                 result: action._0
               };
-    case /* SetElectionName */2 :
+    case /* Election_SetName */2 :
         return {
                 id: election.id,
                 name: action._0,
@@ -149,7 +149,7 @@ function reducer(election, action) {
                 uuid: election.uuid,
                 result: election.result
               };
-    case /* SetElectionBelenios */3 :
+    case /* Election_SetBelenios */3 :
         return {
                 id: election.id,
                 name: election.name,
@@ -162,7 +162,7 @@ function reducer(election, action) {
                 uuid: election.uuid,
                 result: election.result
               };
-    case /* AddVoter */4 :
+    case /* Election_AddVoter */4 :
         return {
                 id: election.id,
                 name: election.name,
@@ -180,7 +180,7 @@ function reducer(election, action) {
                 uuid: election.uuid,
                 result: election.result
               };
-    case /* RemoveVoter */5 :
+    case /* Election_RemoveVoter */5 :
         var index = action._0;
         return {
                 id: election.id,
@@ -196,7 +196,7 @@ function reducer(election, action) {
                 uuid: election.uuid,
                 result: election.result
               };
-    case /* AddChoice */6 :
+    case /* Election_AddChoice */6 :
         return {
                 id: election.id,
                 name: election.name,
@@ -212,7 +212,7 @@ function reducer(election, action) {
                 uuid: election.uuid,
                 result: election.result
               };
-    case /* RemoveChoice */7 :
+    case /* Election_RemoveChoice */7 :
         var index$1 = action._0;
         return {
                 id: election.id,

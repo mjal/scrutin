@@ -115,29 +115,29 @@ let createBallot = (election : t, private_credential : string, selection : array
 
 let reducer = (election, action) => {
   switch(action: Action.t) {
-    | SetElectionName(name) => {
+    | Election_SetName(name) => {
       ...election,
       name: name
     }
-    | SetElectionBelenios(params, trustees, creds) => {
+    | Election_SetBelenios(params, trustees, creds) => {
       ...election,
       params, trustees, creds
     }
     // TODO: Generate unique negative index. Use it for RemoveVoter and index=
-    | AddVoter(email) => {
+    | Election_AddVoter(email) => {
       ...election,
       voters: Array.concat(election.voters, [{ id: 0, email: email, pubCred: "", privCred: "" }: Voter.t])
     }
-    | RemoveVoter(index) => {
+    | Election_RemoveVoter(index) => {
       ...election,
       voters: Array.keepWithIndex(election.voters, (_, i) => i != index)
     }
     // TODO: Generate unique negative index. Use it for RemoveChoice and index=
-    | AddChoice(name) => {
+    | Election_AddChoice(name) => {
       ...election,
       choices: Array.concat(election.choices, [{ id: 0, name: name }: Choice.t])
     }
-    | RemoveChoice(index) => {
+    | Election_RemoveChoice(index) => {
       ...election,
       choices: Array.keepWithIndex(election.choices, (_, i) => i != index)
     }

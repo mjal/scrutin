@@ -22,7 +22,7 @@ let make = () => {
       -> Array.make(0)
       -> Array.mapWithIndex((i, _) => choice == Choice(i) ? 1 : 0)
 
-    dispatch(BallotCreate(token, selectionArray))
+    dispatch(Ballot_Create(token, selectionArray))
   }
 
   <View>

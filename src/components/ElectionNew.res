@@ -13,7 +13,7 @@ let make = () => {
     } else if Array.length(state.election.voters) < 1 {
       setVisibleVoter(_ => true)
     } else {
-      dispatch(PostElection)
+      dispatch(Election_Post)
     }
   }
 
@@ -22,7 +22,7 @@ let make = () => {
       mode=#flat
       label="Nom de l'élection"
 			value=state.election.name
-      onChangeText={text => dispatch(SetElectionName(text))}
+      onChangeText={text => dispatch(Election_SetName(text))}
     >
     </TextInput>
     

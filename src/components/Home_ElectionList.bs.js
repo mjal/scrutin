@@ -14,7 +14,7 @@ function Home_ElectionList$ElectionLink(Props) {
   return React.createElement(ReactNativePaper.List.Item, {
               onPress: (function (param) {
                   Curry._1(dispatch, {
-                        TAG: /* Navigate */13,
+                        TAG: /* Navigate */12,
                         _0: {
                           TAG: /* ElectionShow */0,
                           _0: election.id

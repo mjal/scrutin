@@ -8,7 +8,7 @@ let make = () => {
   let (showModal, setshowModal) = React.useState(_ => false);
 
 	let addChoice = _ => {
-		dispatch(AddChoice(name))
+		dispatch(Election_AddChoice(name))
 		setName(_ => "")
 	}
 

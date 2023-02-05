@@ -12,7 +12,7 @@ let make = () => {
 	let addVoter = _ => {
       Js.log("Add voter")
     if EmailValidator.validate(email) {
-      dispatch(AddVoter(email))
+      dispatch(Election_AddVoter(email))
       setEmail(_ => "")
       setshowModal(_ => false)
     } else {

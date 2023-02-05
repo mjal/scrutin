@@ -9,7 +9,7 @@ let make = (~index, ~choice: Choice.t) => {
     left={_ => <List.Icon icon=Icon.name("vote") />}
     onPress={_ => ()}
     right={_ =>
-      <Button onPress={_ => dispatch(Action.RemoveChoice(index))}>
+      <Button onPress={_ => dispatch(Action.Election_RemoveChoice(index))}>
         <List.Icon icon=Icon.name("delete") />
       </Button>
     }

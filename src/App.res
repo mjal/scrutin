@@ -8,7 +8,6 @@ open Paper
 @react.component
 let make = () => {
   let (state, dispatch) = UseTea.useTea(State.reducer, State.initial)
-  let (visibleMenu, setVisibleMenu) = React.useState(_ => false)
 
   React.useEffect0(() => {
     dispatch(Action.Init)
@@ -46,11 +45,11 @@ let make = () => {
                 <Appbar.Content title={title -> React.string} />
                 {
                   switch state.route {
-                  | ElectionBooth(id) 
-                  | ElectionShow(id)
-                  | ElectionResult(id) => {
+                  | ElectionBooth(_id) 
+                  | ElectionShow(_id)
+                  | ElectionResult(_id) => {
                     <>
-                      <Appbar.Action icon=Icon.name("menu") onPress={_ => setVisibleMenu(_ => true)}></Appbar.Action>
+                      <Appbar.Action icon=Icon.name("menu") onPress={_ => ()/*setVisibleMenu(_ => true)*/}></Appbar.Action>
                       //<Menu
                       //  visible={visibleMenu}
                       //  onDismiss={setVisibleMenu(_ => false)}

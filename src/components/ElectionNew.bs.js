@@ -30,7 +30,7 @@ function ElectionNew(Props) {
                     return true;
                   }));
     } else {
-      return Curry._1(dispatch, /* PostElection */1);
+      return Curry._1(dispatch, /* Election_Post */1);
     }
   };
   return React.createElement(ReactNative.View, {
@@ -41,7 +41,7 @@ function ElectionNew(Props) {
                   value: state.election.name,
                   onChangeText: (function (text) {
                       Curry._1(dispatch, {
-                            TAG: /* SetElectionName */2,
+                            TAG: /* Election_SetName */2,
                             _0: text
                           });
                     })

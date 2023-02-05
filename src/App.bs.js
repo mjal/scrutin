@@ -20,16 +20,12 @@ function App(Props) {
   var match = UseTea.useTea(State.reducer, State.initial);
   var dispatch = match[1];
   var state = match[0];
-  var match$1 = React.useState(function () {
-        return false;
-      });
-  var setVisibleMenu = match$1[1];
   React.useEffect((function () {
           Curry._1(dispatch, /* Init */0);
         }), []);
-  var match$2 = state.route;
-  var title = typeof match$2 === "number" ? (
-      match$2 !== 0 ? "Nouvelle election" : "Home"
+  var match$1 = state.route;
+  var title = typeof match$1 === "number" ? (
+      match$1 !== 0 ? "Nouvelle election" : "Home"
     ) : (
       state.election.name !== "" ? state.election.name : "Unamed election"
     );
@@ -57,7 +53,7 @@ function App(Props) {
     tmp = React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.BackAction, {
               onPress: (function (param) {
                   Curry._1(dispatch, {
-                        TAG: /* Navigate */13,
+                        TAG: /* Navigate */12,
                         _0: /* Home */0
                       });
                 })
@@ -66,9 +62,7 @@ function App(Props) {
             }), typeof __ === "number" ? React.createElement(React.Fragment, undefined) : React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.Action, {
                     icon: "menu",
                     onPress: (function (param) {
-                        Curry._1(setVisibleMenu, (function (param) {
-                                return true;
-                              }));
+                        
                       })
                   })));
   } else {

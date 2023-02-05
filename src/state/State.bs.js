@@ -33,12 +33,12 @@ function effectLoadElections(dispatch) {
         var json_array = Js_json.decodeArray(res);
         if (json_array !== undefined) {
           return Curry._1(dispatch, {
-                      TAG: /* LoadElections */11,
+                      TAG: /* Election_LoadAll */10,
                       _0: json_array
                     });
         } else {
           return Curry._1(dispatch, {
-                      TAG: /* LoadElections */11,
+                      TAG: /* Election_LoadAll */10,
                       _0: []
                     });
         }
@@ -48,7 +48,7 @@ function effectLoadElections(dispatch) {
 function effectLoadElection(id, dispatch) {
   Election.get(id).then(function (o) {
         return Curry._1(dispatch, {
-                    TAG: /* LoadElection */10,
+                    TAG: /* Election_Load */9,
                     _0: o
                   });
       });
@@ -99,7 +99,7 @@ function effectCreateElection(state, dispatch) {
           }).then(Election.from_json).then(function (election) {
         var id = election.id;
         return Curry._1(dispatch, {
-                    TAG: /* Navigate */13,
+                    TAG: /* Navigate */12,
                     _0: {
                       TAG: /* ElectionBooth */1,
                       _0: id
@@ -138,7 +138,7 @@ function effectGoToUrl(dispatch) {
         }
         if (capture !== undefined) {
           return Curry._1(dispatch, {
-                      TAG: /* Navigate */13,
+                      TAG: /* Navigate */12,
                       _0: {
                         TAG: /* ElectionBooth */1,
                         _0: Belt_Option.getWithDefault(Belt_Int.fromString(capture), 0)
@@ -185,22 +185,7 @@ function reducer(state, action) {
                       return effectPublishElectionResult(state, result, param);
                     })]
               ];
-    case /* SetToken */8 :
-        return [
-                {
-                  init: state.init,
-                  election: state.election,
-                  elections: state.elections,
-                  elections_loading: state.elections_loading,
-                  user: {
-                    token: action._0
-                  },
-                  loading: state.loading,
-                  route: state.route
-                },
-                []
-              ];
-    case /* FetchElection */9 :
+    case /* Election_Fetch */8 :
         var id = action._0;
         return [
                 {
@@ -227,7 +212,7 @@ function reducer(state, action) {
                       return effectLoadElection(id, param);
                     })]
               ];
-    case /* LoadElection */10 :
+    case /* Election_Load */9 :
         return [
                 {
                   init: state.init,
@@ -240,7 +225,7 @@ function reducer(state, action) {
                 },
                 []
               ];
-    case /* LoadElections */11 :
+    case /* Election_LoadAll */10 :
         return [
                 {
                   init: state.init,
@@ -253,7 +238,7 @@ function reducer(state, action) {
                 },
                 []
               ];
-    case /* BallotCreate */12 :
+    case /* Ballot_Create */11 :
         var selection = action._1;
         var token = action._0;
         return [
@@ -262,7 +247,7 @@ function reducer(state, action) {
                       return effectBallotCreate(state, token, selection, param);
                     })]
               ];
-    case /* Navigate */13 :
+    case /* Navigate */12 :
         var route = action._0;
         var effects;
         if (typeof route === "number") {

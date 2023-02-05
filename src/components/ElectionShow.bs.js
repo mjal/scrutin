@@ -81,7 +81,7 @@ function ElectionShow(Props) {
                       children: React.createElement(ReactNativePaper.Button, {
                             onPress: (function (param) {
                                 Curry._1(dispatch, {
-                                      TAG: /* Navigate */13,
+                                      TAG: /* Navigate */12,
                                       _0: {
                                         TAG: /* ElectionBooth */1,
                                         _0: state.election.id
@@ -99,7 +99,7 @@ function ElectionShow(Props) {
                       children: React.createElement(ReactNativePaper.Button, {
                             onPress: (function (param) {
                                 Curry._1(dispatch, {
-                                      TAG: /* Navigate */13,
+                                      TAG: /* Navigate */12,
                                       _0: {
                                         TAG: /* ElectionResult */2,
                                         _0: state.election.id
