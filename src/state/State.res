@@ -12,9 +12,6 @@ type t = {
  // The current user (now only to store the voting token)
   user: User.t,
 
-  // The ballot to send when we want to vote
-  ballot: SentBallot.t, 
-
   // Is the app waiting for remote data ?
   loading: bool,
 
@@ -26,7 +23,6 @@ let initial = {
   init: false,
   election: Election.initial,
   user: { token: "" },
-  ballot: SentBallot.initial,
   loading: false,
   route: Home,
   elections: [],

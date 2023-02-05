@@ -7,7 +7,6 @@ import * as Belenios from "../Belenios.bs.js";
 import * as Belt_Int from "rescript/lib/es6/belt_Int.js";
 import * as Election from "./Election.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
-import * as SentBallot from "./SentBallot.bs.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as ReactNative from "react-native";
@@ -25,7 +24,6 @@ var initial = {
   elections: initial_elections,
   elections_loading: false,
   user: initial_user,
-  ballot: SentBallot.initial,
   loading: false,
   route: /* Home */0
 };
@@ -161,7 +159,6 @@ function reducer(state, action) {
                 elections: state.elections,
                 elections_loading: true,
                 user: state.user,
-                ballot: state.ballot,
                 loading: state.loading,
                 route: state.route
               },
@@ -198,7 +195,6 @@ function reducer(state, action) {
                   user: {
                     token: action._0
                   },
-                  ballot: state.ballot,
                   loading: state.loading,
                   route: state.route
                 },
@@ -224,7 +220,6 @@ function reducer(state, action) {
                   elections: state.elections,
                   elections_loading: state.elections_loading,
                   user: state.user,
-                  ballot: state.ballot,
                   loading: true,
                   route: state.route
                 },
@@ -240,7 +235,6 @@ function reducer(state, action) {
                   elections: state.elections,
                   elections_loading: state.elections_loading,
                   user: state.user,
-                  ballot: state.ballot,
                   loading: false,
                   route: state.route
                 },
@@ -254,7 +248,6 @@ function reducer(state, action) {
                   elections: Belt_Array.reverse(Belt_Array.map(action._0, Election.from_json)),
                   elections_loading: false,
                   user: state.user,
-                  ballot: state.ballot,
                   loading: state.loading,
                   route: state.route
                 },
@@ -287,7 +280,6 @@ function reducer(state, action) {
                   elections: state.elections,
                   elections_loading: state.elections_loading,
                   user: state.user,
-                  ballot: state.ballot,
                   loading: state.loading,
                   route: route
                 },
@@ -301,7 +293,6 @@ function reducer(state, action) {
                 elections: state.elections,
                 elections_loading: state.elections_loading,
                 user: state.user,
-                ballot: state.ballot,
                 loading: state.loading,
                 route: state.route
               },

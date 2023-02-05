@@ -16,7 +16,7 @@ function ElectionBooth(Props) {
   var dispatch = match[1];
   var state = match[0];
   var match$1 = React.useState(function () {
-        return state.ballot.token;
+        return "";
       });
   var setToken = match$1[1];
   var token = match$1[0];
