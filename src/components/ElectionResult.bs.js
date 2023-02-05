@@ -8,24 +8,34 @@ import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
 
+function getResultN(results, i) {
+  return Belt_Option.getExn(Belt_Array.get(Belt_Option.getExn(Belt_Array.get(results.result, 0)), i));
+}
+
 function ElectionResult(Props) {
   var match = State.useContexts(undefined);
   var state = match[0];
-  React.useState(function () {
-        
-      });
-  React.useState(function () {
-        return false;
-      });
-  String(state.election.ballots.length);
-  String(Belt_Array.keep(state.election.ballots, (function (ballot) {
-              return ballot.ciphertext !== "";
-            })).length);
   var tmp;
   if (state.election.result !== "") {
     var results = JSON.parse(state.election.result);
-    console.log(results);
-    tmp = "" + String(Belt_Option.getExn(Belt_Array.get(Belt_Option.getExn(Belt_Array.get(results.result, 0)), 0))) + " vs " + String(Belt_Option.getExn(Belt_Array.get(Belt_Option.getExn(Belt_Array.get(results.result, 0)), 1))) + "";
+    tmp = React.createElement(ReactNativePaper.List.Section, {
+          title: "Resultats",
+          children: Belt_Array.mapWithIndex(state.election.choices, (function (i, choice) {
+                  return React.createElement(ReactNativePaper.List.Item, {
+                              title: choice.name,
+                              left: (function (param) {
+                                  return React.createElement(ReactNativePaper.List.Icon, {
+                                              icon: "account"
+                                            });
+                                }),
+                              right: (function (param) {
+                                  return React.createElement(ReactNativePaper.Text, {
+                                              children: String(getResultN(results, i))
+                                            });
+                                })
+                            });
+                }))
+        });
   } else {
     tmp = "The election is not closed yet";
   }
@@ -34,15 +44,13 @@ function ElectionResult(Props) {
             }, React.createElement(ReactNativePaper.Title, {
                   style: X.styles.title,
                   children: state.election.name
-                }), React.createElement(ReactNativePaper.Title, {
-                  style: X.styles.subtitle,
-                  children: tmp
-                }));
+                }), tmp);
 }
 
 var make = ElectionResult;
 
 export {
+  getResultN ,
   make ,
 }
 /* X Not a pure module */
