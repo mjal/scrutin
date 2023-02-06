@@ -19,24 +19,31 @@ function ElectionResult(Props) {
   var tmp;
   if (result !== undefined) {
     var results = JSON.parse(result);
-    tmp = React.createElement(ReactNativePaper.List.Section, {
-          title: "Resultats",
-          children: Belt_Array.mapWithIndex(state.election.choices, (function (i, choice) {
-                  return React.createElement(ReactNativePaper.List.Item, {
-                              title: choice.name,
-                              left: (function (param) {
-                                  return React.createElement(ReactNativePaper.List.Icon, {
-                                              icon: "account"
-                                            });
-                                }),
-                              right: (function (param) {
-                                  return React.createElement(ReactNativePaper.Text, {
-                                              children: String(getResultN(results, i))
-                                            });
-                                })
-                            });
-                }))
-        });
+    tmp = React.createElement(ReactNativePaper.DataTable, {
+          children: null
+        }, React.createElement(ReactNativePaper.DataTable.Header, {
+              children: null
+            }, React.createElement(ReactNativePaper.DataTable.Title, {
+                  children: "Candidat"
+                }), React.createElement(ReactNativePaper.DataTable.Title, {
+                  children: "Score (%)",
+                  numeric: true
+                }), React.createElement(ReactNativePaper.DataTable.Title, {
+                  children: "Score (total)",
+                  numeric: true
+                })), Belt_Array.mapWithIndex(state.election.choices, (function (i, choice) {
+                return React.createElement(ReactNativePaper.DataTable.Row, {
+                            children: null
+                          }, React.createElement(ReactNativePaper.DataTable.Cell, {
+                                children: choice.name
+                              }), React.createElement(ReactNativePaper.DataTable.Cell, {
+                                children: String(getResultN(results, i)),
+                                numeric: true
+                              }), React.createElement(ReactNativePaper.DataTable.Cell, {
+                                children: String(getResultN(results, i)),
+                                numeric: true
+                              }));
+              })));
   } else {
     tmp = "The election is not closed yet";
   }

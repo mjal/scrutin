@@ -21,21 +21,26 @@ let make = () => {
       | Some(result) => {
         let results : results_t = parse_results(result)
 
-        <List.Section title="Resultats">
-        {
-          Array.mapWithIndex(state.election.choices, (i, choice) => {
-            <List.Item
-              title=choice.name
-              left={_ => <List.Icon icon=Icon.name("account") />}
-              right={_ =>
-                <Text>
+        <DataTable>
+          <DataTable.Header>
+            <DataTable.Title>{"Candidat"->React.string}</DataTable.Title>
+            <DataTable.Title numeric=true>{"Score (%)"->React.string}</DataTable.Title>
+            <DataTable.Title numeric=true>{"Score (total)"->React.string}</DataTable.Title>
+          </DataTable.Header>
+          {
+            Array.mapWithIndex(state.election.choices, (i, choice) => {
+              <DataTable.Row>
+                <DataTable.Cell>{choice.name->React.string}</DataTable.Cell>
+                <DataTable.Cell numeric=true>
                   {getResultN(results, i) -> Int.toString -> React.string}
-                </Text>
-              }
-            />
-          }) -> React.array
-        } 
-        </List.Section>
+                </DataTable.Cell>
+                <DataTable.Cell numeric=true>
+                  {getResultN(results, i) -> Int.toString -> React.string}
+                </DataTable.Cell>
+              </DataTable.Row>
+            }) -> React.array
+          }
+        </DataTable>
       }
       | None => 
         "The election is not closed yet" -> React.string
