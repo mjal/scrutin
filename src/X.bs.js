@@ -91,6 +91,8 @@ var Col = {
   make: X$Col
 };
 
+var SegmentedButtons = {};
+
 export {
   ev ,
   prevent ,
@@ -98,5 +100,6 @@ export {
   styles ,
   Row ,
   Col ,
+  SegmentedButtons ,
 }
 /* styles Not a pure module */

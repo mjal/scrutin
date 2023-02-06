@@ -66,11 +66,36 @@ function ElectionShow(Props) {
     }
     console.log(privkey);
   };
+  var match$3 = React.useState(function () {
+        return "home";
+      });
+  var setView = match$3[1];
   return React.createElement(ReactNative.View, {
               children: null
             }, React.createElement(ReactNativePaper.Title, {
                   style: X.styles.title,
                   children: state.election.name
+                }), React.createElement(ReactNativePaper.SegmentedButtons, {
+                  value: match$3[0],
+                  onValueChange: (function (view) {
+                      Curry._1(setView, (function (param) {
+                              return view;
+                            }));
+                    }),
+                  buttons: [
+                    {
+                      value: "home",
+                      label: "home"
+                    },
+                    {
+                      value: "vote",
+                      label: "vote"
+                    },
+                    {
+                      value: "results",
+                      label: "results"
+                    }
+                  ]
                 }), React.createElement(ReactNativePaper.Title, {
                   style: X.styles.subtitle,
                   children: "" + nb_votes + "/" + nb_ballots + " voted"

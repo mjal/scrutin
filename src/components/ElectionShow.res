@@ -53,10 +53,21 @@ let make = () => {
     Js.log(privkey)
   }
 
+  let (view, setView) = React.useState(_ => "home")
+
   <View>
     <Title style=X.styles["title"]>
       {state.election.name -> React.string}
     </Title>
+    <X.SegmentedButtons
+      value=view
+      onValueChange={(view) => setView(_ => view)}
+      buttons={[
+        { value: "home", label: "home" },
+        { value: "vote", label: "vote" },
+        { value: "results", label: "results" }
+      ]}
+    />
     <Title style=X.styles["subtitle"]>
       {`${nb_votes}/${nb_ballots} voted` -> React.string}
     </Title>

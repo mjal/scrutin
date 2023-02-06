@@ -108,3 +108,19 @@ module Col = {
     </ReactNative.View>
   }
 }
+
+module SegmentedButtons = {
+  type button = {
+    value: string,
+    label: string
+  }
+  @module("react-native-paper") @react.component
+  external make: (
+    ~value: string,
+    ~onValueChange: (string) => (),
+    ~buttons: array<button>,
+    ~theme: Paper__ThemeProvider.Theme.t=?,
+    ~style: ReactNative.Style.t=?,
+    // density
+  ) => React.element = "SegmentedButtons"
+}
