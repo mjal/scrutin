@@ -32,12 +32,6 @@ let make = (~currentChoice, ~onChoiceChange) => {
   <View>
     <List.Section title="Choices" style=styles["margin-x"]>
       {
-        Js.log(101)
-        Js.log(state.election.params)
-        Js.log(102)
-        Js.log(state.election.params -> Option.getExn)
-        Js.log(103)
-        Js.log(state.election.params -> Option.getExn -> Belenios.Election.answers)
         state.election.params -> Option.getExn -> Belenios.Election.answers
         -> Array.mapWithIndex((i, choiceName) => {
           let selected = currentChoice == Choice(i)

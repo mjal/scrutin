@@ -42,25 +42,24 @@ function ElectionBooth_ChoiceSelect(Props) {
   var currentChoice = Props.currentChoice;
   var onChoiceChange = Props.onChoiceChange;
   var match = Context.use(undefined);
-  var state = match[0];
   return React.createElement(ReactNative.View, {
               children: React.createElement(ReactNativePaper.List.Section, {
                     title: "Choices",
-                    children: (console.log(101), console.log(state.election.params), console.log(102), console.log(Belt_Option.getExn(state.election.params)), console.log(103), console.log(Belenios.Election.answers(Belt_Option.getExn(state.election.params))), Belt_Array.mapWithIndex(Belenios.Election.answers(Belt_Option.getExn(state.election.params)), (function (i, choiceName) {
-                              var selected = Caml_obj.equal(currentChoice, /* Choice */{
-                                    _0: i
-                                  });
-                              return React.createElement(ElectionBooth_ChoiceSelect$Choice, {
-                                          name: choiceName,
-                                          selected: selected,
-                                          onSelect: (function (param) {
-                                              Curry._1(onChoiceChange, /* Choice */{
-                                                    _0: i
-                                                  });
-                                            }),
-                                          key: String(i)
-                                        });
-                            }))),
+                    children: Belt_Array.mapWithIndex(Belenios.Election.answers(Belt_Option.getExn(match[0].election.params)), (function (i, choiceName) {
+                            var selected = Caml_obj.equal(currentChoice, /* Choice */{
+                                  _0: i
+                                });
+                            return React.createElement(ElectionBooth_ChoiceSelect$Choice, {
+                                        name: choiceName,
+                                        selected: selected,
+                                        onSelect: (function (param) {
+                                            Curry._1(onChoiceChange, /* Choice */{
+                                                  _0: i
+                                                });
+                                          }),
+                                        key: String(i)
+                                      });
+                          })),
                     style: styles["margin-x"]
                   })
             });
