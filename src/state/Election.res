@@ -8,11 +8,11 @@ type t = {
   voters: array<Voter.t>,
   choices: array<Choice.t>,
   ballots: array<Ballot.t>,
-  params: string, // TODO: option<string> or option<Belenios.Election.t>
-  trustees: string, // TODO: option
-  creds: string, // TODO: option
+  params: option<string>,
+  trustees: option<string>,
+  creds: option<string>,
   uuid: string,
-  result: string // TODO: option
+  result: option<string>
 }
 
 let initial = {
