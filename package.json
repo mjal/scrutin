@@ -17,7 +17,7 @@
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
     "@react-native-async-storage/async-storage": "^1.17.11",
-    "@rescript-react-native/async-storage": "^1.6.3",
+    "rescript-react-native-async-storage": "git+https://github.com/scrutin-app/rescript-react-native-async-storage",
     "@rescript-react-native/paper": "git+https://github.com/scrutin-app/paper",
     "@rescript/react": "^0.10.3",
     "@ryyppy/rescript-promise": "^2.1.0",
