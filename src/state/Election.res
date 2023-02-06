@@ -3,16 +3,16 @@
 %%raw(`/* eslint-disable no-throw-literal */`)
 
 type t = {
-  id: int,
-  name: string,
-  voters: array<Voter.t>,
-  choices: array<Choice.t>,
-  ballots: array<Ballot.t>,
-  params: option<string>,
+  id:       int,
+  name:     string,
+  voters:   array<Voter.t>,
+  choices:  array<Choice.t>,
+  ballots:  array<Ballot.t>,
+  uuid:     option<string>,
+  params:   option<string>,
   trustees: option<string>,
-  creds: option<string>,
-  uuid: string,
-  result: option<string>
+  creds:    option<string>,
+  result:   option<string>
 }
 
 let initial = {
@@ -21,11 +21,11 @@ let initial = {
   voters: [],
   choices: [],
   ballots: [],
-  params: "",
-  trustees: "",
-  creds: "",
-  uuid: "",
-  result: ""
+  params: None,
+  trustees: None,
+  creds: None,
+  uuid: None,
+  result: None
 }
 
 let to_json = (r) => {
@@ -36,11 +36,11 @@ let to_json = (r) => {
     "voters": array(Voter.to_json, r.voters),
     "choices": array(Choice.to_json, r.choices),
     "ballots": array(Ballot.to_json, r.ballots),
-    "params": string(r.params),
-    "trustees": string(r.trustees),
-    "creds": string(r.creds),
-    "uuid": string(r.uuid),
-    "result": string(r.result)
+    "uuid": option(string, r.uuid),
+    "params": option(string, r.params),
+    "trustees": option(string, r.trustees),
+    "creds": option(string, r.creds),
+    "result": option(string, r.result)
   })
 }
 
@@ -54,11 +54,11 @@ let from_json = (json) => {
     voters: field.required(. "voters", array(Voter.from_json)), // TODO: Make it optional
     choices: field.required(. "choices", array(Choice.from_json)),
     ballots: field.required(. "ballots", array(Ballot.from_json)),
-    params: field.required(. "params", string),
-    trustees: field.required(. "trustees", string),
-    creds: field.required(. "creds", string),
-    uuid: field.required(. "uuid", string),
-    result: field.required(. "result", string)
+    uuid: field.required(. "uuid", option(string)),
+    params: field.required(. "params", option(string)),
+    trustees: field.required(. "trustees", option(string)),
+    creds: field.required(. "creds", option(string)),
+    result: field.required(. "result", option(string))
   })
   switch (json->Json.decode(decode)) {
     | Ok(result) => result
@@ -95,19 +95,16 @@ let post_result = (election, result: string) => {
 }
 
 let createBallot = (election : t, private_credential : string, selection : array<int>) : Ballot.t => {
-  let params = Belenios.Election.of_str(election.params)
-  let trustees = Belenios.Trustees.of_str(election.trustees)
+  let params = Belenios.Election.of_str(Option.getExn(election.params))
+  let trustees = Belenios.Trustees.of_str(Option.getExn(election.trustees))
 
   let ciphertext =
     Belenios.Election.vote(params, private_credential, [selection], trustees)
     -> Belenios.Ballot.to_str
 
-  Js.log("ciphertext")
-  Js.log(ciphertext)
-
   {
     electionId: election.id,
-    ciphertext,
+    ciphertext: Some(ciphertext),
     public_credential: "", // TODO: Get from Belenios lib
     private_credential
   }

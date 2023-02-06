@@ -72,10 +72,10 @@ let effectCreateElection = state => {
  
     let election = {
       ...state.election,
-      uuid,
-      params: Belenios.Election.to_str(params),
-      trustees: Belenios.Trustees.to_str(trustees),
-      creds: Option.getExn(Js.Json.stringifyAny(pubcreds)),
+      uuid: Some(uuid),
+      params: Some(Belenios.Election.to_str(params)),
+      trustees: Some(Belenios.Trustees.to_str(trustees)),
+      creds: Js.Json.stringifyAny(pubcreds),
       voters
     }
 
@@ -109,7 +109,7 @@ let effectPublishElectionResult = (state, result) => {
   dispatch => {
     Election.post_result(state.election, result)
     -> Promise.thenResolve(_ => {
-      dispatch(Action.Election_SetResult(result))
+      dispatch(Action.Election_SetResult(Some(result)))
       ()
     })
     -> ignore

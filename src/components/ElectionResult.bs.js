@@ -15,9 +15,10 @@ function getResultN(results, i) {
 function ElectionResult(Props) {
   var match = Context.use(undefined);
   var state = match[0];
+  var result = state.election.result;
   var tmp;
-  if (state.election.result !== "") {
-    var results = JSON.parse(state.election.result);
+  if (result !== undefined) {
+    var results = JSON.parse(result);
     tmp = React.createElement(ReactNativePaper.List.Section, {
           title: "Resultats",
           children: Belt_Array.mapWithIndex(state.election.choices, (function (i, choice) {

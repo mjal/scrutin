@@ -17,8 +17,9 @@ let make = () => {
       {state.election.name -> React.string}
     </Title>
     {
-      if state.election.result != "" {
-        let results : results_t = parse_results(state.election.result)
+      switch state.election.result {
+      | Some(result) => {
+        let results : results_t = parse_results(result)
 
         <List.Section title="Resultats">
         {
@@ -35,7 +36,8 @@ let make = () => {
           }) -> React.array
         } 
         </List.Section>
-      } else {
+      }
+      | None => 
         "The election is not closed yet" -> React.string
       }
     }

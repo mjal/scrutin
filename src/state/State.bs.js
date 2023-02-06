@@ -78,7 +78,10 @@ function effectCreateElection(state, dispatch) {
   var election_name = init.name;
   var election_choices = init.choices;
   var election_ballots = init.ballots;
-  var election_creds = Belt_Option.getExn(JSON.stringify(pubcreds));
+  var election_uuid = uuid;
+  var election_params = params;
+  var election_trustees = trustees;
+  var election_creds = JSON.stringify(pubcreds);
   var election_result = init.result;
   var election = {
     id: election_id,
@@ -86,10 +89,10 @@ function effectCreateElection(state, dispatch) {
     voters: voters,
     choices: election_choices,
     ballots: election_ballots,
-    params: params,
-    trustees: trustees,
+    uuid: election_uuid,
+    params: election_params,
+    trustees: election_trustees,
     creds: election_creds,
-    uuid: uuid,
     result: election_result
   };
   Election.post(election).then(function (prim) {
@@ -192,10 +195,10 @@ function reducer(state, action) {
                     voters: Election.initial.voters,
                     choices: Election.initial.choices,
                     ballots: Election.initial.ballots,
+                    uuid: Election.initial.uuid,
                     params: Election.initial.params,
                     trustees: Election.initial.trustees,
                     creds: Election.initial.creds,
-                    uuid: Election.initial.uuid,
                     result: Election.initial.result
                   },
                   elections: state.elections,

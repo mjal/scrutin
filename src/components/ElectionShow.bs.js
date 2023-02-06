@@ -6,6 +6,7 @@ import * as React from "react";
 import * as Context from "../state/Context.bs.js";
 import * as Belenios from "../Belenios.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
@@ -26,11 +27,12 @@ function ElectionShow(Props) {
   var setShowSnackbar = match$2[1];
   var nb_ballots = String(state.election.ballots.length);
   var nb_votes = String(Belt_Array.keep(state.election.ballots, (function (ballot) {
-              return ballot.ciphertext !== "";
+              return Belt_Option.isSome(ballot.ciphertext);
             })).length);
   React.useEffect((function () {
-          if (state.election.trustees !== "") {
-            var pubkey = Belenios.Trustees.pubkey(state.election.trustees);
+          var trustees = state.election.trustees;
+          if (trustees !== undefined) {
+            var pubkey = Belenios.Trustees.pubkey(trustees);
             AsyncStorage.default.getItem(pubkey).then(function (res) {
                   Curry._1(setPrivkey, (function (param) {
                           if (res === null) {
@@ -45,12 +47,11 @@ function ElectionShow(Props) {
         }), [state.election.trustees]);
   var tally = function (param) {
     if (privkey !== undefined) {
-      var params = state.election.params;
-      var ballots = Belt_Array.map(state.election.ballots, (function (ballot) {
-              return ballot.ciphertext;
-            }));
-      var trustees = state.election.trustees;
-      console.log(state.election.creds);
+      var params = Belt_Option.getExn(state.election.params);
+      var ballots = Belt_Array.map(Belt_Array.keep(Belt_Array.map(state.election.ballots, (function (ballot) {
+                      return ballot.ciphertext;
+                    })), Belt_Option.isSome), Belt_Option.getExn);
+      var trustees = Belt_Option.getExn(state.election.trustees);
       var pubcreds = (JSON.parse(state.election.creds));
       var match = Belenios.Election.decrypt(params, ballots, trustees, pubcreds, privkey);
       var res = Belenios.Election.result(params, ballots, trustees, pubcreds, match[0], match[1]);

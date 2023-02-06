@@ -11,19 +11,22 @@ let make = () => {
 
   let nb_ballots = Array.length(state.election.ballots) -> Int.toString
   let nb_votes   = state.election.ballots
-    -> Array.keep((ballot) => ballot.ciphertext != "")
+    -> Array.keep((ballot) => Option.isSome(ballot.ciphertext))
     -> Array.length
     -> Int.toString
 
   React.useEffect1(() => {
-    if state.election.trustees != "" {
-      let pubkey = Belenios.Trustees.pubkey(Belenios.Trustees.of_str(state.election.trustees))
+    switch state.election.trustees {
+      | None => ()
+      | Some(trustees) => {
+        let pubkey = Belenios.Trustees.pubkey(Belenios.Trustees.of_str(trustees))
 
-      ReactNativeAsyncStorage.getItem(pubkey)
-      -> Promise.thenResolve((res) => {
-        setPrivkey(_ => Js.Null.toOption(res))
-      })
-      -> ignore
+        ReactNativeAsyncStorage.getItem(pubkey)
+        -> Promise.thenResolve((res) => {
+          setPrivkey(_ => Js.Null.toOption(res))
+        })
+        -> ignore
+      }
     }
     None
   }, [state.election.trustees])
@@ -31,10 +34,13 @@ let make = () => {
   let tally = _ => {
     switch privkey {
     | Some(sPrivkey) => {
-      let params = Belenios.Election.of_str(state.election.params)
-      let ballots = Array.map(state.election.ballots, (ballot) => Belenios.Ballot.of_str(ballot.ciphertext))
-      let trustees = Belenios.Trustees.of_str(state.election.trustees)
-      Js.log(state.election.creds)
+      let params = Belenios.Election.of_str(Option.getExn(state.election.params))
+      let ballots =
+        state.election.ballots
+        -> Array.map((ballot) => ballot.ciphertext)
+        -> Array.keep(Option.isSome)
+        -> Array.map((ciphertext) => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
+      let trustees = Belenios.Trustees.of_str(Option.getExn(state.election.trustees))
       let pubcreds : array<string> = %raw(`JSON.parse(state.election.creds)`)
       let tPrivkey = Belenios.Trustees.Privkey.of_str(sPrivkey)
       let (a, b) = Belenios.Election.decrypt(params, ballots, trustees, pubcreds, tPrivkey)
