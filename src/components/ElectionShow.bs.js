@@ -53,8 +53,8 @@ function ElectionShow(Props) {
                     })), Belt_Option.isSome), Belt_Option.getExn);
       var trustees = Belt_Option.getExn(state.election.trustees);
       var pubcreds = (JSON.parse(state.election.creds));
-      var match = Belenios.Election.decrypt(params, ballots, trustees, pubcreds, privkey);
-      var res = Belenios.Election.result(params, ballots, trustees, pubcreds, match[0], match[1]);
+      var match = Belenios.Election.decrypt(params)(ballots, trustees, pubcreds, privkey);
+      var res = Belenios.Election.result(params)(ballots, trustees, pubcreds, match[0], match[1]);
       Curry._1(dispatch, {
             TAG: /* Election_PublishResult */0,
             _0: res
@@ -82,7 +82,7 @@ function ElectionShow(Props) {
                       children: React.createElement(ReactNativePaper.Button, {
                             onPress: (function (param) {
                                 Curry._1(dispatch, {
-                                      TAG: /* Navigate */12,
+                                      TAG: /* Navigate */11,
                                       _0: {
                                         TAG: /* ElectionBooth */1,
                                         _0: state.election.id
@@ -100,7 +100,7 @@ function ElectionShow(Props) {
                       children: React.createElement(ReactNativePaper.Button, {
                             onPress: (function (param) {
                                 Curry._1(dispatch, {
-                                      TAG: /* Navigate */12,
+                                      TAG: /* Navigate */11,
                                       _0: {
                                         TAG: /* ElectionResult */2,
                                         _0: state.election.id

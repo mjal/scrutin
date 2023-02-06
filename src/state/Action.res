@@ -3,7 +3,7 @@ type t =
   | Election_PublishResult(string)
   | Election_SetResult(option<string>)
   | Election_SetName(string)
-  | Election_SetBelenios(option<string>, option<string>, option<string>)
+  //| Election_SetBelenios(option<string>, option<string>, option<string>)
   | Election_AddVoter(string)
   | Election_RemoveVoter(int)
   | Election_AddChoice(string)

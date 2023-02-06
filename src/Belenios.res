@@ -40,25 +40,37 @@ module PartialDecryption = {
 }
 
 module Election = {
-  type t
+  type question_t = {
+    question: string,
+    max: int,
+    min: int,
+    blank: bool,
+    answers: array<string>
+  }
 
-  @module("./belenios_jslib2") @scope("belenios") @val external create: (~name: string, ~description: string, ~choices: array<string>, ~trustees: Trustees.t) => t = "makeElection"
-  @module("./belenios_jslib2") @scope("belenios") @val external vote: (t, string, array<array<int>>, Trustees.t) => Ballot.t = "encryptBallot"
+  type t = {
+    version: string,
+    uuid: string,
+    name: string,
+    description: string,
+    group: string,
+    public_key: string,
+    questions: array<question_t>
+  }
 
-  @module("./belenios_jslib2") @scope("belenios") @val external decrypt: (t, array<Ballot.t>, Trustees.t, array<string>, Trustees.Privkey.t) => (PartialDecryption.t1, PartialDecryption.t2) = "decrypt"
-  @module("./belenios_jslib2") @scope("belenios") @val external result: (t, array<Ballot.t>, Trustees.t, array<string>, PartialDecryption.t1, PartialDecryption.t2) => (string) = "result"
+  external parse: (string) => t = "JSON.parse"
+  external stringify: (t) => string = "JSON.stringify"
 
-  let uuid : (t) => string = %raw(`
-    function(e) {
-      console.log(1);
-      console.log(e);
-      var uuid = JSON.parse(e)["uuid"];
-      console.log(2)
-      return uuid;
-    }
-  `)
+  @module("./belenios_jslib2") @scope("belenios") @val external _create: (~name: string, ~description: string, ~choices: array<string>, ~trustees: Trustees.t) => string = "makeElection"
+  @module("./belenios_jslib2") @scope("belenios") @val external _vote: (string, ~cred: string, ~selections: array<array<int>>, ~trustees: Trustees.t) => Ballot.t = "encryptBallot"
+  @module("./belenios_jslib2") @scope("belenios") @val external _decrypt: (string, array<Ballot.t>, Trustees.t, array<string>, Trustees.Privkey.t) => (PartialDecryption.t1, PartialDecryption.t2) = "decrypt"
+  @module("./belenios_jslib2") @scope("belenios") @val external _result: (string, array<Ballot.t>, Trustees.t, array<string>, PartialDecryption.t1, PartialDecryption.t2) => (string) = "result"
 
-  external of_str: string => t = "%identity"
-  external to_str: t => string = "%identity"
+  let create = (~name, ~description, ~choices, ~trustees) => parse(_create(~name, ~description, ~choices, ~trustees))
+  let vote    = (o) => _vote(stringify(o))
+  let decrypt = (o) => _decrypt(stringify(o))
+  let result  = (o) => _result(stringify(o))
 
+  let answers = (params) =>
+    Array.getExn(params.questions, 0).answers
 }

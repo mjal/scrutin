@@ -46,7 +46,9 @@ function to_json(r) {
                 }), r.uuid),
           params: Json_Encode$JsonCombinators.option((function (prim) {
                   return prim;
-                }), r.params),
+                }), Belt_Option.map(r.params, (function (prim) {
+                      return JSON.stringify(prim);
+                    }))),
           trustees: Json_Encode$JsonCombinators.option((function (prim) {
                   return prim;
                 }), r.trustees),
@@ -70,7 +72,9 @@ function from_json(json) {
                 choices: field.required("choices", Json_Decode$JsonCombinators.array(Choice.from_json)),
                 ballots: field.required("ballots", Json_Decode$JsonCombinators.array(Ballot.from_json)),
                 uuid: field.required("uuid", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string)),
-                params: field.required("params", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string)),
+                params: Belt_Option.map(field.required("params", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string)), (function (prim) {
+                        return JSON.parse(prim);
+                      })),
                 trustees: field.required("trustees", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string)),
                 creds: field.required("creds", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string)),
                 result: field.required("result", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string))
@@ -116,9 +120,8 @@ function post_result(election, result) {
 }
 
 function createBallot(election, private_credential, selection) {
-  var params = Belt_Option.getExn(election.params);
   var trustees = Belt_Option.getExn(election.trustees);
-  var ciphertext = Belenios.Election.vote(params, private_credential, [selection], trustees);
+  var ciphertext = Belenios.Election.vote(Belt_Option.getExn(election.params))(private_credential, [selection], trustees);
   return {
           electionId: election.id,
           ciphertext: ciphertext,
@@ -158,20 +161,7 @@ function reducer(election, action) {
                 creds: election.creds,
                 result: election.result
               };
-    case /* Election_SetBelenios */3 :
-        return {
-                id: election.id,
-                name: election.name,
-                voters: election.voters,
-                choices: election.choices,
-                ballots: election.ballots,
-                uuid: election.uuid,
-                params: action._0,
-                trustees: action._1,
-                creds: action._2,
-                result: election.result
-              };
-    case /* Election_AddVoter */4 :
+    case /* Election_AddVoter */3 :
         return {
                 id: election.id,
                 name: election.name,
@@ -189,7 +179,7 @@ function reducer(election, action) {
                 creds: election.creds,
                 result: election.result
               };
-    case /* Election_RemoveVoter */5 :
+    case /* Election_RemoveVoter */4 :
         var index = action._0;
         return {
                 id: election.id,
@@ -205,7 +195,7 @@ function reducer(election, action) {
                 creds: election.creds,
                 result: election.result
               };
-    case /* Election_AddChoice */6 :
+    case /* Election_AddChoice */5 :
         return {
                 id: election.id,
                 name: election.name,
@@ -221,7 +211,7 @@ function reducer(election, action) {
                 creds: election.creds,
                 result: election.result
               };
-    case /* Election_RemoveChoice */7 :
+    case /* Election_RemoveChoice */6 :
         var index$1 = action._0;
         return {
                 id: election.id,

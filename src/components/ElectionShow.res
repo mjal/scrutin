@@ -34,7 +34,7 @@ let make = () => {
   let tally = _ => {
     switch privkey {
     | Some(sPrivkey) => {
-      let params = Belenios.Election.of_str(Option.getExn(state.election.params))
+      let params = Option.getExn(state.election.params)
       let ballots =
         state.election.ballots
         -> Array.map((ballot) => ballot.ciphertext)

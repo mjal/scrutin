@@ -32,10 +32,16 @@ let make = (~currentChoice, ~onChoiceChange) => {
   <View>
     <List.Section title="Choices" style=styles["margin-x"]>
       {
-        state.election.choices
-        -> Array.mapWithIndex((i, choice) => {
+        Js.log(101)
+        Js.log(state.election.params)
+        Js.log(102)
+        Js.log(state.election.params -> Option.getExn)
+        Js.log(103)
+        Js.log(state.election.params -> Option.getExn -> Belenios.Election.answers)
+        state.election.params -> Option.getExn -> Belenios.Election.answers
+        -> Array.mapWithIndex((i, choiceName) => {
           let selected = currentChoice == Choice(i)
-          <Choice name=choice.name selected onSelect={_ => onChoiceChange(Choice(i))} key=Int.toString(i) />
+          <Choice name=choiceName selected onSelect={_ => onChoiceChange(Choice(i))} key=Int.toString(i) />
         })
         -> React.array
       }

@@ -9,7 +9,7 @@ type t = {
   choices:  array<Choice.t>,
   ballots:  array<Ballot.t>,
   uuid:     option<string>,
-  params:   option<string>,
+  params:   option<Belenios.Election.t>,
   trustees: option<string>,
   creds:    option<string>,
   result:   option<string>
@@ -37,7 +37,7 @@ let to_json = (r) => {
     "choices": array(Choice.to_json, r.choices),
     "ballots": array(Ballot.to_json, r.ballots),
     "uuid": option(string, r.uuid),
-    "params": option(string, r.params),
+    "params": option(string, r.params -> Option.map(Belenios.Election.stringify)),
     "trustees": option(string, r.trustees),
     "creds": option(string, r.creds),
     "result": option(string, r.result)
@@ -49,16 +49,18 @@ exception DecodeError({error: string})
 let from_json = (json) => {
   open Json.Decode
   let decode = object(field => {
-    id: field.required(. "id", int),
-    name: field.required(. "name", string),
-    voters: field.required(. "voters", array(Voter.from_json)), // TODO: Make it optional
-    choices: field.required(. "choices", array(Choice.from_json)),
-    ballots: field.required(. "ballots", array(Ballot.from_json)),
-    uuid: field.required(. "uuid", option(string)),
-    params: field.required(. "params", option(string)),
-    trustees: field.required(. "trustees", option(string)),
-    creds: field.required(. "creds", option(string)),
-    result: field.required(. "result", option(string))
+    {
+      id: field.required(. "id", int),
+      name: field.required(. "name", string),
+      voters: field.required(. "voters", array(Voter.from_json)), // TODO: Make it optional
+      choices: field.required(. "choices", array(Choice.from_json)),
+      ballots: field.required(. "ballots", array(Ballot.from_json)),
+      uuid: field.required(. "uuid", option(string)),
+      params: field.required(. "params", option(string)) -> Option.map(Belenios.Election.parse),
+      trustees: field.required(. "trustees", option(string)),
+      creds: field.required(. "creds", option(string)),
+      result: field.required(. "result", option(string))
+    }
   })
   switch (json->Json.decode(decode)) {
     | Ok(result) => result
@@ -95,11 +97,10 @@ let post_result = (election, result: string) => {
 }
 
 let createBallot = (election : t, private_credential : string, selection : array<int>) : Ballot.t => {
-  let params = Belenios.Election.of_str(Option.getExn(election.params))
   let trustees = Belenios.Trustees.of_str(Option.getExn(election.trustees))
 
   let ciphertext =
-    Belenios.Election.vote(params, private_credential, [selection], trustees)
+    Belenios.Election.vote(Option.getExn(election.params), ~cred=private_credential, ~selections=[selection], ~trustees)
     -> Belenios.Ballot.to_str
 
   {
@@ -116,11 +117,10 @@ let reducer = (election, action) => {
       ...election,
       name: name
     }
-    | Election_SetBelenios(params, trustees, creds) => {
-      ...election,
-      params, trustees, creds
-    }
-    // TODO: Generate unique negative index. Use it for RemoveVoter and index=
+    //| Election_SetBelenios(params, trustees, creds) => {
+    //  ...election,
+    //  params, trustees, creds
+    //}
     | Election_AddVoter(email) => {
       ...election,
       voters: Array.concat(election.voters, [{ id: 0, email: email, pubCred: "", privCred: "" }: Voter.t])

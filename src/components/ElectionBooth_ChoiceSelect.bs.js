@@ -3,8 +3,10 @@
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Context from "../state/Context.bs.js";
+import * as Belenios from "../Belenios.bs.js";
 import * as Caml_obj from "rescript/lib/es6/caml_obj.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
 
@@ -40,24 +42,25 @@ function ElectionBooth_ChoiceSelect(Props) {
   var currentChoice = Props.currentChoice;
   var onChoiceChange = Props.onChoiceChange;
   var match = Context.use(undefined);
+  var state = match[0];
   return React.createElement(ReactNative.View, {
               children: React.createElement(ReactNativePaper.List.Section, {
                     title: "Choices",
-                    children: Belt_Array.mapWithIndex(match[0].election.choices, (function (i, choice) {
-                            var selected = Caml_obj.equal(currentChoice, /* Choice */{
-                                  _0: i
-                                });
-                            return React.createElement(ElectionBooth_ChoiceSelect$Choice, {
-                                        name: choice.name,
-                                        selected: selected,
-                                        onSelect: (function (param) {
-                                            Curry._1(onChoiceChange, /* Choice */{
-                                                  _0: i
-                                                });
-                                          }),
-                                        key: String(i)
-                                      });
-                          })),
+                    children: (console.log(101), console.log(state.election.params), console.log(102), console.log(Belt_Option.getExn(state.election.params)), console.log(103), console.log(Belenios.Election.answers(Belt_Option.getExn(state.election.params))), Belt_Array.mapWithIndex(Belenios.Election.answers(Belt_Option.getExn(state.election.params)), (function (i, choiceName) {
+                              var selected = Caml_obj.equal(currentChoice, /* Choice */{
+                                    _0: i
+                                  });
+                              return React.createElement(ElectionBooth_ChoiceSelect$Choice, {
+                                          name: choiceName,
+                                          selected: selected,
+                                          onSelect: (function (param) {
+                                              Curry._1(onChoiceChange, /* Choice */{
+                                                    _0: i
+                                                  });
+                                            }),
+                                          key: String(i)
+                                        });
+                            }))),
                     style: styles["margin-x"]
                   })
             });

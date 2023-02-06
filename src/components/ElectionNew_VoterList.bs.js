@@ -31,7 +31,7 @@ function ElectionNew_VoterList(Props) {
     console.log("Add voter");
     if (EmailValidator.validate(email)) {
       Curry._1(dispatch, {
-            TAG: /* Election_AddVoter */4,
+            TAG: /* Election_AddVoter */3,
             _0: email
           });
       Curry._1(setEmail, (function (param) {

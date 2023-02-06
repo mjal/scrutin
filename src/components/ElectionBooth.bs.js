@@ -42,7 +42,7 @@ function ElectionBooth(Props) {
             }
           }));
     Curry._1(dispatch, {
-          TAG: /* Ballot_Create */11,
+          TAG: /* Ballot_Create */10,
           _0: token,
           _1: selectionArray
         });
@@ -81,7 +81,7 @@ function ElectionBooth(Props) {
                       children: React.createElement(ReactNativePaper.Button, {
                             onPress: (function (param) {
                                 Curry._1(dispatch, {
-                                      TAG: /* Navigate */12,
+                                      TAG: /* Navigate */11,
                                       _0: {
                                         TAG: /* ElectionShow */0,
                                         _0: state.election.id
