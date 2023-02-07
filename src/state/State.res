@@ -48,6 +48,7 @@ let reducer = (state, action: Action.t) => {
         | ElectionShow(id)
         | ElectionResult(id) =>
         X.setUrlPathname(`/elections/${id->Int.toString}`)
+        | Home => X.setUrlPathname("/")
         | _ => ()
       }
       let effects = switch route {

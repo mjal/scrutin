@@ -133,7 +133,11 @@ function reducer(state, action) {
       case /* Navigate */11 :
           var route = action._0;
           if (typeof route === "number") {
-            
+            if (route !== 0) {
+              
+            } else {
+              X.setUrlPathname("/");
+            }
           } else {
             X.setUrlPathname("/elections/" + String(route._0) + "");
           }
