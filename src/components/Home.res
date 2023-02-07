@@ -11,6 +11,9 @@ let make = () => {
     <>
       <Title style=X.styles["title"]>
         { `Hello ${user.email}` -> React.string }
+        <Button mode=#contained onPress={_ => dispatch(User_Logout)}>
+          <Text>{ "Logout" -> React.string }</Text>
+        </Button>
       </Title>
       <Button mode=#contained onPress={_ => dispatch(Navigate(Route.ElectionNew))} style=X.styles["margin-x"]>
         {"Creer une nouvelle election" -> React.string}

@@ -108,3 +108,28 @@ let goToUrl = dispatch => {
     }
   }) -> ignore
 }
+
+let storeUser = (user : User.t) => {
+  dispatch => {
+    ReactNativeAsyncStorage.setItem("email", user.email) -> ignore
+    ReactNativeAsyncStorage.setItem("password", user.password) -> ignore
+  }
+}
+
+let storeRemoveUser = _dispatch => {
+  ReactNativeAsyncStorage.removeItem("email") -> ignore
+  ReactNativeAsyncStorage.removeItem("password") -> ignore
+}
+
+let tryRestoreUser = dispatch => {
+  ReactNativeAsyncStorage.getItem("email")
+  -> Promise.thenResolve((nullableEmail) => {
+    ReactNativeAsyncStorage.getItem("password")
+    -> Promise.thenResolve((nullablePassword) => {
+      switch (Js.Null.toOption(nullableEmail), Js.Null.toOption(nullablePassword)) {
+        | (Some(email), Some(password)) => dispatch(Action.User_Login({email, password}))
+        | _ => ()
+      }
+    }) -> ignore
+  }) -> ignore
+}

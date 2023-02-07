@@ -16,8 +16,16 @@ function Home(Props) {
   if (user !== undefined) {
     return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
                     style: X.styles.title,
-                    children: "Hello " + user.email + ""
-                  }), React.createElement(ReactNativePaper.Button, {
+                    children: null
+                  }, "Hello " + user.email + "", React.createElement(ReactNativePaper.Button, {
+                        mode: "contained",
+                        onPress: (function (param) {
+                            Curry._1(dispatch, /* User_Logout */2);
+                          }),
+                        children: React.createElement(ReactNativePaper.Text, {
+                              children: "Logout"
+                            })
+                      })), React.createElement(ReactNativePaper.Button, {
                     mode: "contained",
                     style: X.styles["margin-x"],
                     onPress: (function (param) {

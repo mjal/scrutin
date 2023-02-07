@@ -137,6 +137,33 @@ function goToUrl(dispatch) {
       });
 }
 
+function storeUser(user, dispatch) {
+  AsyncStorage.default.setItem("email", user.email);
+  AsyncStorage.default.setItem("password", user.password);
+}
+
+function storeRemoveUser(_dispatch) {
+  AsyncStorage.default.removeItem("email");
+  AsyncStorage.default.removeItem("password");
+}
+
+function tryRestoreUser(dispatch) {
+  AsyncStorage.default.getItem("email").then(function (nullableEmail) {
+        AsyncStorage.default.getItem("password").then(function (nullablePassword) {
+              if (nullableEmail !== null && nullablePassword !== null) {
+                return Curry._1(dispatch, {
+                            TAG: /* User_Login */12,
+                            _0: {
+                              email: nullableEmail,
+                              password: nullablePassword
+                            }
+                          });
+              }
+              
+            });
+      });
+}
+
 export {
   loadElections ,
   loadElection ,
@@ -144,5 +171,8 @@ export {
   ballotCreate ,
   publishElectionResult ,
   goToUrl ,
+  storeUser ,
+  storeRemoveUser ,
+  tryRestoreUser ,
 }
 /* Belenios Not a pure module */

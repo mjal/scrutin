@@ -15,3 +15,4 @@ type t =
   | Ballot_Create(string, array<int>)
   | Navigate(Route.t)
   | User_Login(User.t)
+  | User_Logout

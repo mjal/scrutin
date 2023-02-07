@@ -18,7 +18,7 @@ let initial = {
 
 let reducer = (state, action: Action.t) => {
   switch (action) {
-    | Init => ({...state, elections_loading: true}, [Effect.goToUrl, Effect.loadElections])
+    | Init => ({...state, elections_loading: true}, [Effect.goToUrl, Effect.loadElections, Effect.tryRestoreUser])
     | Election_Fetch(id) => ({
       ...state,
       loading: true,
@@ -51,7 +51,9 @@ let reducer = (state, action: Action.t) => {
       }
       ({...state, route}, effects)
     | User_Login(user) =>
-      ({...state, user: Some(user)}, [])
+      ({...state, user: Some(user)}, [Effect.storeUser(user)])
+    | User_Logout =>
+      ({...state, user: None}, [Effect.storeRemoveUser])
     | _ =>
     ({
       ...state,

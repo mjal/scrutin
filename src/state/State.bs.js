@@ -18,30 +18,46 @@ var initial = {
 
 function reducer(state, action) {
   if (typeof action === "number") {
-    if (action === /* Init */0) {
-      return [
-              {
-                election: state.election,
-                elections: state.elections,
-                elections_loading: true,
-                user: state.user,
-                loading: state.loading,
-                route: state.route
-              },
-              [
-                Effect.goToUrl,
-                Effect.loadElections
-              ]
-            ];
+    switch (action) {
+      case /* Init */0 :
+          return [
+                  {
+                    election: state.election,
+                    elections: state.elections,
+                    elections_loading: true,
+                    user: state.user,
+                    loading: state.loading,
+                    route: state.route
+                  },
+                  [
+                    Effect.goToUrl,
+                    Effect.loadElections,
+                    Effect.tryRestoreUser
+                  ]
+                ];
+      case /* Election_Post */1 :
+          var partial_arg = Belt_Option.getExn(state.user);
+          var partial_arg$1 = state.election;
+          return [
+                  state,
+                  [(function (param) {
+                        return Effect.createElection(partial_arg$1, partial_arg, param);
+                      })]
+                ];
+      case /* User_Logout */2 :
+          return [
+                  {
+                    election: state.election,
+                    elections: state.elections,
+                    elections_loading: state.elections_loading,
+                    user: undefined,
+                    loading: state.loading,
+                    route: state.route
+                  },
+                  [Effect.storeRemoveUser]
+                ];
+      
     }
-    var partial_arg = Belt_Option.getExn(state.user);
-    var partial_arg$1 = state.election;
-    return [
-            state,
-            [(function (param) {
-                  return Effect.createElection(partial_arg$1, partial_arg, param);
-                })]
-          ];
   } else {
     switch (action.TAG | 0) {
       case /* Election_PublishResult */0 :
@@ -136,16 +152,19 @@ function reducer(state, action) {
                   effects
                 ];
       case /* User_Login */12 :
+          var user = action._0;
           return [
                   {
                     election: state.election,
                     elections: state.elections,
                     elections_loading: state.elections_loading,
-                    user: action._0,
+                    user: user,
                     loading: state.loading,
                     route: state.route
                   },
-                  []
+                  [(function (param) {
+                        return Effect.storeUser(user, param);
+                      })]
                 ];
       default:
         return [
