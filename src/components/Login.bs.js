@@ -52,7 +52,7 @@ function Login(Props) {
               children: null
             }, React.createElement(ReactNativePaper.Title, {
                   style: X.styles.title,
-                  children: "Login"
+                  children: "Please login (only beta-testers can create elections)"
                 }), error === "" ? React.createElement(React.Fragment, undefined) : React.createElement(ReactNativePaper.HelperText, {
                     type: "error",
                     children: error

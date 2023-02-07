@@ -3,6 +3,7 @@
 import * as Effect from "./Effect.bs.js";
 import * as Election from "./Election.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 
 var initial_elections = [];
 
@@ -33,22 +34,23 @@ function reducer(state, action) {
               ]
             ];
     }
-    var partial_arg = state.election;
+    var partial_arg = Belt_Option.getExn(state.user);
+    var partial_arg$1 = state.election;
     return [
             state,
             [(function (param) {
-                  return Effect.createElection(partial_arg, param);
+                  return Effect.createElection(partial_arg$1, partial_arg, param);
                 })]
           ];
   } else {
     switch (action.TAG | 0) {
       case /* Election_PublishResult */0 :
           var result = action._0;
-          var partial_arg$1 = state.election;
+          var partial_arg$2 = state.election;
           return [
                   state,
                   [(function (param) {
-                        return Effect.publishElectionResult(partial_arg$1, result, param);
+                        return Effect.publishElectionResult(partial_arg$2, result, param);
                       })]
                 ];
       case /* Election_Fetch */7 :
@@ -104,11 +106,11 @@ function reducer(state, action) {
       case /* Ballot_Create */10 :
           var selection = action._1;
           var token = action._0;
-          var partial_arg$2 = state.election;
+          var partial_arg$3 = state.election;
           return [
                   state,
                   [(function (param) {
-                        return Effect.ballotCreate(partial_arg$2, token, selection, param);
+                        return Effect.ballotCreate(partial_arg$3, token, selection, param);
                       })]
                 ];
       case /* Navigate */11 :

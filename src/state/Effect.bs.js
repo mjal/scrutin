@@ -37,7 +37,7 @@ function loadElection(id, dispatch) {
       });
 }
 
-function createElection(election, dispatch) {
+function createElection(election, user, dispatch) {
   var match = Belenios.Trustees.create(undefined);
   var trustees = match[1];
   AsyncStorage.default.setItem(Belenios.Trustees.pubkey(trustees), match[0]);
@@ -78,7 +78,7 @@ function createElection(election, dispatch) {
     creds: election_creds,
     result: election_result
   };
-  Election.post(election$1).then(function (prim) {
+  Election.post(election$1, user).then(function (prim) {
           return prim.json();
         }).then(function (res) {
         Curry._1(dispatch, {

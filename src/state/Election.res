@@ -80,8 +80,12 @@ let getAll = () => {
   -> Promise.then(Webapi.Fetch.Response.json)
 }
 
-let post = (election) => {
-  X.post(`${Config.api_url}/elections/`, election -> to_json)
+let post = (election, user: User.t) => {
+  let dict = Js.Dict.empty()
+  Js.Dict.set(dict, "election", election -> to_json)
+  Js.Dict.set(dict, "user", user -> User.to_json)
+  let object = Js.Json.object_(dict)
+  X.post(`${Config.api_url}/elections/`, object)
 }
 
 let post_ballot = (election, ballot: Ballot.t) => {

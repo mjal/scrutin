@@ -3,6 +3,7 @@
 /* eslint-disable no-throw-literal */
 
 import * as X from "../X.bs.js";
+import * as User from "./User.bs.js";
 import * as Voter from "./Voter.bs.js";
 import * as Ballot from "./Ballot.bs.js";
 import * as Choice from "./Choice.bs.js";
@@ -103,8 +104,11 @@ function getAll(param) {
             });
 }
 
-function post(election) {
-  return X.post("" + Config.api_url + "/elections/", to_json(election));
+function post(election, user) {
+  var dict = {};
+  dict["election"] = to_json(election);
+  dict["user"] = User.to_json(user);
+  return X.post("" + Config.api_url + "/elections/", dict);
 }
 
 function post_ballot(election, ballot) {

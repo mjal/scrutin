@@ -20,10 +20,10 @@ let make = () => {
       }
     })
     -> ignore
-  } 
+  }
 
   <View style=X.styles["margin-x"]>
-    <Title style=X.styles["title"]>{ "Login" -> React.string }</Title>
+    <Title style=X.styles["title"]>{ "Please login (only beta-testers can create elections)" -> React.string }</Title>
     { if error == "" { <></> } else {
       <HelperText _type=#error>
         { error -> React.string }

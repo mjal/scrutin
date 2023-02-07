@@ -17,7 +17,7 @@ let loadElection = id => {
   }
 }
 
-let createElection = (election : Election.t) => {
+let createElection = (election : Election.t, user: User.t) => {
   dispatch => {
     let (privkey, trustees) = Belenios.Trustees.create()
 
@@ -51,7 +51,7 @@ let createElection = (election : Election.t) => {
     }
 
     election
-    -> Election.post
+    -> Election.post(user)
     -> Promise.then(Webapi.Fetch.Response.json)
     -> Promise.thenResolve((res) => {
       dispatch(Action.Election_Load(res))

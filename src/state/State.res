@@ -34,7 +34,7 @@ let reducer = (state, action: Action.t) => {
       elections_loading: false,
       elections: Array.map(jsons, Election.from_json) -> Array.reverse
     }, [])
-    | Election_Post => (state, [ Effect.createElection(state.election) ])
+    | Election_Post => (state, [ Effect.createElection(state.election, Option.getExn(state.user)) ])
     | Election_PublishResult(result) => {
       //let election = {...state.election, result}
       (state, [Effect.publishElectionResult(state.election, result)])
