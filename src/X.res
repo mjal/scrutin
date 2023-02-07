@@ -1,12 +1,3 @@
-// Forms
-let ev = (event) => ReactEvent.Form.target(event)["value"] 
-let prevent = (f) =>
-  (e) => {
-    ReactEvent.Synthetic.preventDefault(e)
-    f(e)
-  }
-let isKeyEnter : ('a => bool) = %raw(`function(key) { return key.key == "Enter" }`)
-
 let post = (url, json) => {
   let headers = {
     "Content-Type": "application/json"
@@ -125,3 +116,13 @@ module SegmentedButtons = {
     // density
   ) => React.element = "SegmentedButtons"
 }
+
+// Forms
+let ev = (event) => ReactEvent.Form.target(event)["value"] 
+let prevent = (f) =>
+  (e) => {
+    ReactEvent.Synthetic.preventDefault(e)
+    f(e)
+  }
+let isKeyEnter : ('a => bool) = %raw(`function(key) { return key.key == "Enter" }`)
+let setUrlPathname : (string) => unit = %raw(`function(pathname) { window.history.pushState({}, null, pathname); }`)

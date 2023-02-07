@@ -6,17 +6,6 @@ import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as ReactNative from "react-native";
 import * as Webapi__Fetch from "rescript-webapi/src/Webapi/Webapi__Fetch.bs.js";
 
-function ev($$event) {
-  return $$event.target.value;
-}
-
-function prevent(f, e) {
-  e.preventDefault();
-  return Curry._1(f, e);
-}
-
-var isKeyEnter = (function(key) { return key.key == "Enter" });
-
 function post(url, json) {
   var headers = {
     "Content-Type": "application/json"
@@ -95,14 +84,28 @@ var Col = {
 
 var SegmentedButtons = {};
 
+function ev($$event) {
+  return $$event.target.value;
+}
+
+function prevent(f, e) {
+  e.preventDefault();
+  return Curry._1(f, e);
+}
+
+var isKeyEnter = (function(key) { return key.key == "Enter" });
+
+var setUrlPathname = (function(pathname) { window.history.pushState({}, null, pathname); });
+
 export {
-  ev ,
-  prevent ,
-  isKeyEnter ,
   post ,
   styles ,
   Row ,
   Col ,
   SegmentedButtons ,
+  ev ,
+  prevent ,
+  isKeyEnter ,
+  setUrlPathname ,
 }
 /* styles Not a pure module */

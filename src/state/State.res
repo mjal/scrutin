@@ -43,6 +43,13 @@ let reducer = (state, action: Action.t) => {
       (state, [ Effect.ballotCreate(state.election, token, selection) ])
     }
     | Navigate(route) =>
+      let () = switch route {
+        | ElectionBooth(id)
+        | ElectionShow(id)
+        | ElectionResult(id) =>
+        X.setUrlPathname(`/elections/${id->Int.toString}`)
+        | _ => ()
+      }
       let effects = switch route {
         | ElectionBooth(id) => [Effect.loadElection(id)]
         | ElectionShow(id) => [Effect.loadElection(id)]
