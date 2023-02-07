@@ -12,6 +12,11 @@ let make = () => {
 		setName(_ => "")
 	}
 
+  let onSubmit = _ => {
+    addChoice();
+    setshowModal(_ => false)
+  }
+
   <>
     <X.Row>
       <X.Col>
@@ -50,13 +55,14 @@ let make = () => {
             label="Nom du choix"
             value=name
             onChangeText={text => setName(_ => text)}
+            onKeyPress={key => X.isKeyEnter(key) ? onSubmit() : ()}
           />
           <X.Row>
             <X.Col>
               <Button onPress={_ => { setName(_ => ""); setshowModal(_ => false)} }>{"Retour"->React.string}</Button>
             </X.Col>
             <X.Col>
-              <Button mode=#contained onPress={_ => { addChoice(); setshowModal(_ => false)} }>{"Ajouter"->React.string}</Button>
+              <Button mode=#contained onPress=onSubmit>{"Ajouter"->React.string}</Button>
             </X.Col>
           </X.Row>
         </View>

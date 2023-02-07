@@ -13,26 +13,26 @@ function Home(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var user = match[0].user;
-  return React.createElement(ReactNative.View, {
-              children: null
-            }, user !== undefined ? React.createElement(ReactNativePaper.Title, {
+  if (user !== undefined) {
+    return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
                     style: X.styles.title,
                     children: "Hello " + user.email + ""
-                  }) : React.createElement(Login.make, {}), React.createElement(ReactNative.View, {
-                  style: X.styles.separator
-                }), React.createElement(ReactNativePaper.Button, {
-                  mode: "contained",
-                  style: X.styles["margin-x"],
-                  onPress: (function (param) {
-                      Curry._1(dispatch, {
-                            TAG: /* Navigate */11,
-                            _0: /* ElectionNew */1
-                          });
-                    }),
-                  children: "Creer une nouvelle election"
-                }), React.createElement(ReactNative.View, {
-                  style: X.styles.separator
-                }), React.createElement(Home_ElectionList.make, {}));
+                  }), React.createElement(ReactNativePaper.Button, {
+                    mode: "contained",
+                    style: X.styles["margin-x"],
+                    onPress: (function (param) {
+                        Curry._1(dispatch, {
+                              TAG: /* Navigate */11,
+                              _0: /* ElectionNew */1
+                            });
+                      }),
+                    children: "Creer une nouvelle election"
+                  }), React.createElement(ReactNative.View, {
+                    style: X.styles.separator
+                  }), React.createElement(Home_ElectionList.make, {}));
+  } else {
+    return React.createElement(Login.make, {});
+  }
 }
 
 var make = Home;

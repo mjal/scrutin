@@ -31,6 +31,12 @@ function ElectionNew_ChoiceList(Props) {
             return "";
           }));
   };
+  var onSubmit = function (param) {
+    addChoice(undefined);
+    Curry._1(setshowModal, (function (param) {
+            return false;
+          }));
+  };
   return React.createElement(React.Fragment, undefined, React.createElement(X.Row.make, {
                   children: null
                 }, React.createElement(X.Col.make, {
@@ -87,6 +93,15 @@ function ElectionNew_ChoiceList(Props) {
                                       Curry._1(setName, (function (param) {
                                               return text;
                                             }));
+                                    }),
+                                  onKeyPress: (function (key) {
+                                      if (X.isKeyEnter(key)) {
+                                        addChoice(undefined);
+                                        return Curry._1(setshowModal, (function (param) {
+                                                      return false;
+                                                    }));
+                                      }
+                                      
                                     })
                                 }), React.createElement(X.Row.make, {
                                   children: null
@@ -105,12 +120,7 @@ function ElectionNew_ChoiceList(Props) {
                                     }), React.createElement(X.Col.make, {
                                       children: React.createElement(ReactNativePaper.Button, {
                                             mode: "contained",
-                                            onPress: (function (param) {
-                                                addChoice(undefined);
-                                                Curry._1(setshowModal, (function (param) {
-                                                        return false;
-                                                      }));
-                                              }),
+                                            onPress: onSubmit,
                                             children: "Ajouter"
                                           })
                                     })))

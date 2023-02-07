@@ -107,6 +107,12 @@ function ElectionNew_VoterList(Props) {
                                     Curry._1(setEmail, (function (param) {
                                             return text;
                                           }));
+                                  }),
+                                onKeyPress: (function (key) {
+                                    if (X.isKeyEnter(key)) {
+                                      return addVoter(undefined);
+                                    }
+                                    
                                   })
                               }), React.createElement(X.Row.make, {
                                 children: null

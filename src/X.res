@@ -5,6 +5,7 @@ let prevent = (f) =>
     ReactEvent.Synthetic.preventDefault(e)
     f(e)
   }
+let isKeyEnter : ('a => bool) = %raw(`function(key) { return key.key == "Enter" }`)
 
 let post = (url, json) => {
   let headers = {

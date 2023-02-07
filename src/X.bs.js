@@ -15,6 +15,8 @@ function prevent(f, e) {
   return Curry._1(f, e);
 }
 
+var isKeyEnter = (function(key) { return key.key == "Enter" });
+
 function post(url, json) {
   var headers = {
     "Content-Type": "application/json"
@@ -96,6 +98,7 @@ var SegmentedButtons = {};
 export {
   ev ,
   prevent ,
+  isKeyEnter ,
   post ,
   styles ,
   Row ,

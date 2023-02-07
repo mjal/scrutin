@@ -21,15 +21,6 @@ let make = () => {
     }
 	}
 
-  //let onChangeText = txt => {
-  //    setEmail(_ => txt)
-  //  if EmailValidator.validate(email) {
-  //    setError(_ => false)
-  //  } else {
-  //    setError(_ => true)
-  //  }
-  //}
-
 	<View>
     <X.Row>
       <X.Col>
@@ -68,6 +59,7 @@ let make = () => {
             label="Email du participant"
             value=email
             onChangeText={text => setEmail(_ => text)}
+            onKeyPress={key => X.isKeyEnter(key) ? addVoter() : ()}
           />
           <X.Row>
             <X.Col>

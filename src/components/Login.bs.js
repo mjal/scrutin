@@ -74,6 +74,12 @@ function Login(Props) {
                       Curry._1(setPassword, (function (param) {
                               return text;
                             }));
+                    }),
+                  onKeyPress: (function (key) {
+                      if (X.isKeyEnter(key)) {
+                        return onSubmit(undefined);
+                      }
+                      
                     })
                 }), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ReactNativePaper.Button, {
                   mode: "contained",
