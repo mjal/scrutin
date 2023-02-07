@@ -6,15 +6,11 @@ import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 
 var initial_elections = [];
 
-var initial_user = {
-  token: ""
-};
-
 var initial = {
   election: Election.initial,
   elections: initial_elections,
   elections_loading: false,
-  user: initial_user,
+  user: undefined,
   loading: false,
   route: /* Home */0
 };
@@ -136,6 +132,18 @@ function reducer(state, action) {
                     route: route
                   },
                   effects
+                ];
+      case /* User_Login */12 :
+          return [
+                  {
+                    election: state.election,
+                    elections: state.elections,
+                    elections_loading: state.elections_loading,
+                    user: action._0,
+                    loading: state.loading,
+                    route: state.route
+                  },
+                  []
                 ];
       default:
         return [

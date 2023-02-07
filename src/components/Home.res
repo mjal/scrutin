@@ -3,12 +3,18 @@ open! Paper
 
 @react.component
 let make = () => {
-  let (_, dispatch) = Context.use()
+  let (state, dispatch) = Context.use()
 
-  let _theme = ThemeProvider.useTheme()
-
-  //<View style=ThemeProvider.Theme.colors>
   <View>
+    {
+      switch state.user {
+      | None => <Login />
+      | Some(user) =>
+        <Title style=X.styles["title"]>
+          { `Hello ${user.email}` -> React.string }
+        </Title>
+      }
+    }
     <View style=X.styles["separator"] />
     <Button mode=#contained onPress={_ => dispatch(Navigate(Route.ElectionNew))} style=X.styles["margin-x"]>
       {"Creer une nouvelle election" -> React.string}

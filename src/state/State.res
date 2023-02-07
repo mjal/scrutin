@@ -2,14 +2,14 @@ type t = {
   election: Election.t,
   elections: array<Election.t>,
   elections_loading: bool,
-  user: User.t, // Obsolite
+  user: option<User.t>,
   loading: bool, // Obsolete
   route: Route.t,
 }
 
 let initial = {
   election: Election.initial,
-  user: { token: "" },
+  user: None,
   loading: false,
   route: Home,
   elections: [],
@@ -50,6 +50,8 @@ let reducer = (state, action: Action.t) => {
         | _ => []
       }
       ({...state, route}, effects)
+    | User_Login(user) =>
+      ({...state, user: Some(user)}, [])
     | _ =>
     ({
       ...state,

@@ -14,3 +14,4 @@ type t =
   | Election_Post
   | Ballot_Create(string, array<int>)
   | Navigate(Route.t)
+  | User_Login(User.t)

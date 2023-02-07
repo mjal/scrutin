@@ -2,6 +2,7 @@
 
 import * as X from "../X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
+import * as Login from "./Login.bs.js";
 import * as React from "react";
 import * as Context from "../state/Context.bs.js";
 import * as ReactNative from "react-native";
@@ -11,10 +12,13 @@ import * as ReactNativePaper from "react-native-paper";
 function Home(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
-  ReactNativePaper.useTheme();
+  var user = match[0].user;
   return React.createElement(ReactNative.View, {
               children: null
-            }, React.createElement(ReactNative.View, {
+            }, user !== undefined ? React.createElement(ReactNativePaper.Title, {
+                    style: X.styles.title,
+                    children: "Hello " + user.email + ""
+                  }) : React.createElement(Login.make, {}), React.createElement(ReactNative.View, {
                   style: X.styles.separator
                 }), React.createElement(ReactNativePaper.Button, {
                   mode: "contained",
