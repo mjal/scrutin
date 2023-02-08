@@ -1,0 +1,1 @@
+type t = {pubkey : string, privkey : Belenios.Trustees.Privkey.t}

@@ -2,14 +2,13 @@
 
 import * as $$URL from "../helpers/URL.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
+import * as Store from "./Store.bs.js";
 import * as Js_json from "rescript/lib/es6/js_json.js";
 import * as Belenios from "../Belenios.bs.js";
 import * as Belt_Int from "rescript/lib/es6/belt_Int.js";
 import * as Election from "./Election.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
-import * as Caml_option from "rescript/lib/es6/caml_option.js";
-import * as AsyncStorage from "@react-native-async-storage/async-storage";
 
 function loadElections(dispatch) {
   Election.getAll(undefined).then(function (res) {
@@ -40,7 +39,10 @@ function loadElection(id, dispatch) {
 function createElection(election, user, dispatch) {
   var match = Belenios.Trustees.create(undefined);
   var trustees = match[1];
-  AsyncStorage.default.setItem(Belenios.Trustees.pubkey(trustees), match[0]);
+  Store.Trustee.add({
+        pubkey: Belenios.Trustees.pubkey(trustees),
+        privkey: match[0]
+      });
   var params = Belenios.Election.create(election.name, "description", Belt_Array.map(election.choices, (function (o) {
               return o.name;
             })), trustees);
@@ -151,42 +153,57 @@ function goToUrl(dispatch) {
       });
 }
 
-function storeUser(user, dispatch) {
-  AsyncStorage.default.setItem("id", String(Belt_Option.getWithDefault(user.id, 0)));
-  AsyncStorage.default.setItem("email", user.email);
-  AsyncStorage.default.setItem("password", user.password);
-}
-
-function storeRemoveUser(_dispatch) {
-  AsyncStorage.default.removeItem("id");
-  AsyncStorage.default.removeItem("email");
-  AsyncStorage.default.removeItem("password");
-}
-
-function tryRestoreUser(dispatch) {
-  Promise.all([
-          AsyncStorage.default.getItem("id"),
-          AsyncStorage.default.getItem("email"),
-          AsyncStorage.default.getItem("password")
-        ]).then(function (param) {
-        var password = param[2];
-        var email = param[1];
-        var match = Belt_Option.map(Caml_option.null_to_opt(param[0]), Belt_Int.fromString);
-        var match$1 = email === null ? undefined : Caml_option.some(email);
-        var match$2 = password === null ? undefined : Caml_option.some(password);
-        if (match !== undefined && email !== null && password !== null) {
+function get(dispatch) {
+  Store.User.get(undefined).then(function (oUser) {
+        if (oUser !== undefined) {
           return Curry._1(dispatch, {
                       TAG: /* User_Login */12,
-                      _0: {
-                        id: Caml_option.valFromOption(match),
-                        email: match$1,
-                        password: match$2
-                      }
+                      _0: oUser
                     });
         }
         
       });
 }
+
+function set(user, _dispatch) {
+  Store.User.set(user);
+}
+
+function clean(_dispatch) {
+  Store.User.clean(undefined);
+}
+
+var User = {
+  get: get,
+  set: set,
+  clean: clean
+};
+
+function get$1(dispatch) {
+  Store.Trustee.get(undefined).then(function (trustees) {
+        return Curry._1(dispatch, {
+                    TAG: /* Trustees_Set */13,
+                    _0: trustees
+                  });
+      });
+}
+
+function add(param, _dispatch) {
+  Store.Trustee.add({
+        pubkey: param.pubkey,
+        privkey: param.privkey
+      });
+}
+
+var Trustees = {
+  get: get$1,
+  add: add
+};
+
+var Store$1 = {
+  User: User,
+  Trustees: Trustees
+};
 
 export {
   loadElections ,
@@ -195,8 +212,6 @@ export {
   ballotCreate ,
   publishElectionResult ,
   goToUrl ,
-  storeUser ,
-  storeRemoveUser ,
-  tryRestoreUser ,
+  Store$1 as Store,
 }
 /* URL Not a pure module */

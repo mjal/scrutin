@@ -5,6 +5,7 @@ type t = {
   user: option<User.t>,
   loading: bool, // Obsolete
   route: Route.t,
+  trustees: array<Trustee.t>,
 }
 
 let initial = {
@@ -13,12 +14,13 @@ let initial = {
   loading: false,
   route: Home,
   elections: [],
-  elections_loading: false
+  elections_loading: false,
+  trustees: []
 }
 
 let reducer = (state, action: Action.t) => {
   switch (action) {
-    | Init => ({...state, elections_loading: true}, [Effect.goToUrl, Effect.loadElections, Effect.tryRestoreUser])
+    | Init => ({...state, elections_loading: true}, [Effect.goToUrl, Effect.loadElections, Effect.Store.User.get, Effect.Store.Trustees.get])
     | Election_Fetch(id) => ({
       ...state,
       loading: true,
@@ -60,9 +62,11 @@ let reducer = (state, action: Action.t) => {
       }
       ({...state, route}, effects)
     | User_Login(user) =>
-      ({...state, user: Some(user)}, [Effect.storeUser(user)])
+      ({...state, user: Some(user)}, [Effect.Store.User.set(user)])
     | User_Logout =>
-      ({...state, user: None}, [Effect.storeRemoveUser])
+      ({...state, user: None}, [Effect.Store.User.clean])
+    | Trustees_Set(trustees) =>
+      ({...state, trustees}, [])
     | _ =>
     ({
       ...state,

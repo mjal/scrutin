@@ -20,8 +20,7 @@ let loadElection = id => {
 let createElection = (election : Election.t, user: User.t) => {
   dispatch => {
     let (privkey, trustees) = Belenios.Trustees.create()
-
-    ReactNativeAsyncStorage.setItem(Belenios.Trustees.pubkey(trustees), Belenios.Trustees.Privkey.to_str(privkey)) -> ignore
+    Store.Trustee.add({pubkey: Belenios.Trustees.pubkey(trustees), privkey})
 
     let params = Belenios.Election.create(
       ~name=election.name,
@@ -100,33 +99,72 @@ let goToUrl = dispatch => {
     }
   })
 }
+//
+//// TODO: multiSet/multiGet
+//let storeUser = (user : User.t) => {
+//  dispatch => {
+//    ReactNativeAsyncStorage.setItem("id", user.id -> Option.getWithDefault(0) -> Int.toString) -> ignore
+//    ReactNativeAsyncStorage.setItem("email", user.email) -> ignore
+//    ReactNativeAsyncStorage.setItem("password", user.password) -> ignore
+//  }
+//}
+//
+//let storeRemoveUser = _dispatch => {
+//  ReactNativeAsyncStorage.removeItem("id") -> ignore
+//  ReactNativeAsyncStorage.removeItem("email") -> ignore
+//  ReactNativeAsyncStorage.removeItem("password") -> ignore
+//}
+//
+//let tryRestoreUser = dispatch => {
+//  Promise.all3((
+//    ReactNativeAsyncStorage.getItem("id"),
+//    ReactNativeAsyncStorage.getItem("email"),
+//    ReactNativeAsyncStorage.getItem("password")
+//  ))
+//  -> Promise.thenResolve(((id, email, password)) => {
+//    let fToO = Js.Null.toOption
+//    switch (Option.map(fToO(id), Int.fromString), fToO(email), fToO(password)) {
+//    | (Some(id), Some(email), Some(password)) => dispatch(Action.User_Login({id, email, password}))
+//    | _ => ()
+//    }
+//  }) -> ignore
+//}
 
-// TODO: multiSet/multiGet
-let storeUser = (user : User.t) => {
-  dispatch => {
-    ReactNativeAsyncStorage.setItem("id", user.id -> Option.getWithDefault(0) -> Int.toString) -> ignore
-    ReactNativeAsyncStorage.setItem("email", user.email) -> ignore
-    ReactNativeAsyncStorage.setItem("password", user.password) -> ignore
-  }
-}
-
-let storeRemoveUser = _dispatch => {
-  ReactNativeAsyncStorage.removeItem("id") -> ignore
-  ReactNativeAsyncStorage.removeItem("email") -> ignore
-  ReactNativeAsyncStorage.removeItem("password") -> ignore
-}
-
-let tryRestoreUser = dispatch => {
-  Promise.all3((
-    ReactNativeAsyncStorage.getItem("id"),
-    ReactNativeAsyncStorage.getItem("email"),
-    ReactNativeAsyncStorage.getItem("password")
-  ))
-  -> Promise.thenResolve(((id, email, password)) => {
-    let fToO = Js.Null.toOption
-    switch (Option.map(fToO(id), Int.fromString), fToO(email), fToO(password)) {
-    | (Some(id), Some(email), Some(password)) => dispatch(Action.User_Login({id, email, password}))
-    | _ => ()
+module Store = {
+  module User = {
+    let get = dispatch => {
+      Store.User.get()
+      -> Promise.thenResolve((oUser) => {
+        switch oUser {
+        | None => ()
+        | Some(user) => dispatch(Action.User_Login(user))
+        }
+      })
+      -> ignore
     }
-  }) -> ignore
+
+    let set = (user) => {
+      _dispatch => {
+        Store.User.set(user)
+        -> ignore
+      }
+    }
+
+    let clean = _dispatch => Store.User.clean()
+  }
+  module Trustees = {
+    let get = dispatch => {
+      Store.Trustee.get()
+      -> Promise.thenResolve(trustees => {
+        dispatch(Action.Trustees_Set(trustees))
+      }) -> ignore
+    }
+    let add = ({pubkey, privkey} : Trustee.t) => {
+      _dispatch => {
+        //let pubkey = Belenios.Trustees.pubkey(trustees)
+        //let privkey = Belenios.Trustees.Privkey.to_str(privkey)
+        Store.Trustee.add({pubkey, privkey})
+      }
+    }
+  }
 }

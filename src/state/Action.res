@@ -16,3 +16,4 @@ type t =
   | Navigate(Route.t)
   | User_Login(User.t)
   | User_Logout
+  | Trustees_Set(array<Trustee.t>)

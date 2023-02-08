@@ -17,6 +17,22 @@ let make = () => {
         <Text key=(election.id->Int.toString)>{election.id -> Int.toString -> React.string} {election.name -> React.string}</Text>
       }) -> React.array
     }
+    <Title style=X.styles["title"]>{ "My elections (as trustee)" -> React.string }</Title>
+    {
+      Js.log(state.trustees)
+      Array.keep(state.elections, (election) => {
+        Array.some(state.trustees, (trustee) => {
+          let election_pubkey = switch election.trustees {
+          | Some(election_trustees) => election_trustees -> Belenios.Trustees.of_str -> Belenios.Trustees.pubkey
+          | None => ""
+          }
+          election_pubkey == trustee.pubkey
+        })
+      })
+      -> Array.map((election) => {
+        <Text key=(election.id->Int.toString)>{election.id -> Int.toString -> React.string} {election.name -> React.string}</Text>
+      }) -> React.array
+    }
     <Title style=X.styles["title"]>{ "My elections (as voter)" -> React.string }</Title>
     <Title style=X.styles["title"]>{ "TODO" -> React.string }</Title>
   </View>
