@@ -101,6 +101,7 @@ let goToUrl = dispatch => {
   })
 }
 
+// TODO: multiSet/multiGet
 let storeUser = (user : User.t) => {
   dispatch => {
     ReactNativeAsyncStorage.setItem("id", user.id -> Option.getWithDefault(0) -> Int.toString) -> ignore

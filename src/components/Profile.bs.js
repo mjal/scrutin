@@ -14,7 +14,6 @@ function Profile(Props) {
   var user_id = Belt_Option.getWithDefault(Belt_Option.flatMap(state.user, (function (user) {
               return user.id;
             })), 0);
-  console.log(user_id);
   return React.createElement(ReactNative.View, {
               style: X.styles["margin-x"],
               children: null

@@ -6,7 +6,6 @@ let make = () => {
   let (state, _dispatch) = Context.use()
 
   let user_id = state.user -> Option.flatMap(user => user.id) -> Option.getWithDefault(0)
-  Js.log(user_id)
 
   <View style=X.styles["margin-x"]>
     <Title style=X.styles["title"]>{ "My elections (as administrator)" -> React.string }</Title>
