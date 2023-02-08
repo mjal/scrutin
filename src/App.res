@@ -3,8 +3,6 @@
 open ReactNative
 open Paper
 
-@module external belenios: 'a = "./belenios_jslib2"
-
 @react.component
 let make = () => {
   let (state, dispatch) = UseTea.useTea(State.reducer, State.initial)
@@ -32,6 +30,7 @@ let make = () => {
     | ElectionBooth(_id) => <ElectionBooth></ElectionBooth>
     | ElectionShow(_id) => <ElectionShow></ElectionShow>
     | ElectionResult(_id) => <ElectionResult></ElectionResult>
+    | View_User => <View_User></View_User>
   }
 
   <PaperProvider>
