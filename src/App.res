@@ -30,7 +30,7 @@ let make = () => {
     | ElectionBooth(_id) => <ElectionBooth></ElectionBooth>
     | ElectionShow(_id) => <ElectionShow></ElectionShow>
     | ElectionResult(_id) => <ElectionResult></ElectionResult>
-    | View_User => <View_User></View_User>
+    | Profile => <Profile></Profile>
   }
 
   <PaperProvider>

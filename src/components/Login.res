@@ -9,15 +9,23 @@ let make = () => {
   let (error, setError) = React.useState(_ => "")
 
   let onSubmit = _ => {
-    let user : User.t = { email, password }
+    let user : User.t = { id: None, email, password }
     X.post(`${Config.api_url}/signin`, user -> User.to_json)
-    -> Promise.thenResolve(Webapi.Fetch.Response.status)// Webapi.Fetch.Response.json)
-    -> Promise.thenResolve((status) => {
-      if status == 200 {
-        dispatch(User_Login(user))
-      } else {
-        setError(_ => "Error login in")
-      }
+    -> Promise.thenResolve((response) => {
+      let status  = Webapi.Fetch.Response.status(response)
+      Webapi.Fetch.Response.json(response)
+      -> Promise.thenResolve((content) => {
+        if status == 200 {
+          let dict = Js.Json.decodeObject(content) -> Option.getExn
+          let id = Js.Dict.get(dict, "id") -> Option.flatMap(Js.Json.decodeNumber) -> Option.map(Int.fromFloat)
+          Js.log(Js.Dict.get(dict, "id"))
+          Js.log(Js.Dict.get(dict, "id") -> Option.flatMap(Js.Json.decodeNumber))
+          Js.log(Js.Dict.get(dict, "id") -> Option.flatMap(Js.Json.decodeNumber) -> Option.map(Int.fromFloat))
+          dispatch(User_Login({...user, id}))
+        } else {
+          setError(_ => "Error login in")
+        }
+      })
     })
     -> ignore
   }

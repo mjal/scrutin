@@ -6,6 +6,9 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Config from "../Config.bs.js";
 import * as Context from "../state/Context.bs.js";
+import * as Js_dict from "rescript/lib/es6/js_dict.js";
+import * as Js_json from "rescript/lib/es6/js_json.js";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
 
@@ -29,22 +32,36 @@ function Login(Props) {
   var error = match$3[0];
   var onSubmit = function (param) {
     var user = {
+      id: undefined,
       email: email,
       password: password
     };
-    X.post("" + Config.api_url + "/signin", User.to_json(user)).then(function (prim) {
-            return prim.status;
-          }).then(function (status) {
-          if (status === 200) {
-            return Curry._1(dispatch, {
-                        TAG: /* User_Login */12,
-                        _0: user
-                      });
-          } else {
-            return Curry._1(setError, (function (param) {
-                          return "Error login in";
-                        }));
-          }
+    X.post("" + Config.api_url + "/signin", User.to_json(user)).then(function (response) {
+          var status = response.status;
+          return response.json().then(function (content) {
+                      if (status !== 200) {
+                        return Curry._1(setError, (function (param) {
+                                      return "Error login in";
+                                    }));
+                      }
+                      var dict = Belt_Option.getExn(Js_json.decodeObject(content));
+                      var id = Belt_Option.map(Belt_Option.flatMap(Js_dict.get(dict, "id"), Js_json.decodeNumber), (function (prim) {
+                              return prim | 0;
+                            }));
+                      console.log(Js_dict.get(dict, "id"));
+                      console.log(Belt_Option.flatMap(Js_dict.get(dict, "id"), Js_json.decodeNumber));
+                      console.log(Belt_Option.map(Belt_Option.flatMap(Js_dict.get(dict, "id"), Js_json.decodeNumber), (function (prim) {
+                                  return prim | 0;
+                                })));
+                      Curry._1(dispatch, {
+                            TAG: /* User_Login */12,
+                            _0: {
+                              id: id,
+                              email: email,
+                              password: password
+                            }
+                          });
+                    });
         });
   };
   return React.createElement(ReactNative.View, {

@@ -1,4 +1,5 @@
 type t = {
+  id: option<int>,
   email: string,
   password: string
 }

@@ -19,6 +19,17 @@ function Home(Props) {
                     children: null
                   }, "Hello " + user.email + "", React.createElement(ReactNativePaper.Button, {
                         mode: "contained",
+                        style: X.styles["margin-x"],
+                        onPress: (function (param) {
+                            Curry._1(dispatch, {
+                                  TAG: /* Navigate */11,
+                                  _0: /* Profile */2
+                                });
+                          }),
+                        children: "Go to profile"
+                      }), React.createElement(ReactNativePaper.Button, {
+                        mode: "contained",
+                        style: X.styles["margin-x"],
                         onPress: (function (param) {
                             Curry._1(dispatch, /* User_Logout */2);
                           }),

@@ -32,7 +32,8 @@ var initial = {
   params: undefined,
   trustees: undefined,
   creds: undefined,
-  result: undefined
+  result: undefined,
+  administrator_id: 0
 };
 
 function to_json(r) {
@@ -78,7 +79,8 @@ function from_json(json) {
                       })),
                 trustees: field.required("trustees", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string)),
                 creds: field.required("creds", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string)),
-                result: field.required("result", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string))
+                result: field.required("result", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string)),
+                administrator_id: Belt_Option.getWithDefault(field.required("administrator_id", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.$$int)), 0)
               };
       });
   var result = Json$JsonCombinators.decode(json, decode);
@@ -150,7 +152,8 @@ function reducer(election, action) {
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
-                result: action._0
+                result: action._0,
+                administrator_id: election.administrator_id
               };
     case /* Election_SetName */2 :
         return {
@@ -163,7 +166,8 @@ function reducer(election, action) {
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
-                result: election.result
+                result: election.result,
+                administrator_id: election.administrator_id
               };
     case /* Election_AddVoter */3 :
         return {
@@ -181,7 +185,8 @@ function reducer(election, action) {
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
-                result: election.result
+                result: election.result,
+                administrator_id: election.administrator_id
               };
     case /* Election_RemoveVoter */4 :
         var index = action._0;
@@ -197,7 +202,8 @@ function reducer(election, action) {
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
-                result: election.result
+                result: election.result,
+                administrator_id: election.administrator_id
               };
     case /* Election_AddChoice */5 :
         return {
@@ -213,7 +219,8 @@ function reducer(election, action) {
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
-                result: election.result
+                result: election.result,
+                administrator_id: election.administrator_id
               };
     case /* Election_RemoveChoice */6 :
         var index$1 = action._0;
@@ -229,7 +236,8 @@ function reducer(election, action) {
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
-                result: election.result
+                result: election.result,
+                administrator_id: election.administrator_id
               };
     default:
       return election;

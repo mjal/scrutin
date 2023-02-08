@@ -4,3 +4,4 @@ type t =
   | ElectionShow(int)
   | ElectionBooth(int)
   | ElectionResult(int)
+  | Profile

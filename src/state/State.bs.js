@@ -84,7 +84,8 @@ function reducer(state, action) {
                       params: Election.initial.params,
                       trustees: Election.initial.trustees,
                       creds: Election.initial.creds,
-                      result: Election.initial.result
+                      result: Election.initial.result,
+                      administrator_id: Election.initial.administrator_id
                     },
                     elections: state.elections,
                     elections_loading: state.elections_loading,
@@ -133,10 +134,16 @@ function reducer(state, action) {
       case /* Navigate */11 :
           var route = action._0;
           if (typeof route === "number") {
-            if (route !== 0) {
+            switch (route) {
+              case /* Home */0 :
+                  X.setUrlPathname("/");
+                  break;
+              case /* ElectionNew */1 :
+                  break;
+              case /* Profile */2 :
+                  X.setUrlPathname("/profile");
+                  break;
               
-            } else {
-              X.setUrlPathname("/");
             }
           } else {
             X.setUrlPathname("/elections/" + String(route._0) + "");

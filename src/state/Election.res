@@ -12,7 +12,8 @@ type t = {
   params:   option<Belenios.Election.t>,
   trustees: option<string>,
   creds:    option<string>,
-  result:   option<string>
+  result:   option<string>,
+  administrator_id: int,
 }
 
 let initial = {
@@ -25,7 +26,8 @@ let initial = {
   trustees: None,
   creds: None,
   uuid: None,
-  result: None
+  result: None,
+  administrator_id: 0
 }
 
 let to_json = (r) => {
@@ -59,7 +61,8 @@ let from_json = (json) => {
       params: field.required(. "params", option(string)) -> Option.map(Belenios.Election.parse),
       trustees: field.required(. "trustees", option(string)),
       creds: field.required(. "creds", option(string)),
-      result: field.required(. "result", option(string))
+      result: field.required(. "result", option(string)),
+      administrator_id: field.required(. "administrator_id", option(int)) -> Option.getWithDefault(0)
     }
   })
   switch (json->Json.decode(decode)) {

@@ -89,47 +89,43 @@ let publishElectionResult = (election, result) => {
 }
 
 let goToUrl = dispatch => {
-  ReactNative.Linking.getInitialURL()
-  -> Promise.thenResolve(res => {
-    let sUrl = res -> Js.Null.toOption -> Option.getWithDefault("")
-    let url = URL.make(sUrl)
-    let oResult = Js.Re.exec_(%re("/^\/elections\/(.*)/g"), URL.pathname(url))
-    let capture = switch oResult {
-    | Some(result) =>
-      switch Js.Re.captures(result)[1] {
-        | Some(str) => Js.toOption(str)
-        | None => None
-      }
-    | None => None
+  URL.getAndThen((url) => {
+    switch url {
+      | list{"elections", sId} =>
+        let nId = sId -> Int.fromString -> Option.getWithDefault(0)
+        dispatch(Action.Navigate(ElectionBooth(nId)))
+      | list{"profile"} =>
+        dispatch(Action.Navigate(Route.Profile))
+      | _ => ()
     }
-    switch capture {
-      | Some(sId) => dispatch(Action.Navigate(ElectionBooth(sId -> Int.fromString -> Option.getWithDefault(0))))
-      | None => ()
-    }
-  }) -> ignore
+  })
 }
 
 let storeUser = (user : User.t) => {
   dispatch => {
+    ReactNativeAsyncStorage.setItem("id", user.id -> Option.getWithDefault(0) -> Int.toString) -> ignore
     ReactNativeAsyncStorage.setItem("email", user.email) -> ignore
     ReactNativeAsyncStorage.setItem("password", user.password) -> ignore
   }
 }
 
 let storeRemoveUser = _dispatch => {
+  ReactNativeAsyncStorage.removeItem("id") -> ignore
   ReactNativeAsyncStorage.removeItem("email") -> ignore
   ReactNativeAsyncStorage.removeItem("password") -> ignore
 }
 
 let tryRestoreUser = dispatch => {
-  ReactNativeAsyncStorage.getItem("email")
-  -> Promise.thenResolve((nullableEmail) => {
+  Promise.all3((
+    ReactNativeAsyncStorage.getItem("id"),
+    ReactNativeAsyncStorage.getItem("email"),
     ReactNativeAsyncStorage.getItem("password")
-    -> Promise.thenResolve((nullablePassword) => {
-      switch (Js.Null.toOption(nullableEmail), Js.Null.toOption(nullablePassword)) {
-        | (Some(email), Some(password)) => dispatch(Action.User_Login({email, password}))
-        | _ => ()
-      }
-    }) -> ignore
+  ))
+  -> Promise.thenResolve(((id, email, password)) => {
+    let fToO = Js.Null.toOption
+    switch (Option.map(fToO(id), Int.fromString), fToO(email), fToO(password)) {
+    | (Some(id), Some(email), Some(password)) => dispatch(Action.User_Login({id, email, password}))
+    | _ => ()
+    }
   }) -> ignore
 }

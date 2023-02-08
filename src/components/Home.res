@@ -11,7 +11,10 @@ let make = () => {
     <>
       <Title style=X.styles["title"]>
         { `Hello ${user.email}` -> React.string }
-        <Button mode=#contained onPress={_ => dispatch(User_Logout)}>
+        <Button mode=#contained onPress={_ => dispatch(Navigate(Route.Profile))} style=X.styles["margin-x"]>
+          {"Go to profile" -> React.string}
+        </Button>
+        <Button mode=#contained onPress={_ => dispatch(User_Logout)} style=X.styles["margin-x"]>
           <Text>{ "Logout" -> React.string }</Text>
         </Button>
       </Title>

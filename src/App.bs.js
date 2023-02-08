@@ -7,15 +7,13 @@ import * as State from "./state/State.bs.js";
 import * as React from "react";
 import * as UseTea from "rescript-use-tea/src/UseTea.bs.js";
 import * as Context from "./state/Context.bs.js";
+import * as Profile from "./components/Profile.bs.js";
 import * as ElectionNew from "./components/ElectionNew.bs.js";
 import * as ElectionShow from "./components/ElectionShow.bs.js";
 import * as ReactNative from "react-native";
 import * as ElectionBooth from "./components/ElectionBooth.bs.js";
 import * as ElectionResult from "./components/ElectionResult.bs.js";
-import * as Belenios_jslib2 from "./belenios_jslib2";
 import * as ReactNativePaper from "react-native-paper";
-
-var belenios = Belenios_jslib2;
 
 function App(Props) {
   var match = UseTea.useTea(State.reducer, State.initial);
@@ -25,15 +23,42 @@ function App(Props) {
           Curry._1(dispatch, /* Init */0);
         }), []);
   var match$1 = state.route;
-  var title = typeof match$1 === "number" ? (
-      match$1 !== 0 ? "Nouvelle election" : "Home"
-    ) : (
-      state.election.name !== "" ? state.election.name : "Unamed election"
-    );
+  var title;
+  var exit = 0;
+  if (typeof match$1 === "number") {
+    switch (match$1) {
+      case /* Home */0 :
+          title = "Home";
+          break;
+      case /* ElectionNew */1 :
+          title = "Nouvelle election";
+          break;
+      case /* Profile */2 :
+          exit = 1;
+          break;
+      
+    }
+  } else {
+    exit = 1;
+  }
+  if (exit === 1) {
+    title = state.election.name !== "" ? state.election.name : "Unamed election";
+  }
   var _id = state.route;
   var view;
   if (typeof _id === "number") {
-    view = _id === /* Home */0 ? React.createElement(Home.make, {}) : React.createElement(ElectionNew.make, {});
+    switch (_id) {
+      case /* Home */0 :
+          view = React.createElement(Home.make, {});
+          break;
+      case /* ElectionNew */1 :
+          view = React.createElement(ElectionNew.make, {});
+          break;
+      case /* Profile */2 :
+          view = React.createElement(Profile.make, {});
+          break;
+      
+    }
   } else {
     switch (_id.TAG | 0) {
       case /* ElectionShow */0 :
@@ -91,7 +116,6 @@ function App(Props) {
 var make = App;
 
 export {
-  belenios ,
   make ,
 }
-/* belenios Not a pure module */
+/* X Not a pure module */
