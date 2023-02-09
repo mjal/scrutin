@@ -73,8 +73,13 @@ var Trustee = {
   add: add
 };
 
+var Token = {
+  keyName: "tokens"
+};
+
 export {
   User ,
   Trustee ,
+  Token ,
 }
 /* @react-native-async-storage/async-storage Not a pure module */

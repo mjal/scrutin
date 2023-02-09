@@ -6,6 +6,7 @@ type t = {
   loading: bool, // Obsolete
   route: Route.t,
   trustees: array<Trustee.t>,
+  tokens:   array<Token.t>,
 }
 
 let initial = {
@@ -15,35 +16,49 @@ let initial = {
   route: Home,
   elections: [],
   elections_loading: false,
-  trustees: []
+  trustees: [],
+  tokens: []
 }
 
 let reducer = (state, action: Action.t) => {
   switch (action) {
-    | Init => ({...state, elections_loading: true}, [Effect.goToUrl, Effect.loadElections, Effect.Store.User.get, Effect.Store.Trustees.get])
+    
+    | Init => ({...state, elections_loading: true}, [
+      Effect.goToUrl,
+      Effect.loadElections,
+      Effect.Store.User.get,
+      Effect.Store.Trustees.get
+    ])
+
     | Election_Fetch(id) => ({
       ...state,
       loading: true,
       election: { ...Election.initial, id }
     }, [ Effect.loadElection(id) ])
+
     | Election_Load(json) => ({
       ...state,
       loading: false,
       election: json->Election.from_json
     }, [])
+
     | Election_LoadAll(jsons) => ({
       ...state,
       elections_loading: false,
       elections: Array.map(jsons, Election.from_json) -> Array.reverse
     }, [])
+
     | Election_Post => (state, [ Effect.createElection(state.election, Option.getExn(state.user)) ])
+
     | Election_PublishResult(result) => {
       //let election = {...state.election, result}
       (state, [Effect.publishElectionResult(state.election, result)])
     }
+
     | Ballot_Create(token, selection) => {
       (state, [ Effect.ballotCreate(state.election, token, selection) ])
     }
+
     | Navigate(route) =>
       let () = switch route {
         | ElectionBooth(id)
@@ -61,16 +76,23 @@ let reducer = (state, action: Action.t) => {
         | _ => []
       }
       ({...state, route}, effects)
+
     | User_Login(user) =>
       ({...state, user: Some(user)}, [Effect.Store.User.set(user)])
+
     | User_Logout =>
       ({...state, user: None}, [Effect.Store.User.clean])
+
     | Trustees_Set(trustees) =>
       ({...state, trustees}, [])
+
+    | Tokens_Set(tokens) =>
+      ({...state, tokens}, [])
+
     | _ =>
-    ({
-      ...state,
-      election: Election.reducer(state.election, action)
-    }, [])
+      ({
+        ...state,
+        election: Election.reducer(state.election, action)
+      }, [])
   }
 }

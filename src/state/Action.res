@@ -17,3 +17,4 @@ type t =
   | User_Login(User.t)
   | User_Logout
   | Trustees_Set(array<Trustee.t>)
+  | Tokens_Set(array<Token.t>)

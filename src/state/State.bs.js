@@ -11,6 +11,8 @@ var initial_elections = [];
 
 var initial_trustees = [];
 
+var initial_tokens = [];
+
 var initial = {
   election: Election.initial,
   elections: initial_elections,
@@ -18,7 +20,8 @@ var initial = {
   user: undefined,
   loading: false,
   route: /* Home */0,
-  trustees: initial_trustees
+  trustees: initial_trustees,
+  tokens: initial_tokens
 };
 
 function reducer(state, action) {
@@ -33,7 +36,8 @@ function reducer(state, action) {
                     user: state.user,
                     loading: state.loading,
                     route: state.route,
-                    trustees: state.trustees
+                    trustees: state.trustees,
+                    tokens: state.tokens
                   },
                   [
                     Effect.goToUrl,
@@ -60,7 +64,8 @@ function reducer(state, action) {
                     user: undefined,
                     loading: state.loading,
                     route: state.route,
-                    trustees: state.trustees
+                    trustees: state.trustees,
+                    tokens: state.tokens
                   },
                   [Effect.Store.User.clean]
                 ];
@@ -99,7 +104,8 @@ function reducer(state, action) {
                     user: state.user,
                     loading: true,
                     route: state.route,
-                    trustees: state.trustees
+                    trustees: state.trustees,
+                    tokens: state.tokens
                   },
                   [(function (param) {
                         return Effect.loadElection(id, param);
@@ -114,7 +120,8 @@ function reducer(state, action) {
                     user: state.user,
                     loading: false,
                     route: state.route,
-                    trustees: state.trustees
+                    trustees: state.trustees,
+                    tokens: state.tokens
                   },
                   []
                 ];
@@ -127,7 +134,8 @@ function reducer(state, action) {
                     user: state.user,
                     loading: state.loading,
                     route: state.route,
-                    trustees: state.trustees
+                    trustees: state.trustees,
+                    tokens: state.tokens
                   },
                   []
                 ];
@@ -175,7 +183,8 @@ function reducer(state, action) {
                     user: state.user,
                     loading: state.loading,
                     route: route,
-                    trustees: state.trustees
+                    trustees: state.trustees,
+                    tokens: state.tokens
                   },
                   effects
                 ];
@@ -189,7 +198,8 @@ function reducer(state, action) {
                     user: user,
                     loading: state.loading,
                     route: state.route,
-                    trustees: state.trustees
+                    trustees: state.trustees,
+                    tokens: state.tokens
                   },
                   [Curry._1(Effect.Store.User.set, user)]
                 ];
@@ -202,7 +212,22 @@ function reducer(state, action) {
                     user: state.user,
                     loading: state.loading,
                     route: state.route,
-                    trustees: action._0
+                    trustees: action._0,
+                    tokens: state.tokens
+                  },
+                  []
+                ];
+      case /* Tokens_Set */14 :
+          return [
+                  {
+                    election: state.election,
+                    elections: state.elections,
+                    elections_loading: state.elections_loading,
+                    user: state.user,
+                    loading: state.loading,
+                    route: state.route,
+                    trustees: state.trustees,
+                    tokens: action._0
                   },
                   []
                 ];
@@ -215,7 +240,8 @@ function reducer(state, action) {
                   user: state.user,
                   loading: state.loading,
                   route: state.route,
-                  trustees: state.trustees
+                  trustees: state.trustees,
+                  tokens: state.tokens
                 },
                 []
               ];

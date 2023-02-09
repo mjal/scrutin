@@ -1,5 +1,4 @@
 module User = {
-// TODO: Handle parse error (try catch)
   external parse: string => User.t = "JSON.parse"
   external stringify: User.t => string = "JSON.stringify"
 
@@ -28,7 +27,6 @@ module User = {
 }
 
 module Trustee = {
-// TODO: Handle parse error (try catch)
   external parse: string => array<Trustee.t> = "JSON.parse"
   external stringify: array<Trustee.t> => string = "JSON.stringify"
 
@@ -56,4 +54,11 @@ module Trustee = {
       set(Array.concat(a, [o]))
     }) -> ignore
   }
+}
+
+module Token = {
+  external parse: string => array<Token.t> = "JSON.parse"
+  external stringify: array<Token.t> => string = "JSON.stringify"
+
+  let keyName = "tokens"
 }
