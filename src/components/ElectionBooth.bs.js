@@ -2,11 +2,14 @@
 
 import * as X from "../X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
+import * as Store from "../state/Store.bs.js";
 import * as React from "react";
 import * as Context from "../state/Context.bs.js";
+import * as Belenios from "../Belenios.bs.js";
 import * as Caml_obj from "rescript/lib/es6/caml_obj.js";
 import * as Js_string from "rescript/lib/es6/js_string.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
 import * as ElectionBooth_ChoiceSelect from "./ElectionBooth_ChoiceSelect.bs.js";
@@ -27,9 +30,19 @@ function ElectionBooth(Props) {
   var choice = match$2[0];
   React.useEffect((function () {
           var token = Js_string.sliceToEnd(1, window.location.hash);
-          Curry._1(setToken, (function (param) {
-                  return token;
-                }));
+          if (token !== "") {
+            var private_ = Belenios.Credentials.derive(Belt_Option.getExn(state.election.uuid), token);
+            var token2 = {
+              public: token,
+              private_: private_
+            };
+            console.log(token2);
+            Store.Token.add(token2);
+            Curry._1(setToken, (function (param) {
+                    return token;
+                  }));
+          }
+          
         }), []);
   var vote = function (param) {
     var selectionArray = Belt_Array.mapWithIndex(Belt_Array.make(state.election.choices.length, 0), (function (i, param) {

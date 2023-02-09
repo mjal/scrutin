@@ -32,6 +32,13 @@ let createElection = (election : Election.t, user: User.t) => {
     let (pubcreds, privcreds) = Belenios.Credentials.create(params.uuid, Array.length(election.voters))
     let creds = Array.zip(pubcreds, privcreds)
 
+    Array.forEach(creds, ((public, private_)) => {
+      Js.log("Adding token: ")
+      let token : Token.t = {public, private_}
+      Js.log(token)
+      Store.Token.add(token)
+    })
+
     //dispatch(Action.SetElectionBeleniosParams(belenios_params))
 
     let voters = Array.zip(election.voters, creds)
@@ -99,36 +106,6 @@ let goToUrl = dispatch => {
     }
   })
 }
-//
-//// TODO: multiSet/multiGet
-//let storeUser = (user : User.t) => {
-//  dispatch => {
-//    ReactNativeAsyncStorage.setItem("id", user.id -> Option.getWithDefault(0) -> Int.toString) -> ignore
-//    ReactNativeAsyncStorage.setItem("email", user.email) -> ignore
-//    ReactNativeAsyncStorage.setItem("password", user.password) -> ignore
-//  }
-//}
-//
-//let storeRemoveUser = _dispatch => {
-//  ReactNativeAsyncStorage.removeItem("id") -> ignore
-//  ReactNativeAsyncStorage.removeItem("email") -> ignore
-//  ReactNativeAsyncStorage.removeItem("password") -> ignore
-//}
-//
-//let tryRestoreUser = dispatch => {
-//  Promise.all3((
-//    ReactNativeAsyncStorage.getItem("id"),
-//    ReactNativeAsyncStorage.getItem("email"),
-//    ReactNativeAsyncStorage.getItem("password")
-//  ))
-//  -> Promise.thenResolve(((id, email, password)) => {
-//    let fToO = Js.Null.toOption
-//    switch (Option.map(fToO(id), Int.fromString), fToO(email), fToO(password)) {
-//    | (Some(id), Some(email), Some(password)) => dispatch(Action.User_Login({id, email, password}))
-//    | _ => ()
-//    }
-//  }) -> ignore
-//}
 
 module Store = {
   module User = {
@@ -152,6 +129,7 @@ module Store = {
 
     let clean = _dispatch => Store.User.clean()
   }
+
   module Trustees = {
     let get = dispatch => {
       Store.Trustee.get()
@@ -159,6 +137,7 @@ module Store = {
         dispatch(Action.Trustees_Set(trustees))
       }) -> ignore
     }
+
     let add = ({pubkey, privkey} : Trustee.t) => {
       _dispatch => {
         //let pubkey = Belenios.Trustees.pubkey(trustees)
@@ -166,5 +145,24 @@ module Store = {
         Store.Trustee.add({pubkey, privkey})
       }
     }
+
+    let clean = _dispatch => Store.Trustee.clean()
+  }
+
+  module Tokens = {
+    let get = dispatch => {
+      Store.Token.get()
+      -> Promise.thenResolve(trustees => {
+        dispatch(Action.Tokens_Set(trustees))
+      }) -> ignore
+    }
+
+    let add = (token : Token.t) => {
+      _dispatch => {
+        Store.Token.add(token)
+      }
+    }
+
+    let clean = _dispatch => Store.Token.clean()
   }
 }

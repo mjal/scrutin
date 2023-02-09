@@ -11,8 +11,16 @@ let make = () => {
 
   React.useEffect0(() => {
     let token = URL.currentHash -> Js.String.sliceToEnd(~from=1)
-    setToken(_ => token)
-
+    switch token {
+    | "" => ()
+    | token => {
+      let private_ = Belenios.Credentials.derive(~uuid=Option.getExn(state.election.uuid), ~public_credential=token)
+      let token2 : Token.t = {public: token, private_}
+      Js.log(token2)
+      Store.Token.add(token2)
+      setToken(_ => token)
+    }
+    }
     None
   })
 

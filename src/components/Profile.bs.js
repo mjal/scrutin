@@ -48,7 +48,7 @@ function Profile(Props) {
                 }), React.createElement(ReactNativePaper.Title, {
                   style: X.styles.title,
                   children: "TODO"
-                }));
+                }), (console.log("Tokens"), console.log(state.tokens), React.createElement(React.Fragment, undefined)));
 }
 
 var make = Profile;

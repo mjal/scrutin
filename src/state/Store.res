@@ -44,8 +44,6 @@ module Trustee = {
   }
 
   let set = (a) => {
-    Js.log("setting")
-    Js.log(stringify(a))
     ReactNativeAsyncStorage.setItem(keyName, stringify(a))
   }
 
@@ -54,6 +52,11 @@ module Trustee = {
       set(Array.concat(a, [o]))
     }) -> ignore
   }
+
+  let clean = () => {
+    ReactNativeAsyncStorage.removeItem(keyName)
+    -> ignore
+  }
 }
 
 module Token = {
@@ -61,4 +64,30 @@ module Token = {
   external stringify: array<Token.t> => string = "JSON.stringify"
 
   let keyName = "tokens"
+
+  let get = () => {
+    ReactNativeAsyncStorage.getItem(keyName)
+    -> Promise.thenResolve(Js.Null.toOption)
+    -> Promise.thenResolve((os) => {
+      switch os {
+      | None => []
+      | Some(s) => parse(s)
+      }
+    })
+  }
+
+  let set = (a) => {
+    ReactNativeAsyncStorage.setItem(keyName, stringify(a))
+  }
+
+  let add = (o) => {
+    Promise.then(get(), (a) => {
+      set(Array.concat(a, [o]))
+    }) -> ignore
+  }
+
+  let clean = () => {
+    ReactNativeAsyncStorage.removeItem(keyName)
+    -> ignore
+  }
 }

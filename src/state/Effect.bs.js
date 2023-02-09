@@ -49,6 +49,17 @@ function createElection(election, user, dispatch) {
   var match$1 = Belenios.Credentials.create(params.uuid, election.voters.length);
   var pubcreds = match$1[0];
   var creds = Belt_Array.zip(pubcreds, match$1[1]);
+  Belt_Array.forEach(creds, (function (param) {
+          console.log("Adding token: ");
+          var token_public = param[0];
+          var token_private_ = param[1];
+          var token = {
+            public: token_public,
+            private_: token_private_
+          };
+          console.log(token);
+          Store.Token.add(token);
+        }));
   var voters = Belt_Array.map(Belt_Array.zip(election.voters, creds), (function (param) {
           var match = param[1];
           var voterWithoutCred = param[0];
@@ -195,14 +206,43 @@ function add(param, _dispatch) {
       });
 }
 
+function clean$1(_dispatch) {
+  Store.Trustee.clean(undefined);
+}
+
 var Trustees = {
   get: get$1,
-  add: add
+  add: add,
+  clean: clean$1
+};
+
+function get$2(dispatch) {
+  Store.Token.get(undefined).then(function (trustees) {
+        return Curry._1(dispatch, {
+                    TAG: /* Tokens_Set */14,
+                    _0: trustees
+                  });
+      });
+}
+
+function add$1(token, _dispatch) {
+  Store.Token.add(token);
+}
+
+function clean$2(_dispatch) {
+  Store.Token.clean(undefined);
+}
+
+var Tokens = {
+  get: get$2,
+  add: add$1,
+  clean: clean$2
 };
 
 var Store$1 = {
   User: User,
-  Trustees: Trustees
+  Trustees: Trustees,
+  Tokens: Tokens
 };
 
 export {

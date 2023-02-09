@@ -35,5 +35,10 @@ let make = () => {
     }
     <Title style=X.styles["title"]>{ "My elections (as voter)" -> React.string }</Title>
     <Title style=X.styles["title"]>{ "TODO" -> React.string }</Title>
+    {
+      Js.log("Tokens")
+      Js.log(state.tokens)
+      <></>
+    }
   </View>
 }

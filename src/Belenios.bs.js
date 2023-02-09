@@ -7,8 +7,13 @@ function create(prim0, prim1) {
   return Belenios_jslib2.belenios.makeCredentials(prim0, prim1);
 }
 
+function derive(prim0, prim1) {
+  return Belenios_jslib2.belenios.derive(prim0, prim1);
+}
+
 var Credentials = {
-  create: create
+  create: create,
+  derive: derive
 };
 
 var Privkey = {};
