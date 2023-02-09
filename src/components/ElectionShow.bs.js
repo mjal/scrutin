@@ -7,76 +7,57 @@ import * as Context from "../state/Context.bs.js";
 import * as Belenios from "../Belenios.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
-import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
-import * as AsyncStorage from "@react-native-async-storage/async-storage";
 
 function ElectionShow(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var state = match[0];
   var match$1 = React.useState(function () {
-        
-      });
-  var setPrivkey = match$1[1];
-  var privkey = match$1[0];
-  var match$2 = React.useState(function () {
         return false;
       });
-  var setShowSnackbar = match$2[1];
+  var setShowSnackbar = match$1[1];
   var nb_ballots = String(state.election.ballots.length);
   var nb_votes = String(Belt_Array.keep(state.election.ballots, (function (ballot) {
               return Belt_Option.isSome(ballot.ciphertext);
             })).length);
-  React.useEffect((function () {
-          var trustees = state.election.trustees;
-          if (trustees !== undefined) {
-            var pubkey = Belenios.Trustees.pubkey(trustees);
-            AsyncStorage.default.getItem(pubkey).then(function (res) {
-                  Curry._1(setPrivkey, (function (param) {
-                          if (res === null) {
-                            return ;
-                          } else {
-                            return Caml_option.some(res);
-                          }
-                        }));
-                });
-          }
-          
-        }), [state.election.trustees]);
   var tally = function (param) {
-    if (privkey !== undefined) {
-      var params = Belt_Option.getExn(state.election.params);
-      var ballots = Belt_Array.map(Belt_Array.keep(Belt_Array.map(state.election.ballots, (function (ballot) {
-                      return ballot.ciphertext;
-                    })), Belt_Option.isSome), Belt_Option.getExn);
-      var trustees = Belt_Option.getExn(state.election.trustees);
-      var pubcreds = (JSON.parse(state.election.creds));
-      var match = Belenios.Election.decrypt(params)(ballots, trustees, pubcreds, privkey);
-      var res = Belenios.Election.result(params)(ballots, trustees, pubcreds, match[0], match[1]);
-      Curry._1(dispatch, {
-            TAG: /* Election_PublishResult */0,
-            _0: res
-          });
-    } else {
-      Curry._1(setShowSnackbar, (function (param) {
-              return true;
-            }));
+    console.log(state.trustees);
+    var trustee = Belt_Array.getBy(state.trustees, (function (trustee) {
+            return trustee.pubkey === Belt_Option.getWithDefault(Belt_Option.map(Belt_Option.map(state.election.trustees, (function (prim) {
+                                  return prim;
+                                })), Belenios.Trustees.pubkey), "");
+          }));
+    if (trustee === undefined) {
+      return Curry._1(setShowSnackbar, (function (param) {
+                    return true;
+                  }));
     }
-    console.log(privkey);
+    var params = Belt_Option.getExn(state.election.params);
+    var ballots = Belt_Array.map(Belt_Array.keep(Belt_Array.map(state.election.ballots, (function (ballot) {
+                    return ballot.ciphertext;
+                  })), Belt_Option.isSome), Belt_Option.getExn);
+    var trustees = Belt_Option.getExn(state.election.trustees);
+    var pubcreds = (JSON.parse(state.election.creds));
+    var match = Belenios.Election.decrypt(params)(ballots, trustees, pubcreds, trustee.privkey);
+    var res = Belenios.Election.result(params)(ballots, trustees, pubcreds, match[0], match[1]);
+    Curry._1(dispatch, {
+          TAG: /* Election_PublishResult */0,
+          _0: res
+        });
   };
-  var match$3 = React.useState(function () {
+  var match$2 = React.useState(function () {
         return "home";
       });
-  var setView = match$3[1];
+  var setView = match$2[1];
   return React.createElement(ReactNative.View, {
               children: null
             }, React.createElement(ReactNativePaper.Title, {
                   style: X.styles.title,
                   children: state.election.name
                 }), React.createElement(ReactNativePaper.SegmentedButtons, {
-                  value: match$3[0],
+                  value: match$2[0],
                   onValueChange: (function (view) {
                       Curry._1(setView, (function (param) {
                               return view;
@@ -141,7 +122,7 @@ function ElectionShow(Props) {
                                     return false;
                                   }));
                           }),
-                        visible: match$2[0],
+                        visible: match$1[0],
                         children: "You don't have the election private key"
                       })
                 }));

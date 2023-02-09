@@ -6,7 +6,6 @@ type choice_t = ElectionBooth_ChoiceSelect.choice_t
 @react.component
 let make = () => {
   let (state, dispatch) = Context.use()
-  let (privkey, setPrivkey) = React.useState(_ => None)
   let (showSnackbar, setShowSnackbar) = React.useState(_ => false)
 
   let nb_ballots = Array.length(state.election.ballots) -> Int.toString
@@ -15,25 +14,16 @@ let make = () => {
     -> Array.length
     -> Int.toString
 
-  React.useEffect1(() => {
-    switch state.election.trustees {
-      | None => ()
-      | Some(trustees) => {
-        let pubkey = Belenios.Trustees.pubkey(Belenios.Trustees.of_str(trustees))
-
-        ReactNativeAsyncStorage.getItem(pubkey)
-        -> Promise.thenResolve((res) => {
-          setPrivkey(_ => Js.Null.toOption(res))
-        })
-        -> ignore
-      }
-    }
-    None
-  }, [state.election.trustees])
-
   let tally = _ => {
-    switch privkey {
-    | Some(sPrivkey) => {
+    state.trustees -> Js.log
+    let trustee = state.trustees
+    -> Array.getBy((trustee) => {
+      trustee.pubkey == state.election.trustees->Option.map(Belenios.Trustees.of_str)->Option.map(Belenios.Trustees.pubkey)->Option.getWithDefault("")
+    })
+
+    switch trustee {
+    | None => setShowSnackbar(_ => true)
+    | Some(trustee) => {
       let params = Option.getExn(state.election.params)
       let ballots =
         state.election.ballots
@@ -42,15 +32,11 @@ let make = () => {
         -> Array.map((ciphertext) => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
       let trustees = Belenios.Trustees.of_str(Option.getExn(state.election.trustees))
       let pubcreds : array<string> = %raw(`JSON.parse(state.election.creds)`)
-      let tPrivkey = Belenios.Trustees.Privkey.of_str(sPrivkey)
-      let (a, b) = Belenios.Election.decrypt(params, ballots, trustees, pubcreds, tPrivkey)
+      let (a, b) = Belenios.Election.decrypt(params, ballots, trustees, pubcreds, trustee.privkey)
       let res = Belenios.Election.result(params, ballots, trustees, pubcreds, a, b)
-
       dispatch(Action.Election_PublishResult(res))
     }
-    | None => setShowSnackbar(_ => true)
     }
-    Js.log(privkey)
   }
 
   let (view, setView) = React.useState(_ => "home")

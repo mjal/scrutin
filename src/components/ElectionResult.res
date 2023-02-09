@@ -43,7 +43,7 @@ let make = () => {
         </DataTable>
       }
       | None => 
-        "The election is not closed yet" -> React.string
+        <Text>{ "The election is not closed yet" -> React.string }</Text>
       }
     }
 	</View>

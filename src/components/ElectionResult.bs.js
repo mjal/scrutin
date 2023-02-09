@@ -45,7 +45,9 @@ function ElectionResult(Props) {
                               }));
               })));
   } else {
-    tmp = "The election is not closed yet";
+    tmp = React.createElement(ReactNativePaper.Text, {
+          children: "The election is not closed yet"
+        });
   }
   return React.createElement(ReactNative.View, {
               children: null
