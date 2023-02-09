@@ -6,21 +6,33 @@ type choice_t = ElectionBooth_ChoiceSelect.choice_t
 @react.component
 let make = () => {
   let (state, dispatch) = Context.use()
-  let (token, setToken) = React.useState(_ => "")
+  let (token, setToken) = React.useState(_ => "") // TODO: Rename privateCred
   let (choice : choice_t, setChoice) = React.useState(_ => ElectionBooth_ChoiceSelect.Blank)
 
-  React.useEffect0(() => {
-    let token = URL.currentHash -> Js.String.sliceToEnd(~from=1)
-    switch token {
-    | "" => ()
-    | token => {
-      let private_ = Belenios.Credentials.derive(~uuid=Option.getExn(state.election.uuid), ~public_credential=token)
-      let token2 : Token.t = {public: token, private_}
-      Js.log(token2)
-      Store.Token.add(token2)
-      setToken(_ => token)
+  // TODO: React.useEffect0
+  React.useEffect(() => {
+    // Get from storage
+    let electionPublicCreds : array<string> = state.election.creds -> Option.map(Belenios.Credentials.parse) -> Option.getWithDefault([])
+    let privateCred = Array.getBy(state.tokens, (token) => {
+      Array.some(electionPublicCreds, (electionPublicCred) => {
+        electionPublicCred == token.public
+      })
+    }) -> Option.map((token) => token.private_) -> Option.getWithDefault("")
+    setToken(_ => privateCred)
+
+    // Get from URL
+    if URL.currentHash -> Js.String.sliceToEnd(~from=1) != "" {
+      let privateCred = URL.currentHash -> Js.String.sliceToEnd(~from=1)
+      switch privateCred {
+      | "" => ()
+      | privateCred => {
+        let publicCred = Belenios.Credentials.derive(~uuid=Option.getExn(state.election.uuid), ~private_credential=privateCred)
+        Store.Token.add({public: publicCred, private_: privateCred})
+        setToken(_ => privateCred)
+      }
+      }
     }
-    }
+
     None
   })
 

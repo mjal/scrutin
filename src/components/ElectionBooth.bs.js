@@ -28,22 +28,36 @@ function ElectionBooth(Props) {
       });
   var setChoice = match$2[1];
   var choice = match$2[0];
-  React.useEffect((function () {
-          var token = Js_string.sliceToEnd(1, window.location.hash);
-          if (token !== "") {
-            var private_ = Belenios.Credentials.derive(Belt_Option.getExn(state.election.uuid), token);
-            var token2 = {
-              public: token,
-              private_: private_
-            };
-            console.log(token2);
-            Store.Token.add(token2);
+  React.useEffect(function () {
+        var electionPublicCreds = Belt_Option.getWithDefault(Belt_Option.map(state.election.creds, (function (prim) {
+                    return JSON.parse(prim);
+                  })), []);
+        var privateCred = Belt_Option.getWithDefault(Belt_Option.map(Belt_Array.getBy(state.tokens, (function (token) {
+                        return Belt_Array.some(electionPublicCreds, (function (electionPublicCred) {
+                                      return electionPublicCred === token.public;
+                                    }));
+                      })), (function (token) {
+                    return token.private_;
+                  })), "");
+        Curry._1(setToken, (function (param) {
+                return privateCred;
+              }));
+        if (Js_string.sliceToEnd(1, window.location.hash) !== "") {
+          var privateCred$1 = Js_string.sliceToEnd(1, window.location.hash);
+          if (privateCred$1 !== "") {
+            var publicCred = Belenios.Credentials.derive(Belt_Option.getExn(state.election.uuid), privateCred$1);
+            Store.Token.add({
+                  public: publicCred,
+                  private_: privateCred$1
+                });
             Curry._1(setToken, (function (param) {
-                    return token;
+                    return privateCred$1;
                   }));
           }
           
-        }), []);
+        }
+        
+      });
   var vote = function (param) {
     var selectionArray = Belt_Array.mapWithIndex(Belt_Array.make(state.election.choices.length, 0), (function (i, param) {
             if (Caml_obj.equal(choice, /* Choice */{
