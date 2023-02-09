@@ -21,8 +21,9 @@ let make = () => {
     setToken(_ => privateCred)
 
     // Get from URL
-    if URL.currentHash -> Js.String.sliceToEnd(~from=1) != "" {
-      let privateCred = URL.currentHash -> Js.String.sliceToEnd(~from=1)
+    let hash = URL.currentHash() -> Js.String.sliceToEnd(~from=1)
+    if hash != "" {
+      let privateCred = hash
       switch privateCred {
       | "" => ()
       | privateCred => {

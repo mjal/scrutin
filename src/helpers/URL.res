@@ -4,7 +4,15 @@ type t
 @get external pathname: (t) => string = "pathname"
 @get external hash: (t) => string = "hash"
 
-@val external currentHash: string = "window.location.hash"
+@val external _currentHash: string = "window.location.hash"
+let currentHash = () => {
+  if ReactNative.Platform.os == #web {
+    _currentHash
+  } else {
+    ""
+  }
+}
+@val external _currentHash: string = "window.location.hash"
 
 let arrayToList = a => {
   let rec tolist = (i, res) =>
