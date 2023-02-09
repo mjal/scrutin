@@ -3,6 +3,7 @@
 import * as X from "../X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as Effect from "./Effect.bs.js";
+import * as Belenios from "../Belenios.bs.js";
 import * as Election from "./Election.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
@@ -44,7 +45,10 @@ function reducer(state, action) {
                     Effect.loadElections,
                     Effect.Store.User.get,
                     Effect.Store.Trustees.get,
-                    Effect.Store.Tokens.get
+                    Effect.Store.Tokens.get,
+                    (function (param) {
+                        Belenios.Random.generate(undefined);
+                      })
                   ]
                 ];
       case /* Election_Post */1 :

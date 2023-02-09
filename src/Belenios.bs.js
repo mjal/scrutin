@@ -95,11 +95,25 @@ var Election = {
   answers: answers
 };
 
+function addEntropy(prim0, prim1, prim2) {
+  Belenios_jslib2.belenios.addEntropy(prim0, prim1, prim2);
+}
+
+function generate(param) {
+  addEntropy(0, 1024, "copypaste");
+}
+
+var Random = {
+  addEntropy: addEntropy,
+  generate: generate
+};
+
 export {
   Credentials ,
   Trustees ,
   Ballot ,
   PartialDecryption ,
   Election ,
+  Random ,
 }
 /* ./belenios_jslib2 Not a pure module */

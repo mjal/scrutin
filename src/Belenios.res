@@ -80,3 +80,19 @@ module Election = {
   let answers = (params) =>
     Array.getExn(params.questions, 0).answers
 }
+
+//@module("react-native-securerandom") external generateSecureRandom: int => Promise.t<array<int>> = "generateSecureRandom"
+
+module Random = {
+  @module("./belenios_jslib2") @scope("belenios") @val external addEntropy: (~data: int, ~estimatedEntropy: int, ~source: string) => unit = "addEntropy"
+
+  // TODO TOFIX use real randomness
+  let generate = () => {
+    //generateSecureRandom(1024)
+    //-> Promise.thenResolve(aRandomValues => {
+    //  addEntropy(~data=randomValues, ~estimatedEntropy=1024, ~source="")
+    //}) -> ignore
+    
+    addEntropy(~data=0, ~estimatedEntropy=1024, ~source="copypaste")
+  }
+}
