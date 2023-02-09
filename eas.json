@@ -11,7 +11,7 @@
         "resourceClass": "m1-medium"
       }
     },
-    "preview": {
+    "apk": {
       "distribution": "internal",
       "ios": {
         "resourceClass": "m1-medium"
