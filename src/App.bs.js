@@ -24,7 +24,6 @@ function App(Props) {
         }), []);
   var match$1 = state.route;
   var title;
-  var exit = 0;
   if (typeof match$1 === "number") {
     switch (match$1) {
       case /* Home */0 :
@@ -34,14 +33,11 @@ function App(Props) {
           title = "Nouvelle election";
           break;
       case /* Profile */2 :
-          exit = 1;
+          title = "Profile";
           break;
       
     }
   } else {
-    exit = 1;
-  }
-  if (exit === 1) {
     title = state.election.name !== "" ? state.election.name : "Unamed election";
   }
   var _id = state.route;

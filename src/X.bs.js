@@ -55,6 +55,9 @@ var styles = ReactNative.StyleSheet.create({
           }) : ({}),
       center: {
         alignSelf: "center"
+      },
+      black: {
+        color: "black"
       }
     });
 

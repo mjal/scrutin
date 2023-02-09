@@ -52,7 +52,7 @@ let createElection = (election : Election.t, user: User.t) => {
       uuid: Some(params.uuid),
       params: Some(params),
       trustees: Some(Belenios.Trustees.to_str(trustees)),
-      creds: Js.Json.stringifyAny(pubcreds),
+      creds: Js.Json.stringifyAny(pubcreds), // TODO: Try Belenios.Credentials.stringify
       voters
     }
 

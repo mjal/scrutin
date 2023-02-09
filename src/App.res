@@ -14,6 +14,7 @@ let make = () => {
 
   let title = switch state.route {
     | Home => "Home"
+    | Profile => "Profile"
     | ElectionNew => "Nouvelle election"
     | _ => {
       if state.election.name != "" {

@@ -6,8 +6,8 @@ import * as Context from "../state/Context.bs.js";
 import * as Belenios from "../Belenios.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
+import * as ElectionList from "./shared/ElectionList.bs.js";
 import * as ReactNative from "react-native";
-import * as ReactNativePaper from "react-native-paper";
 
 function Profile(Props) {
   var match = Context.use(undefined);
@@ -15,40 +15,39 @@ function Profile(Props) {
   var user_id = Belt_Option.getWithDefault(Belt_Option.flatMap(state.user, (function (user) {
               return user.id;
             })), 0);
+  var elections = Belt_Array.keep(state.elections, (function (election) {
+          return election.administrator_id === user_id;
+        }));
+  var elections$1 = Belt_Array.keep(state.elections, (function (election) {
+          return Belt_Array.some(state.trustees, (function (trustee) {
+                        var election_trustees = election.trustees;
+                        var election_pubkey = election_trustees !== undefined ? Belenios.Trustees.pubkey(election_trustees) : "";
+                        return election_pubkey === trustee.pubkey;
+                      }));
+        }));
+  var elections$2 = Belt_Array.keep(state.elections, (function (election) {
+          var creds = Belt_Option.getWithDefault(Belt_Option.map(election.creds, (function (prim) {
+                      return JSON.parse(prim);
+                    })), []);
+          return Belt_Array.some(creds, (function (cred) {
+                        return Belt_Array.some(state.tokens, (function (token) {
+                                      return token.public === cred;
+                                    }));
+                      }));
+        }));
   return React.createElement(ReactNative.View, {
               style: X.styles["margin-x"],
               children: null
-            }, React.createElement(ReactNativePaper.Title, {
-                  style: X.styles.title,
-                  children: "My elections (as administrator)"
-                }), Belt_Array.map(Belt_Array.keep(state.elections, (function (election) {
-                        return election.administrator_id === user_id;
-                      })), (function (election) {
-                    return React.createElement(ReactNativePaper.Text, {
-                                children: null,
-                                key: String(election.id)
-                              }, String(election.id), election.name);
-                  })), React.createElement(ReactNativePaper.Title, {
-                  style: X.styles.title,
-                  children: "My elections (as trustee)"
-                }), (console.log(state.trustees), Belt_Array.map(Belt_Array.keep(state.elections, (function (election) {
-                          return Belt_Array.some(state.trustees, (function (trustee) {
-                                        var election_trustees = election.trustees;
-                                        var election_pubkey = election_trustees !== undefined ? Belenios.Trustees.pubkey(election_trustees) : "";
-                                        return election_pubkey === trustee.pubkey;
-                                      }));
-                        })), (function (election) {
-                      return React.createElement(ReactNativePaper.Text, {
-                                  children: null,
-                                  key: String(election.id)
-                                }, String(election.id), election.name);
-                    }))), React.createElement(ReactNativePaper.Title, {
-                  style: X.styles.title,
-                  children: "My elections (as voter)"
-                }), React.createElement(ReactNativePaper.Title, {
-                  style: X.styles.title,
-                  children: "TODO"
-                }), (console.log("Tokens"), console.log(state.tokens), React.createElement(React.Fragment, undefined)));
+            }, React.createElement(ElectionList.make, {
+                  title: "My elections (as administrator)",
+                  elections: elections
+                }), React.createElement(ElectionList.make, {
+                  title: "My elections (as trustee)",
+                  elections: elections$1
+                }), React.createElement(ElectionList.make, {
+                  title: "My elections (as voter)",
+                  elections: elections$2
+                }));
 }
 
 var make = Profile;

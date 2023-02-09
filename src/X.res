@@ -68,7 +68,6 @@ let styles = {
       ~backgroundColor=Color.white,
       ()
     ),
-
     "layout": {
       if ReactNative.Platform.os == #web {
         viewStyle(
@@ -78,8 +77,8 @@ let styles = {
         )
       } else { viewStyle() }
     },
-
-    "center": viewStyle(~alignSelf=#center, ())
+    "center": viewStyle(~alignSelf=#center, ()),
+    "black": textStyle(~color=Color.black, ())
   })
 }
 

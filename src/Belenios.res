@@ -2,6 +2,10 @@ module Credentials = {
   @module("./belenios_jslib2") @scope("belenios") @val external create: (string, int) => (array<string>, array<string>) = "makeCredentials"
 
   @module("./belenios_jslib2") @scope("belenios") @val external derive: (~uuid: string, ~public_credential: string) => (string) = "derive"
+
+  type t = array<string>
+  external parse: (string) => t = "JSON.parse"
+  external stringify: (t) => string = "JSON.stringify"
 }
 
 module Trustees = {

@@ -22,7 +22,7 @@ let make = () => {
         {"Creer une nouvelle election" -> React.string}
       </Button>
       <View style=X.styles["separator"] />
-      <Home_ElectionList />
+      <ElectionList title="Elections en cours" elections=state.elections loading=state.elections_loading />
     </>
   }
 }

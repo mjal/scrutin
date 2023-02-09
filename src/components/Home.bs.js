@@ -5,14 +5,15 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as Login from "./Login.bs.js";
 import * as React from "react";
 import * as Context from "../state/Context.bs.js";
+import * as ElectionList from "./shared/ElectionList.bs.js";
 import * as ReactNative from "react-native";
-import * as Home_ElectionList from "./Home_ElectionList.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function Home(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
-  var user = match[0].user;
+  var state = match[0];
+  var user = state.user;
   if (user !== undefined) {
     return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
                     style: X.styles.title,
@@ -48,7 +49,11 @@ function Home(Props) {
                     children: "Creer une nouvelle election"
                   }), React.createElement(ReactNative.View, {
                     style: X.styles.separator
-                  }), React.createElement(Home_ElectionList.make, {}));
+                  }), React.createElement(ElectionList.make, {
+                    title: "Elections en cours",
+                    elections: state.elections,
+                    loading: state.elections_loading
+                  }));
   } else {
     return React.createElement(Login.make, {});
   }
