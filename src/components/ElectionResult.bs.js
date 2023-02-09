@@ -33,7 +33,8 @@ function ElectionResult(Props) {
                   numeric: true
                 })), Belt_Array.mapWithIndex(state.election.choices, (function (i, choice) {
                 return React.createElement(ReactNativePaper.DataTable.Row, {
-                            children: null
+                            children: null,
+                            key: String(i)
                           }, React.createElement(ReactNativePaper.DataTable.Cell, {
                                 children: choice.name
                               }), React.createElement(ReactNativePaper.DataTable.Cell, {

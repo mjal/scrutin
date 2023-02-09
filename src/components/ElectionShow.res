@@ -45,20 +45,25 @@ let make = () => {
     <Title style=X.styles["title"]>
       {state.election.name -> React.string}
     </Title>
-    <X.SegmentedButtons
-      value=view
-      onValueChange={(view) => setView(_ => view)}
-      buttons={[
-        { value: "home", label: "home" },
-        { value: "vote", label: "vote" },
-        { value: "results", label: "results" }
-      ]}
-    />
+    //<X.SegmentedButtons
+    //  value=view
+    //  onValueChange={(view) => setView(_ => view)}
+    //  buttons={[
+    //    { value: "home", label: "home" },
+    //    { value: "vote", label: "vote" },
+    //    { value: "results", label: "results" }
+    //  ]}
+    ///>
     <Title style=X.styles["subtitle"]>
       {`${nb_votes}/${nb_ballots} voted` -> React.string}
     </Title>
 
     <View style=X.styles["separator"] />
+
+    <View>
+      <ElectionResult />
+    </View>
+
     <X.Row>
       <X.Col>
         <Button onPress={_ => dispatch(Action.Navigate(Route.ElectionBooth(state.election.id))) }>

@@ -29,7 +29,7 @@ let make = () => {
           </DataTable.Header>
           {
             Array.mapWithIndex(state.election.choices, (i, choice) => {
-              <DataTable.Row>
+              <DataTable.Row key=(i->Int.toString)>
                 <DataTable.Cell>{choice.name->React.string}</DataTable.Cell>
                 <DataTable.Cell numeric=true>
                   {getResultN(results, i) -> Int.toString -> React.string}

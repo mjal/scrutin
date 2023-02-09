@@ -8,6 +8,7 @@ import * as Belenios from "../Belenios.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as ReactNative from "react-native";
+import * as ElectionResult from "./ElectionResult.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function ElectionShow(Props) {
@@ -47,41 +48,21 @@ function ElectionShow(Props) {
           _0: res
         });
   };
-  var match$2 = React.useState(function () {
+  React.useState(function () {
         return "home";
       });
-  var setView = match$2[1];
   return React.createElement(ReactNative.View, {
               children: null
             }, React.createElement(ReactNativePaper.Title, {
                   style: X.styles.title,
                   children: state.election.name
-                }), React.createElement(ReactNativePaper.SegmentedButtons, {
-                  value: match$2[0],
-                  onValueChange: (function (view) {
-                      Curry._1(setView, (function (param) {
-                              return view;
-                            }));
-                    }),
-                  buttons: [
-                    {
-                      value: "home",
-                      label: "home"
-                    },
-                    {
-                      value: "vote",
-                      label: "vote"
-                    },
-                    {
-                      value: "results",
-                      label: "results"
-                    }
-                  ]
                 }), React.createElement(ReactNativePaper.Title, {
                   style: X.styles.subtitle,
                   children: "" + nb_votes + "/" + nb_ballots + " voted"
                 }), React.createElement(ReactNative.View, {
                   style: X.styles.separator
+                }), React.createElement(ReactNative.View, {
+                  children: React.createElement(ElectionResult.make, {})
                 }), React.createElement(X.Row.make, {
                   children: null
                 }, React.createElement(X.Col.make, {
