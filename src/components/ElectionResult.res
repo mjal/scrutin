@@ -13,9 +13,6 @@ let make = () => {
   let (state, _dispatch) = Context.use()
 
   <View>
-    <Title style=X.styles["title"]>
-      {state.election.name -> React.string}
-    </Title>
     {
       switch state.election.result {
       | Some(result) => {
