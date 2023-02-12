@@ -8,6 +8,7 @@ import * as React from "react";
 import * as UseTea from "rescript-use-tea/src/UseTea.bs.js";
 import * as Context from "./state/Context.bs.js";
 import * as Profile from "./components/Profile.bs.js";
+import * as Dimension from "./helpers/Dimension.bs.js";
 import * as ElectionNew from "./components/ElectionNew.bs.js";
 import * as ElectionShow from "./components/ElectionShow.bs.js";
 import * as ReactNative from "react-native";
@@ -19,6 +20,8 @@ function App(Props) {
   var match = UseTea.useTea(State.reducer, State.initial);
   var dispatch = match[1];
   var state = match[0];
+  console.log(Dimension.width(undefined));
+  console.log(Dimension.height(undefined));
   React.useEffect((function () {
           Curry._1(dispatch, /* Init */0);
         }), []);

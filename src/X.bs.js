@@ -2,6 +2,7 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
+import * as Dimension from "./helpers/Dimension.bs.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as ReactNative from "react-native";
 import * as Webapi__Fetch from "rescript-webapi/src/Webapi/Webapi__Fetch.bs.js";
@@ -49,7 +50,7 @@ var styles = ReactNative.StyleSheet.create({
         margin: 10.0,
         padding: 10.0
       },
-      layout: ReactNative.Platform.OS === "web" ? ({
+      layout: ReactNative.Platform.OS === "web" && Dimension.width(undefined) > 800 ? ({
             alignSelf: "center",
             width: 800.0
           }) : ({}),

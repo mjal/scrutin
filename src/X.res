@@ -69,7 +69,7 @@ let styles = {
       ()
     ),
     "layout": {
-      if ReactNative.Platform.os == #web {
+      if ReactNative.Platform.os == #web && Dimension.width() > 800 {
         viewStyle(
           ~width=800.0->dp,
           ~alignSelf=#center,
