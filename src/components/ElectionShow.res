@@ -75,11 +75,11 @@ let make = () => {
           {"Tally" -> React.string}
         </Button>
       </X.Col>
-      <X.Col>
-        <Button onPress={_ => dispatch(Navigate(Route.ElectionResult(state.election.id)))}>
-          {"Results" -> React.string}
-        </Button>
-      </X.Col>
+      //<X.Col>
+      //  <Button onPress={_ => dispatch(Navigate(Route.ElectionResult(state.election.id)))}>
+      //    {"Results" -> React.string}
+      //  </Button>
+      //</X.Col>
     </X.Row>
 
     <Portal>
