@@ -18,7 +18,10 @@ let make = () => {
         electionPublicCred == token.public
       })
     }) -> Option.map((token) => token.private_) -> Option.getWithDefault("")
-    setToken(_ => privateCred)
+
+    if token == "" && privateCred != "" {
+      setToken(_ => privateCred)
+    }
 
     // Get from URL
     let hash = URL.currentHash() -> Js.String.sliceToEnd(~from=1)
@@ -29,7 +32,9 @@ let make = () => {
       | privateCred => {
         let publicCred = Belenios.Credentials.derive(~uuid=Option.getExn(state.election.uuid), ~private_credential=privateCred)
         Store.Token.add({public: publicCred, private_: privateCred})
-        setToken(_ => privateCred)
+        if token == "" {
+          setToken(_ => privateCred)
+        }
       }
       }
     }

@@ -40,9 +40,11 @@ function ElectionBooth(Props) {
                       })), (function (token) {
                     return token.private_;
                   })), "");
-        Curry._1(setToken, (function (param) {
-                return privateCred;
-              }));
+        if (token === "" && privateCred !== "") {
+          Curry._1(setToken, (function (param) {
+                  return privateCred;
+                }));
+        }
         var hash = Js_string.sliceToEnd(1, $$URL.currentHash(undefined));
         if (hash !== "" && hash !== "") {
           var publicCred = Belenios.Credentials.derive(Belt_Option.getExn(state.election.uuid), hash);
@@ -50,9 +52,12 @@ function ElectionBooth(Props) {
                 public: publicCred,
                 private_: hash
               });
-          Curry._1(setToken, (function (param) {
-                  return hash;
-                }));
+          if (token === "") {
+            Curry._1(setToken, (function (param) {
+                    return hash;
+                  }));
+          }
+          
         }
         
       });
