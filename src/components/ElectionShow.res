@@ -10,7 +10,7 @@ let make = () => {
 
   let nb_ballots = Array.length(state.election.ballots) -> Int.toString
   let nb_votes   = state.election.ballots
-    -> Array.keep((ballot) => Option.isSome(ballot.ciphertext))
+    -> Array.keep((ballot) => Option.getWithDefault(ballot.ciphertext, "") == "")
     -> Array.length
     -> Int.toString
 

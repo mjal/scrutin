@@ -21,7 +21,7 @@ function ElectionShow(Props) {
   var setShowSnackbar = match$1[1];
   var nb_ballots = String(state.election.ballots.length);
   var nb_votes = String(Belt_Array.keep(state.election.ballots, (function (ballot) {
-              return Belt_Option.isSome(ballot.ciphertext);
+              return Belt_Option.getWithDefault(ballot.ciphertext, "") === "";
             })).length);
   var tally = function (param) {
     console.log(state.trustees);
