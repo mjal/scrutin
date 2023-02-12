@@ -7,9 +7,6 @@ open Paper
 let make = () => {
   let (state, dispatch) = UseTea.useTea(State.reducer, State.initial)
 
-  Js.log(Dimension.width())
-  Js.log(Dimension.height())
-
   React.useEffect0(() => {
     dispatch(Action.Init)
     None
