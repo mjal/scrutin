@@ -108,12 +108,7 @@ function ElectionNew_VoterList(Props) {
                                             return text;
                                           }));
                                   }),
-                                onKeyPress: (function (key) {
-                                    if (X.isKeyEnter(key)) {
-                                      return addVoter(undefined);
-                                    }
-                                    
-                                  })
+                                onSubmitEditing: addVoter
                               }), React.createElement(X.Row.make, {
                                 children: null
                               }, React.createElement(X.Col.make, {

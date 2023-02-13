@@ -94,15 +94,7 @@ function ElectionNew_ChoiceList(Props) {
                                               return text;
                                             }));
                                     }),
-                                  onKeyPress: (function (key) {
-                                      if (X.isKeyEnter(key)) {
-                                        addChoice(undefined);
-                                        return Curry._1(setshowModal, (function (param) {
-                                                      return false;
-                                                    }));
-                                      }
-                                      
-                                    })
+                                  onSubmitEditing: onSubmit
                                 }), React.createElement(X.Row.make, {
                                   children: null
                                 }, React.createElement(X.Col.make, {
