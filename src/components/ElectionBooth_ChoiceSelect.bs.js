@@ -44,7 +44,7 @@ function ElectionBooth_ChoiceSelect(Props) {
   var params = match[0].election.params;
   return React.createElement(ReactNative.View, {
               children: React.createElement(ReactNativePaper.List.Section, {
-                    title: "Choices",
+                    title: "Faites votre choix",
                     children: params !== undefined ? Belt_Array.mapWithIndex(Belenios.Election.answers(params), (function (i, choiceName) {
                               var selected = Caml_obj.equal(currentChoice, /* Choice */{
                                     _0: i

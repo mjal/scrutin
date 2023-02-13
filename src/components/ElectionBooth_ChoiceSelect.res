@@ -30,7 +30,7 @@ let make = (~currentChoice, ~onChoiceChange) => {
   let (state, _) = Context.use()
 
   <View>
-    <List.Section title="Choices" style=styles["margin-x"]>
+    <List.Section title="Faites votre choix" style=styles["margin-x"]>
       {
         switch state.election.params {
         | None => <></>

@@ -8,7 +8,8 @@ import * as Belenios from "../Belenios.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as ReactNative from "react-native";
-import * as ElectionResult from "./ElectionResult.bs.js";
+import * as ElectionBooth from "./ElectionBooth.bs.js";
+import * as ElectionResult from "./shared/ElectionResult.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function ElectionShow(Props) {
@@ -26,56 +27,42 @@ function ElectionShow(Props) {
   React.useState(function () {
         return "home";
       });
+  var _result = state.election.result;
   return React.createElement(ReactNative.View, {
               children: null
             }, React.createElement(ReactNativePaper.Title, {
                   style: X.styles.title,
-                  children: state.election.name
-                }), React.createElement(ReactNativePaper.Title, {
-                  style: X.styles.subtitle,
-                  children: "" + nb_votes + "/" + nb_ballots + " voted"
-                }), React.createElement(ReactNative.View, {
-                  style: X.styles.separator
-                }), React.createElement(ReactNative.View, {
-                  children: React.createElement(ElectionResult.make, {})
-                }), React.createElement(X.Row.make, {
                   children: null
-                }, React.createElement(X.Col.make, {
-                      children: React.createElement(ReactNativePaper.Button, {
-                            onPress: (function (param) {
-                                Curry._1(dispatch, {
-                                      TAG: /* Navigate */12,
-                                      _0: {
-                                        TAG: /* ElectionBooth */1,
-                                        _0: state.election.id
-                                      }
-                                    });
-                              }),
-                            children: "Vote"
-                          })
-                    }), React.createElement(X.Col.make, {
-                      children: React.createElement(ReactNativePaper.Button, {
-                            onPress: (function (param) {
-                                var trustee = Belt_Array.getBy(state.trustees, (function (trustee) {
-                                        var election_pubkey = Belt_Option.getWithDefault(Belt_Option.map(Belt_Option.map(state.election.trustees, (function (prim) {
-                                                        return prim;
-                                                      })), Belenios.Trustees.pubkey), "");
-                                        return trustee.pubkey === election_pubkey;
-                                      }));
-                                if (trustee !== undefined) {
-                                  return Curry._1(dispatch, {
-                                              TAG: /* Election_Tally */10,
-                                              _0: trustee
-                                            });
-                                } else {
-                                  return Curry._1(setShowSnackbar, (function (param) {
-                                                return true;
-                                              }));
-                                }
-                              }),
-                            children: "Tally"
-                          })
-                    })), React.createElement(ReactNativePaper.Portal, {
+                }, state.election.name, React.createElement(ReactNativePaper.Chip, {
+                      mode: "flat",
+                      icon: "information",
+                      style: X.styles["margin-x"],
+                      children: Belt_Option.isNone(state.election.result) ? "En cours" : "Terminée"
+                    })), React.createElement(ReactNativePaper.Title, {
+                  style: X.styles.subtitle,
+                  children: "" + nb_votes + " personnes sur " + nb_ballots + " ont voté"
+                }), _result !== undefined ? React.createElement(ElectionResult.make, {}) : React.createElement(ElectionBooth.make, {}), React.createElement(ReactNativePaper.Button, {
+                  mode: "contained",
+                  onPress: (function (param) {
+                      var trustee = Belt_Array.getBy(state.trustees, (function (trustee) {
+                              var election_pubkey = Belt_Option.getWithDefault(Belt_Option.map(Belt_Option.map(state.election.trustees, (function (prim) {
+                                              return prim;
+                                            })), Belenios.Trustees.pubkey), "");
+                              return trustee.pubkey === election_pubkey;
+                            }));
+                      if (trustee !== undefined) {
+                        return Curry._1(dispatch, {
+                                    TAG: /* Election_Tally */10,
+                                    _0: trustee
+                                  });
+                      } else {
+                        return Curry._1(setShowSnackbar, (function (param) {
+                                      return true;
+                                    }));
+                      }
+                    }),
+                  children: "Tally"
+                }), React.createElement(ReactNativePaper.Portal, {
                   children: React.createElement(ReactNativePaper.Snackbar, {
                         onDismiss: (function (param) {
                             Curry._1(setShowSnackbar, (function (param) {

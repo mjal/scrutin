@@ -15,12 +15,12 @@ let make = () => {
   let title = switch state.route {
     | Home => "Home"
     | Profile => "Profile"
-    | ElectionNew => "Nouvelle election"
+    | ElectionNew => "Election > Nouvelle election"
     | _ => {
       if state.election.name != "" {
-        state.election.name
+        "Election > " ++ state.election.name
       } else {
-       "Unamed election" 
+       "Election > Unamed election" 
       }
     }
   }
@@ -28,9 +28,9 @@ let make = () => {
   let view = switch state.route {
     | Home => <Home></Home>
     | ElectionNew => <ElectionNew></ElectionNew>
-    | ElectionBooth(_id) => <ElectionBooth></ElectionBooth>
+    | ElectionBooth(_id)
+    | ElectionResult(_id)
     | ElectionShow(_id) => <ElectionShow></ElectionShow>
-    | ElectionResult(_id) => <ElectionResult></ElectionResult>
     | Profile => <Profile></Profile>
   }
 

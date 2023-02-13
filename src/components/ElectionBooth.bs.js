@@ -77,10 +77,7 @@ function ElectionBooth(Props) {
           _1: selectionArray
         });
   };
-  return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
-                  style: X.styles.title,
-                  children: state.election.name
-                }), state.voting_in_progress ? React.createElement(ReactNativePaper.Title, {
+  return React.createElement(React.Fragment, undefined, state.voting_in_progress ? React.createElement(ReactNativePaper.Title, {
                     style: X.styles.title,
                     children: null
                   }, React.createElement(ReactNativePaper.Text, {
@@ -103,27 +100,11 @@ function ElectionBooth(Props) {
                                     return text.trim();
                                   }));
                           })
-                      }), React.createElement(X.Row.make, {
-                        children: null
-                      }, React.createElement(X.Col.make, {
-                            children: React.createElement(ReactNativePaper.Button, {
-                                  onPress: vote,
-                                  children: "Vote"
-                                })
-                          }), React.createElement(X.Col.make, {
-                            children: React.createElement(ReactNativePaper.Button, {
-                                  onPress: (function (param) {
-                                      Curry._1(dispatch, {
-                                            TAG: /* Navigate */12,
-                                            _0: {
-                                              TAG: /* ElectionShow */0,
-                                              _0: state.election.id
-                                            }
-                                          });
-                                    }),
-                                  children: "Admin"
-                                })
-                          }))));
+                      }), React.createElement(ReactNativePaper.Button, {
+                        mode: "contained",
+                        onPress: vote,
+                        children: "Vote"
+                      })));
 }
 
 var make = ElectionBooth;

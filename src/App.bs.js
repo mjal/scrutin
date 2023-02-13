@@ -11,8 +11,6 @@ import * as Profile from "./components/Profile.bs.js";
 import * as ElectionNew from "./components/ElectionNew.bs.js";
 import * as ElectionShow from "./components/ElectionShow.bs.js";
 import * as ReactNative from "react-native";
-import * as ElectionBooth from "./components/ElectionBooth.bs.js";
-import * as ElectionResult from "./components/ElectionResult.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function App(Props) {
@@ -30,7 +28,7 @@ function App(Props) {
           title = "Home";
           break;
       case /* ElectionNew */1 :
-          title = "Nouvelle election";
+          title = "Election > Nouvelle election";
           break;
       case /* Profile */2 :
           title = "Profile";
@@ -38,12 +36,12 @@ function App(Props) {
       
     }
   } else {
-    title = state.election.name !== "" ? state.election.name : "Unamed election";
+    title = state.election.name !== "" ? "Election > " + state.election.name : "Election > Unamed election";
   }
-  var _id = state.route;
+  var match$2 = state.route;
   var view;
-  if (typeof _id === "number") {
-    switch (_id) {
+  if (typeof match$2 === "number") {
+    switch (match$2) {
       case /* Home */0 :
           view = React.createElement(Home.make, {});
           break;
@@ -56,18 +54,7 @@ function App(Props) {
       
     }
   } else {
-    switch (_id.TAG | 0) {
-      case /* ElectionShow */0 :
-          view = React.createElement(ElectionShow.make, {});
-          break;
-      case /* ElectionBooth */1 :
-          view = React.createElement(ElectionBooth.make, {});
-          break;
-      case /* ElectionResult */2 :
-          view = React.createElement(ElectionResult.make, {});
-          break;
-      
-    }
+    view = React.createElement(ElectionShow.make, {});
   }
   var tmp;
   if (state.route !== /* Home */0) {
@@ -105,7 +92,10 @@ function App(Props) {
                                     children: tmp
                                   }), view)
                         })
-                  })
+                  }),
+              theme: {
+                dark: true
+              }
             });
 }
 

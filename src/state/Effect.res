@@ -62,7 +62,7 @@ let createElection = (election : Election.t, user: User.t) => {
     -> Promise.thenResolve((res) => {
       dispatch(Action.Election_Load(res))
       let id = (Election.from_json(res)).id
-      dispatch(Action.Navigate(Route.ElectionBooth(id)))
+      dispatch(Action.Navigate(Route.ElectionShow(id)))
     })
     -> ignore
   }

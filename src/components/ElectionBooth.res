@@ -51,9 +51,6 @@ let make = () => {
   }
 
   <>
-    <Title style=X.styles["title"]>
-      {state.election.name -> React.string}
-    </Title>
     { if state.voting_in_progress {
       <Title style=X.styles["title"]>
         <Text>{"Voting in progress..." -> React.string}</Text>
@@ -69,18 +66,9 @@ let make = () => {
           value=token
           onChangeText={text => setToken(_ => Js.String.trim(text))}
         />
-        <X.Row>
-          <X.Col>
-            <Button onPress=vote>
-              {"Vote" -> React.string}
-            </Button>
-          </X.Col>
-          <X.Col>
-            <Button onPress={_ => dispatch(Action.Navigate(Route.ElectionShow(state.election.id)))}>
-              {"Admin" -> React.string}
-            </Button>
-          </X.Col>
-        </X.Row>
+        <Button mode=#contained onPress=vote>
+          {"Vote" -> React.string}
+        </Button>
       </>
     }
   }

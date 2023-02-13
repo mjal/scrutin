@@ -37,43 +37,23 @@ let make = () => {
   <View>
     <Title style=X.styles["title"]>
       {state.election.name -> React.string}
+      <Chip mode=#flat icon=Paper.Icon.name("information") style=X.styles["margin-x"]>
+        { if Option.isNone(state.election.result) { "En cours" } else { "Terminée" } -> React.string }
+      </Chip>
     </Title>
-    //<X.SegmentedButtons
-    //  value=view
-    //  onValueChange={(view) => setView(_ => view)}
-    //  buttons={[
-    //    { value: "home", label: "home" },
-    //    { value: "vote", label: "vote" },
-    //    { value: "results", label: "results" }
-    //  ]}
-    ///>
+
     <Title style=X.styles["subtitle"]>
-      {`${nb_votes}/${nb_ballots} voted` -> React.string}
+      {`${nb_votes} personnes sur ${nb_ballots} ont voté` -> React.string}
     </Title>
 
-    <View style=X.styles["separator"] />
+    { switch state.election.result {
+    | None => <ElectionBooth />
+    | Some(_result) => <ElectionResult />
+    }}
 
-    <View>
-      <ElectionResult />
-    </View>
-
-    <X.Row>
-      <X.Col>
-        <Button onPress={_ => dispatch(Action.Navigate(Route.ElectionBooth(state.election.id))) }>
-          {"Vote" -> React.string}
-        </Button>
-      </X.Col>
-      <X.Col>
-        <Button onPress={_ => tally()} >
-          {"Tally" -> React.string}
-        </Button>
-      </X.Col>
-      //<X.Col>
-      //  <Button onPress={_ => dispatch(Navigate(Route.ElectionResult(state.election.id)))}>
-      //    {"Results" -> React.string}
-      //  </Button>
-      //</X.Col>
-    </X.Row>
+    <Button mode=#contained onPress={_ => tally()} >
+      {"Tally" -> React.string}
+    </Button>
 
     <Portal>
       <Snackbar

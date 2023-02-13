@@ -104,7 +104,7 @@ function createElection(election, user, dispatch) {
         Curry._1(dispatch, {
               TAG: /* Navigate */12,
               _0: {
-                TAG: /* ElectionBooth */1,
+                TAG: /* ElectionShow */0,
                 _0: id
               }
             });
