@@ -59,6 +59,10 @@ let reducer = (state, action: Action.t) => {
       (state, [Effect.publishElectionResult(state.election, result)])
     }
 
+    | Election_Tally(trustee) => {
+      (state, [Effect.tally(trustee, state.election)])
+    }
+
     | Ballot_Create_Start(token, selection) => {
       ({...state, voting_in_progress: true},
        [ Effect.ballotCreate(state.election, token, selection) ])

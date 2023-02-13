@@ -102,7 +102,7 @@ function createElection(election, user, dispatch) {
             });
         var id = Election.from_json(res).id;
         Curry._1(dispatch, {
-              TAG: /* Navigate */11,
+              TAG: /* Navigate */12,
               _0: {
                 TAG: /* ElectionBooth */1,
                 _0: id
@@ -145,7 +145,7 @@ function goToUrl(dispatch) {
               }
               var nId = Belt_Option.getWithDefault(Belt_Int.fromString(match.hd), 0);
               return Curry._1(dispatch, {
-                          TAG: /* Navigate */11,
+                          TAG: /* Navigate */12,
                           _0: {
                             TAG: /* ElectionBooth */1,
                             _0: nId
@@ -156,7 +156,7 @@ function goToUrl(dispatch) {
                 return ;
               } else {
                 return Curry._1(dispatch, {
-                            TAG: /* Navigate */11,
+                            TAG: /* Navigate */12,
                             _0: /* Profile */2
                           });
               }
@@ -166,11 +166,26 @@ function goToUrl(dispatch) {
       });
 }
 
+function tally(trustee, election, dispatch) {
+  var params = Belt_Option.getExn(election.params);
+  var ballots = Belt_Array.map(Belt_Array.keep(Belt_Array.map(election.ballots, (function (ballot) {
+                  return ballot.ciphertext;
+                })), Belt_Option.isSome), Belt_Option.getExn);
+  var trustees = Belt_Option.getExn(election.trustees);
+  var pubcreds = (JSON.parse(election.creds));
+  var match = Belenios.Election.decrypt(params)(ballots, trustees, pubcreds, trustee.privkey);
+  var res = Belenios.Election.result(params)(ballots, trustees, pubcreds, match[0], match[1]);
+  return Curry._1(dispatch, {
+              TAG: /* Election_PublishResult */0,
+              _0: res
+            });
+}
+
 function get(dispatch) {
   Store.User.get(undefined).then(function (oUser) {
         if (oUser !== undefined) {
           return Curry._1(dispatch, {
-                      TAG: /* User_Login */12,
+                      TAG: /* User_Login */13,
                       _0: oUser
                     });
         }
@@ -195,7 +210,7 @@ var User = {
 function get$1(dispatch) {
   Store.Trustee.get(undefined).then(function (trustees) {
         return Curry._1(dispatch, {
-                    TAG: /* Trustees_Set */13,
+                    TAG: /* Trustees_Set */14,
                     _0: trustees
                   });
       });
@@ -221,7 +236,7 @@ var Trustees = {
 function get$2(dispatch) {
   Store.Token.get(undefined).then(function (trustees) {
         return Curry._1(dispatch, {
-                    TAG: /* Tokens_Set */14,
+                    TAG: /* Tokens_Set */15,
                     _0: trustees
                   });
       });
@@ -254,6 +269,7 @@ export {
   ballotCreate ,
   publishElectionResult ,
   goToUrl ,
+  tally ,
   Store$1 as Store,
 }
 /* URL Not a pure module */

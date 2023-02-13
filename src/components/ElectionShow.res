@@ -15,26 +15,19 @@ let make = () => {
     -> Int.toString
 
   let tally = _ => {
-    state.trustees -> Js.log
-    let trustee = state.trustees
-    -> Array.getBy((trustee) => {
-      trustee.pubkey == state.election.trustees->Option.map(Belenios.Trustees.of_str)->Option.map(Belenios.Trustees.pubkey)->Option.getWithDefault("")
+    let trustee = Array.getBy(state.trustees, (trustee) => {
+      let election_pubkey = state.election.trustees
+      -> Option.map(Belenios.Trustees.of_str)
+      -> Option.map(Belenios.Trustees.pubkey)
+      -> Option.getWithDefault("")
+
+      trustee.pubkey == election_pubkey
     })
 
     switch trustee {
     | None => setShowSnackbar(_ => true)
     | Some(trustee) => {
-      let params = Option.getExn(state.election.params)
-      let ballots =
-        state.election.ballots
-        -> Array.map((ballot) => ballot.ciphertext)
-        -> Array.keep(Option.isSome)
-        -> Array.map((ciphertext) => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
-      let trustees = Belenios.Trustees.of_str(Option.getExn(state.election.trustees))
-      let pubcreds : array<string> = %raw(`JSON.parse(state.election.creds)`)
-      let (a, b) = Belenios.Election.decrypt(params, ballots, trustees, pubcreds, trustee.privkey)
-      let res = Belenios.Election.result(params, ballots, trustees, pubcreds, a, b)
-      dispatch(Action.Election_PublishResult(res))
+      dispatch(Action.Election_Tally(trustee))
     }
     }
   }
@@ -71,7 +64,7 @@ let make = () => {
         </Button>
       </X.Col>
       <X.Col>
-        <Button onPress=tally>
+        <Button onPress={_ => tally()} >
           {"Tally" -> React.string}
         </Button>
       </X.Col>

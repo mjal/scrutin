@@ -165,10 +165,19 @@ function reducer(state, action) {
                   },
                   []
                 ];
-      case /* Ballot_Create_Start */10 :
+      case /* Election_Tally */10 :
+          var trustee = action._0;
+          var partial_arg$3 = state.election;
+          return [
+                  state,
+                  [(function (param) {
+                        return Effect.tally(trustee, partial_arg$3, param);
+                      })]
+                ];
+      case /* Ballot_Create_Start */11 :
           var selection = action._1;
           var token = action._0;
-          var partial_arg$3 = state.election;
+          var partial_arg$4 = state.election;
           return [
                   {
                     election: state.election,
@@ -182,10 +191,10 @@ function reducer(state, action) {
                     tokens: state.tokens
                   },
                   [(function (param) {
-                        return Effect.ballotCreate(partial_arg$3, token, selection, param);
+                        return Effect.ballotCreate(partial_arg$4, token, selection, param);
                       })]
                 ];
-      case /* Navigate */11 :
+      case /* Navigate */12 :
           var route = action._0;
           if (typeof route === "number") {
             switch (route) {
@@ -225,7 +234,7 @@ function reducer(state, action) {
                   },
                   effects
                 ];
-      case /* User_Login */12 :
+      case /* User_Login */13 :
           var user = action._0;
           return [
                   {
@@ -241,7 +250,7 @@ function reducer(state, action) {
                   },
                   [Curry._1(Effect.Store.User.set, user)]
                 ];
-      case /* Trustees_Set */13 :
+      case /* Trustees_Set */14 :
           return [
                   {
                     election: state.election,
@@ -256,7 +265,7 @@ function reducer(state, action) {
                   },
                   []
                 ];
-      case /* Tokens_Set */14 :
+      case /* Tokens_Set */15 :
           return [
                   {
                     election: state.election,

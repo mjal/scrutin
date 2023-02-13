@@ -23,7 +23,7 @@ function Home(Props) {
                         style: X.styles["margin-x"],
                         onPress: (function (param) {
                             Curry._1(dispatch, {
-                                  TAG: /* Navigate */11,
+                                  TAG: /* Navigate */12,
                                   _0: /* Profile */2
                                 });
                           }),
@@ -42,7 +42,7 @@ function Home(Props) {
                     style: X.styles["margin-x"],
                     onPress: (function (param) {
                         Curry._1(dispatch, {
-                              TAG: /* Navigate */11,
+                              TAG: /* Navigate */12,
                               _0: /* ElectionNew */1
                             });
                       }),

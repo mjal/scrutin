@@ -75,7 +75,7 @@ function App(Props) {
     tmp = React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.BackAction, {
               onPress: (function (param) {
                   Curry._1(dispatch, {
-                        TAG: /* Navigate */11,
+                        TAG: /* Navigate */12,
                         _0: /* Home */0
                       });
                 })

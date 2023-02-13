@@ -12,6 +12,7 @@ type t =
   | Election_Load(Js.Json.t)
   | Election_LoadAll(array<Js.Json.t>)
   | Election_Post
+  | Election_Tally(Trustee.t)
   | Ballot_Create_Start(string, array<int>)
   | Ballot_Create_End
   | Navigate(Route.t)
