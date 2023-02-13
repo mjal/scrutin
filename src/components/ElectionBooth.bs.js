@@ -72,55 +72,58 @@ function ElectionBooth(Props) {
             }
           }));
     Curry._1(dispatch, {
-          TAG: /* Ballot_Create */10,
+          TAG: /* Ballot_Create_Start */10,
           _0: token,
           _1: selectionArray
         });
   };
-  return React.createElement(ReactNative.View, {
-              children: null
-            }, React.createElement(ReactNativePaper.Title, {
+  return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
                   style: X.styles.title,
                   children: state.election.name
-                }), React.createElement(ReactNative.View, {
-                  style: X.styles.separator
-                }), React.createElement(ElectionBooth_ChoiceSelect.make, {
-                  currentChoice: choice,
-                  onChoiceChange: (function (choice) {
-                      Curry._1(setChoice, (function (param) {
-                              return choice;
-                            }));
-                    })
-                }), React.createElement(ReactNativePaper.TextInput, {
-                  mode: "flat",
-                  label: "Token",
-                  value: token,
-                  onChangeText: (function (text) {
-                      Curry._1(setToken, (function (param) {
-                              return text.trim();
-                            }));
-                    })
-                }), React.createElement(X.Row.make, {
-                  children: null
-                }, React.createElement(X.Col.make, {
-                      children: React.createElement(ReactNativePaper.Button, {
-                            onPress: vote,
-                            children: "Vote"
+                }), state.voting_in_progress ? React.createElement(ReactNativePaper.Title, {
+                    style: X.styles.title,
+                    children: null
+                  }, React.createElement(ReactNativePaper.Text, {
+                        children: "Voting in progress..."
+                      }), React.createElement(ReactNativePaper.ActivityIndicator, {})) : React.createElement(React.Fragment, undefined, React.createElement(ReactNative.View, {
+                        style: X.styles.separator
+                      }), React.createElement(ElectionBooth_ChoiceSelect.make, {
+                        currentChoice: choice,
+                        onChoiceChange: (function (choice) {
+                            Curry._1(setChoice, (function (param) {
+                                    return choice;
+                                  }));
                           })
-                    }), React.createElement(X.Col.make, {
-                      children: React.createElement(ReactNativePaper.Button, {
-                            onPress: (function (param) {
-                                Curry._1(dispatch, {
-                                      TAG: /* Navigate */11,
-                                      _0: {
-                                        TAG: /* ElectionShow */0,
-                                        _0: state.election.id
-                                      }
-                                    });
-                              }),
-                            children: "Admin"
+                      }), React.createElement(ReactNativePaper.TextInput, {
+                        mode: "flat",
+                        label: "Token",
+                        value: token,
+                        onChangeText: (function (text) {
+                            Curry._1(setToken, (function (param) {
+                                    return text.trim();
+                                  }));
                           })
-                    })));
+                      }), React.createElement(X.Row.make, {
+                        children: null
+                      }, React.createElement(X.Col.make, {
+                            children: React.createElement(ReactNativePaper.Button, {
+                                  onPress: vote,
+                                  children: "Vote"
+                                })
+                          }), React.createElement(X.Col.make, {
+                            children: React.createElement(ReactNativePaper.Button, {
+                                  onPress: (function (param) {
+                                      Curry._1(dispatch, {
+                                            TAG: /* Navigate */11,
+                                            _0: {
+                                              TAG: /* ElectionShow */0,
+                                              _0: state.election.id
+                                            }
+                                          });
+                                    }),
+                                  children: "Admin"
+                                })
+                          }))));
 }
 
 var make = ElectionBooth;

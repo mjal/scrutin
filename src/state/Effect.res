@@ -71,15 +71,15 @@ let createElection = (election : Election.t, user: User.t) => {
 
 let ballotCreate = (election, token, selection) => {
   dispatch => {
-    let ballot = Election.createBallot(election, token, selection)
-
-    Election.post_ballot(election, ballot)
-    -> Promise.thenResolve(res => {
-      Js.log(res)
-      ()
-      //RescriptReactRouter.push(j`/elections/${state.election.id->Int.toString}/success`)
-    })
-    -> ignore
+    let _ = Js.Global.setTimeout(() => {
+      let ballot = Election.createBallot(election, token, selection)
+      Election.post_ballot(election, ballot)
+      -> Promise.thenResolve(res => {
+        dispatch(Action.Ballot_Create_End)
+      })
+      -> ignore
+    }, 0)
+    ()
   }
 }
 

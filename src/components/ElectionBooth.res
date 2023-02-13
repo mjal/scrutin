@@ -47,33 +47,43 @@ let make = () => {
       Array.length(state.election.choices)
       -> Array.make(0)
       -> Array.mapWithIndex((i, _) => choice == Choice(i) ? 1 : 0)
-
-    dispatch(Ballot_Create(token, selectionArray))
+    dispatch(Ballot_Create_Start(token, selectionArray))
   }
 
-  <View>
+  <>
     <Title style=X.styles["title"]>
       {state.election.name -> React.string}
     </Title>
-    <View style=X.styles["separator"] />
-    <ElectionBooth_ChoiceSelect currentChoice=choice onChoiceChange={choice => setChoice(_ => choice)} />
-    <TextInput
-      mode=#flat
-      label="Token"
-      value=token
-      onChangeText={text => setToken(_ => Js.String.trim(text))}
-    />
-    <X.Row>
-      <X.Col>
-        <Button onPress=vote>
-          {"Vote" -> React.string}
-        </Button>
-      </X.Col>
-      <X.Col>
-        <Button onPress={_ => dispatch(Action.Navigate(Route.ElectionShow(state.election.id)))}>
-          {"Admin" -> React.string}
-        </Button>
-      </X.Col>
-    </X.Row>
-	</View>
+    { if state.voting_in_progress {
+      <Title style=X.styles["title"]>
+        <Text>{"Voting in progress..." -> React.string}</Text>
+        <ActivityIndicator />
+      </Title>
+    } else {
+      <>
+        <View style=X.styles["separator"] />
+        <ElectionBooth_ChoiceSelect currentChoice=choice onChoiceChange={choice => setChoice(_ => choice)} />
+        <TextInput
+          mode=#flat
+          label="Token"
+          value=token
+          onChangeText={text => setToken(_ => Js.String.trim(text))}
+        />
+        <X.Row>
+          <X.Col>
+            <Button onPress=vote>
+              {"Vote" -> React.string}
+            </Button>
+          </X.Col>
+          <X.Col>
+            <Button onPress={_ => dispatch(Action.Navigate(Route.ElectionShow(state.election.id)))}>
+              {"Admin" -> React.string}
+            </Button>
+          </X.Col>
+        </X.Row>
+      </>
+    }
+  }
+
+	</>
 }

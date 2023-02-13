@@ -12,7 +12,8 @@ type t =
   | Election_Load(Js.Json.t)
   | Election_LoadAll(array<Js.Json.t>)
   | Election_Post
-  | Ballot_Create(string, array<int>)
+  | Ballot_Create_Start(string, array<int>)
+  | Ballot_Create_End
   | Navigate(Route.t)
   | User_Login(User.t)
   | User_Logout

@@ -20,6 +20,7 @@ var initial = {
   elections_loading: false,
   user: undefined,
   loading: false,
+  voting_in_progress: false,
   route: /* Home */0,
   trustees: initial_trustees,
   tokens: initial_tokens
@@ -36,6 +37,7 @@ function reducer(state, action) {
                     elections_loading: true,
                     user: state.user,
                     loading: state.loading,
+                    voting_in_progress: state.voting_in_progress,
                     route: state.route,
                     trustees: state.trustees,
                     tokens: state.tokens
@@ -60,7 +62,22 @@ function reducer(state, action) {
                         return Effect.createElection(partial_arg$1, partial_arg, param);
                       })]
                 ];
-      case /* User_Logout */2 :
+      case /* Ballot_Create_End */2 :
+          return [
+                  {
+                    election: state.election,
+                    elections: state.elections,
+                    elections_loading: state.elections_loading,
+                    user: state.user,
+                    loading: state.loading,
+                    voting_in_progress: false,
+                    route: state.route,
+                    trustees: state.trustees,
+                    tokens: state.tokens
+                  },
+                  []
+                ];
+      case /* User_Logout */3 :
           return [
                   {
                     election: state.election,
@@ -68,6 +85,7 @@ function reducer(state, action) {
                     elections_loading: state.elections_loading,
                     user: undefined,
                     loading: state.loading,
+                    voting_in_progress: state.voting_in_progress,
                     route: state.route,
                     trustees: state.trustees,
                     tokens: state.tokens
@@ -108,6 +126,7 @@ function reducer(state, action) {
                     elections_loading: state.elections_loading,
                     user: state.user,
                     loading: true,
+                    voting_in_progress: state.voting_in_progress,
                     route: state.route,
                     trustees: state.trustees,
                     tokens: state.tokens
@@ -124,6 +143,7 @@ function reducer(state, action) {
                     elections_loading: state.elections_loading,
                     user: state.user,
                     loading: false,
+                    voting_in_progress: state.voting_in_progress,
                     route: state.route,
                     trustees: state.trustees,
                     tokens: state.tokens
@@ -138,18 +158,29 @@ function reducer(state, action) {
                     elections_loading: false,
                     user: state.user,
                     loading: state.loading,
+                    voting_in_progress: state.voting_in_progress,
                     route: state.route,
                     trustees: state.trustees,
                     tokens: state.tokens
                   },
                   []
                 ];
-      case /* Ballot_Create */10 :
+      case /* Ballot_Create_Start */10 :
           var selection = action._1;
           var token = action._0;
           var partial_arg$3 = state.election;
           return [
-                  state,
+                  {
+                    election: state.election,
+                    elections: state.elections,
+                    elections_loading: state.elections_loading,
+                    user: state.user,
+                    loading: state.loading,
+                    voting_in_progress: true,
+                    route: state.route,
+                    trustees: state.trustees,
+                    tokens: state.tokens
+                  },
                   [(function (param) {
                         return Effect.ballotCreate(partial_arg$3, token, selection, param);
                       })]
@@ -187,6 +218,7 @@ function reducer(state, action) {
                     elections_loading: state.elections_loading,
                     user: state.user,
                     loading: state.loading,
+                    voting_in_progress: state.voting_in_progress,
                     route: route,
                     trustees: state.trustees,
                     tokens: state.tokens
@@ -202,6 +234,7 @@ function reducer(state, action) {
                     elections_loading: state.elections_loading,
                     user: user,
                     loading: state.loading,
+                    voting_in_progress: state.voting_in_progress,
                     route: state.route,
                     trustees: state.trustees,
                     tokens: state.tokens
@@ -216,6 +249,7 @@ function reducer(state, action) {
                     elections_loading: state.elections_loading,
                     user: state.user,
                     loading: state.loading,
+                    voting_in_progress: state.voting_in_progress,
                     route: state.route,
                     trustees: action._0,
                     tokens: state.tokens
@@ -230,6 +264,7 @@ function reducer(state, action) {
                     elections_loading: state.elections_loading,
                     user: state.user,
                     loading: state.loading,
+                    voting_in_progress: state.voting_in_progress,
                     route: state.route,
                     trustees: state.trustees,
                     tokens: action._0
@@ -244,6 +279,7 @@ function reducer(state, action) {
                   elections_loading: state.elections_loading,
                   user: state.user,
                   loading: state.loading,
+                  voting_in_progress: state.voting_in_progress,
                   route: state.route,
                   trustees: state.trustees,
                   tokens: state.tokens

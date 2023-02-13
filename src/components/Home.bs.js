@@ -32,7 +32,7 @@ function Home(Props) {
                         mode: "contained",
                         style: X.styles["margin-x"],
                         onPress: (function (param) {
-                            Curry._1(dispatch, /* User_Logout */2);
+                            Curry._1(dispatch, /* User_Logout */3);
                           }),
                         children: React.createElement(ReactNativePaper.Text, {
                               children: "Logout"

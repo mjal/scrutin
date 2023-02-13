@@ -4,6 +4,7 @@ type t = {
   elections_loading: bool,
   user: option<User.t>,
   loading: bool, // Obsolete
+  voting_in_progress: bool,
   route: Route.t,
   trustees: array<Trustee.t>,
   tokens:   array<Token.t>,
@@ -13,6 +14,7 @@ let initial = {
   election: Election.initial,
   user: None,
   loading: false,
+  voting_in_progress: false,
   route: Home,
   elections: [],
   elections_loading: false,
@@ -57,8 +59,13 @@ let reducer = (state, action: Action.t) => {
       (state, [Effect.publishElectionResult(state.election, result)])
     }
 
-    | Ballot_Create(token, selection) => {
-      (state, [ Effect.ballotCreate(state.election, token, selection) ])
+    | Ballot_Create_Start(token, selection) => {
+      ({...state, voting_in_progress: true},
+       [ Effect.ballotCreate(state.election, token, selection) ])
+    }
+
+    | Ballot_Create_End => {
+      ({...state, voting_in_progress: false}, [])
     }
 
     | Navigate(route) =>
