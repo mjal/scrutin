@@ -69,7 +69,7 @@ function App(Props) {
             }), React.createElement(ReactNativePaper.Appbar.Content, {
               title: title
             }), typeof __ === "number" ? React.createElement(React.Fragment, undefined) : React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.Action, {
-                    icon: "menu",
+                    icon: "account",
                     onPress: (function (param) {
                         
                       })

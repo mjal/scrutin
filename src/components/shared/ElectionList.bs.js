@@ -5,7 +5,6 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Context from "../../state/Context.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
-import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
 
 function ElectionList$ElectionLink(Props) {
@@ -23,7 +22,6 @@ function ElectionList$ElectionLink(Props) {
                       });
                 }),
               title: election.name,
-              titleStyle: X.styles.black,
               left: (function (param) {
                   return React.createElement(ReactNativePaper.List.Icon, {
                               icon: "vote"
@@ -57,11 +55,7 @@ function ElectionList(Props) {
                                     key: String(election.id)
                                   });
                       })),
-                style: ReactNative.StyleSheet.flatten([
-                      X.styles["margin-x"],
-                      X.styles.black
-                    ]),
-                titleStyle: X.styles.black
+                style: X.styles["margin-x"]
               });
   }
 }

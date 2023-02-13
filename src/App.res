@@ -43,27 +43,16 @@ let make = () => {
               <>
                 <Appbar.BackAction onPress={_ => dispatch(Navigate(Route.Home))} />
                 <Appbar.Content title={title -> React.string} />
-                {
-                  switch state.route {
-                  | ElectionBooth(_id) 
-                  | ElectionShow(_id)
-                  | ElectionResult(_id) => {
-                    <>
-                      <Appbar.Action icon=Icon.name("menu") onPress={_ => ()/*setVisibleMenu(_ => true)*/}></Appbar.Action>
-                      //<Menu
-                      //  visible={visibleMenu}
-                      //  onDismiss={setVisibleMenu(_ => false)}
-                      //  anchor={<Button onPress={setVisibleMenu(_ => true)}>Show menu</Button>}>
-                      //  <Menu.Item onPress={_ => {()}} title="Item 1" />
-                      //  <Menu.Item onPress={_ => {()}} title="Item 2" />
-                      //  <Divider />
-                      //  <Menu.Item onPress={_ => {()}} title="Item 3" />
-                      //</Menu>
-                    </>
-                  }
-                  | __ => <></>
-                  }
-                }
+                <Appbar.Action icon=Icon.name("account") onPress={_ => ()/*setVisibleMenu(_ => true)*/}></Appbar.Action>
+                //<Menu
+                //  visible={visibleMenu}
+                //  onDismiss={setVisibleMenu(_ => false)}
+                //  anchor={<Button onPress={setVisibleMenu(_ => true)}>Show menu</Button>}>
+                //  <Menu.Item onPress={_ => {()}} title="Item 1" />
+                //  <Menu.Item onPress={_ => {()}} title="Item 2" />
+                //  <Divider />
+                //  <Menu.Item onPress={_ => {()}} title="Item 3" />
+                //</Menu>
               </>
             } else {
               <>

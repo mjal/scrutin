@@ -78,7 +78,6 @@ let styles = {
       } else { viewStyle() }
     },
     "center": viewStyle(~alignSelf=#center, ()),
-    "black": textStyle(~color=Color.black, ())
   })
 }
 

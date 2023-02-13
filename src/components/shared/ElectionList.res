@@ -8,7 +8,6 @@ module ElectionLink = {
 
     <List.Item
       title=election.name
-      titleStyle=X.styles["black"]
       left={_ => <List.Icon icon=Icon.name("vote") />}
       right={_ => <Text>{election.id -> Int.toString -> React.string}</Text>}
       onPress={_ => dispatch(Action.Navigate(Route.ElectionShow(election.id)))}
@@ -21,7 +20,7 @@ let make = (~title, ~elections : array<Election.t>, ~loading=false) => {
   if loading {
     <ActivityIndicator />
   } else {
-    <List.Section title style=StyleSheet.flatten([X.styles["margin-x"], X.styles["black"]]) titleStyle=X.styles["black"]>
+    <List.Section title style=X.styles["margin-x"]>
       {
         Array.map(elections, (election) => {
           <ElectionLink election key=Int.toString(election.id) />
