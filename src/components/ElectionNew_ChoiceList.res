@@ -55,7 +55,7 @@ let make = () => {
             label="Nom du choix"
             value=name
             onChangeText={text => setName(_ => text)}
-            onKeyPress={key => X.isKeyEnter(key) ? onSubmit() : ()}
+            onSubmitEditing=onSubmit
           />
           <X.Row>
             <X.Col>

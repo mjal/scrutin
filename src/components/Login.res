@@ -49,7 +49,7 @@ let make = () => {
       label="Password"
       value=password
       onChangeText={text => setPassword(_ => text)}
-      onKeyPress={key => X.isKeyEnter(key) ? onSubmit() : ()}
+      onSubmitEditing=onSubmit
     />
     <Divider />
     <Button mode=#contained onPress=onSubmit style=X.styles["margin-x"]>

@@ -59,7 +59,7 @@ let make = () => {
             label="Email du participant"
             value=email
             onChangeText={text => setEmail(_ => text)}
-            onKeyPress={key => X.isKeyEnter(key) ? addVoter() : ()}
+            onSubmitEditing=addVoter
           />
           <X.Row>
             <X.Col>
