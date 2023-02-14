@@ -32,8 +32,6 @@ let make = () => {
     }
   }
 
-  let (view, setView) = React.useState(_ => "home")
-
   <View>
     <Title style=X.styles["title"]>
       {state.election.name -> React.string}

@@ -74,7 +74,7 @@ let ballotCreate = (election, token, selection) => {
     let _ = Js.Global.setTimeout(() => {
       let ballot = Election.createBallot(election, token, selection)
       Election.post_ballot(election, ballot)
-      -> Promise.thenResolve(res => {
+      -> Promise.thenResolve(_ => {
         dispatch(Action.Ballot_Create_End)
       })
       -> ignore

@@ -114,7 +114,7 @@ function createElection(election, user, dispatch) {
 function ballotCreate(election, token, selection, dispatch) {
   setTimeout((function (param) {
           var ballot = Election.createBallot(election, token, selection);
-          Election.post_ballot(election, ballot).then(function (res) {
+          Election.post_ballot(election, ballot).then(function (param) {
                 return Curry._1(dispatch, /* Ballot_Create_End */2);
               });
         }), 0);

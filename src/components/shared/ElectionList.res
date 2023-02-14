@@ -1,4 +1,3 @@
-open ReactNative
 open! Paper
 
 module ElectionLink = {

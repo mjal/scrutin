@@ -24,9 +24,6 @@ function ElectionShow(Props) {
   var nb_votes = String(Belt_Array.keep(state.election.ballots, (function (ballot) {
               return Belt_Option.getWithDefault(ballot.ciphertext, "") !== "";
             })).length);
-  React.useState(function () {
-        return "home";
-      });
   var _result = state.election.result;
   return React.createElement(ReactNative.View, {
               children: null
