@@ -3,11 +3,15 @@ open! Paper
 
 @react.component
 let make = () => {
-  let (state, _dispatch) = Context.use()
+  let (state, dispatch) = Context.use()
 
   let user_id = state.user -> Option.flatMap(user => user.id) -> Option.getWithDefault(0)
 
   <View style=X.styles["margin-x"]>
+    <Button mode=#contained onPress={_ => dispatch(User_Logout)} style=X.styles["margin-x"]>
+      <Text>{ "Logout" -> React.string }</Text>
+    </Button>
+
     {
       let title = "My elections (as administrator)"
       let elections = Array.keep(state.elections, (election) => {

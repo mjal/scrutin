@@ -6,38 +6,15 @@ import * as Login from "./Login.bs.js";
 import * as React from "react";
 import * as Context from "../state/Context.bs.js";
 import * as ElectionList from "./shared/ElectionList.bs.js";
-import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
 
 function Home(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var state = match[0];
-  var user = state.user;
-  if (user !== undefined) {
-    return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
-                    style: X.styles.title,
-                    children: null
-                  }, "Hello " + user.email + "", React.createElement(ReactNativePaper.Button, {
-                        mode: "contained",
-                        style: X.styles["margin-x"],
-                        onPress: (function (param) {
-                            Curry._1(dispatch, {
-                                  TAG: /* Navigate */12,
-                                  _0: /* Profile */2
-                                });
-                          }),
-                        children: "Go to profile"
-                      }), React.createElement(ReactNativePaper.Button, {
-                        mode: "contained",
-                        style: X.styles["margin-x"],
-                        onPress: (function (param) {
-                            Curry._1(dispatch, /* User_Logout */3);
-                          }),
-                        children: React.createElement(ReactNativePaper.Text, {
-                              children: "Logout"
-                            })
-                      })), React.createElement(ReactNativePaper.Button, {
+  var _user = state.user;
+  if (_user !== undefined) {
+    return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Button, {
                     mode: "contained",
                     style: X.styles["margin-x"],
                     onPress: (function (param) {
@@ -47,8 +24,6 @@ function Home(Props) {
                             });
                       }),
                     children: "Creer une nouvelle election"
-                  }), React.createElement(ReactNative.View, {
-                    style: X.styles.separator
                   }), React.createElement(ElectionList.make, {
                     title: "Elections en cours",
                     elections: state.elections,

@@ -21,40 +21,22 @@ function App(Props) {
           Curry._1(dispatch, /* Init */0);
         }), []);
   var match$1 = state.route;
-  var title;
+  var tmp;
   if (typeof match$1 === "number") {
     switch (match$1) {
       case /* Home */0 :
-          title = "Home";
+          tmp = React.createElement(Home.make, {});
           break;
       case /* ElectionNew */1 :
-          title = "Election > Nouvelle election";
+          tmp = React.createElement(ElectionNew.make, {});
           break;
       case /* Profile */2 :
-          title = "Profile";
+          tmp = React.createElement(Profile.make, {});
           break;
       
     }
   } else {
-    title = state.election.name !== "" ? "Election > " + state.election.name : "Election > Unamed election";
-  }
-  var match$2 = state.route;
-  var view;
-  if (typeof match$2 === "number") {
-    switch (match$2) {
-      case /* Home */0 :
-          view = React.createElement(Home.make, {});
-          break;
-      case /* ElectionNew */1 :
-          view = React.createElement(ElectionNew.make, {});
-          break;
-      case /* Profile */2 :
-          view = React.createElement(Profile.make, {});
-          break;
-      
-    }
-  } else {
-    view = React.createElement(ElectionShow.make, {});
+    tmp = React.createElement(ElectionShow.make, {});
   }
   return React.createElement(ReactNativePaper.Provider, {
               children: React.createElement(Context.State.Provider.make, {
@@ -65,25 +47,26 @@ function App(Props) {
                                 style: X.styles.layout,
                                 children: null
                               }, React.createElement(ReactNativePaper.Appbar.Header, {
-                                    children: state.route !== /* Home */0 ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.BackAction, {
-                                                onPress: (function (param) {
-                                                    Curry._1(dispatch, {
-                                                          TAG: /* Navigate */12,
-                                                          _0: /* Home */0
-                                                        });
-                                                  })
-                                              }), React.createElement(ReactNativePaper.Appbar.Content, {
-                                                title: title
-                                              }), React.createElement(ReactNativePaper.Appbar.Action, {
-                                                icon: "account",
-                                                onPress: (function (param) {
-                                                    
-                                                  })
-                                              })) : React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.Content, {
-                                                title: title,
-                                                style: X.styles["pad-left"]
-                                              }))
-                                  }), view)
+                                    children: null
+                                  }, React.createElement(ReactNativePaper.Appbar.Action, {
+                                        icon: "home",
+                                        onPress: (function (param) {
+                                            Curry._1(dispatch, {
+                                                  TAG: /* Navigate */12,
+                                                  _0: /* Home */0
+                                                });
+                                          })
+                                      }), React.createElement(ReactNativePaper.Appbar.Content, {
+                                        title: ""
+                                      }), React.createElement(ReactNativePaper.Appbar.Action, {
+                                        icon: "account",
+                                        onPress: (function (param) {
+                                            Curry._1(dispatch, {
+                                                  TAG: /* Navigate */12,
+                                                  _0: /* Profile */2
+                                                });
+                                          })
+                                      })), tmp)
                         })
                   }),
               theme: {
