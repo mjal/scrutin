@@ -10,14 +10,12 @@ let make = () => {
   let (visibleError, setVisibleError) = React.useState(_ => false)
 
 	let addVoter = _ => {
-      Js.log("Add voter")
     if EmailValidator.validate(email) {
       dispatch(Election_AddVoter(email))
       setEmail(_ => "")
       setshowModal(_ => false)
     } else {
       setVisibleError(_ => true)
-      Js.log("Set error")
     }
 	}
 

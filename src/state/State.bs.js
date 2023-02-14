@@ -166,12 +166,12 @@ function reducer(state, action) {
                   []
                 ];
       case /* Election_Tally */10 :
-          var trustee = action._0;
+          var privkey = action._0;
           var partial_arg$3 = state.election;
           return [
                   state,
                   [(function (param) {
-                        return Effect.tally(trustee, partial_arg$3, param);
+                        return Effect.tally(privkey, partial_arg$3, param);
                       })]
                 ];
       case /* Ballot_Create_Start */11 :

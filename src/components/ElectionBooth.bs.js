@@ -29,6 +29,25 @@ function ElectionBooth(Props) {
       });
   var setChoice = match$2[1];
   var choice = match$2[0];
+  var match$3 = React.useState(function () {
+        return false;
+      });
+  var setshowModal = match$3[1];
+  var match$4 = React.useState(function () {
+        return false;
+      });
+  var setVisibleError = match$4[1];
+  var addToken = function (param) {
+    if (token !== "") {
+      return Curry._1(setshowModal, (function (param) {
+                    return false;
+                  }));
+    } else {
+      return Curry._1(setVisibleError, (function (param) {
+                    return true;
+                  }));
+    }
+  };
   React.useEffect(function () {
         var electionPublicCreds = Belt_Option.getWithDefault(Belt_Option.map(state.election.creds, (function (prim) {
                     return JSON.parse(prim);
@@ -91,20 +110,78 @@ function ElectionBooth(Props) {
                                     return choice;
                                   }));
                           })
-                      }), React.createElement(ReactNativePaper.TextInput, {
-                        mode: "flat",
-                        label: "Token",
-                        value: token,
-                        onChangeText: (function (text) {
-                            Curry._1(setToken, (function (param) {
-                                    return text.trim();
-                                  }));
-                          })
-                      }), React.createElement(ReactNativePaper.Button, {
-                        mode: "contained",
-                        onPress: vote,
-                        children: "Vote"
-                      })));
+                      }), token !== "" ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
+                              style: X.styles.title,
+                              children: "Vous avez un droit de vote pour cette election"
+                            }), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ReactNativePaper.Button, {
+                              mode: "contained",
+                              onPress: vote,
+                              children: "Voter"
+                            })) : React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
+                              style: X.styles.title,
+                              children: "Vous n'avez pas de droit de vote pour cette election"
+                            }), React.createElement(ReactNativePaper.Button, {
+                              mode: "contained",
+                              onPress: (function (param) {
+                                  Curry._1(setshowModal, (function (param) {
+                                          return true;
+                                        }));
+                                }),
+                              children: "Ajouter"
+                            }))), React.createElement(ReactNativePaper.Portal, {
+                  children: null
+                }, React.createElement(ReactNativePaper.Modal, {
+                      visible: match$3[0],
+                      onDismiss: (function (param) {
+                          Curry._1(setshowModal, (function (param) {
+                                  return false;
+                                }));
+                        }),
+                      children: React.createElement(ReactNative.View, {
+                            style: ReactNative.StyleSheet.flatten([
+                                  X.styles.modal,
+                                  X.styles.layout
+                                ]),
+                            children: null
+                          }, React.createElement(ReactNativePaper.TextInput, {
+                                mode: "flat",
+                                label: "Token",
+                                value: token,
+                                onChangeText: (function (text) {
+                                    Curry._1(setToken, (function (param) {
+                                            return text.trim();
+                                          }));
+                                  })
+                              }), React.createElement(X.Row.make, {
+                                children: null
+                              }, React.createElement(X.Col.make, {
+                                    children: React.createElement(ReactNativePaper.Button, {
+                                          onPress: (function (param) {
+                                              Curry._1(setToken, (function (param) {
+                                                      return "";
+                                                    }));
+                                              Curry._1(setshowModal, (function (param) {
+                                                      return false;
+                                                    }));
+                                            }),
+                                          children: "Retour"
+                                        })
+                                  }), React.createElement(X.Col.make, {
+                                    children: React.createElement(ReactNativePaper.Button, {
+                                          mode: "contained",
+                                          onPress: addToken,
+                                          children: "Ajouter"
+                                        })
+                                  })))
+                    }), React.createElement(ReactNativePaper.Snackbar, {
+                      onDismiss: (function (param) {
+                          Curry._1(setVisibleError, (function (param) {
+                                  return false;
+                                }));
+                        }),
+                      visible: match$4[0],
+                      children: "Invalid token"
+                    })));
 }
 
 var make = ElectionBooth;
