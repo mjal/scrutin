@@ -7,13 +7,6 @@ let make = () => {
   let (visibleVoter, setVisibleVoter) = React.useState(_ => false)
   let (visibleChoice, setVisibleChoice) = React.useState(_ => false)
 
-  React.useEffect0(_ => {
-    dispatch(Election_AddChoice("Choice 1"))
-    dispatch(Election_AddChoice("Choice 2"))
-    dispatch(Election_AddVoter("some1@this-email-doesnt-exist-ty67.com"))
-    None
-  })
-
   let onSubmit = _ => {
     if Array.length(state.election.choices) < 2 {
       setVisibleChoice(_ => true)
@@ -28,6 +21,7 @@ let make = () => {
     <TextInput
       mode=#flat
       label="Nom de l'élection"
+      testID="election-name"
 			value=state.election.name
       onChangeText={text => dispatch(Election_SetName(text))}
     >

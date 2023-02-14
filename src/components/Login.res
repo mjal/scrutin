@@ -40,16 +40,18 @@ let make = () => {
     <TextInput
       mode=#flat
       label="Username"
+      testID="login-username"
       value=email
       onChangeText={text => setEmail(_ => text)}
     />
     <TextInput
-      secureTextEntry=true
       mode=#flat
       label="Password"
+      testID="login-password"
+      secureTextEntry=true
       value=password
       onChangeText={text => setPassword(_ => text)}
-      onKeyPress={key => X.isKeyEnter(key) ? onSubmit() : ()}
+      onSubmitEditing=onSubmit
     />
     <Divider />
     <Button mode=#contained onPress=onSubmit style=X.styles["margin-x"]>

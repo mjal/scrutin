@@ -81,7 +81,8 @@ function Login(Props) {
                       Curry._1(setEmail, (function (param) {
                               return text;
                             }));
-                    })
+                    }),
+                  testID: "login-username"
                 }), React.createElement(ReactNativePaper.TextInput, {
                   mode: "flat",
                   label: "Password",
@@ -92,12 +93,8 @@ function Login(Props) {
                               return text;
                             }));
                     }),
-                  onKeyPress: (function (key) {
-                      if (X.isKeyEnter(key)) {
-                        return onSubmit(undefined);
-                      }
-                      
-                    })
+                  onSubmitEditing: onSubmit,
+                  testID: "login-password"
                 }), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ReactNativePaper.Button, {
                   mode: "contained",
                   style: X.styles["margin-x"],

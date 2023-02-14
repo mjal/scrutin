@@ -10,18 +10,16 @@ let make = () => {
   let (visibleError, setVisibleError) = React.useState(_ => false)
 
 	let addVoter = _ => {
-      Js.log("Add voter")
     if EmailValidator.validate(email) {
       dispatch(Election_AddVoter(email))
       setEmail(_ => "")
       setshowModal(_ => false)
     } else {
       setVisibleError(_ => true)
-      Js.log("Set error")
     }
 	}
 
-	<View>
+	<View testID="voter-list">
     <X.Row>
       <X.Col>
         <Text style=X.styles["title"]>{"Voters" -> React.string}</Text>
@@ -57,9 +55,10 @@ let make = () => {
           <TextInput
             mode=#flat
             label="Email du participant"
+            testID="voter-email"
             value=email
             onChangeText={text => setEmail(_ => text)}
-            onKeyPress={key => X.isKeyEnter(key) ? addVoter() : ()}
+            onSubmitEditing=addVoter
           />
           <X.Row>
             <X.Col>

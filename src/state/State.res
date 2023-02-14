@@ -59,8 +59,8 @@ let reducer = (state, action: Action.t) => {
       (state, [Effect.publishElectionResult(state.election, result)])
     }
 
-    | Election_Tally(trustee) => {
-      (state, [Effect.tally(trustee, state.election)])
+    | Election_Tally(privkey) => {
+      (state, [Effect.tally(privkey, state.election)])
     }
 
     | Ballot_Create_Start(token, selection) => {
@@ -69,7 +69,7 @@ let reducer = (state, action: Action.t) => {
     }
 
     | Ballot_Create_End => {
-      ({...state, voting_in_progress: false}, [])
+      ({...state, election: Election.initial, voting_in_progress: false}, [])
     }
 
     | Navigate(route) =>

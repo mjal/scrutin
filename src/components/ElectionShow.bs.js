@@ -7,6 +7,7 @@ import * as Context from "../state/Context.bs.js";
 import * as Belenios from "../Belenios.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
+import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as ReactNative from "react-native";
 import * as ElectionBooth from "./ElectionBooth.bs.js";
 import * as ElectionResult from "./shared/ElectionResult.bs.js";
@@ -24,9 +25,15 @@ function ElectionShow(Props) {
   var nb_votes = String(Belt_Array.keep(state.election.ballots, (function (ballot) {
               return Belt_Option.getWithDefault(ballot.ciphertext, "") !== "";
             })).length);
-  React.useState(function () {
-        return "home";
-      });
+  var trustee = Belt_Array.getBy(state.trustees, (function (trustee) {
+          var election_pubkey = Belt_Option.getWithDefault(Belt_Option.map(Belt_Option.map(state.election.trustees, (function (prim) {
+                          return prim;
+                        })), Belenios.Trustees.pubkey), "");
+          return trustee.pubkey === election_pubkey;
+        }));
+  var privkey = Belt_Option.map(trustee, (function (t) {
+          return t.privkey;
+        }));
   var _result = state.election.result;
   return React.createElement(ReactNative.View, {
               children: null
@@ -41,28 +48,28 @@ function ElectionShow(Props) {
                     })), React.createElement(ReactNativePaper.Title, {
                   style: X.styles.subtitle,
                   children: "" + nb_votes + " personnes sur " + nb_ballots + " ont voté"
-                }), _result !== undefined ? React.createElement(ElectionResult.make, {}) : React.createElement(ElectionBooth.make, {}), React.createElement(ReactNativePaper.Button, {
-                  mode: "contained",
-                  onPress: (function (param) {
-                      var trustee = Belt_Array.getBy(state.trustees, (function (trustee) {
-                              var election_pubkey = Belt_Option.getWithDefault(Belt_Option.map(Belt_Option.map(state.election.trustees, (function (prim) {
-                                              return prim;
-                                            })), Belenios.Trustees.pubkey), "");
-                              return trustee.pubkey === election_pubkey;
-                            }));
-                      if (trustee !== undefined) {
-                        return Curry._1(dispatch, {
-                                    TAG: /* Election_Tally */10,
-                                    _0: trustee
-                                  });
-                      } else {
-                        return Curry._1(setShowSnackbar, (function (param) {
-                                      return true;
-                                    }));
-                      }
-                    }),
-                  children: "Tally"
-                }), React.createElement(ReactNativePaper.Portal, {
+                }), _result !== undefined ? React.createElement(ElectionResult.make, {}) : React.createElement(ElectionBooth.make, {}), React.createElement(ReactNativePaper.Divider, {}), privkey !== undefined ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
+                        style: X.styles.title,
+                        children: "Vous avez la clé privée de cette élection"
+                      }), React.createElement(ReactNativePaper.Button, {
+                        mode: "contained",
+                        onPress: (function (param) {
+                            if (privkey !== undefined) {
+                              return Curry._1(dispatch, {
+                                          TAG: /* Election_Tally */10,
+                                          _0: Caml_option.valFromOption(privkey)
+                                        });
+                            } else {
+                              return Curry._1(setShowSnackbar, (function (param) {
+                                            return true;
+                                          }));
+                            }
+                          }),
+                        children: "Tally"
+                      })) : React.createElement(ReactNativePaper.Title, {
+                    style: X.styles.title,
+                    children: "Vous n'avez pas la clé privée de cette élection"
+                  }), React.createElement(ReactNativePaper.Portal, {
                   children: React.createElement(ReactNativePaper.Snackbar, {
                         onDismiss: (function (param) {
                             Curry._1(setShowSnackbar, (function (param) {

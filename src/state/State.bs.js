@@ -65,7 +65,7 @@ function reducer(state, action) {
       case /* Ballot_Create_End */2 :
           return [
                   {
-                    election: state.election,
+                    election: Election.initial,
                     elections: state.elections,
                     elections_loading: state.elections_loading,
                     user: state.user,
@@ -166,12 +166,12 @@ function reducer(state, action) {
                   []
                 ];
       case /* Election_Tally */10 :
-          var trustee = action._0;
+          var privkey = action._0;
           var partial_arg$3 = state.election;
           return [
                   state,
                   [(function (param) {
-                        return Effect.tally(trustee, partial_arg$3, param);
+                        return Effect.tally(privkey, partial_arg$3, param);
                       })]
                 ];
       case /* Ballot_Create_Start */11 :

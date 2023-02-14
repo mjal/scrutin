@@ -20,20 +20,6 @@ function ElectionNew(Props) {
         return false;
       });
   var setVisibleChoice = match$2[1];
-  React.useEffect((function () {
-          Curry._1(dispatch, {
-                TAG: /* Election_AddChoice */5,
-                _0: "Choice 1"
-              });
-          Curry._1(dispatch, {
-                TAG: /* Election_AddChoice */5,
-                _0: "Choice 2"
-              });
-          Curry._1(dispatch, {
-                TAG: /* Election_AddVoter */3,
-                _0: "some1@this-email-doesnt-exist-ty67.com"
-              });
-        }), []);
   var onSubmit = function (param) {
     if (state.election.choices.length < 2) {
       return Curry._1(setVisibleChoice, (function (param) {
@@ -58,7 +44,8 @@ function ElectionNew(Props) {
                             TAG: /* Election_SetName */2,
                             _0: text
                           });
-                    })
+                    }),
+                  testID: "election-name"
                 }), React.createElement(ElectionNew_ChoiceList.make, {}), React.createElement(ElectionNew_VoterList.make, {}), React.createElement(ReactNativePaper.Button, {
                   mode: "contained",
                   onPress: onSubmit,

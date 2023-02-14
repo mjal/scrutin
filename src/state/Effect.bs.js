@@ -114,7 +114,7 @@ function createElection(election, user, dispatch) {
 function ballotCreate(election, token, selection, dispatch) {
   setTimeout((function (param) {
           var ballot = Election.createBallot(election, token, selection);
-          Election.post_ballot(election, ballot).then(function (res) {
+          Election.post_ballot(election, ballot).then(function (param) {
                 return Curry._1(dispatch, /* Ballot_Create_End */2);
               });
         }), 0);
@@ -166,14 +166,14 @@ function goToUrl(dispatch) {
       });
 }
 
-function tally(trustee, election, dispatch) {
+function tally(privkey, election, dispatch) {
   var params = Belt_Option.getExn(election.params);
   var ballots = Belt_Array.map(Belt_Array.keep(Belt_Array.map(election.ballots, (function (ballot) {
                   return ballot.ciphertext;
                 })), Belt_Option.isSome), Belt_Option.getExn);
   var trustees = Belt_Option.getExn(election.trustees);
   var pubcreds = (JSON.parse(election.creds));
-  var match = Belenios.Election.decrypt(params)(ballots, trustees, pubcreds, trustee.privkey);
+  var match = Belenios.Election.decrypt(params)(ballots, trustees, pubcreds, privkey);
   var res = Belenios.Election.result(params)(ballots, trustees, pubcreds, match[0], match[1]);
   return Curry._1(dispatch, {
               TAG: /* Election_PublishResult */0,

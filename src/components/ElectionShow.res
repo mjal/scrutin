@@ -14,25 +14,24 @@ let make = () => {
     -> Array.length
     -> Int.toString
 
+  let trustee = Array.getBy(state.trustees, (trustee) => {
+    let election_pubkey = state.election.trustees
+    -> Option.map(Belenios.Trustees.of_str)
+    -> Option.map(Belenios.Trustees.pubkey)
+    -> Option.getWithDefault("")
+
+    trustee.pubkey == election_pubkey
+  })
+  let privkey = Option.map(trustee, (t) => t.privkey)
+
   let tally = _ => {
-    let trustee = Array.getBy(state.trustees, (trustee) => {
-      let election_pubkey = state.election.trustees
-      -> Option.map(Belenios.Trustees.of_str)
-      -> Option.map(Belenios.Trustees.pubkey)
-      -> Option.getWithDefault("")
-
-      trustee.pubkey == election_pubkey
-    })
-
-    switch trustee {
+    switch privkey {
     | None => setShowSnackbar(_ => true)
-    | Some(trustee) => {
-      dispatch(Action.Election_Tally(trustee))
+    | Some(privkey) => {
+      dispatch(Action.Election_Tally(privkey))
     }
     }
   }
-
-  let (view, setView) = React.useState(_ => "home")
 
   <View>
     <Title style=X.styles["title"]>
@@ -51,9 +50,25 @@ let make = () => {
     | Some(_result) => <ElectionResult />
     }}
 
-    <Button mode=#contained onPress={_ => tally()} >
-      {"Tally" -> React.string}
-    </Button>
+    <Divider />
+
+    {switch privkey {
+    | Some(_privkey) =>
+      <>
+        <Title style=X.styles["title"]>
+          { "Vous avez la clé privée de cette élection" -> React.string }
+        </Title>
+
+        <Button mode=#contained onPress={_ => tally()} >
+          {"Tally" -> React.string}
+        </Button>
+      </>
+    | None =>
+      <Title style=X.styles["title"]>
+        { "Vous n'avez pas la clé privée de cette élection" -> React.string }
+      </Title>
+    }
+    }
 
     <Portal>
       <Snackbar

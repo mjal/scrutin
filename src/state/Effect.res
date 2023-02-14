@@ -74,7 +74,7 @@ let ballotCreate = (election, token, selection) => {
     let _ = Js.Global.setTimeout(() => {
       let ballot = Election.createBallot(election, token, selection)
       Election.post_ballot(election, ballot)
-      -> Promise.thenResolve(res => {
+      -> Promise.thenResolve(_ => {
         dispatch(Action.Ballot_Create_End)
       })
       -> ignore
@@ -107,7 +107,7 @@ let goToUrl = dispatch => {
   })
 }
 
-let tally = (trustee: Trustee.t, election: Election.t) => {
+let tally = (privkey: Belenios.Trustees.Privkey.t, election: Election.t) => {
   dispatch => {
     let params = Option.getExn(election.params)
     let ballots =
@@ -117,7 +117,7 @@ let tally = (trustee: Trustee.t, election: Election.t) => {
       -> Array.map((ciphertext) => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
     let trustees = Belenios.Trustees.of_str(Option.getExn(election.trustees))
     let pubcreds : array<string> = %raw(`JSON.parse(election.creds)`)
-    let (a, b) = Belenios.Election.decrypt(params, ballots, trustees, pubcreds, trustee.privkey)
+    let (a, b) = Belenios.Election.decrypt(params, ballots, trustees, pubcreds, privkey)
     let res = Belenios.Election.result(params, ballots, trustees, pubcreds, a, b)
     dispatch(Action.Election_PublishResult(res))
   }

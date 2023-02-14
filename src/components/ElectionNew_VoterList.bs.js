@@ -28,7 +28,6 @@ function ElectionNew_VoterList(Props) {
       });
   var setVisibleError = match$3[1];
   var addVoter = function (param) {
-    console.log("Add voter");
     if (EmailValidator.validate(email)) {
       Curry._1(dispatch, {
             TAG: /* Election_AddVoter */3,
@@ -41,14 +40,13 @@ function ElectionNew_VoterList(Props) {
                     return false;
                   }));
     } else {
-      Curry._1(setVisibleError, (function (param) {
-              return true;
-            }));
-      console.log("Set error");
-      return ;
+      return Curry._1(setVisibleError, (function (param) {
+                    return true;
+                  }));
     }
   };
   return React.createElement(ReactNative.View, {
+              testID: "voter-list",
               children: null
             }, React.createElement(X.Row.make, {
                   children: null
@@ -108,12 +106,8 @@ function ElectionNew_VoterList(Props) {
                                             return text;
                                           }));
                                   }),
-                                onKeyPress: (function (key) {
-                                    if (X.isKeyEnter(key)) {
-                                      return addVoter(undefined);
-                                    }
-                                    
-                                  })
+                                onSubmitEditing: addVoter,
+                                testID: "voter-email"
                               }), React.createElement(X.Row.make, {
                                 children: null
                               }, React.createElement(X.Col.make, {
