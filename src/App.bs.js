@@ -56,30 +56,6 @@ function App(Props) {
   } else {
     view = React.createElement(ElectionShow.make, {});
   }
-  var tmp;
-  if (state.route !== /* Home */0) {
-    var __ = state.route;
-    tmp = React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.BackAction, {
-              onPress: (function (param) {
-                  Curry._1(dispatch, {
-                        TAG: /* Navigate */12,
-                        _0: /* Home */0
-                      });
-                })
-            }), React.createElement(ReactNativePaper.Appbar.Content, {
-              title: title
-            }), typeof __ === "number" ? React.createElement(React.Fragment, undefined) : React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.Action, {
-                    icon: "account",
-                    onPress: (function (param) {
-                        
-                      })
-                  })));
-  } else {
-    tmp = React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.Content, {
-              title: title,
-              style: X.styles["pad-left"]
-            }));
-  }
   return React.createElement(ReactNativePaper.Provider, {
               children: React.createElement(Context.State.Provider.make, {
                     value: state,
@@ -89,7 +65,24 @@ function App(Props) {
                                 style: X.styles.layout,
                                 children: null
                               }, React.createElement(ReactNativePaper.Appbar.Header, {
-                                    children: tmp
+                                    children: state.route !== /* Home */0 ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.BackAction, {
+                                                onPress: (function (param) {
+                                                    Curry._1(dispatch, {
+                                                          TAG: /* Navigate */12,
+                                                          _0: /* Home */0
+                                                        });
+                                                  })
+                                              }), React.createElement(ReactNativePaper.Appbar.Content, {
+                                                title: title
+                                              }), React.createElement(ReactNativePaper.Appbar.Action, {
+                                                icon: "account",
+                                                onPress: (function (param) {
+                                                    
+                                                  })
+                                              })) : React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Appbar.Content, {
+                                                title: title,
+                                                style: X.styles["pad-left"]
+                                              }))
                                   }), view)
                         })
                   }),
