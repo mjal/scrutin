@@ -28,6 +28,7 @@ let make = () => {
     <TextInput
       mode=#flat
       label="Nom de l'élection"
+      testID="election-name"
 			value=state.election.name
       onChangeText={text => dispatch(Election_SetName(text))}
     >

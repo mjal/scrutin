@@ -49,6 +49,7 @@ function ElectionNew_VoterList(Props) {
     }
   };
   return React.createElement(ReactNative.View, {
+              testID: "voter-list",
               children: null
             }, React.createElement(X.Row.make, {
                   children: null
@@ -108,7 +109,8 @@ function ElectionNew_VoterList(Props) {
                                             return text;
                                           }));
                                   }),
-                                onSubmitEditing: addVoter
+                                onSubmitEditing: addVoter,
+                                testID: "voter-email"
                               }), React.createElement(X.Row.make, {
                                 children: null
                               }, React.createElement(X.Col.make, {

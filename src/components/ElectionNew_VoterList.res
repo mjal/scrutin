@@ -21,7 +21,7 @@ let make = () => {
     }
 	}
 
-	<View>
+	<View testID="voter-list">
     <X.Row>
       <X.Col>
         <Text style=X.styles["title"]>{"Voters" -> React.string}</Text>
@@ -57,6 +57,7 @@ let make = () => {
           <TextInput
             mode=#flat
             label="Email du participant"
+            testID="voter-email"
             value=email
             onChangeText={text => setEmail(_ => text)}
             onSubmitEditing=addVoter

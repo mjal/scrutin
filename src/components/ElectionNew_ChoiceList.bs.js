@@ -37,7 +37,10 @@ function ElectionNew_ChoiceList(Props) {
             return false;
           }));
   };
-  return React.createElement(React.Fragment, undefined, React.createElement(X.Row.make, {
+  return React.createElement(ReactNative.View, {
+              testID: "choice-list",
+              children: null
+            }, React.createElement(X.Row.make, {
                   children: null
                 }, React.createElement(X.Col.make, {
                       children: React.createElement(ReactNativePaper.Text, {
@@ -94,7 +97,8 @@ function ElectionNew_ChoiceList(Props) {
                                               return text;
                                             }));
                                     }),
-                                  onSubmitEditing: onSubmit
+                                  onSubmitEditing: onSubmit,
+                                  testID: "choice-name"
                                 }), React.createElement(X.Row.make, {
                                   children: null
                                 }, React.createElement(X.Col.make, {

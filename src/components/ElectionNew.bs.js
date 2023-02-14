@@ -58,7 +58,8 @@ function ElectionNew(Props) {
                             TAG: /* Election_SetName */2,
                             _0: text
                           });
-                    })
+                    }),
+                  testID: "election-name"
                 }), React.createElement(ElectionNew_ChoiceList.make, {}), React.createElement(ElectionNew_VoterList.make, {}), React.createElement(ReactNativePaper.Button, {
                   mode: "contained",
                   onPress: onSubmit,

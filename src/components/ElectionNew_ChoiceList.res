@@ -17,7 +17,7 @@ let make = () => {
     setshowModal(_ => false)
   }
 
-  <>
+  <View testID="choice-list">
     <X.Row>
       <X.Col>
         <Text style=X.styles["title"]>{"Choix" -> React.string}</Text>
@@ -53,6 +53,7 @@ let make = () => {
           <TextInput
             mode=#flat
             label="Nom du choix"
+            testID="choice-name"
             value=name
             onChangeText={text => setName(_ => text)}
             onSubmitEditing=onSubmit
@@ -68,5 +69,5 @@ let make = () => {
         </View>
       </Modal>
     </Portal>
-  </>
+  </View>
 }
