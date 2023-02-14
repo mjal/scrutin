@@ -45,28 +45,30 @@ function App(Props) {
                           value: dispatch,
                           children: React.createElement(ReactNative.SafeAreaView, {
                                 style: X.styles.layout,
-                                children: null
-                              }, React.createElement(ReactNativePaper.Appbar.Header, {
-                                    children: null
-                                  }, React.createElement(ReactNativePaper.Appbar.Action, {
-                                        icon: "home",
-                                        onPress: (function (param) {
-                                            Curry._1(dispatch, {
-                                                  TAG: /* Navigate */12,
-                                                  _0: /* Home */0
-                                                });
-                                          })
-                                      }), React.createElement(ReactNativePaper.Appbar.Content, {
-                                        title: ""
-                                      }), React.createElement(ReactNativePaper.Appbar.Action, {
-                                        icon: "account",
-                                        onPress: (function (param) {
-                                            Curry._1(dispatch, {
-                                                  TAG: /* Navigate */12,
-                                                  _0: /* Profile */2
-                                                });
-                                          })
-                                      })), tmp)
+                                children: React.createElement(ReactNative.ScrollView, {
+                                      children: null
+                                    }, React.createElement(ReactNativePaper.Appbar.Header, {
+                                          children: null
+                                        }, React.createElement(ReactNativePaper.Appbar.Action, {
+                                              icon: "home",
+                                              onPress: (function (param) {
+                                                  Curry._1(dispatch, {
+                                                        TAG: /* Navigate */12,
+                                                        _0: /* Home */0
+                                                      });
+                                                })
+                                            }), React.createElement(ReactNativePaper.Appbar.Content, {
+                                              title: ""
+                                            }), React.createElement(ReactNativePaper.Appbar.Action, {
+                                              icon: "account",
+                                              onPress: (function (param) {
+                                                  Curry._1(dispatch, {
+                                                        TAG: /* Navigate */12,
+                                                        _0: /* Profile */2
+                                                      });
+                                                })
+                                            })), tmp)
+                              })
                         })
                   }),
               theme: {
