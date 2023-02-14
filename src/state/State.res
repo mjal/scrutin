@@ -69,7 +69,7 @@ let reducer = (state, action: Action.t) => {
     }
 
     | Ballot_Create_End => {
-      ({...state, voting_in_progress: false}, [])
+      ({...state, election: Election.initial, voting_in_progress: false}, [])
     }
 
     | Navigate(route) =>

@@ -65,7 +65,7 @@ function reducer(state, action) {
       case /* Ballot_Create_End */2 :
           return [
                   {
-                    election: state.election,
+                    election: Election.initial,
                     elections: state.elections,
                     elections_loading: state.elections_loading,
                     user: state.user,
