@@ -44,6 +44,7 @@ function reducer(state, action) {
                   },
                   [
                     Effect.goToUrl,
+                    Effect.loadElections,
                     Effect.Store.User.get,
                     Effect.Store.Trustees.get,
                     Effect.Store.Tokens.get,

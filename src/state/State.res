@@ -27,7 +27,7 @@ let reducer = (state, action: Action.t) => {
     
     | Init => ({...state, elections_loading: true}, [
       Effect.goToUrl,
-      //Effect.loadElections,
+      Effect.loadElections,
       Effect.Store.User.get,
       Effect.Store.Trustees.get,
       Effect.Store.Tokens.get,
