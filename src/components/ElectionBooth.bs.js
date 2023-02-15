@@ -167,19 +167,19 @@ function ElectionBooth(Props) {
                                         }));
                                 }),
                               children: "Changer mon vote"
-                            })) : React.createElement(React.Fragment, undefined, React.createElement(ElectionBooth_ChoiceSelect.make, {
-                              currentChoice: choice,
-                              onChoiceChange: (function (choice) {
-                                  Curry._1(setChoice, (function (param) {
-                                          return choice;
-                                        }));
-                                })
-                            }), Belt_Option.isSome(privateCred) ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
+                            })) : React.createElement(React.Fragment, undefined, Belt_Option.isSome(privateCred) ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
                                     style: ReactNative.StyleSheet.flatten([
                                           X.styles.title,
                                           X.styles.green
                                         ]),
                                     children: "Vous avez un droit de vote pour cette election"
+                                  }), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ElectionBooth_ChoiceSelect.make, {
+                                    currentChoice: choice,
+                                    onChoiceChange: (function (choice) {
+                                        Curry._1(setChoice, (function (param) {
+                                                return choice;
+                                              }));
+                                      })
                                   }), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ReactNativePaper.Button, {
                                     mode: "contained",
                                     onPress: vote,

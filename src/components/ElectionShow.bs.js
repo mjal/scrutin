@@ -65,7 +65,7 @@ function ElectionShow(Props) {
                                           }));
                             }
                           }),
-                        children: "Tally"
+                        children: "Dépouiller l'élection"
                       })) : React.createElement(ReactNativePaper.Title, {
                     style: X.styles.title,
                     children: "Vous n'avez pas la clé privée de cette élection"

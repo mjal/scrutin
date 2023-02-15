@@ -106,12 +106,13 @@ let make = () => {
           </>
         } else {
           <>
-            <ElectionBooth_ChoiceSelect currentChoice=choice onChoiceChange={choice => setChoice(_ => choice)} />
             { if Option.isSome(privateCred) {
             <>
               <Title style=StyleSheet.flatten([X.styles["title"],X.styles["green"]])>
                 { "Vous avez un droit de vote pour cette election" -> React.string }
               </Title>
+              <Divider />
+              <ElectionBooth_ChoiceSelect currentChoice=choice onChoiceChange={choice => setChoice(_ => choice)} />
               <Divider />
               <Button mode=#contained onPress=vote>
                 {"Voter" -> React.string}

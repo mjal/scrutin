@@ -60,7 +60,7 @@ let make = () => {
         </Title>
 
         <Button mode=#contained onPress={_ => tally()} >
-          {"Tally" -> React.string}
+          {"Dépouiller l'élection" -> React.string}
         </Button>
       </>
     | None =>
