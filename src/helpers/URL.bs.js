@@ -46,9 +46,20 @@ function getAndThen(f) {
       });
 }
 
+var _setUrlPathname = (function(pathname) { window.history.pushState({}, null, pathname); });
+
+function setUrlPathname(str) {
+  if (ReactNative.Platform.OS === "web") {
+    return _setUrlPathname(str);
+  }
+  
+}
+
 export {
   currentHash ,
   arrayToList ,
   getAndThen ,
+  _setUrlPathname ,
+  setUrlPathname ,
 }
 /* react-native Not a pure module */

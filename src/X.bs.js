@@ -102,15 +102,6 @@ function prevent(f, e) {
 
 var isKeyEnter = (function(key) { return key.key == "Enter" });
 
-var _setUrlPathname = (function(pathname) { window.history.pushState({}, null, pathname); });
-
-function setUrlPathname(str) {
-  if (ReactNative.Platform.OS === "web") {
-    return _setUrlPathname(str);
-  }
-  
-}
-
 export {
   post ,
   styles ,
@@ -120,7 +111,5 @@ export {
   ev ,
   prevent ,
   isKeyEnter ,
-  _setUrlPathname ,
-  setUrlPathname ,
 }
 /* styles Not a pure module */

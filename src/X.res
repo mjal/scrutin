@@ -126,11 +126,3 @@ let prevent = (f) =>
     f(e)
   }
 let isKeyEnter : ('a => bool) = %raw(`function(key) { return key.key == "Enter" }`)
-
-let _setUrlPathname : (string) => unit = %raw(`function(pathname) { window.history.pushState({}, null, pathname); }`)
-
-let setUrlPathname = (str) => {
-  if ReactNative.Platform.os == #web {
-    _setUrlPathname(str)
-  }
-}

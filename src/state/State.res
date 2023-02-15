@@ -75,9 +75,9 @@ let reducer = (state, action: Action.t) => {
     | Navigate(route) =>
       let () = switch route {
         | ElectionBooth(id) | ElectionShow(id) | ElectionResult(id) =>
-          X.setUrlPathname(`/elections/${id->Int.toString}`)
-        | Home => X.setUrlPathname("/")
-        | Profile => X.setUrlPathname("/profile")
+          URL.setUrlPathname(`/elections/${id->Int.toString}${URL.currentHash()}`)
+        | Home => URL.setUrlPathname("/")
+        | Profile => URL.setUrlPathname("/profile")
         | _ => ()
       }
       let effects = switch route {

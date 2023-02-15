@@ -41,3 +41,11 @@ let getAndThen = (f) => {
     f(l)
   }) -> ignore
 }
+
+let _setUrlPathname : (string) => unit = %raw(`function(pathname) { window.history.pushState({}, null, pathname); }`)
+
+let setUrlPathname = (str) => {
+  if ReactNative.Platform.os == #web {
+    _setUrlPathname(str)
+  }
+}

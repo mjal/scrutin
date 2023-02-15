@@ -50,13 +50,21 @@ let make = () => {
       if Option.isNone(privateCred) { setPrivateCred(_ => Some(storedToken.private_)) }
     }}
 
+    Js.log("privateCred")
+    Js.log(privateCred)
+    Js.log(URL.currentHash())
+
     let hash = URL.currentHash() -> Js.String.sliceToEnd(~from=1)
     switch hash {
     | "" => ()
     | _ => {
-      let publicCred = Belenios.Credentials.derive(~uuid=Option.getExn(state.election.uuid), ~private_credential=hash)
-      Store.Token.add({public: publicCred, private_: hash})
-      if Option.isNone(privateCred) { setPrivateCred(_ => Some(hash)) }
+      switch state.election.uuid {
+      | None => ()
+      | Some(uuid) =>
+        let publicCred = Belenios.Credentials.derive(~uuid=uuid, ~private_credential=hash)
+        Store.Token.add({public: publicCred, private_: hash})
+        if Option.isNone(privateCred) { setPrivateCred(_ => Some(hash)) }
+      }
     }}
 
     None

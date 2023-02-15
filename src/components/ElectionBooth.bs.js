@@ -94,17 +94,24 @@ function ElectionBooth(Props) {
                   return storedToken.private_;
                 }));
         }
+        console.log("privateCred");
+        console.log(privateCred);
+        console.log($$URL.currentHash(undefined));
         var hash = Js_string.sliceToEnd(1, $$URL.currentHash(undefined));
         if (hash !== "") {
-          var publicCred = Belenios.Credentials.derive(Belt_Option.getExn(state.election.uuid), hash);
-          Store.Token.add({
-                public: publicCred,
-                private_: hash
-              });
-          if (Belt_Option.isNone(privateCred)) {
-            Curry._1(setPrivateCred, (function (param) {
-                    return hash;
-                  }));
+          var uuid = state.election.uuid;
+          if (uuid !== undefined) {
+            var publicCred = Belenios.Credentials.derive(uuid, hash);
+            Store.Token.add({
+                  public: publicCred,
+                  private_: hash
+                });
+            if (Belt_Option.isNone(privateCred)) {
+              Curry._1(setPrivateCred, (function (param) {
+                      return hash;
+                    }));
+            }
+            
           }
           
         }
