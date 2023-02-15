@@ -54,6 +54,7 @@ let make = () => {
             mode=#flat
             label="Nom du choix"
             testID="choice-name"
+            autoFocus=true
             value=name
             onChangeText={text => setName(_ => text)}
             onSubmitEditing=onSubmit

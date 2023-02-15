@@ -56,6 +56,7 @@ let make = () => {
             mode=#flat
             label="Email du participant"
             testID="voter-email"
+            autoFocus=true
             value=email
             onChangeText={text => setEmail(_ => text)}
             onSubmitEditing=addVoter

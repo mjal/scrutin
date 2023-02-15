@@ -65,7 +65,7 @@ function reducer(state, action) {
       case /* Ballot_Create_End */2 :
           return [
                   {
-                    election: Election.initial,
+                    election: state.election,
                     elections: state.elections,
                     elections_loading: state.elections_loading,
                     user: state.user,
@@ -220,9 +220,10 @@ function reducer(state, action) {
                   return Effect.loadElection(id$1, param);
                 })];
           }
+          var election = route === /* ElectionNew */1 ? Election.initial : state.election;
           return [
                   {
-                    election: state.election,
+                    election: election,
                     elections: state.elections,
                     elections_loading: state.elections_loading,
                     user: state.user,

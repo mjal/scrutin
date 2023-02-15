@@ -20,60 +20,104 @@ function ElectionBooth(Props) {
   var dispatch = match[1];
   var state = match[0];
   var match$1 = React.useState(function () {
-        return "";
+        
       });
-  var setToken = match$1[1];
-  var token = match$1[0];
+  var setPrivateCred = match$1[1];
+  var privateCred = match$1[0];
   var match$2 = React.useState(function () {
+        
+      });
+  var setTmpToken = match$2[1];
+  var tmpToken = match$2[0];
+  var match$3 = React.useState(function () {
         return /* Blank */0;
       });
-  var setChoice = match$2[1];
-  var choice = match$2[0];
-  var match$3 = React.useState(function () {
-        return false;
-      });
-  var setshowModal = match$3[1];
+  var setChoice = match$3[1];
+  var choice = match$3[0];
   var match$4 = React.useState(function () {
         return false;
       });
-  var setVisibleError = match$4[1];
+  var setshowModal = match$4[1];
+  var match$5 = React.useState(function () {
+        return false;
+      });
+  var setVisibleError = match$5[1];
+  var match$6 = React.useState(function () {
+        return false;
+      });
+  var setHasVoted = match$6[1];
+  var match$7 = React.useState(function () {
+        return false;
+      });
+  var setChangeVote = match$7[1];
+  var electionPublicCreds = Belt_Option.getWithDefault(Belt_Option.map(state.election.creds, (function (prim) {
+              return JSON.parse(prim);
+            })), []);
+  var isValidPrivateCred = function (token) {
+    return Belt_Array.some(electionPublicCreds, (function (electionPublicCred) {
+                  return electionPublicCred === token.public;
+                }));
+  };
   var addToken = function (param) {
-    if (token !== "") {
-      return Curry._1(setshowModal, (function (param) {
-                    return false;
-                  }));
-    } else {
+    if (tmpToken === undefined) {
+      return ;
+    }
+    try {
+      var token_public = Belenios.Credentials.derive(Belt_Option.getExn(state.election.uuid), tmpToken);
+      var token = {
+        public: token_public,
+        private_: tmpToken
+      };
+      if (isValidPrivateCred(token)) {
+        Curry._1(setPrivateCred, (function (param) {
+                return tmpToken;
+              }));
+        return Curry._1(setshowModal, (function (param) {
+                      return false;
+                    }));
+      } else {
+        return Curry._1(setVisibleError, (function (param) {
+                      return true;
+                    }));
+      }
+    }
+    catch (exn){
       return Curry._1(setVisibleError, (function (param) {
                     return true;
                   }));
     }
   };
   React.useEffect(function () {
-        var electionPublicCreds = Belt_Option.getWithDefault(Belt_Option.map(state.election.creds, (function (prim) {
-                    return JSON.parse(prim);
-                  })), []);
-        var privateCred = Belt_Option.getWithDefault(Belt_Option.map(Belt_Array.getBy(state.tokens, (function (token) {
-                        return Belt_Array.some(electionPublicCreds, (function (electionPublicCred) {
-                                      return electionPublicCred === token.public;
-                                    }));
-                      })), (function (token) {
-                    return token.private_;
-                  })), "");
-        if (token === "" && privateCred !== "") {
-          Curry._1(setToken, (function (param) {
-                  return privateCred;
+        var storedToken = Belt_Array.getBy(state.tokens, isValidPrivateCred);
+        if (storedToken !== undefined && Belt_Option.isNone(privateCred)) {
+          Curry._1(setPrivateCred, (function (param) {
+                  return storedToken.private_;
                 }));
         }
         var hash = Js_string.sliceToEnd(1, $$URL.currentHash(undefined));
-        if (hash !== "" && hash !== "") {
+        if (hash !== "") {
           var publicCred = Belenios.Credentials.derive(Belt_Option.getExn(state.election.uuid), hash);
           Store.Token.add({
                 public: publicCred,
                 private_: hash
               });
-          if (token === "") {
-            Curry._1(setToken, (function (param) {
+          if (Belt_Option.isNone(privateCred)) {
+            Curry._1(setPrivateCred, (function (param) {
                     return hash;
+                  }));
+          }
+          
+        }
+        
+      });
+  React.useEffect(function () {
+        if (privateCred !== undefined) {
+          var publicCred = Belenios.Credentials.derive(Belt_Option.getExn(state.election.uuid), privateCred);
+          if (Belt_Array.some(state.election.ballots, (function (b) {
+                    return b.public_credential === publicCred ? Belt_Option.getWithDefault(b.ciphertext, "") !== "" : false;
+                  }))) {
+            Curry._1(setHasVoted, (function (param) {
+                    return true;
                   }));
           }
           
@@ -92,9 +136,15 @@ function ElectionBooth(Props) {
           }));
     Curry._1(dispatch, {
           TAG: /* Ballot_Create_Start */11,
-          _0: token,
+          _0: Belt_Option.getExn(privateCred),
           _1: selectionArray
         });
+    Curry._1(setHasVoted, (function (param) {
+            return true;
+          }));
+    Curry._1(setChangeVote, (function (param) {
+            return false;
+          }));
   };
   return React.createElement(React.Fragment, undefined, state.voting_in_progress ? React.createElement(ReactNativePaper.Title, {
                     style: X.styles.title,
@@ -103,35 +153,55 @@ function ElectionBooth(Props) {
                         children: "Voting in progress..."
                       }), React.createElement(ReactNativePaper.ActivityIndicator, {})) : React.createElement(React.Fragment, undefined, React.createElement(ReactNative.View, {
                         style: X.styles.separator
-                      }), React.createElement(ElectionBooth_ChoiceSelect.make, {
-                        currentChoice: choice,
-                        onChoiceChange: (function (choice) {
-                            Curry._1(setChoice, (function (param) {
-                                    return choice;
-                                  }));
-                          })
-                      }), token !== "" ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
-                              style: X.styles.title,
-                              children: "Vous avez un droit de vote pour cette election"
-                            }), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ReactNativePaper.Button, {
-                              mode: "contained",
-                              onPress: vote,
-                              children: "Voter"
-                            })) : React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
-                              style: X.styles.title,
-                              children: "Vous n'avez pas de droit de vote pour cette election"
+                      }), match$6[0] && !match$7[0] ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
+                              style: ReactNative.StyleSheet.flatten([
+                                    X.styles.title,
+                                    X.styles.green
+                                  ]),
+                              children: "Vous avez voté"
                             }), React.createElement(ReactNativePaper.Button, {
                               mode: "contained",
                               onPress: (function (param) {
-                                  Curry._1(setshowModal, (function (param) {
+                                  Curry._1(setChangeVote, (function (param) {
                                           return true;
                                         }));
                                 }),
-                              children: "Ajouter"
-                            }))), React.createElement(ReactNativePaper.Portal, {
+                              children: "Changer mon vote"
+                            })) : React.createElement(React.Fragment, undefined, React.createElement(ElectionBooth_ChoiceSelect.make, {
+                              currentChoice: choice,
+                              onChoiceChange: (function (choice) {
+                                  Curry._1(setChoice, (function (param) {
+                                          return choice;
+                                        }));
+                                })
+                            }), Belt_Option.isSome(privateCred) ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
+                                    style: ReactNative.StyleSheet.flatten([
+                                          X.styles.title,
+                                          X.styles.green
+                                        ]),
+                                    children: "Vous avez un droit de vote pour cette election"
+                                  }), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ReactNativePaper.Button, {
+                                    mode: "contained",
+                                    onPress: vote,
+                                    children: "Voter"
+                                  })) : React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
+                                    style: ReactNative.StyleSheet.flatten([
+                                          X.styles.title,
+                                          X.styles.red
+                                        ]),
+                                    children: "Vous n'avez pas de droit de vote pour cette election"
+                                  }), React.createElement(ReactNativePaper.Button, {
+                                    mode: "contained",
+                                    onPress: (function (param) {
+                                        Curry._1(setshowModal, (function (param) {
+                                                return true;
+                                              }));
+                                      }),
+                                    children: "Ajouter un droit de vote"
+                                  })))), React.createElement(ReactNativePaper.Portal, {
                   children: null
                 }, React.createElement(ReactNativePaper.Modal, {
-                      visible: match$3[0],
+                      visible: match$4[0],
                       onDismiss: (function (param) {
                           Curry._1(setshowModal, (function (param) {
                                   return false;
@@ -145,10 +215,11 @@ function ElectionBooth(Props) {
                             children: null
                           }, React.createElement(ReactNativePaper.TextInput, {
                                 mode: "flat",
+                                autoFocus: true,
                                 label: "Token",
-                                value: token,
+                                value: Belt_Option.getWithDefault(tmpToken, ""),
                                 onChangeText: (function (text) {
-                                    Curry._1(setToken, (function (param) {
+                                    Curry._1(setTmpToken, (function (param) {
                                             return text.trim();
                                           }));
                                   })
@@ -157,8 +228,8 @@ function ElectionBooth(Props) {
                               }, React.createElement(X.Col.make, {
                                     children: React.createElement(ReactNativePaper.Button, {
                                           onPress: (function (param) {
-                                              Curry._1(setToken, (function (param) {
-                                                      return "";
+                                              Curry._1(setTmpToken, (function (param) {
+                                                      
                                                     }));
                                               Curry._1(setshowModal, (function (param) {
                                                       return false;
@@ -179,7 +250,7 @@ function ElectionBooth(Props) {
                                   return false;
                                 }));
                         }),
-                      visible: match$4[0],
+                      visible: match$5[0],
                       children: "Invalid token"
                     })));
 }

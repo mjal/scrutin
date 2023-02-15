@@ -90,6 +90,7 @@ function ElectionNew_ChoiceList(Props) {
                               children: null
                             }, React.createElement(ReactNativePaper.TextInput, {
                                   mode: "flat",
+                                  autoFocus: true,
                                   label: "Nom du choix",
                                   value: name,
                                   onChangeText: (function (text) {

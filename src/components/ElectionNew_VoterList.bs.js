@@ -99,6 +99,7 @@ function ElectionNew_VoterList(Props) {
                             children: null
                           }, React.createElement(ReactNativePaper.TextInput, {
                                 mode: "flat",
+                                autoFocus: true,
                                 label: "Email du participant",
                                 value: email,
                                 onChangeText: (function (text) {

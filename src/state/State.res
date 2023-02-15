@@ -69,7 +69,7 @@ let reducer = (state, action: Action.t) => {
     }
 
     | Ballot_Create_End => {
-      ({...state, election: Election.initial, voting_in_progress: false}, [])
+      ({...state, voting_in_progress: false}, [])
     }
 
     | Navigate(route) =>
@@ -85,7 +85,8 @@ let reducer = (state, action: Action.t) => {
           [Effect.loadElection(id)]
         | _ => []
       }
-      ({...state, route}, effects)
+      let election = if route == ElectionNew { Election.initial } else { state.election }
+      ({...state, election, route}, effects)
 
     | User_Login(user) =>
       ({...state, user: Some(user)}, [Effect.Store.User.set(user)])

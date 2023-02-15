@@ -6,48 +6,70 @@ type choice_t = ElectionBooth_ChoiceSelect.choice_t
 @react.component
 let make = () => {
   let (state, dispatch) = Context.use()
-  let (token, setToken) = React.useState(_ => "") // TODO: Rename privateCred
+  let (privateCred, setPrivateCred) = React.useState(_ => None)
+  let (tmpToken, setTmpToken) = React.useState(_ => None)
   let (choice : choice_t, setChoice) = React.useState(_ => ElectionBooth_ChoiceSelect.Blank)
   let (showModal, setshowModal) = React.useState(_ => false)
   let (visibleError, setVisibleError) = React.useState(_ => false)
+  let (hasVoted, setHasVoted) = React.useState(_ => false)
+  let (changeVote, setChangeVote) = React.useState(_ => false)
+
+  let electionPublicCreds : array<string> = state.election.creds -> Option.map(Belenios.Credentials.parse) -> Option.getWithDefault([])
+
+  let isValidPrivateCred = (token: Token.t) => {
+    Array.some(electionPublicCreds, (electionPublicCred) => {
+      electionPublicCred == token.public
+    })
+  }
 
 	let addToken = _ => {
-    // TODO: Actually hash and verify that the token is valid for that election
-    if token != "" { 
-      setshowModal(_ => false)
-    } else {
-      setVisibleError(_ => true)
-    }
+    switch tmpToken {
+    | None => ()
+    | Some(tmpToken) => {
+      try {
+        let token : Token.t = { public: Belenios.Credentials.derive(~uuid=Option.getExn(state.election.uuid), ~private_credential=tmpToken), private_: tmpToken}
+        if isValidPrivateCred(token) {
+          setPrivateCred(_ => Some(token.private_))
+          setshowModal(_ => false)
+        } else {
+          setVisibleError(_ => true)
+        }
+      } catch {
+      | _ => setVisibleError(_ => true)
+      }
+    }}
 	}
+
 
   // TODO: React.useEffect0
   React.useEffect(() => {
-    // Get from storage
-    let electionPublicCreds : array<string> = state.election.creds -> Option.map(Belenios.Credentials.parse) -> Option.getWithDefault([])
-    let privateCred = Array.getBy(state.tokens, (token) => {
-      Array.some(electionPublicCreds, (electionPublicCred) => {
-        electionPublicCred == token.public
-      })
-    }) -> Option.map((token) => token.private_) -> Option.getWithDefault("")
+    let storedToken = Array.getBy(state.tokens, isValidPrivateCred)// -> Option.map((token) => token.private_)
+    switch storedToken {
+    | None => ()
+    | Some(storedToken) => {
+      if Option.isNone(privateCred) { setPrivateCred(_ => Some(storedToken.private_)) }
+    }}
 
-    if token == "" && privateCred != "" {
-      setToken(_ => privateCred)
-    }
-
-    // Get from URL
     let hash = URL.currentHash() -> Js.String.sliceToEnd(~from=1)
-    if hash != "" {
-      let privateCred = hash
-      switch privateCred {
-      | "" => ()
-      | privateCred => {
-        let publicCred = Belenios.Credentials.derive(~uuid=Option.getExn(state.election.uuid), ~private_credential=privateCred)
-        Store.Token.add({public: publicCred, private_: privateCred})
-        if token == "" {
-          setToken(_ => privateCred)
-        }
+    switch hash {
+    | "" => ()
+    | _ => {
+      let publicCred = Belenios.Credentials.derive(~uuid=Option.getExn(state.election.uuid), ~private_credential=hash)
+      Store.Token.add({public: publicCred, private_: hash})
+      if Option.isNone(privateCred) { setPrivateCred(_ => Some(hash)) }
+    }}
+
+    None
+  })
+
+  React.useEffect(() => {
+    switch privateCred {
+      | Some(privateCred) =>
+      let publicCred = Belenios.Credentials.derive(~uuid=Option.getExn(state.election.uuid), ~private_credential=privateCred)
+      if Array.some(state.election.ballots, (b) => { b.public_credential == publicCred && Option.getWithDefault(b.ciphertext, "") != ""}) {
+        setHasVoted(_ => true)
       }
-      }
+      | None => ()
     }
 
     None
@@ -58,7 +80,10 @@ let make = () => {
       Array.length(state.election.choices)
       -> Array.make(0)
       -> Array.mapWithIndex((i, _) => choice == Choice(i) ? 1 : 0)
-    dispatch(Ballot_Create_Start(token, selectionArray))
+    dispatch(Ballot_Create_Start(Option.getExn(privateCred), selectionArray))
+
+    setHasVoted(_ => true)
+    setChangeVote(_ => false)
   }
 
   <>
@@ -70,22 +95,39 @@ let make = () => {
     } else {
       <>
         <View style=X.styles["separator"] />
-        <ElectionBooth_ChoiceSelect currentChoice=choice onChoiceChange={choice => setChoice(_ => choice)} />
-        { if token != "" {
+        {if (hasVoted && !changeVote) {
           <>
-          <Title style=X.styles["title"]>{ "Vous avez un droit de vote pour cette election" -> React.string }</Title>
-          <Divider />
-          <Button mode=#contained onPress=vote>
-            {"Voter" -> React.string}
-          </Button>
+            <Title style=StyleSheet.flatten([X.styles["title"],X.styles["green"]])>
+              { "Vous avez voté" -> React.string }
+            </Title>
+            <Button mode=#contained onPress={_ => setChangeVote(_ => true)}>
+              {"Changer mon vote" -> React.string}
+            </Button>
           </>
         } else {
           <>
-          <Title style=X.styles["title"]>{ "Vous n'avez pas de droit de vote pour cette election" -> React.string }</Title>
-          <Button mode=#contained onPress={_ => setshowModal(_ => true)}>
-            {"Ajouter" -> React.string}
-          </Button>
-          </>
+            <ElectionBooth_ChoiceSelect currentChoice=choice onChoiceChange={choice => setChoice(_ => choice)} />
+            { if Option.isSome(privateCred) {
+            <>
+              <Title style=StyleSheet.flatten([X.styles["title"],X.styles["green"]])>
+                { "Vous avez un droit de vote pour cette election" -> React.string }
+              </Title>
+              <Divider />
+              <Button mode=#contained onPress=vote>
+                {"Voter" -> React.string}
+              </Button>
+            </>
+            } else {
+            <>
+              <Title style=StyleSheet.flatten([X.styles["title"],X.styles["red"]])>
+                { "Vous n'avez pas de droit de vote pour cette election" -> React.string }
+              </Title>
+              <Button mode=#contained onPress={_ => setshowModal(_ => true)}>
+                {"Ajouter un droit de vote" -> React.string}
+              </Button>
+            </>
+          }}
+        </>
         }}
       </>
     }}
@@ -94,14 +136,15 @@ let make = () => {
       <Modal visible={showModal} onDismiss={_ => setshowModal(_ => false)}>
         <View style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]])>
           <TextInput
+            autoFocus=true
             mode=#flat
             label="Token"
-            value=token
-            onChangeText={text => setToken(_ => Js.String.trim(text))}
+            value=Option.getWithDefault(tmpToken, "")
+            onChangeText={text => setTmpToken(_ => Some(Js.String.trim(text)))}
           />
           <X.Row>
             <X.Col>
-              <Button onPress={_ => { setToken(_ => ""); setshowModal(_ => false)} }>{"Retour"->React.string}</Button>
+              <Button onPress={_ => { setTmpToken(_ => None); setshowModal(_ => false)} }>{"Retour"->React.string}</Button>
             </X.Col>
             <X.Col>
               <Button mode=#contained onPress=addToken>{"Ajouter"->React.string}</Button>

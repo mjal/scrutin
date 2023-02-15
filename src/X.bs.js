@@ -56,6 +56,12 @@ var styles = ReactNative.StyleSheet.create({
           }) : ({}),
       center: {
         alignSelf: "center"
+      },
+      green: {
+        color: "green"
+      },
+      red: {
+        color: "red"
       }
     });
 

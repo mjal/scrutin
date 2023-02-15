@@ -78,6 +78,9 @@ let styles = {
       } else { viewStyle() }
     },
     "center": viewStyle(~alignSelf=#center, ()),
+
+    "green": textStyle(~color=Color.green, ()),
+    "red": textStyle(~color=Color.red, ()),
   })
 }
 
