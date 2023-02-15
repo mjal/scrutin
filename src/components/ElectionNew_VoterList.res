@@ -30,7 +30,7 @@ let make = () => {
           mode=#contained
           onPress={_ => setshowModal(_ => true)}
         >
-          {"Nouveau" -> React.string}
+          {"Ajouter" -> React.string}
         </Button>
       </X.Col>
     </X.Row>

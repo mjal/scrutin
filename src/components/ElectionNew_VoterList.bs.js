@@ -67,7 +67,7 @@ function ElectionNew_VoterList(Props) {
                                         return true;
                                       }));
                               }),
-                            children: "Nouveau"
+                            children: "Ajouter"
                           })
                     })), React.createElement(ReactNative.View, {
                   children: Belt_Array.mapWithIndex(state.election.voters, (function (index, voter) {
