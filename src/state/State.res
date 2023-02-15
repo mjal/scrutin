@@ -31,7 +31,6 @@ let reducer = (state, action: Action.t) => {
       Effect.Store.User.get,
       Effect.Store.Trustees.get,
       Effect.Store.Tokens.get,
-      (_ => Belenios.Random.generate())
     ])
 
     | Election_Fetch(id) => ({
