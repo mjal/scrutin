@@ -49,17 +49,6 @@ function createElection(election, user, dispatch) {
   var match$1 = Belenios.Credentials.create(params.uuid, election.voters.length);
   var pubcreds = match$1[0];
   var creds = Belt_Array.zip(pubcreds, match$1[1]);
-  Belt_Array.forEach(creds, (function (param) {
-          console.log("Adding token: ");
-          var token_public = param[0];
-          var token_private_ = param[1];
-          var token = {
-            public: token_public,
-            private_: token_private_
-          };
-          console.log(token);
-          Store.Token.add(token);
-        }));
   var voters = Belt_Array.map(Belt_Array.zip(election.voters, creds), (function (param) {
           var match = param[1];
           var voterWithoutCred = param[0];

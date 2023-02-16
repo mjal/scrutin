@@ -32,13 +32,6 @@ let createElection = (election : Election.t, user: User.t) => {
     let (pubcreds, privcreds) = Belenios.Credentials.create(params.uuid, Array.length(election.voters))
     let creds = Array.zip(pubcreds, privcreds)
 
-    Array.forEach(creds, ((public, private_)) => {
-      Js.log("Adding token: ")
-      let token : Token.t = {public, private_}
-      Js.log(token)
-      Store.Token.add(token)
-    })
-
     //dispatch(Action.SetElectionBeleniosParams(belenios_params))
 
     let voters = Array.zip(election.voters, creds)
