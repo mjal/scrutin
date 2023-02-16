@@ -131,6 +131,9 @@ let make = () => {
               <Title style=StyleSheet.flatten([X.styles["title"],X.styles["red"]])>
                 { "Vous n'avez pas de droit de vote pour cette election" -> React.string }
               </Title>
+              <Divider />
+              <ElectionBooth_ChoiceSelect disabled=true currentChoice=choice onChoiceChange={choice => setChoice(_ => choice)} />
+              <Divider />
               <Button mode=#contained onPress={_ => setshowModal(_ => true)}>
                 {"Ajouter un droit de vote" -> React.string}
               </Button>

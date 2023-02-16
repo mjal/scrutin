@@ -26,11 +26,11 @@ module Choice = {
 }
 
 @react.component
-let make = (~currentChoice, ~onChoiceChange) => {
+let make = (~currentChoice, ~onChoiceChange, ~disabled=false) => {
   let (state, _) = Context.use()
 
   <View>
-    <List.Section title="Faites votre choix" style=styles["margin-x"]>
+    <List.Section title={disabled?"Liste des choix":"Faites votre choix"} style=styles["margin-x"]>
       {
         switch state.election.params {
         | None => <></>
@@ -38,7 +38,11 @@ let make = (~currentChoice, ~onChoiceChange) => {
           Belenios.Election.answers(params)
           -> Array.mapWithIndex((i, choiceName) => {
             let selected = currentChoice == Choice(i)
-            <Choice name=choiceName selected onSelect={_ => onChoiceChange(Choice(i))} key=Int.toString(i) />
+            if disabled {
+              <List.Item title=choiceName />
+            } else {
+              <Choice name=choiceName selected onSelect={_ => onChoiceChange(Choice(i))} key=Int.toString(i) />
+            }
           })
           -> React.array
         }

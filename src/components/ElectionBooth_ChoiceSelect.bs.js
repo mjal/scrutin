@@ -40,25 +40,33 @@ var Choice = {
 function ElectionBooth_ChoiceSelect(Props) {
   var currentChoice = Props.currentChoice;
   var onChoiceChange = Props.onChoiceChange;
+  var disabledOpt = Props.disabled;
+  var disabled = disabledOpt !== undefined ? disabledOpt : false;
   var match = Context.use(undefined);
   var params = match[0].election.params;
   return React.createElement(ReactNative.View, {
               children: React.createElement(ReactNativePaper.List.Section, {
-                    title: "Faites votre choix",
+                    title: disabled ? "Liste des choix" : "Faites votre choix",
                     children: params !== undefined ? Belt_Array.mapWithIndex(Belenios.Election.answers(params), (function (i, choiceName) {
                               var selected = Caml_obj.equal(currentChoice, /* Choice */{
                                     _0: i
                                   });
-                              return React.createElement(ElectionBooth_ChoiceSelect$Choice, {
-                                          name: choiceName,
-                                          selected: selected,
-                                          onSelect: (function (param) {
-                                              Curry._1(onChoiceChange, /* Choice */{
-                                                    _0: i
-                                                  });
-                                            }),
-                                          key: String(i)
-                                        });
+                              if (disabled) {
+                                return React.createElement(ReactNativePaper.List.Item, {
+                                            title: choiceName
+                                          });
+                              } else {
+                                return React.createElement(ElectionBooth_ChoiceSelect$Choice, {
+                                            name: choiceName,
+                                            selected: selected,
+                                            onSelect: (function (param) {
+                                                Curry._1(onChoiceChange, /* Choice */{
+                                                      _0: i
+                                                    });
+                                              }),
+                                            key: String(i)
+                                          });
+                              }
                             })) : React.createElement(React.Fragment, undefined),
                     style: styles["margin-x"]
                   })

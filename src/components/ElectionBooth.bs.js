@@ -197,7 +197,15 @@ function ElectionBooth(Props) {
                                           X.styles.red
                                         ]),
                                     children: "Vous n'avez pas de droit de vote pour cette election"
-                                  }), React.createElement(ReactNativePaper.Button, {
+                                  }), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ElectionBooth_ChoiceSelect.make, {
+                                    currentChoice: choice,
+                                    onChoiceChange: (function (choice) {
+                                        Curry._1(setChoice, (function (param) {
+                                                return choice;
+                                              }));
+                                      }),
+                                    disabled: true
+                                  }), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ReactNativePaper.Button, {
                                     mode: "contained",
                                     onPress: (function (param) {
                                         Curry._1(setshowModal, (function (param) {
