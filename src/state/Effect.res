@@ -106,7 +106,7 @@ let tally = (privkey: Belenios.Trustees.Privkey.t, election: Election.t) => {
     let ballots =
       election.ballots
       -> Array.map((ballot) => ballot.ciphertext)
-      -> Array.keep(Option.isSome)
+      -> Array.keep((ciphertext) => Option.getWithDefault(ciphertext, "") != "")
       -> Array.map((ciphertext) => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
     let trustees = Belenios.Trustees.of_str(Option.getExn(election.trustees))
     let pubcreds : array<string> = %raw(`JSON.parse(election.creds)`)

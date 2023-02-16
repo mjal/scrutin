@@ -159,7 +159,9 @@ function tally(privkey, election, dispatch) {
   var params = Belt_Option.getExn(election.params);
   var ballots = Belt_Array.map(Belt_Array.keep(Belt_Array.map(election.ballots, (function (ballot) {
                   return ballot.ciphertext;
-                })), Belt_Option.isSome), Belt_Option.getExn);
+                })), (function (ciphertext) {
+              return Belt_Option.getWithDefault(ciphertext, "") !== "";
+            })), Belt_Option.getExn);
   var trustees = Belt_Option.getExn(election.trustees);
   var pubcreds = (JSON.parse(election.creds));
   var match = Belenios.Election.decrypt(params)(ballots, trustees, pubcreds, privkey);
