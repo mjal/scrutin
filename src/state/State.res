@@ -22,7 +22,7 @@ let initial = {
   tokens: []
 }
 
-let reducer = (state, action: Action.t) => {
+let rec reducer = (state, action: Action.t) => {
   switch (action) {
     
     | Init => ({...state, elections_loading: true}, [
@@ -68,7 +68,7 @@ let reducer = (state, action: Action.t) => {
     }
 
     | Ballot_Create_End => {
-      ({...state, voting_in_progress: false}, [])
+      reducer({...state, voting_in_progress: false}, Action.Navigate(ElectionShow(state.election.id)))
     }
 
     | Navigate(route) =>

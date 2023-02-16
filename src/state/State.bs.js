@@ -25,275 +25,296 @@ var initial = {
   tokens: initial_tokens
 };
 
-function reducer(state, action) {
-  if (typeof action === "number") {
-    switch (action) {
-      case /* Init */0 :
-          return [
-                  {
-                    election: state.election,
-                    elections: state.elections,
-                    elections_loading: true,
-                    user: state.user,
-                    loading: state.loading,
-                    voting_in_progress: state.voting_in_progress,
-                    route: state.route,
-                    trustees: state.trustees,
-                    tokens: state.tokens
-                  },
-                  [
-                    Effect.goToUrl,
-                    Effect.loadElections,
-                    Effect.Store.User.get,
-                    Effect.Store.Trustees.get,
-                    Effect.Store.Tokens.get
-                  ]
-                ];
-      case /* Election_Post */1 :
-          var partial_arg = Belt_Option.getExn(state.user);
-          var partial_arg$1 = state.election;
-          return [
-                  state,
-                  [(function (param) {
-                        return Effect.createElection(partial_arg$1, partial_arg, param);
-                      })]
-                ];
-      case /* Ballot_Create_End */2 :
-          return [
-                  {
-                    election: state.election,
-                    elections: state.elections,
-                    elections_loading: state.elections_loading,
-                    user: state.user,
-                    loading: state.loading,
-                    voting_in_progress: false,
-                    route: state.route,
-                    trustees: state.trustees,
-                    tokens: state.tokens
-                  },
-                  []
-                ];
-      case /* User_Logout */3 :
-          return [
-                  {
-                    election: state.election,
-                    elections: state.elections,
-                    elections_loading: state.elections_loading,
-                    user: undefined,
-                    loading: state.loading,
-                    voting_in_progress: state.voting_in_progress,
-                    route: state.route,
-                    trustees: state.trustees,
-                    tokens: state.tokens
-                  },
-                  [Effect.Store.User.clean]
-                ];
-      
-    }
-  } else {
-    switch (action.TAG | 0) {
-      case /* Election_PublishResult */0 :
-          var result = action._0;
-          var partial_arg$2 = state.election;
-          return [
-                  state,
-                  [(function (param) {
-                        return Effect.publishElectionResult(partial_arg$2, result, param);
-                      })]
-                ];
-      case /* Election_Fetch */7 :
-          var id = action._0;
-          return [
-                  {
-                    election: {
-                      id: id,
-                      name: Election.initial.name,
-                      voters: Election.initial.voters,
-                      choices: Election.initial.choices,
-                      ballots: Election.initial.ballots,
-                      uuid: Election.initial.uuid,
-                      params: Election.initial.params,
-                      trustees: Election.initial.trustees,
-                      creds: Election.initial.creds,
-                      result: Election.initial.result,
-                      administrator_id: Election.initial.administrator_id
+function reducer(_state, _action) {
+  while(true) {
+    var action = _action;
+    var state = _state;
+    if (typeof action === "number") {
+      switch (action) {
+        case /* Init */0 :
+            return [
+                    {
+                      election: state.election,
+                      elections: state.elections,
+                      elections_loading: true,
+                      user: state.user,
+                      loading: state.loading,
+                      voting_in_progress: state.voting_in_progress,
+                      route: state.route,
+                      trustees: state.trustees,
+                      tokens: state.tokens
                     },
-                    elections: state.elections,
-                    elections_loading: state.elections_loading,
-                    user: state.user,
-                    loading: true,
-                    voting_in_progress: state.voting_in_progress,
-                    route: state.route,
-                    trustees: state.trustees,
-                    tokens: state.tokens
-                  },
-                  [(function (param) {
+                    [
+                      Effect.goToUrl,
+                      Effect.loadElections,
+                      Effect.Store.User.get,
+                      Effect.Store.Trustees.get,
+                      Effect.Store.Tokens.get
+                    ]
+                  ];
+        case /* Election_Post */1 :
+            var partial_arg = Belt_Option.getExn(state.user);
+            var partial_arg$1 = state.election;
+            return [
+                    state,
+                    [(function(partial_arg,partial_arg$1){
+                      return function (param) {
+                        return Effect.createElection(partial_arg$1, partial_arg, param);
+                      }
+                      }(partial_arg,partial_arg$1))]
+                  ];
+        case /* Ballot_Create_End */2 :
+            _action = {
+              TAG: /* Navigate */12,
+              _0: {
+                TAG: /* ElectionShow */0,
+                _0: state.election.id
+              }
+            };
+            _state = {
+              election: state.election,
+              elections: state.elections,
+              elections_loading: state.elections_loading,
+              user: state.user,
+              loading: state.loading,
+              voting_in_progress: false,
+              route: state.route,
+              trustees: state.trustees,
+              tokens: state.tokens
+            };
+            continue ;
+        case /* User_Logout */3 :
+            return [
+                    {
+                      election: state.election,
+                      elections: state.elections,
+                      elections_loading: state.elections_loading,
+                      user: undefined,
+                      loading: state.loading,
+                      voting_in_progress: state.voting_in_progress,
+                      route: state.route,
+                      trustees: state.trustees,
+                      tokens: state.tokens
+                    },
+                    [Effect.Store.User.clean]
+                  ];
+        
+      }
+    } else {
+      switch (action.TAG | 0) {
+        case /* Election_PublishResult */0 :
+            var result = action._0;
+            var partial_arg$2 = state.election;
+            return [
+                    state,
+                    [(function(result,partial_arg$2){
+                      return function (param) {
+                        return Effect.publishElectionResult(partial_arg$2, result, param);
+                      }
+                      }(result,partial_arg$2))]
+                  ];
+        case /* Election_Fetch */7 :
+            var id = action._0;
+            return [
+                    {
+                      election: {
+                        id: id,
+                        name: Election.initial.name,
+                        voters: Election.initial.voters,
+                        choices: Election.initial.choices,
+                        ballots: Election.initial.ballots,
+                        uuid: Election.initial.uuid,
+                        params: Election.initial.params,
+                        trustees: Election.initial.trustees,
+                        creds: Election.initial.creds,
+                        result: Election.initial.result,
+                        administrator_id: Election.initial.administrator_id
+                      },
+                      elections: state.elections,
+                      elections_loading: state.elections_loading,
+                      user: state.user,
+                      loading: true,
+                      voting_in_progress: state.voting_in_progress,
+                      route: state.route,
+                      trustees: state.trustees,
+                      tokens: state.tokens
+                    },
+                    [(function(id){
+                      return function (param) {
                         return Effect.loadElection(id, param);
-                      })]
-                ];
-      case /* Election_Load */8 :
-          return [
-                  {
-                    election: Election.from_json(action._0),
-                    elections: state.elections,
-                    elections_loading: state.elections_loading,
-                    user: state.user,
-                    loading: false,
-                    voting_in_progress: state.voting_in_progress,
-                    route: state.route,
-                    trustees: state.trustees,
-                    tokens: state.tokens
-                  },
-                  []
-                ];
-      case /* Election_LoadAll */9 :
-          return [
-                  {
-                    election: state.election,
-                    elections: Belt_Array.reverse(Belt_Array.map(action._0, Election.from_json)),
-                    elections_loading: false,
-                    user: state.user,
-                    loading: state.loading,
-                    voting_in_progress: state.voting_in_progress,
-                    route: state.route,
-                    trustees: state.trustees,
-                    tokens: state.tokens
-                  },
-                  []
-                ];
-      case /* Election_Tally */10 :
-          var privkey = action._0;
-          var partial_arg$3 = state.election;
-          return [
-                  state,
-                  [(function (param) {
+                      }
+                      }(id))]
+                  ];
+        case /* Election_Load */8 :
+            return [
+                    {
+                      election: Election.from_json(action._0),
+                      elections: state.elections,
+                      elections_loading: state.elections_loading,
+                      user: state.user,
+                      loading: false,
+                      voting_in_progress: state.voting_in_progress,
+                      route: state.route,
+                      trustees: state.trustees,
+                      tokens: state.tokens
+                    },
+                    []
+                  ];
+        case /* Election_LoadAll */9 :
+            return [
+                    {
+                      election: state.election,
+                      elections: Belt_Array.reverse(Belt_Array.map(action._0, Election.from_json)),
+                      elections_loading: false,
+                      user: state.user,
+                      loading: state.loading,
+                      voting_in_progress: state.voting_in_progress,
+                      route: state.route,
+                      trustees: state.trustees,
+                      tokens: state.tokens
+                    },
+                    []
+                  ];
+        case /* Election_Tally */10 :
+            var privkey = action._0;
+            var partial_arg$3 = state.election;
+            return [
+                    state,
+                    [(function(privkey,partial_arg$3){
+                      return function (param) {
                         return Effect.tally(privkey, partial_arg$3, param);
-                      })]
-                ];
-      case /* Ballot_Create_Start */11 :
-          var selection = action._1;
-          var token = action._0;
-          var partial_arg$4 = state.election;
-          return [
-                  {
-                    election: state.election,
-                    elections: state.elections,
-                    elections_loading: state.elections_loading,
-                    user: state.user,
-                    loading: state.loading,
-                    voting_in_progress: true,
-                    route: state.route,
-                    trustees: state.trustees,
-                    tokens: state.tokens
-                  },
-                  [(function (param) {
+                      }
+                      }(privkey,partial_arg$3))]
+                  ];
+        case /* Ballot_Create_Start */11 :
+            var selection = action._1;
+            var token = action._0;
+            var partial_arg$4 = state.election;
+            return [
+                    {
+                      election: state.election,
+                      elections: state.elections,
+                      elections_loading: state.elections_loading,
+                      user: state.user,
+                      loading: state.loading,
+                      voting_in_progress: true,
+                      route: state.route,
+                      trustees: state.trustees,
+                      tokens: state.tokens
+                    },
+                    [(function(token,selection,partial_arg$4){
+                      return function (param) {
                         return Effect.ballotCreate(partial_arg$4, token, selection, param);
-                      })]
-                ];
-      case /* Navigate */12 :
-          var route = action._0;
-          if (typeof route === "number") {
-            switch (route) {
-              case /* Home */0 :
-                  $$URL.setUrlPathname("/");
-                  break;
-              case /* ElectionNew */1 :
-                  break;
-              case /* Profile */2 :
-                  $$URL.setUrlPathname("/profile");
-                  break;
-              
+                      }
+                      }(token,selection,partial_arg$4))]
+                  ];
+        case /* Navigate */12 :
+            var route = action._0;
+            if (typeof route === "number") {
+              switch (route) {
+                case /* Home */0 :
+                    $$URL.setUrlPathname("/");
+                    break;
+                case /* ElectionNew */1 :
+                    break;
+                case /* Profile */2 :
+                    $$URL.setUrlPathname("/profile");
+                    break;
+                
+              }
+            } else {
+              $$URL.setUrlPathname("/elections/" + String(route._0) + "" + $$URL.currentHash(undefined) + "");
             }
-          } else {
-            $$URL.setUrlPathname("/elections/" + String(route._0) + "" + $$URL.currentHash(undefined) + "");
-          }
-          var effects;
-          if (typeof route === "number") {
-            effects = [];
-          } else {
-            var id$1 = route._0;
-            effects = [(function (param) {
+            var effects;
+            if (typeof route === "number") {
+              effects = [];
+            } else {
+              var id$1 = route._0;
+              effects = [(function(id$1){
+                return function (param) {
                   return Effect.loadElection(id$1, param);
-                })];
-          }
-          var election = route === /* ElectionNew */1 ? Election.initial : state.election;
+                }
+                }(id$1))];
+            }
+            var election = route === /* ElectionNew */1 ? Election.initial : state.election;
+            return [
+                    {
+                      election: election,
+                      elections: state.elections,
+                      elections_loading: state.elections_loading,
+                      user: state.user,
+                      loading: state.loading,
+                      voting_in_progress: state.voting_in_progress,
+                      route: route,
+                      trustees: state.trustees,
+                      tokens: state.tokens
+                    },
+                    effects
+                  ];
+        case /* User_Login */13 :
+            var user = action._0;
+            return [
+                    {
+                      election: state.election,
+                      elections: state.elections,
+                      elections_loading: state.elections_loading,
+                      user: user,
+                      loading: state.loading,
+                      voting_in_progress: state.voting_in_progress,
+                      route: state.route,
+                      trustees: state.trustees,
+                      tokens: state.tokens
+                    },
+                    [Curry._1(Effect.Store.User.set, user)]
+                  ];
+        case /* Trustees_Set */14 :
+            return [
+                    {
+                      election: state.election,
+                      elections: state.elections,
+                      elections_loading: state.elections_loading,
+                      user: state.user,
+                      loading: state.loading,
+                      voting_in_progress: state.voting_in_progress,
+                      route: state.route,
+                      trustees: action._0,
+                      tokens: state.tokens
+                    },
+                    []
+                  ];
+        case /* Tokens_Set */15 :
+            return [
+                    {
+                      election: state.election,
+                      elections: state.elections,
+                      elections_loading: state.elections_loading,
+                      user: state.user,
+                      loading: state.loading,
+                      voting_in_progress: state.voting_in_progress,
+                      route: state.route,
+                      trustees: state.trustees,
+                      tokens: action._0
+                    },
+                    []
+                  ];
+        default:
           return [
                   {
-                    election: election,
+                    election: Election.reducer(state.election, action),
                     elections: state.elections,
                     elections_loading: state.elections_loading,
                     user: state.user,
                     loading: state.loading,
                     voting_in_progress: state.voting_in_progress,
-                    route: route,
-                    trustees: state.trustees,
-                    tokens: state.tokens
-                  },
-                  effects
-                ];
-      case /* User_Login */13 :
-          var user = action._0;
-          return [
-                  {
-                    election: state.election,
-                    elections: state.elections,
-                    elections_loading: state.elections_loading,
-                    user: user,
-                    loading: state.loading,
-                    voting_in_progress: state.voting_in_progress,
                     route: state.route,
                     trustees: state.trustees,
-                    tokens: state.tokens
-                  },
-                  [Curry._1(Effect.Store.User.set, user)]
-                ];
-      case /* Trustees_Set */14 :
-          return [
-                  {
-                    election: state.election,
-                    elections: state.elections,
-                    elections_loading: state.elections_loading,
-                    user: state.user,
-                    loading: state.loading,
-                    voting_in_progress: state.voting_in_progress,
-                    route: state.route,
-                    trustees: action._0,
                     tokens: state.tokens
                   },
                   []
                 ];
-      case /* Tokens_Set */15 :
-          return [
-                  {
-                    election: state.election,
-                    elections: state.elections,
-                    elections_loading: state.elections_loading,
-                    user: state.user,
-                    loading: state.loading,
-                    voting_in_progress: state.voting_in_progress,
-                    route: state.route,
-                    trustees: state.trustees,
-                    tokens: action._0
-                  },
-                  []
-                ];
-      default:
-        return [
-                {
-                  election: Election.reducer(state.election, action),
-                  elections: state.elections,
-                  elections_loading: state.elections_loading,
-                  user: state.user,
-                  loading: state.loading,
-                  voting_in_progress: state.voting_in_progress,
-                  route: state.route,
-                  trustees: state.trustees,
-                  tokens: state.tokens
-                },
-                []
-              ];
+      }
     }
-  }
+  };
 }
 
 export {
