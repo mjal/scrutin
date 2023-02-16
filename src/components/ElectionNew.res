@@ -31,7 +31,7 @@ let make = () => {
     <ElectionNew_VoterList />
 
     <Button mode=#contained onPress=onSubmit>
-      <Text>{"Create election" -> React.string}</Text>
+      {"Create election" -> React.string}
     </Button>
 
     <Portal>

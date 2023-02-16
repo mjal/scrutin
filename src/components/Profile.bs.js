@@ -47,9 +47,7 @@ function Profile(Props) {
                   onPress: (function (param) {
                       Curry._1(dispatch, /* User_Logout */3);
                     }),
-                  children: React.createElement(ReactNativePaper.Text, {
-                        children: "Logout"
-                      })
+                  children: "Logout"
                 }), React.createElement(ElectionList.make, {
                   title: "My elections (as administrator)",
                   elections: elections

@@ -49,9 +49,7 @@ function ElectionNew(Props) {
                 }), React.createElement(ElectionNew_ChoiceList.make, {}), React.createElement(ElectionNew_VoterList.make, {}), React.createElement(ReactNativePaper.Button, {
                   mode: "contained",
                   onPress: onSubmit,
-                  children: React.createElement(ReactNativePaper.Text, {
-                        children: "Create election"
-                      })
+                  children: "Create election"
                 }), React.createElement(ReactNativePaper.Portal, {
                   children: null
                 }, React.createElement(ReactNativePaper.Snackbar, {

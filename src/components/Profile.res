@@ -9,7 +9,7 @@ let make = () => {
 
   <View style=X.styles["margin-x"]>
     <Button mode=#contained onPress={_ => dispatch(User_Logout)} style=X.styles["margin-x"]>
-      <Text>{ "Logout" -> React.string }</Text>
+      { "Logout" -> React.string }
     </Button>
 
     {
