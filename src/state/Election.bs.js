@@ -23,12 +23,11 @@ var initial_choices = [];
 var initial_ballots = [];
 
 var initial = {
-  id: 0,
+  uuid: undefined,
   name: "",
   voters: initial_voters,
   choices: initial_choices,
   ballots: initial_ballots,
-  uuid: undefined,
   params: undefined,
   trustees: undefined,
   creds: undefined,
@@ -38,7 +37,6 @@ var initial = {
 
 function to_json(r) {
   return {
-          id: r.id,
           name: r.name,
           voters: Json_Encode$JsonCombinators.array(Voter.to_json, r.voters),
           choices: Json_Encode$JsonCombinators.array(Choice.to_json, r.choices),
@@ -68,12 +66,11 @@ var DecodeError = /* @__PURE__ */Caml_exceptions.create("Election.DecodeError");
 function from_json(json) {
   var decode = Json_Decode$JsonCombinators.object(function (field) {
         return {
-                id: field.required("id", Json_Decode$JsonCombinators.$$int),
+                uuid: field.required("uuid", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string)),
                 name: field.required("name", Json_Decode$JsonCombinators.string),
                 voters: field.required("voters", Json_Decode$JsonCombinators.array(Voter.from_json)),
                 choices: field.required("choices", Json_Decode$JsonCombinators.array(Choice.from_json)),
                 ballots: field.required("ballots", Json_Decode$JsonCombinators.array(Ballot.from_json)),
-                uuid: field.required("uuid", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string)),
                 params: Belt_Option.map(field.required("params", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string)), (function (prim) {
                         return JSON.parse(prim);
                       })),
@@ -94,8 +91,8 @@ function from_json(json) {
       };
 }
 
-function get(id) {
-  return fetch("" + Config.api_url + ("/elections/" + id)).then(function (prim) {
+function get(uuid) {
+  return fetch("" + Config.api_url + "/elections/" + uuid + "").then(function (prim) {
               return prim.json();
             });
 }
@@ -114,25 +111,28 @@ function post(election, user) {
 }
 
 function post_ballot(election, ballot) {
-  var election_id = String(election.id);
-  return X.post("" + Config.api_url + "/elections/" + election_id + "/ballots", Ballot.to_json(ballot));
+  var url = "" + Config.api_url + "/elections/" + Belt_Option.getExn(election.uuid) + "/ballots";
+  var payload = Ballot.to_json(ballot);
+  return X.post(url, payload);
 }
 
 function post_result(election, result) {
-  var election_id = String(election.id);
+  var url = "" + Config.api_url + "/elections/" + Belt_Option.getExn(election.uuid) + "/result";
   var dict = {};
   dict["result"] = result;
-  return X.post("" + Config.api_url + "/elections/" + election_id + "/result", dict);
+  return X.post(url, dict);
 }
 
-function createBallot(election, private_credential, selection) {
+function createBallot(election, privateCredential, selection) {
   var trustees = Belt_Option.getExn(election.trustees);
-  var ciphertext = Belenios.Election.vote(Belt_Option.getExn(election.params))(private_credential, [selection], trustees);
+  var ciphertext = Belenios.Election.vote(Belt_Option.getExn(election.params))(privateCredential, [selection], trustees);
+  var uuid = Belt_Option.getExn(election.uuid);
+  var publicCredential = Belenios.Credentials.derive(uuid, privateCredential);
   return {
-          electionId: election.id,
+          electionUuid: election.uuid,
           ciphertext: ciphertext,
-          private_credential: private_credential,
-          public_credential: ""
+          privateCredential: privateCredential,
+          publicCredential: publicCredential
         };
 }
 
@@ -143,12 +143,11 @@ function reducer(election, action) {
   switch (action.TAG | 0) {
     case /* Election_SetResult */1 :
         return {
-                id: election.id,
+                uuid: election.uuid,
                 name: election.name,
                 voters: election.voters,
                 choices: election.choices,
                 ballots: election.ballots,
-                uuid: election.uuid,
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
@@ -157,12 +156,11 @@ function reducer(election, action) {
               };
     case /* Election_SetName */2 :
         return {
-                id: election.id,
+                uuid: election.uuid,
                 name: action._0,
                 voters: election.voters,
                 choices: election.choices,
                 ballots: election.ballots,
-                uuid: election.uuid,
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
@@ -171,7 +169,7 @@ function reducer(election, action) {
               };
     case /* Election_AddVoter */3 :
         return {
-                id: election.id,
+                uuid: election.uuid,
                 name: election.name,
                 voters: Belt_Array.concat(election.voters, [{
                         id: 0,
@@ -181,7 +179,6 @@ function reducer(election, action) {
                       }]),
                 choices: election.choices,
                 ballots: election.ballots,
-                uuid: election.uuid,
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
@@ -191,14 +188,13 @@ function reducer(election, action) {
     case /* Election_RemoveVoter */4 :
         var index = action._0;
         return {
-                id: election.id,
+                uuid: election.uuid,
                 name: election.name,
                 voters: Belt_Array.keepWithIndex(election.voters, (function (param, i) {
                         return i !== index;
                       })),
                 choices: election.choices,
                 ballots: election.ballots,
-                uuid: election.uuid,
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
@@ -207,7 +203,7 @@ function reducer(election, action) {
               };
     case /* Election_AddChoice */5 :
         return {
-                id: election.id,
+                uuid: election.uuid,
                 name: election.name,
                 voters: election.voters,
                 choices: Belt_Array.concat(election.choices, [{
@@ -215,7 +211,6 @@ function reducer(election, action) {
                         name: action._0
                       }]),
                 ballots: election.ballots,
-                uuid: election.uuid,
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,
@@ -225,14 +220,13 @@ function reducer(election, action) {
     case /* Election_RemoveChoice */6 :
         var index$1 = action._0;
         return {
-                id: election.id,
+                uuid: election.uuid,
                 name: election.name,
                 voters: election.voters,
                 choices: Belt_Array.keepWithIndex(election.choices, (function (param, i) {
                         return i !== index$1;
                       })),
                 ballots: election.ballots,
-                uuid: election.uuid,
                 params: election.params,
                 trustees: election.trustees,
                 creds: election.creds,

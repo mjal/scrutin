@@ -1,26 +1,25 @@
 type t = {
-  electionId: int,
+  electionUuid: option<string>,
   ciphertext: option<string>,
-  private_credential: string,
-  public_credential: string
+  privateCredential: string,
+  publicCredential: string
 }
 
 let initial = {
-  electionId: 0,
+  electionUuid: None,
   ciphertext: None,
-  private_credential: "",
-  public_credential: ""
+  privateCredential: "",
+  publicCredential: ""
 }
 
 let from_json = {
   open Json.Decode
   object(field => {
-    let electionId = field.optional(. "election_id", int)
     {
-      electionId: Option.getWithDefault(electionId, 0),
+      electionUuid: field.required(. "election_uuid", option(string)),
       ciphertext: field.required(. "ciphertext", option(string)),
-      public_credential: field.required(. "public_credential", string),
-      private_credential: Option.getWithDefault(field.optional(. "private_credential", string), "")
+      publicCredential: field.required(. "public_credential", string),
+      privateCredential: Option.getWithDefault(field.optional(. "private_credential", string), "")
     }
   })
 }
@@ -28,9 +27,9 @@ let from_json = {
 let to_json = (r: t) : Js.Json.t => {
   open! Json.Encode
   Unsafe.object({
-    "election_id": r.electionId,
+    "election_uuid": option(string, r.electionUuid),
     "ciphertext": option(string, r.ciphertext),
-    "public_credential": string(r.public_credential),
-    "private_credential": string(r.private_credential)
+    "public_credential": string(r.publicCredential),
+    "private_credential": string(r.privateCredential)
   })
 }

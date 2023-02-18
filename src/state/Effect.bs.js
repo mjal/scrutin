@@ -5,7 +5,6 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as Store from "./Store.bs.js";
 import * as Js_json from "rescript/lib/es6/js_json.js";
 import * as Belenios from "../Belenios.bs.js";
-import * as Belt_Int from "rescript/lib/es6/belt_Int.js";
 import * as Election from "./Election.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
@@ -27,8 +26,8 @@ function loadElections(dispatch) {
       });
 }
 
-function loadElection(id, dispatch) {
-  Election.get(id).then(function (o) {
+function loadElection(uuid, dispatch) {
+  Election.get(uuid).then(function (o) {
         return Curry._1(dispatch, {
                     TAG: /* Election_Load */8,
                     _0: o
@@ -59,23 +58,21 @@ function createElection(election, user, dispatch) {
                   pubCred: match[0]
                 };
         }));
-  var election_id = election.id;
+  var election_uuid = params.uuid;
   var election_name = election.name;
   var election_choices = election.choices;
   var election_ballots = election.ballots;
-  var election_uuid = params.uuid;
   var election_params = params;
   var election_trustees = trustees;
   var election_creds = JSON.stringify(pubcreds);
   var election_result = election.result;
   var election_administrator_id = election.administrator_id;
   var election$1 = {
-    id: election_id,
+    uuid: election_uuid,
     name: election_name,
     voters: voters,
     choices: election_choices,
     ballots: election_ballots,
-    uuid: election_uuid,
     params: election_params,
     trustees: election_trustees,
     creds: election_creds,
@@ -89,12 +86,12 @@ function createElection(election, user, dispatch) {
               TAG: /* Election_Load */8,
               _0: res
             });
-        var id = Election.from_json(res).id;
+        var uuid = Belt_Option.getExn(election_uuid);
         Curry._1(dispatch, {
               TAG: /* Navigate */12,
               _0: {
                 TAG: /* ElectionShow */0,
-                _0: id
+                _0: uuid
               }
             });
       });
@@ -126,20 +123,17 @@ function goToUrl(dispatch) {
         switch (url.hd) {
           case "elections" :
               var match = url.tl;
-              if (!match) {
+              if (match && !match.tl) {
+                return Curry._1(dispatch, {
+                            TAG: /* Navigate */12,
+                            _0: {
+                              TAG: /* ElectionBooth */1,
+                              _0: match.hd
+                            }
+                          });
+              } else {
                 return ;
               }
-              if (match.tl) {
-                return ;
-              }
-              var nId = Belt_Option.getWithDefault(Belt_Int.fromString(match.hd), 0);
-              return Curry._1(dispatch, {
-                          TAG: /* Navigate */12,
-                          _0: {
-                            TAG: /* ElectionBooth */1,
-                            _0: nId
-                          }
-                        });
           case "profile" :
               if (url.tl) {
                 return ;

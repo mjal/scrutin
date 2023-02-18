@@ -8,9 +8,9 @@ let loadElections = (dispatch) => {
   }) -> ignore
 }
 
-let loadElection = id => {
+let loadElection = uuid => {
   dispatch => {
-    Election.get(id)
+    Election.get(uuid)
     -> Promise.thenResolve(o => {
       dispatch(Action.Election_Load(o))
     }) -> ignore
@@ -54,8 +54,9 @@ let createElection = (election : Election.t, user: User.t) => {
     -> Promise.then(Webapi.Fetch.Response.json)
     -> Promise.thenResolve((res) => {
       dispatch(Action.Election_Load(res))
-      let id = (Election.from_json(res)).id
-      dispatch(Action.Navigate(Route.ElectionShow(id)))
+      //let uuid = (Election.from_json(res)).uuid -> Option.getExn
+      let uuid = election.uuid -> Option.getExn
+      dispatch(Action.Navigate(Route.ElectionShow(uuid)))
     })
     -> ignore
   }
@@ -90,9 +91,9 @@ let publishElectionResult = (election, result) => {
 let goToUrl = dispatch => {
   URL.getAndThen((url) => {
     switch url {
-      | list{"elections", sId} =>
-        let nId = sId -> Int.fromString -> Option.getWithDefault(0)
-        dispatch(Action.Navigate(ElectionBooth(nId)))
+      | list{"elections", sUuid} =>
+        //let nId = sId -> Int.fromString -> Option.getWithDefault(0)
+        dispatch(Action.Navigate(ElectionBooth(sUuid)))
       | list{"profile"} =>
         dispatch(Action.Navigate(Route.Profile))
       | _ => ()

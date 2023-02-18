@@ -96,6 +96,7 @@ function ElectionNew_VoterList(Props) {
                                   X.styles.modal,
                                   X.styles.layout
                                 ]),
+                            testID: "voter-modal",
                             children: null
                           }, React.createElement(ReactNativePaper.TextInput, {
                                 mode: "flat",

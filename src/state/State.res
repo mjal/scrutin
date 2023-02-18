@@ -33,11 +33,11 @@ let rec reducer = (state, action: Action.t) => {
       Effect.Store.Tokens.get,
     ])
 
-    | Election_Fetch(id) => ({
+    | Election_Fetch(uuid) => ({
       ...state,
       loading: true,
-      election: { ...Election.initial, id }
-    }, [ Effect.loadElection(id) ])
+      election: { ...Election.initial, uuid: Some(uuid) }
+    }, [ Effect.loadElection(uuid) ])
 
     | Election_Load(json) => ({
       ...state,
@@ -68,20 +68,20 @@ let rec reducer = (state, action: Action.t) => {
     }
 
     | Ballot_Create_End => {
-      reducer({...state, voting_in_progress: false}, Action.Navigate(ElectionShow(state.election.id)))
+      reducer({...state, voting_in_progress: false}, Action.Navigate(ElectionShow(state.election.uuid->Option.getExn)))
     }
 
     | Navigate(route) =>
       let () = switch route {
-        | ElectionBooth(id) | ElectionShow(id) | ElectionResult(id) =>
-          URL.setUrlPathname(`/elections/${id->Int.toString}${URL.currentHash()}`)
+        | ElectionBooth(uuid) | ElectionShow(uuid) | ElectionResult(uuid) =>
+          URL.setUrlPathname(`/elections/${uuid}${URL.currentHash()}`)
         | Home => URL.setUrlPathname("/")
         | Profile => URL.setUrlPathname("/profile")
         | _ => ()
       }
       let effects = switch route {
-        | ElectionBooth(id) | ElectionShow(id) | ElectionResult(id) =>
-          [Effect.loadElection(id)]
+        | ElectionBooth(uuid) | ElectionShow(uuid) | ElectionResult(uuid) =>
+          [Effect.loadElection(uuid)]
         | _ => []
       }
       let election = if route == ElectionNew { Election.initial } else { state.election }

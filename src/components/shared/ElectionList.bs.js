@@ -5,19 +5,21 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Context from "../../state/Context.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function ElectionList$ElectionLink(Props) {
   var election = Props.election;
   var match = Context.use(undefined);
   var dispatch = match[1];
+  var uuid = Belt_Option.getExn(election.uuid);
   return React.createElement(ReactNativePaper.List.Item, {
               onPress: (function (param) {
                   Curry._1(dispatch, {
                         TAG: /* Navigate */12,
                         _0: {
                           TAG: /* ElectionShow */0,
-                          _0: election.id
+                          _0: uuid
                         }
                       });
                 }),
@@ -29,7 +31,7 @@ function ElectionList$ElectionLink(Props) {
                 }),
               right: (function (param) {
                   return React.createElement(ReactNativePaper.Text, {
-                              children: String(election.id)
+                              children: uuid
                             });
                 })
             });
@@ -52,7 +54,7 @@ function ElectionList(Props) {
                 children: Belt_Array.map(elections, (function (election) {
                         return React.createElement(ElectionList$ElectionLink, {
                                     election: election,
-                                    key: String(election.id)
+                                    key: Belt_Option.getWithDefault(election.uuid, "")
                                   });
                       })),
                 style: X.styles["margin-x"]

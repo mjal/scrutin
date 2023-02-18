@@ -25,9 +25,9 @@ let make = () => {
             {switch state.route {
             | Home => <Home></Home>
             | ElectionNew => <ElectionNew></ElectionNew>
-            | ElectionBooth(_id)
-            | ElectionResult(_id)
-            | ElectionShow(_id) => <ElectionShow></ElectionShow>
+            | ElectionBooth(_uuid)
+            | ElectionResult(_uuid)
+            | ElectionShow(_uuid) => <ElectionShow></ElectionShow>
             | Profile => <Profile></Profile>
             }}
           </ScrollView>

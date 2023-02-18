@@ -1,7 +1,7 @@
 type t =
   | Home
   | ElectionNew
-  | ElectionShow(int)
-  | ElectionBooth(int)
-  | ElectionResult(int)
+  | ElectionShow(string)
+  | ElectionBooth(string)
+  | ElectionResult(string)
   | Profile

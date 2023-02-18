@@ -68,7 +68,7 @@ function reducer(_state, _action) {
               TAG: /* Navigate */12,
               _0: {
                 TAG: /* ElectionShow */0,
-                _0: state.election.id
+                _0: Belt_Option.getExn(state.election.uuid)
               }
             };
             _state = {
@@ -114,16 +114,15 @@ function reducer(_state, _action) {
                       }(result,partial_arg$2))]
                   ];
         case /* Election_Fetch */7 :
-            var id = action._0;
+            var uuid = action._0;
             return [
                     {
                       election: {
-                        id: id,
+                        uuid: uuid,
                         name: Election.initial.name,
                         voters: Election.initial.voters,
                         choices: Election.initial.choices,
                         ballots: Election.initial.ballots,
-                        uuid: Election.initial.uuid,
                         params: Election.initial.params,
                         trustees: Election.initial.trustees,
                         creds: Election.initial.creds,
@@ -139,11 +138,11 @@ function reducer(_state, _action) {
                       trustees: state.trustees,
                       tokens: state.tokens
                     },
-                    [(function(id){
+                    [(function(uuid){
                       return function (param) {
-                        return Effect.loadElection(id, param);
+                        return Effect.loadElection(uuid, param);
                       }
-                      }(id))]
+                      }(uuid))]
                   ];
         case /* Election_Load */8 :
             return [
@@ -223,18 +222,18 @@ function reducer(_state, _action) {
                 
               }
             } else {
-              $$URL.setUrlPathname("/elections/" + String(route._0) + "" + $$URL.currentHash(undefined) + "");
+              $$URL.setUrlPathname("/elections/" + route._0 + "" + $$URL.currentHash(undefined) + "");
             }
             var effects;
             if (typeof route === "number") {
               effects = [];
             } else {
-              var id$1 = route._0;
-              effects = [(function(id$1){
+              var uuid$1 = route._0;
+              effects = [(function(uuid$1){
                 return function (param) {
-                  return Effect.loadElection(id$1, param);
+                  return Effect.loadElection(uuid$1, param);
                 }
-                }(id$1))];
+                }(uuid$1))];
             }
             var election = route === /* ElectionNew */1 ? Election.initial : state.election;
             return [

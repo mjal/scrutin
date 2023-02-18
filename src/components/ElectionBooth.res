@@ -27,7 +27,7 @@ let make = () => {
     | None => ()
     | Some(tmpToken) => {
       try {
-        let token : Token.t = { public: Belenios.Credentials.derive(~uuid=Option.getExn(state.election.uuid), ~private_credential=tmpToken), private_: tmpToken}
+        let token : Token.t = { public: Belenios.Credentials.derive(~uuid=Option.getExn(state.election.uuid), ~privateCredential=tmpToken), private_: tmpToken}
         if isValidPrivateCred(token) {
           setPrivateCred(_ => Some(token.private_))
           setshowModal(_ => false)
@@ -61,7 +61,7 @@ let make = () => {
       switch state.election.uuid {
       | None => ()
       | Some(uuid) =>
-        let publicCred = Belenios.Credentials.derive(~uuid=uuid, ~private_credential=hash)
+        let publicCred = Belenios.Credentials.derive(~uuid=uuid, ~privateCredential=hash)
         Store.Token.add({public: publicCred, private_: hash})
         if Option.isNone(privateCred) { setPrivateCred(_ => Some(hash)) }
       }
@@ -73,8 +73,8 @@ let make = () => {
   React.useEffect(() => {
     switch privateCred {
       | Some(privateCred) =>
-      let publicCred = Belenios.Credentials.derive(~uuid=Option.getExn(state.election.uuid), ~private_credential=privateCred)
-      if Array.some(state.election.ballots, (b) => { b.public_credential == publicCred && Option.getWithDefault(b.ciphertext, "") != ""}) {
+      let publicCred = Belenios.Credentials.derive(~uuid=Option.getExn(state.election.uuid), ~privateCredential=privateCred)
+      if Array.some(state.election.ballots, (b) => { b.publicCredential == publicCred && Option.getWithDefault(b.ciphertext, "") != ""}) {
         setHasVoted(_ => true)
       }
       | None => ()

@@ -121,7 +121,7 @@ function ElectionBooth(Props) {
         if (privateCred !== undefined) {
           var publicCred = Belenios.Credentials.derive(Belt_Option.getExn(state.election.uuid), privateCred);
           if (Belt_Array.some(state.election.ballots, (function (b) {
-                    return b.public_credential === publicCred ? Belt_Option.getWithDefault(b.ciphertext, "") !== "" : false;
+                    return b.publicCredential === publicCred ? Belt_Option.getWithDefault(b.ciphertext, "") !== "" : false;
                   }))) {
             Curry._1(setHasVoted, (function (param) {
                     return true;

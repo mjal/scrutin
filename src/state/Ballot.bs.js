@@ -5,31 +5,32 @@ import * as Json_Decode$JsonCombinators from "rescript-json-combinators/src/Json
 import * as Json_Encode$JsonCombinators from "rescript-json-combinators/src/Json_Encode.bs.js";
 
 var from_json = Json_Decode$JsonCombinators.object(function (field) {
-      var electionId = field.optional("election_id", Json_Decode$JsonCombinators.$$int);
       return {
-              electionId: Belt_Option.getWithDefault(electionId, 0),
+              electionUuid: field.required("election_uuid", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string)),
               ciphertext: field.required("ciphertext", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string)),
-              private_credential: Belt_Option.getWithDefault(field.optional("private_credential", Json_Decode$JsonCombinators.string), ""),
-              public_credential: field.required("public_credential", Json_Decode$JsonCombinators.string)
+              privateCredential: Belt_Option.getWithDefault(field.optional("private_credential", Json_Decode$JsonCombinators.string), ""),
+              publicCredential: field.required("public_credential", Json_Decode$JsonCombinators.string)
             };
     });
 
 function to_json(r) {
   return {
-          election_id: r.electionId,
+          election_uuid: Json_Encode$JsonCombinators.option((function (prim) {
+                  return prim;
+                }), r.electionUuid),
           ciphertext: Json_Encode$JsonCombinators.option((function (prim) {
                   return prim;
                 }), r.ciphertext),
-          public_credential: r.public_credential,
-          private_credential: r.private_credential
+          public_credential: r.publicCredential,
+          private_credential: r.privateCredential
         };
 }
 
 var initial = {
-  electionId: 0,
+  electionUuid: undefined,
   ciphertext: undefined,
-  private_credential: "",
-  public_credential: ""
+  privateCredential: "",
+  publicCredential: ""
 };
 
 export {

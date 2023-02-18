@@ -8,7 +8,7 @@ type t =
   | Election_RemoveVoter(int)
   | Election_AddChoice(string)
   | Election_RemoveChoice(int)
-  | Election_Fetch(int)
+  | Election_Fetch(string)
   | Election_Load(Js.Json.t)
   | Election_LoadAll(array<Js.Json.t>)
   | Election_Post

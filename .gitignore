@@ -17,3 +17,7 @@ web-build/
 # rescript build artefacts
 lib/bs
 .merlin
+
+# cypress artefacts
+cypress/screenshots
+cypress/videos

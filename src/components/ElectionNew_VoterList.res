@@ -51,7 +51,7 @@ let make = () => {
 
     <Portal>
       <Modal visible={showModal} onDismiss={_ => setshowModal(_ => false)}>
-        <View style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]])>
+        <View style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]]) testID="voter-modal">
           <TextInput
             mode=#flat
             label="Email du participant"

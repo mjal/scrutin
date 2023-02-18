@@ -3,12 +3,11 @@
 %%raw(`/* eslint-disable no-throw-literal */`)
 
 type t = {
-  id:       int,
+  uuid:     option<string>,
   name:     string,
   voters:   array<Voter.t>,
   choices:  array<Choice.t>,
   ballots:  array<Ballot.t>,
-  uuid:     option<string>,
   params:   option<Belenios.Election.t>,
   trustees: option<string>,
   creds:    option<string>,
@@ -17,7 +16,6 @@ type t = {
 }
 
 let initial = {
-  id: 0,
   name: "",
   voters: [],
   choices: [],
@@ -33,7 +31,6 @@ let initial = {
 let to_json = (r) => {
   open! Json.Encode
   Unsafe.object({
-    "id": int(r.id),
     "name": string(r.name),
     "voters": array(Voter.to_json, r.voters),
     "choices": array(Choice.to_json, r.choices),
@@ -52,7 +49,6 @@ let from_json = (json) => {
   open Json.Decode
   let decode = object(field => {
     {
-      id: field.required(. "id", int),
       name: field.required(. "name", string),
       voters: field.required(. "voters", array(Voter.from_json)), // TODO: Make it optional
       choices: field.required(. "choices", array(Choice.from_json)),
@@ -73,8 +69,8 @@ let from_json = (json) => {
   }
 }
 
-let get = (id) => {
-  Webapi.Fetch.fetch(j`${Config.api_url}/elections/$id`)
+let get = (uuid) => {
+  Webapi.Fetch.fetch(j`${Config.api_url}/elections/${uuid}`)
   -> Promise.then(Webapi.Fetch.Response.json)
 }
 
@@ -92,29 +88,36 @@ let post = (election, user: User.t) => {
 }
 
 let post_ballot = (election, ballot: Ballot.t) => {
-  let election_id = election.id -> Int.toString
-  X.post(`${Config.api_url}/elections/${election_id}/ballots`, ballot -> Ballot.to_json)
+  let url = `${Config.api_url}/elections/${election.uuid->Option.getExn}/ballots`
+  let payload = Ballot.to_json(ballot)
+  X.post(url, payload)
 }
 
 let post_result = (election, result: string) => {
-  let election_id = election.id -> Int.toString
-  let dict = Js.Dict.empty()
-  Js.Dict.set(dict, "result", Js.Json.string(result))
-  X.post(`${Config.api_url}/elections/${election_id}/result`, Js.Json.object_(dict))
+  let url = `${Config.api_url}/elections/${election.uuid->Option.getExn}/result`
+  let payload = {
+    let dict = Js.Dict.empty()
+    Js.Dict.set(dict, "result", Js.Json.string(result))
+    Js.Json.object_(dict)
+  }
+  X.post(url, payload)
 }
 
-let createBallot = (election : t, private_credential : string, selection : array<int>) : Ballot.t => {
+let createBallot = (election : t, privateCredential : string, selection : array<int>) : Ballot.t => {
   let trustees = Belenios.Trustees.of_str(Option.getExn(election.trustees))
 
   let ciphertext =
-    Belenios.Election.vote(Option.getExn(election.params), ~cred=private_credential, ~selections=[selection], ~trustees)
+    Belenios.Election.vote(Option.getExn(election.params), ~cred=privateCredential, ~selections=[selection], ~trustees)
     -> Belenios.Ballot.to_str
 
+  let uuid = election.uuid -> Option.getExn
+  let publicCredential = Belenios.Credentials.derive(~uuid, ~privateCredential)
+
   {
-    electionId: election.id,
+    electionUuid: election.uuid,
     ciphertext: Some(ciphertext),
-    public_credential: "", // TODO: Get from Belenios lib
-    private_credential
+    publicCredential,
+    privateCredential
   }
 }
 
