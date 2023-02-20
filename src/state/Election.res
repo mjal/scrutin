@@ -12,7 +12,6 @@ type t = {
   trustees: option<string>,
   creds:    option<string>,
   result:   option<string>,
-  administrator_id: int,
 }
 
 let initial = {
@@ -25,7 +24,6 @@ let initial = {
   creds: None,
   uuid: None,
   result: None,
-  administrator_id: 0
 }
 
 let to_json = (r) => {
@@ -33,7 +31,7 @@ let to_json = (r) => {
   Unsafe.object({
     "name": string(r.name),
     "voters": array(Voter.to_json, r.voters),
-    "choices": array(Choice.to_json, r.choices),
+    "choices": [],//array(Choice.to_json, r.choices),
     "ballots": array(Ballot.to_json, r.ballots),
     "uuid": option(string, r.uuid),
     "params": option(string, r.params -> Option.map(Belenios.Election.stringify)),
@@ -51,14 +49,13 @@ let from_json = (json) => {
     {
       name: field.required(. "name", string),
       voters: field.required(. "voters", array(Voter.from_json)), // TODO: Make it optional
-      choices: field.required(. "choices", array(Choice.from_json)),
+      choices: [],//field.required(. "choices", array(Choice.from_json)),
       ballots: field.required(. "ballots", array(Ballot.from_json)),
       uuid: field.required(. "uuid", option(string)),
       params: field.required(. "params", option(string)) -> Option.map(Belenios.Election.parse),
       trustees: field.required(. "trustees", option(string)),
       creds: field.required(. "creds", option(string)),
       result: field.required(. "result", option(string)),
-      administrator_id: field.required(. "administrator_id", option(int)) -> Option.getWithDefault(0)
     }
   })
   switch (json->Json.decode(decode)) {

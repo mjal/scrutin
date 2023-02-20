@@ -15,20 +15,17 @@ function Profile(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var state = match[0];
-  var user_id = Belt_Option.getWithDefault(Belt_Option.flatMap(state.user, (function (user) {
+  Belt_Option.getWithDefault(Belt_Option.flatMap(state.user, (function (user) {
               return user.id;
             })), 0);
   var elections = Belt_Array.keep(state.elections, (function (election) {
-          return election.administrator_id === user_id;
-        }));
-  var elections$1 = Belt_Array.keep(state.elections, (function (election) {
           return Belt_Array.some(state.trustees, (function (trustee) {
                         var election_trustees = election.trustees;
                         var election_pubkey = election_trustees !== undefined ? Belenios.Trustees.pubkey(election_trustees) : "";
                         return election_pubkey === trustee.pubkey;
                       }));
         }));
-  var elections$2 = Belt_Array.keep(state.elections, (function (election) {
+  var elections$1 = Belt_Array.keep(state.elections, (function (election) {
           var creds = Belt_Option.getWithDefault(Belt_Option.map(election.creds, (function (prim) {
                       return JSON.parse(prim);
                     })), []);
@@ -50,13 +47,13 @@ function Profile(Props) {
                   children: "Logout"
                 }), React.createElement(ElectionList.make, {
                   title: "My elections (as administrator)",
-                  elections: elections
+                  elections: []
                 }), React.createElement(ElectionList.make, {
                   title: "My elections (as trustee)",
-                  elections: elections$1
+                  elections: elections
                 }), React.createElement(ElectionList.make, {
                   title: "My elections (as voter)",
-                  elections: elections$2
+                  elections: elections$1
                 }));
 }
 

@@ -91,7 +91,7 @@ let rec reducer = (state, action: Action.t) => {
       ({...state, user: Some(user)}, [Effect.Store.User.set(user)])
 
     | User_Logout =>
-      ({...state, user: None}, [Effect.Store.User.clean])
+      ({...state, user: None, route: Home}, [Effect.Store.User.clean])
 
     | Trustees_Set(trustees) =>
       ({...state, trustees}, [])

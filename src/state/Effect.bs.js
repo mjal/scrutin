@@ -66,7 +66,6 @@ function createElection(election, user, dispatch) {
   var election_trustees = trustees;
   var election_creds = JSON.stringify(pubcreds);
   var election_result = election.result;
-  var election_administrator_id = election.administrator_id;
   var election$1 = {
     uuid: election_uuid,
     name: election_name,
@@ -76,8 +75,7 @@ function createElection(election, user, dispatch) {
     params: election_params,
     trustees: election_trustees,
     creds: election_creds,
-    result: election_result,
-    administrator_id: election_administrator_id
+    result: election_result
   };
   Election.post(election$1, user).then(function (prim) {
           return prim.json();

@@ -92,7 +92,7 @@ function reducer(_state, _action) {
                       user: undefined,
                       loading: state.loading,
                       voting_in_progress: state.voting_in_progress,
-                      route: state.route,
+                      route: /* Home */0,
                       trustees: state.trustees,
                       tokens: state.tokens
                     },
@@ -126,8 +126,7 @@ function reducer(_state, _action) {
                         params: Election.initial.params,
                         trustees: Election.initial.trustees,
                         creds: Election.initial.creds,
-                        result: Election.initial.result,
-                        administrator_id: Election.initial.administrator_id
+                        result: Election.initial.result
                       },
                       elections: state.elections,
                       elections_loading: state.elections_loading,

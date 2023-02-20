@@ -6,7 +6,7 @@ import * as Json_Encode$JsonCombinators from "rescript-json-combinators/src/Json
 
 var from_json = Json_Decode$JsonCombinators.object(function (field) {
       return {
-              electionUuid: field.required("election_uuid", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string)),
+              electionUuid: field.optional("election_uuid", Json_Decode$JsonCombinators.string),
               ciphertext: field.required("ciphertext", Json_Decode$JsonCombinators.option(Json_Decode$JsonCombinators.string)),
               privateCredential: Belt_Option.getWithDefault(field.optional("private_credential", Json_Decode$JsonCombinators.string), ""),
               publicCredential: field.required("public_credential", Json_Decode$JsonCombinators.string)

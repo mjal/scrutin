@@ -14,10 +14,7 @@ let make = () => {
 
     {
       let title = "My elections (as administrator)"
-      let elections = Array.keep(state.elections, (election) => {
-        election.administrator_id == user_id
-      })
-      <ElectionList title elections=elections />
+      <ElectionList title elections=[] />
     }
 
     {

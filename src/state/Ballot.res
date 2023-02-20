@@ -16,7 +16,7 @@ let from_json = {
   open Json.Decode
   object(field => {
     {
-      electionUuid: field.required(. "election_uuid", option(string)),
+      electionUuid: field.optional(. "election_uuid", string),
       ciphertext: field.required(. "ciphertext", option(string)),
       publicCredential: field.required(. "public_credential", string),
       privateCredential: Option.getWithDefault(field.optional(. "private_credential", string), "")
