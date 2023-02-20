@@ -48,11 +48,6 @@ function Login(Props) {
                       var id = Belt_Option.map(Belt_Option.flatMap(Js_dict.get(dict, "id"), Js_json.decodeNumber), (function (prim) {
                               return prim | 0;
                             }));
-                      console.log(Js_dict.get(dict, "id"));
-                      console.log(Belt_Option.flatMap(Js_dict.get(dict, "id"), Js_json.decodeNumber));
-                      console.log(Belt_Option.map(Belt_Option.flatMap(Js_dict.get(dict, "id"), Js_json.decodeNumber), (function (prim) {
-                                  return prim | 0;
-                                })));
                       Curry._1(dispatch, {
                             TAG: /* User_Login */13,
                             _0: {
