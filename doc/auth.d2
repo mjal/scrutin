@@ -1,0 +1,25 @@
+shape: sequence_diagram
+
+Community {shape: diamond}
+Member {shape: circle}
+Election
+
+Community { Generate key pair }
+Member { Generate key pair }
+
+Registering users: {
+  Community <- Member: Send public key
+  Community -> Member: Sign public key
+}
+
+Community -> Election: Create
+
+Election {
+  Questions
+  Public keys
+  Member list
+}
+
+Vote: {
+  Member -> Election: Generate and sign ballot
+}
