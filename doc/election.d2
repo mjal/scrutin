@@ -14,12 +14,18 @@ Registering users: {
 
 Community -> Election: Create
 
-Election {
-  Questions
-  Public keys
-  Member list
-}
-
 Vote: {
   Member -> Election: Generate and sign ballot
+}
+
+Late registration and lost account: {
+  Community <- Member: Send new public key
+  Community -> Member: Sign new public key
+  Community -> Election: Amend voter list
+  Member -> Election: Generate and sign ballot
+}
+
+Decryption {
+  Community -> Election: Tally
+  Community <- Election: Publis result
 }
