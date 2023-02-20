@@ -36,7 +36,8 @@
     "rescript-react-native": "^0.70.0",
     "rescript-react-native-async-storage": "git+https://github.com/scrutin-app/rescript-react-native-async-storage",
     "rescript-use-tea": "git+https://github.com/scrutin-app/rescript-use-tea.git",
-    "rescript-webapi": "git+https://github.com/scrutin-app/rescript-webapi.git"
+    "rescript-webapi": "git+https://github.com/scrutin-app/rescript-webapi.git",
+    "sjcl-with-all": "^1.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
