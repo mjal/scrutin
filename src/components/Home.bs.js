@@ -2,7 +2,6 @@
 
 import * as X from "../X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
-import * as Login from "./Login.bs.js";
 import * as React from "react";
 import * as Context from "../state/Context.bs.js";
 import * as ElectionList from "./shared/ElectionList.bs.js";
@@ -30,7 +29,11 @@ function Home(Props) {
                     loading: state.elections_loading
                   }));
   } else {
-    return React.createElement(Login.make, {});
+    return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Button, {
+                    children: "Signup"
+                  }), React.createElement(ReactNativePaper.Button, {
+                    children: "Signin"
+                  }));
   }
 }
 

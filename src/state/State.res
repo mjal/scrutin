@@ -76,7 +76,7 @@ let rec reducer = (state, action: Action.t) => {
         | ElectionBooth(uuid) | ElectionShow(uuid) | ElectionResult(uuid) =>
           URL.setUrlPathname(`/elections/${uuid}${URL.currentHash()}`)
         | Home => URL.setUrlPathname("/")
-        | Profile => URL.setUrlPathname("/profile")
+        | User_Profile => URL.setUrlPathname("/profile")
         | _ => ()
       }
       let effects = switch route {

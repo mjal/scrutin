@@ -209,17 +209,20 @@ function reducer(_state, _action) {
         case /* Navigate */12 :
             var route = action._0;
             if (typeof route === "number") {
-              switch (route) {
-                case /* Home */0 :
-                    $$URL.setUrlPathname("/");
-                    break;
-                case /* ElectionNew */1 :
-                    break;
-                case /* Profile */2 :
-                    $$URL.setUrlPathname("/profile");
-                    break;
-                
+              if (route < 3) {
+                switch (route) {
+                  case /* Home */0 :
+                      $$URL.setUrlPathname("/");
+                      break;
+                  case /* ElectionNew */1 :
+                      break;
+                  case /* User_Profile */2 :
+                      $$URL.setUrlPathname("/profile");
+                      break;
+                  
+                }
               }
+              
             } else {
               $$URL.setUrlPathname("/elections/" + route._0 + "" + $$URL.currentHash(undefined) + "");
             }

@@ -1,13 +1,13 @@
 type t = {
-  id: option<int>,
   email: string,
-  password: string
+  publicKey: string,
+  secretKey: option<string>
 }
 
 let to_json = r => {
   open Json.Encode
   Unsafe.object({
     "email": string(r.email),
-    "password": string(r.password)
+    "publicKey": string(r.publicKey)
   })
 }

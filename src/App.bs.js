@@ -7,9 +7,11 @@ import * as State from "./state/State.bs.js";
 import * as React from "react";
 import * as UseTea from "rescript-use-tea/src/UseTea.bs.js";
 import * as Context from "./state/Context.bs.js";
-import * as Profile from "./components/Profile.bs.js";
 import * as ElectionNew from "./components/ElectionNew.bs.js";
+import * as User_Signin from "./components/User_Signin.bs.js";
+import * as User_Signup from "./components/User_Signup.bs.js";
 import * as ElectionShow from "./components/ElectionShow.bs.js";
+import * as User_Profile from "./components/User_Profile.bs.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
 
@@ -30,8 +32,14 @@ function App(Props) {
       case /* ElectionNew */1 :
           tmp = React.createElement(ElectionNew.make, {});
           break;
-      case /* Profile */2 :
-          tmp = React.createElement(Profile.make, {});
+      case /* User_Profile */2 :
+          tmp = React.createElement(User_Profile.make, {});
+          break;
+      case /* User_Signin */3 :
+          tmp = React.createElement(User_Signin.make, {});
+          break;
+      case /* User_Signup */4 :
+          tmp = React.createElement(User_Signup.make, {});
           break;
       
     }
@@ -64,7 +72,7 @@ function App(Props) {
                                               onPress: (function (param) {
                                                   Curry._1(dispatch, {
                                                         TAG: /* Navigate */12,
-                                                        _0: /* Profile */2
+                                                        _0: /* User_Profile */2
                                                       });
                                                 })
                                             })), tmp)

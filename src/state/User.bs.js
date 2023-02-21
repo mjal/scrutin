@@ -4,7 +4,7 @@
 function to_json(r) {
   return {
           email: r.email,
-          password: r.password
+          publicKey: r.publicKey
         };
 }
 

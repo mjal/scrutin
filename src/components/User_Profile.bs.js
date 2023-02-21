@@ -11,13 +11,10 @@ import * as ElectionList from "./shared/ElectionList.bs.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
 
-function Profile(Props) {
+function User_Profile(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var state = match[0];
-  Belt_Option.getWithDefault(Belt_Option.flatMap(state.user, (function (user) {
-              return user.id;
-            })), 0);
   var elections = Belt_Array.keep(state.elections, (function (election) {
           return Belt_Array.some(state.trustees, (function (trustee) {
                         var election_trustees = election.trustees;
@@ -57,7 +54,7 @@ function Profile(Props) {
                 }));
 }
 
-var make = Profile;
+var make = User_Profile;
 
 export {
   make ,

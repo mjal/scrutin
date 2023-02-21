@@ -20,15 +20,17 @@ let make = () => {
             <Appbar.Header>
               <Appbar.Action icon=Icon.name("home") onPress={_ => dispatch(Navigate(Route.Home))}></Appbar.Action>
               <Appbar.Content title={"" -> React.string} />
-              <Appbar.Action icon=Icon.name("account") onPress={_ => dispatch(Navigate(Route.Profile))}></Appbar.Action>
+              <Appbar.Action icon=Icon.name("account") onPress={_ => dispatch(Navigate(Route.User_Profile))}></Appbar.Action>
             </Appbar.Header>
             {switch state.route {
-            | Home => <Home></Home>
-            | ElectionNew => <ElectionNew></ElectionNew>
+            | Home => <Home />
+            | ElectionNew => <ElectionNew />
             | ElectionBooth(_uuid)
             | ElectionResult(_uuid)
-            | ElectionShow(_uuid) => <ElectionShow></ElectionShow>
-            | Profile => <Profile></Profile>
+            | ElectionShow(_uuid) => <ElectionShow />
+            | User_Profile => <User_Profile />
+            | User_Signin => <User_Signin />
+            | User_Signup => <User_Signup />
             }}
           </ScrollView>
         </SafeAreaView>

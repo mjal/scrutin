@@ -4,4 +4,6 @@ type t =
   | ElectionShow(string)
   | ElectionBooth(string)
   | ElectionResult(string)
-  | Profile
+  | User_Profile
+  | User_Signin
+  | User_Signup

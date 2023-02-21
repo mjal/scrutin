@@ -95,7 +95,7 @@ let goToUrl = dispatch => {
         //let nId = sId -> Int.fromString -> Option.getWithDefault(0)
         dispatch(Action.Navigate(ElectionBooth(sUuid)))
       | list{"profile"} =>
-        dispatch(Action.Navigate(Route.Profile))
+        dispatch(Action.Navigate(Route.User_Profile))
       | _ => ()
     }
   })

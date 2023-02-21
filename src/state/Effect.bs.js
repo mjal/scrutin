@@ -138,7 +138,7 @@ function goToUrl(dispatch) {
               } else {
                 return Curry._1(dispatch, {
                             TAG: /* Navigate */12,
-                            _0: /* Profile */2
+                            _0: /* User_Profile */2
                           });
               }
           default:
