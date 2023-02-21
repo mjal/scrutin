@@ -1,19 +1,18 @@
+open ReactNative
 open! Paper
+include Paper
 
 @react.component
 let make = () => {
   let (state, dispatch) = Context.use()
 
+  let (email, setEmail) = React.useState(_ => "")
+  let (loading, setLoading) = React.useState(_ => false)
+
   switch state.user {
   | None =>
-    <>
-      <Button>
-        {"Signup" -> React.string}
-      </Button>
-      <Button>
-        {"Signin" -> React.string}
-      </Button>
-    </>
+    dispatch(Navigate(User_Register))
+    "Redirecting..." -> React.string
   | Some(_user) =>
     <>
       <Button mode=#contained onPress={_ => dispatch(Navigate(Route.ElectionNew))} style=X.styles["margin-x"]>

@@ -298,6 +298,16 @@ function reducer(_state, _action) {
                     },
                     []
                   ];
+        case /* Member_Register */16 :
+            var email = action._0;
+            return [
+                    state,
+                    [(function(email){
+                      return function (param) {
+                        return Effect.member_register(email, param);
+                      }
+                      }(email))]
+                  ];
         default:
           return [
                   {

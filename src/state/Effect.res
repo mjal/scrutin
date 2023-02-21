@@ -176,3 +176,19 @@ module Store = {
     let clean = _dispatch => Store.Token.clean()
   }
 }
+
+let member_register = (email) => {
+  dispatch => {
+    let data = {
+      let dict = Js.Dict.empty()
+      Js.Dict.set(dict, "email", Js.Json.string(email))
+      Js.Json.object_(dict)
+    }
+
+    X.post(`${Config.api_url}/users`, data)
+    -> Promise.thenResolve(_ =>
+      dispatch(Action.Navigate(Route.User_Register_Confirm))
+    )
+    -> ignore
+  }
+}

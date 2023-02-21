@@ -99,6 +99,9 @@ let rec reducer = (state, action: Action.t) => {
     | Tokens_Set(tokens) =>
       ({...state, tokens}, [])
 
+    | Member_Register(email) =>
+      (state, [Effect.member_register(email)])
+
     | _ =>
       ({
         ...state,

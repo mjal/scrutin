@@ -5,5 +5,5 @@ type t =
   | ElectionBooth(string)
   | ElectionResult(string)
   | User_Profile
-  | User_Signin
-  | User_Signup
+  | User_Register
+  | User_Register_Confirm

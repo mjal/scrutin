@@ -24,13 +24,15 @@ let make = () => {
             </Appbar.Header>
             {switch state.route {
             | Home => <Home />
+
             | ElectionNew => <ElectionNew />
             | ElectionBooth(_uuid)
             | ElectionResult(_uuid)
             | ElectionShow(_uuid) => <ElectionShow />
+
+            | User_Register => <User_Register />
+            | User_Register_Confirm => <User_Register_Confirm />
             | User_Profile => <User_Profile />
-            | User_Signin => <User_Signin />
-            | User_Signup => <User_Signup />
             }}
           </ScrollView>
         </SafeAreaView>
