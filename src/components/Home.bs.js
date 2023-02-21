@@ -5,6 +5,7 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as Paper from "@rescript-react-native/paper/src/Paper.bs.js";
 import * as React from "react";
 import * as Context from "../state/Context.bs.js";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as ElectionList from "./shared/ElectionList.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 
@@ -12,12 +13,15 @@ function Home(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var state = match[0];
-  React.useState(function () {
-        return "";
-      });
-  React.useState(function () {
-        return false;
-      });
+  React.useEffect((function () {
+          if (Belt_Option.isNone(state.user)) {
+            Curry._1(dispatch, {
+                  TAG: /* Navigate */12,
+                  _0: /* User_Register */3
+                });
+          }
+          
+        }), []);
   var _user = state.user;
   if (_user !== undefined) {
     return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Button, {
@@ -36,10 +40,6 @@ function Home(Props) {
                     loading: state.elections_loading
                   }));
   } else {
-    Curry._1(dispatch, {
-          TAG: /* Navigate */12,
-          _0: /* User_Register */3
-        });
     return "Redirecting...";
   }
 }

@@ -6,12 +6,15 @@ include Paper
 let make = () => {
   let (state, dispatch) = Context.use()
 
-  let (email, setEmail) = React.useState(_ => "")
-  let (loading, setLoading) = React.useState(_ => false)
+  React.useEffect0(_ => {
+    if Option.isNone(state.user) {
+      dispatch(Action.Navigate(Route.User_Register))
+    }
+    None
+  })
 
   switch state.user {
   | None =>
-    dispatch(Navigate(User_Register))
     "Redirecting..." -> React.string
   | Some(_user) =>
     <>

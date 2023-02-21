@@ -29,5 +29,3 @@ module Dispatch = {
 }
 
 let use = () => (State.use(), Dispatch.use())
-
-let dispatch = (action : Action.t) => Dispatch.use()(action)

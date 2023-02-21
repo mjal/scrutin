@@ -87,6 +87,13 @@ let rec reducer = (state, action: Action.t) => {
       let election = if route == ElectionNew { Election.initial } else { state.election }
       ({...state, election, route}, effects)
 
+    /* New user functions (use only this) */
+
+    | Member_Register(email) =>
+      (state, [Effect.member_register(email)])
+
+    /* Old User functions (deprecated) */
+
     | User_Login(user) =>
       ({...state, user: Some(user)}, [Effect.Store.User.set(user)])
 
@@ -98,9 +105,6 @@ let rec reducer = (state, action: Action.t) => {
 
     | Tokens_Set(tokens) =>
       ({...state, tokens}, [])
-
-    | Member_Register(email) =>
-      (state, [Effect.member_register(email)])
 
     | _ =>
       ({
