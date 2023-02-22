@@ -15,9 +15,9 @@ web-build/
 .DS_Store
 
 # rescript build artefacts
-lib/bs
-.merlin
+app/lib/bs/
+app/.merlin
 
 # cypress artefacts
-cypress/screenshots
-cypress/videos
+app/cypress/screenshots/
+app/cypress/videos/
