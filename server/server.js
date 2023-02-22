@@ -1,8 +1,5 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
-navigator = {userAgent: ""}
-let {belenios} = require("./src/belenios_jslib2")
-
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 8080;

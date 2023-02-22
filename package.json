@@ -8,7 +8,10 @@
     ]
   },
   "scripts": {
-    "re:start": "watchexec --project-origin . -c -w app/src -w server/src -w common/src -i lib -e res,resi 'rescript build -with-deps'"
+    "re:start:watchexec": "watchexec --project-origin . -c -w app/src -w server/src -w common/src -i lib -e res,resi 'rescript build -with-deps'",
+    "re:start:app": "cd app && npm run re:start",
+    "re:start:common": "cd app && npm run re:start",
+    "re:start:server": "cd server && npm run re:start"
   },
   "devDependencies": {
     "rescript": "^10.1.2"

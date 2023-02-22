@@ -22,7 +22,9 @@
     "rescript-json-combinators",
     "rescript-react-native",
     "rescript-use-tea",
-    "rescript-webapi"
+    "rescript-webapi",
+
+    "scrutin-common"
   ],
   "bsc-flags": [
     "-open Belt", 
