@@ -123,7 +123,7 @@ module Signed =
   }
 
   let verify = (signedEvents : array<t>, signedEvent) => {
-    let { event, eventHash, sig } = signedEvent
+    let event = signedEvent.event
     let json = Js.Json.parseExn(event)
     let publicKey = 
     switch jsonGet(json, "type") {

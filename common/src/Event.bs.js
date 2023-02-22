@@ -129,7 +129,8 @@ function findByHash(signedEvents, hash) {
 }
 
 function verify(signedEvents, signedEvent) {
-  var json = JSON.parse(signedEvent.event);
+  var $$event = signedEvent.event;
+  var json = JSON.parse($$event);
   var match = jsonGet(json, "type");
   var publicKey;
   if (match !== undefined) {

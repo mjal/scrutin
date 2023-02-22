@@ -1,5 +1,5 @@
 {
-  "name": "scrutin-server",
+  "name": "scrutin-common",
   "sources": {
     "dir": "src",
     "subdirs": true

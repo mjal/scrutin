@@ -1,7 +1,7 @@
-const { Sequelize } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
 navigator = {userAgent: ""}
-let {belenios} = require("./belenios_jslib2")
+let {belenios} = require("./src/belenios_jslib2")
 
 const express = require("express");
 const app = express();

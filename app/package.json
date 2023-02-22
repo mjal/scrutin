@@ -1,5 +1,5 @@
 {
-  "name": "scrutin",
+  "name": "scrutin-app",
   "version": "0.0.1",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -36,8 +36,7 @@
     "rescript-react-native": "^0.70.0",
     "rescript-react-native-async-storage": "git+https://github.com/scrutin-app/rescript-react-native-async-storage",
     "rescript-use-tea": "git+https://github.com/scrutin-app/rescript-use-tea.git",
-    "rescript-webapi": "git+https://github.com/scrutin-app/rescript-webapi.git",
-    "sjcl-with-all": "^1.0.8"
+    "rescript-webapi": "git+https://github.com/scrutin-app/rescript-webapi.git"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

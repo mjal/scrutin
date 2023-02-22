@@ -1,0 +1,6 @@
+{
+  "name": "scrutin-common",
+  "dependencies": {
+    "sjcl-with-all": "^1.0.8"
+  }
+}

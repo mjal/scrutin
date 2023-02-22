@@ -2,14 +2,21 @@
   "name": "scrutin-workspace",
   "workspaces": {
     "packages": [
-      "app",
-      "server"
+      "scrutin-app",
+      "scrutin-server",
+      "scrutin-common"
     ]
   },
   "scripts": {
-    "re:start": "watchexec --project-origin . -c -w myproject/src -w helpers/src -i lib -e res,resi 'rescript build -with-deps'"
+    "re:start": "watchexec --project-origin . -c -w app/src -w server/src -w common/src -i lib -e res,resi 'rescript build -with-deps'"
+  },
+  "devDependencies": {
+    "rescript": "^10.1.2"
   },
   "dependencies": {
-    "scrutin": "file:app"
+    "rescript-json-combinators": "git+https://github.com/scrutin-app/rescript-json-combinators.git",
+    "scrutin-app": "file:app",
+    "scrutin-server": "file:server",
+    "scrutin-common": "file:common"
   }
 }

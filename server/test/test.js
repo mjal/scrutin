@@ -1,8 +1,8 @@
-const { hash } = require("sjcl-with-all")
-const { hashAndSign } = require("../src/Event.bs")
+//const { hash } = require("sjcl-with-all")
+const { hashAndSign } = require("scrutin-common/src/Event.bs")
 
-Credential = require("../src/Credential.bs.js")
-Event = require("../src/Event.bs.js")
+Credential = require("scrutin-common/src/Credential.bs.js")
+Event = require("scrutin-common/src/Event.bs.js")
 
 orgCredentials = Credential.make()
 user1Credentials = Credential.make()
