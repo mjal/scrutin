@@ -1,8 +1,8 @@
 @val external nodeEnv: string = "process.env.NODE_ENV"
 
 let base_url = if nodeEnv == "development" {
-  //"http://localhost:4000"
-  "https://scrutin-staging.fly.dev"
+  "http://localhost:8080"
+  //"https://scrutin-staging.fly.dev"
 } else {
   "https://api.scrutin.app"
 }

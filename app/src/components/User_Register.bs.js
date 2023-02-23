@@ -3,6 +3,7 @@
 import * as X from "../X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
+import * as Config from "../Config.bs.js";
 import * as Context from "../state/Context.bs.js";
 import * as EmailValidator from "email-validator";
 import * as ReactNativePaper from "react-native-paper";
@@ -25,19 +26,22 @@ function User_Register(Props) {
   var setError = match$3[1];
   var error = match$3[0];
   var onSubmit = function (param) {
-    if (EmailValidator.validate(email)) {
-      Curry._1(setLoading, (function (param) {
-              return true;
-            }));
-      return Curry._1(dispatch, {
-                  TAG: /* Member_Register */16,
-                  _0: email
-                });
-    } else {
+    if (!EmailValidator.validate(email)) {
       return Curry._1(setError, (function (param) {
                     return "Invalid email";
                   }));
     }
+    Curry._1(setLoading, (function (param) {
+            return true;
+          }));
+    var dict = {};
+    dict["email"] = email;
+    X.post("" + Config.api_url + "/users", dict).then(function (param) {
+          Curry._1(dispatch, {
+                TAG: /* Navigate */12,
+                _0: /* User_Register_Confirm */4
+              });
+        });
   };
   return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
                   style: X.styles.center,

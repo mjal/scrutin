@@ -177,6 +177,7 @@ module Store = {
   }
 }
 
+// TODO: Remove if obselete
 let member_register = (email) => {
   dispatch => {
     let data = {

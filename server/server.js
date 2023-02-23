@@ -33,7 +33,7 @@ app.post("/events", (req, res) => {
   res.json(event.toJSON())
 })
 
-app.post("/people", (req, res) => {
+app.post("/users", (req, res) => {
   let fullName = req.body.fullName
   let email = req.body.email
 
