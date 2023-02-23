@@ -18,6 +18,7 @@ web-build/
 app/lib/bs/*
 server/lib/bs/*
 common/lib/bs/*
+common/lib/ocaml/*
 lib/bs/*
 .merlin
 
