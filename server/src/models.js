@@ -40,18 +40,33 @@ module.exports = function(sequelize) {
     }
   }, {});
 
-  const Key = sequelize.define('Key', {
-    publicKey: {
-      type: DataTypes.STRING,
-    },
-    privateKey: {
-      type: DataTypes.STRING,
-    }
+  const Organisation = sequelize.define('Key', {
+    name: { type: DataTypes.STRING, },
+
+    publicKey: { type: DataTypes.STRING, },
+    secretKey: { type: DataTypes.STRING, }
+  }, {})
+
+  const Person = sequelize.define('Person', {
+    fullName: { type: DataTypes.STRING, },
+
+    publicKey: { type: DataTypes.STRING, },
+    secretKey: { type: DataTypes.STRING, },
+
+    email: { type: DataTypes.STRING, },
+    emailConfirmed: { type: DataTypes.BOOLEAN, },
+    emailConfirmationToken: { type: DataTypes.STRING, },
+
+    phoneNumber: { type: DataTypes.STRING, },
+    phoneNumberConfirmed: { type: DataTypes.BOOLEAN, },
+    phoneNumberConfirmationToken: { type: DataTypes.STRING, },
   }, {})
 
   return {
     Event,
     Election,
-    Ballot
+    Ballot,
+    Organisation,
+    Person,
   }
 }
