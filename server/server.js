@@ -1,10 +1,10 @@
-"use strict";
 const express = require("express");
 const { Sequelize } = require('sequelize');
 const sjcl = require('sjcl-with-all');
 const cors = require('cors'); // TODO: Configure cors
 const app = express();
 app.use(express.json());
+app.use(cors());
 const sequelize = new Sequelize(process.env.DATABASE_URL);
 const { Event_, Election, Ballot, User, Key } = require("./src/models")(sequelize);
 sequelize.sync();
