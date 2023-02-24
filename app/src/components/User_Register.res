@@ -20,7 +20,7 @@ let make = () => {
         Js.Json.object_(dict)
       }
 
-      X.post(`${Config.api_url}/users`, data)
+      X.post(`${Config.base_url}/users`, data)
       -> Promise.thenResolve(_ =>
         dispatch(Action.Navigate(Route.User_Register_Confirm))
       )
