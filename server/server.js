@@ -1,18 +1,20 @@
 const express = require('express')
-const { Sequelize } = require('sequelize')
+const { Sequelize, Op } = require('sequelize')
 const sjcl = require('sjcl-with-all')
 const cors = require('cors') // TODO: Configure cors
 require('dotenv').config()
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+Credential = require('scrutin-common/src/Credential.bs.js')
+Sjcl = require('scrutin-common/src/Sjcl.bs.js')
 
 const app = express()
 app.use(express.json())
 app.use(cors())
 
 const sequelize = new Sequelize(process.env.DATABASE_URL)
-const { Event_, Election, Ballot, User, Key } = require('./src/models')(sequelize)
-sequelize.sync()
+const { Event_, Election, Ballot, User, Organization, Key } = require('./src/models')(sequelize)
+//sequelize.sync()
 
 app.get('/', (req, res) => {
   const greeting = '<h1>Hello :)</h1>'
@@ -83,6 +85,25 @@ app.post('/users/email_confirmation', async (req, res) => {
     console.log(user.fullName);
     res.json({ message: "Confirmation successful" }).end()
   }
+})
+
+Organization.destroy({where: {id: {[Op.gte]: 0}}})
+.then().catch()
+
+Organization.findAll().then((organizations) => {
+  let length = organizations.length
+  console.log(`${length} organizations found`)
+  if (length == 0)
+  {
+    let {publicKey, secretKey} = Credential.make()
+    let org = Organization.create({
+      name: "Default organization",
+      publicKey: Sjcl.Ecdsa.PublicKey.toHex(publicKey),
+      secretKey: Sjcl.Ecdsa.SecretKey.toHex(secretKey)
+    })
+  }
+}).catch((err) => {
+  console.log(err)
 })
 
 const port = process.env.PORT || 8080

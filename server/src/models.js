@@ -1,6 +1,7 @@
-'use strict'
 const { DataTypes } = require('sequelize')
+
 module.exports = function (sequelize) {
+
   const Event_ = sequelize.define('Event', {
     content: {
       type: DataTypes.STRING
@@ -15,6 +16,7 @@ module.exports = function (sequelize) {
       type: DataTypes.STRING
     }
   }, {})
+
   const Election = sequelize.define('Election', {
     eventHash: {
       type: DataTypes.STRING
@@ -23,6 +25,7 @@ module.exports = function (sequelize) {
       type: DataTypes.STRING
     }
   }, {})
+
   const Ballot = sequelize.define('Ballot', {
     eventHash: {
       type: DataTypes.STRING
@@ -37,11 +40,13 @@ module.exports = function (sequelize) {
       type: DataTypes.STRING
     }
   }, {})
-  const Organisation = sequelize.define('Key', {
+
+  const Organization = sequelize.define('Key', {
     name: { type: DataTypes.STRING },
     publicKey: { type: DataTypes.STRING },
     secretKey: { type: DataTypes.STRING }
   }, {})
+
   const User = sequelize.define('User', {
     fullName: { type: DataTypes.STRING },
     publicKey: { type: DataTypes.STRING },
@@ -53,11 +58,12 @@ module.exports = function (sequelize) {
     phoneNumberConfirmed: { type: DataTypes.BOOLEAN },
     phoneNumberConfirmationToken: { type: DataTypes.STRING }
   }, {})
+
   return {
     Event_,
     Election,
     Ballot,
-    Organisation,
+    Organization,
     User
   }
 }
