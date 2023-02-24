@@ -1,17 +1,22 @@
 const express = require("express");
-const { Sequelize } = require('sequelize');
+const { Sequelize } = require('sequelize')
 const sjcl = require('sjcl-with-all');
 const cors = require('cors'); // TODO: Configure cors
+require('dotenv').config()
+
 const app = express();
 app.use(express.json());
 app.use(cors());
+
 const sequelize = new Sequelize(process.env.DATABASE_URL);
 const { Event_, Election, Ballot, User, Key } = require("./src/models")(sequelize);
 sequelize.sync();
+
 app.get("/", (req, res) => {
     let greeting = "<h1>Hello :)</h1>";
     res.send(greeting);
 });
+
 app.post("/events", (req, res) => {
     console.log(req.body);
     console.log(req.body.content);
@@ -27,6 +32,7 @@ app.post("/events", (req, res) => {
     });
     res.json(event.toJSON());
 });
+
 app.post("/users", cors(), (req, res) => {
     let fullName = req.body.fullName;
     let email = req.body.email;
@@ -41,5 +47,6 @@ app.post("/users", cors(), (req, res) => {
     });
     res.json(user.toJSON());
 });
+
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`app listening on port ${port}!`));
