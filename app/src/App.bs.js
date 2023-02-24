@@ -22,10 +22,10 @@ function App(Props) {
   React.useEffect((function () {
           Curry._1(dispatch, /* Init */0);
         }), []);
-  var match$1 = state.route;
+  var secret = state.route;
   var tmp;
-  if (typeof match$1 === "number") {
-    switch (match$1) {
+  if (typeof secret === "number") {
+    switch (secret) {
       case /* Home */0 :
           tmp = React.createElement(Home.make, {});
           break;
@@ -38,13 +38,12 @@ function App(Props) {
       case /* User_Register */3 :
           tmp = React.createElement(User_Register.make, {});
           break;
-      case /* User_Register_Confirm */4 :
-          tmp = React.createElement(User_Register_Confirm.make, {});
-          break;
       
     }
   } else {
-    tmp = React.createElement(ElectionShow.make, {});
+    tmp = secret.TAG === /* User_Register_Confirm */3 ? React.createElement(User_Register_Confirm.make, {
+            secret: secret._0
+          }) : React.createElement(ElectionShow.make, {});
   }
   return React.createElement(ReactNativePaper.Provider, {
               children: React.createElement(Context.State.Provider.make, {

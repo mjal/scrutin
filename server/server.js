@@ -49,18 +49,16 @@ app.post('/users', async (req, res, next) => {
     emailConfirmationToken
   })
 
-  const msg = {
-    to: email,
-    from: 'hello@scrutin.app',
-    subject: 'Votre inscription sur scrutin.app',
-    text: `Veuillez confirmer votre identité en cliquant ici :
-      ${process.env.CLIENT_URL}/users/confirm_email/${emailConfirmationToken}
-    `,
-    //html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-  }
-
   sgMail
-    .send(msg)
+    .send({
+      to: email,
+      from: 'hello@scrutin.app',
+      subject: 'Votre inscription sur scrutin.app',
+      text: `Veuillez confirmer votre identité en cliquant ici :
+        ${process.env.CLIENT_URL}/users/email_confirmation/${secret}
+      `,
+      //html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+    })
     .then((response) => {
       console.log(response[0].statusCode)
       console.log(response[0].headers)
@@ -72,16 +70,19 @@ app.post('/users', async (req, res, next) => {
   res.json(user.toJSON())
 })
 
-app.get('/users/confirm_email/:emailConfirmationToken', async (req, res) => {
+app.post('/users/email_confirmation', async (req, res) => {
+  const secret = sjcl.codec.base32.toBits(req.body.secret)
+  const emailConfirmationToken = sjcl.codec.base32.fromBits(sjcl.hash.sha256.hash(secret))
 
   const user = await User.findOne({ where: { emailConfirmationToken } });
   if (user === null) {
     console.log('Not found!');
+    res.status(404).end()
   } else {
     console.log(user instanceof User);
     console.log(user.fullName);
+    res.json({ message: "Confirmation successful" }).end()
   }
-
 })
 
 const port = process.env.PORT || 8080

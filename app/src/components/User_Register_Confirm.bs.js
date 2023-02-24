@@ -3,34 +3,50 @@
 import * as X from "../X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
+import * as Config from "../Config.bs.js";
 import * as Context from "../state/Context.bs.js";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
+import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function User_Register_Confirm(Props) {
+  var secretOpt = Props.secret;
+  var secret = secretOpt !== undefined ? Caml_option.valFromOption(secretOpt) : undefined;
   var match = React.useState(function () {
-        return "";
+        return secret;
       });
-  var setToken = match[1];
+  var setSecret = match[1];
+  var secret$1 = match[0];
   Context.use(undefined);
+  var onSubmit = function (param) {
+    var dict = {};
+    dict["secret"] = Belt_Option.getWithDefault(secret$1, "");
+    X.post("" + Config.base_url + "/users/email_confirmation", dict).then(function (param) {
+          console.log("Successfully confirmed");
+        });
+  };
   return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
                   style: X.styles.center,
                   children: "Check your emails and enter your token"
                 }), React.createElement(ReactNativePaper.TextInput, {
                   mode: "flat",
-                  label: "Token",
-                  value: match[0],
+                  label: "Secret",
+                  value: Belt_Option.getWithDefault(secret$1, ""),
                   onChangeText: (function (text) {
-                      Curry._1(setToken, (function (param) {
-                              return text;
+                      Curry._1(setSecret, (function (param) {
+                              if (text === "") {
+                                return ;
+                              } else {
+                                return text;
+                              }
                             }));
                     }),
-                  testID: "token-input"
+                  onSubmitEditing: onSubmit,
+                  testID: "secret-input"
                 }), React.createElement(ReactNativePaper.Button, {
                   mode: "contained",
-                  onPress: (function (param) {
-                      
-                    }),
-                  children: "Se connecter"
+                  onPress: onSubmit,
+                  children: "Confirmer mon email"
                 }));
 }
 

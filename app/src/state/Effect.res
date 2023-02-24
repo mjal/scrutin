@@ -90,12 +90,15 @@ let publishElectionResult = (election, result) => {
 
 let goToUrl = dispatch => {
   URL.getAndThen((url) => {
+    Js.log(url)
     switch url {
       | list{"elections", sUuid} =>
         //let nId = sId -> Int.fromString -> Option.getWithDefault(0)
         dispatch(Action.Navigate(ElectionBooth(sUuid)))
       | list{"profile"} =>
         dispatch(Action.Navigate(Route.User_Profile))
+      | list{"users", "email_confirmation", emailConfirmationSecret} =>
+        dispatch(Action.Navigate(Route.User_Register_Confirm(Some(emailConfirmationSecret))))
       | _ => ()
     }
   })
@@ -188,7 +191,7 @@ let member_register = (email) => {
 
     X.post(`${Config.api_url}/users`, data)
     -> Promise.thenResolve(_ =>
-      dispatch(Action.Navigate(Route.User_Register_Confirm))
+      dispatch(Action.Navigate(Route.User_Register_Confirm(None)))
     )
     -> ignore
   }

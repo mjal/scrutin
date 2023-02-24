@@ -209,27 +209,37 @@ function reducer(_state, _action) {
         case /* Navigate */12 :
             var route = action._0;
             if (typeof route === "number") {
-              if (route < 3) {
-                switch (route) {
-                  case /* Home */0 :
-                      $$URL.setUrlPathname("/");
-                      break;
-                  case /* ElectionNew */1 :
-                      break;
-                  case /* User_Profile */2 :
-                      $$URL.setUrlPathname("/profile");
-                      break;
-                  
-                }
+              switch (route) {
+                case /* Home */0 :
+                    $$URL.setUrlPathname("/");
+                    break;
+                case /* User_Profile */2 :
+                    $$URL.setUrlPathname("/profile");
+                    break;
+                case /* ElectionNew */1 :
+                case /* User_Register */3 :
+                    break;
+                
               }
-              
-            } else {
+            } else if (route.TAG !== /* User_Register_Confirm */3) {
               $$URL.setUrlPathname("/elections/" + route._0 + "" + $$URL.currentHash(undefined) + "");
             }
             var effects;
+            var exit = 0;
             if (typeof route === "number") {
               effects = [];
             } else {
+              switch (route.TAG | 0) {
+                case /* ElectionShow */0 :
+                case /* ElectionBooth */1 :
+                case /* ElectionResult */2 :
+                    exit = 1;
+                    break;
+                default:
+                  effects = [];
+              }
+            }
+            if (exit === 1) {
               var uuid$1 = route._0;
               effects = [(function(uuid$1){
                 return function (param) {

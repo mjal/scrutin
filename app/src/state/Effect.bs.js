@@ -117,6 +117,7 @@ function publishElectionResult(election, result, dispatch) {
 
 function goToUrl(dispatch) {
   $$URL.getAndThen(function (url) {
+        console.log(url);
         if (!url) {
           return ;
         }
@@ -142,6 +143,26 @@ function goToUrl(dispatch) {
                             TAG: /* Navigate */12,
                             _0: /* User_Profile */2
                           });
+              }
+          case "users" :
+              var match$1 = url.tl;
+              if (!match$1) {
+                return ;
+              }
+              if (match$1.hd !== "email_confirmation") {
+                return ;
+              }
+              var match$2 = match$1.tl;
+              if (match$2 && !match$2.tl) {
+                return Curry._1(dispatch, {
+                            TAG: /* Navigate */12,
+                            _0: {
+                              TAG: /* User_Register_Confirm */3,
+                              _0: match$2.hd
+                            }
+                          });
+              } else {
+                return ;
               }
           default:
             return ;
@@ -253,7 +274,10 @@ function member_register(email, dispatch) {
   X.post("" + Config.api_url + "/users", dict).then(function (param) {
         return Curry._1(dispatch, {
                     TAG: /* Navigate */12,
-                    _0: /* User_Register_Confirm */4
+                    _0: {
+                      TAG: /* User_Register_Confirm */3,
+                      _0: undefined
+                    }
                   });
       });
 }

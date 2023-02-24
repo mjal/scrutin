@@ -39,7 +39,10 @@ function User_Register(Props) {
     X.post("" + Config.base_url + "/users", dict).then(function (param) {
           Curry._1(dispatch, {
                 TAG: /* Navigate */12,
-                _0: /* User_Register_Confirm */4
+                _0: {
+                  TAG: /* User_Register_Confirm */3,
+                  _0: undefined
+                }
               });
         });
   };
