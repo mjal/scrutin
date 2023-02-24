@@ -14,6 +14,8 @@ function get(param) {
                   return Caml_option.some(prim);
                 }
               }).then(function (oo) {
+              console.log("oo");
+              console.log(oo);
               if (oo !== undefined) {
                 return JSON.parse(oo);
               }

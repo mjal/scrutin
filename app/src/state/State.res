@@ -24,10 +24,10 @@ let initial = {
 
 let rec reducer = (state, action: Action.t) => {
   switch (action) {
-    
+
     | Init => ({...state, elections_loading: true}, [
       Effect.goToUrl,
-      Effect.loadElections,
+      //Effect.loadElections,
       Effect.Store.User.get,
       Effect.Store.Trustees.get,
       Effect.Store.Tokens.get,
@@ -87,15 +87,8 @@ let rec reducer = (state, action: Action.t) => {
       let election = if route == ElectionNew { Election.initial } else { state.election }
       ({...state, election, route}, effects)
 
-    /* New user functions (use only this) */
-
-    | Member_Register(email) =>
-      (state, [Effect.member_register(email)])
-
-    /* Old User functions (deprecated) */
-
     | User_Login(user) =>
-      ({...state, user: Some(user)}, [Effect.Store.User.set(user)])
+      ({...state, user: Some(user), route: Route.Home}, [Effect.Store.User.set(user)])
 
     | User_Logout =>
       ({...state, user: None, route: Home}, [Effect.Store.User.clean])

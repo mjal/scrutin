@@ -55,7 +55,7 @@ app.post('/users', async (req, res, next) => {
       from: 'hello@scrutin.app',
       subject: 'Votre inscription sur scrutin.app',
       text: `Veuillez confirmer votre identité en cliquant ici :
-        ${process.env.CLIENT_URL}/users/email_confirmation/${secret}
+        ${process.env.CLIENT_URL}/users/email_confirmation?email=${email}&secret=${secret}
       `,
       //html: '<strong>and easy to do anywhere, even with Node.js</strong>',
     })

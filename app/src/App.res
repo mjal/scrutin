@@ -31,7 +31,7 @@ let make = () => {
             | ElectionShow(_uuid) => <ElectionShow />
 
             | User_Register => <User_Register />
-            | User_Register_Confirm(secret) => <User_Register_Confirm secret />
+            | User_Register_Confirm(email, secret) => <User_Register_Confirm />
             | User_Profile => <User_Profile />
             }}
           </ScrollView>

@@ -49,3 +49,24 @@ let setUrlPathname = (str) => {
     _setUrlPathname(str)
   }
 }
+
+%%raw(`
+function getParameterByName(name, url = window.location.href) {
+    name = name.replace(/[\[\]]/g, '\\$&');
+    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+`)
+// or
+// const params = (new URL(location)).searchParams;
+// or
+// const urlSearchParams = new URLSearchParams(window.location.search);
+// const params = Object.fromEntries(urlSearchParams.entries());
+let getSearchParameter = (name) => {
+  let name2 = `${name}2`
+  let res = %raw(`getParameterByName(name)`)
+  res
+}

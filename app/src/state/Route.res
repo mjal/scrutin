@@ -6,4 +6,4 @@ type t =
   | ElectionResult(string)
   | User_Profile
   | User_Register
-  | User_Register_Confirm(option<string>)
+  | User_Register_Confirm(option<string>, option<string>)

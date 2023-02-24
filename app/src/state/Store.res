@@ -8,6 +8,8 @@ module User = {
     ReactNativeAsyncStorage.getItem(keyName)
     -> Promise.thenResolve(Js.Null.toOption)
     -> Promise.thenResolve((oo) => {
+      Js.log("oo")
+      Js.log(oo)
       switch oo {
       | None => None
       | Some(o) => Some(parse(o))

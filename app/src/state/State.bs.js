@@ -46,7 +46,6 @@ function reducer(_state, _action) {
                     },
                     [
                       Effect.goToUrl,
-                      Effect.loadElections,
                       Effect.Store.User.get,
                       Effect.Store.Trustees.get,
                       Effect.Store.Tokens.get
@@ -272,7 +271,7 @@ function reducer(_state, _action) {
                       user: user,
                       loading: state.loading,
                       voting_in_progress: state.voting_in_progress,
-                      route: state.route,
+                      route: /* Home */0,
                       trustees: state.trustees,
                       tokens: state.tokens
                     },
@@ -307,16 +306,6 @@ function reducer(_state, _action) {
                       tokens: action._0
                     },
                     []
-                  ];
-        case /* Member_Register */16 :
-            var email = action._0;
-            return [
-                    state,
-                    [(function(email){
-                      return function (param) {
-                        return Effect.member_register(email, param);
-                      }
-                      }(email))]
                   ];
         default:
           return [

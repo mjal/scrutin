@@ -22,12 +22,9 @@ let make = () => {
 
       X.post(`${Config.base_url}/users`, data)
       -> Promise.thenResolve(_ =>
-        dispatch(Action.Navigate(Route.User_Register_Confirm(None)))
+        dispatch(Action.Navigate(Route.User_Register_Confirm(None, None)))
       )
       -> ignore
-
-      // TODO
-      //dispatch(Action.Member_Register(email))
     }
   }
 

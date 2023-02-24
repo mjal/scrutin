@@ -41,7 +41,8 @@ function User_Register(Props) {
                 TAG: /* Navigate */12,
                 _0: {
                   TAG: /* User_Register_Confirm */3,
-                  _0: undefined
+                  _0: undefined,
+                  _1: undefined
                 }
               });
         });

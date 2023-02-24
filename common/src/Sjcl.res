@@ -73,6 +73,7 @@ module Ecc = {
 }
 
 module Ecdsa = {
+
   type serialized_t = {
     "type": string,
     "secretKey": bool,
@@ -80,6 +81,7 @@ module Ecdsa = {
     "exponent": string,
     "curve": string
   }
+
   module PublicKey = {
     type t
 

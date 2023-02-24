@@ -1,7 +1,7 @@
 let loadElections = (dispatch) => {
   Election.getAll()
-  -> Promise.thenResolve(res => {
-    switch Js.Json.decodeArray(res) {
+  -> Promise.thenResolve(response => {
+    switch Js.Json.decodeArray(response) {
       | Some(json_array) => dispatch(Action.Election_LoadAll(json_array))
       | None => dispatch(Action.Election_LoadAll([]))
     }
@@ -97,8 +97,8 @@ let goToUrl = dispatch => {
         dispatch(Action.Navigate(ElectionBooth(sUuid)))
       | list{"profile"} =>
         dispatch(Action.Navigate(Route.User_Profile))
-      | list{"users", "email_confirmation", emailConfirmationSecret} =>
-        dispatch(Action.Navigate(Route.User_Register_Confirm(Some(emailConfirmationSecret))))
+      | list{"users", "email_confirmation"} =>
+        dispatch(Action.Navigate(Route.User_Register_Confirm(None, None)))
       | _ => ()
     }
   })
@@ -177,22 +177,5 @@ module Store = {
     }
 
     let clean = _dispatch => Store.Token.clean()
-  }
-}
-
-// TODO: Remove if obselete
-let member_register = (email) => {
-  dispatch => {
-    let data = {
-      let dict = Js.Dict.empty()
-      Js.Dict.set(dict, "email", Js.Json.string(email))
-      Js.Json.object_(dict)
-    }
-
-    X.post(`${Config.api_url}/users`, data)
-    -> Promise.thenResolve(_ =>
-      dispatch(Action.Navigate(Route.User_Register_Confirm(None)))
-    )
-    -> ignore
   }
 }

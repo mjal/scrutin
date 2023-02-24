@@ -20,6 +20,3 @@ type t =
   | User_Logout
   | Trustees_Set(array<Trustee.t>)
   | Tokens_Set(array<Token.t>)
-
-  | Member_Register(string) // email
-  | Member_Register_Confirm(string, Sjcl.Ecdsa.PublicKey.t) // token, publicKey

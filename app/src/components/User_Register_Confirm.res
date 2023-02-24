@@ -2,38 +2,79 @@ open ReactNative
 open! Paper
 
 @react.component
-let make = (~secret=None: option<string>) => {
-  let (secret, setSecret) = React.useState(_ => secret)
+let make = () => {
+  let (secret, setSecret) = React.useState(_ => None)
+  let (email , setEmail)  = React.useState(_ => None)
+  let (showDetails, setShowDetails) = React.useState(_ => false)
   let (state, dispatch) = Context.use()
 
+  React.useEffect(_ => {
+    let email  = URL.getSearchParameter("email")
+    let secret = URL.getSearchParameter("secret")
+    if email != ""  { setEmail(_  => Some(email))  }
+    if secret != "" { setSecret(_ => Some(secret)) }
+    None
+  })
+
   let onSubmit = _ => {
+    switch (email, secret) {
+    |  (Some(email), Some(secret)) => {
+      let (publicKey, secretKey) = Sjcl.Ecdsa.new()
       let data = {
         let dict = Js.Dict.empty()
-        Js.Dict.set(dict, "secret", Js.Json.string(Option.getWithDefault(secret, "")))
+        Js.Dict.set(dict, "email", Js.Json.string(email))
+        Js.Dict.set(dict, "secret", Js.Json.string(secret))
+        Js.Dict.set(dict, "publicKey", Js.Json.string(Sjcl.Ecdsa.PublicKey.toHex(publicKey)))
         Js.Json.object_(dict)
       }
-
       X.post(`${Config.base_url}/users/email_confirmation`, data)
-      -> Promise.thenResolve(_ =>
-        Js.log("Successfully confirmed")
-      )
-      -> ignore
+      -> Promise.thenResolve(_ => {
+        let user : User.t = {
+          email,
+          publicKey: Sjcl.Ecdsa.PublicKey.toHex(publicKey),
+          secretKey: Some(Sjcl.Ecdsa.SecretKey.toHex(secretKey))
+        }
+        dispatch(User_Login(user))
+      }) -> ignore
+    }
+    | _ => let () = %raw(`window.alert('Empty email or secret')`); ()
+    }
   }
 
   <>
-    <Title style=X.styles["center"]> { "Check your emails and enter your token" -> React.string } </Title>
+    <Title style=X.styles["center"]> { "Enregistrement..." -> React.string } </Title>
 
-    <TextInput
-      mode=#flat
-      label="Secret"
-      testID="secret-input"
-      value=Option.getWithDefault(secret, "")
-      onChangeText={text => setSecret(_ => text == "" ? None : Some(text))}
-      onSubmitEditing=onSubmit
-    />
+    { if showDetails {
+      <>
+        <TextInput
+          mode=#flat
+          label="Email"
+          testID="email-input"
+          value=Option.getWithDefault(email, "")
+          onChangeText={text => setEmail(_ => text == "" ? None : Some(text))}
+        />
+
+        <TextInput
+          mode=#flat
+          label="Secret"
+          testID="secret-input"
+          value=Option.getWithDefault(secret, "")
+          onChangeText={text => setSecret(_ => text == "" ? None : Some(text))}
+        />
+      </>
+      } else {
+        <></>
+      }
+    }
 
     <Button mode=#contained onPress=onSubmit>
-      { "Confirmer mon email" -> React.string }
+      { "S'enregistrer" -> React.string }
     </Button>
+
+    { if showDetails {
+      <Button onPress={_ => setShowDetails(_ => false)}>{ "Cacher les details" -> React.string }</Button>
+    } else {
+      <Button onPress={_ => setShowDetails(_ => true)}>{ "Afficher les details" -> React.string }</Button>
+    } }
   </>
 }
