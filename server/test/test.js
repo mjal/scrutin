@@ -1,14 +1,14 @@
-//const { hash } = require("sjcl-with-all")
-const { hashAndSign } = require("scrutin-common/src/Event.bs")
+// const { hash } = require("sjcl-with-all")
+const { hashAndSign } = require('scrutin-common/src/Event.bs')
 
-Credential = require("scrutin-common/src/Credential.bs.js")
-Event = require("scrutin-common/src/Event.bs.js")
+Credential = require('scrutin-common/src/Credential.bs.js')
+Event = require('scrutin-common/src/Event.bs.js')
 
 orgCredentials = Credential.make()
 user1Credentials = Credential.make()
 user2Credentials = Credential.make()
 
-let election = Event.Election.create("params", "trustees", orgCredentials.publicKey)
+const election = Event.Election.create('params', 'trustees', orgCredentials.publicKey)
 console.log(election)
 
 signedEvent = Event.Signed.wrap(election, orgCredentials.secretKey)
@@ -16,10 +16,10 @@ signedEvent = Event.Signed.wrap(election, orgCredentials.secretKey)
 console.log(signedEvent)
 console.log(signedEvent.sig)
 
-let signedElection = Event.Signed.Election.create("params", "trustees", orgCredentials)
+const signedElection = Event.Signed.Election.create('params', 'trustees', orgCredentials)
 console.log(signedElection)
 
-let signedBallot = Event.Signed.Ballot.create(signedElection.hash, user1Credentials.publicKey, orgCredentials)
+const signedBallot = Event.Signed.Ballot.create(signedElection.hash, user1Credentials.publicKey, orgCredentials)
 console.log(signedBallot)
 
 /*
