@@ -65,7 +65,7 @@ function App(Props) {
                                             }), React.createElement(ReactNativePaper.Appbar.Content, {
                                               title: ""
                                             }), React.createElement(ReactNativePaper.Appbar.Action, {
-                                              icon: "account",
+                                              icon: "cog-outline",
                                               onPress: (function (param) {
                                                   Curry._1(dispatch, {
                                                         TAG: /* Navigate */12,

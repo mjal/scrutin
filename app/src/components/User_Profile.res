@@ -1,16 +1,28 @@
 open ReactNative
 open! Paper
 
+external parseUsers: Js.Json.t => array<User.t> = "%identity"
+
 @react.component
 let make = () => {
   let (state, dispatch) = Context.use()
 
-  //let user_id = state.user -> Option.flatMap(user => user.id) -> Option.getWithDefault(0)
-
   <View style=X.styles["margin-x"]>
-    <Button mode=#contained onPress={_ => dispatch(User_Logout)} style=X.styles["margin-x"]>
-      { "Logout" -> React.string }
-    </Button>
+    {
+      switch state.user {
+      | Some(user) =>
+        <>
+          <Text style=X.styles["center"]>{ `Logged as ${user.email}` -> React.string }</Text>
+          <Button mode=#contained onPress={_ => dispatch(User_Logout)} style=X.styles["margin-x"]>
+            { "Logout" -> React.string }
+          </Button>
+        </>
+      | None =>
+        <>
+          <Text>{ `Not logged` -> React.string }</Text>
+        </>
+      }
+    }
 
     {
       let title = "My elections (as administrator)"
@@ -41,5 +53,7 @@ let make = () => {
       })
       <ElectionList title elections=elections />
     }
+
+    <Admin_Users />
   </View>
 }

@@ -27,7 +27,7 @@ let make = () => {
         Js.Dict.set(dict, "publicKey", Js.Json.string(Sjcl.Ecdsa.PublicKey.toHex(publicKey)))
         Js.Json.object_(dict)
       }
-      X.post(`${Config.base_url}/users/email_confirmation`, data)
+      X.post(`${Config.api_url}/users/email_confirmation`, data)
       -> Promise.thenResolve(_ => {
         let user : User.t = {
           email,

@@ -7,6 +7,7 @@ const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 Credential = require('scrutin-common/src/Credential.bs.js')
 Sjcl = require('scrutin-common/src/Sjcl.bs.js')
+const _ = require('lodash')
 
 const app = express()
 app.use(express.json())
@@ -35,6 +36,11 @@ app.post('/events', (req, res) => {
     signature
   })
   res.json(event.toJSON())
+})
+
+app.get('/users', async (req, res, next) => {
+  const users = await User.findAll()
+  res.json(_.map(users, (o) => o.toJSON()))
 })
 
 app.post('/users', async (req, res, next) => {
@@ -87,8 +93,19 @@ app.post('/users/email_confirmation', async (req, res) => {
   }
 })
 
-Organization.destroy({where: {id: {[Op.gte]: 0}}})
-.then().catch()
+app.get('/elections', async (req, res) => {
+  const elections = await Election.findAll()
+  res.json(_.map(elections, (o) => o.toJSON()))
+})
+
+app.post('/elections', async (req, res) => {
+  const election = await Election.create(_.pick(req.body,
+    ['name', 'params', 'trustees', 'creds', 'uuid', 'result'])
+  )
+  res.json(election.toJSON())
+})
+
+//Organization.destroy({where: {id: {[Op.gte]: 0}}}).then().catch()
 
 Organization.findAll().then((organizations) => {
   let length = organizations.length

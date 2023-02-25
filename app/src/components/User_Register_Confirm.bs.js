@@ -52,7 +52,7 @@ function User_Register_Confirm(Props) {
       dict["email"] = email;
       dict["secret"] = secret;
       dict["publicKey"] = Curry._1(Sjcl.Ecdsa.PublicKey.toHex, publicKey);
-      X.post("" + Config.base_url + "/users/email_confirmation", dict).then(function (param) {
+      X.post("" + Config.api_url + "/users/email_confirmation", dict).then(function (param) {
             var user_publicKey = Curry._1(Sjcl.Ecdsa.PublicKey.toHex, publicKey);
             var user_secretKey = Curry._1(Sjcl.Ecdsa.SecretKey.toHex, secretKey);
             var user = {

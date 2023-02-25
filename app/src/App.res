@@ -20,7 +20,7 @@ let make = () => {
             <Appbar.Header>
               <Appbar.Action icon=Icon.name("home") onPress={_ => dispatch(Navigate(Route.Home))}></Appbar.Action>
               <Appbar.Content title={"" -> React.string} />
-              <Appbar.Action icon=Icon.name("account") onPress={_ => dispatch(Navigate(Route.User_Profile))}></Appbar.Action>
+              <Appbar.Action icon=Icon.name("cog-outline") onPress={_ => dispatch(Navigate(Route.User_Profile))}></Appbar.Action>
             </Appbar.Header>
             {switch state.route {
             | Home => <Home />

@@ -36,7 +36,7 @@ function User_Register(Props) {
           }));
     var dict = {};
     dict["email"] = email;
-    X.post("" + Config.base_url + "/users", dict).then(function (param) {
+    X.post("" + Config.api_url + "/users", dict).then(function (param) {
           Curry._1(dispatch, {
                 TAG: /* Navigate */12,
                 _0: {
