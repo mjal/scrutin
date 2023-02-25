@@ -30,6 +30,7 @@ let make = () => {
       X.post(`${Config.api_url}/users/email_confirmation`, data)
       -> Promise.thenResolve(_ => {
         let user : User.t = {
+          id: 0,
           email,
           publicKey: Sjcl.Ecdsa.PublicKey.toHex(publicKey),
           secretKey: Some(Sjcl.Ecdsa.SecretKey.toHex(secretKey))

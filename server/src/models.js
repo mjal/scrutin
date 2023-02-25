@@ -49,6 +49,8 @@ module.exports = function (sequelize) {
 
   const User = sequelize.define('User', {
     fullName: { type: DataTypes.STRING },
+    // TODO: make admin field obselete (orgAdmin with a org sig ?)
+    admin:    { type: DataTypes.BOOLEAN },
     publicKey: { type: DataTypes.STRING },
     secretKey: { type: DataTypes.STRING },
     email: { type: DataTypes.STRING },

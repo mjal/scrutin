@@ -56,6 +56,7 @@ function User_Register_Confirm(Props) {
             var user_publicKey = Curry._1(Sjcl.Ecdsa.PublicKey.toHex, publicKey);
             var user_secretKey = Curry._1(Sjcl.Ecdsa.SecretKey.toHex, secretKey);
             var user = {
+              id: 0,
               email: email,
               publicKey: user_publicKey,
               secretKey: user_secretKey

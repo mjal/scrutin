@@ -14,6 +14,24 @@ let post = (url, json) => {
   )
 }
 
+let post = (url, json) => {
+  let headers = {
+    "Content-Type": "application/json"
+  }
+  -> Webapi.Fetch.HeadersInit.make
+
+  let body = json
+  -> Js.Json.stringify
+  -> Webapi.Fetch.BodyInit.make
+
+  Webapi.Fetch.fetchWithInit(
+    url,
+    Webapi.Fetch.RequestInit.make(~method_=Post, ~body, ~headers, ()),
+  )
+}
+
+
+
 let styles = {
   open ReactNative
   open Style

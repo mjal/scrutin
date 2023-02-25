@@ -7,3 +7,4 @@ type t =
   | User_Profile
   | User_Register
   | User_Register_Confirm(option<string>, option<string>)
+  | Admin_User_Show(User.t)

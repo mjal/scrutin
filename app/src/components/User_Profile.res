@@ -54,6 +54,6 @@ let make = () => {
       <ElectionList title elections=elections />
     }
 
-    <Admin_Users />
+    <Admin_User_List />
   </View>
 }

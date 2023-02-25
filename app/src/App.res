@@ -33,6 +33,7 @@ let make = () => {
             | User_Register => <User_Register />
             | User_Register_Confirm(email, secret) => <User_Register_Confirm />
             | User_Profile => <User_Profile />
+            | Admin_User_Show(user) =>  <Admin_User_Show user />
             }}
           </ScrollView>
         </SafeAreaView>

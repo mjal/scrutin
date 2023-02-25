@@ -1,4 +1,5 @@
 type t = {
+  id: int,
   email: string,
   publicKey: string,
   secretKey: option<string>

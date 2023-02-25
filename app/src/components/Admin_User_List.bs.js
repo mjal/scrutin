@@ -3,14 +3,17 @@
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Config from "../Config.bs.js";
+import * as Context from "../state/Context.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as ReactNativePaper from "react-native-paper";
 
-function Admin_Users(Props) {
+function Admin_User_List(Props) {
   var match = React.useState(function () {
         return [];
       });
   var setUsers = match[1];
+  var match$1 = Context.use(undefined);
+  var dispatch = match$1[1];
   React.useEffect((function () {
           fetch("" + Config.api_url + "/users").then(function (prim) {
                   return prim.json();
@@ -25,7 +28,13 @@ function Admin_Users(Props) {
               children: Belt_Array.map(match[0], (function (user) {
                       return React.createElement(ReactNativePaper.List.Item, {
                                   onPress: (function (param) {
-                                      
+                                      Curry._1(dispatch, {
+                                            TAG: /* Navigate */12,
+                                            _0: {
+                                              TAG: /* Admin_User_Show */4,
+                                              _0: user
+                                            }
+                                          });
                                     }),
                                   title: user.email,
                                   left: (function (param) {
@@ -37,13 +46,14 @@ function Admin_Users(Props) {
                                       return React.createElement(ReactNativePaper.List.Icon, {
                                                   icon: "pencil"
                                                 });
-                                    })
+                                    }),
+                                  key: String(user.id)
                                 });
                     }))
             });
 }
 
-var make = Admin_Users;
+var make = Admin_User_List;
 
 export {
   make ,

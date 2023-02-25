@@ -15,7 +15,7 @@ app.use(cors())
 
 const sequelize = new Sequelize(process.env.DATABASE_URL)
 const { Event_, Election, Ballot, User, Organization, Key } = require('./src/models')(sequelize)
-//sequelize.sync()
+//sequelize.sync({force: true})
 
 app.get('/', (req, res) => {
   const greeting = '<h1>Hello :)</h1>'
@@ -41,6 +41,18 @@ app.post('/events', (req, res) => {
 app.get('/users', async (req, res, next) => {
   const users = await User.findAll()
   res.json(_.map(users, (o) => o.toJSON()))
+})
+
+app.post('/users/delete', async (req, res, next) => {
+  const user = await User.findOne({ where: { email: req.body.email } })
+  console.log(user)
+  await user.destroy()
+  res.json({ message: "success" })
+})
+
+app.post('/users/update', async (req, res, next) => {
+  await User.update({ admin: req.body.admin }, { where: { email: req.body.email } })
+  res.json({ message: "success" })
 })
 
 app.post('/users', async (req, res, next) => {

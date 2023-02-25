@@ -12,6 +12,7 @@ import * as ElectionShow from "./components/ElectionShow.bs.js";
 import * as User_Profile from "./components/User_Profile.bs.js";
 import * as ReactNative from "react-native";
 import * as User_Register from "./components/User_Register.bs.js";
+import * as Admin_User_Show from "./components/Admin_User_Show.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 import * as User_Register_Confirm from "./components/User_Register_Confirm.bs.js";
 
@@ -22,10 +23,10 @@ function App(Props) {
   React.useEffect((function () {
           Curry._1(dispatch, /* Init */0);
         }), []);
-  var match$1 = state.route;
+  var user = state.route;
   var tmp;
-  if (typeof match$1 === "number") {
-    switch (match$1) {
+  if (typeof user === "number") {
+    switch (user) {
       case /* Home */0 :
           tmp = React.createElement(Home.make, {});
           break;
@@ -41,7 +42,18 @@ function App(Props) {
       
     }
   } else {
-    tmp = match$1.TAG === /* User_Register_Confirm */3 ? React.createElement(User_Register_Confirm.make, {}) : React.createElement(ElectionShow.make, {});
+    switch (user.TAG | 0) {
+      case /* User_Register_Confirm */3 :
+          tmp = React.createElement(User_Register_Confirm.make, {});
+          break;
+      case /* Admin_User_Show */4 :
+          tmp = React.createElement(Admin_User_Show.make, {
+                user: user._0
+              });
+          break;
+      default:
+        tmp = React.createElement(ElectionShow.make, {});
+    }
   }
   return React.createElement(ReactNativePaper.Provider, {
               children: React.createElement(Context.State.Provider.make, {
