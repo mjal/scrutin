@@ -1,6 +1,3 @@
-open ReactNative
-open! Paper
-
 type choice_t = Blank | Choice(int)
 
 let styles = {

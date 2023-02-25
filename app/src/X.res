@@ -15,7 +15,6 @@ let post = (url, json) => {
 }
 
 let styles = {
-  open ReactNative
   open Style
 
   StyleSheet.create({

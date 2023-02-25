@@ -1,6 +1,3 @@
-open ReactNative
-open! Paper
-
 type results_t = { result: array<array<int>> }
 @val external parse_results: (string) => results_t = "JSON.parse"
 

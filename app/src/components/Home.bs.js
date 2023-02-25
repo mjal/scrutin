@@ -2,7 +2,6 @@
 
 import * as X from "../X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
-import * as Paper from "@rescript-react-native/paper/src/Paper.bs.js";
 import * as React from "react";
 import * as Context from "../state/Context.bs.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
@@ -44,126 +43,9 @@ function Home(Props) {
   }
 }
 
-var ActivityIndicator = Paper.ActivityIndicator;
-
-var Appbar = Paper.Appbar;
-
-var Avatar = Paper.Avatar;
-
-var Badge = Paper.Badge;
-
-var Banner = Paper.Banner;
-
-var BottomNavigation = Paper.BottomNavigation;
-
-var Button = Paper.Button;
-
-var Caption = Paper.Caption;
-
-var Card = Paper.Card;
-
-var Checkbox = Paper.Checkbox;
-
-var Chip = Paper.Chip;
-
-var DataTable = Paper.DataTable;
-
-var Dialog = Paper.Dialog;
-
-var Divider = Paper.Divider;
-
-var Drawer = Paper.Drawer;
-
-var FAB = Paper.FAB;
-
-var Headline = Paper.Headline;
-
-var HelperText = Paper.HelperText;
-
-var Icon = Paper.Icon;
-
-var IconButton = Paper.IconButton;
-
-var List = Paper.List;
-
-var Modal = Paper.Modal;
-
-var PaperProvider = Paper.PaperProvider;
-
-var Paragraph = Paper.Paragraph;
-
-var Portal = Paper.Portal;
-
-var ProgressBar = Paper.ProgressBar;
-
-var RadioButton = Paper.RadioButton;
-
-var Searchbar = Paper.Searchbar;
-
-var Snackbar = Paper.Snackbar;
-
-var Subheading = Paper.Subheading;
-
-var Surface = Paper.Surface;
-
-var Switch = Paper.Switch;
-
-var $$Text = Paper.$$Text;
-
-var TextInput = Paper.TextInput;
-
-var ThemeProvider = Paper.ThemeProvider;
-
-var Title = Paper.Title;
-
-var ToggleButton = Paper.ToggleButton;
-
-var TouchableRipple = Paper.TouchableRipple;
-
-var withTheme = Paper.withTheme;
-
 var make = Home;
 
 export {
-  ActivityIndicator ,
-  Appbar ,
-  Avatar ,
-  Badge ,
-  Banner ,
-  BottomNavigation ,
-  Button ,
-  Caption ,
-  Card ,
-  Checkbox ,
-  Chip ,
-  DataTable ,
-  Dialog ,
-  Divider ,
-  Drawer ,
-  FAB ,
-  Headline ,
-  HelperText ,
-  Icon ,
-  IconButton ,
-  List ,
-  Modal ,
-  PaperProvider ,
-  Paragraph ,
-  Portal ,
-  ProgressBar ,
-  RadioButton ,
-  Searchbar ,
-  Snackbar ,
-  Subheading ,
-  Surface ,
-  Switch ,
-  $$Text ,
-  TextInput ,
-  ThemeProvider ,
-  Title ,
-  ToggleButton ,
-  TouchableRipple ,
-  withTheme ,
   make ,
 }
 /* X Not a pure module */

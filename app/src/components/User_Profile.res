@@ -1,6 +1,3 @@
-open ReactNative
-open! Paper
-
 external parseUsers: Js.Json.t => array<User.t> = "%identity"
 
 @react.component

@@ -1,6 +1,3 @@
-open ReactNative
-open! Paper
-
 @react.component
 let make = (~user: User.t) => {
   let delete = _ => {

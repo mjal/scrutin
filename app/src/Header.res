@@ -1,6 +1,3 @@
-open ReactNative
-open! Paper
-
 @react.component
 let make = () => {
   let (_state, dispatch) = UseTea.useTea(State.reducer, State.initial)

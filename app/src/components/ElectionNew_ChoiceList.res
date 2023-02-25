@@ -1,6 +1,3 @@
-open ReactNative;
-open! Paper;
-
 @react.component
 let make = () => {
   let (state, dispatch) = Context.use()

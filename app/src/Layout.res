@@ -1,6 +1,3 @@
-open ReactNative
-open Paper
-
 @react.component
 let make = (~state, ~dispatch, ~children) => {
   <PaperProvider theme=Paper.ThemeProvider.Theme.make(~dark=true, ())>

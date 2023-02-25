@@ -1,6 +1,3 @@
-open ReactNative
-open! Paper
-
 type choice_t = ElectionBooth_ChoiceSelect.choice_t
 
 @react.component
