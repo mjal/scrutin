@@ -12,32 +12,22 @@ let make = () => {
     None
   })
 
-  <PaperProvider theme=Paper.ThemeProvider.Theme.make(~dark=true, ())>
-    <Context.State.Provider value=state>
-      <Context.Dispatch.Provider value=dispatch>
-        <SafeAreaView style=X.styles["layout"]>
-          <ScrollView>
-            <Appbar.Header>
-              <Appbar.Action icon=Icon.name("home") onPress={_ => dispatch(Navigate(Route.Home))}></Appbar.Action>
-              <Appbar.Content title={"" -> React.string} />
-              <Appbar.Action icon=Icon.name("cog-outline") onPress={_ => dispatch(Navigate(Route.User_Profile))}></Appbar.Action>
-            </Appbar.Header>
-            {switch state.route {
-            | Home => <Home />
+  <Layout state dispatch>
 
-            | ElectionNew => <ElectionNew />
-            | ElectionBooth(_uuid)
-            | ElectionResult(_uuid)
-            | ElectionShow(_uuid) => <ElectionShow />
+    <Header />
 
-            | User_Register => <User_Register />
-            | User_Register_Confirm(email, secret) => <User_Register_Confirm />
-            | User_Profile => <User_Profile />
-            | Admin_User_Show(user) =>  <Admin_User_Show user />
-            }}
-          </ScrollView>
-        </SafeAreaView>
-      </Context.Dispatch.Provider>
-    </Context.State.Provider>
-  </PaperProvider>
+    {switch state.route {
+    | Home => <Home />
+
+    | ElectionNew => <ElectionNew />
+    | ElectionBooth(_uuid)
+    | ElectionResult(_uuid)
+    | ElectionShow(_uuid) => <ElectionShow />
+
+    | User_Register => <User_Register />
+    | User_Register_Confirm(email, secret) => <User_Register_Confirm />
+    | User_Profile => <User_Profile />
+    | Admin_User_Show(user) =>  <Admin_User_Show user />
+    }}
+  </Layout>
 }
