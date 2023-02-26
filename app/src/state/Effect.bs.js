@@ -4,7 +4,7 @@ import * as $$URL from "../helpers/URL.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as Store from "./Store.bs.js";
 import * as Js_json from "rescript/lib/es6/js_json.js";
-import * as Belenios from "../Belenios.bs.js";
+import * as Belenios from "../helpers/Belenios.bs.js";
 import * as Election from "./Election.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";

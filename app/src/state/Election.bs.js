@@ -2,12 +2,12 @@
 /* eslint-disable default-case */
 /* eslint-disable no-throw-literal */
 
-import * as X from "../X.bs.js";
+import * as X from "../helpers/X.bs.js";
 import * as User from "./User.bs.js";
 import * as Voter from "./Voter.bs.js";
 import * as Ballot from "./Ballot.bs.js";
-import * as Config from "../Config.bs.js";
-import * as Belenios from "../Belenios.bs.js";
+import * as Config from "../helpers/Config.bs.js";
+import * as Belenios from "../helpers/Belenios.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_exceptions from "rescript/lib/es6/caml_exceptions.js";

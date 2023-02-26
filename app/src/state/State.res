@@ -1,38 +1,46 @@
-type t = {
-  election: Election.t,
-  elections: array<Election.t>,
-  elections_loading: bool,
-  user: option<User.t>,
-  loading: bool, // Obsolete
-  voting_in_progress: bool,
-  route: Route.t,
-  trustees: array<Trustee.t>,
-  tokens:   array<Token.t>,
+module Election = {
+  type t = {
+    params:   Belenios.Election.t,
+    trustees: string,
+    ownerPublicKey: string
+  }
 }
 
-let initial = {
-  election: Election.initial,
-  user: None,
-  loading: false,
-  voting_in_progress: false,
-  route: Home,
-  elections: [],
-  elections_loading: false,
-  trustees: [],
-  tokens: []
+module Ballot = {
+  type t = {
+    electionEventHash: string,
+    electionPublicKey: string,
+    previousBallotEventHash: option<string>,
+    ownerPublicKey: string,
+    ciphertext: option<string>,
+  }
+}
+
+module User = {
+  type t = {
+    publicKey: string,
+    secretKey: option<string>
+  }
+}
+
+type t = {
+  events: array<SEvent.Signed.t>,
+  elections: Map.String.t<Election.t>,
+  ballots: Map.String.t<Ballot.t>,
+  user: option<User.t>,
+  trustees: array<Trustee.t>
 }
 
 let rec reducer = (state, action: Action.t) => {
   switch (action) {
-
-    | Init => ({...state, elections_loading: true}, [
+    | Init => (state, [
       Effect.goToUrl,
       //Effect.loadElections,
       Effect.Store.User.get,
       Effect.Store.Trustees.get,
-      Effect.Store.Tokens.get,
+      //Effect.Store.Tokens.get,
     ])
-
+/*
     | Election_Fetch(uuid) => ({
       ...state,
       loading: true,
@@ -50,7 +58,7 @@ let rec reducer = (state, action: Action.t) => {
       elections_loading: false,
       elections: Array.map(jsons, Election.from_json) -> Array.reverse
     }, [])
-
+*/
     | Election_Post => (state, [ Effect.createElection(state.election, Option.getExn(state.user)) ])
 
     | Election_PublishResult(result) => {

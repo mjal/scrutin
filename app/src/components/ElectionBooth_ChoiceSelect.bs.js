@@ -3,7 +3,7 @@
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Context from "../state/Context.bs.js";
-import * as Belenios from "../Belenios.bs.js";
+import * as Belenios from "../helpers/Belenios.bs.js";
 import * as Caml_obj from "rescript/lib/es6/caml_obj.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as ReactNative from "react-native";
