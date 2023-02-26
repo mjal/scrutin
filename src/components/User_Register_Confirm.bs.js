@@ -2,7 +2,7 @@
 
 import * as X from "../helpers/X.bs.js";
 import * as $$URL from "../helpers/URL.bs.js";
-import * as Sjcl from "scrutin-common/src/Sjcl.bs.js";
+import * as Sjcl from "../helpers/Sjcl.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Config from "../helpers/Config.bs.js";
