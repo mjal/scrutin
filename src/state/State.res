@@ -16,13 +16,6 @@ module Ballot = {
   }
 }
 
-module User = {
-  type t = {
-    publicKey: string,
-    secretKey: option<string>
-  }
-}
-
 type cache_t = {
   elections: Map.String.t<Election.t>,
   ballots: Map.String.t<Ballot.t>
@@ -31,7 +24,7 @@ type cache_t = {
 type t = {
   transactions: array<Transaction.Signed.t>,
   cache: cache_t,
-  identities: array<User.t>,
+  identities: array<Identity.t>,
   trustees: array<Trustee.t>
 }
 
@@ -46,7 +39,13 @@ let initial = {
 }
 
 let rec reducer = (state, action: Action.t) => {
-  (state, [])
+  switch action {
+  | Init =>
+    (state, [])
+  | Identity_Add(identity) =>
+    let identities = Array.concat(state.identities, [identity])
+    ({...state, identities}, [])
+  }
 }
 /*
 type t = {

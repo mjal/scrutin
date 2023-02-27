@@ -1,3 +1,11 @@
+let fetchIdentities = (dispatch) => {
+  Store.Identities.get()
+  -> Promise.thenResolve((ids) => {
+    Array.map(ids, (id) => dispatch(Action.Identity_Add(id)))
+  })
+  -> ignore
+}
+
 /*
 let loadElections = (dispatch) => {
   Election.getAll()

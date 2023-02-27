@@ -1,6 +1,6 @@
 type t =
   | Init
-  | Identity_Generate
+  | Identity_Add(Identity.t)
 /*
 type t =
   | Init

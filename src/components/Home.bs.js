@@ -4,35 +4,49 @@ import * as X from "../helpers/X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Context from "../state/Context.bs.js";
+import * as Identity from "../state/Identity.bs.js";
+import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function Home(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
+  var genIdentity = function (param) {
+    Curry._1(dispatch, /* Identity_Add */{
+          _0: Identity.make(undefined)
+        });
+  };
   return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
                   children: "Identités"
                 }), React.createElement(ReactNativePaper.List.Section, {
                   title: "",
-                  children: React.createElement(React.Fragment, undefined),
+                  children: Belt_Array.map(match[0].identities, (function (identity) {
+                          return React.createElement(ReactNativePaper.List.Item, {
+                                      title: "0x" + identity.hexPublicKey,
+                                      key: identity.hexPublicKey
+                                    });
+                        })),
                   style: X.styles["margin-x"]
                 }), React.createElement(ReactNativePaper.Button, {
                   mode: "outlined",
-                  onPress: (function (param) {
-                      Curry._1(dispatch, /* Identity_Generate */1);
-                    }),
-                  children: "Create a new identity"
+                  onPress: genIdentity,
+                  children: "Generate identity"
+                }), React.createElement(X.Title.make, {
+                  children: "Elections"
+                }), React.createElement(ReactNativePaper.Button, {
+                  mode: "outlined",
+                  onPress: genIdentity,
+                  children: "Generate election"
+                }), React.createElement(X.Title.make, {
+                  children: "Ballots"
+                }), React.createElement(X.Title.make, {
+                  children: "Trustees"
                 }), React.createElement(X.Title.make, {
                   children: "Transactions"
                 }), React.createElement(ReactNativePaper.List.Section, {
                   title: "",
                   children: React.createElement(React.Fragment, undefined),
                   style: X.styles["margin-x"]
-                }), React.createElement(X.Title.make, {
-                  children: "Elections"
-                }), React.createElement(X.Title.make, {
-                  children: "Ballots"
-                }), React.createElement(X.Title.make, {
-                  children: "Trustees"
                 }));
 }
 

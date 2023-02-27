@@ -1,20 +1,14 @@
-module User = {
-  external parse: string => User.t = "JSON.parse"
-  external stringify: User.t => string = "JSON.stringify"
+module Identities = {
+  external parse:     string => array<Identity.t> = "JSON.parse"
+  external stringify: array<Identity.t> => string = "JSON.stringify"
 
-  let keyName = "user"
+  let keyName = "identities"
 
   let get = () => {
     ReactNativeAsyncStorage.getItem(keyName)
     -> Promise.thenResolve(Js.Null.toOption)
-    -> Promise.thenResolve((oo) => {
-      Js.log("oo")
-      Js.log(oo)
-      switch oo {
-      | None => None
-      | Some(o) => Some(parse(o))
-      }
-    })
+    -> Promise.thenResolve(Option.map(_, parse))
+    -> Promise.thenResolve(Option.getWithDefault(_, []))
   }
 
   let set = (o) => {

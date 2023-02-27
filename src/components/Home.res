@@ -2,25 +2,37 @@
 let make = () => {
   let (state, dispatch) = Context.use()
 
+  let genIdentity = _ => {
+    dispatch(Identity_Add(Identity.make()))
+  }
+
   <>
     <X.Title>{ "Identités" -> React.string }</X.Title>
     <List.Section title="" style=X.styles["margin-x"]>
-      <></>
+    { Array.map(state.identities, (identity) => {
+      <List.Item
+        key=identity.hexPublicKey
+        title=("0x" ++ identity.hexPublicKey)
+      />
+    }) -> React.array }
     </List.Section>
-    <Button mode=#outlined onPress={ _ => dispatch(Action.Identity_Generate) }>
-      { "Create a new identity" -> React.string }
+    <Button mode=#outlined onPress=genIdentity>
+      { "Generate identity" -> React.string }
     </Button>
+
+    <X.Title>{ "Elections" -> React.string }</X.Title>
+    <Button mode=#outlined onPress=genIdentity>
+      { "Generate election" -> React.string }
+    </Button>
+
+    <X.Title>{ "Ballots"   -> React.string }</X.Title>
+
+    <X.Title>{ "Trustees"  -> React.string }</X.Title>
 
     <X.Title>{ "Transactions" -> React.string }</X.Title>
     <List.Section title="" style=X.styles["margin-x"]>
       <></>
     </List.Section>
-
-    <X.Title>{ "Elections" -> React.string }</X.Title>
-
-    <X.Title>{ "Ballots"   -> React.string }</X.Title>
-
-    <X.Title>{ "Trustees"  -> React.string }</X.Title>
   </>
 
   /*

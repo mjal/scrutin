@@ -1,3 +1,4 @@
+/*
 type t =
   | Home
   | ElectionNew
@@ -8,3 +9,4 @@ type t =
   | User_Register
   | User_Register_Confirm(option<string>, option<string>)
   | Admin_User_Show(User.t)
+*/
