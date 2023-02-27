@@ -1,26 +1,4 @@
-module Identities = {
-  external parse:     string => array<Identity.t> = "JSON.parse"
-  external stringify: array<Identity.t> => string = "JSON.stringify"
-
-  let keyName = "identities"
-
-  let get = () => {
-    ReactNativeAsyncStorage.getItem(keyName)
-    -> Promise.thenResolve(Js.Null.toOption)
-    -> Promise.thenResolve(Option.map(_, parse))
-    -> Promise.thenResolve(Option.getWithDefault(_, []))
-  }
-
-  let set = (o) => {
-    ReactNativeAsyncStorage.setItem(keyName, stringify(o))
-    -> ignore
-  }
-
-  let clean = () => {
-    ReactNativeAsyncStorage.removeItem(keyName)
-    -> ignore
-  }
-}
+// NOTE: Part of this are obsolete, this stuff is directly done in effects
 
 module Trustee = {
   external parse: string => array<Trustee.t> = "JSON.parse"

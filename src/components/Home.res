@@ -19,6 +19,9 @@ let make = () => {
     <Button mode=#outlined onPress=genIdentity>
       { "Generate identity" -> React.string }
     </Button>
+    <Button mode=#outlined onPress={_ => Identity.clear()}>
+      { "Clear identities" -> React.string }
+    </Button>
 
     <X.Title>{ "Elections" -> React.string }</X.Title>
     <Button mode=#outlined onPress=genIdentity>

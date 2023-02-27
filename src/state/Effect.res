@@ -1,10 +1,16 @@
-let fetchIdentities = (dispatch) => {
-  Store.Identities.get()
+let identities_fetch = (dispatch) => {
+  Identity.fetch_all()
   -> Promise.thenResolve((ids) => {
     Array.map(ids, (id) => dispatch(Action.Identity_Add(id)))
   })
   -> ignore
 }
+
+let identities_store = (identities) =>
+  (_dispatch) => Identity.store_all(identities)
+
+let identities_clear = (_dispatch) =>
+  Identity.clear()
 
 /*
 let loadElections = (dispatch) => {

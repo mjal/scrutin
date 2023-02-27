@@ -19,4 +19,4 @@ var make = Header;
 export {
   make ,
 }
-/* react Not a pure module */
+/* State Not a pure module */

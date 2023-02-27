@@ -41,10 +41,10 @@ let initial = {
 let rec reducer = (state, action: Action.t) => {
   switch action {
   | Init =>
-    (state, [])
+    (state, [ Effect.identities_fetch ])
   | Identity_Add(identity) =>
     let identities = Array.concat(state.identities, [identity])
-    ({...state, identities}, [])
+    ({...state, identities}, [Effect.identities_store(identities)])
   }
 }
 /*

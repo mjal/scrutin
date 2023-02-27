@@ -31,6 +31,12 @@ function Home(Props) {
                   mode: "outlined",
                   onPress: genIdentity,
                   children: "Generate identity"
+                }), React.createElement(ReactNativePaper.Button, {
+                  mode: "outlined",
+                  onPress: (function (param) {
+                      Identity.clear(undefined);
+                    }),
+                  children: "Clear identities"
                 }), React.createElement(X.Title.make, {
                   children: "Elections"
                 }), React.createElement(ReactNativePaper.Button, {

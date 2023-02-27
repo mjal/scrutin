@@ -2,6 +2,35 @@
 
 import * as Sjcl from "../helpers/Sjcl.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
+import * as Caml_option from "rescript/lib/es6/caml_option.js";
+import * as AsyncStorage from "@react-native-async-storage/async-storage";
+
+var storageKey = "identities";
+
+function fetch_all(param) {
+  return AsyncStorage.default.getItem(storageKey).then(function (prim) {
+                  if (prim === null) {
+                    return ;
+                  } else {
+                    return Caml_option.some(prim);
+                  }
+                }).then(function (__x) {
+                return Belt_Option.map(__x, (function (prim) {
+                              return JSON.parse(prim);
+                            }));
+              }).then(function (__x) {
+              return Belt_Option.getWithDefault(__x, []);
+            });
+}
+
+function store_all(identities) {
+  AsyncStorage.default.setItem(storageKey, JSON.stringify(identities));
+}
+
+function clear(param) {
+  AsyncStorage.default.removeItem(storageKey);
+}
 
 function make(param) {
   var match = Sjcl.Ecdsa.$$new(undefined);
@@ -14,6 +43,10 @@ function make(param) {
 }
 
 export {
+  storageKey ,
+  fetch_all ,
+  store_all ,
+  clear ,
   make ,
 }
 /* Sjcl Not a pure module */
