@@ -207,6 +207,8 @@ function reducer(_state, _action) {
                   ];
         case /* Navigate */12 :
             var route = action._0;
+            console.log("Navigate");
+            console.log(route);
             var exit = 0;
             if (typeof route === "number") {
               switch (route) {

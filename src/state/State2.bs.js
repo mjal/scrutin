@@ -7,9 +7,39 @@ var Ballot = {};
 
 var User = {};
 
+var Action = {};
+
+var initial_transactions = [];
+
+var initial_cache = {
+  elections: undefined,
+  ballots: undefined
+};
+
+var initial_identities = [];
+
+var initial_trustees = [];
+
+var initial = {
+  transactions: initial_transactions,
+  cache: initial_cache,
+  identities: initial_identities,
+  trustees: initial_trustees
+};
+
+function reducer(state, action) {
+  return [
+          state,
+          []
+        ];
+}
+
 export {
   Election ,
   Ballot ,
   User ,
+  Action ,
+  initial ,
+  reducer ,
 }
 /* No side effect */

@@ -117,6 +117,15 @@ module SegmentedButtons = {
   ) => React.element = "SegmentedButtons"
 }
 
+module Title = {
+  @react.component
+  let make = (~children) => {
+    <Title style=styles["title"]>
+      {children}
+    </Title>
+  }
+}
+
 // Forms
 let ev = (event) => ReactEvent.Form.target(event)["value"] 
 let prevent = (f) =>

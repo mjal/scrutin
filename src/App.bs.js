@@ -7,6 +7,7 @@ import * as React from "react";
 import * as Header from "./Header.bs.js";
 import * as Layout from "./Layout.bs.js";
 import * as UseTea from "rescript-use-tea/src/UseTea.bs.js";
+import * as Navigation from "./Navigation.bs.js";
 import * as ElectionNew from "./components/ElectionNew.bs.js";
 import * as ElectionShow from "./components/ElectionShow.bs.js";
 import * as User_Profile from "./components/User_Profile.bs.js";
@@ -57,7 +58,7 @@ function App(Props) {
               state: state,
               dispatch: dispatch,
               children: null
-            }, React.createElement(Header.make, {}), tmp);
+            }, React.createElement(Header.make, {}), tmp, React.createElement(Navigation.make, {}));
 }
 
 var make = App;

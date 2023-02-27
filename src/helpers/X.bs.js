@@ -6,6 +6,7 @@ import * as Dimension from "./Dimension.bs.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as ReactNative from "react-native";
 import * as Webapi__Fetch from "rescript-webapi/src/Webapi/Webapi__Fetch.bs.js";
+import * as ReactNativePaper from "react-native-paper";
 
 function post(url, json) {
   var headers = {
@@ -91,6 +92,18 @@ var Col = {
 
 var SegmentedButtons = {};
 
+function X$Title(Props) {
+  var children = Props.children;
+  return React.createElement(ReactNativePaper.Title, {
+              style: styles.title,
+              children: children
+            });
+}
+
+var Title = {
+  make: X$Title
+};
+
 function ev($$event) {
   return $$event.target.value;
 }
@@ -108,6 +121,7 @@ export {
   Row ,
   Col ,
   SegmentedButtons ,
+  Title ,
   ev ,
   prevent ,
   isKeyEnter ,

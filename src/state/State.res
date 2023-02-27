@@ -72,6 +72,8 @@ let rec reducer = (state, action: Action.t) => {
     }
 
     | Navigate(route) =>
+      Js.log("Navigate")
+      Js.log(route)
       let () = switch route {
         | ElectionBooth(uuid) | ElectionShow(uuid) | ElectionResult(uuid) =>
           URL.setUrlPathname(`/elections/${uuid}${URL.currentHash()}`)

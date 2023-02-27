@@ -2,12 +2,33 @@
 let make = () => {
   let (state, dispatch) = Context.use()
 
+  <>
+    <X.Title>{ "Identitées" -> React.string }</X.Title>
+    <List.Section title="" style=X.styles["margin-x"]>
+      <></>
+    </List.Section>
+
+    <X.Title>{ "Transactions" -> React.string }</X.Title>
+    <List.Section title="" style=X.styles["margin-x"]>
+      <></>
+    </List.Section>
+
+    <X.Title>{ "Elections" -> React.string }</X.Title>
+
+    <X.Title>{ "Ballots"   -> React.string }</X.Title>
+
+    <X.Title>{ "Trustees"  -> React.string }</X.Title>
+  </>
+
+  /*
   React.useEffect0(_ => {
     if Option.isNone(state.user) {
       dispatch(Action.Navigate(Route.User_Register))
     }
     None
   })
+
+  Js.log(state.user)
 
   switch state.user {
   | None =>
@@ -20,4 +41,5 @@ let make = () => {
       <ElectionList title="Elections en cours" elections=state.elections loading=state.elections_loading />
     </>
   }
+  */
 }

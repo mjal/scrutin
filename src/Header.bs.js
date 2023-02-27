@@ -20,7 +20,7 @@ function Header(Props) {
                           });
                     })
                 }), React.createElement(ReactNativePaper.Appbar.Content, {
-                  title: "Scrutin: Decentralized verifiable secret voting"
+                  title: "Decentralized verifiable secret voting"
                 }), React.createElement(ReactNativePaper.Appbar.Action, {
                   icon: "cog-outline",
                   onPress: (function (param) {
