@@ -8,9 +8,11 @@ let make = () => {
   })
 
   <Layout state dispatch>
-
     <Header />
 
+    <Home />
+
+    /*
     {switch state.route {
     | Home => <Home />
 
@@ -24,6 +26,7 @@ let make = () => {
     | User_Profile => <User_Profile />
     | Admin_User_Show(user) =>  <Admin_User_Show user />
     }}
+    */
 
     <Navigation />
   </Layout>

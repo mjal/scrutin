@@ -1,3 +1,4 @@
+/*
 @react.component
 let make = () => {
   let (secret, setSecret) = React.useState(_ => None)
@@ -76,3 +77,4 @@ let make = () => {
     } }
   </>
 }
+*/

@@ -1,5 +1,9 @@
 type t =
   | Init
+  | Identity_Generate
+/*
+type t =
+  | Init
   | Election_PublishResult(string)
   | Election_SetResult(option<string>)
   | Election_SetName(string)
@@ -20,3 +24,4 @@ type t =
   | User_Logout
   | Trustees_Set(array<Trustee.t>)
   | Tokens_Set(array<Token.t>)
+*/

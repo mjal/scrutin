@@ -1,3 +1,4 @@
+/*
 let loadElections = (dispatch) => {
   Election.getAll()
   -> Promise.thenResolve(response => {
@@ -179,3 +180,4 @@ module Store = {
     let clean = _dispatch => Store.Token.clean()
   }
 }
+*/

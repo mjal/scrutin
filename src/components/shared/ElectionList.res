@@ -1,5 +1,4 @@
-open! Paper
-
+/*
 module ElectionLink = {
   @react.component
   let make = (~election : Election.t) => {
@@ -31,3 +30,4 @@ let make = (~title, ~elections : array<Election.t>, ~loading=false) => {
     </List.Section>
   }
 }
+*/

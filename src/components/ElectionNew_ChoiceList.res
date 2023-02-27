@@ -1,5 +1,10 @@
 @react.component
 let make = () => {
+  <></>
+}
+/*
+@react.component
+let make = () => {
   let (state, dispatch) = Context.use()
 	let (name, setName) = React.useState(_ => "")
   let (showModal, setshowModal) = React.useState(_ => false);
@@ -69,3 +74,4 @@ let make = () => {
     </Portal>
   </View>
 }
+*/

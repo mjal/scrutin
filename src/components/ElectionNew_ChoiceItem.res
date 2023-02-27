@@ -1,3 +1,8 @@
+@react.component
+let make = () => {
+  <></>
+}
+/*
 open! Paper;
 
 @react.component
@@ -15,3 +20,4 @@ let make = (~index, ~choice: Choice.t) => {
     }
   />
 }
+*/

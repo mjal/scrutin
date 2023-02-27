@@ -1,3 +1,4 @@
+/*
 @react.component
 let make = () => {
   let (email, setEmail) = React.useState(_ => "")
@@ -48,3 +49,4 @@ let make = () => {
     </Button>
   </>
 }
+*/

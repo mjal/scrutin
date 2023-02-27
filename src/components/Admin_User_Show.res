@@ -1,4 +1,9 @@
 @react.component
+let make = () => {
+  <></>
+}
+/*
+@react.component
 let make = (~user: User.t) => {
   let delete = _ => {
     let data = {
@@ -36,5 +41,4 @@ let make = (~user: User.t) => {
     </Button>
   </>
 }
-
-
+*/

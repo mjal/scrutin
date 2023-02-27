@@ -1,5 +1,10 @@
 @react.component
 let make = () => {
+  <></>
+}
+/*
+@react.component
+let make = () => {
   let (state, dispatch) = Context.use()
   let (visibleVoter, setVisibleVoter) = React.useState(_ => false)
   let (visibleChoice, setVisibleChoice) = React.useState(_ => false)
@@ -48,3 +53,4 @@ let make = () => {
     </Portal>
 	</View>
 }
+*/

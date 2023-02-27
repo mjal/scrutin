@@ -1,3 +1,8 @@
+@react.component
+let make = () => {
+  <></>
+}
+/*
 external parseUsers: Js.Json.t => array<User.t> = "%identity"
 
 @react.component
@@ -30,3 +35,4 @@ let make = () => {
     }
   </List.Section>
 }
+*/

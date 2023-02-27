@@ -3,10 +3,13 @@ let make = () => {
   let (state, dispatch) = Context.use()
 
   <>
-    <X.Title>{ "Identitées" -> React.string }</X.Title>
+    <X.Title>{ "Identités" -> React.string }</X.Title>
     <List.Section title="" style=X.styles["margin-x"]>
       <></>
     </List.Section>
+    <Button mode=#outlined onPress={ _ => dispatch(Action.Identity_Generate) }>
+      { "Create a new identity" -> React.string }
+    </Button>
 
     <X.Title>{ "Transactions" -> React.string }</X.Title>
     <List.Section title="" style=X.styles["margin-x"]>

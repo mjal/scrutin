@@ -1,3 +1,4 @@
+/*
 external parseUsers: Js.Json.t => array<User.t> = "%identity"
 
 @react.component
@@ -54,3 +55,4 @@ let make = () => {
     <Admin_User_List />
   </View>
 }
+*/

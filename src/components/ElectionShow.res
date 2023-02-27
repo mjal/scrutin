@@ -1,3 +1,8 @@
+@react.component
+let make = () => {
+  <></>
+}
+/*
 type choice_t = ElectionBooth_ChoiceSelect.choice_t
 
 @react.component
@@ -77,3 +82,4 @@ let make = () => {
     </Portal>
 	</View>
 }
+*/

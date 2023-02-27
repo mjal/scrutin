@@ -1,7 +1,7 @@
 // HACK: Required for netlify compile
 %%raw(`/* eslint-disable default-case */`)
 %%raw(`/* eslint-disable no-throw-literal */`)
-
+/*
 type t = {
   uuid:     option<string>,
   name:     string,
@@ -149,3 +149,4 @@ let reducer = (election, action) => {
     | _ => election
   }
 }
+*/

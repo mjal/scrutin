@@ -1,3 +1,4 @@
+/*
 open! Paper;
 
 @react.component
@@ -15,3 +16,4 @@ let make = (~index, ~voter: Voter.t) => {
     }
   />
 }
+*/

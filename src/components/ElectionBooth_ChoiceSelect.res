@@ -1,3 +1,8 @@
+@react.component
+let make = () => {
+  <></>
+}
+/*
 type choice_t = Blank | Choice(int)
 
 let styles = {
@@ -47,3 +52,4 @@ let make = (~currentChoice, ~onChoiceChange, ~disabled=false) => {
     </List.Section>
   </View>
 }
+*/
