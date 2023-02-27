@@ -7,7 +7,8 @@ import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 function identities_fetch(dispatch) {
   Identity.fetch_all(undefined).then(function (ids) {
         return Belt_Array.map(ids, (function (id) {
-                      return Curry._1(dispatch, /* Identity_Add */{
+                      return Curry._1(dispatch, {
+                                  TAG: /* Identity_Add */1,
                                   _0: id
                                 });
                     }));

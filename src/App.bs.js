@@ -8,18 +8,21 @@ import * as Header from "./Header.bs.js";
 import * as Layout from "./Layout.bs.js";
 import * as UseTea from "rescript-use-tea/src/UseTea.bs.js";
 import * as Navigation from "./Navigation.bs.js";
+import * as Election_New from "./components/Election_New.bs.js";
 
 function App(Props) {
   var match = UseTea.useTea(State.reducer, State.initial);
   var dispatch = match[1];
+  var state = match[0];
   React.useEffect((function () {
           Curry._1(dispatch, /* Init */0);
         }), []);
+  var match$1 = state.route;
   return React.createElement(Layout.make, {
-              state: match[0],
+              state: state,
               dispatch: dispatch,
               children: null
-            }, React.createElement(Header.make, {}), React.createElement(Home.make, {}), React.createElement(Navigation.make, {}));
+            }, React.createElement(Header.make, {}), match$1 ? React.createElement(Election_New.make, {}) : React.createElement(Home.make, {}), React.createElement(Navigation.make, {}));
 }
 
 var make = App;

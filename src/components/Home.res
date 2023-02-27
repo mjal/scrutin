@@ -24,8 +24,8 @@ let make = () => {
     </Button>
 
     <X.Title>{ "Elections" -> React.string }</X.Title>
-    <Button mode=#outlined onPress=genIdentity>
-      { "Generate election" -> React.string }
+    <Button mode=#contained onPress={_ => dispatch(Navigate(Election_New))}>
+      { "New election" -> React.string }
     </Button>
 
     <X.Title>{ "Ballots"   -> React.string }</X.Title>

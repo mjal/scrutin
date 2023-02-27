@@ -3,10 +3,6 @@
 import * as Effect from "./Effect.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 
-var Election = {};
-
-var Ballot = {};
-
 var initial_transactions = [];
 
 var initial_cache = {
@@ -19,6 +15,7 @@ var initial_identities = [];
 var initial_trustees = [];
 
 var initial = {
+  route: /* Home */0,
   transactions: initial_transactions,
   cache: initial_cache,
   identities: initial_identities,
@@ -26,15 +23,28 @@ var initial = {
 };
 
 function reducer(state, action) {
-  if (!action) {
+  if (typeof action === "number") {
     return [
             state,
             [Effect.identities_fetch]
           ];
   }
+  if (action.TAG === /* Navigate */0) {
+    return [
+            {
+              route: action._0,
+              transactions: state.transactions,
+              cache: state.cache,
+              identities: state.identities,
+              trustees: state.trustees
+            },
+            []
+          ];
+  }
   var identities = Belt_Array.concat(state.identities, [action._0]);
   return [
           {
+            route: state.route,
             transactions: state.transactions,
             cache: state.cache,
             identities: identities,
@@ -47,8 +57,6 @@ function reducer(state, action) {
 }
 
 export {
-  Election ,
-  Ballot ,
   initial ,
   reducer ,
 }

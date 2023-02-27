@@ -1,6 +1,29 @@
 @react.component
 let make = () => {
-  <></>
+  let (name, setName) = React.useState(_ => "")
+  let (desc, setDesc) = React.useState(_ => "")
+  let (choices, setChoices) = React.useState(_ => "")
+
+  <>
+    <TextInput
+      mode=#flat
+      label="Nom de l'élection"
+      testID="election-name"
+			value=name
+      onChangeText={text => setName(_ => text)}
+    />
+
+    <TextInput
+      mode=#flat
+      label="Description"
+      testID="election-desc"
+			value=desc
+      onChangeText={text => setDesc(_ => text)}
+    />
+
+    <Election_New_ChoiceList
+      onUpdate={choices => setChoices(_ => choices)} />
+  </>
 }
 /*
 @react.component

@@ -8,9 +8,13 @@ let make = () => {
   })
 
   <Layout state dispatch>
+
     <Header />
 
-    <Home />
+    { switch state.route {
+    | Home => <Home />
+    | Election_New => <Election_New />
+    } }
 
     /*
     {switch state.route {

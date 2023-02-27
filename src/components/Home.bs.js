@@ -12,7 +12,8 @@ function Home(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var genIdentity = function (param) {
-    Curry._1(dispatch, /* Identity_Add */{
+    Curry._1(dispatch, {
+          TAG: /* Identity_Add */1,
           _0: Identity.make(undefined)
         });
   };
@@ -40,9 +41,14 @@ function Home(Props) {
                 }), React.createElement(X.Title.make, {
                   children: "Elections"
                 }), React.createElement(ReactNativePaper.Button, {
-                  mode: "outlined",
-                  onPress: genIdentity,
-                  children: "Generate election"
+                  mode: "contained",
+                  onPress: (function (param) {
+                      Curry._1(dispatch, {
+                            TAG: /* Navigate */0,
+                            _0: /* Election_New */1
+                          });
+                    }),
+                  children: "New election"
                 }), React.createElement(X.Title.make, {
                   children: "Ballots"
                 }), React.createElement(X.Title.make, {

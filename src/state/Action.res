@@ -1,5 +1,6 @@
 type t =
   | Init
+  | Navigate(Route.t)
   | Identity_Add(Identity.t)
 /*
 type t =

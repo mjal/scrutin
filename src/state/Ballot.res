@@ -1,4 +1,13 @@
 type t = {
+  electionEventHash: string,
+  electionPublicKey: string,
+  previousBallotEventHash: option<string>,
+  ownerPublicKey: string,
+  ciphertext: option<string>,
+}
+
+/*
+type t = {
   electionUuid: option<string>,
   ciphertext: option<string>,
   privateCredential: string,
@@ -33,3 +42,4 @@ let to_json = (r: t) : Js.Json.t => {
     "private_credential": string(r.privateCredential)
   })
 }
+*/

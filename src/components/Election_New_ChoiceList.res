@@ -1,22 +1,35 @@
-@react.component
-let make = () => {
-  <></>
+module Item = {
+  @react.component
+  let make = (~onRemove, ~name) => {
+    <List.Item
+      title=name
+      left={_ => <List.Icon icon=Icon.name("vote") />}
+      onPress={_ => ()}
+      right={_ =>
+        <Button onPress=onRemove>
+          <List.Icon icon=Icon.name("delete") />
+        </Button>
+      }
+    />
+  }
 }
-/*
+
 @react.component
-let make = () => {
-  let (state, dispatch) = Context.use()
-	let (name, setName) = React.useState(_ => "")
+let make = (~onUpdate) => {
+  let (name, setName) = React.useState(_ => "")
+  let (choices, setChoices) = React.useState(_ => [])
   let (showModal, setshowModal) = React.useState(_ => false);
 
-	let addChoice = _ => {
-		dispatch(Election_AddChoice(name))
-		setName(_ => "")
-	}
-
   let onSubmit = _ => {
-    addChoice();
+    setChoices(choices => Array.concat(choices, [name]))
+		setName(_ => "")
     setshowModal(_ => false)
+  }
+
+  let onRemove = i => {
+    setChoices(choices =>
+      Array.keepWithIndex(choices, (name, index) => index != i)
+    )
   }
 
   <View testID="choice-list">
@@ -36,16 +49,16 @@ let make = () => {
     </X.Row>
 
     <View>
-      {
-        state.election.choices
-        -> Array.mapWithIndex((i, choice) => {
-          <ElectionNew_ChoiceItem index=i choice key=Int.toString(i) />
-        })
-        -> React.array
-      }
+      { Array.mapWithIndex(choices, (i, name) => {
+        <Item
+          name
+          key=Int.toString(i)
+          onRemove={_ => onRemove(i)}
+        />
+      }) -> React.array }
     </View>
 
-    <HelperText _type=#error visible={ Array.length(state.election.choices) < 2} style=X.styles["center"]>
+    <HelperText _type=#error visible={ Array.length(choices) < 2} style=X.styles["center"]>
       {"Il faut au moins 2 choix !"->React.string}
     </HelperText>
 
@@ -74,4 +87,3 @@ let make = () => {
     </Portal>
   </View>
 }
-*/

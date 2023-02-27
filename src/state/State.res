@@ -1,27 +1,10 @@
-module Election = {
-  type t = {
-    params:   Belenios.Election.t,
-    trustees: string,
-    ownerPublicKey: string
-  }
-}
-
-module Ballot = {
-  type t = {
-    electionEventHash: string,
-    electionPublicKey: string,
-    previousBallotEventHash: option<string>,
-    ownerPublicKey: string,
-    ciphertext: option<string>,
-  }
-}
-
 type cache_t = {
   elections: Map.String.t<Election.t>,
   ballots: Map.String.t<Ballot.t>
 }
 
 type t = {
+  route: Route.t,
   transactions: array<Transaction.Signed.t>,
   cache: cache_t,
   identities: array<Identity.t>,
@@ -29,6 +12,7 @@ type t = {
 }
 
 let initial = {
+  route: Home,
   transactions: [],
   identities: [],
   trustees: [],
@@ -45,8 +29,10 @@ let rec reducer = (state, action: Action.t) => {
   | Identity_Add(identity) =>
     let identities = Array.concat(state.identities, [identity])
     ({...state, identities}, [Effect.identities_store(identities)])
+  | Navigate(route) => ({...state, route}, [])
   }
 }
+
 /*
 type t = {
   election: Election.t,

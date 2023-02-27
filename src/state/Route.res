@@ -1,3 +1,6 @@
+type t =
+  | Home
+  | Election_New
 /*
 type t =
   | Home

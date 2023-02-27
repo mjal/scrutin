@@ -1,6 +1,13 @@
-// HACK: Required for netlify compile
-%%raw(`/* eslint-disable default-case */`)
-%%raw(`/* eslint-disable no-throw-literal */`)
+//// HACK: Required for netlify compile
+//%%raw(`/* eslint-disable default-case */`)
+//%%raw(`/* eslint-disable no-throw-literal */`)
+
+type t = {
+  params:   Belenios.Election.t,
+  trustees: string,
+  ownerPublicKey: string
+}
+
 /*
 type t = {
   uuid:     option<string>,
