@@ -3,6 +3,7 @@
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as Identity from "./Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
+import * as Transaction from "./Transaction.bs.js";
 
 function identities_fetch(dispatch) {
   Identity.fetch_all(undefined).then(function (ids) {
@@ -23,9 +24,31 @@ function identities_clear(_dispatch) {
   Identity.clear(undefined);
 }
 
+function transactions_fetch(dispatch) {
+  Transaction.fetch_all(undefined).then(function (txs) {
+        return Belt_Array.map(txs, (function (tx) {
+                      return Curry._1(dispatch, {
+                                  TAG: /* Transaction_Add */2,
+                                  _0: tx
+                                });
+                    }));
+      });
+}
+
+function transactions_store(identities, _dispatch) {
+  Transaction.store_all(identities);
+}
+
+function transactions_clear(_dispatch) {
+  Transaction.clear(undefined);
+}
+
 export {
   identities_fetch ,
   identities_store ,
   identities_clear ,
+  transactions_fetch ,
+  transactions_store ,
+  transactions_clear ,
 }
 /* Identity Not a pure module */

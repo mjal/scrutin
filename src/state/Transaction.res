@@ -1,15 +1,65 @@
-module Election =
-{
-  let create = (params, trustees, orgPublicKey) => {
+type t = {
+  event: string,
+  eventType: string,
+  eventHash: string,
+  publicKey: string,
+  signature: string
+}
+
+external parse:           string => t = "JSON.parse"
+external stringify:       t => string = "JSON.stringify"
+external parse_array:     string => array<t> = "JSON.parse"
+external stringify_array: array<t> => string = "JSON.stringify"
+
+let storageKey = "transactions"
+
+let fetch_all = () =>
+  ReactNativeAsyncStorage.getItem(storageKey)
+  -> Promise.thenResolve(Js.Null.toOption)
+  -> Promise.thenResolve(Option.map(_, parse_array))
+  -> Promise.thenResolve(Option.getWithDefault(_, []))
+
+let store_all = (txs) =>
+  ReactNativeAsyncStorage.setItem(storageKey,
+    stringify_array(txs)) -> ignore
+
+let clear = () =>
+  ReactNativeAsyncStorage.removeItem(storageKey) -> ignore
+
+
+let hash = (str) => {
+  let baEventHash = Sjcl.Sha256.hash(str)
+  Sjcl.Hex.fromBits(baEventHash)
+}
+
+let sig = (hexSecretKey, hexStr) => {
+  let secretKey = Sjcl.Ecdsa.SecretKey.fromHex(hexSecretKey)
+  let baEventHash = Sjcl.Hex.toBits(hexStr)
+  let baSig = Sjcl.Ecdsa.SecretKey.sign(secretKey, baEventHash)
+  Sjcl.Hex.fromBits(baSig)
+}
+
+module SignedElection = {
+  type t = t
+
+  let make = (election : Election.t, owner : Identity.t) => {
+    let event = Election.stringify(election)
+    let eventHash = hash(event)
     {
-      "type": "election",
-      "params": params,
-      "trustees": trustees,
-      "orgPublicKey": Sjcl.Ecdsa.PublicKey.toHex(orgPublicKey)
+      event,
+      eventType: "election",
+      eventHash,
+      publicKey: owner.hexPublicKey,
+      signature: sig(eventHash, Option.getExn(owner.hexSecretKey))
     }
+  }
+
+  let unwrap = (signedElection:t) : Election.t => {
+    Election.parse(signedElection.event)
   }
 }
 
+/*
 module Ballot =
 {
   let create = (electionHash, userPublicKey, orgPublicKey) => {
@@ -160,3 +210,4 @@ module Signed =
     }
   }
 }
+*/

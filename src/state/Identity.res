@@ -18,9 +18,9 @@ let fetch_all = () =>
   -> Promise.thenResolve(Option.map(_, parse_array))
   -> Promise.thenResolve(Option.getWithDefault(_, []))
 
-let store_all = (identities) =>
+let store_all = (ids) =>
   ReactNativeAsyncStorage.setItem(storageKey,
-    stringify_array(identities)) -> ignore
+    stringify_array(ids)) -> ignore
 
 let clear = () =>
   ReactNativeAsyncStorage.removeItem(storageKey) -> ignore

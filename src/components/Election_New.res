@@ -1,8 +1,18 @@
 @react.component
 let make = () => {
+  let (state, dispatch) = Context.use()
   let (name, setName) = React.useState(_ => "")
   let (desc, setDesc) = React.useState(_ => "")
-  let (choices, setChoices) = React.useState(_ => "")
+  let (choices, setChoices) = React.useState(_ => [])
+
+  let onSubmit = _ => {
+    // TODO: Show error if not logged in !
+    let identity = Array.getExn(state.ids, 0)
+    let election = Election.make(name, desc, choices, identity.hexPublicKey)
+    let transaction = Transaction.SignedElection.make(election, identity)
+    dispatch(Transaction_Add(transaction))
+    dispatch(Navigate(Home))
+  }
 
   <>
     <TextInput
@@ -23,6 +33,10 @@ let make = () => {
 
     <Election_New_ChoiceList
       onUpdate={choices => setChoices(_ => choices)} />
+
+    <Button mode=#outlined onPress=onSubmit>
+      {"Create" -> React.string}
+    </Button>
   </>
 }
 /*

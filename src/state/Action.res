@@ -2,6 +2,7 @@ type t =
   | Init
   | Navigate(Route.t)
   | Identity_Add(Identity.t)
+  | Transaction_Add(Transaction.t)
 /*
 type t =
   | Init

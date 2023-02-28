@@ -9,7 +9,7 @@ function Header(Props) {
   UseTea.useTea(State.reducer, State.initial);
   return React.createElement(ReactNativePaper.Appbar.Header, {
               children: React.createElement(ReactNativePaper.Appbar.Content, {
-                    title: "Decentralized verifiable secret voting"
+                    title: "Verifiable secret voting"
                   })
             });
 }

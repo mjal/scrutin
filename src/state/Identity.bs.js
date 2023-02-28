@@ -24,8 +24,8 @@ function fetch_all(param) {
             });
 }
 
-function store_all(identities) {
-  AsyncStorage.default.setItem(storageKey, JSON.stringify(identities));
+function store_all(ids) {
+  AsyncStorage.default.setItem(storageKey, JSON.stringify(ids));
 }
 
 function clear(param) {

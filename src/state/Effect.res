@@ -2,15 +2,27 @@ let identities_fetch = (dispatch) => {
   Identity.fetch_all()
   -> Promise.thenResolve((ids) => {
     Array.map(ids, (id) => dispatch(Action.Identity_Add(id)))
-  })
-  -> ignore
+  }) -> ignore
 }
 
 let identities_store = (identities) =>
   (_dispatch) => Identity.store_all(identities)
 
-let identities_clear = (_dispatch) =>
-  Identity.clear()
+let identities_clear =
+  (_dispatch) => Identity.clear()
+
+let transactions_fetch = (dispatch) => {
+  Transaction.fetch_all()
+  -> Promise.thenResolve((txs) => {
+    Array.map(txs, (tx) => dispatch(Action.Transaction_Add(tx)))
+  }) -> ignore
+}
+
+let transactions_store = (identities) =>
+  (_dispatch) => Transaction.store_all(identities)
+
+let transactions_clear =
+  (_dispatch) => Transaction.clear()
 
 /*
 let loadElections = (dispatch) => {

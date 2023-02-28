@@ -2,207 +2,75 @@
 
 import * as Sjcl from "../helpers/Sjcl.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
-import * as Js_dict from "rescript/lib/es6/js_dict.js";
-import * as Js_json from "rescript/lib/es6/js_json.js";
-import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as SjclWithAll from "sjcl-with-all";
-import * as Caml_exceptions from "rescript/lib/es6/caml_exceptions.js";
+import * as AsyncStorage from "@react-native-async-storage/async-storage";
 
-function create(params, trustees, orgPublicKey) {
-  return {
-          type: "election",
-          params: params,
-          trustees: trustees,
-          orgPublicKey: Curry._1(Sjcl.Ecdsa.PublicKey.toHex, orgPublicKey)
-        };
+var storageKey = "transactions";
+
+function fetch_all(param) {
+  return AsyncStorage.default.getItem(storageKey).then(function (prim) {
+                  if (prim === null) {
+                    return ;
+                  } else {
+                    return Caml_option.some(prim);
+                  }
+                }).then(function (__x) {
+                return Belt_Option.map(__x, (function (prim) {
+                              return JSON.parse(prim);
+                            }));
+              }).then(function (__x) {
+              return Belt_Option.getWithDefault(__x, []);
+            });
 }
 
-var Election = {
-  create: create
-};
-
-function create$1(electionHash, userPublicKey, orgPublicKey) {
-  return {
-          type: "election.ballot",
-          electionHash: electionHash,
-          userPublicKey: Curry._1(Sjcl.Ecdsa.PublicKey.toHex, userPublicKey),
-          orgPublicKey: Curry._1(Sjcl.Ecdsa.PublicKey.toHex, orgPublicKey)
-        };
+function store_all(txs) {
+  AsyncStorage.default.setItem(storageKey, JSON.stringify(txs));
 }
 
-function setCiphertext(ballotHash, ciphertext) {
-  return {
-          type: "election.ballot.ciphertext",
-          ballotHash: ballotHash,
-          ciphertext: ciphertext
-        };
+function clear(param) {
+  AsyncStorage.default.removeItem(storageKey);
 }
 
-function updateUserPublicKey(ballotHash, userPublicKey) {
-  return {
-          type: "election.ballot.userPublicKey",
-          ballotHash: ballotHash,
-          userPublicKey: userPublicKey
-        };
+function hash(str) {
+  return SjclWithAll.codec.hex.fromBits(SjclWithAll.hash.sha256.hash(str));
 }
 
-function $$delete(ballotHash) {
-  return {
-          type: "election.ballot.delete",
-          ballotHash: ballotHash
-        };
+function sig(hexSecretKey, hexStr) {
+  var secretKey = Curry._1(Sjcl.Ecdsa.SecretKey.fromHex, hexSecretKey);
+  var baEventHash = SjclWithAll.codec.hex.toBits(hexStr);
+  return SjclWithAll.codec.hex.fromBits(secretKey.sign(baEventHash));
 }
 
-var Ballot = {
-  create: create$1,
-  setCiphertext: setCiphertext,
-  updateUserPublicKey: updateUserPublicKey,
-  $$delete: $$delete
-};
-
-function wrap(content, secretKey) {
-  var sEvent = Belt_Option.getExn(JSON.stringify(content));
-  var baEventHash = SjclWithAll.hash.sha256.hash(sEvent);
-  var eventHash = SjclWithAll.codec.hex.fromBits(baEventHash);
-  var sig = SjclWithAll.codec.hex.fromBits(secretKey.sign(baEventHash));
+function make(election, owner) {
+  var $$event = JSON.stringify(election);
+  var eventHash = SjclWithAll.codec.hex.fromBits(SjclWithAll.hash.sha256.hash($$event));
   return {
-          event: sEvent,
+          event: $$event,
+          eventType: "election",
           eventHash: eventHash,
-          sig: sig
+          publicKey: owner.hexPublicKey,
+          signature: sig(eventHash, Belt_Option.getExn(owner.hexSecretKey))
         };
 }
 
-function create$2(params, trustees, org) {
-  return wrap(create(params, trustees, org.publicKey), org.secretKey);
+function unwrap(signedElection) {
+  return JSON.parse(signedElection.event);
 }
 
-var Election$1 = {
-  create: create$2
-};
-
-function create$3(electionHash, userPublicKey, org) {
-  return wrap(create$1(electionHash, userPublicKey, org.publicKey), org.secretKey);
-}
-
-function setCiphertext$1(ballotHash, ciphertext, user) {
-  return wrap(setCiphertext(ballotHash, ciphertext), user.secretKey);
-}
-
-function updateUserPublicKey$1(ballotHash, userPublicKey, org) {
-  return wrap(updateUserPublicKey(ballotHash, userPublicKey), org.secretKey);
-}
-
-function $$delete$1(ballotHash, org) {
-  return wrap($$delete(ballotHash), org.secretKey);
-}
-
-function verifySig(param, publicKey) {
-  var eventHash = param.eventHash;
-  var baEventHash = SjclWithAll.hash.sha256.hash(param.event);
-  var eventHash2 = SjclWithAll.codec.hex.fromBits(baEventHash);
-  if (eventHash !== eventHash2) {
-    return false;
-  } else {
-    return publicKey.verify(SjclWithAll.codec.hex.toBits(eventHash), SjclWithAll.codec.hex.toBits(param.sig));
-  }
-}
-
-var EventVerifyFailed = /* @__PURE__ */Caml_exceptions.create("Transaction.Signed.Ballot.EventVerifyFailed");
-
-function jsonGet(json, propName) {
-  return Belt_Option.flatMap(Belt_Option.flatMap(Js_json.decodeObject(json), (function (__x) {
-                    return Js_dict.get(__x, propName);
-                  })), Js_json.decodeString);
-}
-
-function findByHash(signedEvents, hash) {
-  return Belt_Option.map(Belt_Option.map(Belt_Array.getBy(signedEvents, (function (e) {
-                        return e.eventHash === hash;
-                      })), (function (e) {
-                    return e.event;
-                  })), (function (prim) {
-                return JSON.parse(prim);
-              }));
-}
-
-function verify(signedEvents, signedEvent) {
-  var $$event = signedEvent.event;
-  var json = JSON.parse($$event);
-  var match = jsonGet(json, "type");
-  var publicKey;
-  if (match !== undefined) {
-    switch (match) {
-      case "election" :
-          publicKey = Belt_Option.map(jsonGet(json, "orgPublicKey"), Sjcl.Ecdsa.PublicKey.fromHex);
-          break;
-      case "election.ballot" :
-          var election = Belt_Option.flatMap(jsonGet(json, "electionHash"), (function (hash) {
-                  return findByHash(signedEvents, hash);
-                }));
-          publicKey = Belt_Option.map(Belt_Option.flatMap(election, (function ($$event) {
-                      return jsonGet($$event, "orgPublicKey");
-                    })), Sjcl.Ecdsa.PublicKey.fromHex);
-          break;
-      case "election.ballot.ciphertext" :
-          var election$1 = Belt_Option.flatMap(jsonGet(json, "ballotHash"), (function (hash) {
-                  return findByHash(signedEvents, hash);
-                }));
-          publicKey = Belt_Option.map(Belt_Option.flatMap(election$1, (function ($$event) {
-                      return jsonGet($$event, "userPublicKey");
-                    })), Sjcl.Ecdsa.PublicKey.fromHex);
-          break;
-      case "election.ballot.userPublicKey" :
-          var election$2 = Belt_Option.flatMap(jsonGet(json, "ballotHash"), (function (hash) {
-                  return findByHash(signedEvents, hash);
-                }));
-          publicKey = Belt_Option.map(Belt_Option.flatMap(election$2, (function ($$event) {
-                      return jsonGet($$event, "orgPublicKey");
-                    })), Sjcl.Ecdsa.PublicKey.fromHex);
-          break;
-      default:
-        throw {
-              RE_EXN_ID: EventVerifyFailed,
-              _1: "Unknown type",
-              Error: new Error()
-            };
-    }
-  } else {
-    throw {
-          RE_EXN_ID: EventVerifyFailed,
-          _1: "No type",
-          Error: new Error()
-        };
-  }
-  if (publicKey !== undefined) {
-    return verifySig(signedEvent, Caml_option.valFromOption(publicKey));
-  } else {
-    return false;
-  }
-}
-
-var Ballot$1 = {
-  create: create$3,
-  setCiphertext: setCiphertext$1,
-  updateUserPublicKey: updateUserPublicKey$1,
-  $$delete: $$delete$1,
-  verifySig: verifySig,
-  EventVerifyFailed: EventVerifyFailed,
-  jsonGet: jsonGet,
-  findByHash: findByHash,
-  verify: verify
-};
-
-var Signed = {
-  wrap: wrap,
-  Election: Election$1,
-  Ballot: Ballot$1
+var SignedElection = {
+  make: make,
+  unwrap: unwrap
 };
 
 export {
-  Election ,
-  Ballot ,
-  Signed ,
+  storageKey ,
+  fetch_all ,
+  store_all ,
+  clear ,
+  hash ,
+  sig ,
+  SignedElection ,
 }
 /* Sjcl Not a pure module */

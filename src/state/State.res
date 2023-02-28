@@ -5,16 +5,16 @@ type cache_t = {
 
 type t = {
   route: Route.t,
-  transactions: array<Transaction.Signed.t>,
+  ids: array<Identity.t>,
+  txs: array<Transaction.t>,
+  trustees: array<Trustee.t>,
   cache: cache_t,
-  identities: array<Identity.t>,
-  trustees: array<Trustee.t>
 }
 
 let initial = {
   route: Home,
-  transactions: [],
-  identities: [],
+  txs: [],
+  ids: [],
   trustees: [],
   cache: {
     elections: Map.String.empty,
@@ -24,12 +24,23 @@ let initial = {
 
 let rec reducer = (state, action: Action.t) => {
   switch action {
+
   | Init =>
-    (state, [ Effect.identities_fetch ])
-  | Identity_Add(identity) =>
-    let identities = Array.concat(state.identities, [identity])
-    ({...state, identities}, [Effect.identities_store(identities)])
+    (state, [
+      Effect.identities_fetch,
+      Effect.transactions_fetch,
+    ])
+
+  | Identity_Add(id) =>
+    let ids = Array.concat(state.ids, [id])
+    ({...state, ids}, [Effect.identities_store(ids)])
+
+  | Transaction_Add(tx) =>
+    let txs = Array.concat(state.txs, [tx])
+    ({...state, txs}, [Effect.transactions_store(txs)])
+
   | Navigate(route) => ({...state, route}, [])
+
   }
 }
 

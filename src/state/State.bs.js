@@ -3,57 +3,77 @@
 import * as Effect from "./Effect.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 
-var initial_transactions = [];
+var initial_ids = [];
+
+var initial_txs = [];
+
+var initial_trustees = [];
 
 var initial_cache = {
   elections: undefined,
   ballots: undefined
 };
 
-var initial_identities = [];
-
-var initial_trustees = [];
-
 var initial = {
   route: /* Home */0,
-  transactions: initial_transactions,
-  cache: initial_cache,
-  identities: initial_identities,
-  trustees: initial_trustees
+  ids: initial_ids,
+  txs: initial_txs,
+  trustees: initial_trustees,
+  cache: initial_cache
 };
 
 function reducer(state, action) {
   if (typeof action === "number") {
     return [
             state,
-            [Effect.identities_fetch]
+            [
+              Effect.identities_fetch,
+              Effect.transactions_fetch
+            ]
           ];
   }
-  if (action.TAG === /* Navigate */0) {
-    return [
-            {
-              route: action._0,
-              transactions: state.transactions,
-              cache: state.cache,
-              identities: state.identities,
-              trustees: state.trustees
-            },
-            []
-          ];
+  switch (action.TAG | 0) {
+    case /* Navigate */0 :
+        return [
+                {
+                  route: action._0,
+                  ids: state.ids,
+                  txs: state.txs,
+                  trustees: state.trustees,
+                  cache: state.cache
+                },
+                []
+              ];
+    case /* Identity_Add */1 :
+        var ids = Belt_Array.concat(state.ids, [action._0]);
+        return [
+                {
+                  route: state.route,
+                  ids: ids,
+                  txs: state.txs,
+                  trustees: state.trustees,
+                  cache: state.cache
+                },
+                [(function (param) {
+                      return Effect.identities_store(ids, param);
+                    })]
+              ];
+    case /* Transaction_Add */2 :
+        var txs = Belt_Array.concat(state.txs, [action._0]);
+        return [
+                {
+                  route: state.route,
+                  ids: state.ids,
+                  txs: txs,
+                  trustees: state.trustees,
+                  cache: state.cache
+                },
+                [(function (param) {
+                      return Effect.transactions_store(txs, param);
+                    })]
+              ];
+    
   }
-  var identities = Belt_Array.concat(state.identities, [action._0]);
-  return [
-          {
-            route: state.route,
-            transactions: state.transactions,
-            cache: state.cache,
-            identities: identities,
-            trustees: state.trustees
-          },
-          [(function (param) {
-                return Effect.identities_store(identities, param);
-              })]
-        ];
 }
 
 export {

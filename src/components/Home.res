@@ -9,10 +9,10 @@ let make = () => {
   <>
     <X.Title>{ "Identités" -> React.string }</X.Title>
     <List.Section title="" style=X.styles["margin-x"]>
-    { Array.map(state.identities, (identity) => {
+    { Array.map(state.ids, (id) => {
       <List.Item
-        key=identity.hexPublicKey
-        title=("0x" ++ identity.hexPublicKey)
+        key=id.hexPublicKey
+        title=("0x" ++ id.hexPublicKey)
       />
     }) -> React.array }
     </List.Section>
@@ -34,7 +34,12 @@ let make = () => {
 
     <X.Title>{ "Transactions" -> React.string }</X.Title>
     <List.Section title="" style=X.styles["margin-x"]>
-      <></>
+    { Array.map(state.txs, (tx) => {
+      <List.Item
+        key=tx.eventHash
+        title=("0x" ++ tx.eventHash)
+      />
+    }) -> React.array }
     </List.Section>
   </>
 

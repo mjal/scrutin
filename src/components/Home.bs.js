@@ -11,6 +11,7 @@ import * as ReactNativePaper from "react-native-paper";
 function Home(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
+  var state = match[0];
   var genIdentity = function (param) {
     Curry._1(dispatch, {
           TAG: /* Identity_Add */1,
@@ -21,10 +22,10 @@ function Home(Props) {
                   children: "Identités"
                 }), React.createElement(ReactNativePaper.List.Section, {
                   title: "",
-                  children: Belt_Array.map(match[0].identities, (function (identity) {
+                  children: Belt_Array.map(state.ids, (function (id) {
                           return React.createElement(ReactNativePaper.List.Item, {
-                                      title: "0x" + identity.hexPublicKey,
-                                      key: identity.hexPublicKey
+                                      title: "0x" + id.hexPublicKey,
+                                      key: id.hexPublicKey
                                     });
                         })),
                   style: X.styles["margin-x"]
@@ -57,7 +58,12 @@ function Home(Props) {
                   children: "Transactions"
                 }), React.createElement(ReactNativePaper.List.Section, {
                   title: "",
-                  children: React.createElement(React.Fragment, undefined),
+                  children: Belt_Array.map(state.txs, (function (tx) {
+                          return React.createElement(ReactNativePaper.List.Item, {
+                                      title: "0x" + tx.eventHash,
+                                      key: tx.eventHash
+                                    });
+                        })),
                   style: X.styles["margin-x"]
                 }));
 }

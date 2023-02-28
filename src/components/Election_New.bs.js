@@ -2,26 +2,49 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
+import * as Context from "../state/Context.bs.js";
+import * as Election from "../state/Election.bs.js";
+import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
+import * as Transaction from "../state/Transaction.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 import * as Election_New_ChoiceList from "./Election_New_ChoiceList.bs.js";
 
 function Election_New(Props) {
-  var match = React.useState(function () {
-        return "";
-      });
-  var setName = match[1];
+  var match = Context.use(undefined);
+  var dispatch = match[1];
+  var state = match[0];
   var match$1 = React.useState(function () {
         return "";
       });
-  var setDesc = match$1[1];
+  var setName = match$1[1];
+  var name = match$1[0];
   var match$2 = React.useState(function () {
         return "";
       });
-  var setChoices = match$2[1];
+  var setDesc = match$2[1];
+  var desc = match$2[0];
+  var match$3 = React.useState(function () {
+        return [];
+      });
+  var setChoices = match$3[1];
+  var choices = match$3[0];
+  var onSubmit = function (param) {
+    var identity = Belt_Array.getExn(state.ids, 0);
+    var election = Election.make(name, desc, choices, identity.hexPublicKey);
+    var transaction = Transaction.SignedElection.make(election, identity);
+    Curry._1(dispatch, {
+          TAG: /* Transaction_Add */2,
+          _0: transaction
+        });
+    Curry._1(dispatch, {
+          TAG: /* Navigate */0,
+          _0: /* Home */0
+        });
+  };
   return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.TextInput, {
                   mode: "flat",
                   label: "Nom de l'élection",
-                  value: match[0],
+                  value: name,
                   onChangeText: (function (text) {
                       Curry._1(setName, (function (param) {
                               return text;
@@ -31,7 +54,7 @@ function Election_New(Props) {
                 }), React.createElement(ReactNativePaper.TextInput, {
                   mode: "flat",
                   label: "Description",
-                  value: match$1[0],
+                  value: desc,
                   onChangeText: (function (text) {
                       Curry._1(setDesc, (function (param) {
                               return text;
@@ -44,6 +67,10 @@ function Election_New(Props) {
                               return choices;
                             }));
                     })
+                }), React.createElement(ReactNativePaper.Button, {
+                  mode: "outlined",
+                  onPress: onSubmit,
+                  children: "Create"
                 }));
 }
 
