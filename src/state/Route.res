@@ -1,5 +1,7 @@
 type t =
-  | Home
+  | Home_Elections
+  | Home_Identities
+  | Home_Transactions
   | Election_New
 /*
 type t =

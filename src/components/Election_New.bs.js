@@ -38,7 +38,7 @@ function Election_New(Props) {
         });
     Curry._1(dispatch, {
           TAG: /* Navigate */0,
-          _0: /* Home */0
+          _0: /* Home_Elections */0
         });
   };
   return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.TextInput, {

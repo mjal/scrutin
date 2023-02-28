@@ -12,8 +12,12 @@ let make = () => {
     <Header />
 
     { switch state.route {
-    | Home => <Home />
+    | Home_Elections
+    | Home_Identities
+    | Home_Transactions
+    => <Home />
     | Election_New => <Election_New />
+    | _ => <Text>{"Unknown route"->React.string}</Text>
     } }
 
     /*

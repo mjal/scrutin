@@ -16,7 +16,7 @@ var initial_cache = {
 };
 
 var initial = {
-  route: /* Home */0,
+  route: /* Home_Elections */0,
   ids: initial_ids,
   txs: initial_txs,
   trustees: initial_trustees,

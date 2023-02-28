@@ -12,7 +12,7 @@ type t = {
 }
 
 let initial = {
-  route: Home,
+  route: Home_Elections,
   txs: [],
   ids: [],
   trustees: [],

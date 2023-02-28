@@ -6,71 +6,53 @@ let make = () => {
     dispatch(Identity_Add(Identity.make()))
   }
 
-  <>
-    <X.Title>{ "Identités" -> React.string }</X.Title>
-    <List.Section title="" style=X.styles["margin-x"]>
-    { Array.map(state.ids, (id) => {
-      <List.Item
-        key=id.hexPublicKey
-        title=("0x" ++ id.hexPublicKey)
-      />
-    }) -> React.array }
-    </List.Section>
-    <Button mode=#outlined onPress=genIdentity>
-      { "Generate identity" -> React.string }
-    </Button>
-    <Button mode=#outlined onPress={_ => Identity.clear()}>
-      { "Clear identities" -> React.string }
-    </Button>
-
-    <X.Title>{ "Elections" -> React.string }</X.Title>
-    { state.cache.elections
-      -> Map.String.toArray
-      -> Array.map(((eventHash, _election)) => {
-      <List.Item
-        key=eventHash
-        title=("0x" ++ eventHash)
-      />
-    }) -> React.array }
-    <Button mode=#contained onPress={_ => dispatch(Navigate(Election_New))}>
-      { "New election" -> React.string }
-    </Button>
-
-    <X.Title>{ "Ballots"   -> React.string }</X.Title>
-
-    <X.Title>{ "Trustees"  -> React.string }</X.Title>
-
-    <X.Title>{ "Transactions" -> React.string }</X.Title>
-    <List.Section title="" style=X.styles["margin-x"]>
-    { Array.map(state.txs, (tx) => {
-      <List.Item
-        key=tx.eventHash
-        title=("0x" ++ tx.eventHash)
-      />
-    }) -> React.array }
-    </List.Section>
-  </>
-
-  /*
-  React.useEffect0(_ => {
-    if Option.isNone(state.user) {
-      dispatch(Action.Navigate(Route.User_Register))
-    }
-    None
-  })
-
-  Js.log(state.user)
-
-  switch state.user {
-  | None =>
-    "Redirecting..." -> React.string
-  | Some(_user) =>
+  switch state.route {
+  | Home_Elections =>
     <>
-      <Button mode=#contained onPress={_ => dispatch(Navigate(Route.ElectionNew))} style=X.styles["margin-x"]>
-        {"Creer une nouvelle election" -> React.string}
+      <X.Title>{ "Elections" -> React.string }</X.Title>
+      { state.cache.elections
+        -> Map.String.toArray
+        -> Array.map(((eventHash, _election)) => {
+        <List.Item
+          key=eventHash
+          title=("0x" ++ eventHash)
+        />
+      }) -> React.array }
+      <Button mode=#contained onPress={_ => dispatch(Navigate(Election_New))}>
+        { "New election" -> React.string }
       </Button>
-      <ElectionList title="Elections en cours" elections=state.elections loading=state.elections_loading />
     </>
+  | Home_Identities =>
+    <>
+      <X.Title>{ "Identités" -> React.string }</X.Title>
+      <List.Section title="" style=X.styles["margin-x"]>
+      { Array.map(state.ids, (id) => {
+        <List.Item
+          key=id.hexPublicKey
+          title=("0x" ++ id.hexPublicKey)
+        />
+      }) -> React.array }
+      </List.Section>
+      <Button mode=#outlined onPress=genIdentity>
+        { "Generate identity" -> React.string }
+      </Button>
+      <Button mode=#outlined onPress={_ => Identity.clear()}>
+        { "Clear identities" -> React.string }
+      </Button>
+    </>
+  | Home_Transactions =>
+    <>
+      <X.Title>{ "Transactions" -> React.string }</X.Title>
+      <List.Section title="" style=X.styles["margin-x"]>
+      { Array.map(state.txs, (tx) => {
+        <List.Item
+          key=tx.eventHash
+          title=("0x" ++ tx.eventHash)
+        />
+      }) -> React.array }
+      </List.Section>
+    </>
+  | _ =>
+    <Text>{"Unknown route"->React.string}</Text>
   }
-  */
 }

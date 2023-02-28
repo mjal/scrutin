@@ -22,7 +22,7 @@ function App(Props) {
               state: state,
               dispatch: dispatch,
               children: null
-            }, React.createElement(Header.make, {}), match$1 ? React.createElement(Election_New.make, {}) : React.createElement(Home.make, {}), React.createElement(Navigation.make, {}));
+            }, React.createElement(Header.make, {}), match$1 >= 3 ? React.createElement(Election_New.make, {}) : React.createElement(Home.make, {}), React.createElement(Navigation.make, {}));
 }
 
 var make = App;

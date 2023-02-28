@@ -11,7 +11,7 @@ let make = () => {
     let election = Election.make(name, desc, choices, identity.hexPublicKey)
     let transaction = Transaction.SignedElection.make(election, identity)
     dispatch(Transaction_Add(transaction))
-    dispatch(Navigate(Home))
+    dispatch(Navigate(Home_Elections))
   }
 
   <>

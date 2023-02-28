@@ -1,9 +1,18 @@
 @react.component
 let make = () => {
+  let (state, dispatch) = Context.use()
   let (index, setIndex) = React.useState(_ => 0)
 
   <BottomNavigation
-    onIndexChange={i => setIndex(_ => i)}
+    onIndexChange={i => {
+        switch i {
+        | 0 => dispatch(Navigate(Home_Elections))
+        | 1 => dispatch(Navigate(Home_Identities))
+        | 2 => dispatch(Navigate(Home_Transactions))
+        | _ => ()
+        }
+        setIndex(_ => i)
+    }}
     navigationState={
       "index": index,
       "routes": [

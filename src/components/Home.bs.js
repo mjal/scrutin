@@ -19,60 +19,69 @@ function Home(Props) {
           _0: Identity.make(undefined)
         });
   };
-  return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
-                  children: "Identités"
-                }), React.createElement(ReactNativePaper.List.Section, {
-                  title: "",
-                  children: Belt_Array.map(state.ids, (function (id) {
+  var match$1 = state.route;
+  switch (match$1) {
+    case /* Home_Elections */0 :
+        return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
+                        children: "Elections"
+                      }), Belt_Array.map(Belt_MapString.toArray(state.cache.elections), (function (param) {
+                          var eventHash = param[0];
                           return React.createElement(ReactNativePaper.List.Item, {
-                                      title: "0x" + id.hexPublicKey,
-                                      key: id.hexPublicKey
+                                      title: "0x" + eventHash,
+                                      key: eventHash
                                     });
-                        })),
-                  style: X.styles["margin-x"]
-                }), React.createElement(ReactNativePaper.Button, {
-                  mode: "outlined",
-                  onPress: genIdentity,
-                  children: "Generate identity"
-                }), React.createElement(ReactNativePaper.Button, {
-                  mode: "outlined",
-                  onPress: (function (param) {
-                      Identity.clear(undefined);
-                    }),
-                  children: "Clear identities"
-                }), React.createElement(X.Title.make, {
-                  children: "Elections"
-                }), Belt_Array.map(Belt_MapString.toArray(state.cache.elections), (function (param) {
-                    var eventHash = param[0];
-                    return React.createElement(ReactNativePaper.List.Item, {
-                                title: "0x" + eventHash,
-                                key: eventHash
-                              });
-                  })), React.createElement(ReactNativePaper.Button, {
-                  mode: "contained",
-                  onPress: (function (param) {
-                      Curry._1(dispatch, {
-                            TAG: /* Navigate */0,
-                            _0: /* Election_New */1
-                          });
-                    }),
-                  children: "New election"
-                }), React.createElement(X.Title.make, {
-                  children: "Ballots"
-                }), React.createElement(X.Title.make, {
-                  children: "Trustees"
-                }), React.createElement(X.Title.make, {
-                  children: "Transactions"
-                }), React.createElement(ReactNativePaper.List.Section, {
-                  title: "",
-                  children: Belt_Array.map(state.txs, (function (tx) {
-                          return React.createElement(ReactNativePaper.List.Item, {
-                                      title: "0x" + tx.eventHash,
-                                      key: tx.eventHash
-                                    });
-                        })),
-                  style: X.styles["margin-x"]
-                }));
+                        })), React.createElement(ReactNativePaper.Button, {
+                        mode: "contained",
+                        onPress: (function (param) {
+                            Curry._1(dispatch, {
+                                  TAG: /* Navigate */0,
+                                  _0: /* Election_New */3
+                                });
+                          }),
+                        children: "New election"
+                      }));
+    case /* Home_Identities */1 :
+        return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
+                        children: "Identités"
+                      }), React.createElement(ReactNativePaper.List.Section, {
+                        title: "",
+                        children: Belt_Array.map(state.ids, (function (id) {
+                                return React.createElement(ReactNativePaper.List.Item, {
+                                            title: "0x" + id.hexPublicKey,
+                                            key: id.hexPublicKey
+                                          });
+                              })),
+                        style: X.styles["margin-x"]
+                      }), React.createElement(ReactNativePaper.Button, {
+                        mode: "outlined",
+                        onPress: genIdentity,
+                        children: "Generate identity"
+                      }), React.createElement(ReactNativePaper.Button, {
+                        mode: "outlined",
+                        onPress: (function (param) {
+                            Identity.clear(undefined);
+                          }),
+                        children: "Clear identities"
+                      }));
+    case /* Home_Transactions */2 :
+        return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
+                        children: "Transactions"
+                      }), React.createElement(ReactNativePaper.List.Section, {
+                        title: "",
+                        children: Belt_Array.map(state.txs, (function (tx) {
+                                return React.createElement(ReactNativePaper.List.Item, {
+                                            title: "0x" + tx.eventHash,
+                                            key: tx.eventHash
+                                          });
+                              })),
+                        style: X.styles["margin-x"]
+                      }));
+    case /* Election_New */3 :
+        return React.createElement(ReactNativePaper.Text, {
+                    children: "Unknown route"
+                  });
+    
+  }
 }
 
 var make = Home;
