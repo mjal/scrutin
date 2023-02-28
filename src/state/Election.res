@@ -11,25 +11,13 @@ let make = (name, description, choices, ownerPublicKey) => {
   let (privkey, trustees) = Belenios.Trustees.create()
   Store.Trustee.add({pubkey: Belenios.Trustees.pubkey(trustees), privkey})
 
-  let params = Belenios.Election._create(
-    ~name,
-    ~description,
-    ~choices,
-    ~trustees,
-  )
+  let params =
+    Belenios.Election._create(~name, ~description, ~choices, ~trustees)
 
   {
     params,
     trustees: Belenios.Trustees.to_str(trustees),
     ownerPublicKey
-  }
-}
-
-module Signed = {
-  let make = (t, owner: Identity.t) => {
-    let event = stringify(t)
-
-    let hexSecretKey = Option.getExn(owner.hexSecretKey)
   }
 }
 

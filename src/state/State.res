@@ -22,7 +22,7 @@ let initial = {
   }
 }
 
-let rec reducer = (state, action: Action.t) => {
+let reducer = (state, action: Action.t) => {
   switch action {
 
   | Init =>
@@ -37,7 +37,15 @@ let rec reducer = (state, action: Action.t) => {
 
   | Transaction_Add(tx) =>
     let txs = Array.concat(state.txs, [tx])
-    ({...state, txs}, [Effect.transactions_store(txs)])
+    ({...state, txs}, [
+      Effect.transactions_store(txs),
+      Effect.cache_update(tx)
+    ])
+
+  | Cache_Election_Add(eventHash, election) =>
+    let elections = Map.String.set(state.cache.elections, eventHash, election)
+    let cache = {...state.cache, elections}
+    ({...state, cache}, [])
 
   | Navigate(route) => ({...state, route}, [])
 

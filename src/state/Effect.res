@@ -5,8 +5,8 @@ let identities_fetch = (dispatch) => {
   }) -> ignore
 }
 
-let identities_store = (identities) =>
-  (_dispatch) => Identity.store_all(identities)
+let identities_store = (ids) =>
+  (_dispatch) => Identity.store_all(ids)
 
 let identities_clear =
   (_dispatch) => Identity.clear()
@@ -18,11 +18,20 @@ let transactions_fetch = (dispatch) => {
   }) -> ignore
 }
 
-let transactions_store = (identities) =>
-  (_dispatch) => Transaction.store_all(identities)
+let transactions_store = (txs) =>
+  (_dispatch) => Transaction.store_all(txs)
 
 let transactions_clear =
   (_dispatch) => Transaction.clear()
+
+let cache_update = (tx : Transaction.t) =>
+  (dispatch) => {
+    switch tx.eventType {
+    | "election" => dispatch(Action.Cache_Election_Add(tx.eventHash, Transaction.SignedElection.unwrap(tx)))
+    | _ => Js.Exn.raiseError("Unknown transaction type")
+    }
+  }
+
 
 /*
 let loadElections = (dispatch) => {

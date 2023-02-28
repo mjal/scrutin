@@ -6,11 +6,13 @@ type t = {
   signature: string
 }
 
+// == Serialization
 external parse:           string => t = "JSON.parse"
 external stringify:       t => string = "JSON.stringify"
 external parse_array:     string => array<t> = "JSON.parse"
 external stringify_array: array<t> => string = "JSON.stringify"
 
+// == Storage
 let storageKey = "transactions"
 
 let fetch_all = () =>
@@ -20,13 +22,12 @@ let fetch_all = () =>
   -> Promise.thenResolve(Option.getWithDefault(_, []))
 
 let store_all = (txs) =>
-  ReactNativeAsyncStorage.setItem(storageKey,
-    stringify_array(txs)) -> ignore
+  ReactNativeAsyncStorage.setItem(storageKey, stringify_array(txs)) -> ignore
 
 let clear = () =>
   ReactNativeAsyncStorage.removeItem(storageKey) -> ignore
 
-
+// == Helpers
 let hash = (str) => {
   let baEventHash = Sjcl.Sha256.hash(str)
   Sjcl.Hex.fromBits(baEventHash)
@@ -39,9 +40,8 @@ let sig = (hexSecretKey, hexStr) => {
   Sjcl.Hex.fromBits(baSig)
 }
 
+// == Election transactions
 module SignedElection = {
-  type t = t
-
   let make = (election : Election.t, owner : Identity.t) => {
     let event = Election.stringify(election)
     let eventHash = hash(event)
@@ -54,7 +54,7 @@ module SignedElection = {
     }
   }
 
-  let unwrap = (signedElection:t) : Election.t => {
+  let unwrap = (signedElection : t) : Election.t => {
     Election.parse(signedElection.event)
   }
 }

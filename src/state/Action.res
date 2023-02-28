@@ -3,6 +3,7 @@ type t =
   | Navigate(Route.t)
   | Identity_Add(Identity.t)
   | Transaction_Add(Transaction.t)
+  | Cache_Election_Add(string, Election.t)
 /*
 type t =
   | Init

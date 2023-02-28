@@ -6,6 +6,7 @@ import * as React from "react";
 import * as Context from "../state/Context.bs.js";
 import * as Identity from "../state/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
+import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function Home(Props) {
@@ -41,7 +42,13 @@ function Home(Props) {
                   children: "Clear identities"
                 }), React.createElement(X.Title.make, {
                   children: "Elections"
-                }), React.createElement(ReactNativePaper.Button, {
+                }), Belt_Array.map(Belt_MapString.toArray(state.cache.elections), (function (param) {
+                    var eventHash = param[0];
+                    return React.createElement(ReactNativePaper.List.Item, {
+                                title: "0x" + eventHash,
+                                key: eventHash
+                              });
+                  })), React.createElement(ReactNativePaper.Button, {
                   mode: "contained",
                   onPress: (function (param) {
                       Curry._1(dispatch, {

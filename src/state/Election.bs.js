@@ -2,7 +2,6 @@
 
 import * as Store from "./Store.bs.js";
 import * as Belenios from "../helpers/Belenios.bs.js";
-import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 
 function make(name, description, choices, ownerPublicKey) {
   var match = Belenios.Trustees.create(undefined);
@@ -19,17 +18,7 @@ function make(name, description, choices, ownerPublicKey) {
         };
 }
 
-function make$1(t, owner) {
-  JSON.stringify(t);
-  Belt_Option.getExn(owner.hexSecretKey);
-}
-
-var Signed = {
-  make: make$1
-};
-
 export {
   make ,
-  Signed ,
 }
 /* Store Not a pure module */
