@@ -4,6 +4,7 @@ let make = () => {
   let (name, setName) = React.useState(_ => "")
   let (desc, setDesc) = React.useState(_ => "")
   let (choices, setChoices) = React.useState(_ => [])
+  let (voters, setVoters) = React.useState(_ => [])
 
   let onSubmit = _ => {
     // TODO: Show error if not logged in !
@@ -31,8 +32,9 @@ let make = () => {
       onChangeText={text => setDesc(_ => text)}
     />
 
-    <Election_New_ChoiceList
-      onUpdate={choices => setChoices(_ => choices)} />
+    <Election_New_ChoiceList choices setChoices />
+
+    <Election_New_VoterList voters setVoters />
 
     <Button mode=#outlined onPress=onSubmit>
       {"Create" -> React.string}

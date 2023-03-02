@@ -15,9 +15,8 @@ module Item = {
 }
 
 @react.component
-let make = (~onUpdate) => {
+let make = (~choices, ~setChoices) => {
   let (name, setName) = React.useState(_ => "")
-  let (choices, setChoices) = React.useState(_ => [])
   let (showModal, setshowModal) = React.useState(_ => false);
 
   let onSubmit = _ => {

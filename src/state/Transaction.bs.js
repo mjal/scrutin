@@ -55,8 +55,8 @@ function make(election, owner) {
         };
 }
 
-function unwrap(signedElection) {
-  return JSON.parse(signedElection.event);
+function unwrap(tx) {
+  return JSON.parse(tx.event);
 }
 
 var SignedElection = {

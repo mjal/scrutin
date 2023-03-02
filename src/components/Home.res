@@ -41,17 +41,7 @@ let make = () => {
       </Button>
     </>
   | Home_Transactions =>
-    <>
-      <X.Title>{ "Transactions" -> React.string }</X.Title>
-      <List.Section title="" style=X.styles["margin-x"]>
-      { Array.map(state.txs, (tx) => {
-        <List.Item
-          key=tx.eventHash
-          title=("0x" ++ tx.eventHash)
-        />
-      }) -> React.array }
-      </List.Section>
-    </>
+    <Home_Transactions />
   | _ =>
     <Text>{"Unknown route"->React.string}</Text>
   }

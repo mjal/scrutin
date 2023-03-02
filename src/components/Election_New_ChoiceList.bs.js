@@ -36,20 +36,17 @@ var Item = {
 };
 
 function Election_New_ChoiceList(Props) {
+  var choices = Props.choices;
+  var setChoices = Props.setChoices;
   var match = React.useState(function () {
         return "";
       });
   var setName = match[1];
   var name = match[0];
   var match$1 = React.useState(function () {
-        return [];
-      });
-  var setChoices = match$1[1];
-  var choices = match$1[0];
-  var match$2 = React.useState(function () {
         return false;
       });
-  var setshowModal = match$2[1];
+  var setshowModal = match$1[1];
   var onSubmit = function (param) {
     Curry._1(setChoices, (function (choices) {
             return Belt_Array.concat(choices, [name]);
@@ -106,7 +103,7 @@ function Election_New_ChoiceList(Props) {
                   children: "Il faut au moins 2 choix !"
                 }), React.createElement(ReactNativePaper.Portal, {
                   children: React.createElement(ReactNativePaper.Modal, {
-                        visible: match$2[0],
+                        visible: match$1[0],
                         onDismiss: (function (param) {
                             Curry._1(setshowModal, (function (param) {
                                     return false;

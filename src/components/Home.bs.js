@@ -7,6 +7,7 @@ import * as Context from "../state/Context.bs.js";
 import * as Identity from "../state/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
+import * as Home_Transactions from "./Home_Transactions.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function Home(Props) {
@@ -64,18 +65,7 @@ function Home(Props) {
                         children: "Clear identities"
                       }));
     case /* Home_Transactions */2 :
-        return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
-                        children: "Transactions"
-                      }), React.createElement(ReactNativePaper.List.Section, {
-                        title: "",
-                        children: Belt_Array.map(state.txs, (function (tx) {
-                                return React.createElement(ReactNativePaper.List.Item, {
-                                            title: "0x" + tx.eventHash,
-                                            key: tx.eventHash
-                                          });
-                              })),
-                        style: X.styles["margin-x"]
-                      }));
+        return React.createElement(Home_Transactions.make, {});
     case /* Election_New */3 :
         return React.createElement(ReactNativePaper.Text, {
                     children: "Unknown route"

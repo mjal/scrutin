@@ -54,8 +54,8 @@ module SignedElection = {
     }
   }
 
-  let unwrap = (signedElection : t) : Election.t => {
-    Election.parse(signedElection.event)
+  let unwrap = (tx) : Election.t => {
+    Election.parse(tx.event)
   }
 }
 
