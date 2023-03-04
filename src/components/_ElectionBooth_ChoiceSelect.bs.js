@@ -2,11 +2,11 @@
 
 import * as React from "react";
 
-function Admin_User_List(Props) {
+function _ElectionBooth_ChoiceSelect(Props) {
   return React.createElement(React.Fragment, undefined);
 }
 
-var make = Admin_User_List;
+var make = _ElectionBooth_ChoiceSelect;
 
 export {
   make ,

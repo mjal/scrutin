@@ -2,11 +2,11 @@
 
 import * as React from "react";
 
-function ElectionShow(Props) {
+function _Admin_User_List(Props) {
   return React.createElement(React.Fragment, undefined);
 }
 
-var make = ElectionShow;
+var make = _Admin_User_List;
 
 export {
   make ,

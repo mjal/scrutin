@@ -2,11 +2,11 @@
 
 import * as React from "react";
 
-function Admin_User_Show(Props) {
+function _Admin_User_Show(Props) {
   return React.createElement(React.Fragment, undefined);
 }
 
-var make = Admin_User_Show;
+var make = _Admin_User_Show;
 
 export {
   make ,

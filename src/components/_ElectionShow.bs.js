@@ -2,11 +2,11 @@
 
 import * as React from "react";
 
-function ElectionBooth_ChoiceSelect(Props) {
+function _ElectionShow(Props) {
   return React.createElement(React.Fragment, undefined);
 }
 
-var make = ElectionBooth_ChoiceSelect;
+var make = _ElectionShow;
 
 export {
   make ,
