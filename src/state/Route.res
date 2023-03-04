@@ -3,6 +3,7 @@ type t =
   | Home_Identities
   | Home_Transactions
   | Election_New
+  | Election_Show(string)
 /*
 type t =
   | Home

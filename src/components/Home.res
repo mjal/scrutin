@@ -14,6 +14,7 @@ let make = () => {
         -> Map.String.toArray
         -> Array.map(((eventHash, _election)) => {
         <List.Item
+          onPress={_ => dispatch(Navigate(Election_Show(eventHash)))}
           key=eventHash
           title=("0x" ++ eventHash)
         />
@@ -33,8 +34,8 @@ let make = () => {
         />
       }) -> React.array }
       </List.Section>
-      <Button mode=#outlined onPress=genIdentity>
-        { "Generate identity" -> React.string }
+      <Button mode=#contained onPress=genIdentity>
+        { "New identity" -> React.string }
       </Button>
       <Button mode=#outlined onPress={_ => Identity.clear()}>
         { "Clear identities" -> React.string }

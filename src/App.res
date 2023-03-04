@@ -17,6 +17,7 @@ let make = () => {
     | Home_Transactions
     => <Home />
     | Election_New => <Election_New />
+    | Election_Show(eventHash) => <Election_Show eventHash />
     | _ => <Text>{"Unknown route"->React.string}</Text>
     } }
 

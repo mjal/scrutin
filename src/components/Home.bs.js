@@ -21,57 +21,68 @@ function Home(Props) {
         });
   };
   var match$1 = state.route;
-  switch (match$1) {
-    case /* Home_Elections */0 :
-        return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
-                        children: "Elections"
-                      }), Belt_Array.map(Belt_MapString.toArray(state.cache.elections), (function (param) {
-                          var eventHash = param[0];
-                          return React.createElement(ReactNativePaper.List.Item, {
-                                      title: "0x" + eventHash,
-                                      key: eventHash
-                                    });
-                        })), React.createElement(ReactNativePaper.Button, {
-                        mode: "contained",
-                        onPress: (function (param) {
-                            Curry._1(dispatch, {
-                                  TAG: /* Navigate */0,
-                                  _0: /* Election_New */3
-                                });
-                          }),
-                        children: "New election"
-                      }));
-    case /* Home_Identities */1 :
-        return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
-                        children: "Identités"
-                      }), React.createElement(ReactNativePaper.List.Section, {
-                        title: "",
-                        children: Belt_Array.map(state.ids, (function (id) {
-                                return React.createElement(ReactNativePaper.List.Item, {
-                                            title: "0x" + id.hexPublicKey,
-                                            key: id.hexPublicKey
-                                          });
-                              })),
-                        style: X.styles["margin-x"]
-                      }), React.createElement(ReactNativePaper.Button, {
-                        mode: "outlined",
-                        onPress: genIdentity,
-                        children: "Generate identity"
-                      }), React.createElement(ReactNativePaper.Button, {
-                        mode: "outlined",
-                        onPress: (function (param) {
-                            Identity.clear(undefined);
-                          }),
-                        children: "Clear identities"
-                      }));
-    case /* Home_Transactions */2 :
-        return React.createElement(Home_Transactions.make, {});
-    case /* Election_New */3 :
-        return React.createElement(ReactNativePaper.Text, {
-                    children: "Unknown route"
-                  });
-    
+  if (typeof match$1 === "number") {
+    switch (match$1) {
+      case /* Home_Elections */0 :
+          return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
+                          children: "Elections"
+                        }), Belt_Array.map(Belt_MapString.toArray(state.cache.elections), (function (param) {
+                            var eventHash = param[0];
+                            return React.createElement(ReactNativePaper.List.Item, {
+                                        onPress: (function (param) {
+                                            Curry._1(dispatch, {
+                                                  TAG: /* Navigate */0,
+                                                  _0: /* Election_Show */{
+                                                    _0: eventHash
+                                                  }
+                                                });
+                                          }),
+                                        title: "0x" + eventHash,
+                                        key: eventHash
+                                      });
+                          })), React.createElement(ReactNativePaper.Button, {
+                          mode: "contained",
+                          onPress: (function (param) {
+                              Curry._1(dispatch, {
+                                    TAG: /* Navigate */0,
+                                    _0: /* Election_New */3
+                                  });
+                            }),
+                          children: "New election"
+                        }));
+      case /* Home_Identities */1 :
+          return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
+                          children: "Identités"
+                        }), React.createElement(ReactNativePaper.List.Section, {
+                          title: "",
+                          children: Belt_Array.map(state.ids, (function (id) {
+                                  return React.createElement(ReactNativePaper.List.Item, {
+                                              title: "0x" + id.hexPublicKey,
+                                              key: id.hexPublicKey
+                                            });
+                                })),
+                          style: X.styles["margin-x"]
+                        }), React.createElement(ReactNativePaper.Button, {
+                          mode: "contained",
+                          onPress: genIdentity,
+                          children: "New identity"
+                        }), React.createElement(ReactNativePaper.Button, {
+                          mode: "outlined",
+                          onPress: (function (param) {
+                              Identity.clear(undefined);
+                            }),
+                          children: "Clear identities"
+                        }));
+      case /* Home_Transactions */2 :
+          return React.createElement(Home_Transactions.make, {});
+      case /* Election_New */3 :
+          break;
+      
+    }
   }
+  return React.createElement(ReactNativePaper.Text, {
+              children: "Unknown route"
+            });
 }
 
 var make = Home;
