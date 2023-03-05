@@ -11,35 +11,32 @@ function Identity_Show(Props) {
   var publicKey = Props.publicKey;
   var match = Context.use(undefined);
   var dispatch = match[1];
-  return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
-                  children: "Identity"
-                }), React.createElement(ReactNativePaper.Text, {
-                  children: publicKey
-                }), React.createElement(ReactNativePaper.Title, {
-                  children: "My Elections (as admin)"
-                }), Belt_Array.map(Belt_MapString.toArray(Belt_MapString.keep(match[0].cache.elections, (function (eventHash, election) {
-                            return election.ownerPublicKey === publicKey;
-                          }))), (function (param) {
-                    var eventHash = param[0];
-                    return React.createElement(ReactNativePaper.Text, {
-                                onPress: (function (param) {
-                                    Curry._1(dispatch, {
-                                          TAG: /* Navigate */0,
-                                          _0: {
-                                            TAG: /* Election_Show */0,
-                                            _0: eventHash
-                                          }
+  return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.List.Section, {
+                  title: "Identity",
+                  children: null
+                }, React.createElement(ReactNativePaper.List.Item, {
+                      title: "Public Key",
+                      description: publicKey
+                    }), React.createElement(ReactNativePaper.List.Section, {
+                      title: "My Elections (as admin)",
+                      children: Belt_Array.map(Belt_MapString.toArray(Belt_MapString.keep(match[0].cache.elections, (function (_eventHash, election) {
+                                      return election.ownerPublicKey === publicKey;
+                                    }))), (function (param) {
+                              var eventHash = param[0];
+                              return React.createElement(ReactNativePaper.List.Item, {
+                                          onPress: (function (param) {
+                                              Curry._1(dispatch, {
+                                                    TAG: /* Navigate */0,
+                                                    _0: {
+                                                      TAG: /* Election_Show */0,
+                                                      _0: eventHash
+                                                    }
+                                                  });
+                                            }),
+                                          title: eventHash
                                         });
-                                  }),
-                                children: eventHash
-                              });
-                  })), React.createElement(ReactNativePaper.Title, {
-                  children: "My Elections (as voter)"
-                }), React.createElement(ReactNativePaper.Title, {
-                  children: "My Elections (as trustee)"
-                }), React.createElement(ReactNativePaper.Title, {
-                  children: "Elections (as voter)"
-                }));
+                            }))
+                    })));
 }
 
 var make = Identity_Show;
