@@ -7,8 +7,6 @@ let make = () => {
     None
   })
 
-  Js.log(state.route)
-
   <Layout state dispatch>
 
     <Header />

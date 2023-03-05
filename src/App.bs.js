@@ -19,7 +19,6 @@ function App(Props) {
   React.useEffect((function () {
           Curry._1(dispatch, /* Init */0);
         }), []);
-  console.log(state.route);
   var eventHash = state.route;
   var tmp;
   tmp = typeof eventHash === "number" ? (
