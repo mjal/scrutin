@@ -4,6 +4,7 @@ import * as X from "../helpers/X.bs.js";
 import * as React from "react";
 import * as Belenios from "../helpers/Belenios.bs.js";
 import * as ReactNativePaper from "react-native-paper";
+import * as Election_Booth_ChoiceList from "./Election_Booth_ChoiceList.bs.js";
 
 function Election_Booth(Props) {
   var election = Props.election;
@@ -11,7 +12,7 @@ function Election_Booth(Props) {
   var match = React.useState(function () {
         return false;
       });
-  React.useState(function () {
+  var match$1 = React.useState(function () {
         
       });
   if (match[0]) {
@@ -22,7 +23,13 @@ function Election_Booth(Props) {
                     children: "Vote en cours..."
                   }), React.createElement(ReactNativePaper.ActivityIndicator, {}));
   } else {
-    return React.createElement(React.Fragment, undefined);
+    return React.createElement(React.Fragment, undefined, React.createElement(Election_Booth_ChoiceList.make, {
+                    election: election,
+                    choice: match$1[0],
+                    setChoice: match$1[1]
+                  }), React.createElement(ReactNativePaper.Button, {
+                    children: "Voter"
+                  }));
   }
 }
 

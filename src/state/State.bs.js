@@ -35,9 +35,11 @@ function reducer(state, action) {
   }
   switch (action.TAG | 0) {
     case /* Navigate */0 :
+        var route = action._0;
+        console.log(route);
         return [
                 {
-                  route: action._0,
+                  route: route,
                   ids: state.ids,
                   txs: state.txs,
                   trustees: state.trustees,

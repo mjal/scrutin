@@ -14,7 +14,7 @@ module Choice = {
   let make = (~name, ~selected, ~onSelect) => {
     <List.Item
       title=name
-      left={_ => <List.Icon icon=Icon.name(selected ? "checkbox-intermediate" : "checkbox-blank-outline") />}
+      left={_ => <List.Icon icon=Icon.name(selected ? "radiobox-marked" : "radiobox-blank") />}
       onPress={_ => onSelect()}
     />
   }
@@ -33,7 +33,7 @@ let make = (~election: Election.t, ~choice, ~setChoice, ~disabled=false) => {
             <List.Item title=choiceName />
           } else {
             let selected = choice == Some(i) 
-            <Choice name=choiceName selected onSelect={_ => setChoice(Some(i))} key=Int.toString(i) />
+            <Choice name=choiceName selected onSelect={_ => setChoice(_ => Some(i))} key=Int.toString(i) />
           }
         }) -> React.array
       }

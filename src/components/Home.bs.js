@@ -4,9 +4,9 @@ import * as X from "../helpers/X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Context from "../state/Context.bs.js";
-import * as Identity from "../state/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
+import * as Home_Identities from "./Home_Identities.bs.js";
 import * as Home_Transactions from "./Home_Transactions.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 
@@ -14,12 +14,6 @@ function Home(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var state = match[0];
-  var genIdentity = function (param) {
-    Curry._1(dispatch, {
-          TAG: /* Identity_Add */1,
-          _0: Identity.make(undefined)
-        });
-  };
   var match$1 = state.route;
   if (typeof match$1 === "number") {
     switch (match$1) {
@@ -32,7 +26,8 @@ function Home(Props) {
                                         onPress: (function (param) {
                                             Curry._1(dispatch, {
                                                   TAG: /* Navigate */0,
-                                                  _0: /* Election_Show */{
+                                                  _0: {
+                                                    TAG: /* Election_Show */0,
                                                     _0: eventHash
                                                   }
                                                 });
@@ -51,28 +46,7 @@ function Home(Props) {
                           children: "New election"
                         }));
       case /* Home_Identities */1 :
-          return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
-                          children: "Identités"
-                        }), React.createElement(ReactNativePaper.List.Section, {
-                          title: "",
-                          children: Belt_Array.map(state.ids, (function (id) {
-                                  return React.createElement(ReactNativePaper.List.Item, {
-                                              title: "0x" + id.hexPublicKey,
-                                              key: id.hexPublicKey
-                                            });
-                                })),
-                          style: X.styles["margin-x"]
-                        }), React.createElement(ReactNativePaper.Button, {
-                          mode: "contained",
-                          onPress: genIdentity,
-                          children: "New identity"
-                        }), React.createElement(ReactNativePaper.Button, {
-                          mode: "outlined",
-                          onPress: (function (param) {
-                              Identity.clear(undefined);
-                            }),
-                          children: "Clear identities"
-                        }));
+          return React.createElement(Home_Identities.make, {});
       case /* Home_Transactions */2 :
           return React.createElement(Home_Transactions.make, {});
       case /* Election_New */3 :

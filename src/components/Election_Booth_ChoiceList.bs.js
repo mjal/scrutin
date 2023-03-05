@@ -16,7 +16,7 @@ var styles = ReactNative.StyleSheet.create({
       }
     });
 
-function ElectionBooth_ChoiceSelect$Choice(Props) {
+function Election_Booth_ChoiceList$Choice(Props) {
   var name = Props.name;
   var selected = Props.selected;
   var onSelect = Props.onSelect;
@@ -27,17 +27,17 @@ function ElectionBooth_ChoiceSelect$Choice(Props) {
               title: name,
               left: (function (param) {
                   return React.createElement(ReactNativePaper.List.Icon, {
-                              icon: selected ? "checkbox-intermediate" : "checkbox-blank-outline"
+                              icon: selected ? "radiobox-marked" : "radiobox-blank"
                             });
                 })
             });
 }
 
 var Choice = {
-  make: ElectionBooth_ChoiceSelect$Choice
+  make: Election_Booth_ChoiceList$Choice
 };
 
-function ElectionBooth_ChoiceSelect(Props) {
+function Election_Booth_ChoiceList(Props) {
   var election = Props.election;
   var choice = Props.choice;
   var setChoice = Props.setChoice;
@@ -55,11 +55,13 @@ function ElectionBooth_ChoiceSelect(Props) {
                                         });
                             }
                             var selected = Caml_obj.equal(choice, i);
-                            return React.createElement(ElectionBooth_ChoiceSelect$Choice, {
+                            return React.createElement(Election_Booth_ChoiceList$Choice, {
                                         name: choiceName,
                                         selected: selected,
                                         onSelect: (function (param) {
-                                            Curry._1(setChoice, i);
+                                            Curry._1(setChoice, (function (param) {
+                                                    return i;
+                                                  }));
                                           }),
                                         key: String(i)
                                       });
@@ -69,7 +71,7 @@ function ElectionBooth_ChoiceSelect(Props) {
             });
 }
 
-var make = ElectionBooth_ChoiceSelect;
+var make = Election_Booth_ChoiceList;
 
 export {
   styles ,

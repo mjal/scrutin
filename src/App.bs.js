@@ -10,6 +10,7 @@ import * as UseTea from "rescript-use-tea/src/UseTea.bs.js";
 import * as Navigation from "./Navigation.bs.js";
 import * as Election_New from "./components/Election_New.bs.js";
 import * as Election_Show from "./components/Election_Show.bs.js";
+import * as Identity_Show from "./components/Identity_Show.bs.js";
 
 function App(Props) {
   var match = UseTea.useTea(State.reducer, State.initial);
@@ -18,16 +19,23 @@ function App(Props) {
   React.useEffect((function () {
           Curry._1(dispatch, /* Init */0);
         }), []);
+  console.log(state.route);
   var eventHash = state.route;
+  var tmp;
+  tmp = typeof eventHash === "number" ? (
+      eventHash === /* Election_New */3 ? React.createElement(Election_New.make, {}) : React.createElement(Home.make, {})
+    ) : (
+      eventHash.TAG === /* Election_Show */0 ? React.createElement(Election_Show.make, {
+              eventHash: eventHash._0
+            }) : React.createElement(Identity_Show.make, {
+              publicKey: eventHash._0
+            })
+    );
   return React.createElement(Layout.make, {
               state: state,
               dispatch: dispatch,
               children: null
-            }, React.createElement(Header.make, {}), typeof eventHash === "number" ? (
-                eventHash >= 3 ? React.createElement(Election_New.make, {}) : React.createElement(Home.make, {})
-              ) : React.createElement(Election_Show.make, {
-                    eventHash: eventHash._0
-                  }), React.createElement(Navigation.make, {}));
+            }, React.createElement(Header.make, {}), tmp, React.createElement(Navigation.make, {}));
 }
 
 var make = App;

@@ -7,6 +7,8 @@ let make = () => {
     None
   })
 
+  Js.log(state.route)
+
   <Layout state dispatch>
 
     <Header />
@@ -18,24 +20,8 @@ let make = () => {
     => <Home />
     | Election_New => <Election_New />
     | Election_Show(eventHash) => <Election_Show eventHash />
-    | _ => <Text>{"Unknown route"->React.string}</Text>
+    | Identity_Show(publicKey) => <Identity_Show publicKey />
     } }
-
-    /*
-    {switch state.route {
-    | Home => <Home />
-
-    | ElectionNew => <ElectionNew />
-    | ElectionBooth(_uuid)
-    | ElectionResult(_uuid)
-    | ElectionShow(_uuid) => <ElectionShow />
-
-    | User_Register => <User_Register />
-    | User_Register_Confirm(_email, _secret) => <User_Register_Confirm />
-    | User_Profile => <User_Profile />
-    | Admin_User_Show(user) =>  <Admin_User_Show user />
-    }}
-    */
 
     <Navigation />
   </Layout>

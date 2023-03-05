@@ -47,7 +47,9 @@ let reducer = (state, action: Action.t) => {
     let cache = {...state.cache, elections}
     ({...state, cache}, [])
 
-  | Navigate(route) => ({...state, route}, [])
+  | Navigate(route) =>
+    Js.log(route)
+    ({...state, route}, [])
 
   }
 }

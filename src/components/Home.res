@@ -2,10 +2,6 @@
 let make = () => {
   let (state, dispatch) = Context.use()
 
-  let genIdentity = _ => {
-    dispatch(Identity_Add(Identity.make()))
-  }
-
   switch state.route {
   | Home_Elections =>
     <>
@@ -23,26 +19,8 @@ let make = () => {
         { "New election" -> React.string }
       </Button>
     </>
-  | Home_Identities =>
-    <>
-      <X.Title>{ "Identités" -> React.string }</X.Title>
-      <List.Section title="" style=X.styles["margin-x"]>
-      { Array.map(state.ids, (id) => {
-        <List.Item
-          key=id.hexPublicKey
-          title=("0x" ++ id.hexPublicKey)
-        />
-      }) -> React.array }
-      </List.Section>
-      <Button mode=#contained onPress=genIdentity>
-        { "New identity" -> React.string }
-      </Button>
-      <Button mode=#outlined onPress={_ => Identity.clear()}>
-        { "Clear identities" -> React.string }
-      </Button>
-    </>
-  | Home_Transactions =>
-    <Home_Transactions />
+  | Home_Identities => <Home_Identities />
+  | Home_Transactions => <Home_Transactions />
   | _ =>
     <Text>{"Unknown route"->React.string}</Text>
   }

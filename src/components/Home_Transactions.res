@@ -40,5 +40,8 @@ let make = () => {
       />
     }) -> React.array }
     </List.Section>
+    <Button mode=#outlined onPress={_ => Transaction.clear()}>
+      { "Clear transactions" -> React.string }
+    </Button>
   </>
 }

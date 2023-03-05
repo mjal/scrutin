@@ -64,6 +64,12 @@ function Home_Transactions(Props) {
                                     });
                         })),
                   style: X.styles["margin-x"]
+                }), React.createElement(ReactNativePaper.Button, {
+                  mode: "outlined",
+                  onPress: (function (param) {
+                      Transaction.clear(undefined);
+                    }),
+                  children: "Clear transactions"
                 }));
 }
 

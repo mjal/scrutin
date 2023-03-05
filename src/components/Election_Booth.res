@@ -29,7 +29,8 @@ let make = (~election: Election.t) => {
       </>
     } else {
       <>
-        //<ElectionBooth_ChoiceSelect election choice setChoice />
+        <Election_Booth_ChoiceList election choice setChoice />
+        <Button>{ "Voter" -> React.string }</Button>
       </>
     } }
   } }
