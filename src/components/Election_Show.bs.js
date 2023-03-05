@@ -12,29 +12,33 @@ function Election_Show(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var election = Belt_MapString.getExn(match[0].cache.elections, eventHash);
+  var publicKey = election.ownerPublicKey;
   var onPress = function (param) {
     Curry._1(dispatch, {
           TAG: /* Navigate */0,
           _0: {
             TAG: /* Identity_Show */1,
-            _0: election.ownerPublicKey
+            _0: publicKey
           }
         });
   };
-  return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
-                  children: "Owner"
-                }), React.createElement(ReactNativePaper.Text, {
-                  onPress: onPress,
-                  children: election.ownerPublicKey
-                }), React.createElement(ReactNativePaper.Title, {
-                  children: "Params"
-                }), React.createElement(ReactNativePaper.Text, {
-                  children: election.params
-                }), React.createElement(ReactNativePaper.Title, {
-                  children: "Trustees"
-                }), React.createElement(ReactNativePaper.Text, {
-                  children: election.trustees
-                }), React.createElement(Election_Booth.make, {
+  return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.List.Section, {
+                  title: "Election",
+                  children: null
+                }, React.createElement(ReactNativePaper.List.Item, {
+                      title: "Event Hash",
+                      description: eventHash
+                    }), React.createElement(ReactNativePaper.List.Item, {
+                      onPress: onPress,
+                      title: "Owner Public Key",
+                      description: publicKey
+                    }), React.createElement(ReactNativePaper.List.Item, {
+                      title: "Params",
+                      description: election.params
+                    }), React.createElement(ReactNativePaper.List.Item, {
+                      title: "Trustees",
+                      description: election.trustees
+                    })), React.createElement(ReactNativePaper.Divider, {}), React.createElement(Election_Booth.make, {
                   election: election
                 }));
 }
