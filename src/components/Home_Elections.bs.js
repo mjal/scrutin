@@ -8,25 +8,69 @@ import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
 
+function Home_Elections$Election(Props) {
+  var eventHash = Props.eventHash;
+  var election = Props.election;
+  var match = Context.use(undefined);
+  var dispatch = match[1];
+  var electionParams = JSON.parse(election.params);
+  var show = function (param) {
+    Curry._1(dispatch, {
+          TAG: /* Navigate */0,
+          _0: {
+            TAG: /* Election_Show */0,
+            _0: eventHash
+          }
+        });
+  };
+  return React.createElement(ReactNativePaper.Card, {
+              children: null
+            }, React.createElement(ReactNativePaper.Card.Content, {
+                  children: React.createElement(ReactNativePaper.List.Section, {
+                        title: eventHash,
+                        children: null
+                      }, React.createElement(ReactNativePaper.List.Item, {
+                            onPress: show,
+                            title: "Name",
+                            description: electionParams.name
+                          }), React.createElement(ReactNativePaper.List.Item, {
+                            onPress: show,
+                            title: "Description",
+                            description: electionParams.description
+                          }), React.createElement(ReactNativePaper.List.Item, {
+                            onPress: (function (param) {
+                                Curry._1(dispatch, {
+                                      TAG: /* Navigate */0,
+                                      _0: {
+                                        TAG: /* Identity_Show */1,
+                                        _0: election.ownerPublicKey
+                                      }
+                                    });
+                              }),
+                            title: "Administrator",
+                            description: election.ownerPublicKey
+                          }))
+                }), React.createElement(ReactNativePaper.Card.Actions, {
+                  children: React.createElement(ReactNativePaper.Button, {
+                        onPress: show,
+                        children: "Show"
+                      })
+                }));
+}
+
+var Election = {
+  make: Home_Elections$Election
+};
+
 function Home_Elections(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
                   children: "Elections"
                 }), Belt_Array.map(Belt_MapString.toArray(match[0].cache.elections), (function (param) {
-                    var eventHash = param[0];
-                    return React.createElement(ReactNativePaper.List.Item, {
-                                onPress: (function (param) {
-                                    Curry._1(dispatch, {
-                                          TAG: /* Navigate */0,
-                                          _0: {
-                                            TAG: /* Election_Show */0,
-                                            _0: eventHash
-                                          }
-                                        });
-                                  }),
-                                title: "0x" + eventHash,
-                                key: eventHash
+                    return React.createElement(Home_Elections$Election, {
+                                eventHash: param[0],
+                                election: param[1]
                               });
                   })), React.createElement(ReactNativePaper.Button, {
                   mode: "contained",
@@ -43,6 +87,7 @@ function Home_Elections(Props) {
 var make = Home_Elections;
 
 export {
+  Election ,
   make ,
 }
 /* X Not a pure module */
