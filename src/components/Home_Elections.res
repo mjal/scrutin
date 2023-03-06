@@ -24,6 +24,7 @@ module Election = {
 
         </List.Section>
       </Card.Content>
+
       <Card.Actions>
 
         <Button onPress=show>
