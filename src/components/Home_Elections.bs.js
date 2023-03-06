@@ -68,9 +68,11 @@ function Home_Elections(Props) {
   return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
                   children: "Elections"
                 }), Belt_Array.map(Belt_MapString.toArray(match[0].cache.elections), (function (param) {
+                    var eventHash = param[0];
                     return React.createElement(Home_Elections$Election, {
-                                eventHash: param[0],
-                                election: param[1]
+                                eventHash: eventHash,
+                                election: param[1],
+                                key: eventHash
                               });
                   })), React.createElement(ReactNativePaper.Button, {
                   mode: "contained",

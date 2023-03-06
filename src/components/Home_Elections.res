@@ -45,7 +45,7 @@ let make = () => {
     { state.cache.elections
       -> Map.String.toArray
       -> Array.map(((eventHash, election)) => {
-        <Election eventHash election />
+        <Election eventHash election key=eventHash />
     }) -> React.array }
     <Button mode=#contained onPress={_ => dispatch(Navigate(Election_New))}>
       { "New election" -> React.string }

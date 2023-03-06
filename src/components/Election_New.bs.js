@@ -7,7 +7,6 @@ import * as Election from "../state/Election.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Transaction from "../state/Transaction.bs.js";
 import * as ReactNativePaper from "react-native-paper";
-import * as Election_New_VoterList from "./Election_New_VoterList.bs.js";
 import * as Election_New_ChoiceList from "./Election_New_ChoiceList.bs.js";
 
 function Election_New(Props) {
@@ -28,7 +27,7 @@ function Election_New(Props) {
         return [];
       });
   var choices = match$3[0];
-  var match$4 = React.useState(function () {
+  React.useState(function () {
         return [];
       });
   var onSubmit = function (param) {
@@ -44,6 +43,7 @@ function Election_New(Props) {
           _0: /* Home_Elections */0
         });
   };
+  var user = Belt_Array.get(state.ids, 0);
   return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.TextInput, {
                   mode: "flat",
                   label: "Nom de l'élection",
@@ -67,10 +67,13 @@ function Election_New(Props) {
                 }), React.createElement(Election_New_ChoiceList.make, {
                   choices: choices,
                   setChoices: match$3[1]
-                }), React.createElement(Election_New_VoterList.make, {
-                  voters: match$4[0],
-                  setVoters: match$4[1]
-                }), React.createElement(ReactNativePaper.Button, {
+                }), user !== undefined ? React.createElement(ReactNativePaper.List.Item, {
+                    title: "Owner",
+                    description: user.hexPublicKey
+                  }) : React.createElement(ReactNativePaper.List.Item, {
+                    title: "Owner",
+                    description: "No public key found"
+                  }), React.createElement(ReactNativePaper.Button, {
                   mode: "outlined",
                   onPress: onSubmit,
                   children: "Create"

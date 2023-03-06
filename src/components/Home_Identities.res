@@ -20,5 +20,4 @@ let make = () => {
       { "Clear identities" -> React.string }
     </Button>
   </>
-
 }

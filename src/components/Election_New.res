@@ -36,7 +36,19 @@ let make = () => {
 
     <Election_New_ChoiceList choices setChoices />
 
-    <Election_New_VoterList voters setVoters />
+    {
+      switch Array.get(state.ids, 0) {
+      | Some(user) =>
+        <List.Item
+          title="Owner"
+          description=user.hexPublicKey />
+      | None =>
+        <List.Item
+          title="Owner"
+          description="No public key found" />
+      }
+    }
+    //<Election_New_VoterList voters setVoters />
 
     <Button mode=#outlined onPress=onSubmit>
       {"Create" -> React.string}
