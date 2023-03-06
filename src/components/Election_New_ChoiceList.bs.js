@@ -87,7 +87,7 @@ function Election_New_ChoiceList(Props) {
                           return React.createElement(Election_New_ChoiceList$Item, {
                                       onRemove: (function (param) {
                                           Curry._1(setChoices, (function (choices) {
-                                                  return Belt_Array.keepWithIndex(choices, (function (name, index) {
+                                                  return Belt_Array.keepWithIndex(choices, (function (_name, index) {
                                                                 return index !== i;
                                                               }));
                                                 }));

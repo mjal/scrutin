@@ -1,6 +1,6 @@
 @react.component
 let make = () => {
-  let (state, dispatch) = Context.use()
+  let (_state, dispatch) = Context.use()
   let (index, setIndex) = React.useState(_ => 0)
 
   <BottomNavigation

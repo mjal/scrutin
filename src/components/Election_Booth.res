@@ -7,8 +7,8 @@ let make = (~election: Election.t) => {
   //let (changeVote, setChangeVote) = React.useState(_ => false)
 
   //let election = Map.String.getExn(state.cache.elections, eventHash)
-  let answers  = Belenios.Election.answers(Belenios.Election.parse(election.params))
-  let (votingInProgress, setVotingInProgress) = React.useState(_ => false)
+  let _answers  = Belenios.Election.answers(Belenios.Election.parse(election.params))
+  let (votingInProgress, _setVotingInProgress) = React.useState(_ => false)
   let (choice:option<int>, setChoice) = React.useState(_ => None)
   //let choice = Some(1)
 

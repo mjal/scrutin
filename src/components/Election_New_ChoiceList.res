@@ -27,7 +27,7 @@ let make = (~choices, ~setChoices) => {
 
   let onRemove = i => {
     setChoices(choices =>
-      Array.keepWithIndex(choices, (name, index) => index != i)
+      Array.keepWithIndex(choices, (_name, index) => index != i)
     )
   }
 

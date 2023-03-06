@@ -66,7 +66,7 @@ function getParameterByName(name, url = window.location.href) {
 // const urlSearchParams = new URLSearchParams(window.location.search);
 // const params = Object.fromEntries(urlSearchParams.entries());
 let getSearchParameter = (name) => {
-  let name2 = `${name}2`
+  let _name2 = `${name}2`
   let res = %raw(`getParameterByName(name)`)
   res
 }

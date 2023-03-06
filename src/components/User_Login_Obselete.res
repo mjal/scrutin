@@ -1,8 +1,8 @@
 @react.component
 let make = () => {
-  let (_, dispatch) = Context.use()
+  let (_, _dispatch) = Context.use()
   let (email, setEmail) = React.useState(_ => "")
-  let (error, setError) = React.useState(_ => "")
+  let (error, _setError) = React.useState(_ => "")
 
   let onSubmit = _ => {
     ()

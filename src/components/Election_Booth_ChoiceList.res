@@ -22,7 +22,6 @@ module Choice = {
 
 @react.component
 let make = (~election: Election.t, ~choice, ~setChoice, ~disabled=false) => {
-  let (state, _) = Context.use()
   let answers = Belenios.Election.answers(Belenios.Election.parse(election.params))
 
   <View>

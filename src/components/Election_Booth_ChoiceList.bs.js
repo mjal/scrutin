@@ -2,7 +2,6 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
-import * as Context from "../state/Context.bs.js";
 import * as Belenios from "../helpers/Belenios.bs.js";
 import * as Caml_obj from "rescript/lib/es6/caml_obj.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
@@ -43,7 +42,6 @@ function Election_Booth_ChoiceList(Props) {
   var setChoice = Props.setChoice;
   var disabledOpt = Props.disabled;
   var disabled = disabledOpt !== undefined ? disabledOpt : false;
-  Context.use(undefined);
   var answers = Belenios.Election.answers(JSON.parse(election.params));
   return React.createElement(ReactNative.View, {
               children: React.createElement(ReactNativePaper.List.Section, {
