@@ -27,9 +27,6 @@ function Election_New(Props) {
         return [];
       });
   var choices = match$3[0];
-  React.useState(function () {
-        return [];
-      });
   var onSubmit = function (param) {
     var identity = Belt_Array.getExn(state.ids, 0);
     var election = Election.make(name, desc, choices, identity.hexPublicKey);

@@ -18,10 +18,11 @@ let make = (~eventHash) => {
     let data = {
       let dict = Js.Dict.empty()
       Js.Dict.set(dict, "email", Js.Json.string(email))
-      Js.Dict.set(dict, "message", Js.Json.string(message))
+      Js.Dict.set(dict, "subject", Js.Json.string("Vous êtes invité à un election"))
+      Js.Dict.set(dict, "text", Js.Json.string(message))
       Js.Json.object_(dict)
     }
-    X.post(`${Config.api_url}/users/email_confirmation`, data)
+    X.post(`${Config.api_url}/proxy_email`, data)
     -> ignore
 
     // Create ballot

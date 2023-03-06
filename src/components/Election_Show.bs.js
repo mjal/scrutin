@@ -27,8 +27,9 @@ function Election_Show(Props) {
     var message = "\n      Hello !\n      Vous êtes invité à l'election.\n      Voici votre clé privée " + hexSecretKey + "\n      Pour information, la clé publique associée est " + id.hexPublicKey + "\n      L'organisateur vient de creer un bulletin de vote avec cette clé publique.\n    ";
     var dict = {};
     dict["email"] = email;
-    dict["message"] = message;
-    X.post("" + Config.api_url + "/users/email_confirmation", dict);
+    dict["subject"] = "Vous êtes invité à un election";
+    dict["text"] = message;
+    X.post("" + Config.api_url + "/proxy_email", dict);
   };
   var onPress = function (param) {
     Curry._1(dispatch, {

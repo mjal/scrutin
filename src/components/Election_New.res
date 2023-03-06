@@ -4,7 +4,6 @@ let make = () => {
   let (name, setName) = React.useState(_ => "")
   let (desc, setDesc) = React.useState(_ => "")
   let (choices, setChoices) = React.useState(_ => [])
-  let (voters, setVoters) = React.useState(_ => [])
   //let (visibleChoice, setVisibleChoice) = React.useState(_ => false)
   //let (visibleVoter, setVisibleVoter) = React.useState(_ => false)
 
