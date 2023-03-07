@@ -19,8 +19,9 @@ module Election = {
 
           <List.Item title="Administrator"
             description=election.ownerPublicKey
-            onPress={_ =>
-              dispatch(Navigate(Identity_Show(election.ownerPublicKey)))} />
+            //onPress={_ =>
+            //  dispatch(Navigate(Identity_Show(election.ownerPublicKey)))}
+          />
 
         </List.Section>
       </Card.Content>

@@ -11,6 +11,7 @@ function Identity_Show(Props) {
   var publicKey = Props.publicKey;
   var match = Context.use(undefined);
   var dispatch = match[1];
+  var state = match[0];
   return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.List.Section, {
                   title: "Identity",
                   children: null
@@ -18,8 +19,8 @@ function Identity_Show(Props) {
                       title: "Public Key",
                       description: publicKey
                     }), React.createElement(ReactNativePaper.List.Section, {
-                      title: "My Elections (as admin)",
-                      children: Belt_Array.map(Belt_MapString.toArray(Belt_MapString.keep(match[0].cache.elections, (function (_eventHash, election) {
+                      title: "Elections",
+                      children: Belt_Array.map(Belt_MapString.toArray(Belt_MapString.keep(state.cache.elections, (function (_eventHash, election) {
                                       return election.ownerPublicKey === publicKey;
                                     }))), (function (param) {
                               var eventHash = param[0];
@@ -33,7 +34,21 @@ function Identity_Show(Props) {
                                                     }
                                                   });
                                             }),
-                                          title: eventHash
+                                          title: eventHash,
+                                          key: eventHash
+                                        });
+                            }))
+                    }), React.createElement(ReactNativePaper.List.Section, {
+                      title: "Ballots",
+                      children: Belt_Array.map(Belt_MapString.toArray(Belt_MapString.keep(state.cache.ballots, (function (_eventHash, ballot) {
+                                      return Belt_Array.some(ballot.owners, (function (id) {
+                                                    return id === publicKey;
+                                                  }));
+                                    }))), (function (param) {
+                              var eventHash = param[0];
+                              return React.createElement(ReactNativePaper.List.Item, {
+                                          title: eventHash,
+                                          key: eventHash
                                         });
                             }))
                     })));

@@ -35,11 +35,9 @@ function reducer(state, action) {
   }
   switch (action.TAG | 0) {
     case /* Navigate */0 :
-        var route = action._0;
-        console.log(route);
         return [
                 {
-                  route: route,
+                  route: action._0,
                   ids: state.ids,
                   txs: state.txs,
                   trustees: state.trustees,
@@ -96,6 +94,24 @@ function reducer(state, action) {
                   txs: state.txs,
                   trustees: state.trustees,
                   cache: cache
+                },
+                []
+              ];
+    case /* Cache_Ballot_Add */4 :
+        var ballots = Belt_MapString.set(state.cache.ballots, action._0, action._1);
+        var init$1 = state.cache;
+        var cache_elections = init$1.elections;
+        var cache$1 = {
+          elections: cache_elections,
+          ballots: ballots
+        };
+        return [
+                {
+                  route: state.route,
+                  ids: state.ids,
+                  txs: state.txs,
+                  trustees: state.trustees,
+                  cache: cache$1
                 },
                 []
               ];

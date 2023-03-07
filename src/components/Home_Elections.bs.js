@@ -38,15 +38,6 @@ function Home_Elections$Election(Props) {
                             title: "Description",
                             description: electionParams.description
                           }), React.createElement(ReactNativePaper.List.Item, {
-                            onPress: (function (param) {
-                                Curry._1(dispatch, {
-                                      TAG: /* Navigate */0,
-                                      _0: {
-                                        TAG: /* Identity_Show */1,
-                                        _0: election.ownerPublicKey
-                                      }
-                                    });
-                              }),
                             title: "Administrator",
                             description: election.ownerPublicKey
                           }))

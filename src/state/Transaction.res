@@ -59,6 +59,25 @@ module SignedElection = {
   }
 }
 
+// == Ballot transactions
+module SignedBallot = {
+  let make = (ballot : Ballot.t, owner : Identity.t) => {
+    let event = Ballot.stringify(ballot)
+    let eventHash = hash(event)
+    {
+      event,
+      eventType: "ballot",
+      eventHash,
+      publicKey: owner.hexPublicKey,
+      signature: sig(eventHash, Option.getExn(owner.hexSecretKey))
+    }
+  }
+
+  let unwrap = (tx) : Ballot.t => {
+    Ballot.parse(tx.event)
+  }
+}
+
 /*
 module Ballot =
 {

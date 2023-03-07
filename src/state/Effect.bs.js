@@ -46,14 +46,21 @@ function transactions_clear(_dispatch) {
 
 function cache_update(tx, dispatch) {
   var match = tx.eventType;
-  if (match === "election") {
-    return Curry._1(dispatch, {
-                TAG: /* Cache_Election_Add */3,
-                _0: tx.eventHash,
-                _1: Transaction.SignedElection.unwrap(tx)
-              });
-  } else {
-    return Js_exn.raiseError("Unknown transaction type");
+  switch (match) {
+    case "ballot" :
+        return Curry._1(dispatch, {
+                    TAG: /* Cache_Ballot_Add */4,
+                    _0: tx.eventHash,
+                    _1: Transaction.SignedBallot.unwrap(tx)
+                  });
+    case "election" :
+        return Curry._1(dispatch, {
+                    TAG: /* Cache_Election_Add */3,
+                    _0: tx.eventHash,
+                    _1: Transaction.SignedElection.unwrap(tx)
+                  });
+    default:
+      return Js_exn.raiseError("Unknown transaction type");
   }
 }
 

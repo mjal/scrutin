@@ -27,7 +27,10 @@ let transactions_clear =
 let cache_update = (tx : Transaction.t) =>
   (dispatch) => {
     switch tx.eventType {
-    | "election" => dispatch(Action.Cache_Election_Add(tx.eventHash, Transaction.SignedElection.unwrap(tx)))
+    | "election" => dispatch(Action.Cache_Election_Add(tx.eventHash,
+      Transaction.SignedElection.unwrap(tx)))
+    | "ballot" => dispatch(Action.Cache_Ballot_Add(tx.eventHash,
+      Transaction.SignedBallot.unwrap(tx)))
     | _ => Js.Exn.raiseError("Unknown transaction type")
     }
   }

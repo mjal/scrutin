@@ -64,6 +64,27 @@ var SignedElection = {
   unwrap: unwrap
 };
 
+function make$1(ballot, owner) {
+  var $$event = JSON.stringify(ballot);
+  var eventHash = SjclWithAll.codec.hex.fromBits(SjclWithAll.hash.sha256.hash($$event));
+  return {
+          event: $$event,
+          eventType: "ballot",
+          eventHash: eventHash,
+          publicKey: owner.hexPublicKey,
+          signature: sig(eventHash, Belt_Option.getExn(owner.hexSecretKey))
+        };
+}
+
+function unwrap$1(tx) {
+  return JSON.parse(tx.event);
+}
+
+var SignedBallot = {
+  make: make$1,
+  unwrap: unwrap$1
+};
+
 export {
   storageKey ,
   fetch_all ,
@@ -72,5 +93,6 @@ export {
   hash ,
   sig ,
   SignedElection ,
+  SignedBallot ,
 }
 /* Sjcl Not a pure module */

@@ -20,23 +20,3 @@ let make = (name, description, choices, ownerPublicKey) => {
     ownerPublicKey
   }
 }
-
-/*
-let createBallot = (election : t, privateCredential : string, selection : array<int>) : Ballot.t => {
-  let trustees = Belenios.Trustees.of_str(Option.getExn(election.trustees))
-
-  let ciphertext =
-    Belenios.Election.vote(Option.getExn(election.params), ~cred=privateCredential, ~selections=[selection], ~trustees)
-    -> Belenios.Ballot.to_str
-
-  let uuid = election.uuid -> Option.getExn
-  let publicCredential = Belenios.Credentials.derive(~uuid, ~privateCredential)
-
-  {
-    electionUuid: election.uuid,
-    ciphertext: Some(ciphertext),
-    publicCredential,
-    privateCredential
-  }
-}
-*/
