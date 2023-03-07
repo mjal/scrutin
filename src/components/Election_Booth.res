@@ -1,12 +1,9 @@
 @react.component
-let make = (~election: Election.t) => {
-  //let (state, dispatch) = Context.use()
-  //let (showModal, setshowModal) = React.useState(_ => false)
-  //let (visibleError, setVisibleError) = React.useState(_ => false)
-  //let (hasVoted, setHasVoted) = React.useState(_ => false)
-  //let (changeVote, setChangeVote) = React.useState(_ => false)
+let make = (~ballotTx) => {
+  let (state, _dispatch) = Context.use()
+  let ballot = Map.String.getExn(state.cache.ballots, ballotTx)
+  let election = Map.String.getExn(state.cache.elections, ballot.electionTx)
 
-  //let election = Map.String.getExn(state.cache.elections, eventHash)
   let _answers  = Belenios.Election.answers(Belenios.Election.parse(election.params))
   let (votingInProgress, _setVotingInProgress) = React.useState(_ => false)
   let (choice:option<int>, setChoice) = React.useState(_ => None)

@@ -5,3 +5,4 @@ type t =
   | Election_New
   | Election_Show(string)
   | Identity_Show(string)
+  | Ballot_Show(string)

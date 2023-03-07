@@ -24,6 +24,13 @@ function Election_Show(Props) {
   var email = match$1[0];
   var election = Belt_MapString.getExn(state.cache.elections, eventHash);
   var publicKey = election.ownerPublicKey;
+  var ballots = Belt_Array.keep(Belt_Array.keep(state.txs, (function (tx) {
+              return tx.eventType === "ballot";
+            })), (function (tx) {
+          var ballot = Transaction.SignedBallot.unwrap(tx);
+          return ballot.electionTx === eventHash;
+        }));
+  var nbBallots = ballots.length;
   var addBallot = function (param) {
     var id = Identity.make(undefined);
     var hexSecretKey = Belt_Option.getExn(id.hexSecretKey);
@@ -39,7 +46,7 @@ function Election_Show(Props) {
     ];
     var ballot = {
       electionTx: eventHash,
-      ballotTx: undefined,
+      previousTx: undefined,
       owners: ballot_owners,
       ciphertext: undefined
     };
@@ -90,43 +97,25 @@ function Election_Show(Props) {
                   mode: "outlined",
                   onPress: addBallot,
                   children: "Add as voter"
-                }), React.createElement(ReactNativePaper.Divider, {}), Belt_Array.map(Belt_Array.keep(Belt_Array.keep(state.txs, (function (tx) {
-                            return tx.eventType === "ballot";
-                          })), (function (tx) {
-                        var ballot = Transaction.SignedBallot.unwrap(tx);
-                        return ballot.electionTx === eventHash;
-                      })), (function (tx) {
-                    var ballot = Transaction.SignedBallot.unwrap(tx);
-                    return React.createElement(ReactNativePaper.List.Section, {
-                                title: "Ballot " + tx.eventHash + "",
-                                children: null,
-                                key: tx.eventHash
-                              }, React.createElement(ReactNativePaper.List.Item, {
-                                    title: "ballotTx",
-                                    description: Belt_Option.getWithDefault(ballot.ballotTx, "")
-                                  }), React.createElement(ReactNativePaper.List.Item, {
-                                    title: "cipherText",
-                                    description: Belt_Option.getWithDefault(ballot.ciphertext, "")
-                                  }), React.createElement(ReactNativePaper.List.Section, {
-                                    title: "lol",
-                                    children: Belt_Array.mapWithIndex(ballot.owners, (function (i, hexPublicKey) {
-                                            return React.createElement(ReactNativePaper.List.Item, {
-                                                        onPress: (function (param) {
-                                                            Curry._1(dispatch, {
-                                                                  TAG: /* Navigate */0,
-                                                                  _0: {
-                                                                    TAG: /* Identity_Show */1,
-                                                                    _0: hexPublicKey
-                                                                  }
-                                                                });
-                                                          }),
-                                                        title: "Owner " + String(i + 1 | 0) + "",
-                                                        description: hexPublicKey,
-                                                        key: hexPublicKey
-                                                      });
-                                          }))
-                                  }));
-                  })));
+                }), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ReactNativePaper.List.Section, {
+                  title: "" + String(nbBallots) + " ballots",
+                  children: Belt_Array.map(ballots, (function (tx) {
+                          Transaction.SignedBallot.unwrap(tx);
+                          return React.createElement(ReactNativePaper.List.Item, {
+                                      onPress: (function (param) {
+                                          Curry._1(dispatch, {
+                                                TAG: /* Navigate */0,
+                                                _0: {
+                                                  TAG: /* Ballot_Show */2,
+                                                  _0: tx.eventHash
+                                                }
+                                              });
+                                        }),
+                                      title: "Ballot " + tx.eventHash + "",
+                                      key: tx.eventHash
+                                    });
+                        }))
+                }));
 }
 
 var make = Election_Show;

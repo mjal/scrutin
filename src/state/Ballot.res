@@ -1,6 +1,6 @@
 type t = {
   electionTx: string,
-  ballotTx:   option<string>,
+  previousTx: option<string>,
   owners:     array<string>,
   ciphertext: option<string>,
 }

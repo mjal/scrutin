@@ -7,6 +7,7 @@ import * as Header from "./Header.bs.js";
 import * as Layout from "./Layout.bs.js";
 import * as UseTea from "rescript-use-tea/src/UseTea.bs.js";
 import * as Navigation from "./Navigation.bs.js";
+import * as Ballot_Show from "./components/Ballot_Show.bs.js";
 import * as Election_New from "./components/Election_New.bs.js";
 import * as Election_Show from "./components/Election_Show.bs.js";
 import * as Identity_Show from "./components/Identity_Show.bs.js";
@@ -40,11 +41,24 @@ function App(Props) {
       
     }
   } else {
-    tmp = eventHash.TAG === /* Election_Show */0 ? React.createElement(Election_Show.make, {
-            eventHash: eventHash._0
-          }) : React.createElement(Identity_Show.make, {
-            publicKey: eventHash._0
-          });
+    switch (eventHash.TAG | 0) {
+      case /* Election_Show */0 :
+          tmp = React.createElement(Election_Show.make, {
+                eventHash: eventHash._0
+              });
+          break;
+      case /* Identity_Show */1 :
+          tmp = React.createElement(Identity_Show.make, {
+                publicKey: eventHash._0
+              });
+          break;
+      case /* Ballot_Show */2 :
+          tmp = React.createElement(Ballot_Show.make, {
+                eventHash: eventHash._0
+              });
+          break;
+      
+    }
   }
   return React.createElement(Layout.make, {
               state: state,

@@ -20,6 +20,8 @@ let make = () => {
     | Election_New => <Election_New />
     | Election_Show(eventHash) => <Election_Show eventHash />
 
+    | Ballot_Show(eventHash) => <Ballot_Show eventHash />
+
     | Identity_Show(publicKey) => <Identity_Show publicKey />
 
     } }

@@ -5,6 +5,16 @@ let make = (~eventHash) => {
   let election = Map.String.getExn(state.cache.elections, eventHash)
   let publicKey = election.ownerPublicKey
 
+  let ballots =
+    state.txs
+    -> Array.keep((tx) => tx.eventType == "ballot")
+    -> Array.keep((tx) => {
+      let ballot = Transaction.SignedBallot.unwrap(tx)
+      ballot.electionTx == eventHash
+    })
+
+  let nbBallots = Array.length(ballots)
+
   let addBallot = _ => {
     let id = Identity.make()
     let hexSecretKey = Option.getExn(id.hexSecretKey)
@@ -28,7 +38,7 @@ let make = (~eventHash) => {
 
     let ballot : Ballot.t = {
       electionTx: eventHash,
-      ballotTx:   None,
+      previousTx: None,
       ciphertext: None,
       owners: [
         election.ownerPublicKey,
@@ -75,36 +85,17 @@ let make = (~eventHash) => {
 
     <Divider />
 
+    <List.Section title=`${nbBallots -> Int.toString} ballots`>
     {
-      state.txs
-      -> Array.keep((tx) => tx.eventType == "ballot")
-      -> Array.keep((tx) => {
-        let ballot = Transaction.SignedBallot.unwrap(tx)
-        ballot.electionTx == eventHash
-      })
-      -> Array.map((tx) => {
-        let ballot = Transaction.SignedBallot.unwrap(tx)
-        <List.Section title=`Ballot ${tx.eventHash}` key=tx.eventHash>
-          <List.Item title="ballotTx"
-            description=Option.getWithDefault(ballot.ballotTx, "") />
-          <List.Item title="cipherText"
-            description=Option.getWithDefault(ballot.ciphertext, "") />
-
-          <List.Accordion title="lol">
-          {
-            Array.mapWithIndex(ballot.owners, (i, hexPublicKey) =>
-              <List.Item title=`Owner ${(i+1)->Int.toString}`
-                key=hexPublicKey
-                description=hexPublicKey
-                onPress={_ =>
-                  dispatch(Navigate(Identity_Show(hexPublicKey)))}
-              />
-            ) -> React.array
-          }
-          </List.Accordion>
-        </List.Section>
+      Array.map(ballots, (tx) => {
+        let _ballot = Transaction.SignedBallot.unwrap(tx)
+        <List.Item title=`Ballot ${tx.eventHash}`
+          key=tx.eventHash
+          onPress={_ => dispatch(Navigate(Ballot_Show(tx.eventHash)))}
+        />
       }) -> React.array
     }
+    </List.Section>
 
     //<Election_Booth election />
   </>
