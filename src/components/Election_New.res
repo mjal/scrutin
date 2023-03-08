@@ -16,7 +16,7 @@ let make = () => {
     let transaction = Transaction.SignedElection.make(election, identity)
     dispatch(Trustee_Add(trustee))
     dispatch(Transaction_Add(transaction))
-    dispatch(Navigate(Home_Elections))
+    dispatch(Navigate(Election_Show(transaction.eventHash)))
   }
 
   <>

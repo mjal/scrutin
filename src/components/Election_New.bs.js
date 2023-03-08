@@ -43,7 +43,10 @@ function Election_New(Props) {
         });
     Curry._1(dispatch, {
           TAG: /* Navigate */0,
-          _0: /* Home_Elections */0
+          _0: {
+            TAG: /* Election_Show */0,
+            _0: transaction.eventHash
+          }
         });
   };
   var user = Belt_Array.get(state.ids, 0);
