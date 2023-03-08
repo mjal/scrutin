@@ -56,52 +56,6 @@ let loadElection = uuid => {
   }
 }
 
-let createElection = (election : Election.t, user: User.t) => {
-  dispatch => {
-    let (privkey, trustees) = Belenios.Trustees.create()
-    Store.Trustee.add({pubkey: Belenios.Trustees.pubkey(trustees), privkey})
-
-    let params = Belenios.Election.create(
-      ~name=election.name,
-      ~description="description",
-      ~choices=Array.map(election.choices, (o) => o.name),
-      ~trustees=trustees
-    )
-
-    let (pubcreds, privcreds) = Belenios.Credentials.create(params.uuid, Array.length(election.voters))
-    let creds = Array.zip(pubcreds, privcreds)
-
-    //dispatch(Action.SetElectionBeleniosParams(belenios_params))
-
-    let voters = Array.zip(election.voters, creds)
-    -> Array.map(((voterWithoutCred, (pubCred, privCred))) => {
-      let voter : Voter.t = {...voterWithoutCred, pubCred, privCred}
-      voter
-    })
-
-    let election = {
-      ...election,
-      uuid: Some(params.uuid),
-      params: Some(params),
-      trustees: Some(Belenios.Trustees.to_str(trustees)),
-      creds: Js.Json.stringifyAny(pubcreds), // TODO: Try Belenios.Credentials.stringify
-      voters
-    }
-
-    election
-    -> Election.post(user)
-    -> Promise.then(Webapi.Fetch.Response.json)
-    -> Promise.thenResolve((res) => {
-      dispatch(Action.Election_Load(res))
-      //let uuid = (Election.from_json(res)).uuid -> Option.getExn
-      let uuid = election.uuid -> Option.getExn
-      dispatch(Action.Navigate(Route.ElectionShow(uuid)))
-    })
-    -> ignore
-  }
-}
-
-
 let ballotCreate = (election, token, selection) => {
   dispatch => {
     let _ = Js.Global.setTimeout(() => {
