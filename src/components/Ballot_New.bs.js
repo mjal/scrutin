@@ -2,6 +2,7 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
+import * as Ballot from "../state/Ballot.bs.js";
 import * as Context from "../state/Context.bs.js";
 import * as Belenios from "../helpers/Belenios.bs.js";
 import * as Caml_obj from "rescript/lib/es6/caml_obj.js";
@@ -40,23 +41,23 @@ function Ballot_New(Props) {
   var ballot = Belt_MapString.getExn(state.cache.ballots, ballotTx);
   var election = Belt_MapString.getExn(state.cache.elections, ballot.electionTx);
   var answers = Belenios.Election.answers(JSON.parse(election.params));
+  var nbAnswers = answers.length;
   var match$1 = React.useState(function () {
         
       });
   var setChoice = match$1[1];
   var choice = match$1[0];
   var vote = function (param) {
-    var ballot_electionTx = ballot.electionTx;
-    var ballot_previousTx = ballotTx;
-    var ballot_owners = [];
-    var ballot$1 = {
-      electionTx: ballot_electionTx,
-      previousTx: ballot_previousTx,
-      owners: ballot_owners,
-      ciphertext: undefined
-    };
+    var selection = Belt_Array.mapWithIndex(Belt_Array.make(nbAnswers, 0), (function (i, _e) {
+            if (Caml_obj.equal(choice, i)) {
+              return 1;
+            } else {
+              return 0;
+            }
+          }));
+    var ballot$1 = Ballot.make(ballot, election, selection);
     var owner = Belt_Option.getExn(Belt_Array.getBy(state.ids, (function (id) {
-                return Belt_Array.some(ballot_owners, (function (owner) {
+                return Belt_Array.some(ballot$1.owners, (function (owner) {
                               return owner === id.hexPublicKey;
                             }));
               })));

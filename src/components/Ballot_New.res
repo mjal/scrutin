@@ -15,15 +15,15 @@ let make = (~ballotTx) => {
   let ballot = Map.String.getExn(state.cache.ballots, ballotTx)
   let election = Map.String.getExn(state.cache.elections, ballot.electionTx)
   let answers  = Belenios.Election.answers(Belenios.Election.parse(election.params))
+  let nbAnswers = Array.length(answers)
   let (choice:option<int>, setChoice) = React.useState(_ => None)
 
   let vote = _ => {
-    let ballot : Ballot.t = {
-      electionTx: ballot.electionTx,
-      previousTx: Some(ballotTx),
-      ciphertext: None,
-      owners: []
-    }
+    let selection =
+      Array.make(nbAnswers, 0)
+      -> Array.mapWithIndex((i, _e) => { choice == Some(i) ? 1 : 0 })
+
+    let ballot = Ballot.make(ballot, election, selection)
 
     let owner = Array.getBy(state.ids, (id) => {
       Array.some(ballot.owners, (owner) => owner == id.hexPublicKey)
