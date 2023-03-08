@@ -50,7 +50,8 @@ function Ballot_Show(Props) {
                     return React.createElement(ReactNativePaper.List.Item, {
                                 onPress: onPress,
                                 title: title,
-                                description: publicKey
+                                description: publicKey,
+                                key: publicKey
                               });
                   })), React.createElement(ReactNativePaper.List.Item, {
                   onPress: (function (param) {
