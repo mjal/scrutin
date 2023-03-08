@@ -28,7 +28,7 @@ let make = (~eventHash) => {
         onPress={_ => dispatch(Navigate(Election_Show(ciphertext)))}
       />
 
-      <Election_Booth ballotTx=eventHash />
+      <Ballot_New ballotTx=eventHash />
 
     </List.Section>
 }

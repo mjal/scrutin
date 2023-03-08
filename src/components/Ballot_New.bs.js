@@ -11,7 +11,7 @@ import * as Transaction from "../state/Transaction.bs.js";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
 
-function Election_Booth$Choice(Props) {
+function Ballot_New$Choice(Props) {
   var name = Props.name;
   var selected = Props.selected;
   var onSelect = Props.onSelect;
@@ -29,10 +29,10 @@ function Election_Booth$Choice(Props) {
 }
 
 var Choice = {
-  make: Election_Booth$Choice
+  make: Ballot_New$Choice
 };
 
-function Election_Booth(Props) {
+function Ballot_New(Props) {
   var ballotTx = Props.ballotTx;
   var match = Context.use(undefined);
   var dispatch = match[1];
@@ -70,7 +70,7 @@ function Election_Booth(Props) {
                   title: "Choices",
                   children: Belt_Array.mapWithIndex(answers, (function (i, choiceName) {
                           var selected = Caml_obj.equal(choice, i);
-                          return React.createElement(Election_Booth$Choice, {
+                          return React.createElement(Ballot_New$Choice, {
                                       name: choiceName,
                                       selected: selected,
                                       onSelect: (function (param) {
@@ -88,7 +88,7 @@ function Election_Booth(Props) {
                 }));
 }
 
-var make = Election_Booth;
+var make = Ballot_New;
 
 export {
   Choice ,
