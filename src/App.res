@@ -13,8 +13,9 @@ let make = () => {
 
     { switch state.route {
 
-    | Home_Elections => <Home_Elections />
-    | Home_Identities => <Home_Identities />
+    | Home_Elections    => <Home_Elections />
+    | Home_Identities   => <Home_Identities />
+    | Home_Trustees     => <Home_Trustees />
     | Home_Transactions => <Home_Transactions />
 
     | Election_New => <Election_New />

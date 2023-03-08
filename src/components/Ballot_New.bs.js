@@ -2,13 +2,13 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
-import * as Ballot from "../state/Ballot.bs.js";
-import * as Context from "../state/Context.bs.js";
+import * as Ballot from "../model/Ballot.bs.js";
+import * as Context from "../Context.bs.js";
 import * as Belenios from "../helpers/Belenios.bs.js";
 import * as Caml_obj from "rescript/lib/es6/caml_obj.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
-import * as Transaction from "../state/Transaction.bs.js";
+import * as Transaction from "../model/Transaction.bs.js";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
 

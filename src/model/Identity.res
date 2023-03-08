@@ -1,8 +1,37 @@
 type t = {
   hexPublicKey:   string,
   hexSecretKey:   option<string>,
-  email:          option<string>,
+  email:          option<string>, // TODO: Remove
   phoneNumber:    option<string>,
+}
+
+let make = () => {
+  let (
+    publicKey: Sjcl.Ecdsa.PublicKey.t,
+    secretKey: Sjcl.Ecdsa.SecretKey.t
+  ) = Sjcl.Ecdsa.new()
+
+  ({
+    hexPublicKey:   Sjcl.Ecdsa.PublicKey.toHex(publicKey),
+    hexSecretKey:   Some(Sjcl.Ecdsa.SecretKey.toHex(secretKey)),
+    email:       None,
+    phoneNumber: None,
+  } : t)
+}
+
+let make2 = (~hexSecretKey) => {
+  let secretKey = Sjcl.Ecdsa.SecretKey.fromHex(hexSecretKey)
+  let publicKey = Sjcl.Ecdsa.SecretKey.toPub(secretKey)
+  Js.log("publicKey")
+  Js.log(publicKey)
+  let hexPublicKey = Sjcl.Ecdsa.PublicKey.toHex(publicKey)
+  let hexSecretKey = Some(hexSecretKey)
+  ({
+    hexPublicKey,
+    hexSecretKey,
+    email:       None,
+    phoneNumber: None,
+  } : t)
 }
 
 external parse:           string => t = "JSON.parse"
@@ -24,17 +53,3 @@ let store_all = (ids) =>
 
 let clear = () =>
   ReactNativeAsyncStorage.removeItem(storageKey) -> ignore
-
-let make = () => {
-  let (
-    publicKey: Sjcl.Ecdsa.PublicKey.t,
-    secretKey: Sjcl.Ecdsa.SecretKey.t
-  ) = Sjcl.Ecdsa.new()
-
-  ({
-    hexPublicKey:   Sjcl.Ecdsa.PublicKey.toHex(publicKey),
-    hexSecretKey:   Some(Sjcl.Ecdsa.SecretKey.toHex(secretKey)),
-    email:       None,
-    phoneNumber: None,
-  } : t)
-}

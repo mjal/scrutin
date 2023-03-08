@@ -2,7 +2,7 @@
 
 import * as X from "./helpers/X.bs.js";
 import * as React from "react";
-import * as Context from "./state/Context.bs.js";
+import * as Context from "./Context.bs.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
 

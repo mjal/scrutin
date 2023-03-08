@@ -20,11 +20,14 @@ module Item = {
 
 @react.component
 let make = () => {
-  let (state, _dispatch) = Context.use()
+  let (state, dispatch) = Context.use()
 
   <List.Section title="Transactions">
-    { Array.map(state.txs, (tx) => <Item tx />) -> React.array }
-    <Button mode=#outlined onPress={_ => Transaction.clear()}>
+    { Array.map(state.txs, (tx) => <Item tx key=tx.eventHash />) -> React.array }
+    <Button mode=#outlined onPress={_ => {
+      Transaction.clear()
+      dispatch(Init)
+    }}>
       { "Clear" -> React.string }
     </Button>
   </List.Section>

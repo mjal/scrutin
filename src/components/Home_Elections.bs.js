@@ -3,7 +3,7 @@
 import * as X from "../helpers/X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
-import * as Context from "../state/Context.bs.js";
+import * as Context from "../Context.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
@@ -70,7 +70,7 @@ function Home_Elections(Props) {
                   onPress: (function (param) {
                       Curry._1(dispatch, {
                             TAG: /* Navigate */0,
-                            _0: /* Election_New */3
+                            _0: /* Election_New */4
                           });
                     }),
                   children: "New election"

@@ -2,10 +2,11 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
-import * as Context from "../state/Context.bs.js";
-import * as Election from "../state/Election.bs.js";
+import * as Context from "../Context.bs.js";
+import * as Trustee from "../model/Trustee.bs.js";
+import * as Election from "../model/Election.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
-import * as Transaction from "../state/Transaction.bs.js";
+import * as Transaction from "../model/Transaction.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 import * as Election_New_ChoiceList from "./Election_New_ChoiceList.bs.js";
 
@@ -29,8 +30,13 @@ function Election_New(Props) {
   var choices = match$3[0];
   var onSubmit = function (param) {
     var identity = Belt_Array.getExn(state.ids, 0);
-    var election = Election.make(name, desc, choices, identity.hexPublicKey);
+    var trustee = Trustee.make(undefined);
+    var election = Election.make(name, desc, choices, identity.hexPublicKey, trustee);
     var transaction = Transaction.SignedElection.make(election, identity);
+    Curry._1(dispatch, {
+          TAG: /* Trustee_Add */3,
+          _0: trustee
+        });
     Curry._1(dispatch, {
           TAG: /* Transaction_Add */2,
           _0: transaction

@@ -7,9 +7,8 @@ type t = {
 external parse:           string => t = "JSON.parse"
 external stringify:       t => string = "JSON.stringify"
 
-let make = (name, description, choices, ownerPublicKey) => {
-  let (privkey, trustees) = Belenios.Trustees.create()
-  Store.Trustee.add({pubkey: Belenios.Trustees.pubkey(trustees), privkey})
+let make = (name, description, choices, ownerPublicKey, trustee:Trustee.t) => {
+  let trustees = trustee.trustees
 
   let params =
     Belenios.Election._create(~name, ~description, ~choices, ~trustees)

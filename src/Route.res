@@ -1,5 +1,6 @@
 type t =
   | Home_Elections
+  | Home_Trustees
   | Home_Identities
   | Home_Transactions
   | Election_New

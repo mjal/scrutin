@@ -26,7 +26,7 @@ let reducer = (state, action: Action.t) => {
   switch action {
 
   | Init =>
-    (state, [
+    (initial, [
       Effect.identities_fetch,
       Effect.transactions_fetch,
     ])
@@ -41,6 +41,10 @@ let reducer = (state, action: Action.t) => {
       Effect.transactions_store(txs),
       Effect.cache_update(tx)
     ])
+
+  | Trustee_Add(trustee) =>
+    let trustees = Array.concat(state.trustees, [trustee])
+    ({...state, trustees}, [Effect.trustees_store(trustees)])
 
   | Cache_Election_Add(eventHash, election) =>
     let elections = Map.String.set(state.cache.elections, eventHash, election)

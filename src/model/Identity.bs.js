@@ -6,6 +6,31 @@ import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as AsyncStorage from "@react-native-async-storage/async-storage";
 
+function make(param) {
+  var match = Sjcl.Ecdsa.$$new(undefined);
+  return {
+          hexPublicKey: Curry._1(Sjcl.Ecdsa.PublicKey.toHex, match[0]),
+          hexSecretKey: Curry._1(Sjcl.Ecdsa.SecretKey.toHex, match[1]),
+          email: undefined,
+          phoneNumber: undefined
+        };
+}
+
+function make2(hexSecretKey) {
+  var secretKey = Curry._1(Sjcl.Ecdsa.SecretKey.fromHex, hexSecretKey);
+  var publicKey = Curry._1(Sjcl.Ecdsa.SecretKey.toPub, secretKey);
+  console.log("publicKey");
+  console.log(publicKey);
+  var hexPublicKey = Curry._1(Sjcl.Ecdsa.PublicKey.toHex, publicKey);
+  var hexSecretKey$1 = hexSecretKey;
+  return {
+          hexPublicKey: hexPublicKey,
+          hexSecretKey: hexSecretKey$1,
+          email: undefined,
+          phoneNumber: undefined
+        };
+}
+
 var storageKey = "identities";
 
 function fetch_all(param) {
@@ -32,21 +57,12 @@ function clear(param) {
   AsyncStorage.default.removeItem(storageKey);
 }
 
-function make(param) {
-  var match = Sjcl.Ecdsa.$$new(undefined);
-  return {
-          hexPublicKey: Curry._1(Sjcl.Ecdsa.PublicKey.toHex, match[0]),
-          hexSecretKey: Curry._1(Sjcl.Ecdsa.SecretKey.toHex, match[1]),
-          email: undefined,
-          phoneNumber: undefined
-        };
-}
-
 export {
+  make ,
+  make2 ,
   storageKey ,
   fetch_all ,
   store_all ,
   clear ,
-  make ,
 }
 /* Sjcl Not a pure module */

@@ -3,14 +3,45 @@
 import * as X from "../helpers/X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
-import * as Config from "../helpers/Config.bs.js";
-import * as Context from "../state/Context.bs.js";
-import * as Identity from "../state/Identity.bs.js";
+import * as Context from "../Context.bs.js";
+import * as Belenios from "../helpers/Belenios.bs.js";
+import * as Identity from "../model/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
-import * as Transaction from "../state/Transaction.bs.js";
+import * as Transaction from "../model/Transaction.bs.js";
+import * as ReactNative from "react-native";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
+
+function Election_Show$MessageModal(Props) {
+  var message = Props.message;
+  var visible = Props.visible;
+  var setVisible = Props.setVisible;
+  return React.createElement(ReactNativePaper.Portal, {
+              children: React.createElement(ReactNativePaper.Modal, {
+                    visible: visible,
+                    onDismiss: (function (param) {
+                        Curry._1(setVisible, (function (param) {
+                                return false;
+                              }));
+                      }),
+                    children: React.createElement(ReactNative.View, {
+                          style: ReactNative.StyleSheet.flatten([
+                                X.styles.modal,
+                                X.styles.layout
+                              ]),
+                          testID: "choice-modal",
+                          children: React.createElement(ReactNativePaper.Text, {
+                                children: message
+                              })
+                        })
+                  })
+            });
+}
+
+var MessageModal = {
+  make: Election_Show$MessageModal
+};
 
 function Election_Show(Props) {
   var eventHash = Props.eventHash;
@@ -20,10 +51,17 @@ function Election_Show(Props) {
   var match$1 = React.useState(function () {
         return "";
       });
-  var setEmail = match$1[1];
   var email = match$1[0];
   var election = Belt_MapString.getExn(state.cache.elections, eventHash);
   var publicKey = election.ownerPublicKey;
+  var match$2 = React.useState(function () {
+        return false;
+      });
+  var setVisible = match$2[1];
+  var match$3 = React.useState(function () {
+        return "";
+      });
+  var setMessage = match$3[1];
   var ballots = Belt_Array.keep(Belt_Array.keep(state.txs, (function (tx) {
               return tx.eventType === "ballot";
             })), (function (tx) {
@@ -35,11 +73,16 @@ function Election_Show(Props) {
     var id = Identity.make(undefined);
     var hexSecretKey = Belt_Option.getExn(id.hexSecretKey);
     var message = "\n      Hello !\n      Vous êtes invité à l'election.\n      Voici votre clé privée " + hexSecretKey + "\n      Pour information, la clé publique associée est " + id.hexPublicKey + "\n      L'organisateur vient de creer un bulletin de vote avec cette clé.\n    ";
+    Curry._1(setMessage, (function (param) {
+            return message;
+          }));
+    Curry._1(setVisible, (function (param) {
+            return true;
+          }));
     var dict = {};
     dict["email"] = email;
     dict["subject"] = "Vous êtes invité à un election";
     dict["text"] = message;
-    X.post("" + Config.api_url + "/proxy_email", dict);
     var ballot_owners = [
       election.ownerPublicKey,
       id.hexPublicKey
@@ -84,19 +127,10 @@ function Election_Show(Props) {
                     }), React.createElement(ReactNativePaper.List.Item, {
                       title: "Trustees",
                       description: election.trustees
-                    })), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ReactNativePaper.TextInput, {
-                  mode: "flat",
-                  label: "Email",
-                  value: email,
-                  onChangeText: (function (text) {
-                      Curry._1(setEmail, (function (param) {
-                              return text;
-                            }));
-                    })
-                }), React.createElement(ReactNativePaper.Button, {
+                    })), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ReactNativePaper.Button, {
                   mode: "outlined",
                   onPress: addBallot,
-                  children: "Add as voter"
+                  children: "Add a voter"
                 }), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ReactNativePaper.List.Section, {
                   title: "" + String(nbBallots) + " ballots",
                   children: Belt_Array.map(ballots, (function (tx) {
@@ -115,12 +149,17 @@ function Election_Show(Props) {
                                       key: tx.eventHash
                                     });
                         }))
+                }), React.createElement(Election_Show$MessageModal, {
+                  message: match$3[0],
+                  visible: match$2[0],
+                  setVisible: setVisible
                 }));
 }
 
 var make = Election_Show;
 
 export {
+  MessageModal ,
   make ,
 }
 /* X Not a pure module */

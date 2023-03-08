@@ -8,7 +8,8 @@ let make = () => {
         switch i {
         | 0 => dispatch(Navigate(Home_Elections))
         | 1 => dispatch(Navigate(Home_Identities))
-        | 2 => dispatch(Navigate(Home_Transactions))
+        | 2 => dispatch(Navigate(Home_Trustees))
+        | 3 => dispatch(Navigate(Home_Transactions))
         | _ => ()
         }
         setIndex(_ => i)
@@ -29,6 +30,15 @@ let make = () => {
           "key": "identities",
           "title": "Identities",
           "icon": "account",
+          "accessibilityLabel": None,
+          "badge": None,
+          "color": None,
+          "testID": None
+        },
+        {
+          "key": "trustees",
+          "title": "Trustees",
+          "icon": "thing",
           "accessibilityLabel": None,
           "badge": None,
           "color": None,

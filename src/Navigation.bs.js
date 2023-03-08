@@ -2,7 +2,7 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
-import * as Context from "./state/Context.bs.js";
+import * as Context from "./Context.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function Navigation(Props) {
@@ -24,13 +24,19 @@ function Navigation(Props) {
                     case 1 :
                         Curry._1(dispatch, {
                               TAG: /* Navigate */0,
-                              _0: /* Home_Identities */1
+                              _0: /* Home_Identities */2
                             });
                         break;
                     case 2 :
                         Curry._1(dispatch, {
                               TAG: /* Navigate */0,
-                              _0: /* Home_Transactions */2
+                              _0: /* Home_Trustees */1
+                            });
+                        break;
+                    case 3 :
+                        Curry._1(dispatch, {
+                              TAG: /* Navigate */0,
+                              _0: /* Home_Transactions */3
                             });
                         break;
                     default:
@@ -61,6 +67,15 @@ function Navigation(Props) {
                     key: "identities",
                     title: "Identities",
                     icon: "account",
+                    accessibilityLabel: undefined,
+                    badge: undefined,
+                    color: undefined,
+                    testID: undefined
+                  },
+                  {
+                    key: "trustees",
+                    title: "Trustees",
+                    icon: "thing",
                     accessibilityLabel: undefined,
                     badge: undefined,
                     color: undefined,

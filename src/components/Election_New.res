@@ -10,8 +10,11 @@ let make = () => {
   let onSubmit = _ => {
     // TODO: Show error if not logged in !
     let identity = Array.getExn(state.ids, 0)
-    let election = Election.make(name, desc, choices, identity.hexPublicKey)
+    let trustee  = Trustee.make()
+    let election = Election.make(name, desc, choices,
+      identity.hexPublicKey, trustee)
     let transaction = Transaction.SignedElection.make(election, identity)
+    dispatch(Trustee_Add(trustee))
     dispatch(Transaction_Add(transaction))
     dispatch(Navigate(Home_Elections))
   }
@@ -52,17 +55,5 @@ let make = () => {
     <Button mode=#outlined onPress=onSubmit>
       {"Create" -> React.string}
     </Button>
-
-    //<Portal>
-    // <Snackbar visible={visibleChoice}
-    //   onDismiss={_ => setVisibleChoice(_ => false)}>
-    //   {"You should have at least 2 choices" -> React.string}
-    // </Snackbar>
-    //
-    // <Snackbar visible={visibleVoter}
-    //   onDismiss={_ => setVisibleVoter(_ => false)}>
-    //   {"You should have at least 1 voter" -> React.string}
-    // </Snackbar>
-    //</Portal>
   </>
 }

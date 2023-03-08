@@ -3,9 +3,9 @@
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Js_exn from "rescript/lib/es6/js_exn.js";
-import * as Context from "../state/Context.bs.js";
+import * as Context from "../Context.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
-import * as Transaction from "../state/Transaction.bs.js";
+import * as Transaction from "../model/Transaction.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function Home_Transactions$Item(Props) {
@@ -48,17 +48,20 @@ var Item = {
 
 function Home_Transactions(Props) {
   var match = Context.use(undefined);
+  var dispatch = match[1];
   return React.createElement(ReactNativePaper.List.Section, {
               title: "Transactions",
               children: null
             }, Belt_Array.map(match[0].txs, (function (tx) {
                     return React.createElement(Home_Transactions$Item, {
-                                tx: tx
+                                tx: tx,
+                                key: tx.eventHash
                               });
                   })), React.createElement(ReactNativePaper.Button, {
                   mode: "outlined",
                   onPress: (function (param) {
                       Transaction.clear(undefined);
+                      Curry._1(dispatch, /* Init */0);
                     }),
                   children: "Clear"
                 }));

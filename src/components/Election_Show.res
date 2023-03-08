@@ -1,9 +1,27 @@
+module MessageModal = {
+  @react.component
+  let make = (~message, ~visible, ~setVisible) => {
+    <Portal>
+      <Modal visible={visible} onDismiss={_ => setVisible(_ => false)}>
+        <View
+          style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]])
+          testID="choice-modal">
+          <Text>{ message -> React.string }</Text>
+        </View>
+      </Modal>
+    </Portal>
+  }
+}
+
 @react.component
 let make = (~eventHash) => {
   let (state, dispatch) = Context.use()
   let (email, setEmail) = React.useState(_ => "")
   let election = Map.String.getExn(state.cache.elections, eventHash)
   let publicKey = election.ownerPublicKey
+
+  let (visible, setVisible) = React.useState(_ => false)
+  let (message, setMessage) = React.useState(_ => "")
 
   let ballots =
     state.txs
@@ -25,6 +43,10 @@ let make = (~eventHash) => {
       Pour information, la clé publique associée est ${id.hexPublicKey}
       L'organisateur vient de creer un bulletin de vote avec cette clé.
     `
+
+    setMessage(_ => message)
+    setVisible(_ => true)
+
     let data = {
       let dict = Js.Dict.empty()
       Js.Dict.set(dict, "email", Js.Json.string(email))
@@ -33,8 +55,9 @@ let make = (~eventHash) => {
       Js.Dict.set(dict, "text", Js.Json.string(message))
       Js.Json.object_(dict)
     }
-    X.post(`${Config.api_url}/proxy_email`, data)
-    -> ignore
+    let _ = data
+    //X.post(`${Config.api_url}/proxy_email`, data)
+    //-> ignore
 
     let ballot : Ballot.t = {
       electionTx: eventHash,
@@ -52,6 +75,29 @@ let make = (~eventHash) => {
 
     let tx = Transaction.SignedBallot.make(ballot, electionOwner)
     dispatch(Transaction_Add(tx))
+  }
+
+  let tally = _ => {
+
+    let params = Belenios.Election.parse(election.params)
+
+    let trustees = Belenios.Trustees.of_str(election.trustees)
+
+    let trustee = state.trustees
+
+    let (pubcreds, privcreds) =
+      Belenios.Credentials.create(params.uuid, Array.length(ballots))
+
+    let ciphertexts =
+      ballots
+      -> Array.map(Transaction.SignedBallot.unwrap)
+      -> Array.map((ballot) => ballot.ciphertext)
+      -> Array.keep((ciphertext) => Option.getWithDefault(ciphertext, "") != "")
+      -> Array.map((ciphertext) => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
+      -> Array.map((ballot) => ballot)
+
+    //let (a, b) = Belenios.Election.decrypt(params, ciphertexts, trustees, pubcreds, privkey)
+    //let res = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
   }
 
   <>
@@ -72,15 +118,15 @@ let make = (~eventHash) => {
 
     <Divider />
 
-    <TextInput
-      mode=#flat
-      label="Email"
-			value=email
-      onChangeText={text => setEmail(_ => text)}
-    />
+    //<TextInput
+    //  mode=#flat
+    //  label="Email"
+		//	value=email
+    //  onChangeText={text => setEmail(_ => text)}
+    ///>
 
     <Button mode=#outlined onPress=addBallot>
-      { "Add as voter" -> React.string }
+      { "Add a voter" -> React.string }
     </Button>
 
     <Divider />
@@ -97,6 +143,7 @@ let make = (~eventHash) => {
     }
     </List.Section>
 
+    <MessageModal visible setVisible message />
     //<Election_Booth election />
   </>
 }

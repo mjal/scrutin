@@ -26,7 +26,7 @@ var initial = {
 function reducer(state, action) {
   if (typeof action === "number") {
     return [
-            state,
+            initial,
             [
               Effect.identities_fetch,
               Effect.transactions_fetch
@@ -79,7 +79,21 @@ function reducer(state, action) {
                     })
                 ]
               ];
-    case /* Cache_Election_Add */3 :
+    case /* Trustee_Add */3 :
+        var trustees = Belt_Array.concat(state.trustees, [action._0]);
+        return [
+                {
+                  route: state.route,
+                  ids: state.ids,
+                  txs: state.txs,
+                  trustees: trustees,
+                  cache: state.cache
+                },
+                [(function (param) {
+                      return Effect.trustees_store(trustees, param);
+                    })]
+              ];
+    case /* Cache_Election_Add */4 :
         var elections = Belt_MapString.set(state.cache.elections, action._0, action._1);
         var init = state.cache;
         var cache_ballots = init.ballots;
@@ -97,7 +111,7 @@ function reducer(state, action) {
                 },
                 []
               ];
-    case /* Cache_Ballot_Add */4 :
+    case /* Cache_Ballot_Add */5 :
         var ballots = Belt_MapString.set(state.cache.ballots, action._0, action._1);
         var init$1 = state.cache;
         var cache_elections = init$1.elections;

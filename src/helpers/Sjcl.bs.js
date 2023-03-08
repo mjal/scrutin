@@ -58,9 +58,22 @@ function fromHex$1(str) {
   return new (SjclWithAll.ecc.ecdsa.secretKey)(SjclWithAll.ecc.curves.c256, SjclWithAll.bn.fromBits(SjclWithAll.codec.hex.toBits(str)));
 }
 
+function toPub(t) {
+  var sec = t.serialize().exponent;
+  var curve = SjclWithAll.ecc.curves.c256;
+  console.log([
+        sec,
+        curve
+      ]);
+  var pub = (curve.G.mult(sec));
+  console.log(pub);
+  return new (SjclWithAll.ecc.ecdsa.publicKey)(curve, pub);
+}
+
 var SecretKey = {
   toHex: toHex$1,
-  fromHex: fromHex$1
+  fromHex: fromHex$1,
+  toPub: toPub
 };
 
 function generateKeys(param) {
