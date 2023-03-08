@@ -12,7 +12,8 @@
     "re:build": "rescript build -with-deps",
     "re:clean": "rescript clean",
     "re:rebuild": "rescript clean && rescript build -with-deps",
-    "re:start": "rescript build -with-deps -w"
+    "re:start": "rescript build -with-deps -w",
+    "doc": "docco src/state/*.res"
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
@@ -42,7 +43,8 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "cypress": "^12.5.1",
-    "rescript": "^10.1.2"
+    "rescript": "^10.1.2",
+    "docco": "git+https://github.com/mjal/docco.git"
   },
   "private": true
 }
