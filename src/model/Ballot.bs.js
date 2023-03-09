@@ -5,12 +5,40 @@ import * as Belenios from "../helpers/Belenios.bs.js";
 function make(ballot, election, selection) {
   var trustees = election.trustees;
   var params = JSON.parse(election.params);
-  var ciphertext = Belenios.Election.vote(params)("", [selection], trustees);
+  var match = Belenios.Credentials.create(params.uuid, 1);
+  var match$1 = match[0];
+  if (match$1.length !== 1) {
+    throw {
+          RE_EXN_ID: "Match_failure",
+          _1: [
+            "Ballot.res",
+            18,
+            6
+          ],
+          Error: new Error()
+        };
+  }
+  var pubcred = match$1[0];
+  var match$2 = match[1];
+  if (match$2.length !== 1) {
+    throw {
+          RE_EXN_ID: "Match_failure",
+          _1: [
+            "Ballot.res",
+            18,
+            6
+          ],
+          Error: new Error()
+        };
+  }
+  var privcred = match$2[0];
+  var ciphertext = Belenios.Election.vote(params)(privcred, [selection], trustees);
   return {
           electionTx: ballot.electionTx,
           previousTx: ballot.previousTx,
           owners: ballot.owners,
-          ciphertext: ciphertext
+          ciphertext: ciphertext,
+          pubcred: pubcred
         };
 }
 

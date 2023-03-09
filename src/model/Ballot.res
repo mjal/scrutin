@@ -3,6 +3,7 @@ type t = {
   previousTx: option<string>,
   owners:     array<string>,
   ciphertext: option<string>,
+  pubcred: option<string>,
 }
 
 external parse:           string => t = "JSON.parse"
@@ -12,18 +13,20 @@ let make = (ballot, election:Election.t, selection:array<int>) => {
   let trustees = Belenios.Trustees.of_str(election.trustees)
   let params = Belenios.Election.parse(election.params)
 
-  let privateCredential = ""
-  //let publicCredential = Belenios.Credentials.derive(~uuid=params.uuid, ~privateCredential)
+
+  //let pubcred = Belenios.Credentials.derive(~uuid=params.uuid, ~:rivcred)
+  let ([pubcred], [privcred]) = Belenios.Credentials.create(params.uuid, 1)
 
   let ciphertext =
     Belenios.Election.vote(params,
-      ~cred=privateCredential,
+      ~cred=privcred,
       ~selections=[selection],
       ~trustees)
     -> Belenios.Ballot.to_str
 
   {
     ...ballot,
+    pubcred: Some(pubcred),
     ciphertext: Some(ciphertext)
   }
 }

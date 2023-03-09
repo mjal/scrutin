@@ -71,6 +71,7 @@ let make = (~eventHash) => {
       electionTx: eventHash,
       previousTx: None,
       ciphertext: None,
+      pubcred: None,
       owners: [
         election.ownerPublicKey,
         id.hexPublicKey
@@ -94,20 +95,19 @@ let make = (~eventHash) => {
     })
     let privkey = Option.getExn(trustee).privkey
 
-    let (pubcreds, privcreds) =
-      Belenios.Credentials.create(params.uuid, Array.length(ballots))
-
     let ciphertexts =
       ballots
       -> Array.map(Transaction.SignedBallot.unwrap)
       -> Array.map((ballot) => ballot.ciphertext)
       -> Array.keep((ciphertext) => Option.getWithDefault(ciphertext, "") != "")
       -> Array.map((ciphertext) => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
-      -> Array.mapWithIndex((i, ballot) => {
-        Belenios.Ballot.setCredential(ballot, Array.getExn(pubcreds, i))
-      })
 
-    Js.log(ciphertexts)
+    let pubcreds =
+      ballots
+      -> Array.map(Transaction.SignedBallot.unwrap)
+      -> Array.map((ballot) => ballot.pubcred)
+      -> Array.map((pubcred) => Option.getWithDefault(pubcred, ""))
+      -> Array.keep((pubcred) => pubcred != "")
 
     let (a, b) = Belenios.Election.decrypt(params, ciphertexts, trustees, pubcreds, privkey)
     let res = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)

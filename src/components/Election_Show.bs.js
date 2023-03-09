@@ -109,7 +109,8 @@ function Election_Show(Props) {
       electionTx: eventHash,
       previousTx: undefined,
       owners: ballot_owners,
-      ciphertext: undefined
+      ciphertext: undefined,
+      pubcred: undefined
     };
     var electionOwner = Belt_Option.getExn(Belt_Array.getBy(state.ids, (function (id) {
                 return id.hexPublicKey === election.ownerPublicKey;
@@ -127,18 +128,20 @@ function Election_Show(Props) {
             return Belenios.Trustees.pubkey(trustees) === Belenios.Trustees.pubkey(trustee.trustees);
           }));
     var privkey = Belt_Option.getExn(trustee).privkey;
-    var match = Belenios.Credentials.create(params.uuid, ballots.length);
-    var pubcreds = match[0];
-    var ciphertexts = Belt_Array.mapWithIndex(Belt_Array.map(Belt_Array.keep(Belt_Array.map(Belt_Array.map(ballots, Transaction.SignedBallot.unwrap), (function (ballot) {
-                        return ballot.ciphertext;
-                      })), (function (ciphertext) {
-                    return Belt_Option.getWithDefault(ciphertext, "") !== "";
-                  })), Belt_Option.getExn), (function (i, ballot) {
-            return Belenios.Ballot.setCredential(ballot, Belt_Array.getExn(pubcreds, i));
+    var ciphertexts = Belt_Array.map(Belt_Array.keep(Belt_Array.map(Belt_Array.map(ballots, Transaction.SignedBallot.unwrap), (function (ballot) {
+                    return ballot.ciphertext;
+                  })), (function (ciphertext) {
+                return Belt_Option.getWithDefault(ciphertext, "") !== "";
+              })), Belt_Option.getExn);
+    var pubcreds = Belt_Array.keep(Belt_Array.map(Belt_Array.map(Belt_Array.map(ballots, Transaction.SignedBallot.unwrap), (function (ballot) {
+                    return ballot.pubcred;
+                  })), (function (pubcred) {
+                return Belt_Option.getWithDefault(pubcred, "");
+              })), (function (pubcred) {
+            return pubcred !== "";
           }));
-    console.log(ciphertexts);
-    var match$1 = Belenios.Election.decrypt(params)(ciphertexts, trustees, pubcreds, privkey);
-    var res = Belenios.Election.result(params)(ciphertexts, trustees, pubcreds, match$1[0], match$1[1]);
+    var match = Belenios.Election.decrypt(params)(ciphertexts, trustees, pubcreds, privkey);
+    var res = Belenios.Election.result(params)(ciphertexts, trustees, pubcreds, match[0], match[1]);
     console.log(res);
   };
   var onPress = function (param) {
