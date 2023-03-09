@@ -31,6 +31,7 @@ let make = (~ballotTx) => {
 
     let tx = Transaction.SignedBallot.make(ballot, owner)
     dispatch(Transaction_Add(tx))
+    dispatch(Navigate(Election_Show(ballot.electionTx)))
   }
 
   <>

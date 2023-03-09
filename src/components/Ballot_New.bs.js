@@ -66,6 +66,13 @@ function Ballot_New(Props) {
           TAG: /* Transaction_Add */2,
           _0: tx
         });
+    Curry._1(dispatch, {
+          TAG: /* Navigate */0,
+          _0: {
+            TAG: /* Election_Show */0,
+            _0: ballot$1.electionTx
+          }
+        });
   };
   return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.List.Section, {
                   title: "Choices",
