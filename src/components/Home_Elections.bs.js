@@ -27,24 +27,20 @@ function Home_Elections$Election(Props) {
               children: null
             }, React.createElement(ReactNativePaper.Card.Content, {
                   children: React.createElement(ReactNativePaper.List.Section, {
-                        title: eventHash,
+                        title: "Election en cours",
                         children: null
                       }, React.createElement(ReactNativePaper.List.Item, {
-                            onPress: show,
                             title: "Name",
                             description: electionParams.name
                           }), React.createElement(ReactNativePaper.List.Item, {
-                            onPress: show,
                             title: "Description",
                             description: electionParams.description
-                          }), React.createElement(ReactNativePaper.List.Item, {
-                            title: "Administrator",
-                            description: election.ownerPublicKey
                           }))
                 }), React.createElement(ReactNativePaper.Card.Actions, {
                   children: React.createElement(ReactNativePaper.Button, {
+                        mode: "contained",
                         onPress: show,
-                        children: "Show"
+                        children: "Go"
                       })
                 }));
 }
@@ -56,7 +52,9 @@ var Election = {
 function Home_Elections(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
-  return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Button, {
+  return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
+                  children: "-"
+                }), React.createElement(ReactNativePaper.Button, {
                   mode: "contained",
                   onPress: (function (param) {
                       Curry._1(dispatch, {
@@ -66,7 +64,7 @@ function Home_Elections(Props) {
                     }),
                   children: "Creer une nouvelle election"
                 }), React.createElement(X.Title.make, {
-                  children: "Elections en cours"
+                  children: "-"
                 }), Belt_Array.map(Belt_MapString.toArray(match[0].cache.elections), (function (param) {
                     var eventHash = param[0];
                     return React.createElement(Home_Elections$Election, {
@@ -74,7 +72,9 @@ function Home_Elections(Props) {
                                 election: param[1],
                                 key: eventHash
                               });
-                  })));
+                  })), React.createElement(X.Title.make, {
+                  children: "-"
+                }));
 }
 
 var make = Home_Elections;
