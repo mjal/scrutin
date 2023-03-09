@@ -84,34 +84,6 @@ let make = (~eventHash) => {
     dispatch(Transaction_Add(tx))
   }
 
-  let tally = _ => {
-    let params = Belenios.Election.parse(election.params)
-    let trustees = Belenios.Trustees.of_str(election.trustees)
-    let trustee = Array.getBy(state.trustees, (trustee) => {
-      Belenios.Trustees.pubkey(trustees) ==
-      Belenios.Trustees.pubkey(trustee.trustees)
-    })
-    let privkey = Option.getExn(trustee).privkey
-
-    let ciphertexts =
-      ballots
-      -> Array.map(Transaction.SignedBallot.unwrap)
-      -> Array.map((ballot) => ballot.ciphertext)
-      -> Array.keep((ciphertext) => Option.getWithDefault(ciphertext, "") != "")
-      -> Array.map((ciphertext) => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
-
-    let pubcreds =
-      ballots
-      -> Array.map(Transaction.SignedBallot.unwrap)
-      -> Array.map((ballot) => ballot.pubcred)
-      -> Array.map((pubcred) => Option.getWithDefault(pubcred, ""))
-      -> Array.keep((pubcred) => pubcred != "")
-
-    let (a, b) = Belenios.Election.decrypt(params, ciphertexts, trustees, pubcreds, privkey)
-    let res = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
-    Js.log(res)
-  }
-
   <>
     <List.Section title="Election">
 
@@ -158,7 +130,9 @@ let make = (~eventHash) => {
     <MessageModal visible setVisible message hexSecretKey />
     //<Election_Booth election />
 
-    <Button mode=#outlined onPress=tally>
+    <Button mode=#outlined onPress={_ =>
+      Core.Election.tally(~electionEventHash=eventHash)(state, dispatch)
+    }>
       { "Tally" -> React.string }
     </Button>
   </>
