@@ -8,43 +8,54 @@ import * as ReactNativePaper from "react-native-paper";
 function Navigation(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
-  var match$1 = React.useState(function () {
-        return 0;
-      });
-  var setIndex = match$1[1];
+  var match$1 = match[0].route;
+  var index;
+  if (typeof match$1 === "number") {
+    switch (match$1) {
+      case /* Home_Trustees */1 :
+          index = 2;
+          break;
+      case /* Home_Identities */2 :
+          index = 1;
+          break;
+      case /* Home_Transactions */3 :
+          index = 3;
+          break;
+      case /* Home_Elections */0 :
+      case /* Election_New */4 :
+          index = 0;
+          break;
+      
+    }
+  } else {
+    index = 0;
+  }
   return React.createElement(ReactNativePaper.BottomNavigation, {
               onIndexChange: (function (i) {
                   switch (i) {
                     case 0 :
-                        Curry._1(dispatch, {
-                              TAG: /* Navigate */0,
-                              _0: /* Home_Elections */0
-                            });
-                        break;
+                        return Curry._1(dispatch, {
+                                    TAG: /* Navigate */0,
+                                    _0: /* Home_Elections */0
+                                  });
                     case 1 :
-                        Curry._1(dispatch, {
-                              TAG: /* Navigate */0,
-                              _0: /* Home_Identities */2
-                            });
-                        break;
+                        return Curry._1(dispatch, {
+                                    TAG: /* Navigate */0,
+                                    _0: /* Home_Identities */2
+                                  });
                     case 2 :
-                        Curry._1(dispatch, {
-                              TAG: /* Navigate */0,
-                              _0: /* Home_Trustees */1
-                            });
-                        break;
+                        return Curry._1(dispatch, {
+                                    TAG: /* Navigate */0,
+                                    _0: /* Home_Trustees */1
+                                  });
                     case 3 :
-                        Curry._1(dispatch, {
-                              TAG: /* Navigate */0,
-                              _0: /* Home_Transactions */3
-                            });
-                        break;
+                        return Curry._1(dispatch, {
+                                    TAG: /* Navigate */0,
+                                    _0: /* Home_Transactions */3
+                                  });
                     default:
-                      
+                      return ;
                   }
-                  Curry._1(setIndex, (function (param) {
-                          return i;
-                        }));
                 }),
               renderScene: (function (o) {
                   return React.createElement(ReactNativePaper.Text, {
@@ -52,7 +63,7 @@ function Navigation(Props) {
                             });
                 }),
               navigationState: {
-                index: match$1[0],
+                index: index,
                 routes: [
                   {
                     key: "elections",
