@@ -7,6 +7,58 @@ import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as SjclWithAll from "sjcl-with-all";
 import * as AsyncStorage from "@react-native-async-storage/async-storage";
 
+function hash(str) {
+  return SjclWithAll.codec.hex.fromBits(SjclWithAll.hash.sha256.hash(str));
+}
+
+function sig(hexSecretKey, hexStr) {
+  var secretKey = Curry._1(Sjcl.Ecdsa.SecretKey.fromHex, hexSecretKey);
+  var baEventHash = SjclWithAll.codec.hex.toBits(hexStr);
+  return SjclWithAll.codec.hex.fromBits(secretKey.sign(baEventHash));
+}
+
+function make(election, owner) {
+  var $$event = JSON.stringify(election);
+  var eventHash = SjclWithAll.codec.hex.fromBits(SjclWithAll.hash.sha256.hash($$event));
+  return {
+          eventType: "election",
+          event: $$event,
+          eventHash: eventHash,
+          publicKey: owner.hexPublicKey,
+          signature: sig(eventHash, Belt_Option.getExn(owner.hexSecretKey))
+        };
+}
+
+function unwrap(tx) {
+  return JSON.parse(tx.event);
+}
+
+var SignedElection = {
+  make: make,
+  unwrap: unwrap
+};
+
+function make$1(ballot, owner) {
+  var $$event = JSON.stringify(ballot);
+  var eventHash = SjclWithAll.codec.hex.fromBits(SjclWithAll.hash.sha256.hash($$event));
+  return {
+          eventType: "ballot",
+          event: $$event,
+          eventHash: eventHash,
+          publicKey: owner.hexPublicKey,
+          signature: sig(eventHash, Belt_Option.getExn(owner.hexSecretKey))
+        };
+}
+
+function unwrap$1(tx) {
+  return JSON.parse(tx.event);
+}
+
+var SignedBallot = {
+  make: make$1,
+  unwrap: unwrap$1
+};
+
 var storageKey = "transactions";
 
 function fetch_all(param) {
@@ -33,66 +85,14 @@ function clear(param) {
   AsyncStorage.default.removeItem(storageKey);
 }
 
-function hash(str) {
-  return SjclWithAll.codec.hex.fromBits(SjclWithAll.hash.sha256.hash(str));
-}
-
-function sig(hexSecretKey, hexStr) {
-  var secretKey = Curry._1(Sjcl.Ecdsa.SecretKey.fromHex, hexSecretKey);
-  var baEventHash = SjclWithAll.codec.hex.toBits(hexStr);
-  return SjclWithAll.codec.hex.fromBits(secretKey.sign(baEventHash));
-}
-
-function make(election, owner) {
-  var $$event = JSON.stringify(election);
-  var eventHash = SjclWithAll.codec.hex.fromBits(SjclWithAll.hash.sha256.hash($$event));
-  return {
-          event: $$event,
-          eventType: "election",
-          eventHash: eventHash,
-          publicKey: owner.hexPublicKey,
-          signature: sig(eventHash, Belt_Option.getExn(owner.hexSecretKey))
-        };
-}
-
-function unwrap(tx) {
-  return JSON.parse(tx.event);
-}
-
-var SignedElection = {
-  make: make,
-  unwrap: unwrap
-};
-
-function make$1(ballot, owner) {
-  var $$event = JSON.stringify(ballot);
-  var eventHash = SjclWithAll.codec.hex.fromBits(SjclWithAll.hash.sha256.hash($$event));
-  return {
-          event: $$event,
-          eventType: "ballot",
-          eventHash: eventHash,
-          publicKey: owner.hexPublicKey,
-          signature: sig(eventHash, Belt_Option.getExn(owner.hexSecretKey))
-        };
-}
-
-function unwrap$1(tx) {
-  return JSON.parse(tx.event);
-}
-
-var SignedBallot = {
-  make: make$1,
-  unwrap: unwrap$1
-};
-
 export {
-  storageKey ,
-  fetch_all ,
-  store_all ,
-  clear ,
   hash ,
   sig ,
   SignedElection ,
   SignedBallot ,
+  storageKey ,
+  fetch_all ,
+  store_all ,
+  clear ,
 }
 /* Sjcl Not a pure module */

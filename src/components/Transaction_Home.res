@@ -2,21 +2,21 @@ module Item = {
   @react.component
   let make = (~tx : Transaction.t) => {
     let (_state, dispatch) = Context.use()
+
+    let description = switch tx.eventType {
+    | #election => "Election"
+    | #ballot   => "Ballot"
+    }
+
     let onPress = _ => {
       switch tx.eventType {
-      | "election" => dispatch(Navigate(Election_Show(tx.eventHash)))
-      | "ballot"   => dispatch(Navigate(Ballot_Show(tx.eventHash)))
-      | _ => Js.Exn.raiseError("Unknown transaction type")
+      | #election => dispatch(Navigate(Election_Show(tx.eventHash)))
+      | #ballot   => dispatch(Navigate(Ballot_Show(tx.eventHash)))
       }
     }
 
     <Card>
-      <List.Item
-        key=tx.eventHash
-        title="type"
-        description=tx.eventType
-        onPress
-      />
+      <List.Item key=tx.eventHash title="type" description onPress />
     </Card>
   }
 }

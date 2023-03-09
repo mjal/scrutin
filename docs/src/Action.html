@@ -65,11 +65,10 @@
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">cache_update</span> = (<span class="hljs-params">tx : Transaction.t</span>) =&gt;
   <span class="hljs-function">(<span class="hljs-params">dispatch</span>) =&gt;</span> {
     <span class="hljs-keyword">switch</span> tx.<span class="hljs-property">eventType</span> {
-    | <span class="hljs-string">&quot;election&quot;</span> =&gt; <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Cache</span>_Election_Add(tx.<span class="hljs-property">eventHash</span>,
+    | #election =&gt; <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Cache</span>_Election_Add(tx.<span class="hljs-property">eventHash</span>,
       <span class="hljs-title class_">Transaction</span>.<span class="hljs-property">SignedElection</span>.<span class="hljs-title function_">unwrap</span>(tx)))
-    | <span class="hljs-string">&quot;ballot&quot;</span> =&gt; <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Cache</span>_Ballot_Add(tx.<span class="hljs-property">eventHash</span>,
+    | #ballot =&gt; <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Cache</span>_Ballot_Add(tx.<span class="hljs-property">eventHash</span>,
       <span class="hljs-title class_">Transaction</span>.<span class="hljs-property">SignedBallot</span>.<span class="hljs-title function_">unwrap</span>(tx)))
-    | <span class="hljs-function"><span class="hljs-params">_</span> =&gt;</span> <span class="hljs-title class_">Js</span>.<span class="hljs-property">Exn</span>.<span class="hljs-title function_">raiseError</span>(<span class="hljs-string">&quot;Unknown transaction type&quot;</span>)
     }
   }</pre></div></div>
             

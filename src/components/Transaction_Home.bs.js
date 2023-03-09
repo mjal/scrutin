@@ -3,7 +3,6 @@
 import * as X from "../helpers/X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
-import * as Js_exn from "rescript/lib/es6/js_exn.js";
 import * as Context from "../Context.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Transaction from "../model/Transaction.bs.js";
@@ -13,34 +12,33 @@ function Transaction_Home$Item(Props) {
   var tx = Props.tx;
   var match = Context.use(undefined);
   var dispatch = match[1];
+  var match$1 = tx.eventType;
+  var description = match$1 === "ballot" ? "Ballot" : "Election";
   var onPress = function (param) {
     var match = tx.eventType;
-    switch (match) {
-      case "ballot" :
-          return Curry._1(dispatch, {
-                      TAG: /* Navigate */0,
-                      _0: {
-                        TAG: /* Ballot_Show */2,
-                        _0: tx.eventHash
-                      }
-                    });
-      case "election" :
-          return Curry._1(dispatch, {
-                      TAG: /* Navigate */0,
-                      _0: {
-                        TAG: /* Election_Show */0,
-                        _0: tx.eventHash
-                      }
-                    });
-      default:
-        return Js_exn.raiseError("Unknown transaction type");
+    if (match === "ballot") {
+      return Curry._1(dispatch, {
+                  TAG: /* Navigate */0,
+                  _0: {
+                    TAG: /* Ballot_Show */2,
+                    _0: tx.eventHash
+                  }
+                });
+    } else {
+      return Curry._1(dispatch, {
+                  TAG: /* Navigate */0,
+                  _0: {
+                    TAG: /* Election_Show */0,
+                    _0: tx.eventHash
+                  }
+                });
     }
   };
   return React.createElement(ReactNativePaper.Card, {
               children: React.createElement(ReactNativePaper.List.Item, {
                     onPress: onPress,
                     title: "type",
-                    description: tx.eventType,
+                    description: description,
                     key: tx.eventHash
                   })
             });

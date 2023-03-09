@@ -32,7 +32,7 @@ let make = (~eventHash) => {
 
   let ballots =
     state.txs
-    -> Array.keep((tx) => tx.eventType == "ballot")
+    -> Array.keep((tx) => tx.eventType == #ballot)
     -> Array.keep((tx) => {
       let ballot = Transaction.SignedBallot.unwrap(tx)
       ballot.electionTx == eventHash

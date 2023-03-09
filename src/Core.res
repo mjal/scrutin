@@ -70,7 +70,7 @@ module Election = {
       // Select the relevents ballots <br />
       let ballots =
         state.txs
-        -> Array.keep((tx) => tx.eventType == "ballot")
+        -> Array.keep((tx) => tx.eventType == #ballot)
         -> Array.keep((tx) => {
           let ballot = Transaction.SignedBallot.unwrap(tx)
           ballot.electionTx == electionEventHash
@@ -96,7 +96,7 @@ module Election = {
         -> Array.keep((pubcred) => pubcred != "")
 
       let (a, b) = Belenios.Election.decrypt(params, ciphertexts, trustees, pubcreds, privkey)
-      let res = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
+      let _res = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
     }
   }
 }

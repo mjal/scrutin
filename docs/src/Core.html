@@ -20,13 +20,33 @@
             <div id="jump_page">
               
                 
-                <a class="source" href="Action.html">
-                  src/Action.res
+                <a class="source" href="Core.html">
+                  src/Core.res
                 </a>
               
                 
-                <a class="source" href="Core.html">
-                  src/Core.res
+                <a class="source" href="model/Ballot.html">
+                  src/model/Ballot.res
+                </a>
+              
+                
+                <a class="source" href="model/Election.html">
+                  src/model/Election.res
+                </a>
+              
+                
+                <a class="source" href="model/Identity.html">
+                  src/model/Identity.res
+                </a>
+              
+                
+                <a class="source" href="model/Transaction.html">
+                  src/model/Transaction.res
+                </a>
+              
+                
+                <a class="source" href="model/Trustee.html">
+                  src/model/Trustee.res
                 </a>
               
             </div>
@@ -410,7 +430,7 @@ If we don’t have any, create a new one</p>
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">let</span> ballots =
         state.<span class="hljs-property">txs</span>
-        -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">keep</span>(<span class="hljs-function">(<span class="hljs-params">tx</span>) =&gt;</span> tx.<span class="hljs-property">eventType</span> == <span class="hljs-string">&quot;ballot&quot;</span>)
+        -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">keep</span>(<span class="hljs-function">(<span class="hljs-params">tx</span>) =&gt;</span> tx.<span class="hljs-property">eventType</span> == #ballot)
         -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">keep</span>(<span class="hljs-function">(<span class="hljs-params">tx</span>) =&gt;</span> {
           <span class="hljs-keyword">let</span> ballot = <span class="hljs-title class_">Transaction</span>.<span class="hljs-property">SignedBallot</span>.<span class="hljs-title function_">unwrap</span>(tx)
           ballot.<span class="hljs-property">electionTx</span> == electionEventHash
@@ -460,7 +480,7 @@ We don’t need this but it is needed for Belenios.
         -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">keep</span>(<span class="hljs-function">(<span class="hljs-params">pubcred</span>) =&gt;</span> pubcred != <span class="hljs-string">&quot;&quot;</span>)
 
       <span class="hljs-keyword">let</span> (a, b) = <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Election</span>.<span class="hljs-title function_">decrypt</span>(params, ciphertexts, trustees, pubcreds, privkey)
-      <span class="hljs-keyword">let</span> res = <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Election</span>.<span class="hljs-title function_">result</span>(params, ciphertexts, trustees, pubcreds, a, b)
+      <span class="hljs-keyword">let</span> _res = <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Election</span>.<span class="hljs-title function_">result</span>(params, ciphertexts, trustees, pubcreds, a, b)
     }
   }
 }
