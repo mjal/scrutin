@@ -85,14 +85,14 @@ module Ecdsa = {
   module PublicKey = {
     type t
 
-    @module("sjcl-with-all") @scope(("ecc", "ecdsa")) @new external new: (Ecc.Curve.t, BitArray.t) => t = "publicKey"
+    @module("sjcl-with-all") @scope(("ecc", "ecdsa")) @new external new: (Ecc.Curve.t, Bn.t) => t = "publicKey"
     @module("sjcl-with-all") @scope(("ecc", "ecdsa")) @new external new2: (Ecc.Curve.t, Ecc.Point.t) => t = "publicKey"
 
     @send external verify: (t, ~hash: BitArray.t, ~signature: BitArray.t) => bool = "verify"
     @send external serialize: (t) => serialized_t = "serialize"
 
     let toHex = (t) => serialize(t)["point"]
-    let fromHex = (str) => new(Ecc.Curve.c256, Hex.toBits(str))
+    let fromHex = (str) => new(Ecc.Curve.c256, Bn.fromBits(Hex.toBits(str)))
   }
 
   module SecretKey = {
@@ -105,22 +105,14 @@ module Ecdsa = {
 
     let toHex = (t) => serialize(t)["exponent"]
     let fromHex = (str) => new(Ecc.Curve.c256, Bn.fromBits(Hex.toBits(str)))
-
-    let toPub = (t) => {
-      let sec = serialize(t)["exponent"]
-      let curve = Ecc.Curve.c256
-      Js.log((sec,curve)) // NOTE: Do not remove yet
-      // NOTE: If the previous line is not here, curve and sec will be removed
-      let pub = %raw(`curve.G.mult(sec)`)
-      Js.log(pub)
-      PublicKey.new2(curve, pub)
-    }
   }
 
   type t = { pub: PublicKey.t, sec: SecretKey.t }
 
   @module("sjcl-with-all") @scope(("ecc", "ecdsa")) external _generateKeys: (option<Ecc.Curve.t>, option<int>, option<Bn.t>) => t = "generateKeys"
   let generateKeys = () => _generateKeys(None, None, None)
+
+  let generateKeysFromSecretKey = (sec) => _generateKeys(None, None, Some(sec))
 
   let new = () => {
     let keys = generateKeys()

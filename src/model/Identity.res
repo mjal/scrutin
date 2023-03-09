@@ -20,18 +20,16 @@ let make = () => {
 }
 
 let make2 = (~hexSecretKey) => {
-  let secretKey = Sjcl.Ecdsa.SecretKey.fromHex(hexSecretKey)
-  let publicKey = Sjcl.Ecdsa.SecretKey.toPub(secretKey)
-  Js.log("publicKey")
-  Js.log(publicKey)
-  let hexPublicKey = Sjcl.Ecdsa.PublicKey.toHex(publicKey)
-  let hexSecretKey = Some(hexSecretKey)
-  ({
+  let sec = Sjcl.Bn.fromBits(Sjcl.Hex.toBits(hexSecretKey))
+  let keys = Sjcl.Ecdsa.generateKeysFromSecretKey(sec)
+  let hexPublicKey = Sjcl.Ecdsa.PublicKey.toHex(keys.pub)
+
+  {
     hexPublicKey,
-    hexSecretKey,
+    hexSecretKey: Some(hexSecretKey),
     email:       None,
     phoneNumber: None,
-  } : t)
+  }
 }
 
 external parse:           string => t = "JSON.parse"

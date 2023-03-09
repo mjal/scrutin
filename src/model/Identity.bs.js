@@ -4,6 +4,7 @@ import * as Sjcl from "../helpers/Sjcl.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
+import * as SjclWithAll from "sjcl-with-all";
 import * as AsyncStorage from "@react-native-async-storage/async-storage";
 
 function make(param) {
@@ -17,15 +18,12 @@ function make(param) {
 }
 
 function make2(hexSecretKey) {
-  var secretKey = Curry._1(Sjcl.Ecdsa.SecretKey.fromHex, hexSecretKey);
-  var publicKey = Curry._1(Sjcl.Ecdsa.SecretKey.toPub, secretKey);
-  console.log("publicKey");
-  console.log(publicKey);
-  var hexPublicKey = Curry._1(Sjcl.Ecdsa.PublicKey.toHex, publicKey);
-  var hexSecretKey$1 = hexSecretKey;
+  var sec = SjclWithAll.bn.fromBits(SjclWithAll.codec.hex.toBits(hexSecretKey));
+  var keys = Sjcl.Ecdsa.generateKeysFromSecretKey(sec);
+  var hexPublicKey = Curry._1(Sjcl.Ecdsa.PublicKey.toHex, keys.pub);
   return {
           hexPublicKey: hexPublicKey,
-          hexSecretKey: hexSecretKey$1,
+          hexSecretKey: hexSecretKey,
           email: undefined,
           phoneNumber: undefined
         };
