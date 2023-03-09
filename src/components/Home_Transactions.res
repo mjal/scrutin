@@ -10,11 +10,14 @@ module Item = {
       }
     }
 
-    <List.Item
-      key=tx.eventHash
-      title=("0x" ++ tx.eventHash)
-      onPress
-    />
+    <Card>
+      <List.Item
+        key=tx.eventHash
+        title="type"
+        description=tx.eventType
+        onPress
+      />
+    </Card>
   }
 }
 
@@ -22,12 +25,20 @@ module Item = {
 let make = () => {
   let (state, dispatch) = Context.use()
 
+  let clear = _ => {
+    Transaction.clear()
+    dispatch(Init)
+  }
+
   <List.Section title="Transactions">
-    { Array.map(state.txs, (tx) => <Item tx key=tx.eventHash />) -> React.array }
-    <Button mode=#outlined onPress={_ => {
-      Transaction.clear()
-      dispatch(Init)
-    }}>
+
+    { Array.map(state.txs, (tx) =>
+      <Item tx key=tx.eventHash />
+    ) -> React.array }
+
+    <X.Title>{ "-" -> React.string }</X.Title>
+
+    <Button mode=#contained onPress=clear>
       { "Clear" -> React.string }
     </Button>
   </List.Section>
