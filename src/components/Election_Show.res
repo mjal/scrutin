@@ -78,12 +78,13 @@ let make = (~eventHash) => {
   }
 
   let tally = _ => {
-
     let params = Belenios.Election.parse(election.params)
-
     let trustees = Belenios.Trustees.of_str(election.trustees)
-
-    let trustee = state.trustees
+    let trustee = Array.getBy(state.trustees, (trustee) => {
+      Belenios.Trustees.pubkey(trustees) ==
+      Belenios.Trustees.pubkey(trustee.trustees)
+    })
+    let privkey = Option.getExn(trustee).privkey
 
     let (pubcreds, privcreds) =
       Belenios.Credentials.create(params.uuid, Array.length(ballots))
@@ -96,8 +97,9 @@ let make = (~eventHash) => {
       -> Array.map((ciphertext) => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
       -> Array.map((ballot) => ballot)
 
-    //let (a, b) = Belenios.Election.decrypt(params, ciphertexts, trustees, pubcreds, privkey)
-    //let res = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
+    let (a, b) = Belenios.Election.decrypt(params, ciphertexts, trustees, pubcreds, privkey)
+    let res = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
+    Js.log(res)
   }
 
   <>
@@ -145,5 +147,9 @@ let make = (~eventHash) => {
 
     <MessageModal visible setVisible message />
     //<Election_Booth election />
+
+    <Button mode=#outlined onPress=tally>
+      { "Tally" -> React.string }
+    </Button>
   </>
 }

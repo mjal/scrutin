@@ -102,6 +102,26 @@ function Election_Show(Props) {
           _0: tx
         });
   };
+  var tally = function (param) {
+    var params = JSON.parse(election.params);
+    var trustees = election.trustees;
+    var trustee = Belt_Array.getBy(state.trustees, (function (trustee) {
+            return Belenios.Trustees.pubkey(trustees) === Belenios.Trustees.pubkey(trustee.trustees);
+          }));
+    var privkey = Belt_Option.getExn(trustee).privkey;
+    var match = Belenios.Credentials.create(params.uuid, ballots.length);
+    var pubcreds = match[0];
+    var ciphertexts = Belt_Array.map(Belt_Array.map(Belt_Array.keep(Belt_Array.map(Belt_Array.map(ballots, Transaction.SignedBallot.unwrap), (function (ballot) {
+                        return ballot.ciphertext;
+                      })), (function (ciphertext) {
+                    return Belt_Option.getWithDefault(ciphertext, "") !== "";
+                  })), Belt_Option.getExn), (function (ballot) {
+            return ballot;
+          }));
+    var match$1 = Belenios.Election.decrypt(params)(ciphertexts, trustees, pubcreds, privkey);
+    var res = Belenios.Election.result(params)(ciphertexts, trustees, pubcreds, match$1[0], match$1[1]);
+    console.log(res);
+  };
   var onPress = function (param) {
     Curry._1(dispatch, {
           TAG: /* Navigate */0,
@@ -153,6 +173,10 @@ function Election_Show(Props) {
                   message: match$3[0],
                   visible: match$2[0],
                   setVisible: setVisible
+                }), React.createElement(ReactNativePaper.Button, {
+                  mode: "outlined",
+                  onPress: tally,
+                  children: "Tally"
                 }));
 }
 
