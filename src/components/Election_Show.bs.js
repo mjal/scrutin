@@ -128,14 +128,13 @@ function Election_Show(Props) {
           }));
     var privkey = Belt_Option.getExn(trustee).privkey;
     var match = Belenios.Credentials.create(params.uuid, ballots.length);
-    var privcreds = match[1];
     var pubcreds = match[0];
     var ciphertexts = Belt_Array.mapWithIndex(Belt_Array.map(Belt_Array.keep(Belt_Array.map(Belt_Array.map(ballots, Transaction.SignedBallot.unwrap), (function (ballot) {
                         return ballot.ciphertext;
                       })), (function (ciphertext) {
                     return Belt_Option.getWithDefault(ciphertext, "") !== "";
                   })), Belt_Option.getExn), (function (i, ballot) {
-            return Belenios.Ballot.setCredential(ballot, Belt_Array.getExn(privcreds, i));
+            return Belenios.Ballot.setCredential(ballot, Belt_Array.getExn(pubcreds, i));
           }));
     console.log(ciphertexts);
     var match$1 = Belenios.Election.decrypt(params)(ciphertexts, trustees, pubcreds, privkey);

@@ -17,7 +17,8 @@ function Home_Trustees(Props) {
                     var pubkey = Belenios.Trustees.pubkey(trustee.trustees);
                     return React.createElement(ReactNativePaper.List.Item, {
                                 title: pubkey,
-                                description: privkey
+                                description: privkey,
+                                key: pubkey
                               });
                   })), React.createElement(ReactNativePaper.Button, {
                   mode: "outlined",

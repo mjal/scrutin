@@ -48,7 +48,7 @@ module Ballot = {
   }
 
   let setCredential : (t, string) => t = %raw(`function(t, credential) {
-    o = JSON.parse(t)
+    var o = JSON.parse(t)
     o.credential = credential
     return JSON.stringify(o)
   }`)

@@ -104,7 +104,7 @@ let make = (~eventHash) => {
       -> Array.keep((ciphertext) => Option.getWithDefault(ciphertext, "") != "")
       -> Array.map((ciphertext) => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
       -> Array.mapWithIndex((i, ballot) => {
-        Belenios.Ballot.setCredential(ballot, Array.getExn(privcreds, i))
+        Belenios.Ballot.setCredential(ballot, Array.getExn(pubcreds, i))
       })
 
     Js.log(ciphertexts)

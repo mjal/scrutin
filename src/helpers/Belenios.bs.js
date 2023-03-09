@@ -37,7 +37,7 @@ var Trustees = {
 var Parsed = {};
 
 var setCredential = (function(t, credential) {
-    o = JSON.parse(t)
+    var o = JSON.parse(t)
     o.credential = credential
     return JSON.stringify(o)
   });
