@@ -8,8 +8,13 @@ let make = () => {
   //let (visibleVoter, setVisibleVoter) = React.useState(_ => false)
 
   let onSubmit = _ => {
-    // TODO: Show error if not logged in !
-    let identity = Array.getExn(state.ids, 0)
+    let identity = switch Array.get(state.ids, 0) {
+    | Some(identity) => identity
+    | None => {
+      let identity = Identity.make()
+      dispatch(Identity_Add(identity))
+      identity
+    }}
     let trustee  = Trustee.make()
     let election = Election.make(name, desc, choices,
       identity.hexPublicKey, trustee)
@@ -52,7 +57,7 @@ let make = () => {
     }
     //<Election_New_VoterList voters setVoters />
 
-    <Button mode=#outlined onPress=onSubmit>
+    <Button mode=#contained onPress=onSubmit>
       {"Create" -> React.string}
     </Button>
   </>

@@ -5,6 +5,7 @@ import * as React from "react";
 import * as Context from "../Context.bs.js";
 import * as Trustee from "../model/Trustee.bs.js";
 import * as Election from "../model/Election.bs.js";
+import * as Identity from "../model/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Transaction from "../model/Transaction.bs.js";
 import * as ReactNativePaper from "react-native-paper";
@@ -29,10 +30,21 @@ function Election_New(Props) {
       });
   var choices = match$3[0];
   var onSubmit = function (param) {
-    var identity = Belt_Array.getExn(state.ids, 0);
+    var identity = Belt_Array.get(state.ids, 0);
+    var identity$1;
+    if (identity !== undefined) {
+      identity$1 = identity;
+    } else {
+      var identity$2 = Identity.make(undefined);
+      Curry._1(dispatch, {
+            TAG: /* Identity_Add */1,
+            _0: identity$2
+          });
+      identity$1 = identity$2;
+    }
     var trustee = Trustee.make(undefined);
-    var election = Election.make(name, desc, choices, identity.hexPublicKey, trustee);
-    var transaction = Transaction.SignedElection.make(election, identity);
+    var election = Election.make(name, desc, choices, identity$1.hexPublicKey, trustee);
+    var transaction = Transaction.SignedElection.make(election, identity$1);
     Curry._1(dispatch, {
           TAG: /* Trustee_Add */3,
           _0: trustee
@@ -80,7 +92,7 @@ function Election_New(Props) {
                     title: "Owner",
                     description: "No public key found"
                   }), React.createElement(ReactNativePaper.Button, {
-                  mode: "outlined",
+                  mode: "contained",
                   onPress: onSubmit,
                   children: "Create"
                 }));
