@@ -1,5 +1,5 @@
 type t =
-  | Init
+  | Reset
   | Navigate(Route.t)
   | Identity_Add(Identity.t)
   | Transaction_Add(Transaction.t)

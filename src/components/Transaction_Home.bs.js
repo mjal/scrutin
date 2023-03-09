@@ -55,7 +55,7 @@ function Transaction_Home(Props) {
   var dispatch = match[1];
   var clear = function (param) {
     Transaction.clear(undefined);
-    Curry._1(dispatch, /* Init */0);
+    Curry._1(dispatch, /* Reset */0);
   };
   return React.createElement(ReactNativePaper.List.Section, {
               title: "Transactions",

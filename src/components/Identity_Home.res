@@ -69,7 +69,7 @@ let make = () => {
 
     <Button mode=#outlined onPress={_ => {
       Identity.clear()
-      dispatch(Init)
+      dispatch(Reset)
     }}>
       { "Clear identities" -> React.string }
     </Button>

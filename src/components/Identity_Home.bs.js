@@ -124,7 +124,7 @@ function Identity_Home(Props) {
                   mode: "outlined",
                   onPress: (function (param) {
                       Identity.clear(undefined);
-                      Curry._1(dispatch, /* Init */0);
+                      Curry._1(dispatch, /* Reset */0);
                     }),
                   children: "Clear identities"
                 }), React.createElement(X.Title.make, {

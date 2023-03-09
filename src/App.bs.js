@@ -21,7 +21,7 @@ function App(Props) {
   var dispatch = match[1];
   var state = match[0];
   React.useEffect((function () {
-          Curry._1(dispatch, /* Init */0);
+          Curry._1(dispatch, /* Reset */0);
         }), []);
   var eventHash = state.route;
   var tmp;

@@ -36,7 +36,7 @@ let initial = {
 let reducer = (state, action: StateMutation.t) => {
   switch action {
 
-  | Init =>
+  | Reset =>
     (initial, [
       Action.identities_fetch,
       Action.transactions_fetch,

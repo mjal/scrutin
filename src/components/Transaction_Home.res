@@ -27,7 +27,7 @@ let make = () => {
 
   let clear = _ => {
     Transaction.clear()
-    dispatch(Init)
+    dispatch(Reset)
   }
 
   <List.Section title="Transactions">
