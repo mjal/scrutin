@@ -40,29 +40,41 @@ let make = () => {
     <X.Title>{ "Identités" -> React.string }</X.Title>
     <List.Section title="" style=X.styles["margin-x"]>
     { Array.map(state.ids, (id) => {
-      <List.Item
-        key=id.hexPublicKey
-        title=("0x" ++ id.hexPublicKey)
-        onPress={_ => dispatch(Navigate(Identity_Show(id.hexPublicKey)))}
-      />
+      <Card key=id.hexPublicKey>
+        <List.Item
+          title=("0x" ++ id.hexPublicKey)
+          onPress={_ => dispatch(Navigate(Identity_Show(id.hexPublicKey)))}
+        />
+      </Card>
     }) -> React.array }
     </List.Section>
+
+    <X.Title>{ "-" -> React.string }</X.Title>
+
     <Button mode=#contained onPress={_ => {
       dispatch(Identity_Add(Identity.make()))
     }}>
       { "Generate identity" -> React.string }
     </Button>
+
+    <X.Title>{ "-" -> React.string }</X.Title>
+
     <Button mode=#contained onPress={_ => {
       setVisibleImportModal(_ => true)
     }}>
       { "Import identity" -> React.string }
     </Button>
+
+    <X.Title>{ "-" -> React.string }</X.Title>
+
     <Button mode=#outlined onPress={_ => {
       Identity.clear()
       dispatch(Init)
     }}>
       { "Clear identities" -> React.string }
     </Button>
+
+    <X.Title>{ "-" -> React.string }</X.Title>
     
     <Modal_Import visible=visibleImportModal
       setVisible=setVisibleImportModal

@@ -9,7 +9,7 @@ import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
 
-function Home_Identities$Modal_Import(Props) {
+function Identity_Home$Modal_Import(Props) {
   var visible = Props.visible;
   var setVisible = Props.setVisible;
   var onImport = Props.onImport;
@@ -65,10 +65,10 @@ function Home_Identities$Modal_Import(Props) {
 }
 
 var Modal_Import = {
-  make: Home_Identities$Modal_Import
+  make: Identity_Home$Modal_Import
 };
 
-function Home_Identities(Props) {
+function Identity_Home(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var match$1 = React.useState(function () {
@@ -80,21 +80,25 @@ function Home_Identities(Props) {
                 }), React.createElement(ReactNativePaper.List.Section, {
                   title: "",
                   children: Belt_Array.map(match[0].ids, (function (id) {
-                          return React.createElement(ReactNativePaper.List.Item, {
-                                      onPress: (function (param) {
-                                          Curry._1(dispatch, {
-                                                TAG: /* Navigate */0,
-                                                _0: {
-                                                  TAG: /* Identity_Show */1,
-                                                  _0: id.hexPublicKey
-                                                }
-                                              });
-                                        }),
-                                      title: "0x" + id.hexPublicKey,
+                          return React.createElement(ReactNativePaper.Card, {
+                                      children: React.createElement(ReactNativePaper.List.Item, {
+                                            onPress: (function (param) {
+                                                Curry._1(dispatch, {
+                                                      TAG: /* Navigate */0,
+                                                      _0: {
+                                                        TAG: /* Identity_Show */1,
+                                                        _0: id.hexPublicKey
+                                                      }
+                                                    });
+                                              }),
+                                            title: "0x" + id.hexPublicKey
+                                          }),
                                       key: id.hexPublicKey
                                     });
                         })),
                   style: X.styles["margin-x"]
+                }), React.createElement(X.Title.make, {
+                  children: "-"
                 }), React.createElement(ReactNativePaper.Button, {
                   mode: "contained",
                   onPress: (function (param) {
@@ -104,6 +108,8 @@ function Home_Identities(Props) {
                           });
                     }),
                   children: "Generate identity"
+                }), React.createElement(X.Title.make, {
+                  children: "-"
                 }), React.createElement(ReactNativePaper.Button, {
                   mode: "contained",
                   onPress: (function (param) {
@@ -112,6 +118,8 @@ function Home_Identities(Props) {
                             }));
                     }),
                   children: "Import identity"
+                }), React.createElement(X.Title.make, {
+                  children: "-"
                 }), React.createElement(ReactNativePaper.Button, {
                   mode: "outlined",
                   onPress: (function (param) {
@@ -119,7 +127,9 @@ function Home_Identities(Props) {
                       Curry._1(dispatch, /* Init */0);
                     }),
                   children: "Clear identities"
-                }), React.createElement(Home_Identities$Modal_Import, {
+                }), React.createElement(X.Title.make, {
+                  children: "-"
+                }), React.createElement(Identity_Home$Modal_Import, {
                   visible: match$1[0],
                   setVisible: setVisibleImportModal,
                   onImport: (function (hexSecretKey) {
@@ -131,7 +141,7 @@ function Home_Identities(Props) {
                 }));
 }
 
-var make = Home_Identities;
+var make = Identity_Home;
 
 export {
   Modal_Import ,

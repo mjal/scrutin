@@ -7,7 +7,7 @@ import * as Belenios from "../helpers/Belenios.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as ReactNativePaper from "react-native-paper";
 
-function Home_Trustees(Props) {
+function Trustee_Home(Props) {
   var match = Context.use(undefined);
   return React.createElement(ReactNativePaper.List.Section, {
               title: "Trustees",
@@ -29,7 +29,7 @@ function Home_Trustees(Props) {
                 }));
 }
 
-var make = Home_Trustees;
+var make = Trustee_Home;
 
 export {
   make ,

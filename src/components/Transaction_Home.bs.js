@@ -9,7 +9,7 @@ import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Transaction from "../model/Transaction.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 
-function Home_Transactions$Item(Props) {
+function Transaction_Home$Item(Props) {
   var tx = Props.tx;
   var match = Context.use(undefined);
   var dispatch = match[1];
@@ -47,10 +47,10 @@ function Home_Transactions$Item(Props) {
 }
 
 var Item = {
-  make: Home_Transactions$Item
+  make: Transaction_Home$Item
 };
 
-function Home_Transactions(Props) {
+function Transaction_Home(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var clear = function (param) {
@@ -61,7 +61,7 @@ function Home_Transactions(Props) {
               title: "Transactions",
               children: null
             }, Belt_Array.map(match[0].txs, (function (tx) {
-                    return React.createElement(Home_Transactions$Item, {
+                    return React.createElement(Transaction_Home$Item, {
                                 tx: tx,
                                 key: tx.eventHash
                               });
@@ -74,7 +74,7 @@ function Home_Transactions(Props) {
                 }));
 }
 
-var make = Home_Transactions;
+var make = Transaction_Home;
 
 export {
   Item ,

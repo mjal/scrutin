@@ -9,12 +9,12 @@ import * as UseTea from "rescript-use-tea/src/UseTea.bs.js";
 import * as Navigation from "./Navigation.bs.js";
 import * as Ballot_Show from "./components/Ballot_Show.bs.js";
 import * as Election_New from "./components/Election_New.bs.js";
+import * as Trustee_Home from "./components/Trustee_Home.bs.js";
+import * as Election_Home from "./components/Election_Home.bs.js";
 import * as Election_Show from "./components/Election_Show.bs.js";
-import * as Home_Trustees from "./components/Home_Trustees.bs.js";
+import * as Identity_Home from "./components/Identity_Home.bs.js";
 import * as Identity_Show from "./components/Identity_Show.bs.js";
-import * as Home_Elections from "./components/Home_Elections.bs.js";
-import * as Home_Identities from "./components/Home_Identities.bs.js";
-import * as Home_Transactions from "./components/Home_Transactions.bs.js";
+import * as Transaction_Home from "./components/Transaction_Home.bs.js";
 
 function App(Props) {
   var match = UseTea.useTea(State.reducer, State.initial);
@@ -28,16 +28,16 @@ function App(Props) {
   if (typeof eventHash === "number") {
     switch (eventHash) {
       case /* Home_Elections */0 :
-          tmp = React.createElement(Home_Elections.make, {});
+          tmp = React.createElement(Election_Home.make, {});
           break;
       case /* Home_Trustees */1 :
-          tmp = React.createElement(Home_Trustees.make, {});
+          tmp = React.createElement(Trustee_Home.make, {});
           break;
       case /* Home_Identities */2 :
-          tmp = React.createElement(Home_Identities.make, {});
+          tmp = React.createElement(Identity_Home.make, {});
           break;
       case /* Home_Transactions */3 :
-          tmp = React.createElement(Home_Transactions.make, {});
+          tmp = React.createElement(Transaction_Home.make, {});
           break;
       case /* Election_New */4 :
           tmp = React.createElement(Election_New.make, {});

@@ -8,7 +8,7 @@ import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
 
-function Home_Elections$Election(Props) {
+function Election_Home$Election(Props) {
   var eventHash = Props.eventHash;
   var election = Props.election;
   var match = Context.use(undefined);
@@ -46,10 +46,10 @@ function Home_Elections$Election(Props) {
 }
 
 var Election = {
-  make: Home_Elections$Election
+  make: Election_Home$Election
 };
 
-function Home_Elections(Props) {
+function Election_Home(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
@@ -67,7 +67,7 @@ function Home_Elections(Props) {
                   children: "-"
                 }), Belt_Array.map(Belt_MapString.toArray(match[0].cache.elections), (function (param) {
                     var eventHash = param[0];
-                    return React.createElement(Home_Elections$Election, {
+                    return React.createElement(Election_Home$Election, {
                                 eventHash: eventHash,
                                 election: param[1],
                                 key: eventHash
@@ -77,7 +77,7 @@ function Home_Elections(Props) {
                 }));
 }
 
-var make = Home_Elections;
+var make = Election_Home;
 
 export {
   Election ,
