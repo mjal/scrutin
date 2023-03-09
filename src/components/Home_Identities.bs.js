@@ -116,6 +116,7 @@ function Home_Identities(Props) {
                   mode: "outlined",
                   onPress: (function (param) {
                       Identity.clear(undefined);
+                      Curry._1(dispatch, /* Init */0);
                     }),
                   children: "Clear identities"
                 }), React.createElement(Home_Identities$Modal_Import, {

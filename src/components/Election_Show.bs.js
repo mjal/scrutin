@@ -17,6 +17,9 @@ function Election_Show$MessageModal(Props) {
   var message = Props.message;
   var visible = Props.visible;
   var setVisible = Props.setVisible;
+  var hexSecretKey = Props.hexSecretKey;
+  var match = Context.use(undefined);
+  var dispatch = match[1];
   return React.createElement(ReactNativePaper.Portal, {
               children: React.createElement(ReactNativePaper.Modal, {
                     visible: visible,
@@ -31,10 +34,18 @@ function Election_Show$MessageModal(Props) {
                                 X.styles.layout
                               ]),
                           testID: "choice-modal",
-                          children: React.createElement(ReactNativePaper.Text, {
-                                children: message
-                              })
-                        })
+                          children: null
+                        }, React.createElement(ReactNativePaper.Text, {
+                              children: message
+                            }), React.createElement(ReactNativePaper.Button, {
+                              onPress: (function (param) {
+                                  Curry._1(dispatch, {
+                                        TAG: /* Identity_Add */1,
+                                        _0: Identity.make2(hexSecretKey)
+                                      });
+                                }),
+                              children: "Add identity (dev)"
+                            }))
                   })
             });
 }
@@ -52,16 +63,20 @@ function Election_Show(Props) {
         return "";
       });
   var email = match$1[0];
-  var election = Belt_MapString.getExn(state.cache.elections, eventHash);
-  var publicKey = election.ownerPublicKey;
   var match$2 = React.useState(function () {
-        return false;
-      });
-  var setVisible = match$2[1];
-  var match$3 = React.useState(function () {
         return "";
       });
-  var setMessage = match$3[1];
+  var setSecretKey = match$2[1];
+  var election = Belt_MapString.getExn(state.cache.elections, eventHash);
+  var publicKey = election.ownerPublicKey;
+  var match$3 = React.useState(function () {
+        return false;
+      });
+  var setVisible = match$3[1];
+  var match$4 = React.useState(function () {
+        return "";
+      });
+  var setMessage = match$4[1];
   var ballots = Belt_Array.keep(Belt_Array.keep(state.txs, (function (tx) {
               return tx.eventType === "ballot";
             })), (function (tx) {
@@ -75,6 +90,9 @@ function Election_Show(Props) {
     var message = "\n      Hello !\n      Vous êtes invité à l'election.\n      Voici votre clé privée " + hexSecretKey + "\n      Pour information, la clé publique associée est " + id.hexPublicKey + "\n      L'organisateur vient de creer un bulletin de vote avec cette clé.\n    ";
     Curry._1(setMessage, (function (param) {
             return message;
+          }));
+    Curry._1(setSecretKey, (function (param) {
+            return hexSecretKey;
           }));
     Curry._1(setVisible, (function (param) {
             return true;
@@ -118,6 +136,7 @@ function Election_Show(Props) {
                   })), Belt_Option.getExn), (function (ballot) {
             return ballot;
           }));
+    console.log(ciphertexts);
     var match$1 = Belenios.Election.decrypt(params)(ciphertexts, trustees, pubcreds, privkey);
     var res = Belenios.Election.result(params)(ciphertexts, trustees, pubcreds, match$1[0], match$1[1]);
     console.log(res);
@@ -170,9 +189,10 @@ function Election_Show(Props) {
                                     });
                         }))
                 }), React.createElement(Election_Show$MessageModal, {
-                  message: match$3[0],
-                  visible: match$2[0],
-                  setVisible: setVisible
+                  message: match$4[0],
+                  visible: match$3[0],
+                  setVisible: setVisible,
+                  hexSecretKey: match$2[0]
                 }), React.createElement(ReactNativePaper.Button, {
                   mode: "outlined",
                   onPress: tally,

@@ -1,12 +1,18 @@
 module MessageModal = {
   @react.component
-  let make = (~message, ~visible, ~setVisible) => {
+  let make = (~message, ~visible, ~setVisible, ~hexSecretKey) => {
+    let (_state, dispatch) = Context.use()
     <Portal>
       <Modal visible={visible} onDismiss={_ => setVisible(_ => false)}>
         <View
           style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]])
           testID="choice-modal">
           <Text>{ message -> React.string }</Text>
+          <Button onPress={_ => {
+            dispatch(Identity_Add(Identity.make2(~hexSecretKey)))
+          }}>
+            { "Add identity (dev)" -> React.string }
+          </Button>
         </View>
       </Modal>
     </Portal>
@@ -17,6 +23,7 @@ module MessageModal = {
 let make = (~eventHash) => {
   let (state, dispatch) = Context.use()
   let (email, setEmail) = React.useState(_ => "")
+  let (hexSecretKey, setSecretKey) = React.useState(_ => "") // NOTE: Only for dev
   let election = Map.String.getExn(state.cache.elections, eventHash)
   let publicKey = election.ownerPublicKey
 
@@ -45,6 +52,7 @@ let make = (~eventHash) => {
     `
 
     setMessage(_ => message)
+    setSecretKey(_ => hexSecretKey)
     setVisible(_ => true)
 
     let data = {
@@ -97,6 +105,8 @@ let make = (~eventHash) => {
       -> Array.map((ciphertext) => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
       -> Array.map((ballot) => ballot)
 
+    Js.log(ciphertexts)
+
     let (a, b) = Belenios.Election.decrypt(params, ciphertexts, trustees, pubcreds, privkey)
     let res = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
     Js.log(res)
@@ -145,7 +155,7 @@ let make = (~eventHash) => {
     }
     </List.Section>
 
-    <MessageModal visible setVisible message />
+    <MessageModal visible setVisible message hexSecretKey />
     //<Election_Booth election />
 
     <Button mode=#outlined onPress=tally>

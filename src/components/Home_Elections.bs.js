@@ -56,16 +56,7 @@ var Election = {
 function Home_Elections(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
-  return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
-                  children: "Elections"
-                }), Belt_Array.map(Belt_MapString.toArray(match[0].cache.elections), (function (param) {
-                    var eventHash = param[0];
-                    return React.createElement(Home_Elections$Election, {
-                                eventHash: eventHash,
-                                election: param[1],
-                                key: eventHash
-                              });
-                  })), React.createElement(ReactNativePaper.Button, {
+  return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Button, {
                   mode: "contained",
                   onPress: (function (param) {
                       Curry._1(dispatch, {
@@ -73,8 +64,17 @@ function Home_Elections(Props) {
                             _0: /* Election_New */4
                           });
                     }),
-                  children: "New election"
-                }));
+                  children: "Creer une nouvelle election"
+                }), React.createElement(X.Title.make, {
+                  children: "Elections en cours"
+                }), Belt_Array.map(Belt_MapString.toArray(match[0].cache.elections), (function (param) {
+                    var eventHash = param[0];
+                    return React.createElement(Home_Elections$Election, {
+                                eventHash: eventHash,
+                                election: param[1],
+                                key: eventHash
+                              });
+                  })));
 }
 
 var make = Home_Elections;

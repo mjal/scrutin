@@ -57,7 +57,10 @@ let make = () => {
     }}>
       { "Import identity" -> React.string }
     </Button>
-    <Button mode=#outlined onPress={_ => Identity.clear()}>
+    <Button mode=#outlined onPress={_ => {
+      Identity.clear()
+      dispatch(Init)
+    }}>
       { "Clear identities" -> React.string }
     </Button>
     
