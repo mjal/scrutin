@@ -50,9 +50,10 @@
               <div class="sswrap ">
                 <a class="ss" href="#section-1">&#x00a7;</a>
               </div>
-              <h2 id="the-core-of-the-app">The core of the app</h2>
-
+              
             </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-variable language_">module</span> <span class="hljs-title class_">Election</span> = {</pre></div></div>
             
         </li>
         
@@ -63,9 +64,11 @@
               <div class="sswrap ">
                 <a class="ss" href="#section-2">&#x00a7;</a>
               </div>
-              <h3 id="election">Election</h3>
+              <h4 id="electioncreate">Election.create</h4>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">let</span> create = (</pre></div></div>
             
         </li>
         
@@ -76,12 +79,11 @@
               <div class="sswrap ">
                 <a class="ss" href="#section-3">&#x00a7;</a>
               </div>
-              <h4 id="create">create</h4>
+              <p><strong>name</strong>: The name of the election</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>
-<span class="hljs-keyword">let</span> electionCreate = (</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    ~name : string,</pre></div></div>
             
         </li>
         
@@ -92,9 +94,11 @@
               <div class="sswrap ">
                 <a class="ss" href="#section-4">&#x00a7;</a>
               </div>
-              <h5 id="params">Params</h5>
+              <p><strong>desc</strong>: A description of the election</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>    ~desc : string,</pre></div></div>
             
         </li>
         
@@ -105,9 +109,14 @@
               <div class="sswrap ">
                 <a class="ss" href="#section-5">&#x00a7;</a>
               </div>
-              <p><strong>name</strong></p>
+              <p><strong>choices</strong>: The options we can choose from</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>    ~choices : array&lt;string&gt;
+  ) =&gt; {
+  
+    <span class="hljs-function">(<span class="hljs-params">state: State.t, dispatch</span>) =&gt;</span> {</pre></div></div>
             
         </li>
         
@@ -118,12 +127,18 @@
               <div class="sswrap ">
                 <a class="ss" href="#section-6">&#x00a7;</a>
               </div>
-              <p>The name of the election</p>
+              <p>Select the first identity we own<br />
+If we don’t have any, create a new one</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>
-  ~name : string,</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">let</span> identity = <span class="hljs-keyword">switch</span> <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">get</span>(<span class="hljs-params">state.ids, <span class="hljs-number">0</span></span>) {
+      | <span class="hljs-title class_">Some</span>(identity) =&gt; identity
+      | <span class="hljs-function"><span class="hljs-params">None</span> =&gt;</span>
+        <span class="hljs-keyword">let</span> identity = <span class="hljs-title class_">Identity</span>.<span class="hljs-title function_">make</span>()
+        <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMutation</span>.<span class="hljs-title class_">Identity</span>_Add(identity))
+        identity
+      }</pre></div></div>
             
         </li>
         
@@ -134,9 +149,11 @@
               <div class="sswrap ">
                 <a class="ss" href="#section-7">&#x00a7;</a>
               </div>
-              <p><strong>desc</strong></p>
+              <p>Generate a single trustee for now</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">let</span> trustee  = <span class="hljs-title class_">Trustee</span>.<span class="hljs-title function_">make</span>()</pre></div></div>
             
         </li>
         
@@ -147,12 +164,12 @@
               <div class="sswrap ">
                 <a class="ss" href="#section-8">&#x00a7;</a>
               </div>
-              <p>The election description</p>
+              <p>Generate the election</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>
-  ~desc : string,</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">let</span> election = <span class="hljs-title class_">Election</span>.<span class="hljs-title function_">make</span>(name, desc, choices,
+        identity.<span class="hljs-property">hexPublicKey</span>, trustee)</pre></div></div>
             
         </li>
         
@@ -163,9 +180,11 @@
               <div class="sswrap ">
                 <a class="ss" href="#section-9">&#x00a7;</a>
               </div>
-              <p><strong>choices</strong></p>
+              <p>wrap it in a transaction</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">let</span> transaction = <span class="hljs-title class_">Transaction</span>.<span class="hljs-property">SignedElection</span>.<span class="hljs-title function_">make</span>(election, identity)</pre></div></div>
             
         </li>
         
@@ -176,16 +195,12 @@
               <div class="sswrap ">
                 <a class="ss" href="#section-10">&#x00a7;</a>
               </div>
-              <p>The options we can choose from</p>
+              <p>Add the new transaction<br />
+TODO: Broadcast it</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>
-  ~choices : array&lt;string&gt;
-
-) =&gt; {
-
-  <span class="hljs-function">(<span class="hljs-params">state: State.t, dispatch</span>) =&gt;</span> {</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMutation</span>.<span class="hljs-title class_">Transaction</span>_Add(transaction))</pre></div></div>
             
         </li>
         
@@ -196,18 +211,11 @@
               <div class="sswrap ">
                 <a class="ss" href="#section-11">&#x00a7;</a>
               </div>
-              <p>Select the first identity we own<br />
-If we don’t have any, create a new one</p>
+              <p>Store the trustee private key</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">let</span> identity = <span class="hljs-keyword">switch</span> <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">get</span>(<span class="hljs-params">state.ids, <span class="hljs-number">0</span></span>) {
-    | <span class="hljs-title class_">Some</span>(identity) =&gt; identity
-    | <span class="hljs-function"><span class="hljs-params">None</span> =&gt;</span>
-      <span class="hljs-keyword">let</span> identity = <span class="hljs-title class_">Identity</span>.<span class="hljs-title function_">make</span>()
-      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMutation</span>.<span class="hljs-title class_">Identity</span>_Add(identity))
-      identity
-    }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMutation</span>.<span class="hljs-title class_">Trustee</span>_Add(trustee))</pre></div></div>
             
         </li>
         
@@ -218,88 +226,12 @@ If we don’t have any, create a new one</p>
               <div class="sswrap ">
                 <a class="ss" href="#section-12">&#x00a7;</a>
               </div>
-              <p>Generate a single trustee for now</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">let</span> trustee  = <span class="hljs-title class_">Trustee</span>.<span class="hljs-title function_">make</span>()</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-13">
-            <div class="annotation">
-              
-              <div class="sswrap ">
-                <a class="ss" href="#section-13">&#x00a7;</a>
-              </div>
-              <p>Generate the election</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">let</span> election = <span class="hljs-title class_">Election</span>.<span class="hljs-title function_">make</span>(name, desc, choices,
-      identity.<span class="hljs-property">hexPublicKey</span>, trustee)</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-14">
-            <div class="annotation">
-              
-              <div class="sswrap ">
-                <a class="ss" href="#section-14">&#x00a7;</a>
-              </div>
-              <p>wrap it in a transaction</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">let</span> transaction = <span class="hljs-title class_">Transaction</span>.<span class="hljs-property">SignedElection</span>.<span class="hljs-title function_">make</span>(election, identity)</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-15">
-            <div class="annotation">
-              
-              <div class="sswrap ">
-                <a class="ss" href="#section-15">&#x00a7;</a>
-              </div>
-              <p>Add the new transaction<br />
-TODO: Broadcast it</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMutation</span>.<span class="hljs-title class_">Transaction</span>_Add(transaction))</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-16">
-            <div class="annotation">
-              
-              <div class="sswrap ">
-                <a class="ss" href="#section-16">&#x00a7;</a>
-              </div>
-              <p>Store the trustee private key</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMutation</span>.<span class="hljs-title class_">Trustee</span>_Add(trustee))</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-17">
-            <div class="annotation">
-              
-              <div class="sswrap ">
-                <a class="ss" href="#section-17">&#x00a7;</a>
-              </div>
               <p>Go the election page</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMutation</span>.<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">Election</span>_Show(transaction.<span class="hljs-property">eventHash</span>)))
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMutation</span>.<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">Election</span>_Show(transaction.<span class="hljs-property">eventHash</span>)))
+    }
   }
 }</pre></div></div>
             

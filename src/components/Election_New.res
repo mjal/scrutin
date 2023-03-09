@@ -6,7 +6,12 @@ let make = () => {
   let (choices, setChoices) = React.useState(_ => [])
 
   let electionCreate = _ => {
-    Core.electionCreate(~name, ~desc, ~choices)(state, dispatch)
+    Core.Election.create(~name, ~desc, ~choices)(state, dispatch)
+  }
+
+  let ownerDescription = switch state.ids[0] {
+  | Some(user) => user.hexPublicKey
+  | None => "No public key found"
   }
 
   <>
@@ -28,18 +33,7 @@ let make = () => {
 
     <Election_New_ChoiceList choices setChoices />
 
-    {
-      switch Array.get(state.ids, 0) {
-      | Some(user) =>
-        <List.Item
-          title="Owner"
-          description=user.hexPublicKey />
-      | None =>
-        <List.Item
-          title="Owner"
-          description="No public key found" />
-      }
-    }
+    <List.Item title="Owner" description=ownerDescription />
 
     <Button mode=#contained onPress=electionCreate>
       {"Create" -> React.string}

@@ -7,7 +7,7 @@ import * as Identity from "./model/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Transaction from "./model/Transaction.bs.js";
 
-function electionCreate(name, desc, choices, state, dispatch) {
+function create(name, desc, choices, state, dispatch) {
   var identity = Belt_Array.get(state.ids, 0);
   var identity$1;
   if (identity !== undefined) {
@@ -40,7 +40,11 @@ function electionCreate(name, desc, choices, state, dispatch) {
       });
 }
 
+var Election$1 = {
+  create: create
+};
+
 export {
-  electionCreate ,
+  Election$1 as Election,
 }
 /* Trustee Not a pure module */

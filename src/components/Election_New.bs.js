@@ -27,9 +27,10 @@ function Election_New(Props) {
       });
   var choices = match$3[0];
   var electionCreate = function (param) {
-    Core.electionCreate(name, desc, choices, state, dispatch);
+    Core.Election.create(name, desc, choices, state, dispatch);
   };
   var user = Belt_Array.get(state.ids, 0);
+  var ownerDescription = user !== undefined ? user.hexPublicKey : "No public key found";
   return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.TextInput, {
                   mode: "flat",
                   label: "Nom de l'élection",
@@ -53,13 +54,10 @@ function Election_New(Props) {
                 }), React.createElement(Election_New_ChoiceList.make, {
                   choices: choices,
                   setChoices: match$3[1]
-                }), user !== undefined ? React.createElement(ReactNativePaper.List.Item, {
-                    title: "Owner",
-                    description: user.hexPublicKey
-                  }) : React.createElement(ReactNativePaper.List.Item, {
-                    title: "Owner",
-                    description: "No public key found"
-                  }), React.createElement(ReactNativePaper.Button, {
+                }), React.createElement(ReactNativePaper.List.Item, {
+                  title: "Owner",
+                  description: ownerDescription
+                }), React.createElement(ReactNativePaper.Button, {
                   mode: "contained",
                   onPress: electionCreate,
                   children: "Create"
