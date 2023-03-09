@@ -7,6 +7,38 @@ import * as Identity from "./model/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Transaction from "./model/Transaction.bs.js";
 
+function cache_update(tx, dispatch) {
+  var match = tx.eventType;
+  switch (match) {
+    case "ballot" :
+        return Curry._1(dispatch, {
+                    TAG: /* Cache_Ballot_Add */5,
+                    _0: tx.eventHash,
+                    _1: Transaction.SignedBallot.unwrap(tx)
+                  });
+    case "election" :
+        return Curry._1(dispatch, {
+                    TAG: /* Cache_Election_Add */4,
+                    _0: tx.eventHash,
+                    _1: Transaction.SignedElection.unwrap(tx)
+                  });
+    default:
+      return Js_exn.raiseError("Unknown transaction type");
+  }
+}
+
+function identities_store(ids, _dispatch) {
+  Identity.store_all(ids);
+}
+
+function transactions_store(txs, _dispatch) {
+  Transaction.store_all(txs);
+}
+
+function trustees_store(trustees, _dispatch) {
+  Trustee.store_all(trustees);
+}
+
 function identities_fetch(dispatch) {
   Identity.fetch_all(undefined).then(function (ids) {
         return Belt_Array.map(ids, (function (id) {
@@ -40,18 +72,6 @@ function trustees_fetch(dispatch) {
       });
 }
 
-function identities_store(ids, _dispatch) {
-  Identity.store_all(ids);
-}
-
-function transactions_store(txs, _dispatch) {
-  Transaction.store_all(txs);
-}
-
-function trustees_store(trustees, _dispatch) {
-  Trustee.store_all(trustees);
-}
-
 function identities_clear(_dispatch) {
   Identity.clear(undefined);
 }
@@ -64,36 +84,16 @@ function trustees_clear(_dispatch) {
   Trustee.clear(undefined);
 }
 
-function cache_update(tx, dispatch) {
-  var match = tx.eventType;
-  switch (match) {
-    case "ballot" :
-        return Curry._1(dispatch, {
-                    TAG: /* Cache_Ballot_Add */5,
-                    _0: tx.eventHash,
-                    _1: Transaction.SignedBallot.unwrap(tx)
-                  });
-    case "election" :
-        return Curry._1(dispatch, {
-                    TAG: /* Cache_Election_Add */4,
-                    _0: tx.eventHash,
-                    _1: Transaction.SignedElection.unwrap(tx)
-                  });
-    default:
-      return Js_exn.raiseError("Unknown transaction type");
-  }
-}
-
 export {
-  identities_fetch ,
-  transactions_fetch ,
-  trustees_fetch ,
+  cache_update ,
   identities_store ,
   transactions_store ,
   trustees_store ,
+  identities_fetch ,
+  transactions_fetch ,
+  trustees_fetch ,
   identities_clear ,
   transactions_clear ,
   trustees_clear ,
-  cache_update ,
 }
 /* Trustee Not a pure module */

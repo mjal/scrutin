@@ -1,3 +1,26 @@
+// # Effects
+
+// ## Cache management
+
+let cache_update = (tx : Transaction.t) =>
+  (dispatch) => {
+    switch tx.eventType {
+    | "election" => dispatch(StateMutation.Cache_Election_Add(tx.eventHash,
+      Transaction.SignedElection.unwrap(tx)))
+    | "ballot" => dispatch(StateMutation.Cache_Ballot_Add(tx.eventHash,
+      Transaction.SignedBallot.unwrap(tx)))
+    | _ => Js.Exn.raiseError("Unknown transaction type")
+    }
+  }
+
+// ## LocalStorage - Store
+
+let identities_store = (ids) => (_dispatch) => Identity.store_all(ids)
+let transactions_store = (txs) => (_dispatch) => Transaction.store_all(txs)
+let trustees_store = (trustees) => (_dispatch) => Trustee.store_all(trustees)
+
+// ## LocalStorage - Fetch
+
 let identities_fetch = (dispatch) => {
   Identity.fetch_all()
   -> Promise.thenResolve((ids) => {
@@ -20,24 +43,11 @@ let trustees_fetch = (dispatch) => {
   }) -> ignore
 }
 
-let identities_store = (ids) => (_dispatch) => Identity.store_all(ids)
-let transactions_store = (txs) => (_dispatch) => Transaction.store_all(txs)
-let trustees_store = (trustees) => (_dispatch) => Trustee.store_all(trustees)
+// ## LocalStorage - Clear
 
 let identities_clear = (_dispatch) => Identity.clear()
 let transactions_clear = (_dispatch) => Transaction.clear()
 let trustees_clear = (_dispatch) => Trustee.clear()
-
-let cache_update = (tx : Transaction.t) =>
-  (dispatch) => {
-    switch tx.eventType {
-    | "election" => dispatch(StateMutation.Cache_Election_Add(tx.eventHash,
-      Transaction.SignedElection.unwrap(tx)))
-    | "ballot" => dispatch(StateMutation.Cache_Ballot_Add(tx.eventHash,
-      Transaction.SignedBallot.unwrap(tx)))
-    | _ => Js.Exn.raiseError("Unknown transaction type")
-    }
-  }
 
 /*
 let goToUrl = dispatch => {
