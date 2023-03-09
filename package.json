@@ -13,7 +13,7 @@
     "re:clean": "rescript clean",
     "re:rebuild": "rescript clean && rescript build -with-deps",
     "re:start": "rescript build -with-deps -w",
-    "doc": "docco src/state/*.res"
+    "doc": "docco src/Action.res"
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
