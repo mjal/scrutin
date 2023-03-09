@@ -175,7 +175,7 @@ If we don’t have any, create a new one</p>
       | <span class="hljs-title class_">Some</span>(identity) =&gt; identity
       | <span class="hljs-function"><span class="hljs-params">None</span> =&gt;</span>
         <span class="hljs-keyword">let</span> identity = <span class="hljs-title class_">Identity</span>.<span class="hljs-title function_">make</span>()
-        <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMutation</span>.<span class="hljs-title class_">Identity</span>_Add(identity))
+        <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Identity</span>_Add(identity))
         identity
       }</pre></div></div>
             
@@ -238,7 +238,7 @@ If we don’t have any, create a new one</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMutation</span>.<span class="hljs-title class_">Transaction</span>_Add(transaction))</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Transaction</span>_Add(transaction))</pre></div></div>
             
         </li>
         
@@ -253,7 +253,7 @@ If we don’t have any, create a new one</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMutation</span>.<span class="hljs-title class_">Trustee</span>_Add(trustee))</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Trustee</span>_Add(trustee))</pre></div></div>
             
         </li>
         
@@ -268,7 +268,7 @@ If we don’t have any, create a new one</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMutation</span>.<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">Election</span>_Show(transaction.<span class="hljs-property">eventHash</span>)))
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">Election</span>_Show(transaction.<span class="hljs-property">eventHash</span>)))
     }
   }</pre></div></div>
             
@@ -738,7 +738,7 @@ This is also the upper bound to <strong>choice</strong></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMutation</span>.<span class="hljs-title class_">Transaction</span>_Add(tx))</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Transaction</span>_Add(tx))</pre></div></div>
             
         </li>
         

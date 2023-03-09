@@ -5,9 +5,9 @@
 let cache_update = (tx : Transaction.t) =>
   (dispatch) => {
     switch tx.eventType {
-    | "election" => dispatch(StateMutation.Cache_Election_Add(tx.eventHash,
+    | "election" => dispatch(StateMsg.Cache_Election_Add(tx.eventHash,
       Transaction.SignedElection.unwrap(tx)))
-    | "ballot" => dispatch(StateMutation.Cache_Ballot_Add(tx.eventHash,
+    | "ballot" => dispatch(StateMsg.Cache_Ballot_Add(tx.eventHash,
       Transaction.SignedBallot.unwrap(tx)))
     | _ => Js.Exn.raiseError("Unknown transaction type")
     }
@@ -24,7 +24,7 @@ let trustees_store = (trustees) => (_dispatch) => Trustee.store_all(trustees)
 let identities_fetch = (dispatch) => {
   Identity.fetch_all()
   -> Promise.thenResolve((ids) => {
-    Array.map(ids, (id) => dispatch(StateMutation.Identity_Add(id)))
+    Array.map(ids, (id) => dispatch(StateMsg.Identity_Add(id)))
     // FIX: Identity_Add call identites_store as an effect...
   }) -> ignore
 }
@@ -32,14 +32,14 @@ let identities_fetch = (dispatch) => {
 let transactions_fetch = (dispatch) => {
   Transaction.fetch_all()
   -> Promise.thenResolve((txs) => {
-    Array.map(txs, (tx) => dispatch(StateMutation.Transaction_Add(tx)))
+    Array.map(txs, (tx) => dispatch(StateMsg.Transaction_Add(tx)))
   }) -> ignore
 }
 
 let trustees_fetch = (dispatch) => {
   Trustee.fetch_all()
   -> Promise.thenResolve((txs) => {
-    Array.map(txs, (tx) => dispatch(StateMutation.Trustee_Add(tx)))
+    Array.map(txs, (tx) => dispatch(StateMsg.Trustee_Add(tx)))
   }) -> ignore
 }
 

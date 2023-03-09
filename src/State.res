@@ -33,7 +33,7 @@ let initial = {
 }
 
 // The reducer, the only place where state mutations can happen
-let reducer = (state, action: StateMutation.t) => {
+let reducer = (state, action: StateMsg.t) => {
   switch action {
 
   | Reset =>

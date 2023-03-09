@@ -18,7 +18,7 @@ module Election = {
       | Some(identity) => identity
       | None =>
         let identity = Identity.make()
-        dispatch(StateMutation.Identity_Add(identity))
+        dispatch(StateMsg.Identity_Add(identity))
         identity
       }
   
@@ -33,13 +33,13 @@ module Election = {
       let transaction = Transaction.SignedElection.make(election, identity)
   
       // Add the new transaction<br />
-      dispatch(StateMutation.Transaction_Add(transaction))
+      dispatch(StateMsg.Transaction_Add(transaction))
   
       // Store the trustee private key
-      dispatch(StateMutation.Trustee_Add(trustee))
+      dispatch(StateMsg.Trustee_Add(trustee))
   
       // Go the election page
-      dispatch(StateMutation.Navigate(Election_Show(transaction.eventHash)))
+      dispatch(StateMsg.Navigate(Election_Show(transaction.eventHash)))
     }
   }
 
@@ -150,7 +150,7 @@ module Ballot = {
       let tx = Transaction.SignedBallot.make(ballot, owner)
 
       // Add the new transaction<br />
-      dispatch(StateMutation.Transaction_Add(tx))
+      dispatch(StateMsg.Transaction_Add(tx))
 
       // Go the ballot page
       dispatch(Navigate(Election_Show(ballot.electionTx)))
