@@ -1,7 +1,7 @@
 @react.component
 let make = (~eventHash) => {
   let (state, dispatch) = Context.use()
-  let ballot = Map.String.getExn(state.cache.ballots, eventHash)
+  let ballot = Map.String.getExn(state.cached_ballots, eventHash)
 
   let ciphertext = Option.getWithDefault(ballot.ciphertext, "")
 
@@ -16,13 +16,10 @@ let make = (~eventHash) => {
         description=Option.getWithDefault(ballot.previousTx, "")
       />
 
-      {
-        Array.mapWithIndex(ballot.owners, (i, publicKey) => {
-          let onPress = _ => dispatch(Navigate(Identity_Show(publicKey)))
-          let title   = `Public Key ${i -> Int.toString}`
-          <List.Item key=publicKey title onPress description=publicKey />
-        }) -> React.array
-      }
+      <List.Item title="Voter" description=ballot.voterPublicKey
+        onPress={_ => 
+          dispatch(Navigate(Identity_Show(ballot.voterPublicKey)))
+        } />
 
       <List.Item title="Ciphertext" description=ciphertext
         onPress={_ => dispatch(Navigate(Election_Show(ciphertext)))}

@@ -12,8 +12,8 @@ module Choice = {
 @react.component
 let make = (~ballotTx) => {
   let (state, dispatch) = Context.use()
-  let ballot = Map.String.getExn(state.cache.ballots, ballotTx)
-  let election = Map.String.getExn(state.cache.elections, ballot.electionTx)
+  let ballot = Map.String.getExn(state.cached_ballots, ballotTx)
+  let election = Map.String.getExn(state.cached_elections, ballot.electionTx)
   let answers  = Belenios.Election.answers(Belenios.Election.parse(election.params))
   let nbAnswers = Array.length(answers)
   let (choice:option<int>, setChoice) = React.useState(_ => None)
@@ -26,7 +26,7 @@ let make = (~ballotTx) => {
     let ballot = Ballot.make(ballot, election, selection)
 
     let owner = Array.getBy(state.ids, (id) => {
-      Array.some(ballot.owners, (owner) => owner == id.hexPublicKey)
+      ballot.voterPublicKey == id.hexPublicKey
     }) -> Option.getExn
 
     let tx = Transaction.SignedBallot.make(ballot, owner)

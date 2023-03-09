@@ -43,7 +43,7 @@ let make = () => {
       { "Creer une nouvelle election" -> React.string }
     </Button>
     <X.Title>{ "-" -> React.string }</X.Title>
-    { state.cache.elections
+    { state.cached_elections
       -> Map.String.toArray
       -> Array.map(((eventHash, election)) => {
         <Election eventHash election key=eventHash />

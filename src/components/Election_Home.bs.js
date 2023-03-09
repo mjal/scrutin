@@ -65,7 +65,7 @@ function Election_Home(Props) {
                   children: "Creer une nouvelle election"
                 }), React.createElement(X.Title.make, {
                   children: "-"
-                }), Belt_Array.map(Belt_MapString.toArray(match[0].cache.elections), (function (param) {
+                }), Belt_Array.map(Belt_MapString.toArray(match[0].cached_elections), (function (param) {
                     var eventHash = param[0];
                     return React.createElement(Election_Home$Election, {
                                 eventHash: eventHash,

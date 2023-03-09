@@ -2,13 +2,13 @@
 let make = (~publicKey) => {
   let (state, dispatch) = Context.use()
 
-  let ballots = state.cache.ballots
+  let ballots = state.cached_ballots
     -> Map.String.keep((_eventHash, ballot) =>
-      Array.some(ballot.owners, (id) => id == publicKey)
+      ballot.voterPublicKey == publicKey
     )
     -> Map.String.toArray
 
-  let elections = state.cache.elections
+  let elections = state.cached_elections
     -> Map.String.keep((_eventHash, election) =>
       election.ownerPublicKey == publicKey
     )

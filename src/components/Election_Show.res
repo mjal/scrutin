@@ -22,9 +22,9 @@ module MessageModal = {
 @react.component
 let make = (~eventHash) => {
   let (state, dispatch) = Context.use()
-  let (email, setEmail) = React.useState(_ => "")
+  let (email, _setEmail) = React.useState(_ => "")
   let (hexSecretKey, setSecretKey) = React.useState(_ => "") // NOTE: Only for dev
-  let election = Map.String.getExn(state.cache.elections, eventHash)
+  let election = Map.String.getExn(state.cached_elections, eventHash)
   let publicKey = election.ownerPublicKey
 
   let (visible, setVisible) = React.useState(_ => false)
@@ -72,10 +72,8 @@ let make = (~eventHash) => {
       previousTx: None,
       ciphertext: None,
       pubcred: None,
-      owners: [
-        election.ownerPublicKey,
-        id.hexPublicKey
-      ]
+      electionPublicKey: election.ownerPublicKey,
+      voterPublicKey: id.hexPublicKey
     }
 
     let electionOwner = Array.getBy(state.ids, (id) => {

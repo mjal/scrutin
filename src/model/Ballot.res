@@ -1,7 +1,10 @@
 type t = {
   electionTx: string,
   previousTx: option<string>,
-  owners:     array<string>,
+
+  electionPublicKey: string,
+  voterPublicKey:    string,
+
   ciphertext: option<string>,
   pubcred: option<string>,
 }
@@ -13,9 +16,10 @@ let make = (ballot, election:Election.t, selection:array<int>) => {
   let trustees = Belenios.Trustees.of_str(election.trustees)
   let params = Belenios.Election.parse(election.params)
 
-
   //let pubcred = Belenios.Credentials.derive(~uuid=params.uuid, ~:rivcred)
-  let ([pubcred], [privcred]) = Belenios.Credentials.create(params.uuid, 1)
+  let (pubcreds, privcreds) = Belenios.Credentials.create(params.uuid, 1)
+  let (pubcred, privcred) =
+    (Array.getExn(pubcreds, 0), Array.getExn(privcreds, 0))
 
   let ciphertext =
     Belenios.Election.vote(params,

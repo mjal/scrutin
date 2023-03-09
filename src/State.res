@@ -1,61 +1,72 @@
-type cache_t = {
-  elections: Map.String.t<Election.t>,
-  ballots: Map.String.t<Ballot.t>
-}
+// The state of the application.
 
 type t = {
-  route: Route.t,
-  ids: array<Identity.t>,
+  // The transactions.
+  // See [[Transaction]]
   txs: array<Transaction.t>,
+
+  // The controlled identities (as voter or election organizer)
+  // See [[Identity]]
+  ids: array<Identity.t>,
+
+  // The controlled election private key (for tallying)
+  // See [[Trustee]]
   trustees: array<Trustee.t>,
-  cache: cache_t,
+
+  // The current route (still waiting for a decent rescript router
+  // that works on web and native)
+  route: Route.t,
+
+  // Cache of elections and ballot for fast lookup
+  cached_elections: Map.String.t<Election.t>,
+  cached_ballots:   Map.String.t<Ballot.t>
 }
 
+// The initial state of the application
 let initial = {
   route: Home_Elections,
   txs: [],
   ids: [],
   trustees: [],
-  cache: {
-    elections: Map.String.empty,
-    ballots: Map.String.empty
-  }
+  cached_elections: Map.String.empty,
+  cached_ballots: Map.String.empty,
 }
 
-let reducer = (state, action: Action.t) => {
+// The reducer, the only place where state mutations can happen
+let reducer = (state, action: StateMutation.t) => {
   switch action {
 
   | Init =>
     (initial, [
-      Effect.identities_fetch,
-      Effect.transactions_fetch,
-      Effect.trustees_fetch,
+      Action.identities_fetch,
+      Action.transactions_fetch,
+      Action.trustees_fetch,
     ])
 
   | Identity_Add(id) =>
     let ids = Array.concat(state.ids, [id])
-    ({...state, ids}, [Effect.identities_store(ids)])
+    ({...state, ids}, [Action.identities_store(ids)])
 
   | Transaction_Add(tx) =>
     let txs = Array.concat(state.txs, [tx])
     ({...state, txs}, [
-      Effect.transactions_store(txs),
-      Effect.cache_update(tx)
+      Action.transactions_store(txs),
+      Action.cache_update(tx)
     ])
 
   | Trustee_Add(trustee) =>
     let trustees = Array.concat(state.trustees, [trustee])
-    ({...state, trustees}, [Effect.trustees_store(trustees)])
+    ({...state, trustees}, [Action.trustees_store(trustees)])
 
   | Cache_Election_Add(eventHash, election) =>
-    let elections = Map.String.set(state.cache.elections, eventHash, election)
-    let cache = {...state.cache, elections}
-    ({...state, cache}, [])
+    let cached_elections =
+      Map.String.set(state.cached_elections, eventHash, election)
+    ({...state, cached_elections}, [])
 
   | Cache_Ballot_Add(eventHash, ballot) =>
-    let ballots = Map.String.set(state.cache.ballots, eventHash, ballot)
-    let cache = {...state.cache, ballots}
-    ({...state, cache}, [])
+    let cached_ballots =
+      Map.String.set(state.cached_ballots, eventHash, ballot)
+    ({...state, cached_ballots}, [])
 
   | Navigate(route) =>
     ({...state, route}, [])

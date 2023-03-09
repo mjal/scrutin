@@ -14,7 +14,7 @@ module State = {
 }
 
 module Dispatch = {
-  let context = React.createContext((_action: Action.t) => ())
+  let context = React.createContext((_action: StateMutation.t) => ())
 
   module Provider = {
     let provider = React.Context.provider(context)

@@ -38,8 +38,8 @@ function Ballot_New(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var state = match[0];
-  var ballot = Belt_MapString.getExn(state.cache.ballots, ballotTx);
-  var election = Belt_MapString.getExn(state.cache.elections, ballot.electionTx);
+  var ballot = Belt_MapString.getExn(state.cached_ballots, ballotTx);
+  var election = Belt_MapString.getExn(state.cached_elections, ballot.electionTx);
   var answers = Belenios.Election.answers(JSON.parse(election.params));
   var nbAnswers = answers.length;
   var match$1 = React.useState(function () {
@@ -57,9 +57,7 @@ function Ballot_New(Props) {
           }));
     var ballot$1 = Ballot.make(ballot, election, selection);
     var owner = Belt_Option.getExn(Belt_Array.getBy(state.ids, (function (id) {
-                return Belt_Array.some(ballot$1.owners, (function (owner) {
-                              return owner === id.hexPublicKey;
-                            }));
+                return ballot$1.voterPublicKey === id.hexPublicKey;
               })));
     var tx = Transaction.SignedBallot.make(ballot$1, owner);
     Curry._1(dispatch, {

@@ -67,7 +67,7 @@ function Election_Show(Props) {
         return "";
       });
   var setSecretKey = match$2[1];
-  var election = Belt_MapString.getExn(state.cache.elections, eventHash);
+  var election = Belt_MapString.getExn(state.cached_elections, eventHash);
   var publicKey = election.ownerPublicKey;
   var match$3 = React.useState(function () {
         return false;
@@ -101,14 +101,13 @@ function Election_Show(Props) {
     dict["email"] = email;
     dict["subject"] = "Vous êtes invité à un election";
     dict["text"] = message;
-    var ballot_owners = [
-      election.ownerPublicKey,
-      id.hexPublicKey
-    ];
+    var ballot_electionPublicKey = election.ownerPublicKey;
+    var ballot_voterPublicKey = id.hexPublicKey;
     var ballot = {
       electionTx: eventHash,
       previousTx: undefined,
-      owners: ballot_owners,
+      electionPublicKey: ballot_electionPublicKey,
+      voterPublicKey: ballot_voterPublicKey,
       ciphertext: undefined,
       pubcred: undefined
     };

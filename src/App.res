@@ -3,7 +3,7 @@ let make = () => {
   let (state, dispatch) = UseTea.useTea(State.reducer, State.initial)
 
   React.useEffect0(() => {
-    dispatch(Action.Init)
+    dispatch(StateMutation.Init)
     None
   })
 

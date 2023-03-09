@@ -12,12 +12,10 @@ function Identity_Show(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var state = match[0];
-  var ballots = Belt_MapString.toArray(Belt_MapString.keep(state.cache.ballots, (function (_eventHash, ballot) {
-              return Belt_Array.some(ballot.owners, (function (id) {
-                            return id === publicKey;
-                          }));
+  var ballots = Belt_MapString.toArray(Belt_MapString.keep(state.cached_ballots, (function (_eventHash, ballot) {
+              return ballot.voterPublicKey === publicKey;
             })));
-  var elections = Belt_MapString.toArray(Belt_MapString.keep(state.cache.elections, (function (_eventHash, election) {
+  var elections = Belt_MapString.toArray(Belt_MapString.keep(state.cached_elections, (function (_eventHash, election) {
               return election.ownerPublicKey === publicKey;
             })));
   return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.List.Section, {

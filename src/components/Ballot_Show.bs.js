@@ -4,7 +4,6 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Context from "../Context.bs.js";
 import * as Ballot_New from "./Ballot_New.bs.js";
-import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
@@ -13,7 +12,7 @@ function Ballot_Show(Props) {
   var eventHash = Props.eventHash;
   var match = Context.use(undefined);
   var dispatch = match[1];
-  var ballot = Belt_MapString.getExn(match[0].cache.ballots, eventHash);
+  var ballot = Belt_MapString.getExn(match[0].cached_ballots, eventHash);
   var ciphertext = Belt_Option.getWithDefault(ballot.ciphertext, "");
   return React.createElement(ReactNativePaper.List.Section, {
               title: "Ballot",
@@ -36,24 +35,19 @@ function Ballot_Show(Props) {
                 }), React.createElement(ReactNativePaper.List.Item, {
                   title: "Previous transaction",
                   description: Belt_Option.getWithDefault(ballot.previousTx, "")
-                }), Belt_Array.mapWithIndex(ballot.owners, (function (i, publicKey) {
-                    var onPress = function (param) {
+                }), React.createElement(ReactNativePaper.List.Item, {
+                  onPress: (function (param) {
                       Curry._1(dispatch, {
                             TAG: /* Navigate */0,
                             _0: {
                               TAG: /* Identity_Show */1,
-                              _0: publicKey
+                              _0: ballot.voterPublicKey
                             }
                           });
-                    };
-                    var title = "Public Key " + String(i) + "";
-                    return React.createElement(ReactNativePaper.List.Item, {
-                                onPress: onPress,
-                                title: title,
-                                description: publicKey,
-                                key: publicKey
-                              });
-                  })), React.createElement(ReactNativePaper.List.Item, {
+                    }),
+                  title: "Voter",
+                  description: ballot.voterPublicKey
+                }), React.createElement(ReactNativePaper.List.Item, {
                   onPress: (function (param) {
                       Curry._1(dispatch, {
                             TAG: /* Navigate */0,
