@@ -29,6 +29,7 @@ let reducer = (state, action: Action.t) => {
     (initial, [
       Effect.identities_fetch,
       Effect.transactions_fetch,
+      Effect.trustees_fetch,
     ])
 
   | Identity_Add(id) =>

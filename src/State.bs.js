@@ -29,7 +29,8 @@ function reducer(state, action) {
             initial,
             [
               Effect.identities_fetch,
-              Effect.transactions_fetch
+              Effect.transactions_fetch,
+              Effect.trustees_fetch
             ]
           ];
   }

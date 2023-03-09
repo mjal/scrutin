@@ -38,6 +38,20 @@ module Ballot = {
 
   external of_str: string => t = "%identity"
   external to_str: t => string = "%identity"
+
+  module Parsed = {
+    type t = {
+      credential: string
+    }
+    external parse: (string) => t = "JSON.parse"
+    external stringify: (t) => string = "JSON.stringify"
+  }
+
+  let setCredential : (t, string) => t = %raw(`function(t, credential) {
+    o = JSON.parse(t)
+    o.credential = credential
+    return JSON.stringify(o)
+  }`)
 }
 
 module PartialDecryption = {

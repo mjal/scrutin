@@ -34,7 +34,18 @@ var Trustees = {
   pubkey: pubkey
 };
 
-var Ballot = {};
+var Parsed = {};
+
+var setCredential = (function(t, credential) {
+    o = JSON.parse(t)
+    o.credential = credential
+    return JSON.stringify(o)
+  });
+
+var Ballot = {
+  Parsed: Parsed,
+  setCredential: setCredential
+};
 
 var PartialDecryption = {};
 
