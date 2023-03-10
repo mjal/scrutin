@@ -243,8 +243,22 @@
             <div class="content"><div class='highlight'><pre>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">identities_clear</span> = (<span class="hljs-params">_dispatch</span>) =&gt; <span class="hljs-title class_">Identity</span>.<span class="hljs-title function_">clear</span>()
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">transactions_clear</span> = (<span class="hljs-params">_dispatch</span>) =&gt; <span class="hljs-title class_">Transaction</span>.<span class="hljs-title function_">clear</span>()
-<span class="hljs-keyword">let</span> <span class="hljs-title function_">trustees_clear</span> = (<span class="hljs-params">_dispatch</span>) =&gt; <span class="hljs-title class_">Trustee</span>.<span class="hljs-title function_">clear</span>()
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">trustees_clear</span> = (<span class="hljs-params">_dispatch</span>) =&gt; <span class="hljs-title class_">Trustee</span>.<span class="hljs-title function_">clear</span>()</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-6">&#x00a7;</a>
+              </div>
+              <h2 id="url-navigation">URL Navigation</h2>
 
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">goToUrl</span> = (<span class="hljs-params">dispatch</span>) =&gt; {
   <span class="hljs-variable constant_">URL</span>.<span class="hljs-title function_">getAndThen</span>(<span class="hljs-function">(<span class="hljs-params">url</span>) =&gt;</span> {
     <span class="hljs-keyword">switch</span> url {

@@ -46,6 +46,8 @@ let identities_clear = (_dispatch) => Identity.clear()
 let transactions_clear = (_dispatch) => Transaction.clear()
 let trustees_clear = (_dispatch) => Trustee.clear()
 
+// ## URL Navigation
+
 let goToUrl = (dispatch) => {
   URL.getAndThen((url) => {
     switch url {
