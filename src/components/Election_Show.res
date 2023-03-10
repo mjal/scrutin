@@ -66,15 +66,10 @@ let make = (~eventHash) => {
       Cliquez ici pour voter :
       https://scrutin.app/ballots/${tx.eventHash}#${hexSecretKey}
     `
-    //  Voici votre clé privée ${hexSecretKey}
-    //  Pour information, la clé publique associée est ${id.hexPublicKey}
-    //  L'organisateur vient de creer un bulletin de vote avec cette clé.
-    //`
 
-    // For popup
-    //setMessage(_ => message)
-    //setSecretKey(_ => hexSecretKey)
-    //setVisible(_ => true)
+    let time = Js.Date.now() -> Float.toInt
+    let hexTime = Js.Int.toStringWithRadix(time, ~radix=16)
+    let hexSignedTime = Identity.signHex(electionOwner, hexTime)
 
     // For email
     let data = {
@@ -83,6 +78,8 @@ let make = (~eventHash) => {
       Js.Dict.set(dict, "subject",
         Js.Json.string("Vous êtes invité à un election"))
       Js.Dict.set(dict, "text", Js.Json.string(message))
+      Js.Dict.set(dict, "time", Js.Json.string(Int.toString(time)))
+      Js.Dict.set(dict, "hexSignedTime", Js.Json.string(hexSignedTime))
       Js.Json.object_(dict)
     }
     let _ = data
