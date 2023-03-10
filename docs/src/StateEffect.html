@@ -245,53 +245,17 @@
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">transactions_clear</span> = (<span class="hljs-params">_dispatch</span>) =&gt; <span class="hljs-title class_">Transaction</span>.<span class="hljs-title function_">clear</span>()
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">trustees_clear</span> = (<span class="hljs-params">_dispatch</span>) =&gt; <span class="hljs-title class_">Trustee</span>.<span class="hljs-title function_">clear</span>()
 
-<span class="hljs-comment">/*
-let goToUrl = dispatch =&gt; {
-  URL.getAndThen((url) =&gt; {
-    Js.log(url)
-    switch url {
-      | list{&quot;elections&quot;, sUuid} =&gt;
-</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-6">
-            <div class="annotation">
-              
-              <div class="sswrap ">
-                <a class="ss" href="#section-6">&#x00a7;</a>
-              </div>
-              <p>let nId = sId -&gt; Int.fromString -&gt; Option.getWithDefault(0)</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">Action</span>.<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">ElectionBooth</span>(sUuid)))
-      | list{<span class="hljs-string">&quot;profile&quot;</span>} =&gt;
-        <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">Action</span>.<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">Route</span>.<span class="hljs-property">User_Profile</span>))
-      | list{<span class="hljs-string">&quot;users&quot;</span>, <span class="hljs-string">&quot;email_confirmation&quot;</span>} =&gt;
-        <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">Action</span>.<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">Route</span>.<span class="hljs-title class_">User</span>_Register_Confirm(<span class="hljs-title class_">None</span>, <span class="hljs-title class_">None</span>)))
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">goToUrl</span> = (<span class="hljs-params">dispatch</span>) =&gt; {
+  <span class="hljs-variable constant_">URL</span>.<span class="hljs-title function_">getAndThen</span>(<span class="hljs-function">(<span class="hljs-params">url</span>) =&gt;</span> {
+    <span class="hljs-keyword">switch</span> url {
+      | list{<span class="hljs-string">&quot;ballot&quot;</span>, txHash} =&gt;
+        <span class="hljs-keyword">let</span> _ = <span class="hljs-title class_">Js</span>.<span class="hljs-property">Global</span>.<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+          <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">Ballot</span>_Show(txHash)))
+        }, <span class="hljs-number">500</span>)
       | <span class="hljs-function"><span class="hljs-params">_</span> =&gt;</span> ()
     }
   })
-}
-
-<span class="hljs-keyword">let</span> <span class="hljs-title function_">tally</span> = (<span class="hljs-params">privkey: Belenios.Trustees.Privkey.t, election: Election.t</span>) =&gt; {
-  <span class="hljs-function"><span class="hljs-params">dispatch</span> =&gt;</span> {
-    <span class="hljs-keyword">let</span> params = <span class="hljs-title class_">Option</span>.<span class="hljs-title function_">getExn</span>(election.<span class="hljs-property">params</span>)
-    <span class="hljs-keyword">let</span> ballots =
-      election.<span class="hljs-property">ballots</span>
-      -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">ballot</span>) =&gt;</span> ballot.<span class="hljs-property">ciphertext</span>)
-      -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">keep</span>(<span class="hljs-function">(<span class="hljs-params">ciphertext</span>) =&gt;</span> <span class="hljs-title class_">Option</span>.<span class="hljs-title function_">getWithDefault</span>(ciphertext, <span class="hljs-string">&quot;&quot;</span>) != <span class="hljs-string">&quot;&quot;</span>)
-      -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">ciphertext</span>) =&gt;</span> <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Ballot</span>.<span class="hljs-title function_">of_str</span>(<span class="hljs-title class_">Option</span>.<span class="hljs-title function_">getExn</span>(ciphertext)))
-    <span class="hljs-keyword">let</span> trustees = <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Trustees</span>.<span class="hljs-title function_">of_str</span>(<span class="hljs-title class_">Option</span>.<span class="hljs-title function_">getExn</span>(election.<span class="hljs-property">trustees</span>))
-    <span class="hljs-keyword">let</span> pubcreds : array&lt;string&gt; = %<span class="hljs-title function_">raw</span>(<span class="hljs-string">`JSON.parse(election.creds)`</span>)
-    <span class="hljs-keyword">let</span> (a, b) = <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Election</span>.<span class="hljs-title function_">decrypt</span>(params, ballots, trustees, pubcreds, privkey)
-    <span class="hljs-keyword">let</span> res = <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Election</span>.<span class="hljs-title function_">result</span>(params, ballots, trustees, pubcreds, a, b)
-    <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">Action</span>.<span class="hljs-title class_">Election</span>_PublishResult(res))
-  }
-}
-*/</pre></div></div>
+}</pre></div></div>
             
         </li>
         

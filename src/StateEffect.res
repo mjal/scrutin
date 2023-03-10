@@ -46,36 +46,14 @@ let identities_clear = (_dispatch) => Identity.clear()
 let transactions_clear = (_dispatch) => Transaction.clear()
 let trustees_clear = (_dispatch) => Trustee.clear()
 
-/*
-let goToUrl = dispatch => {
+let goToUrl = (dispatch) => {
   URL.getAndThen((url) => {
-    Js.log(url)
     switch url {
-      | list{"elections", sUuid} =>
-        //let nId = sId -> Int.fromString -> Option.getWithDefault(0)
-        dispatch(Action.Navigate(ElectionBooth(sUuid)))
-      | list{"profile"} =>
-        dispatch(Action.Navigate(Route.User_Profile))
-      | list{"users", "email_confirmation"} =>
-        dispatch(Action.Navigate(Route.User_Register_Confirm(None, None)))
+      | list{"ballot", txHash} =>
+        let _ = Js.Global.setTimeout(() => {
+          dispatch(StateMsg.Navigate(Ballot_Show(txHash)))
+        }, 500)
       | _ => ()
     }
   })
 }
-
-let tally = (privkey: Belenios.Trustees.Privkey.t, election: Election.t) => {
-  dispatch => {
-    let params = Option.getExn(election.params)
-    let ballots =
-      election.ballots
-      -> Array.map((ballot) => ballot.ciphertext)
-      -> Array.keep((ciphertext) => Option.getWithDefault(ciphertext, "") != "")
-      -> Array.map((ciphertext) => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
-    let trustees = Belenios.Trustees.of_str(Option.getExn(election.trustees))
-    let pubcreds : array<string> = %raw(`JSON.parse(election.creds)`)
-    let (a, b) = Belenios.Election.decrypt(params, ballots, trustees, pubcreds, privkey)
-    let res = Belenios.Election.result(params, ballots, trustees, pubcreds, a, b)
-    dispatch(Action.Election_PublishResult(res))
-  }
-}
-*/
