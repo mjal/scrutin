@@ -248,7 +248,7 @@
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">goToUrl</span> = (<span class="hljs-params">dispatch</span>) =&gt; {
   <span class="hljs-variable constant_">URL</span>.<span class="hljs-title function_">getAndThen</span>(<span class="hljs-function">(<span class="hljs-params">url</span>) =&gt;</span> {
     <span class="hljs-keyword">switch</span> url {
-      | list{<span class="hljs-string">&quot;ballot&quot;</span>, txHash} =&gt;
+      | list{<span class="hljs-string">&quot;ballots&quot;</span>, txHash} =&gt;
         <span class="hljs-keyword">let</span> _ = <span class="hljs-title class_">Js</span>.<span class="hljs-property">Global</span>.<span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
           <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">Ballot</span>_Show(txHash)))
         }, <span class="hljs-number">500</span>)

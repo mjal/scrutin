@@ -49,7 +49,7 @@ let trustees_clear = (_dispatch) => Trustee.clear()
 let goToUrl = (dispatch) => {
   URL.getAndThen((url) => {
     switch url {
-      | list{"ballot", txHash} =>
+      | list{"ballots", txHash} =>
         let _ = Js.Global.setTimeout(() => {
           dispatch(StateMsg.Navigate(Ballot_Show(txHash)))
         }, 500)

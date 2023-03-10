@@ -86,7 +86,7 @@ function goToUrl(dispatch) {
         if (!url) {
           return ;
         }
-        if (url.hd !== "ballot") {
+        if (url.hd !== "ballots") {
           return ;
         }
         var match = url.tl;
