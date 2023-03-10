@@ -3,7 +3,7 @@
 import * as X from "../helpers/X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
-import * as Context from "../Context.bs.js";
+import * as Context from "../helpers/Context.bs.js";
 import * as Identity from "../model/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as ReactNative from "react-native";

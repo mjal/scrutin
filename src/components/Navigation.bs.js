@@ -2,7 +2,7 @@
 
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
-import * as Context from "../Context.bs.js";
+import * as Context from "../helpers/Context.bs.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function Navigation(Props) {
