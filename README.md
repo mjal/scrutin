@@ -1,3 +1,58 @@
+## Instructions
+
+```
+# Install dependencies (You need nodejs 14, use nvm if you need)
+npm install
+
+# Compile rescript in another tab (or use the vscode plugin)
+npm run re:start
+
+# Run the app (web)
+npm run web
+
+# android
+npm run android
+
+# ios
+npm run ios
+
+# run tests
+npm run tests
+```
+
+## Features
+
+##### [Belenios]() integration
+
+- [x] Generate trustee keys on device
+- [x] Encrypt Ballot on device
+- [x] Tally election on device
+- [ ] Verify result on device
+
+##### Trustlessness
+
+- [x] Every action (called a transaction) must be signed by an authorized identity
+- [x] Transactions
+	- [x] Election creation. From election organizer
+	- [x] Ballot emission (adding a new voter identity). From election organizer
+	- [x] Ballot filling. From voter
+- [ ] Running a main public pod
+- [ ] Merging divergent transactions logs
+	Note: the signed events do not include a `previous` field like in SecureScuttleButt. Making merging possible (maybe using Lamport Clock) 
+
+
+##### UI/UX
+
+- [ ] Resuts as a pie chart
+- [ ] Inspect deroulement of an elections (how many empty/filled ballots)
+
+##### Nice to have
+
+- [ ] Douglas Crockford base32
+- [ ] Compressed ECDSA addresses
+- [ ] Allow an election to be managed by multiples organizations (allowing different entities to emit identities with voting rights)
+- [ ] Extract rescript-sjcl
+
 ## Documentation
 
 ### main logic
@@ -28,29 +83,6 @@
 ##### The mean of a decentralized storage
 
 [Transaction](https://scrutin-app.github.io/scrutin/src/model/Transaction.html)
-
-
-## Instructions
-
-```
-# Install dependencies (You need nodejs 14, use nvm if you need)
-npm install
-
-# Compile rescript in another tab (or use the vscode plugin)
-npm run re:start
-
-# Run the app (web)
-npm run web
-
-# android
-npm run android
-
-# ios
-npm run ios
-
-# run tests
-npm run tests
-```
 
 ## Release
 
