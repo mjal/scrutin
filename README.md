@@ -1,24 +1,32 @@
-## Instructions
+## Documentation
 
-```
-# Install dependencies (You need nodejs 14, use nvm if you need)
-npm install
+### main logic
 
-# Compile rescript in another tab (or use the vscode plugin)
-npm run re:start
+[Core](https://scrutin-app.github.io/scrutin/src/Core.html)
 
-# Run the app (web)
-npm run web
+### state management
 
-# android
-npm run android
+[State](https://scrutin-app.github.io/scrutin/src/State.html)
 
-# ios
-npm run ios
+[StateEffect](https://scrutin-app.github.io/scrutin/src/StateEffect.html)
 
-# run tests
-npm run tests
-```
+### models
+
+##### What we need to model an election 
+
+[Election](https://scrutin-app.github.io/scrutin/src/model/Election.html)
+
+[Ballot](https://scrutin-app.github.io/scrutin/src/model/Ballot.html)
+
+[Trustee](https://scrutin-app.github.io/scrutin/src/model/Trustee.html)
+
+##### The mean of decentralized authentication
+
+[Identity](https://scrutin-app.github.io/scrutin/src/model/Identity.html)
+
+##### The mean of a decentralized storage
+
+[Transaction](https://scrutin-app.github.io/scrutin/src/model/Transaction.html)
 
 ## Features
 
@@ -53,36 +61,17 @@ npm run tests
 - [ ] Allow an election to be managed by multiples organizations (allowing different entities to emit identities with voting rights)
 - [ ] Extract rescript-sjcl
 
-## Documentation
+## Developer instructions
 
-### main logic
+```
+# Install dependencies (You need nodejs 14, use nvm if you need)
+npm install
 
-[Core](https://scrutin-app.github.io/scrutin/src/Core.html)
+# Compile rescript in another tab (or use the vscode plugin)
+npm run re:start
 
-### state management
-
-[State](https://scrutin-app.github.io/scrutin/src/State.html)
-
-[StateEffect](https://scrutin-app.github.io/scrutin/src/StateEffect.html)
-
-### models
-
-##### What we need to model an election 
-
-[Election](https://scrutin-app.github.io/scrutin/src/model/Election.html)
-
-[Ballot](https://scrutin-app.github.io/scrutin/src/model/Ballot.html)
-
-[Trustee](https://scrutin-app.github.io/scrutin/src/model/Trustee.html)
-
-##### The mean of decentralized authentication
-
-[Identity](https://scrutin-app.github.io/scrutin/src/model/Identity.html)
-
-
-##### The mean of a decentralized storage
-
-[Transaction](https://scrutin-app.github.io/scrutin/src/model/Transaction.html)
+npm run web
+```
 
 ## Release
 
