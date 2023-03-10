@@ -22,7 +22,7 @@ module MessageModal = {
 @react.component
 let make = (~eventHash) => {
   let (state, dispatch) = Context.use()
-  let (email, _setEmail) = React.useState(_ => "")
+  let (email, setEmail) = React.useState(_ => "")
   let (hexSecretKey, setSecretKey) = React.useState(_ => "") // NOTE: Only for dev
   let election = Map.String.getExn(state.cached_elections, eventHash)
   let publicKey = election.ownerPublicKey
@@ -43,29 +43,6 @@ let make = (~eventHash) => {
   let addBallot = _ => {
     let id = Identity.make()
     let hexSecretKey = Option.getExn(id.hexSecretKey)
-    let message = `
-      Hello !
-      Vous êtes invité à l'election.
-      Voici votre clé privée ${hexSecretKey}
-      Pour information, la clé publique associée est ${id.hexPublicKey}
-      L'organisateur vient de creer un bulletin de vote avec cette clé.
-    `
-
-    setMessage(_ => message)
-    setSecretKey(_ => hexSecretKey)
-    setVisible(_ => true)
-
-    let data = {
-      let dict = Js.Dict.empty()
-      Js.Dict.set(dict, "email", Js.Json.string(email))
-      Js.Dict.set(dict, "subject",
-        Js.Json.string("Vous êtes invité à un election"))
-      Js.Dict.set(dict, "text", Js.Json.string(message))
-      Js.Json.object_(dict)
-    }
-    let _ = data
-    //X.post(`${Config.api_url}/proxy_email`, data)
-    //-> ignore
 
     let ballot : Ballot.t = {
       electionTx: eventHash,
@@ -82,6 +59,36 @@ let make = (~eventHash) => {
 
     let tx = Transaction.SignedBallot.make(ballot, electionOwner)
     dispatch(Transaction_Add(tx))
+
+    let message = `
+      Hello !
+      Vous êtes invité à une election.
+      Cliquez ici pour voter :
+      https://scrutin.app/ballots/${tx.eventHash}#${hexSecretKey}
+    `
+    //  Voici votre clé privée ${hexSecretKey}
+    //  Pour information, la clé publique associée est ${id.hexPublicKey}
+    //  L'organisateur vient de creer un bulletin de vote avec cette clé.
+    //`
+
+    // For popup
+    //setMessage(_ => message)
+    //setSecretKey(_ => hexSecretKey)
+    //setVisible(_ => true)
+
+    // For email
+    let data = {
+      let dict = Js.Dict.empty()
+      Js.Dict.set(dict, "email", Js.Json.string(email))
+      Js.Dict.set(dict, "subject",
+        Js.Json.string("Vous êtes invité à un election"))
+      Js.Dict.set(dict, "text", Js.Json.string(message))
+      Js.Json.object_(dict)
+    }
+    let _ = data
+    X.post(`${Config.api_url}/proxy_email`, data)
+    -> ignore
+
   }
 
   <>
@@ -102,15 +109,19 @@ let make = (~eventHash) => {
 
     <Divider />
 
-    //<TextInput
-    //  mode=#flat
-    //  label="Email"
-		//	value=email
-    //  onChangeText={text => setEmail(_ => text)}
-    ///>
+    <Title style=X.styles["title"]>
+      { "Invite someone" -> React.string }
+    </Title>
+
+    <TextInput
+      mode=#flat
+      label="Email"
+			value=email
+      onChangeText={text => setEmail(_ => text)}
+    />
 
     <Button mode=#outlined onPress=addBallot>
-      { "Add a voter" -> React.string }
+      { "Add as voter" -> React.string }
     </Button>
 
     <Divider />

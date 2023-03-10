@@ -4,6 +4,7 @@ import * as X from "../helpers/X.bs.js";
 import * as Core from "../Core.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
+import * as Config from "../helpers/Config.bs.js";
 import * as Context from "../helpers/Context.bs.js";
 import * as Identity from "../model/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
@@ -62,21 +63,19 @@ function Election_Show(Props) {
   var match$1 = React.useState(function () {
         return "";
       });
+  var setEmail = match$1[1];
   var email = match$1[0];
   var match$2 = React.useState(function () {
         return "";
       });
-  var setSecretKey = match$2[1];
   var election = Belt_MapString.getExn(state.cached_elections, eventHash);
   var publicKey = election.ownerPublicKey;
   var match$3 = React.useState(function () {
         return false;
       });
-  var setVisible = match$3[1];
   var match$4 = React.useState(function () {
         return "";
       });
-  var setMessage = match$4[1];
   var ballots = Belt_Array.keep(Belt_Array.keep(state.txs, (function (tx) {
               return tx.eventType === "ballot";
             })), (function (tx) {
@@ -87,20 +86,6 @@ function Election_Show(Props) {
   var addBallot = function (param) {
     var id = Identity.make(undefined);
     var hexSecretKey = Belt_Option.getExn(id.hexSecretKey);
-    var message = "\n      Hello !\n      Vous êtes invité à l'election.\n      Voici votre clé privée " + hexSecretKey + "\n      Pour information, la clé publique associée est " + id.hexPublicKey + "\n      L'organisateur vient de creer un bulletin de vote avec cette clé.\n    ";
-    Curry._1(setMessage, (function (param) {
-            return message;
-          }));
-    Curry._1(setSecretKey, (function (param) {
-            return hexSecretKey;
-          }));
-    Curry._1(setVisible, (function (param) {
-            return true;
-          }));
-    var dict = {};
-    dict["email"] = email;
-    dict["subject"] = "Vous êtes invité à un election";
-    dict["text"] = message;
     var ballot_electionPublicKey = election.ownerPublicKey;
     var ballot_voterPublicKey = id.hexPublicKey;
     var ballot = {
@@ -119,6 +104,12 @@ function Election_Show(Props) {
           TAG: /* Transaction_Add */2,
           _0: tx
         });
+    var message = "\n      Hello !\n      Vous êtes invité à une election.\n      Cliquez ici pour voter :\n      https://scrutin.app/ballots/" + tx.eventHash + "#" + hexSecretKey + "\n    ";
+    var dict = {};
+    dict["email"] = email;
+    dict["subject"] = "Vous êtes invité à un election";
+    dict["text"] = message;
+    X.post("" + Config.api_url + "/proxy_email", dict);
   };
   var onPress = function (param) {
     Curry._1(dispatch, {
@@ -145,10 +136,22 @@ function Election_Show(Props) {
                     }), React.createElement(ReactNativePaper.List.Item, {
                       title: "Trustees",
                       description: election.trustees
-                    })), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ReactNativePaper.Button, {
+                    })), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ReactNativePaper.Title, {
+                  style: X.styles.title,
+                  children: "Invite someone"
+                }), React.createElement(ReactNativePaper.TextInput, {
+                  mode: "flat",
+                  label: "Email",
+                  value: email,
+                  onChangeText: (function (text) {
+                      Curry._1(setEmail, (function (param) {
+                              return text;
+                            }));
+                    })
+                }), React.createElement(ReactNativePaper.Button, {
                   mode: "outlined",
                   onPress: addBallot,
-                  children: "Add a voter"
+                  children: "Add as voter"
                 }), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ReactNativePaper.List.Section, {
                   title: "" + String(nbBallots) + " ballots",
                   children: Belt_Array.map(ballots, (function (tx) {
@@ -170,7 +173,7 @@ function Election_Show(Props) {
                 }), React.createElement(Election_Show$MessageModal, {
                   message: match$4[0],
                   visible: match$3[0],
-                  setVisible: setVisible,
+                  setVisible: match$3[1],
                   hexSecretKey: match$2[0]
                 }), React.createElement(ReactNativePaper.Button, {
                   mode: "outlined",
