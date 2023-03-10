@@ -22,21 +22,16 @@ npm install
 npm run re:start
 ```
 
-### Launch (web)
+### Run
 
 ```
+# web
 npm run web
-```
 
-### Launch (android)
-
-```
+# android
 npm run android
-```
 
-### Launch (ios)
-
-```
+# ios
 npm run ios
 ```
 
