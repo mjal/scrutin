@@ -3,18 +3,18 @@
 
 // ---
 
-// #### Type
+// #### Transaction.t
 type t = {
-  // **eventType**
-  eventType: [#election | #ballot],
-  // **event**: The stringified JSON representing the event
-  event: string,
-  // **eventHash**: hash(event)
-  eventHash: string,
+  // **type**
+  type_: [#election | #ballot],
+  // **content**: The stringified JSON representing the state mutation
+  content: string,
+  // **contentHash**: hash(content)
+  contentHash: string,
   // **publicKey**: The public key of the emitter of the event.<br />
   // Could be the election organizer or the voter
   publicKey: string,
-  // **signature**: a signature of the eventHash from the emitter of the event.
+  // **signature**: a signature of the contentHash from the emitter.
   signature: string
 }
 
@@ -31,38 +31,38 @@ let hash = (str) => {
 // #### Election transactions
 module SignedElection = {
   let make = (election : Election.t, owner : Identity.t) => {
-    let event = Election.stringify(election)
-    let eventHash = hash(event)
+    let content = Election.stringify(election)
+    let contentHash = hash(content)
     {
-      event,
-      eventType: #election,
-      eventHash,
+      content,
+      type_: #election,
+      contentHash,
       publicKey: owner.hexPublicKey,
-      signature: Identity.signHex(owner, eventHash)
+      signature: Identity.signHex(owner, contentHash)
     }
   }
 
   let unwrap = (tx) : Election.t => {
-    Election.parse(tx.event)
+    Election.parse(tx.content)
   }
 }
 
 // #### Ballot transactions
 module SignedBallot = {
   let make = (ballot : Ballot.t, owner : Identity.t) => {
-    let event = Ballot.stringify(ballot)
-    let eventHash = hash(event)
+    let content = Ballot.stringify(ballot)
+    let contentHash = hash(content)
     {
-      event,
-      eventType: #ballot,
-      eventHash,
+      content,
+      type_: #ballot,
+      contentHash,
       publicKey: owner.hexPublicKey,
-      signature: Identity.signHex(owner, eventHash)
+      signature: Identity.signHex(owner, contentHash)
     }
   }
 
   let unwrap = (tx) : Ballot.t => {
-    Ballot.parse(tx.event)
+    Ballot.parse(tx.content)
   }
 }
 

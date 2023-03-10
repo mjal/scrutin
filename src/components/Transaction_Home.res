@@ -3,20 +3,20 @@ module Item = {
   let make = (~tx : Transaction.t) => {
     let (_state, dispatch) = Context.use()
 
-    let description = switch tx.eventType {
+    let description = switch tx.type_ {
     | #election => "Election"
     | #ballot   => "Ballot"
     }
 
     let onPress = _ => {
-      switch tx.eventType {
-      | #election => dispatch(Navigate(Election_Show(tx.eventHash)))
-      | #ballot   => dispatch(Navigate(Ballot_Show(tx.eventHash)))
+      switch tx.type_ {
+      | #election => dispatch(Navigate(Election_Show(tx.contentHash)))
+      | #ballot   => dispatch(Navigate(Ballot_Show(tx.contentHash)))
       }
     }
 
     <Card>
-      <List.Item key=tx.eventHash title="type" description onPress />
+      <List.Item key=tx.contentHash title="type" description onPress />
     </Card>
   }
 }
@@ -33,7 +33,7 @@ let make = () => {
   <List.Section title="Transactions">
 
     { Array.map(state.txs, (tx) =>
-      <Item tx key=tx.eventHash />
+      <Item tx key=tx.contentHash />
     ) -> React.array }
 
     <X.Title>{ "-" -> React.string }</X.Title>

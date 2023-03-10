@@ -60,14 +60,14 @@ let reducer = (state, action: StateMsg.t) => {
     let trustees = Array.concat(state.trustees, [trustee])
     ({...state, trustees}, [StateEffect.trustees_store(trustees)])
 
-  | Cache_Election_Add(eventHash, election) =>
+  | Cache_Election_Add(contentHash, election) =>
     let cached_elections =
-      Map.String.set(state.cached_elections, eventHash, election)
+      Map.String.set(state.cached_elections, contentHash, election)
     ({...state, cached_elections}, [])
 
-  | Cache_Ballot_Add(eventHash, ballot) =>
+  | Cache_Ballot_Add(contentHash, ballot) =>
     let cached_ballots =
-      Map.String.set(state.cached_ballots, eventHash, ballot)
+      Map.String.set(state.cached_ballots, contentHash, ballot)
     ({...state, cached_ballots}, [])
 
   | Navigate(route) =>

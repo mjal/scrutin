@@ -12,16 +12,16 @@ function Transaction_Home$Item(Props) {
   var tx = Props.tx;
   var match = Context.use(undefined);
   var dispatch = match[1];
-  var match$1 = tx.eventType;
+  var match$1 = tx.type_;
   var description = match$1 === "ballot" ? "Ballot" : "Election";
   var onPress = function (param) {
-    var match = tx.eventType;
+    var match = tx.type_;
     if (match === "ballot") {
       return Curry._1(dispatch, {
                   TAG: /* Navigate */0,
                   _0: {
                     TAG: /* Ballot_Show */2,
-                    _0: tx.eventHash
+                    _0: tx.contentHash
                   }
                 });
     } else {
@@ -29,7 +29,7 @@ function Transaction_Home$Item(Props) {
                   TAG: /* Navigate */0,
                   _0: {
                     TAG: /* Election_Show */0,
-                    _0: tx.eventHash
+                    _0: tx.contentHash
                   }
                 });
     }
@@ -39,7 +39,7 @@ function Transaction_Home$Item(Props) {
                     onPress: onPress,
                     title: "type",
                     description: description,
-                    key: tx.eventHash
+                    key: tx.contentHash
                   })
             });
 }
@@ -61,7 +61,7 @@ function Transaction_Home(Props) {
             }, Belt_Array.map(match[0].txs, (function (tx) {
                     return React.createElement(Transaction_Home$Item, {
                                 tx: tx,
-                                key: tx.eventHash
+                                key: tx.contentHash
                               });
                   })), React.createElement(X.Title.make, {
                   children: "-"

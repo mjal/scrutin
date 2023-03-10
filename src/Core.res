@@ -39,7 +39,7 @@ module Election = {
       dispatch(StateMsg.Trustee_Add(trustee))
   
       // Go the election page
-      dispatch(StateMsg.Navigate(Election_Show(transaction.eventHash)))
+      dispatch(StateMsg.Navigate(Election_Show(transaction.contentHash)))
     }
   }
 
@@ -70,7 +70,7 @@ module Election = {
       // Select the relevents ballots <br />
       let ballots =
         state.txs
-        -> Array.keep((tx) => tx.eventType == #ballot)
+        -> Array.keep((tx) => tx.type_ == #ballot)
         -> Array.keep((tx) => {
           let ballot = Transaction.SignedBallot.unwrap(tx)
           ballot.electionTx == electionEventHash

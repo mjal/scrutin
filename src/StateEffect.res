@@ -2,10 +2,10 @@
 
 let cache_update = (tx : Transaction.t) =>
   (dispatch) => {
-    switch tx.eventType {
-    | #election => dispatch(StateMsg.Cache_Election_Add(tx.eventHash,
+    switch tx.type_ {
+    | #election => dispatch(StateMsg.Cache_Election_Add(tx.contentHash,
       Transaction.SignedElection.unwrap(tx)))
-    | #ballot => dispatch(StateMsg.Cache_Ballot_Add(tx.eventHash,
+    | #ballot => dispatch(StateMsg.Cache_Ballot_Add(tx.contentHash,
       Transaction.SignedBallot.unwrap(tx)))
     }
   }

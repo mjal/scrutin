@@ -9,17 +9,17 @@ import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function Ballot_Show(Props) {
-  var eventHash = Props.eventHash;
+  var contentHash = Props.contentHash;
   var match = Context.use(undefined);
   var dispatch = match[1];
-  var ballot = Belt_MapString.getExn(match[0].cached_ballots, eventHash);
+  var ballot = Belt_MapString.getExn(match[0].cached_ballots, contentHash);
   var ciphertext = Belt_Option.getWithDefault(ballot.ciphertext, "");
   return React.createElement(ReactNativePaper.List.Section, {
               title: "Ballot",
               children: null
             }, React.createElement(ReactNativePaper.List.Item, {
                   title: "Event Hash",
-                  description: eventHash
+                  description: contentHash
                 }), React.createElement(ReactNativePaper.List.Item, {
                   onPress: (function (param) {
                       Curry._1(dispatch, {
@@ -60,7 +60,7 @@ function Ballot_Show(Props) {
                   title: "Ciphertext",
                   description: ciphertext
                 }), React.createElement(Ballot_New.make, {
-                  ballotTx: eventHash
+                  ballotTx: contentHash
                 }));
 }
 

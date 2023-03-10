@@ -11,19 +11,19 @@ function hash(str) {
 }
 
 function make(election, owner) {
-  var $$event = JSON.stringify(election);
-  var eventHash = SjclWithAll.codec.hex.fromBits(SjclWithAll.hash.sha256.hash($$event));
+  var content = JSON.stringify(election);
+  var contentHash = SjclWithAll.codec.hex.fromBits(SjclWithAll.hash.sha256.hash(content));
   return {
-          eventType: "election",
-          event: $$event,
-          eventHash: eventHash,
+          type_: "election",
+          content: content,
+          contentHash: contentHash,
           publicKey: owner.hexPublicKey,
-          signature: Identity.signHex(owner, eventHash)
+          signature: Identity.signHex(owner, contentHash)
         };
 }
 
 function unwrap(tx) {
-  return JSON.parse(tx.event);
+  return JSON.parse(tx.content);
 }
 
 var SignedElection = {
@@ -32,19 +32,19 @@ var SignedElection = {
 };
 
 function make$1(ballot, owner) {
-  var $$event = JSON.stringify(ballot);
-  var eventHash = SjclWithAll.codec.hex.fromBits(SjclWithAll.hash.sha256.hash($$event));
+  var content = JSON.stringify(ballot);
+  var contentHash = SjclWithAll.codec.hex.fromBits(SjclWithAll.hash.sha256.hash(content));
   return {
-          eventType: "ballot",
-          event: $$event,
-          eventHash: eventHash,
+          type_: "ballot",
+          content: content,
+          contentHash: contentHash,
           publicKey: owner.hexPublicKey,
-          signature: Identity.signHex(owner, eventHash)
+          signature: Identity.signHex(owner, contentHash)
         };
 }
 
 function unwrap$1(tx) {
-  return JSON.parse(tx.event);
+  return JSON.parse(tx.content);
 }
 
 var SignedBallot = {

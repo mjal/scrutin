@@ -23,10 +23,10 @@ function App(Props) {
   React.useEffect((function () {
           Curry._1(dispatch, /* Reset */0);
         }), []);
-  var eventHash = state.route;
+  var contentHash = state.route;
   var tmp;
-  if (typeof eventHash === "number") {
-    switch (eventHash) {
+  if (typeof contentHash === "number") {
+    switch (contentHash) {
       case /* Home_Elections */0 :
           tmp = React.createElement(Election_Home.make, {});
           break;
@@ -45,20 +45,20 @@ function App(Props) {
       
     }
   } else {
-    switch (eventHash.TAG | 0) {
+    switch (contentHash.TAG | 0) {
       case /* Election_Show */0 :
           tmp = React.createElement(Election_Show.make, {
-                eventHash: eventHash._0
+                contentHash: contentHash._0
               });
           break;
       case /* Identity_Show */1 :
           tmp = React.createElement(Identity_Show.make, {
-                publicKey: eventHash._0
+                publicKey: contentHash._0
               });
           break;
       case /* Ballot_Show */2 :
           tmp = React.createElement(Ballot_Show.make, {
-                eventHash: eventHash._0
+                contentHash: contentHash._0
               });
           break;
       

@@ -9,17 +9,17 @@ import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Transaction from "./model/Transaction.bs.js";
 
 function cache_update(tx, dispatch) {
-  var match = tx.eventType;
+  var match = tx.type_;
   if (match === "ballot") {
     return Curry._1(dispatch, {
                 TAG: /* Cache_Ballot_Add */5,
-                _0: tx.eventHash,
+                _0: tx.contentHash,
                 _1: Transaction.SignedBallot.unwrap(tx)
               });
   } else {
     return Curry._1(dispatch, {
                 TAG: /* Cache_Election_Add */4,
-                _0: tx.eventHash,
+                _0: tx.contentHash,
                 _1: Transaction.SignedElection.unwrap(tx)
               });
   }

@@ -56,7 +56,7 @@ var MessageModal = {
 };
 
 function Election_Show(Props) {
-  var eventHash = Props.eventHash;
+  var contentHash = Props.contentHash;
   var match = Context.use(undefined);
   var dispatch = match[1];
   var state = match[0];
@@ -68,7 +68,7 @@ function Election_Show(Props) {
   var match$2 = React.useState(function () {
         return "";
       });
-  var election = Belt_MapString.getExn(state.cached_elections, eventHash);
+  var election = Belt_MapString.getExn(state.cached_elections, contentHash);
   var publicKey = election.ownerPublicKey;
   var match$3 = React.useState(function () {
         return false;
@@ -77,10 +77,10 @@ function Election_Show(Props) {
         return "";
       });
   var ballots = Belt_Array.keep(Belt_Array.keep(state.txs, (function (tx) {
-              return tx.eventType === "ballot";
+              return tx.type_ === "ballot";
             })), (function (tx) {
           var ballot = Transaction.SignedBallot.unwrap(tx);
-          return ballot.electionTx === eventHash;
+          return ballot.electionTx === contentHash;
         }));
   var nbBallots = ballots.length;
   var addBallot = function (param) {
@@ -89,7 +89,7 @@ function Election_Show(Props) {
     var ballot_electionPublicKey = election.ownerPublicKey;
     var ballot_voterPublicKey = id.hexPublicKey;
     var ballot = {
-      electionTx: eventHash,
+      electionTx: contentHash,
       previousTx: undefined,
       electionPublicKey: ballot_electionPublicKey,
       voterPublicKey: ballot_voterPublicKey,
@@ -104,7 +104,7 @@ function Election_Show(Props) {
           TAG: /* Transaction_Add */2,
           _0: tx
         });
-    var message = "\n      Hello !\n      Vous êtes invité à une election.\n      Cliquez ici pour voter :\n      https://scrutin.app/ballots/" + tx.eventHash + "#" + hexSecretKey + "\n    ";
+    var message = "\n      Hello !\n      Vous êtes invité à une election.\n      Cliquez ici pour voter :\n      https://scrutin.app/ballots/" + tx.contentHash + "#" + hexSecretKey + "\n    ";
     var time = Date.now() | 0;
     var hexTime = time.toString(16);
     var hexSignedTime = Identity.signHex(electionOwner, hexTime);
@@ -130,7 +130,7 @@ function Election_Show(Props) {
                   children: null
                 }, React.createElement(ReactNativePaper.List.Item, {
                       title: "Event Hash",
-                      description: eventHash
+                      description: contentHash
                     }), React.createElement(ReactNativePaper.List.Item, {
                       onPress: onPress,
                       title: "Owner Public Key",
@@ -167,12 +167,12 @@ function Election_Show(Props) {
                                                 TAG: /* Navigate */0,
                                                 _0: {
                                                   TAG: /* Ballot_Show */2,
-                                                  _0: tx.eventHash
+                                                  _0: tx.contentHash
                                                 }
                                               });
                                         }),
-                                      title: "Ballot " + tx.eventHash + "",
-                                      key: tx.eventHash
+                                      title: "Ballot " + tx.contentHash + "",
+                                      key: tx.contentHash
                                     });
                         }))
                 }), React.createElement(Election_Show$MessageModal, {
@@ -183,7 +183,7 @@ function Election_Show(Props) {
                 }), React.createElement(ReactNativePaper.Button, {
                   mode: "outlined",
                   onPress: (function (param) {
-                      Core.Election.tally(eventHash, state, dispatch);
+                      Core.Election.tally(contentHash, state, dispatch);
                     }),
                   children: "Tally"
                 }));

@@ -40,7 +40,7 @@ function create(name, desc, choices, state, dispatch) {
         TAG: /* Navigate */0,
         _0: {
           TAG: /* Election_Show */0,
-          _0: transaction.eventHash
+          _0: transaction.contentHash
         }
       });
 }
@@ -54,7 +54,7 @@ function tally(electionEventHash, state, _dispatch) {
         }));
   var privkey = Belt_Option.getExn(trustee).privkey;
   var ballots = Belt_Array.keep(Belt_Array.keep(state.txs, (function (tx) {
-              return tx.eventType === "ballot";
+              return tx.type_ === "ballot";
             })), (function (tx) {
           var ballot = Transaction.SignedBallot.unwrap(tx);
           return ballot.electionTx === electionEventHash;

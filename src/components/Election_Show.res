@@ -20,11 +20,11 @@ module MessageModal = {
 }
 
 @react.component
-let make = (~eventHash) => {
+let make = (~contentHash) => {
   let (state, dispatch) = Context.use()
   let (email, setEmail) = React.useState(_ => "")
   let (hexSecretKey, setSecretKey) = React.useState(_ => "") // NOTE: Only for dev
-  let election = Map.String.getExn(state.cached_elections, eventHash)
+  let election = Map.String.getExn(state.cached_elections, contentHash)
   let publicKey = election.ownerPublicKey
 
   let (visible, setVisible) = React.useState(_ => false)
@@ -32,10 +32,10 @@ let make = (~eventHash) => {
 
   let ballots =
     state.txs
-    -> Array.keep((tx) => tx.eventType == #ballot)
+    -> Array.keep((tx) => tx.type_ == #ballot)
     -> Array.keep((tx) => {
       let ballot = Transaction.SignedBallot.unwrap(tx)
-      ballot.electionTx == eventHash
+      ballot.electionTx == contentHash
     })
 
   let nbBallots = Array.length(ballots)
@@ -45,7 +45,7 @@ let make = (~eventHash) => {
     let hexSecretKey = Option.getExn(id.hexSecretKey)
 
     let ballot : Ballot.t = {
-      electionTx: eventHash,
+      electionTx: contentHash,
       previousTx: None,
       ciphertext: None,
       pubcred: None,
@@ -64,7 +64,7 @@ let make = (~eventHash) => {
       Hello !
       Vous êtes invité à une election.
       Cliquez ici pour voter :
-      https://scrutin.app/ballots/${tx.eventHash}#${hexSecretKey}
+      https://scrutin.app/ballots/${tx.contentHash}#${hexSecretKey}
     `
 
     let time = Js.Date.now() -> Float.toInt
@@ -91,7 +91,7 @@ let make = (~eventHash) => {
   <>
     <List.Section title="Election">
 
-      <List.Item title="Event Hash" description=eventHash />
+      <List.Item title="Event Hash" description=contentHash />
 
       {
         let onPress = _ => dispatch(Navigate(Identity_Show(publicKey)))
@@ -127,9 +127,9 @@ let make = (~eventHash) => {
     {
       Array.map(ballots, (tx) => {
         let _ballot = Transaction.SignedBallot.unwrap(tx)
-        <List.Item title=`Ballot ${tx.eventHash}`
-          key=tx.eventHash
-          onPress={_ => dispatch(Navigate(Ballot_Show(tx.eventHash)))}
+        <List.Item title=`Ballot ${tx.contentHash}`
+          key=tx.contentHash
+          onPress={_ => dispatch(Navigate(Ballot_Show(tx.contentHash)))}
         />
       }) -> React.array
     }
@@ -139,7 +139,7 @@ let make = (~eventHash) => {
     //<Election_Booth election />
 
     <Button mode=#outlined onPress={_ =>
-      Core.Election.tally(~electionEventHash=eventHash)(state, dispatch)
+      Core.Election.tally(~electionEventHash=contentHash)(state, dispatch)
     }>
       { "Tally" -> React.string }
     </Button>
