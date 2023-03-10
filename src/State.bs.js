@@ -27,7 +27,8 @@ function reducer(state, action) {
               StateEffect.identities_fetch,
               StateEffect.transactions_fetch,
               StateEffect.trustees_fetch,
-              StateEffect.goToUrl
+              StateEffect.goToUrl,
+              StateEffect.importIdentityFromUrl
             ]
           ];
   }

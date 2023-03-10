@@ -42,6 +42,7 @@ let reducer = (state, action: StateMsg.t) => {
       StateEffect.transactions_fetch,
       StateEffect.trustees_fetch,
       StateEffect.goToUrl,
+      StateEffect.importIdentityFromUrl,
     ])
 
   | Identity_Add(id) =>

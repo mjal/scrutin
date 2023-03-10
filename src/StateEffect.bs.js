@@ -2,6 +2,7 @@
 
 import * as $$URL from "./helpers/URL.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
+import * as $$String from "rescript/lib/es6/string.js";
 import * as Trustee from "./model/Trustee.bs.js";
 import * as Identity from "./model/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
@@ -109,6 +110,19 @@ function goToUrl(dispatch) {
       });
 }
 
+function importIdentityFromUrl(dispatch) {
+  if ($$URL.getCurrentHash(undefined).length <= 12) {
+    return ;
+  }
+  var currentHash = $$URL.getCurrentHash(undefined);
+  var hexSecretKey = $$String.sub(currentHash, 1, currentHash.length - 1 | 0);
+  console.log(hexSecretKey);
+  Curry._1(dispatch, {
+        TAG: /* Identity_Add */1,
+        _0: Identity.make2(hexSecretKey)
+      });
+}
+
 export {
   cache_update ,
   identities_store ,
@@ -121,5 +135,6 @@ export {
   transactions_clear ,
   trustees_clear ,
   goToUrl ,
+  importIdentityFromUrl ,
 }
 /* URL Not a pure module */

@@ -5,7 +5,7 @@ type t
 @get external hash: (t) => string = "hash"
 
 @val external _currentHash: string = "window.location.hash"
-let currentHash = () => {
+let getCurrentHash = () => {
   if ReactNative.Platform.os == #web {
     _currentHash
   } else {

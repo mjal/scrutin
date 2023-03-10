@@ -46,7 +46,7 @@ let identities_clear = (_dispatch) => Identity.clear()
 let transactions_clear = (_dispatch) => Transaction.clear()
 let trustees_clear = (_dispatch) => Trustee.clear()
 
-// ## URL Navigation
+// ## Redirect based on url
 
 let goToUrl = (dispatch) => {
   URL.getAndThen((url) => {
@@ -58,4 +58,16 @@ let goToUrl = (dispatch) => {
       | _ => ()
     }
   })
+}
+
+// ## Save secret keys passed by url #hash
+
+let importIdentityFromUrl = (dispatch) => {
+  if String.length(URL.getCurrentHash()) > 12 {
+    let currentHash = URL.getCurrentHash()
+    let hexSecretKey = String.sub(currentHash, 1,
+      String.length(currentHash) - 1)
+    Js.log(hexSecretKey)
+    dispatch(StateMsg.Identity_Add(Identity.make2(~hexSecretKey)))
+  }
 }

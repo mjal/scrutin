@@ -254,7 +254,7 @@
               <div class="sswrap ">
                 <a class="ss" href="#section-6">&#x00a7;</a>
               </div>
-              <h2 id="url-navigation">URL Navigation</h2>
+              <h2 id="redirect-based-on-url">Redirect based on url</h2>
 
             </div>
             
@@ -269,6 +269,30 @@
       | <span class="hljs-function"><span class="hljs-params">_</span> =&gt;</span> ()
     }
   })
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-7">&#x00a7;</a>
+              </div>
+              <h2 id="save-secret-keys-passed-by-url-hash">Save secret keys passed by url #hash</h2>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">importIdentityFromUrl</span> = (<span class="hljs-params">dispatch</span>) =&gt; {
+  <span class="hljs-keyword">if</span> <span class="hljs-title class_">String</span>.<span class="hljs-title function_">length</span>(<span class="hljs-variable constant_">URL</span>.<span class="hljs-title function_">getCurrentHash</span>()) &gt; <span class="hljs-number">12</span> {
+    <span class="hljs-keyword">let</span> currentHash = <span class="hljs-variable constant_">URL</span>.<span class="hljs-title function_">getCurrentHash</span>()
+    <span class="hljs-keyword">let</span> hexSecretKey = <span class="hljs-title class_">String</span>.<span class="hljs-title function_">sub</span>(currentHash, <span class="hljs-number">1</span>,
+      <span class="hljs-title class_">String</span>.<span class="hljs-title function_">length</span>(currentHash) - <span class="hljs-number">1</span>)
+    <span class="hljs-title class_">Js</span>.<span class="hljs-title function_">log</span>(hexSecretKey)
+    <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Identity</span>_Add(<span class="hljs-title class_">Identity</span>.<span class="hljs-title function_">make2</span>(~hexSecretKey)))
+  }
 }</pre></div></div>
             
         </li>

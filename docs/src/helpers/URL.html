@@ -155,7 +155,7 @@
 @get external <span class="hljs-attr">hash</span>: <span class="hljs-function">(<span class="hljs-params">t</span>) =&gt;</span> string = <span class="hljs-string">&quot;hash&quot;</span>
 
 @val external <span class="hljs-attr">_currentHash</span>: string = <span class="hljs-string">&quot;window.location.hash&quot;</span>
-<span class="hljs-keyword">let</span> <span class="hljs-title function_">currentHash</span> = (<span class="hljs-params"></span>) =&gt; {
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">getCurrentHash</span> = (<span class="hljs-params"></span>) =&gt; {
   <span class="hljs-keyword">if</span> <span class="hljs-title class_">ReactNative</span>.<span class="hljs-property">Platform</span>.<span class="hljs-property">os</span> == #web {
     _currentHash
   } <span class="hljs-keyword">else</span> {

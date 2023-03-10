@@ -8,7 +8,7 @@ import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as ReactNative from "react-native";
 
-function currentHash(param) {
+function getCurrentHash(param) {
   if (ReactNative.Platform.OS === "web") {
     return window.location.hash;
   } else {
@@ -70,7 +70,7 @@ function getSearchParameter(name) {
 }
 
 export {
-  currentHash ,
+  getCurrentHash ,
   arrayToList ,
   getAndThen ,
   _setUrlPathname ,
