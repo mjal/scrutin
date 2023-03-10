@@ -1,31 +1,35 @@
 ## Documentation
 
-TODO: Host docs/ pages somewhere
+### main logic
 
-## Developer instructions
+[Core](https://scrutin-app.github.io/scrutin/src/Core.html)
 
-### Install
+### state management
 
-/!\\ You will need nodejs 14 (use nvm if you need)
+[State](https://scrutin-app.github.io/scrutin/src/State.html)
+[StateEffect](https://scrutin-app.github.io/scrutin/src/StateEffect.html)
+
+### models
+
+[Election](https://scrutin-app.github.io/scrutin/src/model/Election.html)
+[Ballot](https://scrutin-app.github.io/scrutin/src/model/Ballot.html)
+[Trustee](https://scrutin-app.github.io/scrutin/src/model/Trustee.html)
+
+[Identity](https://scrutin-app.github.io/scrutin/src/model/Identity.html)
+
+[Transaction](https://scrutin-app.github.io/scrutin/src/model/Transaction.html)
+
+
+## Instructions
 
 ```
+# Install dependencies (You need nodejs 14, use nvm if you need)
 npm install
-```
 
-### Rescript Compilation
-
-- VSCode: use rescript plugin
-
-- Terminal:
-
-```
+# Compile rescript in another tab (or use the vscode plugin)
 npm run re:start
-```
 
-### Run
-
-```
-# web
+# Run the app (web)
 npm run web
 
 # android
@@ -33,22 +37,13 @@ npm run android
 
 # ios
 npm run ios
-```
 
-### Tests
-
-```
+# run tests
 npm run tests
 ```
 
-### Coding style
+## Release
 
-camelCase
+[Web demo](https://demo.scrutin.app)
 
-Less than 80 characters per line
-
-## Releases
-
-A web demo is available [here](https://demo.scrutin.app)
-
-You can download an apk for android [here](https://expo.dev/accounts/mlalisse/projects/scrutin/builds/e6bd66f5-ce96-4dac-b874-ab2c0a1f3b1b)
+[Android apk](https://expo.dev/accounts/mlalisse/projects/scrutin/builds/e6bd66f5-ce96-4dac-b874-ab2c0a1f3b1b)
