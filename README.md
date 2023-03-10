@@ -20,7 +20,7 @@
 
 [Trustee](https://scrutin-app.github.io/scrutin/src/model/Trustee.html)
 
-##### The mean of a decentralized authentication
+##### The mean of decentralized authentication
 
 [Identity](https://scrutin-app.github.io/scrutin/src/model/Identity.html)
 
