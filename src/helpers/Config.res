@@ -1,8 +1,12 @@
 @val external nodeEnv: string = "process.env.NODE_ENV"
 
-let api_url = if nodeEnv == "development" {
-  "http://localhost:8080"
-  //"https://scrutin-staging.fly.dev"
-} else {
-  "https://api.scrutin.app"
+let env = switch nodeEnv {
+| "production" => #prod
+| "development" => #dev
+| _ => #dev
+}
+
+let api_url = switch env {
+| #dev  => "http://localhost:8080"
+| #prod => "https://api.scrutin.app"
 }

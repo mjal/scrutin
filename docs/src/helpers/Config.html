@@ -150,24 +150,15 @@
             
             <div class="content"><div class='highlight'><pre>@val external <span class="hljs-attr">nodeEnv</span>: string = <span class="hljs-string">&quot;process.env.NODE_ENV&quot;</span>
 
-<span class="hljs-keyword">let</span> api_url = <span class="hljs-keyword">if</span> nodeEnv == <span class="hljs-string">&quot;development&quot;</span> {
-  <span class="hljs-string">&quot;http://localhost:8080&quot;</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-2">
-            <div class="annotation">
-              
-              <div class="sswrap ">
-                <a class="ss" href="#section-2">&#x00a7;</a>
-              </div>
-              <p>“<a href="https://scrutin-staging.fly.dev&quot;">https://scrutin-staging.fly.dev&quot;</a></p>
+<span class="hljs-keyword">let</span> env = <span class="hljs-keyword">switch</span> nodeEnv {
+| <span class="hljs-string">&quot;production&quot;</span> =&gt; #prod
+| <span class="hljs-string">&quot;development&quot;</span> =&gt; #dev
+| <span class="hljs-function"><span class="hljs-params">_</span> =&gt;</span> #dev
+}
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>} <span class="hljs-keyword">else</span> {
-  <span class="hljs-string">&quot;https://api.scrutin.app&quot;</span>
+<span class="hljs-keyword">let</span> api_url = <span class="hljs-keyword">switch</span> env {
+| #dev  =&gt; <span class="hljs-string">&quot;http://localhost:8080&quot;</span>
+| #prod =&gt; <span class="hljs-string">&quot;https://api.scrutin.app&quot;</span>
 }</pre></div></div>
             
         </li>
