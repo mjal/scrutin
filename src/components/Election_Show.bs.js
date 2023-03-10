@@ -105,15 +105,16 @@ function Election_Show(Props) {
           _0: tx
         });
     var message = "\n      Hello !\n      Vous êtes invité à une election.\n      Cliquez ici pour voter :\n      https://scrutin.app/ballots/" + tx.contentHash + "#" + hexSecretKey + "\n    ";
-    var time = Date.now() | 0;
-    var hexTime = time.toString(16);
-    var hexSignedTime = Identity.signHex(electionOwner, hexTime);
+    var timestamp = (Date.now());
+    var hexTimestamp = timestamp.toString(16);
+    var hexSignedTimestamp = Identity.signHex(electionOwner, hexTimestamp);
     var dict = {};
     dict["email"] = email;
     dict["subject"] = "Vous êtes invité à un election";
     dict["text"] = message;
-    dict["time"] = String(time);
-    dict["hexSignedTime"] = hexSignedTime;
+    dict["hexPublicKey"] = electionOwner.hexPublicKey;
+    dict["hexTimestamp"] = hexTimestamp;
+    dict["hexSignedTimestamp"] = hexSignedTimestamp;
     X.post("" + Config.api_url + "/proxy_email", dict);
   };
   var onPress = function (param) {

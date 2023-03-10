@@ -32,10 +32,24 @@ let make2 = (~hexSecretKey) => {
   }
 }
 
+// #### methods
+
+let signHex = (id, hexStr) => {
+  let hexSecretKey = Option.getExn(id.hexSecretKey)
+  let secretKey = Sjcl.Ecdsa.SecretKey.fromHex(hexSecretKey)
+  let baEventHash = Sjcl.Hex.toBits(hexStr)
+  let baSig = Sjcl.Ecdsa.SecretKey.sign(secretKey, baEventHash)
+  Sjcl.Hex.fromBits(baSig)
+}
+
+// #### Serialization
+
 external parse:           string => t = "JSON.parse"
 external stringify:       t => string = "JSON.stringify"
 external parse_array:     string => array<t> = "JSON.parse"
 external stringify_array: array<t> => string = "JSON.stringify"
+
+// #### Storage
 
 let storageKey = "identities"
 
@@ -52,12 +66,3 @@ let store_all = (ids) =>
 let clear = () =>
   ReactNativeAsyncStorage.removeItem(storageKey) -> ignore
 
-// #### methods
-
-let signHex = (id, hexStr) => {
-  let hexSecretKey = Option.getExn(id.hexSecretKey)
-  let secretKey = Sjcl.Ecdsa.SecretKey.fromHex(hexSecretKey)
-  let baEventHash = Sjcl.Hex.toBits(hexStr)
-  let baSig = Sjcl.Ecdsa.SecretKey.sign(secretKey, baEventHash)
-  Sjcl.Hex.fromBits(baSig)
-}

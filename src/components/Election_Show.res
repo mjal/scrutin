@@ -67,9 +67,9 @@ let make = (~contentHash) => {
       https://scrutin.app/ballots/${tx.contentHash}#${hexSecretKey}
     `
 
-    let time = Js.Date.now() -> Float.toInt
-    let hexTime = Js.Int.toStringWithRadix(time, ~radix=16)
-    let hexSignedTime = Identity.signHex(electionOwner, hexTime)
+    let timestamp : int = %raw(`Date.now()`)
+    let hexTimestamp = Js.Int.toStringWithRadix(timestamp, ~radix=16)
+    let hexSignedTimestamp = Identity.signHex(electionOwner, hexTimestamp)
 
     // For email
     let data = {
@@ -78,8 +78,10 @@ let make = (~contentHash) => {
       Js.Dict.set(dict, "subject",
         Js.Json.string("Vous êtes invité à un election"))
       Js.Dict.set(dict, "text", Js.Json.string(message))
-      Js.Dict.set(dict, "time", Js.Json.string(Int.toString(time)))
-      Js.Dict.set(dict, "hexSignedTime", Js.Json.string(hexSignedTime))
+      Js.Dict.set(dict,
+        "hexPublicKey", Js.Json.string(electionOwner.hexPublicKey))
+      Js.Dict.set(dict, "hexTimestamp", Js.Json.string(hexTimestamp))
+      Js.Dict.set(dict, "hexSignedTimestamp", Js.Json.string(hexSignedTimestamp))
       Js.Json.object_(dict)
     }
     let _ = data
