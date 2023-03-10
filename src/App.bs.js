@@ -3,10 +3,10 @@
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as State from "./State.bs.js";
 import * as React from "react";
-import * as Header from "./Header.bs.js";
-import * as Layout from "./Layout.bs.js";
+import * as Header from "./components/Header.bs.js";
+import * as Layout from "./components/Layout.bs.js";
 import * as UseTea from "rescript-use-tea/src/UseTea.bs.js";
-import * as Navigation from "./Navigation.bs.js";
+import * as Navigation from "./components/Navigation.bs.js";
 import * as Ballot_Show from "./components/Ballot_Show.bs.js";
 import * as Election_New from "./components/Election_New.bs.js";
 import * as Trustee_Home from "./components/Trustee_Home.bs.js";
