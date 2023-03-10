@@ -38,25 +38,25 @@ let reducer = (state, action: StateMsg.t) => {
 
   | Reset =>
     (initial, [
-      Action.identities_fetch,
-      Action.transactions_fetch,
-      Action.trustees_fetch,
+      StateEffect.identities_fetch,
+      StateEffect.transactions_fetch,
+      StateEffect.trustees_fetch,
     ])
 
   | Identity_Add(id) =>
     let ids = Array.concat(state.ids, [id])
-    ({...state, ids}, [Action.identities_store(ids)])
+    ({...state, ids}, [StateEffect.identities_store(ids)])
 
   | Transaction_Add(tx) =>
     let txs = Array.concat(state.txs, [tx])
     ({...state, txs}, [
-      Action.transactions_store(txs),
-      Action.cache_update(tx)
+      StateEffect.transactions_store(txs),
+      StateEffect.cache_update(tx)
     ])
 
   | Trustee_Add(trustee) =>
     let trustees = Array.concat(state.trustees, [trustee])
-    ({...state, trustees}, [Action.trustees_store(trustees)])
+    ({...state, trustees}, [StateEffect.trustees_store(trustees)])
 
   | Cache_Election_Add(eventHash, election) =>
     let cached_elections =

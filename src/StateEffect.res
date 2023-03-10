@@ -1,5 +1,3 @@
-// # Effects
-
 // ## Cache management
 
 let cache_update = (tx : Transaction.t) =>
