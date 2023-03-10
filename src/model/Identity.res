@@ -51,3 +51,13 @@ let store_all = (ids) =>
 
 let clear = () =>
   ReactNativeAsyncStorage.removeItem(storageKey) -> ignore
+
+// #### methods
+
+let signHex = (id, hexStr) => {
+  let hexSecretKey = Option.getExn(id.hexSecretKey)
+  let secretKey = Sjcl.Ecdsa.SecretKey.fromHex(hexSecretKey)
+  let baEventHash = Sjcl.Hex.toBits(hexStr)
+  let baSig = Sjcl.Ecdsa.SecretKey.sign(secretKey, baEventHash)
+  Sjcl.Hex.fromBits(baSig)
+}

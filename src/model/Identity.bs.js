@@ -55,6 +55,13 @@ function clear(param) {
   AsyncStorage.default.removeItem(storageKey);
 }
 
+function signHex(id, hexStr) {
+  var hexSecretKey = Belt_Option.getExn(id.hexSecretKey);
+  var secretKey = Curry._1(Sjcl.Ecdsa.SecretKey.fromHex, hexSecretKey);
+  var baEventHash = SjclWithAll.codec.hex.toBits(hexStr);
+  return SjclWithAll.codec.hex.fromBits(secretKey.sign(baEventHash));
+}
+
 export {
   make ,
   make2 ,
@@ -62,5 +69,6 @@ export {
   fetch_all ,
   store_all ,
   clear ,
+  signHex ,
 }
 /* Sjcl Not a pure module */

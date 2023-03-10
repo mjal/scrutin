@@ -204,6 +204,28 @@ external <span class="hljs-attr">stringify_array</span>: array&lt;t&gt; =&gt; st
             
         </li>
         
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-2">&#x00a7;</a>
+              </div>
+              <h4 id="methods">methods</h4>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">signHex</span> = (<span class="hljs-params">id, hexStr</span>) =&gt; {
+  <span class="hljs-keyword">let</span> hexSecretKey = <span class="hljs-title class_">Option</span>.<span class="hljs-title function_">getExn</span>(id.<span class="hljs-property">hexSecretKey</span>)
+  <span class="hljs-keyword">let</span> secretKey = <span class="hljs-title class_">Sjcl</span>.<span class="hljs-property">Ecdsa</span>.<span class="hljs-property">SecretKey</span>.<span class="hljs-title function_">fromHex</span>(hexSecretKey)
+  <span class="hljs-keyword">let</span> baEventHash = <span class="hljs-title class_">Sjcl</span>.<span class="hljs-property">Hex</span>.<span class="hljs-title function_">toBits</span>(hexStr)
+  <span class="hljs-keyword">let</span> baSig = <span class="hljs-title class_">Sjcl</span>.<span class="hljs-property">Ecdsa</span>.<span class="hljs-property">SecretKey</span>.<span class="hljs-title function_">sign</span>(secretKey, baEventHash)
+  <span class="hljs-title class_">Sjcl</span>.<span class="hljs-property">Hex</span>.<span class="hljs-title function_">fromBits</span>(baSig)
+}</pre></div></div>
+            
+        </li>
+        
     </ul>
   </div>
 </body>

@@ -28,14 +28,6 @@ let hash = (str) => {
   Sjcl.Hex.fromBits(baEventHash)
 }
 
-// Shorthand to sign a string and transform it to hex
-let sig = (hexSecretKey, hexStr) => {
-  let secretKey = Sjcl.Ecdsa.SecretKey.fromHex(hexSecretKey)
-  let baEventHash = Sjcl.Hex.toBits(hexStr)
-  let baSig = Sjcl.Ecdsa.SecretKey.sign(secretKey, baEventHash)
-  Sjcl.Hex.fromBits(baSig)
-}
-
 // #### Election transactions
 module SignedElection = {
   let make = (election : Election.t, owner : Identity.t) => {
@@ -46,7 +38,7 @@ module SignedElection = {
       eventType: #election,
       eventHash,
       publicKey: owner.hexPublicKey,
-      signature: sig(eventHash, Option.getExn(owner.hexSecretKey))
+      signature: Identity.signHex(owner, eventHash)
     }
   }
 
@@ -65,7 +57,7 @@ module SignedBallot = {
       eventType: #ballot,
       eventHash,
       publicKey: owner.hexPublicKey,
-      signature: sig(eventHash, Option.getExn(owner.hexSecretKey))
+      signature: Identity.signHex(owner, eventHash)
     }
   }
 
