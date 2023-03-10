@@ -7,15 +7,28 @@
 ### state management
 
 [State](https://scrutin-app.github.io/scrutin/src/State.html)
+
 [StateEffect](https://scrutin-app.github.io/scrutin/src/StateEffect.html)
 
 ### models
 
+What we need to model an election 
+
 [Election](https://scrutin-app.github.io/scrutin/src/model/Election.html)
+
 [Ballot](https://scrutin-app.github.io/scrutin/src/model/Ballot.html)
+
 [Trustee](https://scrutin-app.github.io/scrutin/src/model/Trustee.html)
 
+---
+
+The mean of a decentralized authentication
+
 [Identity](https://scrutin-app.github.io/scrutin/src/model/Identity.html)
+
+---
+
+The mean of a decentralized storage
 
 [Transaction](https://scrutin-app.github.io/scrutin/src/model/Transaction.html)
 
