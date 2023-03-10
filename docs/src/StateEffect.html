@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>StateEffect.res</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="App.html">
+                  src/App.res
+                </a>
+              
+                
+                <a class="source" href="Core.html">
+                  src/Core.res
+                </a>
+              
+                
+                <a class="source" href="Route.html">
+                  src/Route.res
+                </a>
+              
+                
+                <a class="source" href="State.html">
+                  src/State.res
+                </a>
+              
+                
+                <a class="source" href="StateEffect.html">
+                  src/StateEffect.res
+                </a>
+              
+                
+                <a class="source" href="StateMsg.html">
+                  src/StateMsg.res
+                </a>
+              
+                
+                <a class="source" href="helpers/Belenios.html">
+                  src/helpers/Belenios.res
+                </a>
+              
+                
+                <a class="source" href="helpers/Config.html">
+                  src/helpers/Config.res
+                </a>
+              
+                
+                <a class="source" href="helpers/Context.html">
+                  src/helpers/Context.res
+                </a>
+              
+                
+                <a class="source" href="helpers/Credential.html">
+                  src/helpers/Credential.res
+                </a>
+              
+                
+                <a class="source" href="helpers/Dimension.html">
+                  src/helpers/Dimension.res
+                </a>
+              
+                
+                <a class="source" href="helpers/EmailValidator.html">
+                  src/helpers/EmailValidator.res
+                </a>
+              
+                
+                <a class="source" href="helpers/IO.html">
+                  src/helpers/IO.res
+                </a>
+              
+                
+                <a class="source" href="helpers/Sjcl.html">
+                  src/helpers/Sjcl.res
+                </a>
+              
+                
+                <a class="source" href="helpers/URL.html">
+                  src/helpers/URL.res
+                </a>
+              
+                
+                <a class="source" href="helpers/X.html">
+                  src/helpers/X.res
+                </a>
+              
+                
+                <a class="source" href="model/Ballot.html">
+                  src/model/Ballot.res
+                </a>
+              
+                
+                <a class="source" href="model/Election.html">
+                  src/model/Election.res
+                </a>
+              
+                
+                <a class="source" href="model/Identity.html">
+                  src/model/Identity.res
+                </a>
+              
+                
+                <a class="source" href="model/Transaction.html">
+                  src/model/Transaction.res
+                </a>
+              
+                
+                <a class="source" href="model/Trustee.html">
+                  src/model/Trustee.res
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>StateEffect.res</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-1">&#x00a7;</a>
+              </div>
+              <h2 id="cache-management">Cache management</h2>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">cache_update</span> = (<span class="hljs-params">tx : Transaction.t</span>) =&gt;
+  <span class="hljs-function">(<span class="hljs-params">dispatch</span>) =&gt;</span> {
+    <span class="hljs-keyword">switch</span> tx.<span class="hljs-property">eventType</span> {
+    | #election =&gt; <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Cache</span>_Election_Add(tx.<span class="hljs-property">eventHash</span>,
+      <span class="hljs-title class_">Transaction</span>.<span class="hljs-property">SignedElection</span>.<span class="hljs-title function_">unwrap</span>(tx)))
+    | #ballot =&gt; <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Cache</span>_Ballot_Add(tx.<span class="hljs-property">eventHash</span>,
+      <span class="hljs-title class_">Transaction</span>.<span class="hljs-property">SignedBallot</span>.<span class="hljs-title function_">unwrap</span>(tx)))
+    }
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-2">&#x00a7;</a>
+              </div>
+              <h2 id="localstorage---store">LocalStorage - Store</h2>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">identities_store</span> = (<span class="hljs-params">ids</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span> <span class="hljs-title class_">Identity</span>.<span class="hljs-title function_">store_all</span>(ids)
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">transactions_store</span> = (<span class="hljs-params">txs</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span> <span class="hljs-title class_">Transaction</span>.<span class="hljs-title function_">store_all</span>(txs)
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">trustees_store</span> = (<span class="hljs-params">trustees</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span> <span class="hljs-title class_">Trustee</span>.<span class="hljs-title function_">store_all</span>(trustees)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-3">&#x00a7;</a>
+              </div>
+              <h2 id="localstorage---fetch">LocalStorage - Fetch</h2>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">identities_fetch</span> = (<span class="hljs-params">dispatch</span>) =&gt; {
+  <span class="hljs-title class_">Identity</span>.<span class="hljs-title function_">fetch_all</span>()
+  -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">thenResolve</span>(<span class="hljs-function">(<span class="hljs-params">ids</span>) =&gt;</span> {
+    <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">map</span>(ids, <span class="hljs-function">(<span class="hljs-params">id</span>) =&gt;</span> <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Identity</span>_Add(id)))</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-4">&#x00a7;</a>
+              </div>
+              <p>FIX: Identity_Add call identites_store as an effect…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  }) -&gt; ignore
+}
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">transactions_fetch</span> = (<span class="hljs-params">dispatch</span>) =&gt; {
+  <span class="hljs-title class_">Transaction</span>.<span class="hljs-title function_">fetch_all</span>()
+  -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">thenResolve</span>(<span class="hljs-function">(<span class="hljs-params">txs</span>) =&gt;</span> {
+    <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">map</span>(txs, <span class="hljs-function">(<span class="hljs-params">tx</span>) =&gt;</span> <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Transaction</span>_Add(tx)))
+  }) -&gt; ignore
+}
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">trustees_fetch</span> = (<span class="hljs-params">dispatch</span>) =&gt; {
+  <span class="hljs-title class_">Trustee</span>.<span class="hljs-title function_">fetch_all</span>()
+  -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">thenResolve</span>(<span class="hljs-function">(<span class="hljs-params">txs</span>) =&gt;</span> {
+    <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">map</span>(txs, <span class="hljs-function">(<span class="hljs-params">tx</span>) =&gt;</span> <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Trustee</span>_Add(tx)))
+  }) -&gt; ignore
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-5">&#x00a7;</a>
+              </div>
+              <h2 id="localstorage---clear">LocalStorage - Clear</h2>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">identities_clear</span> = (<span class="hljs-params">_dispatch</span>) =&gt; <span class="hljs-title class_">Identity</span>.<span class="hljs-title function_">clear</span>()
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">transactions_clear</span> = (<span class="hljs-params">_dispatch</span>) =&gt; <span class="hljs-title class_">Transaction</span>.<span class="hljs-title function_">clear</span>()
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">trustees_clear</span> = (<span class="hljs-params">_dispatch</span>) =&gt; <span class="hljs-title class_">Trustee</span>.<span class="hljs-title function_">clear</span>()
+
+<span class="hljs-comment">/*
+let goToUrl = dispatch =&gt; {
+  URL.getAndThen((url) =&gt; {
+    Js.log(url)
+    switch url {
+      | list{&quot;elections&quot;, sUuid} =&gt;
+</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-6">&#x00a7;</a>
+              </div>
+              <p>let nId = sId -&gt; Int.fromString -&gt; Option.getWithDefault(0)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">Action</span>.<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">ElectionBooth</span>(sUuid)))
+      | list{<span class="hljs-string">&quot;profile&quot;</span>} =&gt;
+        <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">Action</span>.<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">Route</span>.<span class="hljs-property">User_Profile</span>))
+      | list{<span class="hljs-string">&quot;users&quot;</span>, <span class="hljs-string">&quot;email_confirmation&quot;</span>} =&gt;
+        <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">Action</span>.<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">Route</span>.<span class="hljs-title class_">User</span>_Register_Confirm(<span class="hljs-title class_">None</span>, <span class="hljs-title class_">None</span>)))
+      | <span class="hljs-function"><span class="hljs-params">_</span> =&gt;</span> ()
+    }
+  })
+}
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">tally</span> = (<span class="hljs-params">privkey: Belenios.Trustees.Privkey.t, election: Election.t</span>) =&gt; {
+  <span class="hljs-function"><span class="hljs-params">dispatch</span> =&gt;</span> {
+    <span class="hljs-keyword">let</span> params = <span class="hljs-title class_">Option</span>.<span class="hljs-title function_">getExn</span>(election.<span class="hljs-property">params</span>)
+    <span class="hljs-keyword">let</span> ballots =
+      election.<span class="hljs-property">ballots</span>
+      -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">ballot</span>) =&gt;</span> ballot.<span class="hljs-property">ciphertext</span>)
+      -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">keep</span>(<span class="hljs-function">(<span class="hljs-params">ciphertext</span>) =&gt;</span> <span class="hljs-title class_">Option</span>.<span class="hljs-title function_">getWithDefault</span>(ciphertext, <span class="hljs-string">&quot;&quot;</span>) != <span class="hljs-string">&quot;&quot;</span>)
+      -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">ciphertext</span>) =&gt;</span> <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Ballot</span>.<span class="hljs-title function_">of_str</span>(<span class="hljs-title class_">Option</span>.<span class="hljs-title function_">getExn</span>(ciphertext)))
+    <span class="hljs-keyword">let</span> trustees = <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Trustees</span>.<span class="hljs-title function_">of_str</span>(<span class="hljs-title class_">Option</span>.<span class="hljs-title function_">getExn</span>(election.<span class="hljs-property">trustees</span>))
+    <span class="hljs-keyword">let</span> pubcreds : array&lt;string&gt; = %<span class="hljs-title function_">raw</span>(<span class="hljs-string">`JSON.parse(election.creds)`</span>)
+    <span class="hljs-keyword">let</span> (a, b) = <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Election</span>.<span class="hljs-title function_">decrypt</span>(params, ballots, trustees, pubcreds, privkey)
+    <span class="hljs-keyword">let</span> res = <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Election</span>.<span class="hljs-title function_">result</span>(params, ballots, trustees, pubcreds, a, b)
+    <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">Action</span>.<span class="hljs-title class_">Election</span>_PublishResult(res))
+  }
+}
+*/</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
