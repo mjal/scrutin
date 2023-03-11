@@ -41,8 +41,7 @@ let make = (~contentHash) => {
   let nbBallots = Array.length(ballots)
 
   let addBallot = _ => {
-    let id = Identity.make()
-    let hexSecretKey = Option.getExn(id.hexSecretKey)
+    let voterId = Identity.make()
 
     let ballot : Ballot.t = {
       electionTx: contentHash,
@@ -50,44 +49,22 @@ let make = (~contentHash) => {
       ciphertext: None,
       pubcred: None,
       electionPublicKey: election.ownerPublicKey,
-      voterPublicKey: id.hexPublicKey
+      voterPublicKey: voterId.hexPublicKey
     }
 
-    let electionOwner = Array.getBy(state.ids, (id) => {
+    let orgId = Array.getBy(state.ids, (id) => {
       id.hexPublicKey == election.ownerPublicKey
     }) -> Option.getExn
 
-    let tx = Transaction.SignedBallot.make(ballot, electionOwner)
+    let tx = Transaction.SignedBallot.make(ballot, orgId)
     dispatch(Transaction_Add(tx))
 
-    let message = `
-      Hello !
-      Vous êtes invité à une election.
-      Cliquez ici pour voter :
-      https://scrutin.app/ballots/${tx.contentHash}#${hexSecretKey}
-    `
-
-    let timestamp : int = %raw(`Date.now()`)
-    let hexTimestamp = Js.Int.toStringWithRadix(timestamp, ~radix=16)
-    let hexSignedTimestamp = Identity.signHex(electionOwner, hexTimestamp)
-
-    // For email
-    let data = {
-      let dict = Js.Dict.empty()
-      Js.Dict.set(dict, "email", Js.Json.string(email))
-      Js.Dict.set(dict, "subject",
-        Js.Json.string("Vous êtes invité à un election"))
-      Js.Dict.set(dict, "text", Js.Json.string(message))
-      Js.Dict.set(dict,
-        "hexPublicKey", Js.Json.string(electionOwner.hexPublicKey))
-      Js.Dict.set(dict, "hexTimestamp", Js.Json.string(hexTimestamp))
-      Js.Dict.set(dict, "hexSignedTimestamp", Js.Json.string(hexSignedTimestamp))
-      Js.Json.object_(dict)
+    if Config.env == #dev {
+      let ballotId = tx.contentHash
+      Mailer.send(ballotId, orgId, voterId, email)
+    } else {
+      Js.log(voterId.hexSecretKey)
     }
-    let _ = data
-    X.post(`${Config.api_url}/proxy_email`, data)
-    -> ignore
-
   }
 
   <>

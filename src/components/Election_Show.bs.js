@@ -5,6 +5,7 @@ import * as Core from "../Core.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Config from "../helpers/Config.bs.js";
+import * as Mailer from "../helpers/Mailer.bs.js";
 import * as Context from "../helpers/Context.bs.js";
 import * as Identity from "../model/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
@@ -84,10 +85,9 @@ function Election_Show(Props) {
         }));
   var nbBallots = ballots.length;
   var addBallot = function (param) {
-    var id = Identity.make(undefined);
-    var hexSecretKey = Belt_Option.getExn(id.hexSecretKey);
+    var voterId = Identity.make(undefined);
     var ballot_electionPublicKey = election.ownerPublicKey;
-    var ballot_voterPublicKey = id.hexPublicKey;
+    var ballot_voterPublicKey = voterId.hexPublicKey;
     var ballot = {
       electionTx: contentHash,
       previousTx: undefined,
@@ -96,26 +96,19 @@ function Election_Show(Props) {
       ciphertext: undefined,
       pubcred: undefined
     };
-    var electionOwner = Belt_Option.getExn(Belt_Array.getBy(state.ids, (function (id) {
+    var orgId = Belt_Option.getExn(Belt_Array.getBy(state.ids, (function (id) {
                 return id.hexPublicKey === election.ownerPublicKey;
               })));
-    var tx = Transaction.SignedBallot.make(ballot, electionOwner);
+    var tx = Transaction.SignedBallot.make(ballot, orgId);
     Curry._1(dispatch, {
           TAG: /* Transaction_Add */2,
           _0: tx
         });
-    var message = "\n      Hello !\n      Vous êtes invité à une election.\n      Cliquez ici pour voter :\n      https://scrutin.app/ballots/" + tx.contentHash + "#" + hexSecretKey + "\n    ";
-    var timestamp = (Date.now());
-    var hexTimestamp = timestamp.toString(16);
-    var hexSignedTimestamp = Identity.signHex(electionOwner, hexTimestamp);
-    var dict = {};
-    dict["email"] = email;
-    dict["subject"] = "Vous êtes invité à un election";
-    dict["text"] = message;
-    dict["hexPublicKey"] = electionOwner.hexPublicKey;
-    dict["hexTimestamp"] = hexTimestamp;
-    dict["hexSignedTimestamp"] = hexSignedTimestamp;
-    X.post("" + Config.api_url + "/proxy_email", dict);
+    if (Config.env === "dev") {
+      var ballotId = tx.contentHash;
+      return Mailer.send(ballotId, orgId, voterId, email);
+    }
+    console.log(voterId.hexSecretKey);
   };
   var onPress = function (param) {
     Curry._1(dispatch, {
