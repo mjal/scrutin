@@ -13,6 +13,9 @@ type t = {
   // See [[Trustee]]
   trustees: array<Trustee.t>,
 
+  // Contacts, to keep track on who is associated with which public key
+  contacts: array<Contact.t>,
+
   // The current route (still waiting for a decent rescript router
   // that works on web and native)
   route: Route.t,
@@ -28,6 +31,7 @@ let initial = {
   txs: [],
   ids: [],
   trustees: [],
+  contacts: [],
   cached_elections: Map.String.empty,
   cached_ballots: Map.String.empty,
 }

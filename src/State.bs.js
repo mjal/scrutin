@@ -10,10 +10,13 @@ var initial_ids = [];
 
 var initial_trustees = [];
 
+var initial_contacts = [];
+
 var initial = {
   txs: initial_txs,
   ids: initial_ids,
   trustees: initial_trustees,
+  contacts: initial_contacts,
   route: /* Home_Elections */0,
   cached_elections: undefined,
   cached_ballots: undefined
@@ -39,6 +42,7 @@ function reducer(state, action) {
                   txs: state.txs,
                   ids: state.ids,
                   trustees: state.trustees,
+                  contacts: state.contacts,
                   route: action._0,
                   cached_elections: state.cached_elections,
                   cached_ballots: state.cached_ballots
@@ -52,6 +56,7 @@ function reducer(state, action) {
                   txs: state.txs,
                   ids: ids,
                   trustees: state.trustees,
+                  contacts: state.contacts,
                   route: state.route,
                   cached_elections: state.cached_elections,
                   cached_ballots: state.cached_ballots
@@ -68,6 +73,7 @@ function reducer(state, action) {
                   txs: txs,
                   ids: state.ids,
                   trustees: state.trustees,
+                  contacts: state.contacts,
                   route: state.route,
                   cached_elections: state.cached_elections,
                   cached_ballots: state.cached_ballots
@@ -88,6 +94,7 @@ function reducer(state, action) {
                   txs: state.txs,
                   ids: state.ids,
                   trustees: trustees,
+                  contacts: state.contacts,
                   route: state.route,
                   cached_elections: state.cached_elections,
                   cached_ballots: state.cached_ballots
@@ -103,6 +110,7 @@ function reducer(state, action) {
                   txs: state.txs,
                   ids: state.ids,
                   trustees: state.trustees,
+                  contacts: state.contacts,
                   route: state.route,
                   cached_elections: cached_elections,
                   cached_ballots: state.cached_ballots
@@ -116,6 +124,7 @@ function reducer(state, action) {
                   txs: state.txs,
                   ids: state.ids,
                   trustees: state.trustees,
+                  contacts: state.contacts,
                   route: state.route,
                   cached_elections: state.cached_elections,
                   cached_ballots: cached_ballots

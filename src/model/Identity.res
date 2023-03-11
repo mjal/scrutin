@@ -1,8 +1,6 @@
 type t = {
   hexPublicKey:   string,
   hexSecretKey:   option<string>,
-  email:          option<string>, // TODO: Remove
-  phoneNumber:    option<string>,
 }
 
 let make = () => {
@@ -14,8 +12,6 @@ let make = () => {
   ({
     hexPublicKey:   Sjcl.Ecdsa.PublicKey.toHex(publicKey),
     hexSecretKey:   Some(Sjcl.Ecdsa.SecretKey.toHex(secretKey)),
-    email:       None,
-    phoneNumber: None,
   } : t)
 }
 
@@ -27,8 +23,6 @@ let make2 = (~hexSecretKey) => {
   {
     hexPublicKey,
     hexSecretKey: Some(hexSecretKey),
-    email:       None,
-    phoneNumber: None,
   }
 }
 

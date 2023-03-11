@@ -11,9 +11,7 @@ function make(param) {
   var match = Sjcl.Ecdsa.$$new(undefined);
   return {
           hexPublicKey: Curry._1(Sjcl.Ecdsa.PublicKey.toHex, match[0]),
-          hexSecretKey: Curry._1(Sjcl.Ecdsa.SecretKey.toHex, match[1]),
-          email: undefined,
-          phoneNumber: undefined
+          hexSecretKey: Curry._1(Sjcl.Ecdsa.SecretKey.toHex, match[1])
         };
 }
 
@@ -23,9 +21,7 @@ function make2(hexSecretKey) {
   var hexPublicKey = Curry._1(Sjcl.Ecdsa.PublicKey.toHex, keys.pub);
   return {
           hexPublicKey: hexPublicKey,
-          hexSecretKey: hexSecretKey,
-          email: undefined,
-          phoneNumber: undefined
+          hexSecretKey: hexSecretKey
         };
 }
 
