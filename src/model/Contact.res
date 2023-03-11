@@ -1,5 +1,5 @@
 type t = {
   hexPublicKey:   string,
-  email:          option<string>, // TODO: Remove
+  email:          option<string>,
   phoneNumber:    option<string>,
 }
