@@ -4,6 +4,7 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Context from "../helpers/Context.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
 
@@ -12,6 +13,12 @@ function Identity_Show(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var state = match[0];
+  var identity = Belt_Array.getBy(state.ids, (function (id) {
+          return id.hexPublicKey === publicKey;
+        }));
+  var secretKey = Belt_Option.getWithDefault(Belt_Option.flatMap(identity, (function (identity) {
+              return identity.hexSecretKey;
+            })), "");
   var ballots = Belt_MapString.toArray(Belt_MapString.keep(state.cached_ballots, (function (_eventHash, ballot) {
               return ballot.voterPublicKey === publicKey;
             })));
@@ -24,6 +31,9 @@ function Identity_Show(Props) {
                 }, React.createElement(ReactNativePaper.List.Item, {
                       title: "Public Key",
                       description: publicKey
+                    }), React.createElement(ReactNativePaper.List.Item, {
+                      title: "Secret Key",
+                      description: secretKey
                     }), React.createElement(ReactNativePaper.List.Section, {
                       title: "Elections",
                       children: Belt_Array.map(elections, (function (param) {

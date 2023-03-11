@@ -2,6 +2,13 @@
 let make = (~publicKey) => {
   let (state, dispatch) = Context.use()
 
+  let identity = Array.getBy(state.ids, (id) => {
+    id.hexPublicKey == publicKey
+  })
+  let secretKey =
+    Option.flatMap(identity, (identity) => identity.hexSecretKey)
+    -> Option.getWithDefault("")
+
   let ballots = state.cached_ballots
     -> Map.String.keep((_eventHash, ballot) =>
       ballot.voterPublicKey == publicKey
@@ -18,6 +25,8 @@ let make = (~publicKey) => {
     <List.Section title="Identity">
 
       <List.Item title="Public Key" description=publicKey />
+
+      <List.Item title="Secret Key" description=secretKey />
 
       <List.Accordion title="Elections">
       {
