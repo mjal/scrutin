@@ -51,8 +51,8 @@ npm run re:start # or use the vscode plugin
 npm run web
 ```
 
-/*
+<!--
 ## Release
 [Web demo](https://demo.scrutin.app)
 [Android apk](https://expo.dev/accounts/mlalisse/projects/scrutin/builds/e6bd66f5-ce96-4dac-b874-ab2c0a1f3b1b)
-*/
+-->
