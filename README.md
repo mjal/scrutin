@@ -1,13 +1,13 @@
 ## Features
 
-##### [Belenios]() integration
+##### [Belenios](https://belenios.org) integration
 
 - [x] Generate trustee keys on device
 - [x] Encrypt Ballot on device
 - [x] Tally election on device
 - [ ] Verify result on device
 
-##### Trustlessness
+##### Public key infrastructure
 
 - [x] Every action (called a transaction) must be signed by an authorized identity
 - [x] Transactions
@@ -16,8 +16,7 @@
 	- [x] Ballot filling. From voter
 - [ ] Running a main public pod
 - [ ] Merging divergent transactions logs
-	Note: the signed events do not include a `previous` field like in SecureScuttleButt. Making merging possible (maybe using Lamport Clock) 
-
+	Note: the signed events do not include a `previous` field like in SecureScuttleButt. Making merging easier (maybe using Lamport Clock) 
 
 ##### UI/UX
 
@@ -26,9 +25,6 @@
 
 ##### Nice to have
 
-- [ ] Douglas Crockford base32
-- [ ] Compressed ECDSA addresses
-- [ ] Allow an election to be managed by multiples organizations (allowing different entities to emit identities with voting rights)
 - [ ] Extract rescript-sjcl
 
 ## Documentation
