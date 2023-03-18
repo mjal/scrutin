@@ -85,6 +85,11 @@
                 </a>
               
                 
+                <a class="source" href="helpers/Mailer.html">
+                  src/helpers/Mailer.res
+                </a>
+              
+                
                 <a class="source" href="helpers/Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -102,6 +107,11 @@
                 
                 <a class="source" href="model/Ballot.html">
                   src/model/Ballot.res
+                </a>
+              
+                
+                <a class="source" href="model/Contact.html">
+                  src/model/Contact.res
                 </a>
               
                 
@@ -209,6 +219,21 @@ See [[Trustee]]</p>
               <div class="sswrap ">
                 <a class="ss" href="#section-5">&#x00a7;</a>
               </div>
+              <p>Contacts, to keep track on who is associated with which public key</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-attr">contacts</span>: array&lt;<span class="hljs-title class_">Contact</span>.<span class="hljs-property">t</span>&gt;,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-6">&#x00a7;</a>
+              </div>
               <p>The current route (still waiting for a decent rescript router
 that works on web and native)</p>
 
@@ -219,11 +244,11 @@ that works on web and native)</p>
         </li>
         
         
-        <li id="section-6">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-6">&#x00a7;</a>
+                <a class="ss" href="#section-7">&#x00a7;</a>
               </div>
               <p>Cache of elections and ballot for fast lookup</p>
 
@@ -236,11 +261,11 @@ that works on web and native)</p>
         </li>
         
         
-        <li id="section-7">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-7">&#x00a7;</a>
+                <a class="ss" href="#section-8">&#x00a7;</a>
               </div>
               <p>The initial state of the application</p>
 
@@ -251,6 +276,7 @@ that works on web and native)</p>
   <span class="hljs-attr">txs</span>: [],
   <span class="hljs-attr">ids</span>: [],
   <span class="hljs-attr">trustees</span>: [],
+  <span class="hljs-attr">contacts</span>: [],
   <span class="hljs-attr">cached_elections</span>: <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-property">empty</span>,
   <span class="hljs-attr">cached_ballots</span>: <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-property">empty</span>,
 }</pre></div></div>
@@ -258,11 +284,11 @@ that works on web and native)</p>
         </li>
         
         
-        <li id="section-8">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-8">&#x00a7;</a>
+                <a class="ss" href="#section-9">&#x00a7;</a>
               </div>
               <p>The reducer, the only place where state mutations can happen</p>
 
@@ -295,14 +321,14 @@ that works on web and native)</p>
     <span class="hljs-keyword">let</span> trustees = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">concat</span>(state.<span class="hljs-property">trustees</span>, [trustee])
     ({...state, trustees}, [<span class="hljs-title class_">StateEffect</span>.<span class="hljs-title function_">trustees_store</span>(trustees)])
 
-  | <span class="hljs-title class_">Cache</span>_Election_Add(eventHash, election) =&gt;
+  | <span class="hljs-title class_">Cache</span>_Election_Add(contentHash, election) =&gt;
     <span class="hljs-keyword">let</span> cached_elections =
-      <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-title function_">set</span>(state.<span class="hljs-property">cached_elections</span>, eventHash, election)
+      <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-title function_">set</span>(state.<span class="hljs-property">cached_elections</span>, contentHash, election)
     ({...state, cached_elections}, [])
 
-  | <span class="hljs-title class_">Cache</span>_Ballot_Add(eventHash, ballot) =&gt;
+  | <span class="hljs-title class_">Cache</span>_Ballot_Add(contentHash, ballot) =&gt;
     <span class="hljs-keyword">let</span> cached_ballots =
-      <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-title function_">set</span>(state.<span class="hljs-property">cached_ballots</span>, eventHash, ballot)
+      <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-title function_">set</span>(state.<span class="hljs-property">cached_ballots</span>, contentHash, ballot)
     ({...state, cached_ballots}, [])
 
   | <span class="hljs-title class_">Navigate</span>(route) =&gt;

@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>IO.res</title>
+  <title>Mailer.res</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="../../docco.css" />
@@ -143,7 +143,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>IO.res</h1>
+                  <h1>Mailer.res</h1>
               </div>
           </li>
         
@@ -158,9 +158,37 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">let</span> <span class="hljs-title function_">inspect</span> = (<span class="hljs-params">x</span>) =&gt; {
-  <span class="hljs-title class_">Js</span>.<span class="hljs-title function_">log</span>(x)
-  x
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">let</span> relay_url = <span class="hljs-string">`<span class="hljs-subst">${Config.api_url}</span>/proxy_email`</span>
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">send</span> = (<span class="hljs-params">ballotId, orgId: Identity.t, voterId: Identity.t, email</span>) =&gt; {
+  <span class="hljs-keyword">let</span> hexSecretKey = <span class="hljs-title class_">Option</span>.<span class="hljs-title function_">getExn</span>(voterId.<span class="hljs-property">hexSecretKey</span>)
+
+  <span class="hljs-keyword">let</span> timestamp : int = %<span class="hljs-title function_">raw</span>(<span class="hljs-string">`Date.now()`</span>)
+  <span class="hljs-keyword">let</span> hexTimestamp = <span class="hljs-title class_">Js</span>.<span class="hljs-property">Int</span>.<span class="hljs-title function_">toStringWithRadix</span>(timestamp, ~radix=<span class="hljs-number">16</span>)
+  <span class="hljs-keyword">let</span> hexSignedTimestamp = <span class="hljs-title class_">Identity</span>.<span class="hljs-title function_">signHex</span>(orgId, hexTimestamp)
+
+  <span class="hljs-keyword">let</span> message = <span class="hljs-string">`
+    Hello !
+    Vous êtes invité à une election.
+    Cliquez ici pour voter :
+    https://scrutin.app/ballots/<span class="hljs-subst">${ballotId}</span>#<span class="hljs-subst">${hexSecretKey}</span>
+  `</span>
+
+  <span class="hljs-keyword">let</span> data = {
+    <span class="hljs-keyword">let</span> dict = <span class="hljs-title class_">Js</span>.<span class="hljs-property">Dict</span>.<span class="hljs-title function_">empty</span>()
+    <span class="hljs-title class_">Js</span>.<span class="hljs-property">Dict</span>.<span class="hljs-title function_">set</span>(dict, <span class="hljs-string">&quot;email&quot;</span>, <span class="hljs-title class_">Js</span>.<span class="hljs-property">Json</span>.<span class="hljs-title function_">string</span>(email))
+    <span class="hljs-title class_">Js</span>.<span class="hljs-property">Dict</span>.<span class="hljs-title function_">set</span>(dict, <span class="hljs-string">&quot;subject&quot;</span>,
+      <span class="hljs-title class_">Js</span>.<span class="hljs-property">Json</span>.<span class="hljs-title function_">string</span>(<span class="hljs-string">&quot;Vous êtes invité à un election&quot;</span>))
+    <span class="hljs-title class_">Js</span>.<span class="hljs-property">Dict</span>.<span class="hljs-title function_">set</span>(dict, <span class="hljs-string">&quot;text&quot;</span>, <span class="hljs-title class_">Js</span>.<span class="hljs-property">Json</span>.<span class="hljs-title function_">string</span>(message))
+    <span class="hljs-title class_">Js</span>.<span class="hljs-property">Dict</span>.<span class="hljs-title function_">set</span>(dict,
+      <span class="hljs-string">&quot;hexPublicKey&quot;</span>, <span class="hljs-title class_">Js</span>.<span class="hljs-property">Json</span>.<span class="hljs-title function_">string</span>(orgId.<span class="hljs-property">hexPublicKey</span>))
+    <span class="hljs-title class_">Js</span>.<span class="hljs-property">Dict</span>.<span class="hljs-title function_">set</span>(dict, <span class="hljs-string">&quot;hexTimestamp&quot;</span>, <span class="hljs-title class_">Js</span>.<span class="hljs-property">Json</span>.<span class="hljs-title function_">string</span>(hexTimestamp))
+    <span class="hljs-title class_">Js</span>.<span class="hljs-property">Dict</span>.<span class="hljs-title function_">set</span>(dict, <span class="hljs-string">&quot;hexSignedTimestamp&quot;</span>, <span class="hljs-title class_">Js</span>.<span class="hljs-property">Json</span>.<span class="hljs-title function_">string</span>(hexSignedTimestamp))
+    <span class="hljs-title class_">Js</span>.<span class="hljs-property">Json</span>.<span class="hljs-title function_">object_</span>(dict)
+  }
+
+  X.<span class="hljs-title function_">post</span>(relay_url, data)
+  -&gt; ignore
 }</pre></div></div>
             
         </li>

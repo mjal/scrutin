@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>IO.res</title>
+  <title>Contact.res</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="../../docco.css" />
@@ -50,87 +50,87 @@
                 </a>
               
                 
-                <a class="source" href="Belenios.html">
+                <a class="source" href="../helpers/Belenios.html">
                   src/helpers/Belenios.res
                 </a>
               
                 
-                <a class="source" href="Config.html">
+                <a class="source" href="../helpers/Config.html">
                   src/helpers/Config.res
                 </a>
               
                 
-                <a class="source" href="Context.html">
+                <a class="source" href="../helpers/Context.html">
                   src/helpers/Context.res
                 </a>
               
                 
-                <a class="source" href="Credential.html">
+                <a class="source" href="../helpers/Credential.html">
                   src/helpers/Credential.res
                 </a>
               
                 
-                <a class="source" href="Dimension.html">
+                <a class="source" href="../helpers/Dimension.html">
                   src/helpers/Dimension.res
                 </a>
               
                 
-                <a class="source" href="EmailValidator.html">
+                <a class="source" href="../helpers/EmailValidator.html">
                   src/helpers/EmailValidator.res
                 </a>
               
                 
-                <a class="source" href="IO.html">
+                <a class="source" href="../helpers/IO.html">
                   src/helpers/IO.res
                 </a>
               
                 
-                <a class="source" href="Mailer.html">
+                <a class="source" href="../helpers/Mailer.html">
                   src/helpers/Mailer.res
                 </a>
               
                 
-                <a class="source" href="Sjcl.html">
+                <a class="source" href="../helpers/Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
               
                 
-                <a class="source" href="URL.html">
+                <a class="source" href="../helpers/URL.html">
                   src/helpers/URL.res
                 </a>
               
                 
-                <a class="source" href="X.html">
+                <a class="source" href="../helpers/X.html">
                   src/helpers/X.res
                 </a>
               
                 
-                <a class="source" href="../model/Ballot.html">
+                <a class="source" href="Ballot.html">
                   src/model/Ballot.res
                 </a>
               
                 
-                <a class="source" href="../model/Contact.html">
+                <a class="source" href="Contact.html">
                   src/model/Contact.res
                 </a>
               
                 
-                <a class="source" href="../model/Election.html">
+                <a class="source" href="Election.html">
                   src/model/Election.res
                 </a>
               
                 
-                <a class="source" href="../model/Identity.html">
+                <a class="source" href="Identity.html">
                   src/model/Identity.res
                 </a>
               
                 
-                <a class="source" href="../model/Transaction.html">
+                <a class="source" href="Transaction.html">
                   src/model/Transaction.res
                 </a>
               
                 
-                <a class="source" href="../model/Trustee.html">
+                <a class="source" href="Trustee.html">
                   src/model/Trustee.res
                 </a>
               
@@ -143,7 +143,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>IO.res</h1>
+                  <h1>Contact.res</h1>
               </div>
           </li>
         
@@ -158,9 +158,10 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">let</span> <span class="hljs-title function_">inspect</span> = (<span class="hljs-params">x</span>) =&gt; {
-  <span class="hljs-title class_">Js</span>.<span class="hljs-title function_">log</span>(x)
-  x
+            <div class="content"><div class='highlight'><pre>type t = {
+  <span class="hljs-attr">hexPublicKey</span>:   string,
+  <span class="hljs-attr">email</span>:          option&lt;string&gt;,
+  <span class="hljs-attr">phoneNumber</span>:    option&lt;string&gt;,
 }</pre></div></div>
             
         </li>

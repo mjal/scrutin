@@ -85,6 +85,11 @@
                 </a>
               
                 
+                <a class="source" href="helpers/Mailer.html">
+                  src/helpers/Mailer.res
+                </a>
+              
+                
                 <a class="source" href="helpers/Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -102,6 +107,11 @@
                 
                 <a class="source" href="model/Ballot.html">
                   src/model/Ballot.res
+                </a>
+              
+                
+                <a class="source" href="model/Contact.html">
+                  src/model/Contact.res
                 </a>
               
                 
@@ -169,9 +179,9 @@
     | <span class="hljs-function"><span class="hljs-params">Home_Transactions</span> =&gt;</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Transaction_Home</span> /&gt;</span></span>
 
     | <span class="hljs-function"><span class="hljs-params">Election_New</span> =&gt;</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Election_New</span> /&gt;</span></span>
-    | <span class="hljs-title class_">Election</span>_Show(eventHash) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Election_Show</span> <span class="hljs-attr">eventHash</span> /&gt;</span></span>
+    | <span class="hljs-title class_">Election</span>_Show(contentHash) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Election_Show</span> <span class="hljs-attr">contentHash</span> /&gt;</span></span>
 
-    | <span class="hljs-title class_">Ballot</span>_Show(eventHash) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Ballot_Show</span> <span class="hljs-attr">eventHash</span> /&gt;</span></span>
+    | <span class="hljs-title class_">Ballot</span>_Show(contentHash) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Ballot_Show</span> <span class="hljs-attr">contentHash</span> /&gt;</span></span>
 
     | <span class="hljs-title class_">Identity</span>_Show(publicKey) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Identity_Show</span> <span class="hljs-attr">publicKey</span> /&gt;</span></span>
 

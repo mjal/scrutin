@@ -85,6 +85,11 @@
                 </a>
               
                 
+                <a class="source" href="helpers/Mailer.html">
+                  src/helpers/Mailer.res
+                </a>
+              
+                
                 <a class="source" href="helpers/Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -102,6 +107,11 @@
                 
                 <a class="source" href="model/Ballot.html">
                   src/model/Ballot.res
+                </a>
+              
+                
+                <a class="source" href="model/Contact.html">
+                  src/model/Contact.res
                 </a>
               
                 
@@ -363,7 +373,7 @@ If we don’t have any, create a new one</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">Election</span>_Show(transaction.<span class="hljs-property">eventHash</span>)))
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">Election</span>_Show(transaction.<span class="hljs-property">contentHash</span>)))
     }
   }</pre></div></div>
             
@@ -505,7 +515,7 @@ If we don’t have any, create a new one</p>
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">let</span> ballots =
         state.<span class="hljs-property">txs</span>
-        -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">keep</span>(<span class="hljs-function">(<span class="hljs-params">tx</span>) =&gt;</span> tx.<span class="hljs-property">eventType</span> == #ballot)
+        -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">keep</span>(<span class="hljs-function">(<span class="hljs-params">tx</span>) =&gt;</span> tx.<span class="hljs-property">type_</span> == #ballot)
         -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">keep</span>(<span class="hljs-function">(<span class="hljs-params">tx</span>) =&gt;</span> {
           <span class="hljs-keyword">let</span> ballot = <span class="hljs-title class_">Transaction</span>.<span class="hljs-property">SignedBallot</span>.<span class="hljs-title function_">unwrap</span>(tx)
           ballot.<span class="hljs-property">electionTx</span> == electionEventHash
