@@ -1,33 +1,3 @@
-## Documentation
-
-### main logic
-
-[Core](https://scrutin-app.github.io/scrutin/src/Core.html)
-
-### state management
-
-[State](https://scrutin-app.github.io/scrutin/src/State.html)
-
-[StateEffect](https://scrutin-app.github.io/scrutin/src/StateEffect.html)
-
-### models
-
-##### What we need to model an election 
-
-[Election](https://scrutin-app.github.io/scrutin/src/model/Election.html)
-
-[Ballot](https://scrutin-app.github.io/scrutin/src/model/Ballot.html)
-
-[Trustee](https://scrutin-app.github.io/scrutin/src/model/Trustee.html)
-
-##### The mean of decentralized authentication
-
-[Identity](https://scrutin-app.github.io/scrutin/src/model/Identity.html)
-
-##### The mean of a decentralized storage
-
-[Transaction](https://scrutin-app.github.io/scrutin/src/model/Transaction.html)
-
 ## Features
 
 ##### [Belenios]() integration
@@ -61,20 +31,28 @@
 - [ ] Allow an election to be managed by multiples organizations (allowing different entities to emit identities with voting rights)
 - [ ] Extract rescript-sjcl
 
+## Documentation
+
+main | models
+-----|-------
+[Core](https://scrutin-app.github.io/scrutin/src/Core.html) | [Election](https://scrutin-app.github.io/scrutin/src/model/Election.html)
+[State](https://scrutin-app.github.io/scrutin/src/State.html) | [Ballot](https://scrutin-app.github.io/scrutin/src/model/Ballot.html)
+[StateEffect](https://scrutin-app.github.io/scrutin/src/StateEffect.html) | [Trustee](https://scrutin-app.github.io/scrutin/src/model/Trustee.html)
+ | [Identity](https://scrutin-app.github.io/scrutin/src/model/Identity.html)
+ | [Transaction](https://scrutin-app.github.io/scrutin/src/model/Transaction.html)
+
+
 ## Developer instructions
 
 ```
 # Install dependencies (You need nodejs 14, use nvm if you need)
 npm install
-
-# Compile rescript in another tab (or use the vscode plugin)
-npm run re:start
-
+npm run re:start # or use the vscode plugin
 npm run web
 ```
 
+/*
 ## Release
-
 [Web demo](https://demo.scrutin.app)
-
 [Android apk](https://expo.dev/accounts/mlalisse/projects/scrutin/builds/e6bd66f5-ce96-4dac-b874-ab2c0a1f3b1b)
+*/
