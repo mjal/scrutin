@@ -1,6 +1,6 @@
 ## Features
 
-##### [Belenios](https://belenios.org) integration
+##### [Belenios](https://www.belenios.org) integration
 
 - [x] Generate trustee keys on device
 - [x] Encrypt Ballot on device
