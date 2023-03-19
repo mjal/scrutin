@@ -31,11 +31,11 @@
 
 main | models
 -----|-------
-[Core](https://scrutin-app.github.io/scrutin/src/Core.html) | [Election](https://scrutin-app.github.io/scrutin/src/model/Election.html)
-[State](https://scrutin-app.github.io/scrutin/src/State.html) | [Ballot](https://scrutin-app.github.io/scrutin/src/model/Ballot.html)
-[StateEffect](https://scrutin-app.github.io/scrutin/src/StateEffect.html) | [Trustee](https://scrutin-app.github.io/scrutin/src/model/Trustee.html)
-. | [Identity](https://scrutin-app.github.io/scrutin/src/model/Identity.html)
-. | [Transaction](https://scrutin-app.github.io/scrutin/src/model/Transaction.html)
+[Core](https://scrutin-app.github.io/scrutin/src/Core.html) | ~~[Election](https://scrutin-app.github.io/scrutin/src/model/Election.html)~~
+~~[State](https://scrutin-app.github.io/scrutin/src/State.html)~~ | ~~[Ballot](https://scrutin-app.github.io/scrutin/src/model/Ballot.html)~~
+~~[StateEffect](https://scrutin-app.github.io/scrutin/src/StateEffect.html)~~ | ~~[Trustee](https://scrutin-app.github.io/scrutin/src/model/Trustee.html)~~
+. | ~~[Identity](https://scrutin-app.github.io/scrutin/src/model/Identity.html)~~
+. | ~~[Transaction](https://scrutin-app.github.io/scrutin/src/model/Transaction.html)~~
 
 
 ## Developer instructions
