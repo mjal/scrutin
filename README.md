@@ -1,3 +1,18 @@
+## Election process
+
+```mermaid
+sequenceDiagram
+    participant Organisers
+    participant Election
+    participant Voters
+
+    Organisers->>Election: CreateElection
+    Organisers->>Voters: AddUser
+    Voters->>Election: Vote
+	Organisers->>Election: Tally
+	Voters->>Election: Verify
+```
+
 ## Features
 
 ##### [Belenios](https://www.belenios.org) integration
