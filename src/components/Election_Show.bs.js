@@ -11,50 +11,8 @@ import * as Identity from "../model/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Transaction from "../model/Transaction.bs.js";
-import * as ReactNative from "react-native";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
-
-function Election_Show$MessageModal(Props) {
-  var message = Props.message;
-  var visible = Props.visible;
-  var setVisible = Props.setVisible;
-  var hexSecretKey = Props.hexSecretKey;
-  var match = Context.use(undefined);
-  var dispatch = match[1];
-  return React.createElement(ReactNativePaper.Portal, {
-              children: React.createElement(ReactNativePaper.Modal, {
-                    visible: visible,
-                    onDismiss: (function (param) {
-                        Curry._1(setVisible, (function (param) {
-                                return false;
-                              }));
-                      }),
-                    children: React.createElement(ReactNative.View, {
-                          style: ReactNative.StyleSheet.flatten([
-                                X.styles.modal,
-                                X.styles.layout
-                              ]),
-                          testID: "choice-modal",
-                          children: null
-                        }, React.createElement(ReactNativePaper.Text, {
-                              children: message
-                            }), React.createElement(ReactNativePaper.Button, {
-                              onPress: (function (param) {
-                                  Curry._1(dispatch, {
-                                        TAG: /* Identity_Add */1,
-                                        _0: Identity.make2(hexSecretKey)
-                                      });
-                                }),
-                              children: "Add identity (dev)"
-                            }))
-                  })
-            });
-}
-
-var MessageModal = {
-  make: Election_Show$MessageModal
-};
 
 function Election_Show(Props) {
   var contentHash = Props.contentHash;
@@ -66,17 +24,8 @@ function Election_Show(Props) {
       });
   var setEmail = match$1[1];
   var email = match$1[0];
-  var match$2 = React.useState(function () {
-        return "";
-      });
   var election = Belt_MapString.getExn(state.cached_elections, contentHash);
   var publicKey = election.ownerPublicKey;
-  var match$3 = React.useState(function () {
-        return false;
-      });
-  var match$4 = React.useState(function () {
-        return "";
-      });
   var ballots = Belt_Array.keep(Belt_Array.keep(state.txs, (function (tx) {
               return tx.type_ === "ballot";
             })), (function (tx) {
@@ -169,11 +118,6 @@ function Election_Show(Props) {
                                       key: tx.contentHash
                                     });
                         }))
-                }), React.createElement(Election_Show$MessageModal, {
-                  message: match$4[0],
-                  visible: match$3[0],
-                  setVisible: match$3[1],
-                  hexSecretKey: match$2[0]
                 }), React.createElement(ReactNativePaper.Button, {
                   mode: "outlined",
                   onPress: (function (param) {
@@ -186,7 +130,6 @@ function Election_Show(Props) {
 var make = Election_Show;
 
 export {
-  MessageModal ,
   make ,
 }
 /* X Not a pure module */
