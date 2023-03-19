@@ -1,3 +1,5 @@
+A mobile app for secure voting using the Helios protocol and INRIA’s [Belenios](https://www.belenios.org) voting library.
+
 ## Election process
 
 ```mermaid
@@ -15,7 +17,7 @@ sequenceDiagram
 
 ## Features
 
-##### [Belenios](https://www.belenios.org) integration
+##### Belenios integration
 
 - [x] Generate trustee keys on device
 - [x] Encrypt Ballot on device
