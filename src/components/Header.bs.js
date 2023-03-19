@@ -25,7 +25,7 @@ function Header(Props) {
                   onPress: (function (param) {
                       Curry._1(dispatch, {
                             TAG: /* Navigate */0,
-                            _0: /* Settings */5
+                            _0: /* Settings */6
                           });
                     })
                 }));

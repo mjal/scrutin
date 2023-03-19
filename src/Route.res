@@ -3,6 +3,7 @@ type t =
   | Home_Trustees
   | Home_Identities
   | Home_Transactions
+  | Contact_Index
   | Election_New
   | Election_Show(string)
   | Identity_Show(string)

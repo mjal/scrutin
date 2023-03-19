@@ -22,8 +22,9 @@ function Navigation(Props) {
           index = 3;
           break;
       case /* Home_Elections */0 :
-      case /* Election_New */4 :
-      case /* Settings */5 :
+      case /* Contact_Index */4 :
+      case /* Election_New */5 :
+      case /* Settings */6 :
           index = 0;
           break;
       

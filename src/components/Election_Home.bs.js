@@ -59,7 +59,7 @@ function Election_Home(Props) {
                   onPress: (function (param) {
                       Curry._1(dispatch, {
                             TAG: /* Navigate */0,
-                            _0: /* Election_New */4
+                            _0: /* Election_New */5
                           });
                     }),
                   children: "Creer une nouvelle election"

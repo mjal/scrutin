@@ -9,6 +9,9 @@ let make = () => {
     <List.Item title="Trustees"
       onPress={_ => dispatch(Navigate(Home_Trustees))}
     />
+    <List.Item title="Contacts"
+      onPress={_ => dispatch(Navigate(Contact_Index))}
+    />
     <List.Item title="Transactions"
       onPress={_ => dispatch(Navigate(Home_Transactions))}
     />

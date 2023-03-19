@@ -33,6 +33,14 @@ function Settings_View(Props) {
                   onPress: (function (param) {
                       Curry._1(dispatch, {
                             TAG: /* Navigate */0,
+                            _0: /* Contact_Index */4
+                          });
+                    }),
+                  title: "Contacts"
+                }), React.createElement(ReactNativePaper.List.Item, {
+                  onPress: (function (param) {
+                      Curry._1(dispatch, {
+                            TAG: /* Navigate */0,
                             _0: /* Home_Transactions */3
                           });
                     }),

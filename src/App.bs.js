@@ -9,6 +9,7 @@ import * as UseTea from "rescript-use-tea/src/UseTea.bs.js";
 import * as Ballot_Show from "./components/Ballot_Show.bs.js";
 import * as Election_New from "./components/Election_New.bs.js";
 import * as Trustee_Home from "./components/Trustee_Home.bs.js";
+import * as Contact_Index from "./components/Contact_Index.bs.js";
 import * as Election_Home from "./components/Election_Home.bs.js";
 import * as Election_Show from "./components/Election_Show.bs.js";
 import * as Identity_Home from "./components/Identity_Home.bs.js";
@@ -39,10 +40,13 @@ function App(Props) {
       case /* Home_Transactions */3 :
           tmp = React.createElement(Transaction_Home.make, {});
           break;
-      case /* Election_New */4 :
+      case /* Contact_Index */4 :
+          tmp = React.createElement(Contact_Index.make, {});
+          break;
+      case /* Election_New */5 :
           tmp = React.createElement(Election_New.make, {});
           break;
-      case /* Settings */5 :
+      case /* Settings */6 :
           tmp = React.createElement(Settings_View.make, {});
           break;
       
