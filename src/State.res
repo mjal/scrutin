@@ -45,6 +45,7 @@ let reducer = (state, action: StateMsg.t) => {
       StateEffect.identities_fetch,
       StateEffect.transactions_fetch,
       StateEffect.trustees_fetch,
+      StateEffect.contacts_fetch,
       StateEffect.goToUrl,
       StateEffect.importIdentityFromUrl,
     ])
@@ -57,7 +58,7 @@ let reducer = (state, action: StateMsg.t) => {
     let txs = Array.concat(state.txs, [tx])
     ({...state, txs}, [
       StateEffect.transactions_store(txs),
-      StateEffect.cache_update(tx)
+      StateEffect.cache_update(tx),
     ])
 
   | Trustee_Add(trustee) =>

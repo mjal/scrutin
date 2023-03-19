@@ -30,6 +30,7 @@ function reducer(state, action) {
               StateEffect.identities_fetch,
               StateEffect.transactions_fetch,
               StateEffect.trustees_fetch,
+              StateEffect.contacts_fetch,
               StateEffect.goToUrl,
               StateEffect.importIdentityFromUrl
             ]

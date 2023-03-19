@@ -36,8 +36,15 @@ let transactions_fetch = (dispatch) => {
 
 let trustees_fetch = (dispatch) => {
   Trustee.fetch_all()
-  -> Promise.thenResolve((txs) => {
-    Array.map(txs, (tx) => dispatch(StateMsg.Trustee_Add(tx)))
+  -> Promise.thenResolve((os) => {
+    Array.map(os, (o) => dispatch(StateMsg.Trustee_Add(o)))
+  }) -> ignore
+}
+
+let contacts_fetch = (dispatch) => {
+  Contact.fetch_all()
+  -> Promise.thenResolve((os) => {
+    Array.map(os, (o) => dispatch(StateMsg.Contact_Add(o)))
   }) -> ignore
 }
 

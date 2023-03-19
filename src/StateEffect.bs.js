@@ -65,11 +65,22 @@ function transactions_fetch(dispatch) {
 }
 
 function trustees_fetch(dispatch) {
-  Trustee.fetch_all(undefined).then(function (txs) {
-        return Belt_Array.map(txs, (function (tx) {
+  Trustee.fetch_all(undefined).then(function (os) {
+        return Belt_Array.map(os, (function (o) {
                       return Curry._1(dispatch, {
                                   TAG: /* Trustee_Add */3,
-                                  _0: tx
+                                  _0: o
+                                });
+                    }));
+      });
+}
+
+function contacts_fetch(dispatch) {
+  Contact.fetch_all(undefined).then(function (os) {
+        return Belt_Array.map(os, (function (o) {
+                      return Curry._1(dispatch, {
+                                  TAG: /* Contact_Add */4,
+                                  _0: o
                                 });
                     }));
       });
@@ -137,6 +148,7 @@ export {
   identities_fetch ,
   transactions_fetch ,
   trustees_fetch ,
+  contacts_fetch ,
   identities_clear ,
   transactions_clear ,
   trustees_clear ,
