@@ -64,6 +64,10 @@ let reducer = (state, action: StateMsg.t) => {
     let trustees = Array.concat(state.trustees, [trustee])
     ({...state, trustees}, [StateEffect.trustees_store(trustees)])
 
+  | Contact_Add(contact) =>
+    let contacts = Array.concat(state.contacts, [contact])
+    ({...state, contacts}, [StateEffect.contacts_store(contacts)])
+
   | Cache_Election_Add(contentHash, election) =>
     let cached_elections =
       Map.String.set(state.cached_elections, contentHash, election)

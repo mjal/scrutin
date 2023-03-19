@@ -35,6 +35,17 @@ function Election_Show(Props) {
   var nbBallots = ballots.length;
   var addBallot = function (param) {
     var voterId = Identity.make(undefined);
+    var contact_hexPublicKey = voterId.hexPublicKey;
+    var contact_email = email;
+    var contact = {
+      hexPublicKey: contact_hexPublicKey,
+      email: contact_email,
+      phoneNumber: undefined
+    };
+    Curry._1(dispatch, {
+          TAG: /* Contact_Add */4,
+          _0: contact
+        });
     var ballot_electionPublicKey = election.ownerPublicKey;
     var ballot_voterPublicKey = voterId.hexPublicKey;
     var ballot = {

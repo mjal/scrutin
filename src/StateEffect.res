@@ -15,6 +15,7 @@ let cache_update = (tx : Transaction.t) =>
 let identities_store = (ids) => (_dispatch) => Identity.store_all(ids)
 let transactions_store = (txs) => (_dispatch) => Transaction.store_all(txs)
 let trustees_store = (trustees) => (_dispatch) => Trustee.store_all(trustees)
+let contacts_store = (contacts) => (_dispatch) => Contact.store_all(contacts)
 
 // ## LocalStorage - Fetch
 

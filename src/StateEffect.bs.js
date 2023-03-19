@@ -3,6 +3,7 @@
 import * as $$URL from "./helpers/URL.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as $$String from "rescript/lib/es6/string.js";
+import * as Contact from "./model/Contact.bs.js";
 import * as Trustee from "./model/Trustee.bs.js";
 import * as Identity from "./model/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
@@ -12,13 +13,13 @@ function cache_update(tx, dispatch) {
   var match = tx.type_;
   if (match === "ballot") {
     return Curry._1(dispatch, {
-                TAG: /* Cache_Ballot_Add */5,
+                TAG: /* Cache_Ballot_Add */6,
                 _0: tx.contentHash,
                 _1: Transaction.SignedBallot.unwrap(tx)
               });
   } else {
     return Curry._1(dispatch, {
-                TAG: /* Cache_Election_Add */4,
+                TAG: /* Cache_Election_Add */5,
                 _0: tx.contentHash,
                 _1: Transaction.SignedElection.unwrap(tx)
               });
@@ -35,6 +36,10 @@ function transactions_store(txs, _dispatch) {
 
 function trustees_store(trustees, _dispatch) {
   Trustee.store_all(trustees);
+}
+
+function contacts_store(contacts, _dispatch) {
+  Contact.store_all(contacts);
 }
 
 function identities_fetch(dispatch) {
@@ -128,6 +133,7 @@ export {
   identities_store ,
   transactions_store ,
   trustees_store ,
+  contacts_store ,
   identities_fetch ,
   transactions_fetch ,
   trustees_fetch ,

@@ -18,6 +18,14 @@ let make = (~contentHash) => {
   let addBallot = _ => {
     let voterId = Identity.make()
 
+    let contact : Contact.t = {
+      hexPublicKey: voterId.hexPublicKey,
+      email: Some(email),
+      phoneNumber: None
+    }
+
+    dispatch(Contact_Add(contact))
+
     let ballot : Ballot.t = {
       electionTx: contentHash,
       previousTx: None,
