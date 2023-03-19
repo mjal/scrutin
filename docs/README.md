@@ -31,21 +31,21 @@ sequenceDiagram
 
 	Note over Organisation: GenerateKeyPair
 	Note over Member: GenerateKeyPair
-    rect rgb(0, 0, 64)
+    rect rgb(255, 255, 191)
 	Note over Member,Organisation: Register Members
     Member->>Organisation: Send public key
     Organisation->>Member: Sign public key
     Organisation-->>Election: Create
     Member->>Election: Vote
     end
-    rect rgb(0, 64, 0)
+    rect rgb(255, 191, 255)
 	Note over Organisation,Election: Late registration and lost account
     Member->>Organisation: Send new public key
     Organisation->>Member: Sign new public key
     Organisation-->>Election: Amend voter list
     Member->>Election: Vote
     end
-    rect rgb(64, 0, 0)
+    rect rgb(191, 255, 255)
 	Note over Organisation,Election: Decryption
     Organisation-->>Election: Tally and publish results
     Member->>Election: Verify
