@@ -84,6 +84,9 @@ function reducer(state, action) {
                       return StateEffect.transactions_store(txs, param);
                     }),
                   (function (param) {
+                      return StateEffect.transaction_broadcast(tx, param);
+                    }),
+                  (function (param) {
                       return StateEffect.cache_update(tx, param);
                     })
                 ]

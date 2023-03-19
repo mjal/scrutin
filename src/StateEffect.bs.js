@@ -98,6 +98,10 @@ function trustees_clear(_dispatch) {
   Trustee.clear(undefined);
 }
 
+function transaction_broadcast(tx, _dispatch) {
+  Transaction.broadcast(tx);
+}
+
 function goToUrl(dispatch) {
   $$URL.getAndThen(function (url) {
         if (!url) {
@@ -152,6 +156,7 @@ export {
   identities_clear ,
   transactions_clear ,
   trustees_clear ,
+  transaction_broadcast ,
   goToUrl ,
   importIdentityFromUrl ,
 }

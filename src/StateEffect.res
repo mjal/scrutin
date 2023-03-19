@@ -54,6 +54,12 @@ let identities_clear = (_dispatch) => Identity.clear()
 let transactions_clear = (_dispatch) => Transaction.clear()
 let trustees_clear = (_dispatch) => Trustee.clear()
 
+// ## Send transaction to the server
+let transaction_broadcast = (tx) =>
+  (_dispatch) => {
+    Transaction.broadcast(tx) -> ignore
+  }
+
 // ## Redirect based on url
 
 let goToUrl = (dispatch) => {

@@ -66,11 +66,46 @@ module SignedBallot = {
   }
 }
 
-// #### Serialization
+// #### Unsafe Serialization
 external parse:           string => t = "JSON.parse"
 external stringify:       t => string = "JSON.stringify"
 external parse_array:     string => array<t> = "JSON.parse"
 external stringify_array: array<t> => string = "JSON.stringify"
+
+// #### Safe serialization
+let from_json = {
+  open Json.Decode
+  object(field => {
+    let type_ = switch field.required(. "type", string) {
+    | "election" => #election
+    | "ballot" => #ballot
+    | _ => #election // TODO: Js.Exn
+    }
+    {
+      type_,
+      content: field.required(. "content", string),
+      contentHash: field.required(. "contentHash", string),
+      publicKey: field.required(. "publicKey", string),
+      signature: field.required(. "signature", string),
+    }
+  })
+}
+
+let to_json = (r: t) : Js.Json.t => {
+  open! Json.Encode
+  let type_ = switch r.type_ {
+  | #election => "election"
+  | #ballot => "ballot"
+  }
+  Unsafe.object({
+    "type_": type_,
+    "content": string(r.content),
+    "contentHash": string(r.contentHash),
+    "publicKey": string(r.publicKey),
+    "signature": string(r.signature),
+  })
+}
+
 
 // #### Storage
 let storageKey = "transactions"
@@ -86,3 +121,7 @@ let store_all = (txs) =>
 
 let clear = () =>
   ReactNativeAsyncStorage.removeItem(storageKey) -> ignore
+
+let broadcast = (tx) => {
+  X.post(`${Config.api_url}/transactions`, to_json(tx))
+}
