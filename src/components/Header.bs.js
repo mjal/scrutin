@@ -20,6 +20,14 @@ function Header(Props) {
                     })
                 }), React.createElement(ReactNativePaper.Appbar.Content, {
                   title: "Verifiable secret voting"
+                }), React.createElement(ReactNativePaper.Appbar.Action, {
+                  icon: "cog-outline",
+                  onPress: (function (param) {
+                      Curry._1(dispatch, {
+                            TAG: /* Navigate */0,
+                            _0: /* Settings */5
+                          });
+                    })
                 }));
 }
 

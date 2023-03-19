@@ -6,7 +6,6 @@ import * as React from "react";
 import * as Header from "./components/Header.bs.js";
 import * as Layout from "./components/Layout.bs.js";
 import * as UseTea from "rescript-use-tea/src/UseTea.bs.js";
-import * as Navigation from "./components/Navigation.bs.js";
 import * as Ballot_Show from "./components/Ballot_Show.bs.js";
 import * as Election_New from "./components/Election_New.bs.js";
 import * as Trustee_Home from "./components/Trustee_Home.bs.js";
@@ -14,6 +13,7 @@ import * as Election_Home from "./components/Election_Home.bs.js";
 import * as Election_Show from "./components/Election_Show.bs.js";
 import * as Identity_Home from "./components/Identity_Home.bs.js";
 import * as Identity_Show from "./components/Identity_Show.bs.js";
+import * as Settings_View from "./components/Settings_View.bs.js";
 import * as Transaction_Home from "./components/Transaction_Home.bs.js";
 
 function App(Props) {
@@ -42,6 +42,9 @@ function App(Props) {
       case /* Election_New */4 :
           tmp = React.createElement(Election_New.make, {});
           break;
+      case /* Settings */5 :
+          tmp = React.createElement(Settings_View.make, {});
+          break;
       
     }
   } else {
@@ -68,7 +71,7 @@ function App(Props) {
               state: state,
               dispatch: dispatch,
               children: null
-            }, React.createElement(Header.make, {}), tmp, React.createElement(Navigation.make, {}));
+            }, React.createElement(Header.make, {}), tmp);
 }
 
 var make = App;

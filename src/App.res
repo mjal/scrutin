@@ -25,9 +25,10 @@ let make = () => {
 
     | Identity_Show(publicKey) => <Identity_Show publicKey />
 
+    | Settings => <Settings_View />
     } }
 
-    <Navigation />
+    //<Navigation />
 
   </Layout>
 }
