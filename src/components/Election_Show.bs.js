@@ -25,6 +25,11 @@ function Election_Show(Props) {
       });
   var setEmail = match$1[1];
   var email = match$1[0];
+  var match$2 = React.useState(function () {
+        return false;
+      });
+  var setShowAdvanced = match$2[1];
+  var showAdvanced = match$2[0];
   var election = Belt_MapString.getExn(state.cached_elections, contentHash);
   var publicKey = election.ownerPublicKey;
   var ballots = Belt_Array.keep(Belt_Array.keep(state.txs, (function (tx) {
@@ -71,15 +76,34 @@ function Election_Show(Props) {
     }
     console.log(voterId.hexSecretKey);
   };
-  var onPress = function (param) {
-    Curry._1(dispatch, {
-          TAG: /* Navigate */0,
-          _0: {
-            TAG: /* Identity_Show */1,
-            _0: publicKey
-          }
-        });
-  };
+  var tmp;
+  if (showAdvanced) {
+    var onPress = function (param) {
+      Curry._1(dispatch, {
+            TAG: /* Navigate */0,
+            _0: {
+              TAG: /* Identity_Show */1,
+              _0: publicKey
+            }
+          });
+    };
+    tmp = React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.List.Item, {
+              title: "Event Hash",
+              description: contentHash
+            }), React.createElement(ReactNativePaper.List.Item, {
+              onPress: onPress,
+              title: "Owner Public Key",
+              description: publicKey
+            }), React.createElement(ReactNativePaper.List.Item, {
+              title: "Params",
+              description: election.params
+            }), React.createElement(ReactNativePaper.List.Item, {
+              title: "Trustees",
+              description: election.trustees
+            }));
+  } else {
+    tmp = React.createElement(React.Fragment, undefined);
+  }
   return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.List.Section, {
                   title: "Election",
                   children: null
@@ -89,19 +113,14 @@ function Election_Show(Props) {
                     }), React.createElement(ReactNativePaper.List.Item, {
                       title: "Description",
                       description: Election.description(election)
-                    }), React.createElement(ReactNativePaper.List.Item, {
-                      title: "Event Hash",
-                      description: contentHash
-                    }), React.createElement(ReactNativePaper.List.Item, {
-                      onPress: onPress,
-                      title: "Owner Public Key",
-                      description: publicKey
-                    }), React.createElement(ReactNativePaper.List.Item, {
-                      title: "Params",
-                      description: election.params
-                    }), React.createElement(ReactNativePaper.List.Item, {
-                      title: "Trustees",
-                      description: election.trustees
+                    }), tmp, React.createElement(ReactNativePaper.Button, {
+                      mode: "outlined",
+                      onPress: (function (param) {
+                          Curry._1(setShowAdvanced, (function (b) {
+                                  return !b;
+                                }));
+                        }),
+                      children: showAdvanced ? "Hide advanced" : "Show advanced"
                     })), React.createElement(ReactNativePaper.Divider, {}), React.createElement(ReactNativePaper.Title, {
                   style: X.styles.title,
                   children: "Invite someone"

@@ -2,6 +2,7 @@
 let make = (~contentHash) => {
   let (state, dispatch) = Context.use()
   let (email, setEmail) = React.useState(_ => "")
+  let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
   let election = Map.String.getExn(state.cached_elections, contentHash)
   let publicKey = election.ownerPublicKey
 
@@ -58,16 +59,24 @@ let make = (~contentHash) => {
       <List.Item title="Description"
         description=Election.description(election) />
 
-      <List.Item title="Event Hash" description=contentHash />
+      { if showAdvanced {
+        <>
+          <List.Item title="Event Hash" description=contentHash />
 
-      {
-        let onPress = _ => dispatch(Navigate(Identity_Show(publicKey)))
-        <List.Item title="Owner Public Key" onPress description=publicKey />
-      }
+          {
+            let onPress = _ => dispatch(Navigate(Identity_Show(publicKey)))
+            <List.Item title="Owner Public Key" onPress description=publicKey />
+          }
 
-      <List.Item title="Params" description=election.params />
+          <List.Item title="Params" description=election.params />
 
-      <List.Item title="Trustees" description=election.trustees />
+          <List.Item title="Trustees" description=election.trustees />
+        </>
+      } else { <></> } }
+
+      <Button mode=#outlined onPress={_ => setShowAdvanced(b => !b)}>
+        { (showAdvanced ? "Hide advanced" : "Show advanced") -> React.string }
+      </Button>
 
     </List.Section>
 
