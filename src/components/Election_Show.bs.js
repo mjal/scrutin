@@ -39,6 +39,11 @@ function Election_Show(Props) {
           return ballot.electionTx === contentHash;
         }));
   var nbBallots = ballots.length;
+  var nbBallotsWithCiphertext = Belt_Array.keep(ballots, (function (tx) {
+          var ballot = Transaction.SignedBallot.unwrap(tx);
+          return ballot.electionTx === contentHash;
+        })).length;
+  var progress = "" + String(nbBallotsWithCiphertext) + " votes / " + String(nbBallots) + "";
   var addBallot = function (param) {
     var voterId = Identity.make(undefined);
     var contact_hexPublicKey = voterId.hexPublicKey;
@@ -49,7 +54,7 @@ function Election_Show(Props) {
       phoneNumber: undefined
     };
     Curry._1(dispatch, {
-          TAG: /* Contact_Add */4,
+          TAG: /* Contact_Add */5,
           _0: contact
         });
     var ballot_electionPublicKey = election.ownerPublicKey;
@@ -67,7 +72,7 @@ function Election_Show(Props) {
               })));
     var tx = Transaction.SignedBallot.make(ballot, orgId);
     Curry._1(dispatch, {
-          TAG: /* Transaction_Add */2,
+          TAG: /* Transaction_Add_With_Broadcast */3,
           _0: tx
         });
     if (Config.env === "dev") {
@@ -113,6 +118,9 @@ function Election_Show(Props) {
                     }), React.createElement(ReactNativePaper.List.Item, {
                       title: "Description",
                       description: Election.description(election)
+                    }), React.createElement(ReactNativePaper.List.Item, {
+                      title: "Progress",
+                      description: progress
                     }), tmp, React.createElement(ReactNativePaper.Button, {
                       mode: "outlined",
                       onPress: (function (param) {

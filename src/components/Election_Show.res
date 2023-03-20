@@ -16,6 +16,13 @@ let make = (~contentHash) => {
 
   let nbBallots = Array.length(ballots)
 
+  let nbBallotsWithCiphertext = Array.keep(ballots, (tx) => {
+    let ballot = Transaction.SignedBallot.unwrap(tx)
+    ballot.electionTx == contentHash
+  }) -> Array.length
+
+  let progress  = `${nbBallotsWithCiphertext -> Int.toString} votes / ${nbBallots -> Int.toString}`
+
   let addBallot = _ => {
     let voterId = Identity.make()
 
@@ -41,7 +48,7 @@ let make = (~contentHash) => {
     }) -> Option.getExn
 
     let tx = Transaction.SignedBallot.make(ballot, orgId)
-    dispatch(Transaction_Add(tx))
+    dispatch(Transaction_Add_With_Broadcast(tx))
 
     if Config.env == #dev {
       let ballotId = tx.contentHash
@@ -58,6 +65,9 @@ let make = (~contentHash) => {
 
       <List.Item title="Description"
         description=Election.description(election) />
+
+      <List.Item title="Progress"
+        description=progress />
 
       { if showAdvanced {
         <>

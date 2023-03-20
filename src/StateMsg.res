@@ -3,6 +3,7 @@ type t =
   | Navigate(Route.t)
   | Identity_Add(Identity.t)
   | Transaction_Add(Transaction.t)
+  | Transaction_Add_With_Broadcast(Transaction.t)
   | Trustee_Add(Trustee.t)
   | Contact_Add(Contact.t)
   | Cache_Election_Add(string, Election.t)

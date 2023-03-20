@@ -15,13 +15,13 @@ function cache_update(tx, dispatch) {
   var match = tx.type_;
   if (match === "ballot") {
     return Curry._1(dispatch, {
-                TAG: /* Cache_Ballot_Add */6,
+                TAG: /* Cache_Ballot_Add */7,
                 _0: tx.contentHash,
                 _1: Transaction.SignedBallot.unwrap(tx)
               });
   } else {
     return Curry._1(dispatch, {
-                TAG: /* Cache_Election_Add */5,
+                TAG: /* Cache_Election_Add */6,
                 _0: tx.contentHash,
                 _1: Transaction.SignedElection.unwrap(tx)
               });
@@ -70,7 +70,7 @@ function trustees_fetch(dispatch) {
   Trustee.fetch_all(undefined).then(function (os) {
         return Belt_Array.map(os, (function (o) {
                       return Curry._1(dispatch, {
-                                  TAG: /* Trustee_Add */3,
+                                  TAG: /* Trustee_Add */4,
                                   _0: o
                                 });
                     }));
@@ -81,7 +81,7 @@ function contacts_fetch(dispatch) {
   Contact.fetch_all(undefined).then(function (os) {
         return Belt_Array.map(os, (function (o) {
                       return Curry._1(dispatch, {
-                                  TAG: /* Contact_Add */4,
+                                  TAG: /* Contact_Add */5,
                                   _0: o
                                 });
                     }));

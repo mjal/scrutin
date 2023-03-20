@@ -58,7 +58,12 @@ let reducer = (state, action: StateMsg.t) => {
   | Transaction_Add(tx) =>
     let txs = Array.concat(state.txs, [tx])
     ({...state, txs}, [
-      StateEffect.transactions_store(txs),
+      StateEffect.cache_update(tx),
+    ])
+
+  | Transaction_Add_With_Broadcast(tx) =>
+    let txs = Array.concat(state.txs, [tx])
+    ({...state, txs}, [
       StateEffect.transaction_broadcast(tx),
       StateEffect.cache_update(tx),
     ])

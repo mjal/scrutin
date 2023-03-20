@@ -33,7 +33,7 @@ module Election = {
       let transaction = Transaction.SignedElection.make(election, identity)
   
       // Add the new transaction<br />
-      dispatch(StateMsg.Transaction_Add(transaction))
+      dispatch(StateMsg.Transaction_Add_With_Broadcast(transaction))
   
       // Store the trustee private key
       dispatch(StateMsg.Trustee_Add(trustee))
@@ -150,7 +150,7 @@ module Ballot = {
       let tx = Transaction.SignedBallot.make(ballot, owner)
 
       // Add the new transaction<br />
-      dispatch(StateMsg.Transaction_Add(tx))
+      dispatch(StateMsg.Transaction_Add_With_Broadcast(tx))
 
       // Go the ballot page
       dispatch(Navigate(Election_Show(ballot.electionTx)))

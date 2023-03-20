@@ -29,11 +29,11 @@ function create(name, desc, choices, state, dispatch) {
   var election = Election.make(name, desc, choices, identity$1.hexPublicKey, trustee);
   var transaction = Transaction.SignedElection.make(election, identity$1);
   Curry._1(dispatch, {
-        TAG: /* Transaction_Add */2,
+        TAG: /* Transaction_Add_With_Broadcast */3,
         _0: transaction
       });
   Curry._1(dispatch, {
-        TAG: /* Trustee_Add */3,
+        TAG: /* Trustee_Add */4,
         _0: trustee
       });
   Curry._1(dispatch, {
@@ -99,7 +99,7 @@ function vote(ballot, choice, nbChoices, state, dispatch) {
             })));
   var tx = Transaction.SignedBallot.make(ballot$1, owner);
   Curry._1(dispatch, {
-        TAG: /* Transaction_Add */2,
+        TAG: /* Transaction_Add_With_Broadcast */3,
         _0: tx
       });
   Curry._1(dispatch, {

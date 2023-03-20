@@ -79,19 +79,33 @@ function reducer(state, action) {
                   cached_elections: state.cached_elections,
                   cached_ballots: state.cached_ballots
                 },
+                [(function (param) {
+                      return StateEffect.cache_update(tx, param);
+                    })]
+              ];
+    case /* Transaction_Add_With_Broadcast */3 :
+        var tx$1 = action._0;
+        var txs$1 = Belt_Array.concat(state.txs, [tx$1]);
+        return [
+                {
+                  txs: txs$1,
+                  ids: state.ids,
+                  trustees: state.trustees,
+                  contacts: state.contacts,
+                  route: state.route,
+                  cached_elections: state.cached_elections,
+                  cached_ballots: state.cached_ballots
+                },
                 [
                   (function (param) {
-                      return StateEffect.transactions_store(txs, param);
+                      return StateEffect.transaction_broadcast(tx$1, param);
                     }),
                   (function (param) {
-                      return StateEffect.transaction_broadcast(tx, param);
-                    }),
-                  (function (param) {
-                      return StateEffect.cache_update(tx, param);
+                      return StateEffect.cache_update(tx$1, param);
                     })
                 ]
               ];
-    case /* Trustee_Add */3 :
+    case /* Trustee_Add */4 :
         var trustees = Belt_Array.concat(state.trustees, [action._0]);
         return [
                 {
@@ -107,7 +121,7 @@ function reducer(state, action) {
                       return StateEffect.trustees_store(trustees, param);
                     })]
               ];
-    case /* Contact_Add */4 :
+    case /* Contact_Add */5 :
         var contacts = Belt_Array.concat(state.contacts, [action._0]);
         return [
                 {
@@ -123,7 +137,7 @@ function reducer(state, action) {
                       return StateEffect.contacts_store(contacts, param);
                     })]
               ];
-    case /* Cache_Election_Add */5 :
+    case /* Cache_Election_Add */6 :
         var cached_elections = Belt_MapString.set(state.cached_elections, action._0, action._1);
         return [
                 {
@@ -137,7 +151,7 @@ function reducer(state, action) {
                 },
                 []
               ];
-    case /* Cache_Ballot_Add */6 :
+    case /* Cache_Ballot_Add */7 :
         var cached_ballots = Belt_MapString.set(state.cached_ballots, action._0, action._1);
         return [
                 {
