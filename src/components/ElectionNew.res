@@ -31,7 +31,7 @@ let make = () => {
       onChangeText={text => setDesc(_ => text)}
     />
 
-    <Election_New_ChoiceList choices setChoices />
+    <ElectionNew_ChoiceList choices setChoices />
 
     <List.Item title="Owner" description=ownerDescription />
 

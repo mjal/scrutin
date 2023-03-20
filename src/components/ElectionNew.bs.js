@@ -6,9 +6,9 @@ import * as React from "react";
 import * as Context from "../helpers/Context.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as ReactNativePaper from "react-native-paper";
-import * as Election_New_ChoiceList from "./Election_New_ChoiceList.bs.js";
+import * as ElectionNew_ChoiceList from "./ElectionNew_ChoiceList.bs.js";
 
-function Election_New(Props) {
+function ElectionNew(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var state = match[0];
@@ -51,7 +51,7 @@ function Election_New(Props) {
                             }));
                     }),
                   testID: "election-desc"
-                }), React.createElement(Election_New_ChoiceList.make, {
+                }), React.createElement(ElectionNew_ChoiceList.make, {
                   choices: choices,
                   setChoices: match$3[1]
                 }), React.createElement(ReactNativePaper.List.Item, {
@@ -64,7 +64,7 @@ function Election_New(Props) {
                 }));
 }
 
-var make = Election_New;
+var make = ElectionNew;
 
 export {
   make ,

@@ -19,8 +19,8 @@ let make = () => {
     | Home_Transactions => <Transaction_Home />
     | Contact_Index     => <Contact_Index />
 
-    | Election_New => <Election_New />
-    | Election_Show(contentHash) => <Election_Show contentHash />
+    | Election_New => <ElectionNew />
+    | Election_Show(contentHash) => <ElectionShow contentHash />
 
     | Ballot_Show(contentHash) => <Ballot_Show contentHash />
 

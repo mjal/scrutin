@@ -7,7 +7,7 @@ import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
 
-function Election_New_ChoiceList$Item(Props) {
+function ElectionNew_ChoiceList$Item(Props) {
   var onRemove = Props.onRemove;
   var name = Props.name;
   return React.createElement(ReactNativePaper.List.Item, {
@@ -32,10 +32,10 @@ function Election_New_ChoiceList$Item(Props) {
 }
 
 var Item = {
-  make: Election_New_ChoiceList$Item
+  make: ElectionNew_ChoiceList$Item
 };
 
-function Election_New_ChoiceList(Props) {
+function ElectionNew_ChoiceList(Props) {
   var choices = Props.choices;
   var setChoices = Props.setChoices;
   var match = React.useState(function () {
@@ -84,7 +84,7 @@ function Election_New_ChoiceList(Props) {
                           })
                     })), React.createElement(ReactNative.View, {
                   children: Belt_Array.mapWithIndex(choices, (function (i, name) {
-                          return React.createElement(Election_New_ChoiceList$Item, {
+                          return React.createElement(ElectionNew_ChoiceList$Item, {
                                       onRemove: (function (param) {
                                           Curry._1(setChoices, (function (choices) {
                                                   return Belt_Array.keepWithIndex(choices, (function (_name, index) {
@@ -153,7 +153,7 @@ function Election_New_ChoiceList(Props) {
                 }));
 }
 
-var make = Election_New_ChoiceList;
+var make = ElectionNew_ChoiceList;
 
 export {
   Item ,

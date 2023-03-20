@@ -13,7 +13,7 @@ import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
 import * as ElectionShow__AddByEmailButton from "./ElectionShow__AddByEmailButton.bs.js";
 
-function Election_Show(Props) {
+function ElectionShow(Props) {
   var contentHash = Props.contentHash;
   var match = Context.use(undefined);
   var dispatch = match[1];
@@ -136,7 +136,7 @@ function Election_Show(Props) {
                   }));
 }
 
-var make = Election_Show;
+var make = ElectionShow;
 
 export {
   make ,
