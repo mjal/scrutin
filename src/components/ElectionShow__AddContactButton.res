@@ -1,7 +1,6 @@
 @react.component
 let make = (~contentHash) => {
   let (state, dispatch) = Context.use()
-  let (email, setEmail) = React.useState(_ => "")
   let (showModal, setshowModal) = React.useState(_ => false);
 
   let election = Map.String.getExn(state.cached_elections, contentHash)

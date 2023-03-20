@@ -16,9 +16,6 @@ function ElectionShow__AddContactButton(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var state = match[0];
-  React.useState(function () {
-        return "";
-      });
   var match$1 = React.useState(function () {
         return false;
       });
