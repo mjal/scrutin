@@ -56,6 +56,27 @@ var SignedBallot = {
   unwrap: unwrap$1
 };
 
+function make$2(tally, owner) {
+  var content = JSON.stringify(tally);
+  var contentHash = SjclWithAll.codec.hex.fromBits(SjclWithAll.hash.sha256.hash(content));
+  return {
+          type_: "election",
+          content: content,
+          contentHash: contentHash,
+          publicKey: owner.hexPublicKey,
+          signature: Identity.signHex(owner, contentHash)
+        };
+}
+
+function unwrap$2(tx) {
+  return JSON.parse(tx.content);
+}
+
+var SignedTally = {
+  make: make$2,
+  unwrap: unwrap$2
+};
+
 function from_json(json) {
   var decode = Json_Decode$JsonCombinators.object(function (field) {
         var match = field.required("type_", Json_Decode$JsonCombinators.string);
@@ -91,7 +112,9 @@ function from_json(json) {
 
 function to_json(r) {
   var match = r.type_;
-  var type_ = match === "ballot" ? "ballot" : "election";
+  var type_ = match === "ballot" ? "ballot" : (
+      match === "tally" ? "tally" : "election"
+    );
   return {
           type_: type_,
           content: r.content,
@@ -135,6 +158,7 @@ export {
   hash ,
   SignedElection ,
   SignedBallot ,
+  SignedTally ,
   from_json ,
   to_json ,
   storageKey ,

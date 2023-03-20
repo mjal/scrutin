@@ -57,6 +57,9 @@ module Ballot = {
 module PartialDecryption = {
   type t1
   type t2
+
+  external to_s1: (t1) => string = "%identity"
+  external to_s2: (t2) => string = "%identity"
 }
 
 module Election = {

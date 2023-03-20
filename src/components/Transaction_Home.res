@@ -6,12 +6,16 @@ module Item = {
     let description = switch tx.type_ {
     | #election => "Election"
     | #ballot   => "Ballot"
+    | #tally    => "Tally"
     }
 
     let onPress = _ => {
       switch tx.type_ {
       | #election => dispatch(Navigate(Election_Show(tx.contentHash)))
       | #ballot   => dispatch(Navigate(Ballot_Show(tx.contentHash)))
+      | #tally    =>
+        let tally = Transaction.SignedTally.unwrap(tx)
+        dispatch(Navigate(Election_Show(tally.electionTx)))
       }
     }
 

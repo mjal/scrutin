@@ -13,18 +13,20 @@ import * as Transaction from "./model/Transaction.bs.js";
 
 function cache_update(tx, dispatch) {
   var match = tx.type_;
-  if (match === "ballot") {
+  if (match === "election") {
+    return Curry._1(dispatch, {
+                TAG: /* Cache_Election_Add */7,
+                _0: tx.contentHash,
+                _1: Transaction.SignedElection.unwrap(tx)
+              });
+  } else if (match === "ballot") {
     return Curry._1(dispatch, {
                 TAG: /* Cache_Ballot_Add */8,
                 _0: tx.contentHash,
                 _1: Transaction.SignedBallot.unwrap(tx)
               });
   } else {
-    return Curry._1(dispatch, {
-                TAG: /* Cache_Election_Add */7,
-                _0: tx.contentHash,
-                _1: Transaction.SignedElection.unwrap(tx)
-              });
+    return ;
   }
 }
 

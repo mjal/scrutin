@@ -51,7 +51,7 @@ module Election = {
     ~electionEventHash : string
     // ---
   ) => {
-    (state: State.t, _dispatch) => {
+    (state: State.t, dispatch) => {
       // Get the election from cache
       let election = Map.String.getExn(state.cached_elections,
         electionEventHash)
@@ -96,7 +96,23 @@ module Election = {
         -> Array.keep((pubcred) => pubcred != "")
 
       let (a, b) = Belenios.Election.decrypt(params, ciphertexts, trustees, pubcreds, privkey)
-      let _res = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
+      let result = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
+
+      let tally : ElectionTally.t = {
+        electionTx: electionEventHash,
+        a: Belenios.PartialDecryption.to_s1(a),
+        b: Belenios.PartialDecryption.to_s2(b),
+        result
+      }
+
+      // Lookup for the owner identity in the cache
+      let owner = Array.getBy(state.ids, (id) => {
+        election.ownerPublicKey == id.hexPublicKey
+      }) -> Option.getExn
+
+      let tx = Transaction.SignedTally.make(tally, owner)
+
+      dispatch(StateMsg.Transaction_Add_With_Broadcast(tx))
     }
   }
 }

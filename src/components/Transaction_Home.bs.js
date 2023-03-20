@@ -13,7 +13,9 @@ function Transaction_Home$Item(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
   var match$1 = tx.type_;
-  var description = match$1 === "ballot" ? "Ballot" : "Election";
+  var description = match$1 === "ballot" ? "Ballot" : (
+      match$1 === "tally" ? "Tally" : "Election"
+    );
   var onPress = function (param) {
     var match = tx.type_;
     if (match === "ballot") {
@@ -24,7 +26,8 @@ function Transaction_Home$Item(Props) {
                     _0: tx.contentHash
                   }
                 });
-    } else {
+    }
+    if (match !== "tally") {
       return Curry._1(dispatch, {
                   TAG: /* Navigate */0,
                   _0: {
@@ -33,6 +36,14 @@ function Transaction_Home$Item(Props) {
                   }
                 });
     }
+    var tally = Transaction.SignedTally.unwrap(tx);
+    Curry._1(dispatch, {
+          TAG: /* Navigate */0,
+          _0: {
+            TAG: /* Election_Show */0,
+            _0: tally.electionTx
+          }
+        });
   };
   return React.createElement(ReactNativePaper.Card, {
               children: React.createElement(ReactNativePaper.List.Item, {

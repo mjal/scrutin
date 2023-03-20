@@ -6,7 +6,7 @@
 // #### Transaction.t
 type t = {
   // **type**
-  type_: [#election | #ballot],
+  type_: [#election | #ballot | #tally],
   // **content**: The stringified JSON representing the state mutation
   content: string,
   // **contentHash**: hash(content)
@@ -66,6 +66,25 @@ module SignedBallot = {
   }
 }
 
+// #### Tally transactions
+module SignedTally = {
+  let make = (tally : ElectionTally.t, owner : Identity.t) => {
+    let content = ElectionTally.stringify(tally)
+    let contentHash = hash(content)
+    {
+      content,
+      type_: #election,
+      contentHash,
+      publicKey: owner.hexPublicKey,
+      signature: Identity.signHex(owner, contentHash)
+    }
+  }
+
+  let unwrap = (tx) : ElectionTally.t => {
+    ElectionTally.parse(tx.content)
+  }
+}
+
 // #### Unsafe Serialization
 external parse:           string => t = "JSON.parse"
 external stringify:       t => string = "JSON.stringify"
@@ -102,6 +121,7 @@ let to_json = (r: t) : Js.Json.t => {
   let type_ = switch r.type_ {
   | #election => "election"
   | #ballot => "ballot"
+  | #tally => "tally"
   }
   Unsafe.object({
     "type_": type_,

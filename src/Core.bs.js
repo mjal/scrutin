@@ -45,7 +45,7 @@ function create(name, desc, choices, state, dispatch) {
       });
 }
 
-function tally(electionEventHash, state, _dispatch) {
+function tally(electionEventHash, state, dispatch) {
   var election = Belt_MapString.getExn(state.cached_elections, electionEventHash);
   var params = JSON.parse(election.params);
   var trustees = election.trustees;
@@ -72,7 +72,23 @@ function tally(electionEventHash, state, _dispatch) {
           return pubcred !== "";
         }));
   var match = Belenios.Election.decrypt(params)(ciphertexts, trustees, pubcreds, privkey);
-  Belenios.Election.result(params)(ciphertexts, trustees, pubcreds, match[0], match[1]);
+  var b = match[1];
+  var a = match[0];
+  var result = Belenios.Election.result(params)(ciphertexts, trustees, pubcreds, a, b);
+  var tally$1 = {
+    electionTx: electionEventHash,
+    a: a,
+    b: b,
+    result: result
+  };
+  var owner = Belt_Option.getExn(Belt_Array.getBy(state.ids, (function (id) {
+              return election.ownerPublicKey === id.hexPublicKey;
+            })));
+  var tx = Transaction.SignedTally.make(tally$1, owner);
+  return Curry._1(dispatch, {
+              TAG: /* Transaction_Add_With_Broadcast */3,
+              _0: tx
+            });
 }
 
 var Election$1 = {

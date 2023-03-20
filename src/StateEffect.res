@@ -7,6 +7,7 @@ let cache_update = (tx : Transaction.t) =>
       Transaction.SignedElection.unwrap(tx)))
     | #ballot => dispatch(StateMsg.Cache_Ballot_Add(tx.contentHash,
       Transaction.SignedBallot.unwrap(tx)))
+    | _ => ()
     }
   }
 
