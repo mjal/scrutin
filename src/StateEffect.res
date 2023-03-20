@@ -54,6 +54,35 @@ let identities_clear = (_dispatch) => Identity.clear()
 let transactions_clear = (_dispatch) => Transaction.clear()
 let trustees_clear = (_dispatch) => Trustee.clear()
 
+// ## Network - Get
+
+let transactions_get = (dispatch) => {
+  Webapi.Fetch.fetch(j`${Config.api_url}/transactions`)
+  -> Promise.then(Webapi.Fetch.Response.json)
+  -> Promise.thenResolve(response => {
+    switch Js.Json.decodeArray(response) {
+      | Some(jsons) => {
+        let _ = Array.map(jsons, (json) => {
+          let tx = Transaction.from_json(json)
+          dispatch(StateMsg.Transaction_Add(tx))
+          ()
+        })
+        ()
+      }
+      | None => ()
+    }
+  }) -> ignore
+
+}
+
+let identities_get = (dispatch) => {
+  Identity.fetch_all()
+  -> Promise.thenResolve((ids) => {
+    Array.map(ids, (id) => dispatch(StateMsg.Identity_Add(id)))
+    // FIX: Identity_Add call identites_store as an effect...
+  }) -> ignore
+}
+
 // ## Send transaction to the server
 let transaction_broadcast = (tx) =>
   (_dispatch) => {

@@ -6,6 +6,7 @@ import * as Identity from "./Identity.bs.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as SjclWithAll from "sjcl-with-all";
+import * as Json$JsonCombinators from "rescript-json-combinators/src/Json.bs.js";
 import * as Json_Decode$JsonCombinators from "rescript-json-combinators/src/Json_Decode.bs.js";
 import * as AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -55,27 +56,38 @@ var SignedBallot = {
   unwrap: unwrap$1
 };
 
-var from_json = Json_Decode$JsonCombinators.object(function (field) {
-      var match = field.required("type", Json_Decode$JsonCombinators.string);
-      var type_;
-      switch (match) {
-        case "ballot" :
-            type_ = "ballot";
-            break;
-        case "election" :
+function from_json(json) {
+  var decode = Json_Decode$JsonCombinators.object(function (field) {
+        var match = field.required("type_", Json_Decode$JsonCombinators.string);
+        var type_;
+        switch (match) {
+          case "ballot" :
+              type_ = "ballot";
+              break;
+          case "election" :
+              type_ = "election";
+              break;
+          default:
             type_ = "election";
-            break;
-        default:
-          type_ = "election";
-      }
-      return {
-              type_: type_,
-              content: field.required("content", Json_Decode$JsonCombinators.string),
-              contentHash: field.required("contentHash", Json_Decode$JsonCombinators.string),
-              publicKey: field.required("publicKey", Json_Decode$JsonCombinators.string),
-              signature: field.required("signature", Json_Decode$JsonCombinators.string)
-            };
-    });
+        }
+        return {
+                type_: type_,
+                content: field.required("content", Json_Decode$JsonCombinators.string),
+                contentHash: field.required("contentHash", Json_Decode$JsonCombinators.string),
+                publicKey: field.required("publicKey", Json_Decode$JsonCombinators.string),
+                signature: field.required("signature", Json_Decode$JsonCombinators.string)
+              };
+      });
+  var result = Json$JsonCombinators.decode(json, decode);
+  if (result.TAG === /* Ok */0) {
+    return result._0;
+  }
+  throw {
+        RE_EXN_ID: Json_Decode$JsonCombinators.DecodeError,
+        _1: result._0,
+        Error: new Error()
+      };
+}
 
 function to_json(r) {
   var match = r.type_;
@@ -131,4 +143,4 @@ export {
   clear ,
   broadcast ,
 }
-/* from_json Not a pure module */
+/* X Not a pure module */

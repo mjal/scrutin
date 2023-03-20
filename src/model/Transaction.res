@@ -73,10 +73,10 @@ external parse_array:     string => array<t> = "JSON.parse"
 external stringify_array: array<t> => string = "JSON.stringify"
 
 // #### Safe serialization
-let from_json = {
+let from_json = (json) => {
   open Json.Decode
-  object(field => {
-    let type_ = switch field.required(. "type", string) {
+  let decode = object(field => {
+    let type_ = switch field.required(. "type_", string) {
     | "election" => #election
     | "ballot" => #ballot
     | _ => #election // TODO: Js.Exn
@@ -89,6 +89,12 @@ let from_json = {
       signature: field.required(. "signature", string),
     }
   })
+  switch (json->Json.decode(decode)) {
+    | Ok(result) => result
+    | Error(error) => {
+      raise(DecodeError({error}))
+    }
+  }
 }
 
 let to_json = (r: t) : Js.Json.t => {

@@ -2,8 +2,10 @@
 
 import * as $$URL from "./helpers/URL.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
+import * as Config from "./helpers/Config.bs.js";
 import * as $$String from "rescript/lib/es6/string.js";
 import * as Contact from "./model/Contact.bs.js";
+import * as Js_json from "rescript/lib/es6/js_json.js";
 import * as Trustee from "./model/Trustee.bs.js";
 import * as Identity from "./model/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
@@ -98,6 +100,36 @@ function trustees_clear(_dispatch) {
   Trustee.clear(undefined);
 }
 
+function transactions_get(dispatch) {
+  fetch("" + Config.api_url + "/transactions").then(function (prim) {
+          return prim.json();
+        }).then(function (response) {
+        var jsons = Js_json.decodeArray(response);
+        if (jsons !== undefined) {
+          Belt_Array.map(jsons, (function (json) {
+                  var tx = Transaction.from_json(json);
+                  Curry._1(dispatch, {
+                        TAG: /* Transaction_Add */2,
+                        _0: tx
+                      });
+                }));
+          return ;
+        }
+        
+      });
+}
+
+function identities_get(dispatch) {
+  Identity.fetch_all(undefined).then(function (ids) {
+        return Belt_Array.map(ids, (function (id) {
+                      return Curry._1(dispatch, {
+                                  TAG: /* Identity_Add */1,
+                                  _0: id
+                                });
+                    }));
+      });
+}
+
 function transaction_broadcast(tx, _dispatch) {
   Transaction.broadcast(tx);
 }
@@ -156,6 +188,8 @@ export {
   identities_clear ,
   transactions_clear ,
   trustees_clear ,
+  transactions_get ,
+  identities_get ,
   transaction_broadcast ,
   goToUrl ,
   importIdentityFromUrl ,
