@@ -76,6 +76,10 @@ let reducer = (state, action: StateMsg.t) => {
     let contacts = Array.concat(state.contacts, [contact])
     ({...state, contacts}, [StateEffect.contacts_store(contacts)])
 
+  | Contact_Remove(index) =>
+    let contacts = Array.keepWithIndex(state.contacts, (_, i) => i != index)
+    ({...state, contacts}, [StateEffect.contacts_store(contacts)])
+
   | Cache_Election_Add(contentHash, election) =>
     let cached_elections =
       Map.String.set(state.cached_elections, contentHash, election)

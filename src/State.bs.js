@@ -137,7 +137,26 @@ function reducer(state, action) {
                       return StateEffect.contacts_store(contacts, param);
                     })]
               ];
-    case /* Cache_Election_Add */6 :
+    case /* Contact_Remove */6 :
+        var index = action._0;
+        var contacts$1 = Belt_Array.keepWithIndex(state.contacts, (function (param, i) {
+                return i !== index;
+              }));
+        return [
+                {
+                  txs: state.txs,
+                  ids: state.ids,
+                  trustees: state.trustees,
+                  contacts: contacts$1,
+                  route: state.route,
+                  cached_elections: state.cached_elections,
+                  cached_ballots: state.cached_ballots
+                },
+                [(function (param) {
+                      return StateEffect.contacts_store(contacts$1, param);
+                    })]
+              ];
+    case /* Cache_Election_Add */7 :
         var cached_elections = Belt_MapString.set(state.cached_elections, action._0, action._1);
         return [
                 {
@@ -151,7 +170,7 @@ function reducer(state, action) {
                 },
                 []
               ];
-    case /* Cache_Ballot_Add */7 :
+    case /* Cache_Ballot_Add */8 :
         var cached_ballots = Belt_MapString.set(state.cached_ballots, action._0, action._1);
         return [
                 {

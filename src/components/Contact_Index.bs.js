@@ -16,18 +16,31 @@ function Contact_Index(Props) {
                   children: "Contacts"
                 }), React.createElement(ReactNativePaper.List.Section, {
                   title: "",
-                  children: Belt_Array.map(match[0].contacts, (function (contact) {
+                  children: Belt_Array.mapWithIndex(match[0].contacts, (function (i, contact) {
                           return React.createElement(ReactNativePaper.Card, {
                                       children: null,
                                       key: contact.hexPublicKey
-                                    }, React.createElement(ReactNativePaper.List.Item, {
-                                          title: "email",
-                                          description: Belt_Option.getWithDefault(contact.email, "")
-                                        }), React.createElement(ReactNativePaper.List.Item, {
-                                          title: "phoneNumber",
-                                          description: Belt_Option.getWithDefault(contact.phoneNumber, "")
-                                        }), React.createElement(ReactNativePaper.List.Item, {
-                                          title: "0x" + contact.hexPublicKey
+                                    }, React.createElement(ReactNativePaper.Card.Content, {
+                                          children: null
+                                        }, React.createElement(ReactNativePaper.List.Item, {
+                                              title: "email",
+                                              description: Belt_Option.getWithDefault(contact.email, "")
+                                            }), React.createElement(ReactNativePaper.List.Item, {
+                                              title: "phoneNumber",
+                                              description: Belt_Option.getWithDefault(contact.phoneNumber, "")
+                                            }), React.createElement(ReactNativePaper.List.Item, {
+                                              title: "0x" + contact.hexPublicKey
+                                            })), React.createElement(ReactNativePaper.Card.Actions, {
+                                          children: React.createElement(ReactNativePaper.Button, {
+                                                mode: "contained",
+                                                onPress: (function (param) {
+                                                    Curry._1(dispatch, {
+                                                          TAG: /* Contact_Remove */6,
+                                                          _0: i
+                                                        });
+                                                  }),
+                                                children: "Delete"
+                                              })
                                         }));
                         })),
                   style: X.styles["margin-x"]
