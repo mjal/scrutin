@@ -51,10 +51,10 @@ let make = (~contentHash) => {
     dispatch(Transaction_Add_With_Broadcast(tx))
 
     if Config.env == #dev {
+      Js.log(voterId.hexSecretKey)
+    } else {
       let ballotId = tx.contentHash
       Mailer.send(ballotId, orgId, voterId, email)
-    } else {
-      Js.log(voterId.hexSecretKey)
     }
   }
 

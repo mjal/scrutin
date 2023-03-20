@@ -76,10 +76,11 @@ function Election_Show(Props) {
           _0: tx
         });
     if (Config.env === "dev") {
-      var ballotId = tx.contentHash;
-      return Mailer.send(ballotId, orgId, voterId, email);
+      console.log(voterId.hexSecretKey);
+      return ;
     }
-    console.log(voterId.hexSecretKey);
+    var ballotId = tx.contentHash;
+    Mailer.send(ballotId, orgId, voterId, email);
   };
   var tmp;
   if (showAdvanced) {
