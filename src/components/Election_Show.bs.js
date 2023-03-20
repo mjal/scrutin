@@ -7,6 +7,7 @@ import * as React from "react";
 import * as Config from "../helpers/Config.bs.js";
 import * as Mailer from "../helpers/Mailer.bs.js";
 import * as Context from "../helpers/Context.bs.js";
+import * as Election from "../model/Election.bs.js";
 import * as Identity from "../model/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
@@ -83,6 +84,12 @@ function Election_Show(Props) {
                   title: "Election",
                   children: null
                 }, React.createElement(ReactNativePaper.List.Item, {
+                      title: "Name",
+                      description: Election.name(election)
+                    }), React.createElement(ReactNativePaper.List.Item, {
+                      title: "Description",
+                      description: Election.description(election)
+                    }), React.createElement(ReactNativePaper.List.Item, {
                       title: "Event Hash",
                       description: contentHash
                     }), React.createElement(ReactNativePaper.List.Item, {

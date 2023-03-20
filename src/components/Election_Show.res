@@ -53,6 +53,11 @@ let make = (~contentHash) => {
   <>
     <List.Section title="Election">
 
+      <List.Item title="Name" description=Election.name(election) />
+
+      <List.Item title="Description"
+        description=Election.description(election) />
+
       <List.Item title="Event Hash" description=contentHash />
 
       {

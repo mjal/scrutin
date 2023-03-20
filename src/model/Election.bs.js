@@ -12,7 +12,22 @@ function make(name, description, choices, ownerPublicKey, trustee) {
         };
 }
 
+function answers(election) {
+  return Belenios.Election.answers(JSON.parse(election.params));
+}
+
+function name(election) {
+  return JSON.parse(election.params).name;
+}
+
+function description(election) {
+  return JSON.parse(election.params).description;
+}
+
 export {
   make ,
+  answers ,
+  name ,
+  description ,
 }
 /* Belenios Not a pure module */
