@@ -12,6 +12,7 @@ import * as Transaction from "../model/Transaction.bs.js";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
 import * as ElectionShow__AddByEmailButton from "./ElectionShow__AddByEmailButton.bs.js";
+import * as ElectionShow__AddContactButton from "./ElectionShow__AddContactButton.bs.js";
 
 function ElectionShow(Props) {
   var contentHash = Props.contentHash;
@@ -123,6 +124,8 @@ function ElectionShow(Props) {
                         style: X.styles.title,
                         children: "You are admin"
                       }), React.createElement(ElectionShow__AddByEmailButton.make, {
+                        contentHash: contentHash
+                      }), React.createElement(ElectionShow__AddContactButton.make, {
                         contentHash: contentHash
                       }), React.createElement(ReactNativePaper.Button, {
                         mode: "outlined",

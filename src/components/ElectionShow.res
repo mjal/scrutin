@@ -85,6 +85,8 @@ let make = (~contentHash) => {
 
         <ElectionShow__AddByEmailButton contentHash />
 
+        <ElectionShow__AddContactButton contentHash />
+
         <Button mode=#outlined onPress={_ =>
           Core.Election.tally(~electionEventHash=contentHash)(state, dispatch)
         }>

@@ -53,7 +53,7 @@ let make = (~contentHash) => {
       <Modal visible={showModal} onDismiss={_ => setshowModal(_ => false)}>
         <View style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]]) testID="choice-modal">
           <Title style=X.styles["title"]>
-            { "Invite someone" -> React.string }
+            { "Invite someone by email" -> React.string }
           </Title>
 
           <TextInput

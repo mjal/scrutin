@@ -98,7 +98,7 @@ function ElectionShow__AddByEmailButton(Props) {
                               children: null
                             }, React.createElement(ReactNativePaper.Title, {
                                   style: X.styles.title,
-                                  children: "Invite someone"
+                                  children: "Invite someone by email"
                                 }), React.createElement(ReactNativePaper.TextInput, {
                                   mode: "flat",
                                   autoFocus: true,
