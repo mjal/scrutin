@@ -4,16 +4,14 @@ import * as X from "../helpers/X.bs.js";
 import * as Core from "../Core.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
-import * as Config from "../helpers/Config.bs.js";
-import * as Mailer from "../helpers/Mailer.bs.js";
 import * as Context from "../helpers/Context.bs.js";
 import * as Election from "../model/Election.bs.js";
-import * as Identity from "../model/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Transaction from "../model/Transaction.bs.js";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
+import * as ElectionShow__AddByEmailButton from "./ElectionShow__AddByEmailButton.bs.js";
 
 function Election_Show(Props) {
   var contentHash = Props.contentHash;
@@ -21,20 +19,15 @@ function Election_Show(Props) {
   var dispatch = match[1];
   var state = match[0];
   var match$1 = React.useState(function () {
-        return "";
+        return false;
       });
-  var setEmail = match$1[1];
-  var email = match$1[0];
+  var setShowAdvanced = match$1[1];
+  var showAdvanced = match$1[0];
   var match$2 = React.useState(function () {
         return false;
       });
-  var setShowAdvanced = match$2[1];
-  var showAdvanced = match$2[0];
-  var match$3 = React.useState(function () {
-        return false;
-      });
-  var setShowBallots = match$3[1];
-  var showBallots = match$3[0];
+  var setShowBallots = match$2[1];
+  var showBallots = match$2[0];
   var election = Belt_MapString.getExn(state.cached_elections, contentHash);
   var publicKey = election.ownerPublicKey;
   var orgId = Belt_Array.getBy(state.ids, (function (id) {
@@ -52,42 +45,6 @@ function Election_Show(Props) {
           return Belt_Option.isSome(ballot.ciphertext);
         })).length;
   var progress = "" + String(nbBallotsWithCiphertext) + " votes / " + String(nbBallots) + "";
-  var addBallot = function (param) {
-    var voterId = Identity.make(undefined);
-    var contact_hexPublicKey = voterId.hexPublicKey;
-    var contact_email = email;
-    var contact = {
-      hexPublicKey: contact_hexPublicKey,
-      email: contact_email,
-      phoneNumber: undefined
-    };
-    Curry._1(dispatch, {
-          TAG: /* Contact_Add */5,
-          _0: contact
-        });
-    var ballot_electionPublicKey = election.ownerPublicKey;
-    var ballot_voterPublicKey = voterId.hexPublicKey;
-    var ballot = {
-      electionTx: contentHash,
-      previousTx: undefined,
-      electionPublicKey: ballot_electionPublicKey,
-      voterPublicKey: ballot_voterPublicKey,
-      ciphertext: undefined,
-      pubcred: undefined
-    };
-    var orgId$1 = Belt_Option.getExn(orgId);
-    var tx = Transaction.SignedBallot.make(ballot, orgId$1);
-    Curry._1(dispatch, {
-          TAG: /* Transaction_Add_With_Broadcast */3,
-          _0: tx
-        });
-    if (Config.env === "dev") {
-      console.log(voterId.hexSecretKey);
-      return ;
-    }
-    var ballotId = tx.contentHash;
-    Mailer.send(ballotId, orgId$1, voterId, email);
-  };
   var tmp;
   if (showAdvanced) {
     var onPress = function (param) {
@@ -165,22 +122,8 @@ function Election_Show(Props) {
                       }) : React.createElement(React.Fragment, undefined)), Belt_Option.isSome(orgId) ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
                         style: X.styles.title,
                         children: "You are admin"
-                      }), React.createElement(ReactNativePaper.Title, {
-                        style: X.styles.title,
-                        children: "Invite someone"
-                      }), React.createElement(ReactNativePaper.TextInput, {
-                        mode: "flat",
-                        label: "Email",
-                        value: email,
-                        onChangeText: (function (text) {
-                            Curry._1(setEmail, (function (param) {
-                                    return text;
-                                  }));
-                          })
-                      }), React.createElement(ReactNativePaper.Button, {
-                        mode: "outlined",
-                        onPress: addBallot,
-                        children: "Add as voter"
+                      }), React.createElement(ElectionShow__AddByEmailButton.make, {
+                        contentHash: contentHash
                       }), React.createElement(ReactNativePaper.Button, {
                         mode: "outlined",
                         onPress: (function (param) {

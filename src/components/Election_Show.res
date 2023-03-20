@@ -1,7 +1,6 @@
 @react.component
 let make = (~contentHash) => {
   let (state, dispatch) = Context.use()
-  let (email, setEmail) = React.useState(_ => "")
   let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
   let (showBallots, setShowBallots) = React.useState(_ => false)
   let election = Map.String.getExn(state.cached_elections, contentHash)
@@ -27,39 +26,6 @@ let make = (~contentHash) => {
   }) -> Array.length
 
   let progress  = `${nbBallotsWithCiphertext -> Int.toString} votes / ${nbBallots -> Int.toString}`
-
-  let addBallot = _ => {
-    let voterId = Identity.make()
-
-    let contact : Contact.t = {
-      hexPublicKey: voterId.hexPublicKey,
-      email: Some(email),
-      phoneNumber: None
-    }
-
-    dispatch(Contact_Add(contact))
-
-    let ballot : Ballot.t = {
-      electionTx: contentHash,
-      previousTx: None,
-      ciphertext: None,
-      pubcred: None,
-      electionPublicKey: election.ownerPublicKey,
-      voterPublicKey: voterId.hexPublicKey
-    }
-
-    let orgId = Option.getExn(orgId)
-
-    let tx = Transaction.SignedBallot.make(ballot, orgId)
-    dispatch(Transaction_Add_With_Broadcast(tx))
-
-    if Config.env == #dev {
-      Js.log(voterId.hexSecretKey)
-    } else {
-      let ballotId = tx.contentHash
-      Mailer.send(ballotId, orgId, voterId, email)
-    }
-  }
 
   <>
     <List.Section title="Election">
@@ -117,20 +83,7 @@ let make = (~contentHash) => {
           { "You are admin" -> React.string }
         </Title>
 
-        <Title style=X.styles["title"]>
-          { "Invite someone" -> React.string }
-        </Title>
-
-        <TextInput
-          mode=#flat
-          label="Email"
-		    	value=email
-          onChangeText={text => setEmail(_ => text)}
-        />
-
-        <Button mode=#outlined onPress=addBallot>
-          { "Add as voter" -> React.string }
-        </Button>
+        <ElectionShow__AddByEmailButton contentHash />
 
         <Button mode=#outlined onPress={_ =>
           Core.Election.tally(~electionEventHash=contentHash)(state, dispatch)
