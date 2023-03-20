@@ -1,5 +1,5 @@
 @react.component
-let make = (~contentHash) => {
+let make = (~contentHash) => { // Rename contentHash to id
   let (state, dispatch) = Context.use()
   let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
   let (showBallots, setShowBallots) = React.useState(_ => false)
@@ -10,6 +10,11 @@ let make = (~contentHash) => {
     id.hexPublicKey == election.ownerPublicKey
   })
 
+  let ballots = Map.String.keep(state.cached_ballots, (_id, ballot) =>
+    ballot.electionTx == contentHash
+  ) -> Map.String.toArray
+
+  /*
   let ballots =
     state.txs
     -> Array.keep((tx) => tx.type_ == #ballot)
@@ -17,15 +22,19 @@ let make = (~contentHash) => {
       let ballot = Transaction.SignedBallot.unwrap(tx)
       ballot.electionTx == contentHash
     })
+  */
 
   let nbBallots = Array.length(ballots)
 
-  let nbBallotsWithCiphertext = Array.keep(ballots, (tx) => {
-    let ballot = Transaction.SignedBallot.unwrap(tx)
+  let nbBallotsWithCiphertext = Array.keep(ballots, ((_id, ballot)) => {
     Option.isSome(ballot.ciphertext)
   }) -> Array.length
 
   let progress  = `${nbBallotsWithCiphertext -> Int.toString} votes / ${nbBallots -> Int.toString}`
+
+  let tally = Map.String.findFirstBy(state.cached_tallies, (_id, tally) =>
+    tally.electionTx == contentHash
+  ) -> Option.map(((_id, tally)) => tally)
 
   <>
     <List.Section title="Election">
@@ -34,6 +43,9 @@ let make = (~contentHash) => {
 
       <List.Item title="Description"
         description=Election.description(election) />
+
+      <List.Item title="Status"
+        description={Option.isSome(tally) ? "Finished" : "En cours"} />
 
       <Button mode=#outlined onPress={_ => setShowAdvanced(b => !b)}>
         { (showAdvanced ? "Hide advanced" : "Show advanced") -> React.string }
@@ -64,11 +76,10 @@ let make = (~contentHash) => {
       { if showBallots {
         <List.Section title=`${nbBallots -> Int.toString} ballots`>
         {
-          Array.map(ballots, (tx) => {
-            let _ballot = Transaction.SignedBallot.unwrap(tx)
-            <List.Item title=`Ballot ${tx.contentHash}`
-              key=tx.contentHash
-              onPress={_ => dispatch(Navigate(Ballot_Show(tx.contentHash)))}
+          Array.map(ballots, ((id, _ballot)) => {
+            <List.Item title=`Ballot ${id}`
+              key=id
+              onPress={_ => dispatch(Navigate(Ballot_Show(id)))}
             />
           }) -> React.array
         }
@@ -77,27 +88,31 @@ let make = (~contentHash) => {
 
     </List.Section>
 
-    { if Option.isSome(orgId) {
-      <>
-        <Title style=X.styles["title"]>
-          { "You are admin" -> React.string }
-        </Title>
+    { if Option.isSome(tally) {
+      <List.Item title="Result" description=Option.getExn(tally).result />
+    } else { if Option.isSome(orgId) {
+    <>
+      <Title style=X.styles["title"]>
+        { "You are admin" -> React.string }
+      </Title>
 
-        <ElectionShow__AddByEmailButton contentHash />
+      <ElectionShow__AddByEmailButton contentHash />
 
-        <ElectionShow__AddContactButton contentHash />
+      <ElectionShow__AddContactButton contentHash />
 
-        <Button mode=#outlined onPress={_ =>
-          Core.Election.tally(~electionEventHash=contentHash)(state, dispatch)
-        }>
-          { "Close election and tally" -> React.string }
-        </Button>
-      </>
+      <Button mode=#outlined onPress={_ =>
+        Core.Election.tally(~electionEventHash=contentHash)(state, dispatch)
+      }>
+        { "Close election and tally" -> React.string }
+      </Button>
+    </>
     } else {
+    <>
       <Title style=X.styles["title"]>
         { "You are not admin" -> React.string }
       </Title>
-    } }
+    </>
+    } } }
 
   </>
 }

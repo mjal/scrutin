@@ -7,7 +7,8 @@ let cache_update = (tx : Transaction.t) =>
       Transaction.SignedElection.unwrap(tx)))
     | #ballot => dispatch(StateMsg.Cache_Ballot_Add(tx.contentHash,
       Transaction.SignedBallot.unwrap(tx)))
-    | _ => ()
+    | #tally => dispatch(StateMsg.Cache_Tally_Add(tx.contentHash,
+      Transaction.SignedTally.unwrap(tx)))
     }
   }
 

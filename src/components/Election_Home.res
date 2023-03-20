@@ -2,6 +2,7 @@ module Election = {
   @react.component
   let make = (~eventHash, ~election:Election.t) => {
     let (_state, dispatch) = Context.use()
+    Js.log(eventHash)
     let electionParams = Belenios.Election.parse(election.params)
     let show = _ => dispatch(Navigate(Election_Show(eventHash)))
 
@@ -37,6 +38,8 @@ module Election = {
 let make = () => {
   let (state, dispatch) = Context.use()
 
+  Js.log(state.txs)
+  Js.log(state.cached_elections)
   <>
     <X.Title>{ "-" -> React.string }</X.Title>
     <Button mode=#contained onPress={_ => dispatch(Navigate(Election_New))}>

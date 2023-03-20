@@ -8,7 +8,6 @@ import * as Context from "../helpers/Context.bs.js";
 import * as Election from "../model/Election.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
-import * as Transaction from "../model/Transaction.bs.js";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
 import * as ElectionShow__AddByEmailButton from "./ElectionShow__AddByEmailButton.bs.js";
@@ -34,18 +33,19 @@ function ElectionShow(Props) {
   var orgId = Belt_Array.getBy(state.ids, (function (id) {
           return id.hexPublicKey === election.ownerPublicKey;
         }));
-  var ballots = Belt_Array.keep(Belt_Array.keep(state.txs, (function (tx) {
-              return tx.type_ === "ballot";
-            })), (function (tx) {
-          var ballot = Transaction.SignedBallot.unwrap(tx);
-          return ballot.electionTx === contentHash;
-        }));
+  var ballots = Belt_MapString.toArray(Belt_MapString.keep(state.cached_ballots, (function (_id, ballot) {
+              return ballot.electionTx === contentHash;
+            })));
   var nbBallots = ballots.length;
-  var nbBallotsWithCiphertext = Belt_Array.keep(ballots, (function (tx) {
-          var ballot = Transaction.SignedBallot.unwrap(tx);
-          return Belt_Option.isSome(ballot.ciphertext);
+  var nbBallotsWithCiphertext = Belt_Array.keep(ballots, (function (param) {
+          return Belt_Option.isSome(param[1].ciphertext);
         })).length;
   var progress = "" + String(nbBallotsWithCiphertext) + " votes / " + String(nbBallots) + "";
+  var tally = Belt_Option.map(Belt_MapString.findFirstBy(state.cached_tallies, (function (_id, tally) {
+              return tally.electionTx === contentHash;
+            })), (function (param) {
+          return param[1];
+        }));
   var tmp;
   if (showAdvanced) {
     var onPress = function (param) {
@@ -83,6 +83,9 @@ function ElectionShow(Props) {
                     }), React.createElement(ReactNativePaper.List.Item, {
                       title: "Description",
                       description: Election.description(election)
+                    }), React.createElement(ReactNativePaper.List.Item, {
+                      title: "Status",
+                      description: Belt_Option.isSome(tally) ? "Finished" : "En cours"
                     }), React.createElement(ReactNativePaper.Button, {
                       mode: "outlined",
                       onPress: (function (param) {
@@ -104,39 +107,44 @@ function ElectionShow(Props) {
                       children: showBallots ? "Hide ballots" : "Show ballots"
                     }), showBallots ? React.createElement(ReactNativePaper.List.Section, {
                         title: "" + String(nbBallots) + " ballots",
-                        children: Belt_Array.map(ballots, (function (tx) {
-                                Transaction.SignedBallot.unwrap(tx);
+                        children: Belt_Array.map(ballots, (function (param) {
+                                var id = param[0];
                                 return React.createElement(ReactNativePaper.List.Item, {
                                             onPress: (function (param) {
                                                 Curry._1(dispatch, {
                                                       TAG: /* Navigate */0,
                                                       _0: {
                                                         TAG: /* Ballot_Show */2,
-                                                        _0: tx.contentHash
+                                                        _0: id
                                                       }
                                                     });
                                               }),
-                                            title: "Ballot " + tx.contentHash + "",
-                                            key: tx.contentHash
+                                            title: "Ballot " + id + "",
+                                            key: id
                                           });
                               }))
-                      }) : React.createElement(React.Fragment, undefined)), Belt_Option.isSome(orgId) ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
-                        style: X.styles.title,
-                        children: "You are admin"
-                      }), React.createElement(ElectionShow__AddByEmailButton.make, {
-                        contentHash: contentHash
-                      }), React.createElement(ElectionShow__AddContactButton.make, {
-                        contentHash: contentHash
-                      }), React.createElement(ReactNativePaper.Button, {
-                        mode: "outlined",
-                        onPress: (function (param) {
-                            Core.Election.tally(contentHash, state, dispatch);
-                          }),
-                        children: "Close election and tally"
-                      })) : React.createElement(ReactNativePaper.Title, {
-                    style: X.styles.title,
-                    children: "You are not admin"
-                  }));
+                      }) : React.createElement(React.Fragment, undefined)), Belt_Option.isSome(tally) ? React.createElement(ReactNativePaper.List.Item, {
+                    title: "Result",
+                    description: Belt_Option.getExn(tally).result
+                  }) : (
+                Belt_Option.isSome(orgId) ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
+                            style: X.styles.title,
+                            children: "You are admin"
+                          }), React.createElement(ElectionShow__AddByEmailButton.make, {
+                            contentHash: contentHash
+                          }), React.createElement(ElectionShow__AddContactButton.make, {
+                            contentHash: contentHash
+                          }), React.createElement(ReactNativePaper.Button, {
+                            mode: "outlined",
+                            onPress: (function (param) {
+                                Core.Election.tally(contentHash, state, dispatch);
+                              }),
+                            children: "Close election and tally"
+                          })) : React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
+                            style: X.styles.title,
+                            children: "You are not admin"
+                          }))
+              ));
 }
 
 var make = ElectionShow;

@@ -38,8 +38,9 @@ let make = (~contentHash) => {
             { "Invite an existing contact" -> React.string }
           </Title>
 
-          { Array.map(state.contacts, (contact) => {
+          { Array.mapWithIndex(state.contacts, (i, contact) => {
             <List.Item
+              key=Int.toString(i)
               title=Option.getWithDefault(contact.email, "")
               onPress={_ => onSelect(contact)}
             />

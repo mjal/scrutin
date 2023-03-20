@@ -22,7 +22,8 @@ type t = {
 
   // Cache of elections and ballot for fast lookup
   cached_elections: Map.String.t<Election.t>,
-  cached_ballots:   Map.String.t<Ballot.t>
+  cached_ballots:   Map.String.t<Ballot.t>,
+  cached_tallies:   Map.String.t<ElectionTally.t>,
 }
 
 // The initial state of the application
@@ -34,6 +35,7 @@ let initial = {
   contacts: [],
   cached_elections: Map.String.empty,
   cached_ballots: Map.String.empty,
+  cached_tallies: Map.String.empty,
 }
 
 // The reducer, the only place where state mutations can happen
@@ -89,6 +91,11 @@ let reducer = (state, action: StateMsg.t) => {
     let cached_ballots =
       Map.String.set(state.cached_ballots, contentHash, ballot)
     ({...state, cached_ballots}, [])
+
+  | Cache_Tally_Add(contentHash, tally) =>
+    let cached_tallies =
+      Map.String.set(state.cached_tallies, contentHash, tally)
+    ({...state, cached_tallies}, [])
 
   | Navigate(route) =>
     ({...state, route}, [])

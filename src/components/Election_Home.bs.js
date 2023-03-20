@@ -13,6 +13,7 @@ function Election_Home$Election(Props) {
   var election = Props.election;
   var match = Context.use(undefined);
   var dispatch = match[1];
+  console.log(eventHash);
   var electionParams = JSON.parse(election.params);
   var show = function (param) {
     Curry._1(dispatch, {
@@ -52,6 +53,9 @@ var Election = {
 function Election_Home(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
+  var state = match[0];
+  console.log(state.txs);
+  console.log(state.cached_elections);
   return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
                   children: "-"
                 }), React.createElement(ReactNativePaper.Button, {
@@ -65,7 +69,7 @@ function Election_Home(Props) {
                   children: "Creer une nouvelle election"
                 }), React.createElement(X.Title.make, {
                   children: "-"
-                }), Belt_Array.map(Belt_MapString.toArray(match[0].cached_elections), (function (param) {
+                }), Belt_Array.map(Belt_MapString.toArray(state.cached_elections), (function (param) {
                     var eventHash = param[0];
                     return React.createElement(Election_Home$Election, {
                                 eventHash: eventHash,

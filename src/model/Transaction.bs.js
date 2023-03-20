@@ -2,6 +2,7 @@
 
 import * as X from "../helpers/X.bs.js";
 import * as Config from "../helpers/Config.bs.js";
+import * as Js_exn from "rescript/lib/es6/js_exn.js";
 import * as Identity from "./Identity.bs.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
@@ -60,7 +61,7 @@ function make$2(tally, owner) {
   var content = JSON.stringify(tally);
   var contentHash = SjclWithAll.codec.hex.fromBits(SjclWithAll.hash.sha256.hash(content));
   return {
-          type_: "election",
+          type_: "tally",
           content: content,
           contentHash: contentHash,
           publicKey: owner.hexPublicKey,
@@ -88,8 +89,11 @@ function from_json(json) {
           case "election" :
               type_ = "election";
               break;
+          case "tally" :
+              type_ = "tally";
+              break;
           default:
-            type_ = "election";
+            type_ = Js_exn.raiseError("Unknown transaction type");
         }
         return {
                 type_: type_,

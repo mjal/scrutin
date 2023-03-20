@@ -50,7 +50,7 @@ function ElectionShow__AddContactButton(Props) {
                             }, React.createElement(ReactNativePaper.Title, {
                                   style: X.styles.title,
                                   children: "Invite an existing contact"
-                                }), Belt_Array.map(state.contacts, (function (contact) {
+                                }), Belt_Array.mapWithIndex(state.contacts, (function (i, contact) {
                                     return React.createElement(ReactNativePaper.List.Item, {
                                                 onPress: (function (param) {
                                                     var ballot_electionPublicKey = election.ownerPublicKey;
@@ -72,7 +72,8 @@ function ElectionShow__AddContactButton(Props) {
                                                             return false;
                                                           }));
                                                   }),
-                                                title: Belt_Option.getWithDefault(contact.email, "")
+                                                title: Belt_Option.getWithDefault(contact.email, ""),
+                                                key: String(i)
                                               });
                                   })), React.createElement(ReactNativePaper.Button, {
                                   onPress: (function (param) {

@@ -73,7 +73,7 @@ module SignedTally = {
     let contentHash = hash(content)
     {
       content,
-      type_: #election,
+      type_: #tally,
       contentHash,
       publicKey: owner.hexPublicKey,
       signature: Identity.signHex(owner, contentHash)
@@ -98,7 +98,8 @@ let from_json = (json) => {
     let type_ = switch field.required(. "type_", string) {
     | "election" => #election
     | "ballot" => #ballot
-    | _ => #election // TODO: Js.Exn
+    | "tally" => #tally
+    | _ => Js.Exn.raiseError("Unknown transaction type")
     }
     {
       type_,

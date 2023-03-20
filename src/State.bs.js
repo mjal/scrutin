@@ -19,7 +19,8 @@ var initial = {
   contacts: initial_contacts,
   route: /* Home_Elections */0,
   cached_elections: undefined,
-  cached_ballots: undefined
+  cached_ballots: undefined,
+  cached_tallies: undefined
 };
 
 function reducer(state, action) {
@@ -46,7 +47,8 @@ function reducer(state, action) {
                   contacts: state.contacts,
                   route: action._0,
                   cached_elections: state.cached_elections,
-                  cached_ballots: state.cached_ballots
+                  cached_ballots: state.cached_ballots,
+                  cached_tallies: state.cached_tallies
                 },
                 []
               ];
@@ -60,7 +62,8 @@ function reducer(state, action) {
                   contacts: state.contacts,
                   route: state.route,
                   cached_elections: state.cached_elections,
-                  cached_ballots: state.cached_ballots
+                  cached_ballots: state.cached_ballots,
+                  cached_tallies: state.cached_tallies
                 },
                 [(function (param) {
                       return StateEffect.identities_store(ids, param);
@@ -77,7 +80,8 @@ function reducer(state, action) {
                   contacts: state.contacts,
                   route: state.route,
                   cached_elections: state.cached_elections,
-                  cached_ballots: state.cached_ballots
+                  cached_ballots: state.cached_ballots,
+                  cached_tallies: state.cached_tallies
                 },
                 [(function (param) {
                       return StateEffect.cache_update(tx, param);
@@ -94,7 +98,8 @@ function reducer(state, action) {
                   contacts: state.contacts,
                   route: state.route,
                   cached_elections: state.cached_elections,
-                  cached_ballots: state.cached_ballots
+                  cached_ballots: state.cached_ballots,
+                  cached_tallies: state.cached_tallies
                 },
                 [
                   (function (param) {
@@ -115,7 +120,8 @@ function reducer(state, action) {
                   contacts: state.contacts,
                   route: state.route,
                   cached_elections: state.cached_elections,
-                  cached_ballots: state.cached_ballots
+                  cached_ballots: state.cached_ballots,
+                  cached_tallies: state.cached_tallies
                 },
                 [(function (param) {
                       return StateEffect.trustees_store(trustees, param);
@@ -131,7 +137,8 @@ function reducer(state, action) {
                   contacts: contacts,
                   route: state.route,
                   cached_elections: state.cached_elections,
-                  cached_ballots: state.cached_ballots
+                  cached_ballots: state.cached_ballots,
+                  cached_tallies: state.cached_tallies
                 },
                 [(function (param) {
                       return StateEffect.contacts_store(contacts, param);
@@ -150,7 +157,8 @@ function reducer(state, action) {
                   contacts: contacts$1,
                   route: state.route,
                   cached_elections: state.cached_elections,
-                  cached_ballots: state.cached_ballots
+                  cached_ballots: state.cached_ballots,
+                  cached_tallies: state.cached_tallies
                 },
                 [(function (param) {
                       return StateEffect.contacts_store(contacts$1, param);
@@ -166,7 +174,8 @@ function reducer(state, action) {
                   contacts: state.contacts,
                   route: state.route,
                   cached_elections: cached_elections,
-                  cached_ballots: state.cached_ballots
+                  cached_ballots: state.cached_ballots,
+                  cached_tallies: state.cached_tallies
                 },
                 []
               ];
@@ -180,7 +189,23 @@ function reducer(state, action) {
                   contacts: state.contacts,
                   route: state.route,
                   cached_elections: state.cached_elections,
-                  cached_ballots: cached_ballots
+                  cached_ballots: cached_ballots,
+                  cached_tallies: state.cached_tallies
+                },
+                []
+              ];
+    case /* Cache_Tally_Add */9 :
+        var cached_tallies = Belt_MapString.set(state.cached_tallies, action._0, action._1);
+        return [
+                {
+                  txs: state.txs,
+                  ids: state.ids,
+                  trustees: state.trustees,
+                  contacts: state.contacts,
+                  route: state.route,
+                  cached_elections: state.cached_elections,
+                  cached_ballots: state.cached_ballots,
+                  cached_tallies: cached_tallies
                 },
                 []
               ];
