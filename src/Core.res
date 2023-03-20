@@ -86,7 +86,7 @@ module Election = {
         -> Array.map((ciphertext) => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
 
       // HACK: Fetch the public creds stored in the ballots.
-      // We don't need this but it is needed for Belenios.
+      // We don't need this but it is needed by Belenios.
       // (for every ballot we generate a new private credential)
       let pubcreds =
         ballots
