@@ -81,6 +81,10 @@ module Election = {
     questions: array<question_t>
   }
 
+  type results_t = {
+    result: array<array<int>>
+  }
+
   external parse: (string) => t = "JSON.parse"
   external stringify: (t) => string = "JSON.stringify"
 
@@ -92,7 +96,12 @@ module Election = {
   let create = (~name, ~description, ~choices, ~trustees) => parse(_create(~name, ~description, ~choices, ~trustees))
   let vote    = (o) => _vote(stringify(o))
   let decrypt = (o) => _decrypt(stringify(o))
+
+  external parseResults : (string) => results_t = "JSON.parse"
   let result  = (o) => _result(stringify(o))
+
+  let scores : (string) => array<int> = (s) =>
+    Option.getExn(parseResults(s).result[0])
 
   let answers = (params) =>
     Array.getExn(params.questions, 0).answers

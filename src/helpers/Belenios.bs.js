@@ -2,6 +2,7 @@
 
 import * as Belenios from "./belenios";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 
 function create(prim0, prim1) {
   return Belenios.belenios.makeCredentials(prim0, prim1);
@@ -90,6 +91,10 @@ function result(o) {
   };
 }
 
+function scores(s) {
+  return Belt_Option.getExn(Belt_Array.get(JSON.parse(s).result, 0));
+}
+
 function answers(params) {
   return Belt_Array.getExn(params.questions, 0).answers;
 }
@@ -103,6 +108,7 @@ var Election = {
   vote: vote,
   decrypt: decrypt,
   result: result,
+  scores: scores,
   answers: answers
 };
 

@@ -174,7 +174,6 @@ function importIdentityFromUrl(dispatch) {
   }
   var currentHash = $$URL.getCurrentHash(undefined);
   var hexSecretKey = $$String.sub(currentHash, 1, currentHash.length - 1 | 0);
-  console.log(hexSecretKey);
   Curry._1(dispatch, {
         TAG: /* Identity_Add */1,
         _0: Identity.make2(hexSecretKey)

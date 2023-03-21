@@ -1,5 +1,5 @@
 @react.component
-let make = (~contentHash) => { // Rename contentHash to id
+let make = (~contentHash) => { // TODO: Rename contentHash to id
   let (state, dispatch) = Context.use()
   let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
   let (showBallots, setShowBallots) = React.useState(_ => false)
@@ -89,29 +89,12 @@ let make = (~contentHash) => { // Rename contentHash to id
     </List.Section>
 
     { if Option.isSome(tally) {
-    <>
-      <List.Item title="Result" description=Option.getExn(tally).result />
-      {
-        let data = [1,2]
-        let pieData = Array.mapWithIndex(data, (i, e) => {
-          let color = (i == 0 ? "#ff0000" : "#00ff00")
-          PieChart.Datum.make(~value=e, ~key=`pie-${Int.toString(e)}`, ~color)
-        })
-        Js.log(pieData)
-
-        let styles = {
-          open Style
-          StyleSheet.create({
-            "200": viewStyle(
-              ~height=dp(200.0),
-              ()
-            )
-          })
-        }
-
-        <PieChart style=styles["200"] data=pieData />
-      }
-    </>
+      let result = Option.getExn(tally).result
+      let data = Belenios.Election.scores(result)
+      <>
+        <List.Item title="Result" description=Option.getExn(tally).result />
+        <ElectionShow__ResultChart data />
+      </>
     } else { if Option.isSome(orgId) {
     <>
       <Title style=X.styles["title"]>

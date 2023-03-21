@@ -1,10 +1,9 @@
 module Election = {
   @react.component
-  let make = (~eventHash, ~election:Election.t) => {
+  let make = (~id, ~election:Election.t) => {
     let (_state, dispatch) = Context.use()
-    Js.log(eventHash)
     let electionParams = Belenios.Election.parse(election.params)
-    let show = _ => dispatch(Navigate(Election_Show(eventHash)))
+    let show = _ => dispatch(Navigate(Election_Show(id)))
 
     <Card>
       <Card.Content>
@@ -38,8 +37,6 @@ module Election = {
 let make = () => {
   let (state, dispatch) = Context.use()
 
-  Js.log(state.txs)
-  Js.log(state.cached_elections)
   <>
     <X.Title>{ "-" -> React.string }</X.Title>
     <Button mode=#contained onPress={_ => dispatch(Navigate(Election_New))}>
@@ -48,8 +45,8 @@ let make = () => {
     <X.Title>{ "-" -> React.string }</X.Title>
     { state.cached_elections
       -> Map.String.toArray
-      -> Array.map(((eventHash, election)) => {
-        <Election eventHash election key=eventHash />
+      -> Array.map(((id, election)) => {
+        <Election id election key=id />
     }) -> React.array }
     <X.Title>{ "-" -> React.string }</X.Title>
   </>

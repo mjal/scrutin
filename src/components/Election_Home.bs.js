@@ -9,18 +9,17 @@ import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function Election_Home$Election(Props) {
-  var eventHash = Props.eventHash;
+  var id = Props.id;
   var election = Props.election;
   var match = Context.use(undefined);
   var dispatch = match[1];
-  console.log(eventHash);
   var electionParams = JSON.parse(election.params);
   var show = function (param) {
     Curry._1(dispatch, {
           TAG: /* Navigate */0,
           _0: {
             TAG: /* Election_Show */0,
-            _0: eventHash
+            _0: id
           }
         });
   };
@@ -53,9 +52,6 @@ var Election = {
 function Election_Home(Props) {
   var match = Context.use(undefined);
   var dispatch = match[1];
-  var state = match[0];
-  console.log(state.txs);
-  console.log(state.cached_elections);
   return React.createElement(React.Fragment, undefined, React.createElement(X.Title.make, {
                   children: "-"
                 }), React.createElement(ReactNativePaper.Button, {
@@ -69,12 +65,12 @@ function Election_Home(Props) {
                   children: "Creer une nouvelle election"
                 }), React.createElement(X.Title.make, {
                   children: "-"
-                }), Belt_Array.map(Belt_MapString.toArray(state.cached_elections), (function (param) {
-                    var eventHash = param[0];
+                }), Belt_Array.map(Belt_MapString.toArray(match[0].cached_elections), (function (param) {
+                    var id = param[0];
                     return React.createElement(Election_Home$Election, {
-                                eventHash: eventHash,
+                                id: id,
                                 election: param[1],
-                                key: eventHash
+                                key: id
                               });
                   })), React.createElement(X.Title.make, {
                   children: "-"
