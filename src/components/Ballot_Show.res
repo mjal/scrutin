@@ -3,8 +3,7 @@ let make = (~contentHash) => {
   let (state, dispatch) = Context.use()
   let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
 
-  let ballot = Map.String.getExn(state.cached_ballots, contentHash)
-
+  let ballot = State.getBallot(state, contentHash)
   let ciphertext = Option.getWithDefault(ballot.ciphertext, "")
 
     <List.Section title="Ballot">

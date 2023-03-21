@@ -3,7 +3,7 @@ let make = (~contentHash) => {
   let (state, dispatch) = Context.use()
   let (showModal, setshowModal) = React.useState(_ => false);
 
-  let election = Map.String.getExn(state.cached_elections, contentHash)
+  let election = State.getElection(state, contentHash)
 
   let orgId = Array.getBy(state.ids, (id) => {
     id.hexPublicKey == election.ownerPublicKey

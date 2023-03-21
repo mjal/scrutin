@@ -2,6 +2,7 @@
 
 import * as X from "../helpers/X.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
+import * as State from "../State.bs.js";
 import * as React from "react";
 import * as Config from "../helpers/Config.bs.js";
 import * as Mailer from "../helpers/Mailer.bs.js";
@@ -11,7 +12,6 @@ import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Transaction from "../model/Transaction.bs.js";
 import * as ReactNative from "react-native";
-import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function ElectionShow__AddByEmailButton(Props) {
@@ -28,7 +28,7 @@ function ElectionShow__AddByEmailButton(Props) {
         return false;
       });
   var setshowModal = match$2[1];
-  var election = Belt_MapString.getExn(state.cached_elections, contentHash);
+  var election = State.getElection(state, contentHash);
   var orgId = Belt_Option.getExn(Belt_Array.getBy(state.ids, (function (id) {
               return id.hexPublicKey === election.ownerPublicKey;
             })));

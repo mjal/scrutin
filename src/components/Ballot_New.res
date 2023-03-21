@@ -15,8 +15,8 @@ let make = (~ballotTx) => {
   let (state, dispatch) = Context.use()
   let (choice, setChoice) = React.useState(_ => None)
 
-  let ballot = state -> State.getBallot(ballotTx)
-  let election = state -> State.getElection(ballot.electionTx)
+  let ballot = State.getBallot(state, ballotTx)
+  let election = State.getElection(state, ballot.electionTx)
 
   let owner = Array.getBy(state.ids, (id) => {
     ballot.voterPublicKey == id.hexPublicKey

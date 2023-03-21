@@ -3,10 +3,8 @@ let make = (~contentHash) => { // TODO: Rename contentHash to id
   let (state, dispatch) = Context.use()
   let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
   let (showBallots, setShowBallots) = React.useState(_ => false)
-  let election = Map.String.getExn(state.cached_elections, contentHash)
-  let publicKey = election.ownerPublicKey
-  let choices  = Belenios.Election.answers(
-    Belenios.Election.parse(election.params))
+
+  let election = State.getElection(state, contentHash)
 
   let orgId = Array.getBy(state.ids, (id) => {
     id.hexPublicKey == election.ownerPublicKey
@@ -36,7 +34,7 @@ let make = (~contentHash) => { // TODO: Rename contentHash to id
         description=Election.description(election) />
 
       <List.Section title="Choix">
-      { Array.mapWithIndex(choices, (i, name) => {
+      { Array.mapWithIndex(Election.choices(election), (i, name) => {
         <List.Item title=name key=Int.toString(i) />
       }) -> React.array }
       </List.Section>
@@ -53,8 +51,10 @@ let make = (~contentHash) => { // TODO: Rename contentHash to id
         <List.Item title="Event Hash" description=contentHash />
 
         {
-          let onPress = _ => dispatch(Navigate(Identity_Show(publicKey)))
-          <List.Item title="Owner Public Key" onPress description=publicKey />
+          let onPress = _ =>
+            dispatch(Navigate(Identity_Show(election.ownerPublicKey)))
+          <List.Item title="Owner Public Key" onPress
+            description=election.ownerPublicKey />
         }
 
         <List.Item title="Params" description=election.params />

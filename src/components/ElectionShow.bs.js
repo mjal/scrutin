@@ -3,6 +3,7 @@
 import * as X from "../helpers/X.bs.js";
 import * as Core from "../Core.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
+import * as State from "../State.bs.js";
 import * as React from "react";
 import * as Context from "../helpers/Context.bs.js";
 import * as Belenios from "../helpers/Belenios.bs.js";
@@ -30,9 +31,7 @@ function ElectionShow(Props) {
       });
   var setShowBallots = match$2[1];
   var showBallots = match$2[0];
-  var election = Belt_MapString.getExn(state.cached_elections, contentHash);
-  var publicKey = election.ownerPublicKey;
-  var choices = Belenios.Election.answers(JSON.parse(election.params));
+  var election = State.getElection(state, contentHash);
   var orgId = Belt_Array.getBy(state.ids, (function (id) {
           return id.hexPublicKey === election.ownerPublicKey;
         }));
@@ -56,7 +55,7 @@ function ElectionShow(Props) {
             TAG: /* Navigate */0,
             _0: {
               TAG: /* Identity_Show */1,
-              _0: publicKey
+              _0: election.ownerPublicKey
             }
           });
     };
@@ -66,7 +65,7 @@ function ElectionShow(Props) {
             }), React.createElement(ReactNativePaper.List.Item, {
               onPress: onPress,
               title: "Owner Public Key",
-              description: publicKey
+              description: election.ownerPublicKey
             }), React.createElement(ReactNativePaper.List.Item, {
               title: "Params",
               description: election.params
@@ -114,7 +113,7 @@ function ElectionShow(Props) {
                       description: Election.description(election)
                     }), React.createElement(ReactNativePaper.List.Section, {
                       title: "Choix",
-                      children: Belt_Array.mapWithIndex(choices, (function (i, name) {
+                      children: Belt_Array.mapWithIndex(Election.choices(election), (function (i, name) {
                               return React.createElement(ReactNativePaper.List.Item, {
                                           title: name,
                                           key: String(i)
