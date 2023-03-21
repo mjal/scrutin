@@ -6,7 +6,7 @@ sequenceDiagram
   participant Election
   participant Voters
 
-  Organisers->>Election: CreateElection
+  Organisers->>Election: Create
   Voters->>Election: Vote
   Organisers->>Election: Tally
 	Voters->>Election: Verify
