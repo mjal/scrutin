@@ -90,7 +90,7 @@ let make = (~electionId) => {
       let data = Belenios.Election.scores(result)
       <>
         <List.Item title="Result" description=Option.getExn(tally).result />
-        <ElectionShow__ResultChart data />
+        //<ElectionShow__ResultChart data />
       </>
     } else { if Option.isSome(orgId) {
     <>
