@@ -213,8 +213,18 @@ function reducer(state, action) {
   }
 }
 
+function getBallot(state, id) {
+  return Belt_MapString.getExn(state.cached_ballots, id);
+}
+
+function getElection(state, id) {
+  return Belt_MapString.getExn(state.cached_elections, id);
+}
+
 export {
   initial ,
   reducer ,
+  getBallot ,
+  getElection ,
 }
 /* StateEffect Not a pure module */

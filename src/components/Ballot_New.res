@@ -13,16 +13,15 @@ module Choice = {
 @react.component
 let make = (~ballotTx) => {
   let (state, dispatch) = Context.use()
-  let ballot = Map.String.getExn(state.cached_ballots, ballotTx)
-  let election = Map.String.getExn(state.cached_elections, ballot.electionTx)
-  let answers  = Belenios.Election.answers(Belenios.Election.parse(election.params))
-  let nbChoices = Array.length(answers)
   let (choice, setChoice) = React.useState(_ => None)
+
+  let ballot = state -> State.getBallot(ballotTx)
+  let election = state -> State.getElection(ballot.electionTx)
 
   <>
     <List.Section title="Choices">
     {
-      Array.mapWithIndex(answers, (i, choiceName) => {
+      Array.mapWithIndex(Election.choices(election), (i, choiceName) => {
         let selected = choice == Some(i) 
 
         <Choice name=choiceName selected key=Int.toString(i)
@@ -32,6 +31,7 @@ let make = (~ballotTx) => {
     </List.Section>
 
     <Button mode=#contained onPress={_ => {
+      let nbChoices = Array.length(Election.choices(election))
       Core.Ballot.vote(~ballot, ~choice, ~nbChoices)(state, dispatch)
     }}>{ "Voter" -> React.string }</Button>
   </>

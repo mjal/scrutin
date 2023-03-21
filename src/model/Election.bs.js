@@ -24,9 +24,12 @@ function description(election) {
   return JSON.parse(election.params).description;
 }
 
+var choices = answers;
+
 export {
   make ,
   answers ,
+  choices ,
   name ,
   description ,
 }

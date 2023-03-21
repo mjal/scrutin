@@ -22,6 +22,7 @@ let make = (name, description, choices, ownerPublicKey, trustee:Trustee.t) => {
 
 let answers = (election) =>
   Belenios.Election.answers(Belenios.Election.parse(election.params))
+let choices = answers
 
 let name = (election) =>
   Belenios.Election.parse(election.params).name

@@ -102,3 +102,6 @@ let reducer = (state, action: StateMsg.t) => {
 
   }
 }
+
+let getBallot   = (state, id) => Map.String.getExn(state.cached_ballots, id)
+let getElection = (state, id) => Map.String.getExn(state.cached_elections, id)
