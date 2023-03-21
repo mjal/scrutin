@@ -18,21 +18,32 @@ let make = (~ballotTx) => {
   let ballot = state -> State.getBallot(ballotTx)
   let election = state -> State.getElection(ballot.electionTx)
 
-  <>
-    <List.Section title="Choices">
-    {
-      Array.mapWithIndex(Election.choices(election), (i, choiceName) => {
-        let selected = choice == Some(i) 
+  let owner = Array.getBy(state.ids, (id) => {
+    ballot.voterPublicKey == id.hexPublicKey
+  })
 
-        <Choice name=choiceName selected key=Int.toString(i)
-          onSelect={_ => setChoice(_ => Some(i))} />
-      }) -> React.array
-    }
-    </List.Section>
+  switch owner {
+  | Some(_owner) =>
+    <>
+      <List.Section title="Choices">
+      {
+        Array.mapWithIndex(Election.choices(election), (i, choiceName) => {
+          let selected = choice == Some(i) 
 
-    <Button mode=#contained onPress={_ => {
-      let nbChoices = Array.length(Election.choices(election))
-      Core.Ballot.vote(~ballot, ~choice, ~nbChoices)(state, dispatch)
-    }}>{ "Voter" -> React.string }</Button>
-  </>
+          <Choice name=choiceName selected key=Int.toString(i)
+            onSelect={_ => setChoice(_ => Some(i))} />
+        }) -> React.array
+      }
+      </List.Section>
+
+      <Button mode=#contained onPress={_ => {
+        let nbChoices = Array.length(Election.choices(election))
+        Core.Ballot.vote(~ballot, ~choice, ~nbChoices)(state, dispatch)
+      }}>{ "Voter" -> React.string }</Button>
+    </>
+  | None =>
+    <Title style=X.styles["title"]>
+      { "You don't have voting right" -> React.string }
+    </Title>
+  }
 }
