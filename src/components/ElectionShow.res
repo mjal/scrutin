@@ -14,16 +14,6 @@ let make = (~contentHash) => { // TODO: Rename contentHash to id
     ballot.electionTx == contentHash
   ) -> Map.String.toArray
 
-  /*
-  let ballots =
-    state.txs
-    -> Array.keep((tx) => tx.type_ == #ballot)
-    -> Array.keep((tx) => {
-      let ballot = Transaction.SignedBallot.unwrap(tx)
-      ballot.electionTx == contentHash
-    })
-  */
-
   let nbBallots = Array.length(ballots)
 
   let nbBallotsWithCiphertext = Array.keep(ballots, ((_id, ballot)) => {
