@@ -32,6 +32,7 @@ function ElectionShow(Props) {
   var showBallots = match$2[0];
   var election = Belt_MapString.getExn(state.cached_elections, contentHash);
   var publicKey = election.ownerPublicKey;
+  var choices = Belenios.Election.answers(JSON.parse(election.params));
   var orgId = Belt_Array.getBy(state.ids, (function (id) {
           return id.hexPublicKey === election.ownerPublicKey;
         }));
@@ -42,7 +43,7 @@ function ElectionShow(Props) {
   var nbBallotsWithCiphertext = Belt_Array.keep(ballots, (function (param) {
           return Belt_Option.isSome(param[1].ciphertext);
         })).length;
-  var progress = "" + String(nbBallotsWithCiphertext) + " votes / " + String(nbBallots) + "";
+  var progress = "" + String(nbBallotsWithCiphertext) + " / " + String(nbBallots) + "";
   var tally = Belt_Option.map(Belt_MapString.findFirstBy(state.cached_tallies, (function (_id, tally) {
               return tally.electionTx === contentHash;
             })), (function (param) {
@@ -106,14 +107,19 @@ function ElectionShow(Props) {
               }));
   }
   return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.List.Section, {
-                  title: "Election",
+                  title: "",
                   children: null
                 }, React.createElement(ReactNativePaper.List.Item, {
-                      title: "Name",
-                      description: Election.name(election)
-                    }), React.createElement(ReactNativePaper.List.Item, {
-                      title: "Description",
+                      title: Election.name(election),
                       description: Election.description(election)
+                    }), React.createElement(ReactNativePaper.List.Section, {
+                      title: "Choix",
+                      children: Belt_Array.mapWithIndex(choices, (function (i, name) {
+                              return React.createElement(ReactNativePaper.List.Item, {
+                                          title: name,
+                                          key: String(i)
+                                        });
+                            }))
                     }), React.createElement(ReactNativePaper.List.Item, {
                       title: "Status",
                       description: Belt_Option.isSome(tally) ? "Finished" : "En cours"

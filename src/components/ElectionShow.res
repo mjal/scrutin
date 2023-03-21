@@ -5,6 +5,8 @@ let make = (~contentHash) => { // TODO: Rename contentHash to id
   let (showBallots, setShowBallots) = React.useState(_ => false)
   let election = Map.String.getExn(state.cached_elections, contentHash)
   let publicKey = election.ownerPublicKey
+  let choices  = Belenios.Election.answers(
+    Belenios.Election.parse(election.params))
 
   let orgId = Array.getBy(state.ids, (id) => {
     id.hexPublicKey == election.ownerPublicKey
@@ -20,19 +22,24 @@ let make = (~contentHash) => { // TODO: Rename contentHash to id
     Option.isSome(ballot.ciphertext)
   }) -> Array.length
 
-  let progress  = `${nbBallotsWithCiphertext -> Int.toString} votes / ${nbBallots -> Int.toString}`
+  let progress  = `${nbBallotsWithCiphertext -> Int.toString} / ${nbBallots -> Int.toString}`
 
   let tally = Map.String.findFirstBy(state.cached_tallies, (_id, tally) =>
     tally.electionTx == contentHash
   ) -> Option.map(((_id, tally)) => tally)
 
   <>
-    <List.Section title="Election">
+    <List.Section title="">
 
-      <List.Item title="Name" description=Election.name(election) />
-
-      <List.Item title="Description"
+      <List.Item
+        title=Election.name(election)
         description=Election.description(election) />
+
+      <List.Section title="Choix">
+      { Array.mapWithIndex(choices, (i, name) => {
+        <List.Item title=name key=Int.toString(i) />
+      }) -> React.array }
+      </List.Section>
 
       <List.Item title="Status"
         description={Option.isSome(tally) ? "Finished" : "En cours"} />
