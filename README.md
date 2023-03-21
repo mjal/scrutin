@@ -41,8 +41,6 @@ sequenceDiagram
 
 - [ ] Extract rescript-sjcl
 
-## [Explanation](https://github.com/scrutin-app/scrutin/tree/main/docs/README.md)
-
 ## Annotated source code
 
 main | models
