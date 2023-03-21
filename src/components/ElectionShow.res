@@ -49,18 +49,18 @@ let make = (~contentHash) => { // TODO: Rename contentHash to id
       </Button>
 
       { if showAdvanced {
-        <>
-          <List.Item title="Event Hash" description=contentHash />
+      <>
+        <List.Item title="Event Hash" description=contentHash />
 
-          {
-            let onPress = _ => dispatch(Navigate(Identity_Show(publicKey)))
-            <List.Item title="Owner Public Key" onPress description=publicKey />
-          }
+        {
+          let onPress = _ => dispatch(Navigate(Identity_Show(publicKey)))
+          <List.Item title="Owner Public Key" onPress description=publicKey />
+        }
 
-          <List.Item title="Params" description=election.params />
+        <List.Item title="Params" description=election.params />
 
-          <List.Item title="Trustees" description=election.trustees />
-        </>
+        <List.Item title="Trustees" description=election.trustees />
+      </>
       } else { <></> } }
 
       <List.Item title="Ballot transactions"

@@ -12,15 +12,17 @@ function Ballot_Show(Props) {
   var contentHash = Props.contentHash;
   var match = Context.use(undefined);
   var dispatch = match[1];
+  var match$1 = React.useState(function () {
+        return false;
+      });
+  var setShowAdvanced = match$1[1];
+  var showAdvanced = match$1[0];
   var ballot = Belt_MapString.getExn(match[0].cached_ballots, contentHash);
   var ciphertext = Belt_Option.getWithDefault(ballot.ciphertext, "");
   return React.createElement(ReactNativePaper.List.Section, {
               title: "Ballot",
               children: null
             }, React.createElement(ReactNativePaper.List.Item, {
-                  title: "Event Hash",
-                  description: contentHash
-                }), React.createElement(ReactNativePaper.List.Item, {
                   onPress: (function (param) {
                       Curry._1(dispatch, {
                             TAG: /* Navigate */0,
@@ -32,34 +34,57 @@ function Ballot_Show(Props) {
                     }),
                   title: "Election",
                   description: ballot.electionTx
-                }), React.createElement(ReactNativePaper.List.Item, {
-                  title: "Previous transaction",
-                  description: Belt_Option.getWithDefault(ballot.previousTx, "")
-                }), React.createElement(ReactNativePaper.List.Item, {
+                }), React.createElement(ReactNativePaper.Button, {
+                  mode: "outlined",
                   onPress: (function (param) {
-                      Curry._1(dispatch, {
-                            TAG: /* Navigate */0,
-                            _0: {
-                              TAG: /* Identity_Show */1,
-                              _0: ballot.voterPublicKey
-                            }
-                          });
+                      Curry._1(setShowAdvanced, (function (b) {
+                              return !b;
+                            }));
                     }),
-                  title: "Voter",
-                  description: ballot.voterPublicKey
-                }), React.createElement(ReactNativePaper.List.Item, {
-                  onPress: (function (param) {
-                      Curry._1(dispatch, {
-                            TAG: /* Navigate */0,
-                            _0: {
-                              TAG: /* Election_Show */0,
-                              _0: ciphertext
-                            }
-                          });
-                    }),
-                  title: "Ciphertext",
-                  description: ciphertext
-                }), React.createElement(Ballot_New.make, {
+                  children: showAdvanced ? "Hide advanced" : "Show advanced"
+                }), showAdvanced ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.List.Item, {
+                        title: "Event Hash",
+                        description: contentHash
+                      }), React.createElement(ReactNativePaper.List.Item, {
+                        onPress: (function (param) {
+                            Curry._1(dispatch, {
+                                  TAG: /* Navigate */0,
+                                  _0: {
+                                    TAG: /* Election_Show */0,
+                                    _0: ballot.electionTx
+                                  }
+                                });
+                          }),
+                        title: "Election",
+                        description: ballot.electionTx
+                      }), React.createElement(ReactNativePaper.List.Item, {
+                        title: "Previous transaction",
+                        description: Belt_Option.getWithDefault(ballot.previousTx, "")
+                      }), React.createElement(ReactNativePaper.List.Item, {
+                        onPress: (function (param) {
+                            Curry._1(dispatch, {
+                                  TAG: /* Navigate */0,
+                                  _0: {
+                                    TAG: /* Identity_Show */1,
+                                    _0: ballot.voterPublicKey
+                                  }
+                                });
+                          }),
+                        title: "Voter",
+                        description: ballot.voterPublicKey
+                      }), React.createElement(ReactNativePaper.List.Item, {
+                        onPress: (function (param) {
+                            Curry._1(dispatch, {
+                                  TAG: /* Navigate */0,
+                                  _0: {
+                                    TAG: /* Election_Show */0,
+                                    _0: ciphertext
+                                  }
+                                });
+                          }),
+                        title: "Ciphertext",
+                        description: ciphertext
+                      })) : React.createElement(React.Fragment, undefined), React.createElement(Ballot_New.make, {
                   ballotTx: contentHash
                 }));
 }
