@@ -17,6 +17,7 @@
   "bs-dependencies": [
     "rescript-react-native-async-storage",
     "@rescript-react-native/paper",
+    "@rescript-react-native/svg",
     "@rescript/react",
     "@ryyppy/rescript-promise",
     "rescript-json-combinators",

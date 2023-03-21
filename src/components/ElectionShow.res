@@ -89,7 +89,18 @@ let make = (~contentHash) => { // Rename contentHash to id
     </List.Section>
 
     { if Option.isSome(tally) {
+    <>
       <List.Item title="Result" description=Option.getExn(tally).result />
+      {
+        open! ReactNativeSvg
+        let dp = Style.dp
+        let pct = Style.pct
+        <Svg height=pct(50.0) width=pct(50.0) viewBox="0 0 100 100">
+          <Circle cx=dp(50.0) cy=dp(50.0) r=dp(45.0) stroke="blue" strokeWidth=dp(2.5) fill="green" />
+          <Rect x=dp(15.0) y=dp(15.0) width=dp(70.0) height=dp(70.0) stroke="red" strokeWidth=dp(2.0) fill="yellow" />
+        </Svg>
+      }
+    </>
     } else { if Option.isSome(orgId) {
     <>
       <Title style=X.styles["title"]>
