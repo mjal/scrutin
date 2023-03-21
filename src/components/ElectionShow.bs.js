@@ -14,7 +14,6 @@ import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
 import * as ElectionShow__ResultChart from "./ElectionShow__ResultChart.bs.js";
 import * as ElectionShow__AddByEmailButton from "./ElectionShow__AddByEmailButton.bs.js";
-import * as ElectionShow__AddContactButton from "./ElectionShow__AddContactButton.bs.js";
 
 function ElectionShow(Props) {
   var electionId = Props.electionId;
@@ -91,8 +90,6 @@ function ElectionShow(Props) {
                 style: X.styles.title,
                 children: "You are admin"
               }), React.createElement(ElectionShow__AddByEmailButton.make, {
-                electionId: electionId
-              }), React.createElement(ElectionShow__AddContactButton.make, {
                 electionId: electionId
               }), React.createElement(ReactNativePaper.Button, {
                 mode: "outlined",

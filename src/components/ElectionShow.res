@@ -100,7 +100,7 @@ let make = (~electionId) => {
 
       <ElectionShow__AddByEmailButton electionId />
 
-      <ElectionShow__AddContactButton electionId />
+      //<ElectionShow__AddContactButton electionId />
 
       <Button mode=#outlined onPress={_ =>
         Core.Election.tally(~electionId)(state, dispatch)
