@@ -90,6 +90,11 @@
                 </a>
               
                 
+                <a class="source" href="helpers/PieChart.html">
+                  src/helpers/PieChart.res
+                </a>
+              
+                
                 <a class="source" href="helpers/Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -117,6 +122,11 @@
                 
                 <a class="source" href="model/Election.html">
                   src/model/Election.res
+                </a>
+              
+                
+                <a class="source" href="model/ElectionTally.html">
+                  src/model/ElectionTally.res
                 </a>
               
                 
@@ -343,7 +353,7 @@ If we don’t have any, create a new one</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Transaction</span>_Add(transaction))</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Transaction</span>_Add_With_Broadcast(transaction))</pre></div></div>
             
         </li>
         
@@ -447,7 +457,7 @@ If we don’t have any, create a new one</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>  ) =&gt; {
-    <span class="hljs-function">(<span class="hljs-params">state: State.t, _dispatch</span>) =&gt;</span> {</pre></div></div>
+    <span class="hljs-function">(<span class="hljs-params">state: State.t, dispatch</span>) =&gt;</span> {</pre></div></div>
             
         </li>
         
@@ -552,7 +562,7 @@ TODO:Only take the latest from the chain</p>
                 <a class="ss" href="#section-26">&#x00a7;</a>
               </div>
               <p>HACK: Fetch the public creds stored in the ballots.
-We don’t need this but it is needed for Belenios.
+We don’t need this but it is needed by Belenios.
 (for every ballot we generate a new private credential)</p>
 
             </div>
@@ -565,12 +575,14 @@ We don’t need this but it is needed for Belenios.
         -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">keep</span>(<span class="hljs-function">(<span class="hljs-params">pubcred</span>) =&gt;</span> pubcred != <span class="hljs-string">&quot;&quot;</span>)
 
       <span class="hljs-keyword">let</span> (a, b) = <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Election</span>.<span class="hljs-title function_">decrypt</span>(params, ciphertexts, trustees, pubcreds, privkey)
-      <span class="hljs-keyword">let</span> _res = <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Election</span>.<span class="hljs-title function_">result</span>(params, ciphertexts, trustees, pubcreds, a, b)
-    }
-  }
-}
+      <span class="hljs-keyword">let</span> result = <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Election</span>.<span class="hljs-title function_">result</span>(params, ciphertexts, trustees, pubcreds, a, b)
 
-<span class="hljs-variable language_">module</span> <span class="hljs-title class_">Ballot</span> = {</pre></div></div>
+      <span class="hljs-keyword">let</span> tally : <span class="hljs-title class_">ElectionTally</span>.<span class="hljs-property">t</span> = {
+        <span class="hljs-attr">electionTx</span>: electionEventHash,
+        <span class="hljs-attr">a</span>: <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">PartialDecryption</span>.<span class="hljs-title function_">to_s1</span>(a),
+        <span class="hljs-attr">b</span>: <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">PartialDecryption</span>.<span class="hljs-title function_">to_s2</span>(b),
+        result
+      }</pre></div></div>
             
         </li>
         
@@ -581,9 +593,22 @@ We don’t need this but it is needed for Belenios.
               <div class="sswrap ">
                 <a class="ss" href="#section-27">&#x00a7;</a>
               </div>
-              <hr>
+              <p>Lookup for the owner identity in the cache</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">let</span> owner = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">getBy</span>(state.<span class="hljs-property">ids</span>, <span class="hljs-function">(<span class="hljs-params">id</span>) =&gt;</span> {
+        election.<span class="hljs-property">ownerPublicKey</span> == id.<span class="hljs-property">hexPublicKey</span>
+      }) -&gt; <span class="hljs-title class_">Option</span>.<span class="hljs-property">getExn</span>
+
+      <span class="hljs-keyword">let</span> tx = <span class="hljs-title class_">Transaction</span>.<span class="hljs-property">SignedTally</span>.<span class="hljs-title function_">make</span>(tally, owner)
+
+      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Transaction</span>_Add_With_Broadcast(tx))
+    }
+  }
+}
+
+<span class="hljs-variable language_">module</span> <span class="hljs-title class_">Ballot</span> = {</pre></div></div>
             
         </li>
         
@@ -593,6 +618,19 @@ We don’t need this but it is needed for Belenios.
               
               <div class="sswrap ">
                 <a class="ss" href="#section-28">&#x00a7;</a>
+              </div>
+              <hr>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-29">&#x00a7;</a>
               </div>
               <h4 id="ballotemit">Ballot.emit</h4>
 <p>TODO: Extract from Election_Show.res</p>
@@ -605,29 +643,15 @@ We don’t need this but it is needed for Belenios.
         </li>
         
         
-        <li id="section-29">
-            <div class="annotation">
-              
-              <div class="sswrap ">
-                <a class="ss" href="#section-29">&#x00a7;</a>
-              </div>
-              <hr>
-
-            </div>
-            
-        </li>
-        
-        
         <li id="section-30">
             <div class="annotation">
               
               <div class="sswrap ">
                 <a class="ss" href="#section-30">&#x00a7;</a>
               </div>
-              
+              <hr>
+
             </div>
-            
-            <div class="content"><div class='highlight'><pre>    (_state, _dispatch) =&gt; {</pre></div></div>
             
         </li>
         
@@ -637,6 +661,20 @@ We don’t need this but it is needed for Belenios.
               
               <div class="sswrap ">
                 <a class="ss" href="#section-31">&#x00a7;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    (_state, _dispatch) =&gt; {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-32">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-32">&#x00a7;</a>
               </div>
               <p>Nothing for now</p>
 
@@ -649,11 +687,11 @@ We don’t need this but it is needed for Belenios.
         </li>
         
         
-        <li id="section-32">
+        <li id="section-33">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-32">&#x00a7;</a>
+                <a class="ss" href="#section-33">&#x00a7;</a>
               </div>
               <hr>
 
@@ -662,11 +700,11 @@ We don’t need this but it is needed for Belenios.
         </li>
         
         
-        <li id="section-33">
+        <li id="section-34">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-33">&#x00a7;</a>
+                <a class="ss" href="#section-34">&#x00a7;</a>
               </div>
               <h4 id="ballotvote">Ballot.vote</h4>
 <p>Cast a vote</p>
@@ -678,11 +716,11 @@ We don’t need this but it is needed for Belenios.
         </li>
         
         
-        <li id="section-34">
+        <li id="section-35">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-34">&#x00a7;</a>
+                <a class="ss" href="#section-35">&#x00a7;</a>
               </div>
               <p><strong>ballot</strong>: TODO</p>
 
@@ -693,11 +731,11 @@ We don’t need this but it is needed for Belenios.
         </li>
         
         
-        <li id="section-35">
+        <li id="section-36">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-35">&#x00a7;</a>
+                <a class="ss" href="#section-36">&#x00a7;</a>
               </div>
               <p><strong>choice</strong>: The selected option.<br />
 Options are indexed starting at 0 to (nbChoices - 1)</p>
@@ -709,11 +747,11 @@ Options are indexed starting at 0 to (nbChoices - 1)</p>
         </li>
         
         
-        <li id="section-36">
+        <li id="section-37">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-36">&#x00a7;</a>
+                <a class="ss" href="#section-37">&#x00a7;</a>
               </div>
               <p><strong>nbChoices</strong>: The number of options available.<br />
 This is also the upper bound to <strong>choice</strong></p>
@@ -726,29 +764,15 @@ This is also the upper bound to <strong>choice</strong></p>
         </li>
         
         
-        <li id="section-37">
-            <div class="annotation">
-              
-              <div class="sswrap ">
-                <a class="ss" href="#section-37">&#x00a7;</a>
-              </div>
-              <hr>
-
-            </div>
-            
-        </li>
-        
-        
         <li id="section-38">
             <div class="annotation">
               
               <div class="sswrap ">
                 <a class="ss" href="#section-38">&#x00a7;</a>
               </div>
-              
+              <hr>
+
             </div>
-            
-            <div class="content"><div class='highlight'><pre>    (<span class="hljs-attr">state</span>: <span class="hljs-title class_">State</span>.<span class="hljs-property">t</span>, dispatch) =&gt; {</pre></div></div>
             
         </li>
         
@@ -758,6 +782,20 @@ This is also the upper bound to <strong>choice</strong></p>
               
               <div class="sswrap ">
                 <a class="ss" href="#section-39">&#x00a7;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    (<span class="hljs-attr">state</span>: <span class="hljs-title class_">State</span>.<span class="hljs-property">t</span>, dispatch) =&gt; {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-40">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-40">&#x00a7;</a>
               </div>
               <p>Transform the choice index to an array of 0 and 1 for every options</p>
 
@@ -770,11 +808,11 @@ This is also the upper bound to <strong>choice</strong></p>
         </li>
         
         
-        <li id="section-40">
+        <li id="section-41">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-40">&#x00a7;</a>
+                <a class="ss" href="#section-41">&#x00a7;</a>
               </div>
               <p>Fetch the election from cache</p>
 
@@ -786,11 +824,11 @@ This is also the upper bound to <strong>choice</strong></p>
         </li>
         
         
-        <li id="section-41">
+        <li id="section-42">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-41">&#x00a7;</a>
+                <a class="ss" href="#section-42">&#x00a7;</a>
               </div>
               <p>Create a ballot expressing that choice</p>
 
@@ -801,11 +839,11 @@ This is also the upper bound to <strong>choice</strong></p>
         </li>
         
         
-        <li id="section-42">
+        <li id="section-43">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-42">&#x00a7;</a>
+                <a class="ss" href="#section-43">&#x00a7;</a>
               </div>
               <p>Lookup for the voter identity in the cache</p>
 
@@ -818,11 +856,11 @@ This is also the upper bound to <strong>choice</strong></p>
         </li>
         
         
-        <li id="section-43">
+        <li id="section-44">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-43">&#x00a7;</a>
+                <a class="ss" href="#section-44">&#x00a7;</a>
               </div>
               <p>Wrap it into a transaction</p>
 
@@ -833,26 +871,26 @@ This is also the upper bound to <strong>choice</strong></p>
         </li>
         
         
-        <li id="section-44">
-            <div class="annotation">
-              
-              <div class="sswrap ">
-                <a class="ss" href="#section-44">&#x00a7;</a>
-              </div>
-              <p>Add the new transaction<br /></p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Transaction</span>_Add(tx))</pre></div></div>
-            
-        </li>
-        
-        
         <li id="section-45">
             <div class="annotation">
               
               <div class="sswrap ">
                 <a class="ss" href="#section-45">&#x00a7;</a>
+              </div>
+              <p>Add the new transaction<br /></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Transaction</span>_Add_With_Broadcast(tx))</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-46">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-46">&#x00a7;</a>
               </div>
               <p>Go the ballot page</p>
 

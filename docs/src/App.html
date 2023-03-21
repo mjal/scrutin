@@ -90,6 +90,11 @@
                 </a>
               
                 
+                <a class="source" href="helpers/PieChart.html">
+                  src/helpers/PieChart.res
+                </a>
+              
+                
                 <a class="source" href="helpers/Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -117,6 +122,11 @@
                 
                 <a class="source" href="model/Election.html">
                   src/model/Election.res
+                </a>
+              
+                
+                <a class="source" href="model/ElectionTally.html">
+                  src/model/ElectionTally.res
                 </a>
               
                 
@@ -177,18 +187,32 @@
     | <span class="hljs-function"><span class="hljs-params">Home_Identities</span>   =&gt;</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Identity_Home</span> /&gt;</span></span>
     | <span class="hljs-function"><span class="hljs-params">Home_Trustees</span>     =&gt;</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Trustee_Home</span> /&gt;</span></span>
     | <span class="hljs-function"><span class="hljs-params">Home_Transactions</span> =&gt;</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Transaction_Home</span> /&gt;</span></span>
+    | <span class="hljs-function"><span class="hljs-params">Contact_Index</span>     =&gt;</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Contact_Index</span> /&gt;</span></span>
 
-    | <span class="hljs-function"><span class="hljs-params">Election_New</span> =&gt;</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Election_New</span> /&gt;</span></span>
-    | <span class="hljs-title class_">Election</span>_Show(contentHash) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Election_Show</span> <span class="hljs-attr">contentHash</span> /&gt;</span></span>
+    | <span class="hljs-function"><span class="hljs-params">Election_New</span> =&gt;</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ElectionNew</span> /&gt;</span></span>
+    | <span class="hljs-title class_">Election</span>_Show(contentHash) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ElectionShow</span> <span class="hljs-attr">contentHash</span> /&gt;</span></span>
 
     | <span class="hljs-title class_">Ballot</span>_Show(contentHash) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Ballot_Show</span> <span class="hljs-attr">contentHash</span> /&gt;</span></span>
 
     | <span class="hljs-title class_">Identity</span>_Show(publicKey) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Identity_Show</span> <span class="hljs-attr">publicKey</span> /&gt;</span></span>
 
-    } }
+    | <span class="hljs-function"><span class="hljs-params">Settings</span> =&gt;</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Settings_View</span> /&gt;</span></span>
+    } }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-2">&#x00a7;</a>
+              </div>
+              <Navigation />
 
-    &lt;<span class="hljs-title class_">Navigation</span> /&gt;
-
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
   &lt;/<span class="hljs-title class_">Layout</span>&gt;
 }</pre></div></div>
             

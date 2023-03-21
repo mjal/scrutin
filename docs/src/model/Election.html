@@ -90,6 +90,11 @@
                 </a>
               
                 
+                <a class="source" href="../helpers/PieChart.html">
+                  src/helpers/PieChart.res
+                </a>
+              
+                
                 <a class="source" href="../helpers/Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -117,6 +122,11 @@
                 
                 <a class="source" href="Election.html">
                   src/model/Election.res
+                </a>
+              
+                
+                <a class="source" href="ElectionTally.html">
+                  src/model/ElectionTally.res
                 </a>
               
                 
@@ -178,7 +188,17 @@ external <span class="hljs-attr">stringify</span>:       <span class="hljs-funct
     <span class="hljs-attr">trustees</span>: <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Trustees</span>.<span class="hljs-title function_">to_str</span>(trustees),
     ownerPublicKey
   }
-}</pre></div></div>
+}
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">answers</span> = (<span class="hljs-params">election</span>) =&gt;
+  <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Election</span>.<span class="hljs-title function_">answers</span>(<span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Election</span>.<span class="hljs-title function_">parse</span>(election.<span class="hljs-property">params</span>))
+<span class="hljs-keyword">let</span> choices = answers
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">name</span> = (<span class="hljs-params">election</span>) =&gt;
+  <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Election</span>.<span class="hljs-title function_">parse</span>(election.<span class="hljs-property">params</span>).<span class="hljs-property">name</span>
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">description</span> = (<span class="hljs-params">election</span>) =&gt;
+  <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Election</span>.<span class="hljs-title function_">parse</span>(election.<span class="hljs-property">params</span>).<span class="hljs-property">description</span></pre></div></div>
             
         </li>
         

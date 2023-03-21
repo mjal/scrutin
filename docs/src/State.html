@@ -90,6 +90,11 @@
                 </a>
               
                 
+                <a class="source" href="helpers/PieChart.html">
+                  src/helpers/PieChart.res
+                </a>
+              
+                
                 <a class="source" href="helpers/Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -117,6 +122,11 @@
                 
                 <a class="source" href="model/Election.html">
                   src/model/Election.res
+                </a>
+              
+                
+                <a class="source" href="model/ElectionTally.html">
+                  src/model/ElectionTally.res
                 </a>
               
                 
@@ -255,7 +265,8 @@ that works on web and native)</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>  <span class="hljs-attr">cached_elections</span>: <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-property">t</span>&lt;<span class="hljs-title class_">Election</span>.<span class="hljs-property">t</span>&gt;,
-  <span class="hljs-attr">cached_ballots</span>:   <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-property">t</span>&lt;<span class="hljs-title class_">Ballot</span>.<span class="hljs-property">t</span>&gt;
+  <span class="hljs-attr">cached_ballots</span>:   <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-property">t</span>&lt;<span class="hljs-title class_">Ballot</span>.<span class="hljs-property">t</span>&gt;,
+  <span class="hljs-attr">cached_tallies</span>:   <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-property">t</span>&lt;<span class="hljs-title class_">ElectionTally</span>.<span class="hljs-property">t</span>&gt;,
 }</pre></div></div>
             
         </li>
@@ -279,6 +290,7 @@ that works on web and native)</p>
   <span class="hljs-attr">contacts</span>: [],
   <span class="hljs-attr">cached_elections</span>: <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-property">empty</span>,
   <span class="hljs-attr">cached_ballots</span>: <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-property">empty</span>,
+  <span class="hljs-attr">cached_tallies</span>: <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-property">empty</span>,
 }</pre></div></div>
             
         </li>
@@ -299,9 +311,24 @@ that works on web and native)</p>
 
   | <span class="hljs-function"><span class="hljs-params">Reset</span> =&gt;</span>
     (initial, [
-      <span class="hljs-title class_">StateEffect</span>.<span class="hljs-property">identities_fetch</span>,
-      <span class="hljs-title class_">StateEffect</span>.<span class="hljs-property">transactions_fetch</span>,
+      <span class="hljs-title class_">StateEffect</span>.<span class="hljs-property">identities_fetch</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-10">&#x00a7;</a>
+              </div>
+              <p>StateEffect.transactions_fetch,</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-title class_">StateEffect</span>.<span class="hljs-property">transactions_get</span>,
       <span class="hljs-title class_">StateEffect</span>.<span class="hljs-property">trustees_fetch</span>,
+      <span class="hljs-title class_">StateEffect</span>.<span class="hljs-property">contacts_fetch</span>,
       <span class="hljs-title class_">StateEffect</span>.<span class="hljs-property">goToUrl</span>,
       <span class="hljs-title class_">StateEffect</span>.<span class="hljs-property">importIdentityFromUrl</span>,
     ])
@@ -313,13 +340,27 @@ that works on web and native)</p>
   | <span class="hljs-title class_">Transaction</span>_Add(tx) =&gt;
     <span class="hljs-keyword">let</span> txs = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">concat</span>(state.<span class="hljs-property">txs</span>, [tx])
     ({...state, txs}, [
-      <span class="hljs-title class_">StateEffect</span>.<span class="hljs-title function_">transactions_store</span>(txs),
-      <span class="hljs-title class_">StateEffect</span>.<span class="hljs-title function_">cache_update</span>(tx)
+      <span class="hljs-title class_">StateEffect</span>.<span class="hljs-title function_">cache_update</span>(tx),
+    ])
+
+  | <span class="hljs-title class_">Transaction</span>_Add_With_Broadcast(tx) =&gt;
+    <span class="hljs-keyword">let</span> txs = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">concat</span>(state.<span class="hljs-property">txs</span>, [tx])
+    ({...state, txs}, [
+      <span class="hljs-title class_">StateEffect</span>.<span class="hljs-title function_">transaction_broadcast</span>(tx),
+      <span class="hljs-title class_">StateEffect</span>.<span class="hljs-title function_">cache_update</span>(tx),
     ])
 
   | <span class="hljs-title class_">Trustee</span>_Add(trustee) =&gt;
     <span class="hljs-keyword">let</span> trustees = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">concat</span>(state.<span class="hljs-property">trustees</span>, [trustee])
     ({...state, trustees}, [<span class="hljs-title class_">StateEffect</span>.<span class="hljs-title function_">trustees_store</span>(trustees)])
+
+  | <span class="hljs-title class_">Contact</span>_Add(contact) =&gt;
+    <span class="hljs-keyword">let</span> contacts = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">concat</span>(state.<span class="hljs-property">contacts</span>, [contact])
+    ({...state, contacts}, [<span class="hljs-title class_">StateEffect</span>.<span class="hljs-title function_">contacts_store</span>(contacts)])
+
+  | <span class="hljs-title class_">Contact</span>_Remove(index) =&gt;
+    <span class="hljs-keyword">let</span> contacts = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">keepWithIndex</span>(state.<span class="hljs-property">contacts</span>, <span class="hljs-function">(<span class="hljs-params">_, i</span>) =&gt;</span> i != index)
+    ({...state, contacts}, [<span class="hljs-title class_">StateEffect</span>.<span class="hljs-title function_">contacts_store</span>(contacts)])
 
   | <span class="hljs-title class_">Cache</span>_Election_Add(contentHash, election) =&gt;
     <span class="hljs-keyword">let</span> cached_elections =
@@ -331,11 +372,19 @@ that works on web and native)</p>
       <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-title function_">set</span>(state.<span class="hljs-property">cached_ballots</span>, contentHash, ballot)
     ({...state, cached_ballots}, [])
 
+  | <span class="hljs-title class_">Cache</span>_Tally_Add(contentHash, tally) =&gt;
+    <span class="hljs-keyword">let</span> cached_tallies =
+      <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-title function_">set</span>(state.<span class="hljs-property">cached_tallies</span>, contentHash, tally)
+    ({...state, cached_tallies}, [])
+
   | <span class="hljs-title class_">Navigate</span>(route) =&gt;
     ({...state, route}, [])
 
   }
-}</pre></div></div>
+}
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">getBallot</span>   = (<span class="hljs-params">state, id</span>) =&gt; <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-title function_">getExn</span>(state.<span class="hljs-property">cached_ballots</span>, id)
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">getElection</span> = (<span class="hljs-params">state, id</span>) =&gt; <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-title function_">getExn</span>(state.<span class="hljs-property">cached_elections</span>, id)</pre></div></div>
             
         </li>
         

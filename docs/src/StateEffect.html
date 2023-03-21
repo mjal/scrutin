@@ -90,6 +90,11 @@
                 </a>
               
                 
+                <a class="source" href="helpers/PieChart.html">
+                  src/helpers/PieChart.res
+                </a>
+              
+                
                 <a class="source" href="helpers/Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -117,6 +122,11 @@
                 
                 <a class="source" href="model/Election.html">
                   src/model/Election.res
+                </a>
+              
+                
+                <a class="source" href="model/ElectionTally.html">
+                  src/model/ElectionTally.res
                 </a>
               
                 
@@ -167,6 +177,8 @@
       <span class="hljs-title class_">Transaction</span>.<span class="hljs-property">SignedElection</span>.<span class="hljs-title function_">unwrap</span>(tx)))
     | #ballot =&gt; <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Cache</span>_Ballot_Add(tx.<span class="hljs-property">contentHash</span>,
       <span class="hljs-title class_">Transaction</span>.<span class="hljs-property">SignedBallot</span>.<span class="hljs-title function_">unwrap</span>(tx)))
+    | #tally =&gt; <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Cache</span>_Tally_Add(tx.<span class="hljs-property">contentHash</span>,
+      <span class="hljs-title class_">Transaction</span>.<span class="hljs-property">SignedTally</span>.<span class="hljs-title function_">unwrap</span>(tx)))
     }
   }</pre></div></div>
             
@@ -186,7 +198,8 @@
             <div class="content"><div class='highlight'><pre>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">identities_store</span> = (<span class="hljs-params">ids</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span> <span class="hljs-title class_">Identity</span>.<span class="hljs-title function_">store_all</span>(ids)
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">transactions_store</span> = (<span class="hljs-params">txs</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span> <span class="hljs-title class_">Transaction</span>.<span class="hljs-title function_">store_all</span>(txs)
-<span class="hljs-keyword">let</span> <span class="hljs-title function_">trustees_store</span> = (<span class="hljs-params">trustees</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span> <span class="hljs-title class_">Trustee</span>.<span class="hljs-title function_">store_all</span>(trustees)</pre></div></div>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">trustees_store</span> = (<span class="hljs-params">trustees</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span> <span class="hljs-title class_">Trustee</span>.<span class="hljs-title function_">store_all</span>(trustees)
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">contacts_store</span> = (<span class="hljs-params">contacts</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span> <span class="hljs-title class_">Contact</span>.<span class="hljs-title function_">store_all</span>(contacts)</pre></div></div>
             
         </li>
         
@@ -232,8 +245,15 @@
 
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">trustees_fetch</span> = (<span class="hljs-params">dispatch</span>) =&gt; {
   <span class="hljs-title class_">Trustee</span>.<span class="hljs-title function_">fetch_all</span>()
-  -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">thenResolve</span>(<span class="hljs-function">(<span class="hljs-params">txs</span>) =&gt;</span> {
-    <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">map</span>(txs, <span class="hljs-function">(<span class="hljs-params">tx</span>) =&gt;</span> <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Trustee</span>_Add(tx)))
+  -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">thenResolve</span>(<span class="hljs-function">(<span class="hljs-params">os</span>) =&gt;</span> {
+    <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">map</span>(os, <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Trustee</span>_Add(o)))
+  }) -&gt; ignore
+}
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">contacts_fetch</span> = (<span class="hljs-params">dispatch</span>) =&gt; {
+  <span class="hljs-title class_">Contact</span>.<span class="hljs-title function_">fetch_all</span>()
+  -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">thenResolve</span>(<span class="hljs-function">(<span class="hljs-params">os</span>) =&gt;</span> {
+    <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">map</span>(os, <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Contact</span>_Add(o)))
   }) -&gt; ignore
 }</pre></div></div>
             
@@ -264,6 +284,78 @@
               <div class="sswrap ">
                 <a class="ss" href="#section-6">&#x00a7;</a>
               </div>
+              <h2 id="network---get">Network - Get</h2>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">transactions_get</span> = (<span class="hljs-params">dispatch</span>) =&gt; {
+  <span class="hljs-title class_">Webapi</span>.<span class="hljs-property">Fetch</span>.<span class="hljs-title function_">fetch</span>(j<span class="hljs-string">`<span class="hljs-subst">${Config.api_url}</span>/transactions`</span>)
+  -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">then</span>(<span class="hljs-title class_">Webapi</span>.<span class="hljs-property">Fetch</span>.<span class="hljs-property">Response</span>.<span class="hljs-property">json</span>)
+  -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">thenResolve</span>(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
+    <span class="hljs-keyword">switch</span> <span class="hljs-title class_">Js</span>.<span class="hljs-property">Json</span>.<span class="hljs-title function_">decodeArray</span>(<span class="hljs-params">response</span>) {
+      | <span class="hljs-title class_">Some</span>(jsons) =&gt; {
+        <span class="hljs-keyword">let</span> _ = <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">map</span>(jsons, <span class="hljs-function">(<span class="hljs-params">json</span>) =&gt;</span> {
+          <span class="hljs-keyword">let</span> tx = <span class="hljs-title class_">Transaction</span>.<span class="hljs-title function_">from_json</span>(json)
+          <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Transaction</span>_Add(tx))
+          ()
+        })
+        ()
+      }
+      | <span class="hljs-function"><span class="hljs-params">None</span> =&gt;</span> ()
+    }
+  }) -&gt; ignore
+
+}
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">identities_get</span> = (<span class="hljs-params">dispatch</span>) =&gt; {
+  <span class="hljs-title class_">Identity</span>.<span class="hljs-title function_">fetch_all</span>()
+  -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">thenResolve</span>(<span class="hljs-function">(<span class="hljs-params">ids</span>) =&gt;</span> {
+    <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">map</span>(ids, <span class="hljs-function">(<span class="hljs-params">id</span>) =&gt;</span> <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Identity</span>_Add(id)))</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-7">&#x00a7;</a>
+              </div>
+              <p>FIX: Identity_Add call identites_store as an effect…</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  }) -&gt; ignore
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-8">&#x00a7;</a>
+              </div>
+              <h2 id="send-transaction-to-the-server">Send transaction to the server</h2>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">let</span> <span class="hljs-title function_">transaction_broadcast</span> = (<span class="hljs-params">tx</span>) =&gt;
+  <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span> {
+    <span class="hljs-title class_">Transaction</span>.<span class="hljs-title function_">broadcast</span>(tx) -&gt; ignore
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-9">&#x00a7;</a>
+              </div>
               <h2 id="redirect-based-on-url">Redirect based on url</h2>
 
             </div>
@@ -284,11 +376,11 @@
         </li>
         
         
-        <li id="section-7">
+        <li id="section-10">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-7">&#x00a7;</a>
+                <a class="ss" href="#section-10">&#x00a7;</a>
               </div>
               <h2 id="save-secret-keys-passed-by-url-hash">Save secret keys passed by url #hash</h2>
 
@@ -300,7 +392,6 @@
     <span class="hljs-keyword">let</span> currentHash = <span class="hljs-variable constant_">URL</span>.<span class="hljs-title function_">getCurrentHash</span>()
     <span class="hljs-keyword">let</span> hexSecretKey = <span class="hljs-title class_">String</span>.<span class="hljs-title function_">sub</span>(currentHash, <span class="hljs-number">1</span>,
       <span class="hljs-title class_">String</span>.<span class="hljs-title function_">length</span>(currentHash) - <span class="hljs-number">1</span>)
-    <span class="hljs-title class_">Js</span>.<span class="hljs-title function_">log</span>(hexSecretKey)
     <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Identity</span>_Add(<span class="hljs-title class_">Identity</span>.<span class="hljs-title function_">make2</span>(~hexSecretKey)))
   }
 }</pre></div></div>

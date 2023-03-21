@@ -90,6 +90,11 @@
                 </a>
               
                 
+                <a class="source" href="PieChart.html">
+                  src/helpers/PieChart.res
+                </a>
+              
+                
                 <a class="source" href="Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -117,6 +122,11 @@
                 
                 <a class="source" href="../model/Election.html">
                   src/model/Election.res
+                </a>
+              
+                
+                <a class="source" href="../model/ElectionTally.html">
+                  src/model/ElectionTally.res
                 </a>
               
                 
@@ -217,6 +227,9 @@
 <span class="hljs-variable language_">module</span> <span class="hljs-title class_">PartialDecryption</span> = {
   type t1
   type t2
+
+  external <span class="hljs-attr">to_s1</span>: <span class="hljs-function">(<span class="hljs-params">t1</span>) =&gt;</span> string = <span class="hljs-string">&quot;%identity&quot;</span>
+  external <span class="hljs-attr">to_s2</span>: <span class="hljs-function">(<span class="hljs-params">t2</span>) =&gt;</span> string = <span class="hljs-string">&quot;%identity&quot;</span>
 }
 
 <span class="hljs-variable language_">module</span> <span class="hljs-title class_">Election</span> = {
@@ -238,6 +251,10 @@
     <span class="hljs-attr">questions</span>: array&lt;question_t&gt;
   }
 
+  type results_t = {
+    <span class="hljs-attr">result</span>: array&lt;array&lt;int&gt;&gt;
+  }
+
   external <span class="hljs-attr">parse</span>: <span class="hljs-function">(<span class="hljs-params">string</span>) =&gt;</span> t = <span class="hljs-string">&quot;JSON.parse&quot;</span>
   external <span class="hljs-attr">stringify</span>: <span class="hljs-function">(<span class="hljs-params">t</span>) =&gt;</span> string = <span class="hljs-string">&quot;JSON.stringify&quot;</span>
 
@@ -249,7 +266,12 @@
   <span class="hljs-keyword">let</span> <span class="hljs-title function_">create</span> = (<span class="hljs-params">~name, ~description, ~choices, ~trustees</span>) =&gt; <span class="hljs-title function_">parse</span>(<span class="hljs-title function_">_create</span>(~name, ~description, ~choices, ~trustees))
   <span class="hljs-keyword">let</span> <span class="hljs-title function_">vote</span>    = (<span class="hljs-params">o</span>) =&gt; <span class="hljs-title function_">_vote</span>(<span class="hljs-title function_">stringify</span>(o))
   <span class="hljs-keyword">let</span> <span class="hljs-title function_">decrypt</span> = (<span class="hljs-params">o</span>) =&gt; <span class="hljs-title function_">_decrypt</span>(<span class="hljs-title function_">stringify</span>(o))
+
+  external parseResults : <span class="hljs-function">(<span class="hljs-params">string</span>) =&gt;</span> results_t = <span class="hljs-string">&quot;JSON.parse&quot;</span>
   <span class="hljs-keyword">let</span> <span class="hljs-title function_">result</span>  = (<span class="hljs-params">o</span>) =&gt; <span class="hljs-title function_">_result</span>(<span class="hljs-title function_">stringify</span>(o))
+
+  <span class="hljs-keyword">let</span> scores : <span class="hljs-function">(<span class="hljs-params">string</span>) =&gt;</span> array&lt;int&gt; = <span class="hljs-function">(<span class="hljs-params">s</span>) =&gt;</span>
+    <span class="hljs-title class_">Option</span>.<span class="hljs-title function_">getExn</span>(<span class="hljs-title function_">parseResults</span>(s).<span class="hljs-property">result</span>[<span class="hljs-number">0</span>])
 
   <span class="hljs-keyword">let</span> <span class="hljs-title function_">answers</span> = (<span class="hljs-params">params</span>) =&gt;
     <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">getExn</span>(params.<span class="hljs-property">questions</span>, <span class="hljs-number">0</span>).<span class="hljs-property">answers</span>

@@ -90,6 +90,11 @@
                 </a>
               
                 
+                <a class="source" href="../helpers/PieChart.html">
+                  src/helpers/PieChart.res
+                </a>
+              
+                
                 <a class="source" href="../helpers/Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -117,6 +122,11 @@
                 
                 <a class="source" href="Election.html">
                   src/model/Election.res
+                </a>
+              
+                
+                <a class="source" href="ElectionTally.html">
+                  src/model/ElectionTally.res
                 </a>
               
                 
@@ -213,7 +223,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-attr">type_</span>: [#election | #ballot],</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-attr">type_</span>: [#election | #ballot | #tally],</pre></div></div>
             
         </li>
         
@@ -404,7 +414,38 @@ Could be the election organizer or the voter</p>
               <div class="sswrap ">
                 <a class="ss" href="#section-16">&#x00a7;</a>
               </div>
-              <h4 id="serialization">Serialization</h4>
+              <h4 id="tally-transactions">Tally transactions</h4>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-variable language_">module</span> <span class="hljs-title class_">SignedTally</span> = {
+  <span class="hljs-keyword">let</span> <span class="hljs-title function_">make</span> = (<span class="hljs-params">tally : ElectionTally.t, owner : Identity.t</span>) =&gt; {
+    <span class="hljs-keyword">let</span> content = <span class="hljs-title class_">ElectionTally</span>.<span class="hljs-title function_">stringify</span>(tally)
+    <span class="hljs-keyword">let</span> contentHash = <span class="hljs-title function_">hash</span>(<span class="hljs-params">content</span>)
+    {
+      content,
+      <span class="hljs-attr">type_</span>: #tally,
+      contentHash,
+      <span class="hljs-attr">publicKey</span>: owner.<span class="hljs-property">hexPublicKey</span>,
+      <span class="hljs-attr">signature</span>: <span class="hljs-title class_">Identity</span>.<span class="hljs-title function_">signHex</span>(owner, contentHash)
+    }
+  }
+
+  <span class="hljs-keyword">let</span> unwrap = (tx) : <span class="hljs-title class_">ElectionTally</span>.<span class="hljs-property">t</span> =&gt; {
+    <span class="hljs-title class_">ElectionTally</span>.<span class="hljs-title function_">parse</span>(tx.<span class="hljs-property">content</span>)
+  }
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-17">&#x00a7;</a>
+              </div>
+              <h4 id="unsafe-serialization">Unsafe Serialization</h4>
 
             </div>
             
@@ -416,11 +457,65 @@ external <span class="hljs-attr">stringify_array</span>: array&lt;t&gt; =&gt; st
         </li>
         
         
-        <li id="section-17">
+        <li id="section-18">
             <div class="annotation">
               
               <div class="sswrap ">
-                <a class="ss" href="#section-17">&#x00a7;</a>
+                <a class="ss" href="#section-18">&#x00a7;</a>
+              </div>
+              <h4 id="safe-serialization">Safe serialization</h4>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">let</span> <span class="hljs-title function_">from_json</span> = (<span class="hljs-params">json</span>) =&gt; {
+  open <span class="hljs-title class_">Json</span>.<span class="hljs-property">Decode</span>
+  <span class="hljs-keyword">let</span> decode = <span class="hljs-title function_">object</span>(<span class="hljs-function"><span class="hljs-params">field</span> =&gt;</span> {
+    <span class="hljs-keyword">let</span> type_ = <span class="hljs-keyword">switch</span> field.<span class="hljs-title function_">required</span>(<span class="hljs-params">. <span class="hljs-string">&quot;type_&quot;</span>, string</span>) {
+    | <span class="hljs-string">&quot;election&quot;</span> =&gt; #election
+    | <span class="hljs-string">&quot;ballot&quot;</span> =&gt; #ballot
+    | <span class="hljs-string">&quot;tally&quot;</span> =&gt; #tally
+    | <span class="hljs-function"><span class="hljs-params">_</span> =&gt;</span> <span class="hljs-title class_">Js</span>.<span class="hljs-property">Exn</span>.<span class="hljs-title function_">raiseError</span>(<span class="hljs-string">&quot;Unknown transaction type&quot;</span>)
+    }
+    {
+      type_,
+      <span class="hljs-attr">content</span>: field.required(. <span class="hljs-string">&quot;content&quot;</span>, string),
+      <span class="hljs-attr">contentHash</span>: field.required(. <span class="hljs-string">&quot;contentHash&quot;</span>, string),
+      <span class="hljs-attr">publicKey</span>: field.required(. <span class="hljs-string">&quot;publicKey&quot;</span>, string),
+      <span class="hljs-attr">signature</span>: field.required(. <span class="hljs-string">&quot;signature&quot;</span>, string),
+    }
+  })
+  <span class="hljs-keyword">switch</span> (json-&gt;<span class="hljs-title class_">Json</span>.<span class="hljs-title function_">decode</span>(decode)) {
+    | <span class="hljs-title class_">Ok</span>(result) =&gt; result
+    | <span class="hljs-title class_">Error</span>(error) =&gt; {
+      <span class="hljs-title function_">raise</span>(<span class="hljs-title class_">DecodeError</span>({error}))
+    }
+  }
+}
+
+<span class="hljs-keyword">let</span> to_json = (<span class="hljs-attr">r</span>: t) : <span class="hljs-title class_">Js</span>.<span class="hljs-property">Json</span>.<span class="hljs-property">t</span> =&gt; {
+  open! <span class="hljs-title class_">Json</span>.<span class="hljs-property">Encode</span>
+  <span class="hljs-keyword">let</span> type_ = <span class="hljs-keyword">switch</span> r.<span class="hljs-property">type_</span> {
+  | #election =&gt; <span class="hljs-string">&quot;election&quot;</span>
+  | #ballot =&gt; <span class="hljs-string">&quot;ballot&quot;</span>
+  | #tally =&gt; <span class="hljs-string">&quot;tally&quot;</span>
+  }
+  <span class="hljs-title class_">Unsafe</span>.<span class="hljs-title function_">object</span>({
+    <span class="hljs-string">&quot;type_&quot;</span>: type_,
+    <span class="hljs-string">&quot;content&quot;</span>: <span class="hljs-title function_">string</span>(r.<span class="hljs-property">content</span>),
+    <span class="hljs-string">&quot;contentHash&quot;</span>: <span class="hljs-title function_">string</span>(r.<span class="hljs-property">contentHash</span>),
+    <span class="hljs-string">&quot;publicKey&quot;</span>: <span class="hljs-title function_">string</span>(r.<span class="hljs-property">publicKey</span>),
+    <span class="hljs-string">&quot;signature&quot;</span>: <span class="hljs-title function_">string</span>(r.<span class="hljs-property">signature</span>),
+  })
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-19">&#x00a7;</a>
               </div>
               <h4 id="storage">Storage</h4>
 
@@ -438,7 +533,11 @@ external <span class="hljs-attr">stringify_array</span>: array&lt;t&gt; =&gt; st
   <span class="hljs-title class_">ReactNativeAsyncStorage</span>.<span class="hljs-title function_">setItem</span>(storageKey, <span class="hljs-title function_">stringify_array</span>(txs)) -&gt; ignore
 
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">clear</span> = (<span class="hljs-params"></span>) =&gt;
-  <span class="hljs-title class_">ReactNativeAsyncStorage</span>.<span class="hljs-title function_">removeItem</span>(storageKey) -&gt; ignore</pre></div></div>
+  <span class="hljs-title class_">ReactNativeAsyncStorage</span>.<span class="hljs-title function_">removeItem</span>(storageKey) -&gt; ignore
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">broadcast</span> = (<span class="hljs-params">tx</span>) =&gt; {
+  X.<span class="hljs-title function_">post</span>(<span class="hljs-string">`<span class="hljs-subst">${Config.api_url}</span>/transactions`</span>, <span class="hljs-title function_">to_json</span>(tx))
+}</pre></div></div>
             
         </li>
         

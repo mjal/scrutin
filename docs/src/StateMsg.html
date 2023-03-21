@@ -90,6 +90,11 @@
                 </a>
               
                 
+                <a class="source" href="helpers/PieChart.html">
+                  src/helpers/PieChart.res
+                </a>
+              
+                
                 <a class="source" href="helpers/Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -117,6 +122,11 @@
                 
                 <a class="source" href="model/Election.html">
                   src/model/Election.res
+                </a>
+              
+                
+                <a class="source" href="model/ElectionTally.html">
+                  src/model/ElectionTally.res
                 </a>
               
                 
@@ -163,9 +173,13 @@
   | <span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">Route</span>.<span class="hljs-property">t</span>)
   | <span class="hljs-title class_">Identity</span>_Add(<span class="hljs-title class_">Identity</span>.<span class="hljs-property">t</span>)
   | <span class="hljs-title class_">Transaction</span>_Add(<span class="hljs-title class_">Transaction</span>.<span class="hljs-property">t</span>)
+  | <span class="hljs-title class_">Transaction</span>_Add_With_Broadcast(<span class="hljs-title class_">Transaction</span>.<span class="hljs-property">t</span>)
   | <span class="hljs-title class_">Trustee</span>_Add(<span class="hljs-title class_">Trustee</span>.<span class="hljs-property">t</span>)
+  | <span class="hljs-title class_">Contact</span>_Add(<span class="hljs-title class_">Contact</span>.<span class="hljs-property">t</span>)
+  | <span class="hljs-title class_">Contact</span>_Remove(int)
   | <span class="hljs-title class_">Cache</span>_Election_Add(string, <span class="hljs-title class_">Election</span>.<span class="hljs-property">t</span>)
-  | <span class="hljs-title class_">Cache</span>_Ballot_Add(string, <span class="hljs-title class_">Ballot</span>.<span class="hljs-property">t</span>)</pre></div></div>
+  | <span class="hljs-title class_">Cache</span>_Ballot_Add(string, <span class="hljs-title class_">Ballot</span>.<span class="hljs-property">t</span>)
+  | <span class="hljs-title class_">Cache</span>_Tally_Add(string, <span class="hljs-title class_">ElectionTally</span>.<span class="hljs-property">t</span>)</pre></div></div>
             
         </li>
         

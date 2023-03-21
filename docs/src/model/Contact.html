@@ -90,6 +90,11 @@
                 </a>
               
                 
+                <a class="source" href="../helpers/PieChart.html">
+                  src/helpers/PieChart.res
+                </a>
+              
+                
                 <a class="source" href="../helpers/Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -117,6 +122,11 @@
                 
                 <a class="source" href="Election.html">
                   src/model/Election.res
+                </a>
+              
+                
+                <a class="source" href="ElectionTally.html">
+                  src/model/ElectionTally.res
                 </a>
               
                 
@@ -163,6 +173,48 @@
   <span class="hljs-attr">email</span>:          option&lt;string&gt;,
   <span class="hljs-attr">phoneNumber</span>:    option&lt;string&gt;,
 }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-2">&#x00a7;</a>
+              </div>
+              <p>== Serialization</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>external <span class="hljs-attr">parse</span>:           <span class="hljs-function"><span class="hljs-params">string</span> =&gt;</span> t = <span class="hljs-string">&quot;JSON.parse&quot;</span>
+external <span class="hljs-attr">stringify</span>:       <span class="hljs-function"><span class="hljs-params">t</span> =&gt;</span> string = <span class="hljs-string">&quot;JSON.stringify&quot;</span>
+external <span class="hljs-attr">parse_array</span>:     <span class="hljs-function"><span class="hljs-params">string</span> =&gt;</span> array&lt;t&gt; = <span class="hljs-string">&quot;JSON.parse&quot;</span>
+external <span class="hljs-attr">stringify_array</span>: array&lt;t&gt; =&gt; string = <span class="hljs-string">&quot;JSON.stringify&quot;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="sswrap ">
+                <a class="ss" href="#section-3">&#x00a7;</a>
+              </div>
+              <p>== Storage</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">let</span> storageKey = <span class="hljs-string">&quot;contacts&quot;</span>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">fetch_all</span> = (<span class="hljs-params"></span>) =&gt;
+  <span class="hljs-title class_">ReactNativeAsyncStorage</span>.<span class="hljs-title function_">getItem</span>(storageKey)
+  -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">thenResolve</span>(<span class="hljs-title class_">Js</span>.<span class="hljs-property">Null</span>.<span class="hljs-property">toOption</span>)
+  -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">thenResolve</span>(<span class="hljs-title class_">Option</span>.<span class="hljs-title function_">map</span>(_, parse_array))
+  -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">thenResolve</span>(<span class="hljs-title class_">Option</span>.<span class="hljs-title function_">getWithDefault</span>(_, []))
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">store_all</span> = (<span class="hljs-params">txs</span>) =&gt;
+  <span class="hljs-title class_">ReactNativeAsyncStorage</span>.<span class="hljs-title function_">setItem</span>(storageKey, <span class="hljs-title function_">stringify_array</span>(txs)) -&gt; ignore
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">clear</span> = (<span class="hljs-params"></span>) =&gt;
+  <span class="hljs-title class_">ReactNativeAsyncStorage</span>.<span class="hljs-title function_">removeItem</span>(storageKey) -&gt; ignore</pre></div></div>
             
         </li>
         
