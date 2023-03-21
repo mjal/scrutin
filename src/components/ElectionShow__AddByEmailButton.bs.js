@@ -25,33 +25,51 @@ function ElectionShow__AddByEmailButton(Props) {
   var setEmail = match$1[1];
   var email = match$1[0];
   var match$2 = React.useState(function () {
+        
+      });
+  var setContact = match$2[1];
+  var contact = match$2[0];
+  var match$3 = React.useState(function () {
         return false;
       });
-  var setshowModal = match$2[1];
+  var setshowModal = match$3[1];
   var election = State.getElection(state, electionId);
   var orgId = Belt_Option.getExn(Belt_Array.getBy(state.ids, (function (id) {
               return id.hexPublicKey === election.ownerPublicKey;
             })));
+  var onChangeText = function (text) {
+    Curry._1(setEmail, (function (param) {
+            return text;
+          }));
+    var contact = Belt_Array.getBy(state.contacts, (function (contact) {
+            return Belt_Option.getWithDefault(contact.email, "") === text;
+          }));
+    Curry._1(setContact, (function (param) {
+            return contact;
+          }));
+  };
   var onSubmit = function (param) {
     var voterId = Identity.make(undefined);
-    var contact_hexPublicKey = voterId.hexPublicKey;
-    var contact_email = email;
-    var contact = {
-      hexPublicKey: contact_hexPublicKey,
-      email: contact_email,
-      phoneNumber: undefined
-    };
-    Curry._1(dispatch, {
-          TAG: /* Contact_Add */5,
-          _0: contact
-        });
+    if (Belt_Option.isNone(contact)) {
+      var contact_hexPublicKey = voterId.hexPublicKey;
+      var contact_email = email;
+      var contact$1 = {
+        hexPublicKey: contact_hexPublicKey,
+        email: contact_email,
+        phoneNumber: undefined
+      };
+      Curry._1(dispatch, {
+            TAG: /* Contact_Add */5,
+            _0: contact$1
+          });
+    }
+    var voterPublicKey = contact !== undefined ? contact.hexPublicKey : voterId.hexPublicKey;
     var ballot_electionPublicKey = election.ownerPublicKey;
-    var ballot_voterPublicKey = voterId.hexPublicKey;
     var ballot = {
       electionId: electionId,
       previousTx: undefined,
       electionPublicKey: ballot_electionPublicKey,
-      voterPublicKey: ballot_voterPublicKey,
+      voterPublicKey: voterPublicKey,
       ciphertext: undefined,
       pubcred: undefined
     };
@@ -60,11 +78,13 @@ function ElectionShow__AddByEmailButton(Props) {
           TAG: /* Transaction_Add_With_Broadcast */3,
           _0: tx
         });
-    if (Config.env === "dev") {
-      console.log(voterId.hexSecretKey);
-    } else {
-      var ballotId = tx.contentHash;
-      Mailer.send(ballotId, orgId, voterId, email);
+    if (Belt_Option.isNone(contact)) {
+      if (Config.env === "dev") {
+        console.log(voterId.hexSecretKey);
+      } else {
+        var ballotId = tx.contentHash;
+        Mailer.send(ballotId, orgId, voterId, email);
+      }
     }
     Curry._1(setEmail, (function (param) {
             return "";
@@ -80,10 +100,10 @@ function ElectionShow__AddByEmailButton(Props) {
                               return true;
                             }));
                     }),
-                  children: "Add voter by email"
+                  children: "Ajouter un participant"
                 }), React.createElement(ReactNativePaper.Portal, {
                   children: React.createElement(ReactNativePaper.Modal, {
-                        visible: match$2[0],
+                        visible: match$3[0],
                         onDismiss: (function (param) {
                             Curry._1(setshowModal, (function (param) {
                                     return false;
@@ -104,11 +124,7 @@ function ElectionShow__AddByEmailButton(Props) {
                                   autoFocus: true,
                                   label: "Email",
                                   value: email,
-                                  onChangeText: (function (text) {
-                                      Curry._1(setEmail, (function (param) {
-                                              return text;
-                                            }));
-                                    }),
+                                  onChangeText: onChangeText,
                                   onSubmitEditing: onSubmit
                                 }), React.createElement(X.Row.make, {
                                   children: null
@@ -128,7 +144,7 @@ function ElectionShow__AddByEmailButton(Props) {
                                       children: React.createElement(ReactNativePaper.Button, {
                                             mode: "outlined",
                                             onPress: onSubmit,
-                                            children: "Add as voter"
+                                            children: Belt_Option.isSome(contact) ? "Utiliser le contact existant" : "Envoyer une invitation par email"
                                           })
                                     })))
                       })

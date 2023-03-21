@@ -2,6 +2,7 @@
 let make = (~electionId) => {
   let (state, dispatch) = Context.use()
   let (email, setEmail) = React.useState(_ => "")
+  let (contact:option<Contact.t>, setContact) = React.useState(_ => None)
   let (showModal, setshowModal) = React.useState(_ => false);
 
   let election = State.getElection(state, electionId)
@@ -10,16 +11,31 @@ let make = (~electionId) => {
     id.hexPublicKey == election.ownerPublicKey
   }) -> Option.getExn
 
-  let onSubmit = _ => {
-    let voterId = Identity.make()
+  let onChangeText = text => {
+    setEmail(_ => text)
+    let contact = Array.getBy(state.contacts, (contact) => {
+      Option.getWithDefault(contact.email, "") == text
+    })
+    setContact(_ => contact)
+  }
 
-    let contact : Contact.t = {
-      hexPublicKey: voterId.hexPublicKey,
-      email: Some(email),
-      phoneNumber: None
+  let onSubmit = _ => {
+    let voterId = Identity.make() // Only use if no contact found
+
+    if Option.isNone(contact) {
+      let contact : Contact.t = {
+        hexPublicKey: voterId.hexPublicKey,
+        email: Some(email),
+        phoneNumber: None
+      }
+
+      dispatch(Contact_Add(contact))
     }
 
-    dispatch(Contact_Add(contact))
+    let voterPublicKey = switch (contact) {
+    | Some(contact) => contact.hexPublicKey
+    | None => voterId.hexPublicKey
+    }
 
     let ballot : Ballot.t = {
       electionId,
@@ -27,17 +43,19 @@ let make = (~electionId) => {
       ciphertext: None,
       pubcred: None,
       electionPublicKey: election.ownerPublicKey,
-      voterPublicKey: voterId.hexPublicKey
+      voterPublicKey
     }
 
     let tx = Transaction.SignedBallot.make(ballot, orgId)
     dispatch(Transaction_Add_With_Broadcast(tx))
 
-    if Config.env == #dev {
-      Js.log(voterId.hexSecretKey)
-    } else {
-      let ballotId = tx.contentHash
-      Mailer.send(ballotId, orgId, voterId, email)
+    if Option.isNone(contact) {
+      if Config.env == #dev {
+        Js.log(voterId.hexSecretKey)
+      } else {
+        let ballotId = tx.contentHash
+        Mailer.send(ballotId, orgId, voterId, email)
+      }
     }
 
     setEmail(_ => "")
@@ -46,7 +64,7 @@ let make = (~electionId) => {
 
   <>
     <Button mode=#outlined onPress={_ => setshowModal(_ => true)}>
-      { "Add voter by email" -> React.string }
+      { "Ajouter un participant" -> React.string }
     </Button>
 
     <Portal>
@@ -60,7 +78,7 @@ let make = (~electionId) => {
             mode=#flat
             label="Email"
             value=email
-            onChangeText={text => setEmail(_ => text)}
+            onChangeText
             autoFocus=true
             onSubmitEditing=onSubmit
           />
@@ -71,7 +89,11 @@ let make = (~electionId) => {
             </X.Col>
             <X.Col>
               <Button mode=#outlined onPress=onSubmit>
-                { "Add as voter" -> React.string }
+                { if Option.isSome(contact) {
+                  "Utiliser le contact existant" -> React.string
+                } else {
+                  "Envoyer une invitation par email" -> React.string
+                } }
               </Button>
             </X.Col>
           </X.Row>
