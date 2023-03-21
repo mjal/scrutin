@@ -429,7 +429,7 @@ If we don’t have any, create a new one</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    ~electionEventHash : string</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    ~electionId : string</pre></div></div>
             
         </li>
         
@@ -472,8 +472,7 @@ If we don’t have any, create a new one</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">let</span> election = <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-title function_">getExn</span>(state.<span class="hljs-property">cached_elections</span>,
-        electionEventHash)</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">let</span> election = <span class="hljs-title class_">State</span>.<span class="hljs-title function_">getElection</span>(state, electionId)</pre></div></div>
             
         </li>
         
@@ -528,7 +527,7 @@ If we don’t have any, create a new one</p>
         -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">keep</span>(<span class="hljs-function">(<span class="hljs-params">tx</span>) =&gt;</span> tx.<span class="hljs-property">type_</span> == #ballot)
         -&gt; <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">keep</span>(<span class="hljs-function">(<span class="hljs-params">tx</span>) =&gt;</span> {
           <span class="hljs-keyword">let</span> ballot = <span class="hljs-title class_">Transaction</span>.<span class="hljs-property">SignedBallot</span>.<span class="hljs-title function_">unwrap</span>(tx)
-          ballot.<span class="hljs-property">electionTx</span> == electionEventHash
+          ballot.<span class="hljs-property">electionId</span> == electionId
         })</pre></div></div>
             
         </li>
@@ -578,7 +577,7 @@ We don’t need this but it is needed by Belenios.
       <span class="hljs-keyword">let</span> result = <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">Election</span>.<span class="hljs-title function_">result</span>(params, ciphertexts, trustees, pubcreds, a, b)
 
       <span class="hljs-keyword">let</span> tally : <span class="hljs-title class_">ElectionTally</span>.<span class="hljs-property">t</span> = {
-        <span class="hljs-attr">electionTx</span>: electionEventHash,
+        electionId,
         <span class="hljs-attr">a</span>: <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">PartialDecryption</span>.<span class="hljs-title function_">to_s1</span>(a),
         <span class="hljs-attr">b</span>: <span class="hljs-title class_">Belenios</span>.<span class="hljs-property">PartialDecryption</span>.<span class="hljs-title function_">to_s2</span>(b),
         result
@@ -818,8 +817,7 @@ This is also the upper bound to <strong>choice</strong></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">let</span> election = <span class="hljs-title class_">Map</span>.<span class="hljs-property">String</span>.<span class="hljs-title function_">getExn</span>(state.<span class="hljs-property">cached_elections</span>,
-        ballot.<span class="hljs-property">electionTx</span>)</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">let</span> election = <span class="hljs-title class_">State</span>.<span class="hljs-title function_">getElection</span>(state, ballot.<span class="hljs-property">electionId</span>)</pre></div></div>
             
         </li>
         
@@ -896,7 +894,7 @@ This is also the upper bound to <strong>choice</strong></p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">Election</span>_Show(ballot.<span class="hljs-property">electionTx</span>)))
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">Navigate</span>(<span class="hljs-title class_">Election</span>_Show(ballot.<span class="hljs-property">electionId</span>)))
     }
   }
 }</pre></div></div>

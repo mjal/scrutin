@@ -190,9 +190,9 @@
     | <span class="hljs-function"><span class="hljs-params">Contact_Index</span>     =&gt;</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Contact_Index</span> /&gt;</span></span>
 
     | <span class="hljs-function"><span class="hljs-params">Election_New</span> =&gt;</span> <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ElectionNew</span> /&gt;</span></span>
-    | <span class="hljs-title class_">Election</span>_Show(contentHash) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ElectionShow</span> <span class="hljs-attr">contentHash</span> /&gt;</span></span>
+    | <span class="hljs-title class_">Election</span>_Show(electionId) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">ElectionShow</span> <span class="hljs-attr">electionId</span> /&gt;</span></span>
 
-    | <span class="hljs-title class_">Ballot</span>_Show(contentHash) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Ballot_Show</span> <span class="hljs-attr">contentHash</span> /&gt;</span></span>
+    | <span class="hljs-title class_">Ballot</span>_Show(ballotId) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Ballot_Show</span> <span class="hljs-attr">ballotId</span> /&gt;</span></span>
 
     | <span class="hljs-title class_">Identity</span>_Show(publicKey) =&gt; <span class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">Identity_Show</span> <span class="hljs-attr">publicKey</span> /&gt;</span></span>
 
