@@ -8,9 +8,15 @@ import * as ReactNativeSvgCharts from "react-native-svg-charts";
 
 function ElectionShow__ResultChart(Props) {
   var data = Props.data;
+  var colors = [
+    "#ff0000",
+    "#00ff00",
+    "#0000ff"
+  ];
   var pieData = Belt_Array.mapWithIndex(data, (function (i, e) {
-          var color = i === 0 ? "#ff0000" : "#00ff00";
-          return PieChart.Datum.make(e, "pie-" + String(e) + "", color);
+          var color = Belt_Array.get(colors, i);
+          var color$1 = color !== undefined ? color : "#bbbbbb";
+          return PieChart.Datum.make(e, "pie-" + String(e) + "", color$1);
         }));
   var styles = ReactNative.StyleSheet.create({
         "200": {
