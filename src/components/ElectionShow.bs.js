@@ -17,7 +17,7 @@ import * as ElectionShow__AddByEmailButton from "./ElectionShow__AddByEmailButto
 import * as ElectionShow__AddContactButton from "./ElectionShow__AddContactButton.bs.js";
 
 function ElectionShow(Props) {
-  var contentHash = Props.contentHash;
+  var electionId = Props.electionId;
   var match = Context.use(undefined);
   var dispatch = match[1];
   var state = match[0];
@@ -31,12 +31,12 @@ function ElectionShow(Props) {
       });
   var setShowBallots = match$2[1];
   var showBallots = match$2[0];
-  var election = State.getElection(state, contentHash);
+  var election = State.getElection(state, electionId);
   var orgId = Belt_Array.getBy(state.ids, (function (id) {
           return id.hexPublicKey === election.ownerPublicKey;
         }));
   var ballots = Belt_MapString.toArray(Belt_MapString.keep(state.cached_ballots, (function (_id, ballot) {
-              return ballot.electionTx === contentHash;
+              return ballot.electionTx === electionId;
             })));
   var nbBallots = ballots.length;
   var nbBallotsWithCiphertext = Belt_Array.keep(ballots, (function (param) {
@@ -44,7 +44,7 @@ function ElectionShow(Props) {
         })).length;
   var progress = "" + String(nbBallotsWithCiphertext) + " / " + String(nbBallots) + "";
   var tally = Belt_Option.map(Belt_MapString.findFirstBy(state.cached_tallies, (function (_id, tally) {
-              return tally.electionTx === contentHash;
+              return tally.electionTx === electionId;
             })), (function (param) {
           return param[1];
         }));
@@ -60,8 +60,8 @@ function ElectionShow(Props) {
           });
     };
     tmp = React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.List.Item, {
-              title: "Event Hash",
-              description: contentHash
+              title: "Id/Hash",
+              description: electionId
             }), React.createElement(ReactNativePaper.List.Item, {
               onPress: onPress,
               title: "Owner Public Key",
@@ -91,13 +91,13 @@ function ElectionShow(Props) {
                 style: X.styles.title,
                 children: "You are admin"
               }), React.createElement(ElectionShow__AddByEmailButton.make, {
-                contentHash: contentHash
+                electionId: electionId
               }), React.createElement(ElectionShow__AddContactButton.make, {
-                contentHash: contentHash
+                electionId: electionId
               }), React.createElement(ReactNativePaper.Button, {
                 mode: "outlined",
                 onPress: (function (param) {
-                    Core.Election.tally(contentHash, state, dispatch);
+                    Core.Election.tally(electionId, state, dispatch);
                   }),
                 children: "Close election and tally"
               })) : React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {

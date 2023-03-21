@@ -48,13 +48,12 @@ module Election = {
   // Compute the result of an election, with help of the trustees keys
   let tally = (
     // **electionEventHash**: The transaction hash of the election to tally
-    ~electionEventHash : string
+    ~electionId : string
     // ---
   ) => {
     (state: State.t, dispatch) => {
       // Get the election from cache
-      let election = Map.String.getExn(state.cached_elections,
-        electionEventHash)
+      let election = State.getElection(state, electionId)
 
       // Casting value (to remove)
       let params = Belenios.Election.parse(election.params)
@@ -73,7 +72,7 @@ module Election = {
         -> Array.keep((tx) => tx.type_ == #ballot)
         -> Array.keep((tx) => {
           let ballot = Transaction.SignedBallot.unwrap(tx)
-          ballot.electionTx == electionEventHash
+          ballot.electionTx == electionId
         })
 
       // Get the actual ballot content when filled <br />
@@ -99,7 +98,7 @@ module Election = {
       let result = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
 
       let tally : ElectionTally.t = {
-        electionTx: electionEventHash,
+        electionTx: electionId,
         a: Belenios.PartialDecryption.to_s1(a),
         b: Belenios.PartialDecryption.to_s2(b),
         result

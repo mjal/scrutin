@@ -20,9 +20,9 @@ let make = () => {
     | Contact_Index     => <Contact_Index />
 
     | Election_New => <ElectionNew />
-    | Election_Show(contentHash) => <ElectionShow contentHash />
+    | Election_Show(electionId) => <ElectionShow electionId />
 
-    | Ballot_Show(contentHash) => <Ballot_Show contentHash />
+    | Ballot_Show(ballotId) => <Ballot_Show ballotId />
 
     | Identity_Show(publicKey) => <Identity_Show publicKey />
 

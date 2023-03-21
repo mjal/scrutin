@@ -1,9 +1,9 @@
 @react.component
-let make = (~contentHash) => {
+let make = (~electionId) => {
   let (state, dispatch) = Context.use()
   let (showModal, setshowModal) = React.useState(_ => false);
 
-  let election = State.getElection(state, contentHash)
+  let election = State.getElection(state, electionId)
 
   let orgId = Array.getBy(state.ids, (id) => {
     id.hexPublicKey == election.ownerPublicKey
@@ -11,7 +11,7 @@ let make = (~contentHash) => {
 
   let onSelect = (contact : Contact.t) => {
     let ballot : Ballot.t = {
-      electionTx: contentHash,
+      electionTx: electionId,
       previousTx: None,
       ciphertext: None,
       pubcred: None,

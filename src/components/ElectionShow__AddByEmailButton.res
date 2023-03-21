@@ -1,10 +1,10 @@
 @react.component
-let make = (~contentHash) => {
+let make = (~electionId) => {
   let (state, dispatch) = Context.use()
   let (email, setEmail) = React.useState(_ => "")
   let (showModal, setshowModal) = React.useState(_ => false);
 
-  let election = State.getElection(state, contentHash)
+  let election = State.getElection(state, electionId)
 
   let orgId = Array.getBy(state.ids, (id) => {
     id.hexPublicKey == election.ownerPublicKey
@@ -22,7 +22,7 @@ let make = (~contentHash) => {
     dispatch(Contact_Add(contact))
 
     let ballot : Ballot.t = {
-      electionTx: contentHash,
+      electionTx: electionId,
       previousTx: None,
       ciphertext: None,
       pubcred: None,

@@ -1,9 +1,9 @@
 @react.component
-let make = (~contentHash) => {
+let make = (~ballotId) => {
   let (state, dispatch) = Context.use()
   let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
 
-  let ballot = State.getBallot(state, contentHash)
+  let ballot = State.getBallot(state, ballotId)
   let ciphertext = Option.getWithDefault(ballot.ciphertext, "")
 
     <List.Section title="Ballot">
@@ -18,7 +18,7 @@ let make = (~contentHash) => {
 
       { if showAdvanced {
       <>
-        <List.Item title="Event Hash" description=contentHash />
+        <List.Item title="Event Hash" description=ballotId />
 
         <List.Item title="Election" description=ballot.electionTx
           onPress={_ => dispatch(Navigate(Election_Show(ballot.electionTx)))}
@@ -39,7 +39,7 @@ let make = (~contentHash) => {
       </>
       } else { <></> } }
 
-      <Ballot_New ballotTx=contentHash />
+      <Ballot_New ballotId />
 
     </List.Section>
 }

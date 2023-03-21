@@ -15,7 +15,7 @@ import * as ReactNative from "react-native";
 import * as ReactNativePaper from "react-native-paper";
 
 function ElectionShow__AddByEmailButton(Props) {
-  var contentHash = Props.contentHash;
+  var electionId = Props.electionId;
   var match = Context.use(undefined);
   var dispatch = match[1];
   var state = match[0];
@@ -28,7 +28,7 @@ function ElectionShow__AddByEmailButton(Props) {
         return false;
       });
   var setshowModal = match$2[1];
-  var election = State.getElection(state, contentHash);
+  var election = State.getElection(state, electionId);
   var orgId = Belt_Option.getExn(Belt_Array.getBy(state.ids, (function (id) {
               return id.hexPublicKey === election.ownerPublicKey;
             })));
@@ -48,7 +48,7 @@ function ElectionShow__AddByEmailButton(Props) {
     var ballot_electionPublicKey = election.ownerPublicKey;
     var ballot_voterPublicKey = voterId.hexPublicKey;
     var ballot = {
-      electionTx: contentHash,
+      electionTx: electionId,
       previousTx: undefined,
       electionPublicKey: ballot_electionPublicKey,
       voterPublicKey: ballot_voterPublicKey,

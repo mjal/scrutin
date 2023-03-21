@@ -1,17 +1,17 @@
 @react.component
-let make = (~contentHash) => { // TODO: Rename contentHash to id
+let make = (~electionId) => {
   let (state, dispatch) = Context.use()
   let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
   let (showBallots, setShowBallots) = React.useState(_ => false)
 
-  let election = State.getElection(state, contentHash)
+  let election = State.getElection(state, electionId)
 
   let orgId = Array.getBy(state.ids, (id) => {
     id.hexPublicKey == election.ownerPublicKey
   })
 
   let ballots = Map.String.keep(state.cached_ballots, (_id, ballot) =>
-    ballot.electionTx == contentHash
+    ballot.electionTx == electionId
   ) -> Map.String.toArray
 
   let nbBallots = Array.length(ballots)
@@ -23,7 +23,7 @@ let make = (~contentHash) => { // TODO: Rename contentHash to id
   let progress  = `${nbBallotsWithCiphertext -> Int.toString} / ${nbBallots -> Int.toString}`
 
   let tally = Map.String.findFirstBy(state.cached_tallies, (_id, tally) =>
-    tally.electionTx == contentHash
+    tally.electionTx == electionId
   ) -> Option.map(((_id, tally)) => tally)
 
   <>
@@ -48,7 +48,7 @@ let make = (~contentHash) => { // TODO: Rename contentHash to id
 
       { if showAdvanced {
       <>
-        <List.Item title="Event Hash" description=contentHash />
+        <List.Item title="Id/Hash" description=electionId />
 
         {
           let onPress = _ =>
@@ -98,12 +98,12 @@ let make = (~contentHash) => { // TODO: Rename contentHash to id
         { "You are admin" -> React.string }
       </Title>
 
-      <ElectionShow__AddByEmailButton contentHash />
+      <ElectionShow__AddByEmailButton electionId />
 
-      <ElectionShow__AddContactButton contentHash />
+      <ElectionShow__AddContactButton electionId />
 
       <Button mode=#outlined onPress={_ =>
-        Core.Election.tally(~electionEventHash=contentHash)(state, dispatch)
+        Core.Election.tally(~electionId)(state, dispatch)
       }>
         { "Close election and tally" -> React.string }
       </Button>

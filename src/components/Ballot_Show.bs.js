@@ -9,7 +9,7 @@ import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as ReactNativePaper from "react-native-paper";
 
 function Ballot_Show(Props) {
-  var contentHash = Props.contentHash;
+  var ballotId = Props.ballotId;
   var match = Context.use(undefined);
   var dispatch = match[1];
   var match$1 = React.useState(function () {
@@ -17,7 +17,7 @@ function Ballot_Show(Props) {
       });
   var setShowAdvanced = match$1[1];
   var showAdvanced = match$1[0];
-  var ballot = State.getBallot(match[0], contentHash);
+  var ballot = State.getBallot(match[0], ballotId);
   var ciphertext = Belt_Option.getWithDefault(ballot.ciphertext, "");
   return React.createElement(ReactNativePaper.List.Section, {
               title: "Ballot",
@@ -44,7 +44,7 @@ function Ballot_Show(Props) {
                   children: showAdvanced ? "Hide advanced" : "Show advanced"
                 }), showAdvanced ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.List.Item, {
                         title: "Event Hash",
-                        description: contentHash
+                        description: ballotId
                       }), React.createElement(ReactNativePaper.List.Item, {
                         onPress: (function (param) {
                             Curry._1(dispatch, {
@@ -85,7 +85,7 @@ function Ballot_Show(Props) {
                         title: "Ciphertext",
                         description: ciphertext
                       })) : React.createElement(React.Fragment, undefined), React.createElement(Ballot_New.make, {
-                  ballotTx: contentHash
+                  ballotId: ballotId
                 }));
 }
 

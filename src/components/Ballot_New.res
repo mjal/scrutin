@@ -11,11 +11,11 @@ module Choice = {
 }
 
 @react.component
-let make = (~ballotTx) => {
+let make = (~ballotId) => {
   let (state, dispatch) = Context.use()
   let (choice, setChoice) = React.useState(_ => None)
 
-  let ballot = State.getBallot(state, ballotTx)
+  let ballot = State.getBallot(state, ballotId)
   let election = State.getElection(state, ballot.electionTx)
 
   let owner = Array.getBy(state.ids, (id) => {
