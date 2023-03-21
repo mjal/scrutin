@@ -6,12 +6,13 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as Context from "../helpers/Context.bs.js";
 import * as Election from "../model/Election.bs.js";
+import * as PieChart from "../helpers/PieChart.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
+import * as ReactNative from "react-native";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
-import * as ReactNativeSvg from "react-native-svg";
-import * as Style$ReactNative from "rescript-react-native/src/apis/Style.bs.js";
 import * as ReactNativePaper from "react-native-paper";
+import * as ReactNativeSvgCharts from "react-native-svg-charts";
 import * as ElectionShow__AddByEmailButton from "./ElectionShow__AddByEmailButton.bs.js";
 import * as ElectionShow__AddContactButton from "./ElectionShow__AddContactButton.bs.js";
 
@@ -76,6 +77,48 @@ function ElectionShow(Props) {
   } else {
     tmp = React.createElement(React.Fragment, undefined);
   }
+  var tmp$1;
+  if (Belt_Option.isSome(tally)) {
+    var data = [
+      1,
+      2
+    ];
+    var pieData = Belt_Array.mapWithIndex(data, (function (i, e) {
+            var color = i === 0 ? "#ff0000" : "#00ff00";
+            return PieChart.Datum.make(e, "pie-" + String(e) + "", color);
+          }));
+    console.log(pieData);
+    var styles = ReactNative.StyleSheet.create({
+          "200": {
+            height: 200.0
+          }
+        });
+    tmp$1 = React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.List.Item, {
+              title: "Result",
+              description: Belt_Option.getExn(tally).result
+            }), React.createElement(ReactNativeSvgCharts.PieChart, {
+              data: pieData,
+              style: styles[200]
+            }));
+  } else {
+    tmp$1 = Belt_Option.isSome(orgId) ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
+                style: X.styles.title,
+                children: "You are admin"
+              }), React.createElement(ElectionShow__AddByEmailButton.make, {
+                contentHash: contentHash
+              }), React.createElement(ElectionShow__AddContactButton.make, {
+                contentHash: contentHash
+              }), React.createElement(ReactNativePaper.Button, {
+                mode: "outlined",
+                onPress: (function (param) {
+                    Core.Election.tally(contentHash, state, dispatch);
+                  }),
+                children: "Close election and tally"
+              })) : React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
+                style: X.styles.title,
+                children: "You are not admin"
+              }));
+  }
   return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.List.Section, {
                   title: "Election",
                   children: null
@@ -125,48 +168,7 @@ function ElectionShow(Props) {
                                             key: id
                                           });
                               }))
-                      }) : React.createElement(React.Fragment, undefined)), Belt_Option.isSome(tally) ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.List.Item, {
-                        title: "Result",
-                        description: Belt_Option.getExn(tally).result
-                      }), React.createElement(ReactNativeSvg.Svg, {
-                        viewBox: "0 0 100 100",
-                        width: Style$ReactNative.pct(50.0),
-                        height: Style$ReactNative.pct(50.0),
-                        children: null
-                      }, React.createElement(ReactNativeSvg.Circle, {
-                            cx: 50.0,
-                            cy: 50.0,
-                            r: 45.0,
-                            fill: "green",
-                            stroke: "blue",
-                            strokeWidth: 2.5
-                          }), React.createElement(ReactNativeSvg.Rect, {
-                            width: 70.0,
-                            height: 70.0,
-                            fill: "yellow",
-                            stroke: "red",
-                            strokeWidth: 2.0,
-                            x: 15.0,
-                            y: 15.0
-                          }))) : (
-                Belt_Option.isSome(orgId) ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
-                            style: X.styles.title,
-                            children: "You are admin"
-                          }), React.createElement(ElectionShow__AddByEmailButton.make, {
-                            contentHash: contentHash
-                          }), React.createElement(ElectionShow__AddContactButton.make, {
-                            contentHash: contentHash
-                          }), React.createElement(ReactNativePaper.Button, {
-                            mode: "outlined",
-                            onPress: (function (param) {
-                                Core.Election.tally(contentHash, state, dispatch);
-                              }),
-                            children: "Close election and tally"
-                          })) : React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
-                            style: X.styles.title,
-                            children: "You are not admin"
-                          }))
-              ));
+                      }) : React.createElement(React.Fragment, undefined)), tmp$1);
 }
 
 var make = ElectionShow;
