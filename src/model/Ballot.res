@@ -1,6 +1,6 @@
 type t = {
-  electionTx: string,
-  previousTx: option<string>,
+  electionId: string,
+  previousTx: option<string>, // TODO: Rename -> ballotId
 
   electionPublicKey: string,
   voterPublicKey:    string,

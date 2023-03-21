@@ -22,7 +22,7 @@ let make = (~electionId) => {
     dispatch(Contact_Add(contact))
 
     let ballot : Ballot.t = {
-      electionTx: electionId,
+      electionId,
       previousTx: None,
       ciphertext: None,
       pubcred: None,

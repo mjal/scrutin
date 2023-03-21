@@ -28,12 +28,12 @@ function Ballot_Show(Props) {
                             TAG: /* Navigate */0,
                             _0: {
                               TAG: /* Election_Show */0,
-                              _0: ballot.electionTx
+                              _0: ballot.electionId
                             }
                           });
                     }),
                   title: "Election",
-                  description: ballot.electionTx
+                  description: ballot.electionId
                 }), React.createElement(ReactNativePaper.Button, {
                   mode: "outlined",
                   onPress: (function (param) {
@@ -51,12 +51,12 @@ function Ballot_Show(Props) {
                                   TAG: /* Navigate */0,
                                   _0: {
                                     TAG: /* Election_Show */0,
-                                    _0: ballot.electionTx
+                                    _0: ballot.electionId
                                   }
                                 });
                           }),
                         title: "Election",
-                        description: ballot.electionTx
+                        description: ballot.electionId
                       }), React.createElement(ReactNativePaper.List.Item, {
                         title: "Previous transaction",
                         description: Belt_Option.getWithDefault(ballot.previousTx, "")

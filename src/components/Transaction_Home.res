@@ -15,7 +15,7 @@ module Item = {
       | #ballot   => dispatch(Navigate(Ballot_Show(tx.contentHash)))
       | #tally    =>
         let tally = Transaction.SignedTally.unwrap(tx)
-        dispatch(Navigate(Election_Show(tally.electionTx)))
+        dispatch(Navigate(Election_Show(tally.electionId)))
       }
     }
 

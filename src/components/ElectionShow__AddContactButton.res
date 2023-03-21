@@ -11,7 +11,7 @@ let make = (~electionId) => {
 
   let onSelect = (contact : Contact.t) => {
     let ballot : Ballot.t = {
-      electionTx: electionId,
+      electionId,
       previousTx: None,
       ciphertext: None,
       pubcred: None,

@@ -11,7 +11,7 @@ function make(ballot, election, selection) {
   var privcred = Belt_Array.getExn(match[1], 0);
   var ciphertext = Belenios.Election.vote(params)(privcred, [selection], trustees);
   return {
-          electionTx: ballot.electionTx,
+          electionId: ballot.electionId,
           previousTx: ballot.previousTx,
           electionPublicKey: ballot.electionPublicKey,
           voterPublicKey: ballot.voterPublicKey,

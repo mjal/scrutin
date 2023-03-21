@@ -11,7 +11,7 @@ let make = (~electionId) => {
   })
 
   let ballots = Map.String.keep(state.cached_ballots, (_id, ballot) =>
-    ballot.electionTx == electionId
+    ballot.electionId == electionId
   ) -> Map.String.toArray
 
   let nbBallots = Array.length(ballots)
@@ -23,7 +23,7 @@ let make = (~electionId) => {
   let progress  = `${nbBallotsWithCiphertext -> Int.toString} / ${nbBallots -> Int.toString}`
 
   let tally = Map.String.findFirstBy(state.cached_tallies, (_id, tally) =>
-    tally.electionTx == electionId
+    tally.electionId == electionId
   ) -> Option.map(((_id, tally)) => tally)
 
   <>

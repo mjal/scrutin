@@ -16,7 +16,7 @@ let make = (~ballotId) => {
   let (choice, setChoice) = React.useState(_ => None)
 
   let ballot = State.getBallot(state, ballotId)
-  let election = State.getElection(state, ballot.electionTx)
+  let election = State.getElection(state, ballot.electionId)
 
   let owner = Array.getBy(state.ids, (id) => {
     ballot.voterPublicKey == id.hexPublicKey

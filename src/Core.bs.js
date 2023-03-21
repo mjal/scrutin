@@ -11,7 +11,6 @@ import * as Identity from "./model/Identity.bs.js";
 import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Transaction from "./model/Transaction.bs.js";
-import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 
 function create(name, desc, choices, state, dispatch) {
   var identity = Belt_Array.get(state.ids, 0);
@@ -58,7 +57,7 @@ function tally(electionId, state, dispatch) {
               return tx.type_ === "ballot";
             })), (function (tx) {
           var ballot = Transaction.SignedBallot.unwrap(tx);
-          return ballot.electionTx === electionId;
+          return ballot.electionId === electionId;
         }));
   var ciphertexts = Belt_Array.map(Belt_Array.keep(Belt_Array.map(Belt_Array.map(ballots, Transaction.SignedBallot.unwrap), (function (ballot) {
                   return ballot.ciphertext;
@@ -77,7 +76,7 @@ function tally(electionId, state, dispatch) {
   var a = match[0];
   var result = Belenios.Election.result(params)(ciphertexts, trustees, pubcreds, a, b);
   var tally$1 = {
-    electionTx: electionId,
+    electionId: electionId,
     a: a,
     b: b,
     result: result
@@ -109,7 +108,7 @@ function vote(ballot, choice, nbChoices, state, dispatch) {
             return 0;
           }
         }));
-  var election = Belt_MapString.getExn(state.cached_elections, ballot.electionTx);
+  var election = State.getElection(state, ballot.electionId);
   var ballot$1 = Ballot.make(ballot, election, selection);
   var owner = Belt_Option.getExn(Belt_Array.getBy(state.ids, (function (id) {
               return ballot$1.voterPublicKey === id.hexPublicKey;
@@ -123,7 +122,7 @@ function vote(ballot, choice, nbChoices, state, dispatch) {
         TAG: /* Navigate */0,
         _0: {
           TAG: /* Election_Show */0,
-          _0: ballot$1.electionTx
+          _0: ballot$1.electionId
         }
       });
 }

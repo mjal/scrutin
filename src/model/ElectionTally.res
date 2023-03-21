@@ -1,5 +1,5 @@
 type t = {
-  electionTx: string,
+  electionId: string,
   a: string,
   b: string,
   result: string

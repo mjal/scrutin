@@ -44,7 +44,7 @@ function Ballot_New(Props) {
   var setChoice = match$1[1];
   var choice = match$1[0];
   var ballot = State.getBallot(state, ballotId);
-  var election = State.getElection(state, ballot.electionTx);
+  var election = State.getElection(state, ballot.electionId);
   var owner = Belt_Array.getBy(state.ids, (function (id) {
           return ballot.voterPublicKey === id.hexPublicKey;
         }));

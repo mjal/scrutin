@@ -8,8 +8,8 @@ let make = (~ballotId) => {
 
     <List.Section title="Ballot">
 
-      <List.Item title="Election" description=ballot.electionTx
-        onPress={_ => dispatch(Navigate(Election_Show(ballot.electionTx)))}
+      <List.Item title="Election" description=ballot.electionId
+        onPress={_ => dispatch(Navigate(Election_Show(ballot.electionId)))}
       />
 
       <Button mode=#outlined onPress={_ => setShowAdvanced(b => !b)}>
@@ -20,8 +20,8 @@ let make = (~ballotId) => {
       <>
         <List.Item title="Event Hash" description=ballotId />
 
-        <List.Item title="Election" description=ballot.electionTx
-          onPress={_ => dispatch(Navigate(Election_Show(ballot.electionTx)))}
+        <List.Item title="Election" description=ballot.electionId
+          onPress={_ => dispatch(Navigate(Election_Show(ballot.electionId)))}
         />
 
         <List.Item title="Previous transaction"

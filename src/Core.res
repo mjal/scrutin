@@ -72,7 +72,7 @@ module Election = {
         -> Array.keep((tx) => tx.type_ == #ballot)
         -> Array.keep((tx) => {
           let ballot = Transaction.SignedBallot.unwrap(tx)
-          ballot.electionTx == electionId
+          ballot.electionId == electionId
         })
 
       // Get the actual ballot content when filled <br />
@@ -98,7 +98,7 @@ module Election = {
       let result = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
 
       let tally : ElectionTally.t = {
-        electionTx: electionId,
+        electionId,
         a: Belenios.PartialDecryption.to_s1(a),
         b: Belenios.PartialDecryption.to_s2(b),
         result
@@ -150,8 +150,7 @@ module Ballot = {
         -> Array.mapWithIndex((i, _e) => { choice == Some(i) ? 1 : 0 })
 
       // Fetch the election from cache
-      let election = Map.String.getExn(state.cached_elections,
-        ballot.electionTx)
+      let election = State.getElection(state, ballot.electionId)
 
       // Create a ballot expressing that choice
       let ballot = Ballot.make(ballot, election, selection)
@@ -168,7 +167,7 @@ module Ballot = {
       dispatch(StateMsg.Transaction_Add_With_Broadcast(tx))
 
       // Go the ballot page
-      dispatch(Navigate(Election_Show(ballot.electionTx)))
+      dispatch(Navigate(Election_Show(ballot.electionId)))
     }
   }
 }

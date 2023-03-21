@@ -41,7 +41,7 @@ function Transaction_Home$Item(Props) {
           TAG: /* Navigate */0,
           _0: {
             TAG: /* Election_Show */0,
-            _0: tally.electionTx
+            _0: tally.electionId
           }
         });
   };

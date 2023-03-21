@@ -36,7 +36,7 @@ function ElectionShow(Props) {
           return id.hexPublicKey === election.ownerPublicKey;
         }));
   var ballots = Belt_MapString.toArray(Belt_MapString.keep(state.cached_ballots, (function (_id, ballot) {
-              return ballot.electionTx === electionId;
+              return ballot.electionId === electionId;
             })));
   var nbBallots = ballots.length;
   var nbBallotsWithCiphertext = Belt_Array.keep(ballots, (function (param) {
@@ -44,7 +44,7 @@ function ElectionShow(Props) {
         })).length;
   var progress = "" + String(nbBallotsWithCiphertext) + " / " + String(nbBallots) + "";
   var tally = Belt_Option.map(Belt_MapString.findFirstBy(state.cached_tallies, (function (_id, tally) {
-              return tally.electionTx === electionId;
+              return tally.electionId === electionId;
             })), (function (param) {
           return param[1];
         }));

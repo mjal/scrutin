@@ -48,7 +48,7 @@ function ElectionShow__AddByEmailButton(Props) {
     var ballot_electionPublicKey = election.ownerPublicKey;
     var ballot_voterPublicKey = voterId.hexPublicKey;
     var ballot = {
-      electionTx: electionId,
+      electionId: electionId,
       previousTx: undefined,
       electionPublicKey: ballot_electionPublicKey,
       voterPublicKey: ballot_voterPublicKey,
