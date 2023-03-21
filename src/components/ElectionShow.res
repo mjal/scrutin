@@ -56,7 +56,7 @@ let make = (~contentHash) => { // TODO: Rename contentHash to id
         </>
       } else { <></> } }
 
-      <List.Item title="Votes"
+      <List.Item title="Ballot transactions"
         description=progress />
 
       <Button mode=#outlined onPress={_ => setShowBallots(b => !b)}>

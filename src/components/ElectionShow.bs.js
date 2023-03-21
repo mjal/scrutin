@@ -126,7 +126,7 @@ function ElectionShow(Props) {
                         }),
                       children: showAdvanced ? "Hide advanced" : "Show advanced"
                     }), tmp, React.createElement(ReactNativePaper.List.Item, {
-                      title: "Votes",
+                      title: "Ballot transactions",
                       description: progress
                     }), React.createElement(ReactNativePaper.Button, {
                       mode: "outlined",
