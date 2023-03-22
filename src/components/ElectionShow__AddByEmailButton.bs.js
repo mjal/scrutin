@@ -143,7 +143,7 @@ function ElectionShow__AddByEmailButton(Props) {
                                       children: React.createElement(ReactNativePaper.Button, {
                                             mode: "outlined",
                                             onPress: onSubmit,
-                                            children: Belt_Option.isSome(match$2[0]) ? "Utiliser le contact existant" : "Envoyer une invitation par email"
+                                            children: "Envoyer une invitation par email"
                                           })
                                     })))
                       })

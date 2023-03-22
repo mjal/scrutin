@@ -92,9 +92,9 @@ let make = (~electionId) => {
             </X.Col>
             <X.Col>
               <Button mode=#outlined onPress=onSubmit>
-                { if Option.isSome(contact) {
+                { /*if Option.isSome(contact) {
                   "Utiliser le contact existant" -> React.string
-                } else {
+                } else */{
                   "Envoyer une invitation par email" -> React.string
                 } }
               </Button>
