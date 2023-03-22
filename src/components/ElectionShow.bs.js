@@ -12,7 +12,6 @@ import * as Belt_Array from "rescript/lib/es6/belt_Array.js";
 import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Belt_MapString from "rescript/lib/es6/belt_MapString.js";
 import * as ReactNativePaper from "react-native-paper";
-import * as ElectionShow__ResultChart from "./ElectionShow__ResultChart.bs.js";
 import * as ElectionShow__AddByEmailButton from "./ElectionShow__AddByEmailButton.bs.js";
 
 function ElectionShow(Props) {
@@ -78,12 +77,10 @@ function ElectionShow(Props) {
   var tmp$1;
   if (Belt_Option.isSome(tally)) {
     var result = Belt_Option.getExn(tally).result;
-    var data = Belenios.Election.scores(result);
+    Belenios.Election.scores(result);
     tmp$1 = React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.List.Item, {
               title: "Result",
               description: Belt_Option.getExn(tally).result
-            }), React.createElement(ElectionShow__ResultChart.make, {
-              data: data
             }));
   } else {
     tmp$1 = Belt_Option.isSome(orgId) ? React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Title, {
