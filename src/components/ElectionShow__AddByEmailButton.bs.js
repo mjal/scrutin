@@ -28,7 +28,6 @@ function ElectionShow__AddByEmailButton(Props) {
         
       });
   var setContact = match$2[1];
-  var contact = match$2[0];
   var match$3 = React.useState(function () {
         return false;
       });
@@ -50,20 +49,20 @@ function ElectionShow__AddByEmailButton(Props) {
   };
   var onSubmit = function (param) {
     var voterId = Identity.make(undefined);
-    if (Belt_Option.isNone(contact)) {
+    if (Belt_Option.isNone(undefined)) {
       var contact_hexPublicKey = voterId.hexPublicKey;
       var contact_email = email;
-      var contact$1 = {
+      var contact = {
         hexPublicKey: contact_hexPublicKey,
         email: contact_email,
         phoneNumber: undefined
       };
       Curry._1(dispatch, {
             TAG: /* Contact_Add */5,
-            _0: contact$1
+            _0: contact
           });
     }
-    var voterPublicKey = contact !== undefined ? contact.hexPublicKey : voterId.hexPublicKey;
+    var voterPublicKey = voterId.hexPublicKey;
     var ballot_electionPublicKey = election.ownerPublicKey;
     var ballot = {
       electionId: electionId,
@@ -78,7 +77,7 @@ function ElectionShow__AddByEmailButton(Props) {
           TAG: /* Transaction_Add_With_Broadcast */3,
           _0: tx
         });
-    if (Belt_Option.isNone(contact)) {
+    if (Belt_Option.isNone(undefined)) {
       if (Config.env === "dev") {
         console.log(voterId.hexSecretKey);
       } else {
@@ -144,7 +143,7 @@ function ElectionShow__AddByEmailButton(Props) {
                                       children: React.createElement(ReactNativePaper.Button, {
                                             mode: "outlined",
                                             onPress: onSubmit,
-                                            children: Belt_Option.isSome(contact) ? "Utiliser le contact existant" : "Envoyer une invitation par email"
+                                            children: Belt_Option.isSome(match$2[0]) ? "Utiliser le contact existant" : "Envoyer une invitation par email"
                                           })
                                     })))
                       })

@@ -22,6 +22,9 @@ let make = (~electionId) => {
   let onSubmit = _ => {
     let voterId = Identity.make() // Only use if no contact found
 
+    // NOTE: This is to disable the "Use existing contact feature"
+    let contact:option<Contact.t> = None
+
     if Option.isNone(contact) {
       let contact : Contact.t = {
         hexPublicKey: voterId.hexPublicKey,
