@@ -176,9 +176,11 @@
 | <span class="hljs-function"><span class="hljs-params">_</span> =&gt;</span> #dev
 }
 
+<span class="hljs-keyword">let</span> env = #prod
+
 <span class="hljs-keyword">let</span> api_url = <span class="hljs-keyword">switch</span> env {
 | #dev  =&gt; <span class="hljs-string">&quot;http://localhost:8080&quot;</span>
-| #prod =&gt; <span class="hljs-string">&quot;https://api.scrutin.app&quot;</span>
+| #prod =&gt; <span class="hljs-string">&quot;https://scrutin-node.fly.dev&quot;</span>
 }</pre></div></div>
             
         </li>
