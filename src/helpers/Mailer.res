@@ -11,7 +11,7 @@ let send = (ballotId, orgId: Identity.t, voterId: Identity.t, email) => {
     Hello !
     Vous êtes invité à une election.
     Cliquez ici pour voter :
-    https://scrutin.app/ballots/${ballotId}#${hexSecretKey}
+    https://demo.scrutin.app/ballots/${ballotId}#${hexSecretKey}
   `
 
   let data = {

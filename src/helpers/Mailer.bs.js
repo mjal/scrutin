@@ -12,7 +12,7 @@ function send(ballotId, orgId, voterId, email) {
   var timestamp = (Date.now());
   var hexTimestamp = timestamp.toString(16);
   var hexSignedTimestamp = Identity.signHex(orgId, hexTimestamp);
-  var message = "\n    Hello !\n    Vous êtes invité à une election.\n    Cliquez ici pour voter :\n    https://scrutin.app/ballots/" + ballotId + "#" + hexSecretKey + "\n  ";
+  var message = "\n    Hello !\n    Vous êtes invité à une election.\n    Cliquez ici pour voter :\n    https://demo.scrutin.app/ballots/" + ballotId + "#" + hexSecretKey + "\n  ";
   var dict = {};
   dict["email"] = email;
   dict["subject"] = "Vous êtes invité à un election";
