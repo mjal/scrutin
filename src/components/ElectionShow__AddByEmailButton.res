@@ -66,7 +66,7 @@ let make = (~electionId) => {
   }
 
   <>
-    <Button mode=#outlined onPress={_ => setshowModal(_ => true)}>
+    <Button mode=#contained onPress={_ => setshowModal(_ => true)}>
       { "Ajouter un participant" -> React.string }
     </Button>
 

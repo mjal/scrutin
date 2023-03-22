@@ -93,7 +93,7 @@ function ElectionShow__AddByEmailButton(Props) {
           }));
   };
   return React.createElement(React.Fragment, undefined, React.createElement(ReactNativePaper.Button, {
-                  mode: "outlined",
+                  mode: "contained",
                   onPress: (function (param) {
                       Curry._1(setshowModal, (function (param) {
                               return true;
