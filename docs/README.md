@@ -1,3 +1,9 @@
+This is home of the [docco](http://ashkenas.com/docco/) docs. Published using github pages.
+
+See [Core](https://scrutin-app.github.io/scrutin/src/Core.html) for exemple.
+
+Should be moved out of the main branch
+
 #### I - End-to-end encryption
 
 **Your vote, your choice.**
