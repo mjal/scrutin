@@ -13,7 +13,7 @@
     "re:clean": "rescript clean",
     "re:rebuild": "rescript clean && rescript build -with-deps",
     "re:start": "rescript build -with-deps -w",
-    "doc": "docco -L docs/languages.json src/*.res src/model/*.res src/helpers/*.res ",
+    "doc": "docco -L assets/languages.json src/**/*.res",
     "eas-build-post-install": "rescript clean && rescript build -with-deps"
   },
   "dependencies": {

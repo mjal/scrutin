@@ -5,7 +5,7 @@ module Election = {
   let create = (
     // **name**: The name of the election
     ~name : string,
-    // **desc**: A description of the election
+    // **desc**: A description of the election (optional)
     ~desc : string,
     // **choices**: The options we can choose from
     ~choices : array<string>
