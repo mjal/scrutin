@@ -29,13 +29,14 @@ module Item = {
 @react.component
 let make = () => {
   let (state, dispatch) = Context.use()
+  let { t } = ReactI18next.useTranslation()
 
   let clear = _ => {
     Transaction.clear()
     dispatch(Reset)
   }
 
-  <List.Section title=title=t(."transactions.title")>
+  <List.Section title=t(."transactions.title")>
 
     { Array.map(state.txs, (tx) =>
       <Item tx key=tx.contentHash />
