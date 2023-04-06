@@ -18,6 +18,9 @@ let identities_store = (ids) => (_dispatch) => Identity.store_all(ids)
 let transactions_store = (txs) => (_dispatch) => Transaction.store_all(txs)
 let trustees_store = (trustees) => (_dispatch) => Trustee.store_all(trustees)
 let contacts_store = (contacts) => (_dispatch) => Contact.store_all(contacts)
+let language_store = (language) =>
+  (_dispatch) =>
+    ReactNativeAsyncStorage.setItem("config.language", language) -> ignore
 
 // ## LocalStorage - Fetch
 
@@ -49,6 +52,19 @@ let contacts_fetch = (dispatch) => {
     Array.map(os, (o) => dispatch(StateMsg.Contact_Add(o)))
   }) -> ignore
 }
+
+let language_fetch = () =>
+  (_dispatch) =>
+    ReactNativeAsyncStorage.getItem("config.language")
+    -> Promise.thenResolve(Js.Null.toOption)
+    -> Promise.thenResolve((language) => {
+      switch language {
+      | Some(language) =>
+        let { i18n } = ReactI18next.useTranslation()
+        i18n.changeLanguage(. language)
+      | None => ()
+      }
+    }) -> ignore
 
 // ## LocalStorage - Clear
 
