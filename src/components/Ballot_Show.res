@@ -3,8 +3,9 @@ let make = (~ballotId) => {
   let (state, dispatch) = Context.use()
   let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
 
-  let ballot = State.getBallot(state, ballotId)
-  let ciphertext = Option.getWithDefault(ballot.ciphertext, "")
+  if Map.String.has(state.cached_ballots, ballotId) {
+    let ballot = State.getBallot(state, ballotId)
+    let ciphertext = Option.getWithDefault(ballot.ciphertext, "")
 
     <List.Section title="Ballot">
 
@@ -42,4 +43,7 @@ let make = (~ballotId) => {
       <Ballot_New ballotId />
 
     </List.Section>
+  } else {
+    <Text>{ "Loading" -> React.string }</Text>
+  }
 }
