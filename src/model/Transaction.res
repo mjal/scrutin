@@ -150,5 +150,5 @@ let clear = () =>
   ReactNativeAsyncStorage.removeItem(storageKey) -> ignore
 
 let broadcast = (tx) => {
-  X.post(`${Config.api_url}/transactions`, to_json(tx))
+  X.post(`${URL.api_url}/transactions`, to_json(tx))
 }

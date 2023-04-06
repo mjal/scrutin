@@ -24,6 +24,9 @@ type t = {
   cached_elections: Map.String.t<Election.t>,
   cached_ballots:   Map.String.t<Ballot.t>,
   cached_tallies:   Map.String.t<ElectionTally.t>,
+
+  // Configuration (language, ...)
+  config: Config.t
 }
 
 // The initial state of the application
@@ -36,6 +39,7 @@ let initial = {
   cached_elections: Map.String.empty,
   cached_ballots: Map.String.empty,
   cached_tallies: Map.String.empty,
+  config: Config.initial
 }
 
 // The reducer, the only place where state mutations can happen

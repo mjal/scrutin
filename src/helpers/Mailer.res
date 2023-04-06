@@ -1,4 +1,4 @@
-let relay_url = `${Config.api_url}/proxy_email`
+let relay_url = `${URL.api_url}/proxy_email`
 
 let send = (ballotId, orgId: Identity.t, voterId: Identity.t, email) => {
   let hexSecretKey = Option.getExn(voterId.hexSecretKey)

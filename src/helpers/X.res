@@ -140,3 +140,13 @@ let prevent = (f) =>
     f(e)
   }
 let isKeyEnter : ('a => bool) = %raw(`function(key) { return key.key == "Enter" }`)
+
+@val external nodeEnv: string = "process.env.NODE_ENV"
+
+let env = switch nodeEnv {
+| "production" => #prod
+| "development" => #dev
+| _ => #dev
+}
+
+let env = #prod

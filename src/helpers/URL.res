@@ -70,3 +70,8 @@ let getSearchParameter = (name) => {
   let res = %raw(`getParameterByName(name)`)
   res
 }
+
+let api_url = switch X.env {
+| #dev  => "http://localhost:8080"
+| #prod => "https://scrutin-node.fly.dev"
+}

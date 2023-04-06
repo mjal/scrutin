@@ -59,7 +59,7 @@ let trustees_clear = (_dispatch) => Trustee.clear()
 // ## Network - Get
 
 let transactions_get = (dispatch) => {
-  Webapi.Fetch.fetch(j`${Config.api_url}/transactions`)
+  Webapi.Fetch.fetch(j`${URL.api_url}/transactions`)
   -> Promise.then(Webapi.Fetch.Response.json)
   -> Promise.thenResolve(response => {
     switch Js.Json.decodeArray(response) {

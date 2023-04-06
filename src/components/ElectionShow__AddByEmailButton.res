@@ -54,7 +54,7 @@ let make = (~electionId) => {
     dispatch(Transaction_Add_With_Broadcast(tx))
 
     if Option.isNone(contact) {
-      if Config.env == #dev {
+      if X.env == #dev {
         Js.log(voterId.hexSecretKey)
       } else {
         let ballotId = tx.contentHash
