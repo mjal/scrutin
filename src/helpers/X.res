@@ -61,6 +61,12 @@ let styles = {
       ()
     ),
 
+    "margin-y-8": viewStyle(
+      ~marginTop=8.0->dp,
+      ~marginBottom=8.0->dp,
+      ()
+    ),
+
     "modal": textStyle(
       ~padding=10.0->dp,
       ~margin=10.0->dp,
