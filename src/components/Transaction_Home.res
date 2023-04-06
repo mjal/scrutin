@@ -1,27 +1,27 @@
 module Item = {
   @react.component
-  let make = (~tx : Transaction.t) => {
+  let make = (~event : Event_.t) => {
     let (_state, dispatch) = Context.use()
     let { t } = ReactI18next.useTranslation()
 
-    let description = switch tx.type_ {
+    let description = switch event.type_ {
     | #election => "Election"
     | #ballot   => "Ballot"
     | #tally    => "Tally"
     }
 
     let onPress = _ => {
-      switch tx.type_ {
-      | #election => dispatch(Navigate(Election_Show(tx.contentHash)))
-      | #ballot   => dispatch(Navigate(Ballot_Show(tx.contentHash)))
+      switch event.type_ {
+      | #election => dispatch(Navigate(Election_Show(event.contentHash)))
+      | #ballot   => dispatch(Navigate(Ballot_Show(event.contentHash)))
       | #tally    =>
-        let tally = Transaction.SignedTally.unwrap(tx)
+        let tally = Event_.SignedTally.unwrap(event)
         dispatch(Navigate(Election_Show(tally.electionId)))
       }
     }
 
     <Card>
-      <List.Item key=tx.contentHash title="type" description onPress />
+      <List.Item key=event.contentHash title="type" description onPress />
     </Card>
   }
 }
@@ -32,14 +32,14 @@ let make = () => {
   let { t } = ReactI18next.useTranslation()
 
   let clear = _ => {
-    Transaction.clear()
+    Event_.clear()
     dispatch(Reset)
   }
 
   <List.Section title=t(."transactions.title")>
 
-    { Array.map(state.txs, (tx) =>
-      <Item tx key=tx.contentHash />
+    { Array.map(state.events, (event) =>
+      <Item event key=event.contentHash />
     ) -> React.array }
 
     <X.Title>{ "-" -> React.string }</X.Title>

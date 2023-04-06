@@ -2,8 +2,8 @@ type t =
   | Reset
   | Navigate(Route.t)
   | Identity_Add(Identity.t)
-  | Transaction_Add(Transaction.t)
-  | Transaction_Add_With_Broadcast(Transaction.t)
+  | Event_Add(Event_.t)
+  | Event_Add_With_Broadcast(Event_.t)
   | Trustee_Add(Trustee.t)
   | Contact_Add(Contact.t)
   | Contact_Remove(int)

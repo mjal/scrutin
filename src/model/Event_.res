@@ -1,9 +1,9 @@
 // #### Description
-// The database in an append-only log of signed events called **transactions**.
+// The database in an append-only log of signed events
 
 // ---
 
-// #### Transaction.t
+// #### Event.t
 type t = {
   // **type**
   type_: [#election | #ballot | #tally],
@@ -28,7 +28,7 @@ let hash = (str) => {
   Sjcl.Hex.fromBits(baEventHash)
 }
 
-// #### Election transactions
+// #### Election events
 module SignedElection = {
   let make = (election : Election.t, owner : Identity.t) => {
     let content = Election.stringify(election)
@@ -42,12 +42,12 @@ module SignedElection = {
     }
   }
 
-  let unwrap = (tx) : Election.t => {
-    Election.parse(tx.content)
+  let unwrap = (ev) : Election.t => {
+    Election.parse(ev.content)
   }
 }
 
-// #### Ballot transactions
+// #### Ballot events
 module SignedBallot = {
   let make = (ballot : Ballot.t, owner : Identity.t) => {
     let content = Ballot.stringify(ballot)
@@ -61,12 +61,12 @@ module SignedBallot = {
     }
   }
 
-  let unwrap = (tx) : Ballot.t => {
-    Ballot.parse(tx.content)
+  let unwrap = (ev) : Ballot.t => {
+    Ballot.parse(ev.content)
   }
 }
 
-// #### Tally transactions
+// #### Tally event
 module SignedTally = {
   let make = (tally : ElectionTally.t, owner : Identity.t) => {
     let content = ElectionTally.stringify(tally)
@@ -80,8 +80,8 @@ module SignedTally = {
     }
   }
 
-  let unwrap = (tx) : ElectionTally.t => {
-    ElectionTally.parse(tx.content)
+  let unwrap = (ev) : ElectionTally.t => {
+    ElectionTally.parse(ev.content)
   }
 }
 
@@ -99,7 +99,7 @@ let from_json = (json) => {
     | "election" => #election
     | "ballot" => #ballot
     | "tally" => #tally
-    | _ => Js.Exn.raiseError("Unknown transaction type")
+    | _ => Js.Exn.raiseError("Unknown event type")
     }
     {
       type_,
@@ -135,7 +135,7 @@ let to_json = (r: t) : Js.Json.t => {
 
 
 // #### Storage
-let storageKey = "transactions"
+let storageKey = "events"
 
 let fetch_all = () =>
   ReactNativeAsyncStorage.getItem(storageKey)
@@ -143,12 +143,12 @@ let fetch_all = () =>
   -> Promise.thenResolve(Option.map(_, parse_array))
   -> Promise.thenResolve(Option.getWithDefault(_, []))
 
-let store_all = (txs) =>
-  ReactNativeAsyncStorage.setItem(storageKey, stringify_array(txs)) -> ignore
+let store_all = (evs) =>
+  ReactNativeAsyncStorage.setItem(storageKey, stringify_array(evs)) -> ignore
 
 let clear = () =>
   ReactNativeAsyncStorage.removeItem(storageKey) -> ignore
 
-let broadcast = (tx) => {
-  X.post(`${URL.api_url}/transactions`, to_json(tx))
+let broadcast = (ev) => {
+  X.post(`${URL.api_url}/transactions`, to_json(ev))
 }

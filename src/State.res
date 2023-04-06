@@ -1,9 +1,8 @@
 // The state of the application.
 
 type t = {
-  // The transactions.
-  // See [[Transaction]]
-  txs: array<Transaction.t>,
+  // See [[Event]]
+  events: array<Event_.t>,
 
   // The controlled identities (as voter or election organizer)
   // See [[Identity]]
@@ -29,7 +28,7 @@ type t = {
 // The initial state of the application
 let initial = {
   route: Home_Elections,
-  txs: [],
+  events: [],
   ids: [],
   trustees: [],
   contacts: [],
@@ -45,8 +44,8 @@ let reducer = (state, action: StateMsg.t) => {
   | Reset =>
     (initial, [
       StateEffect.identities_fetch,
-      //StateEffect.transactions_fetch,
-      StateEffect.transactions_get,
+      //StateEffect.events_fetch,
+      StateEffect.events_get,
       StateEffect.trustees_fetch,
       StateEffect.contacts_fetch,
       StateEffect.goToUrl,
@@ -57,17 +56,17 @@ let reducer = (state, action: StateMsg.t) => {
     let ids = Array.concat(state.ids, [id])
     ({...state, ids}, [StateEffect.identities_store(ids)])
 
-  | Transaction_Add(tx) =>
-    let txs = Array.concat(state.txs, [tx])
-    ({...state, txs}, [
-      StateEffect.cache_update(tx),
+  | Event_Add(event) =>
+    let events = Array.concat(state.events, [event])
+    ({...state, events}, [
+      StateEffect.cache_update(event),
     ])
 
-  | Transaction_Add_With_Broadcast(tx) =>
-    let txs = Array.concat(state.txs, [tx])
-    ({...state, txs}, [
-      StateEffect.transaction_broadcast(tx),
-      StateEffect.cache_update(tx),
+  | Event_Add_With_Broadcast(event) =>
+    let events = Array.concat(state.events, [event])
+    ({...state, events}, [
+      StateEffect.event_broadcast(event),
+      StateEffect.cache_update(event),
     ])
 
   | Trustee_Add(trustee) =>

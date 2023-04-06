@@ -1,21 +1,21 @@
 // ## Cache management
 
-let cache_update = (tx : Transaction.t) =>
+let cache_update = (ev : Event_.t) =>
   (dispatch) => {
-    switch tx.type_ {
-    | #election => dispatch(StateMsg.Cache_Election_Add(tx.contentHash,
-      Transaction.SignedElection.unwrap(tx)))
-    | #ballot => dispatch(StateMsg.Cache_Ballot_Add(tx.contentHash,
-      Transaction.SignedBallot.unwrap(tx)))
-    | #tally => dispatch(StateMsg.Cache_Tally_Add(tx.contentHash,
-      Transaction.SignedTally.unwrap(tx)))
+    switch ev.type_ {
+    | #election => dispatch(StateMsg.Cache_Election_Add(ev.contentHash,
+      Event_.SignedElection.unwrap(ev)))
+    | #ballot => dispatch(StateMsg.Cache_Ballot_Add(ev.contentHash,
+      Event_.SignedBallot.unwrap(ev)))
+    | #tally => dispatch(StateMsg.Cache_Tally_Add(ev.contentHash,
+      Event_.SignedTally.unwrap(ev)))
     }
   }
 
 // ## LocalStorage - Store
 
 let identities_store = (ids) => (_dispatch) => Identity.store_all(ids)
-let transactions_store = (txs) => (_dispatch) => Transaction.store_all(txs)
+let events_store = (evs) => (_dispatch) => Event_.store_all(evs)
 let trustees_store = (trustees) => (_dispatch) => Trustee.store_all(trustees)
 let contacts_store = (contacts) => (_dispatch) => Contact.store_all(contacts)
 let language_store = (language) =>
@@ -32,10 +32,10 @@ let identities_fetch = (dispatch) => {
   }) -> ignore
 }
 
-let transactions_fetch = (dispatch) => {
-  Transaction.fetch_all()
-  -> Promise.thenResolve((txs) => {
-    Array.map(txs, (tx) => dispatch(StateMsg.Transaction_Add(tx)))
+let events_fetch = (dispatch) => {
+  Event_.fetch_all()
+  -> Promise.thenResolve((evs) => {
+    Array.map(evs, (ev) => dispatch(StateMsg.Event_Add(ev)))
   }) -> ignore
 }
 
@@ -69,20 +69,20 @@ let language_fetch = () =>
 // ## LocalStorage - Clear
 
 let identities_clear = (_dispatch) => Identity.clear()
-let transactions_clear = (_dispatch) => Transaction.clear()
+let events_clear = (_dispatch) => Event_.clear()
 let trustees_clear = (_dispatch) => Trustee.clear()
 
 // ## Network - Get
 
-let transactions_get = (dispatch) => {
+let events_get = (dispatch) => {
   Webapi.Fetch.fetch(j`${URL.api_url}/transactions`)
   -> Promise.then(Webapi.Fetch.Response.json)
   -> Promise.thenResolve(response => {
     switch Js.Json.decodeArray(response) {
       | Some(jsons) => {
         let _ = Array.map(jsons, (json) => {
-          let tx = Transaction.from_json(json)
-          dispatch(StateMsg.Transaction_Add(tx))
+          let ev = Event_.from_json(json)
+          dispatch(StateMsg.Event_Add(ev))
           ()
         })
         ()
@@ -101,10 +101,10 @@ let identities_get = (dispatch) => {
   }) -> ignore
 }
 
-// ## Send transaction to the server
-let transaction_broadcast = (tx) =>
+// ## Send event to the server
+let event_broadcast = (ev) =>
   (_dispatch) => {
-    Transaction.broadcast(tx) -> ignore
+    Event_.broadcast(ev) -> ignore
   }
 
 // ## Redirect based on url
@@ -112,9 +112,9 @@ let transaction_broadcast = (tx) =>
 let goToUrl = (dispatch) => {
   URL.getAndThen((url) => {
     switch url {
-      | list{"ballots", txHash} =>
+      | list{"ballots", id} =>
         let _ = Js.Global.setTimeout(() => {
-          dispatch(StateMsg.Navigate(Ballot_Show(txHash)))
+          dispatch(StateMsg.Navigate(Ballot_Show(id)))
         }, 500)
       | _ => ()
     }

@@ -50,8 +50,8 @@ let make = (~electionId) => {
       voterPublicKey
     }
 
-    let tx = Transaction.SignedBallot.make(ballot, orgId)
-    dispatch(Transaction_Add_With_Broadcast(tx))
+    let tx = Event_.SignedBallot.make(ballot, orgId)
+    dispatch(Event_Add_With_Broadcast(tx))
 
     if Option.isNone(contact) {
       if X.env == #dev {

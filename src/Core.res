@@ -30,16 +30,16 @@ module Election = {
         identity.hexPublicKey, trustee)
   
       // wrap it in a transaction
-      let transaction = Transaction.SignedElection.make(election, identity)
+      let event = Event_.SignedElection.make(election, identity)
   
       // Add the new transaction<br />
-      dispatch(StateMsg.Transaction_Add_With_Broadcast(transaction))
+      dispatch(StateMsg.Event_Add_With_Broadcast(event))
   
       // Store the trustee private key
       dispatch(StateMsg.Trustee_Add(trustee))
   
       // Go the election page
-      dispatch(StateMsg.Navigate(Election_Show(transaction.contentHash)))
+      dispatch(StateMsg.Navigate(Election_Show(event.contentHash)))
     }
   }
 
@@ -68,10 +68,10 @@ module Election = {
 
       // Select the relevents ballots <br />
       let ballots =
-        state.txs
-        -> Array.keep((tx) => tx.type_ == #ballot)
-        -> Array.keep((tx) => {
-          let ballot = Transaction.SignedBallot.unwrap(tx)
+        state.events
+        -> Array.keep((event) => event.type_ == #ballot)
+        -> Array.keep((event) => {
+          let ballot = Event_.SignedBallot.unwrap(event)
           ballot.electionId == electionId
         })
 
@@ -79,7 +79,7 @@ module Election = {
       // TODO:Only take the latest from the chain
       let ciphertexts =
         ballots
-        -> Array.map(Transaction.SignedBallot.unwrap)
+        -> Array.map(Event_.SignedBallot.unwrap)
         -> Array.map((ballot) => ballot.ciphertext)
         -> Array.keep((ciphertext) => Option.getWithDefault(ciphertext, "") != "")
         -> Array.map((ciphertext) => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
@@ -89,7 +89,7 @@ module Election = {
       // (for every ballot we generate a new private credential)
       let pubcreds =
         ballots
-        -> Array.map(Transaction.SignedBallot.unwrap)
+        -> Array.map(Event_.SignedBallot.unwrap)
         -> Array.map((ballot) => ballot.pubcred)
         -> Array.map((pubcred) => Option.getWithDefault(pubcred, ""))
         -> Array.keep((pubcred) => pubcred != "")
@@ -109,9 +109,9 @@ module Election = {
         election.ownerPublicKey == id.hexPublicKey
       }) -> Option.getExn
 
-      let tx = Transaction.SignedTally.make(tally, owner)
+      let tx = Event_.SignedTally.make(tally, owner)
 
-      dispatch(StateMsg.Transaction_Add_With_Broadcast(tx))
+      dispatch(StateMsg.Event_Add_With_Broadcast(tx))
     }
   }
 }
@@ -161,10 +161,10 @@ module Ballot = {
       }) -> Option.getExn
 
       // Wrap it into a transaction
-      let tx = Transaction.SignedBallot.make(ballot, owner)
+      let tx = Event_.SignedBallot.make(ballot, owner)
 
       // Add the new transaction<br />
-      dispatch(StateMsg.Transaction_Add_With_Broadcast(tx))
+      dispatch(StateMsg.Event_Add_With_Broadcast(tx))
 
       // Go the ballot page
       dispatch(Navigate(Election_Show(ballot.electionId)))
