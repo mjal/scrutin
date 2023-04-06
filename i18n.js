@@ -11,6 +11,11 @@ i18next
         translation: {
           title: "Verifiable secret voting"
         }
+      },
+      fr: {
+        translation: {
+          title: "Vote secret verifiable"
+        }
       }
     }
   })
