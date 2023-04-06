@@ -3,18 +3,24 @@ let make = () => {
   let (_state, dispatch) = Context.use()
   let { t, i18n } = ReactI18next.useTranslation()
 
+  let language = switch i18n.language {
+  | "en-US"  => "en"
+  | language => language
+  }
+
   <>
     <List.Section
       title=t(."settings.language")
       style=X.styles["margin-x"]>
       <X.SegmentedButtons
-        value=i18n.language
+        value=language
         buttons=[
           {value: "en", label: "English"},
           {value: "fr", label: "Français"}
         ]
         onValueChange={lang => {
           i18n.changeLanguage(. lang)
+          dispatch(Config_Store_Language(lang))
         }}
       />
     </List.Section>
