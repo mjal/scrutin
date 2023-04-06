@@ -1,16 +1,17 @@
 @react.component
 let make = () => {
   let (state, dispatch) = Context.use()
+  let { t } = ReactI18next.useTranslation()
 
   <>
-    <X.Title>{ "Contacts" -> React.string }</X.Title>
+    <X.Title>{ t(."contact.title") -> React.string }</X.Title>
     <List.Section title="" style=X.styles["margin-x"]>
     { Array.mapWithIndex(state.contacts, (i, contact) => {
       <Card key=contact.hexPublicKey>
         <Card.Content>
-          <List.Item title="email"
+          <List.Item title=t(."contact.item.email")
             description=Option.getWithDefault(contact.email, "") />
-          <List.Item title="phoneNumber"
+          <List.Item title=t(."contact.item.phoneNumber")
             description=Option.getWithDefault(contact.phoneNumber, "") />
           <List.Item title=("0x" ++ contact.hexPublicKey) />
         </Card.Content>
@@ -18,7 +19,7 @@ let make = () => {
           <Button mode=#contained onPress={_ =>
             dispatch(Contact_Remove(i))
           }>
-            {"Delete"->React.string}
+            {t(."contact.delete") -> React.string}
           </Button>
         </Card.Actions>
       </Card>
@@ -29,7 +30,7 @@ let make = () => {
       Contact.clear()
       dispatch(Reset)
     }}>
-      { "Clear contacts" -> React.string }
+      { t(."contact.clearAll") -> React.string }
     </Button>
 
     <X.Title>{ "-" -> React.string }</X.Title>

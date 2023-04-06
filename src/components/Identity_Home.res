@@ -1,6 +1,7 @@
 module Modal_Import = {
   @react.component
   let make = (~visible, ~setVisible, ~onImport) => {
+    let { t } = ReactI18next.useTranslation()
     let (importedPrivateKey, setImportedPrivateKey) = React.useState(_ => "")
 
     let onSubmit = () => {
@@ -15,7 +16,7 @@ module Modal_Import = {
           testID="choice-modal">
           <TextInput
             mode=#flat
-            label="Private key"
+            label=t(."identity.home.modal.privateKey")
             testID="input-import-private-key"
             autoFocus=true
             value=importedPrivateKey
@@ -23,7 +24,7 @@ module Modal_Import = {
             onSubmitEditing={_=>onSubmit()}
           />
           <Button mode=#contained onPress={_=> onSubmit()}>
-            { "Ajouter" -> React.string }
+            { t(."identity.home.modal.add") -> React.string }
           </Button>
         </View>
       </Modal>
@@ -34,10 +35,13 @@ module Modal_Import = {
 @react.component
 let make = () => {
   let (state, dispatch) = Context.use()
+  let { t } = ReactI18next.useTranslation()
   let (visibleImportModal, setVisibleImportModal) = React.useState(_ => false)
 
   <>
-    <X.Title>{ "Identités" -> React.string }</X.Title>
+    <X.Title>
+      { t(."identity.home.title") -> React.string }
+    </X.Title>
     <List.Section title="" style=X.styles["margin-x"]>
     { Array.map(state.ids, (id) => {
       <Card key=id.hexPublicKey>
@@ -54,7 +58,7 @@ let make = () => {
     <Button mode=#contained onPress={_ => {
       dispatch(Identity_Add(Identity.make()))
     }}>
-      { "Generate identity" -> React.string }
+      { t(."identity.home.generate") -> React.string }
     </Button>
 
     <X.Title>{ "-" -> React.string }</X.Title>
@@ -62,7 +66,7 @@ let make = () => {
     <Button mode=#contained onPress={_ => {
       setVisibleImportModal(_ => true)
     }}>
-      { "Import identity" -> React.string }
+      { t(."identity.home.import") -> React.string }
     </Button>
 
     <X.Title>{ "-" -> React.string }</X.Title>
@@ -71,7 +75,7 @@ let make = () => {
       Identity.clear()
       dispatch(Reset)
     }}>
-      { "Clear identities" -> React.string }
+      { t(."identity.home.clear") -> React.string }
     </Button>
 
     <X.Title>{ "-" -> React.string }</X.Title>

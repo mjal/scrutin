@@ -1,6 +1,7 @@
 @react.component
 let make = (~electionId) => {
   let (state, dispatch) = Context.use()
+  let { t } = ReactI18next.useTranslation()
   let (email, setEmail) = React.useState(_ => "")
   let (contact:option<Contact.t>, setContact) = React.useState(_ => None)
   let (showModal, setshowModal) = React.useState(_ => false);
@@ -67,19 +68,21 @@ let make = (~electionId) => {
 
   <>
     <Button mode=#contained onPress={_ => setshowModal(_ => true)}>
-      { "Ajouter un participant" -> React.string }
+      { t(."election.show.addByEmail.addParticipant") -> React.string }
     </Button>
 
     <Portal>
       <Modal visible={showModal} onDismiss={_ => setshowModal(_ => false)}>
         <View style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]]) testID="choice-modal">
           <Title style=X.styles["title"]>
-            { "Invite someone by email" -> React.string }
+            {
+              t(."election.show.addByEmail.modal.title")  -> React.string
+            }
           </Title>
 
           <TextInput
             mode=#flat
-            label="Email"
+            label=t(."election.show.addByEmail.modal.email")
             value=email
             onChangeText
             autoFocus=true
@@ -88,14 +91,16 @@ let make = (~electionId) => {
 
           <X.Row>
             <X.Col>
-              <Button onPress={_ => { setEmail(_ => ""); setshowModal(_ => false)} }>{"Retour"->React.string}</Button>
+              <Button onPress={_ => { setEmail(_ => ""); setshowModal(_ => false)} }>
+                { t(."election.show.addByEmail.modal.back") -> React.string }
+              </Button>
             </X.Col>
             <X.Col>
               <Button mode=#outlined onPress=onSubmit>
                 { /*if Option.isSome(contact) {
                   "Utiliser le contact existant" -> React.string
                 } else */{
-                  "Envoyer une invitation par email" -> React.string
+                  { t(."election.show.addByEmail.modal.sendInvite") -> React.string }
                 } }
               </Button>
             </X.Col>

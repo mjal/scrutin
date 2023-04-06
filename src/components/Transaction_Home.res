@@ -2,6 +2,7 @@ module Item = {
   @react.component
   let make = (~tx : Transaction.t) => {
     let (_state, dispatch) = Context.use()
+    let { t } = ReactI18next.useTranslation()
 
     let description = switch tx.type_ {
     | #election => "Election"
@@ -34,7 +35,7 @@ let make = () => {
     dispatch(Reset)
   }
 
-  <List.Section title="Transactions">
+  <List.Section title=title=t(."transactions.title")>
 
     { Array.map(state.txs, (tx) =>
       <Item tx key=tx.contentHash />
@@ -43,7 +44,7 @@ let make = () => {
     <X.Title>{ "-" -> React.string }</X.Title>
 
     <Button mode=#contained onPress=clear>
-      { "Clear" -> React.string }
+      { t(."transactions.clear") -> React.string }
     </Button>
   </List.Section>
 }

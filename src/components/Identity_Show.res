@@ -1,6 +1,7 @@
 @react.component
 let make = (~publicKey) => {
   let (state, dispatch) = Context.use()
+  let { t } = ReactI18next.useTranslation()
 
   let identity = Array.getBy(state.ids, (id) => {
     id.hexPublicKey == publicKey
@@ -22,13 +23,13 @@ let make = (~publicKey) => {
     -> Map.String.toArray
 
   <>
-    <List.Section title="Identity">
+    <List.Section title=t(."identity.show.title")>
 
-      <List.Item title="Public Key" description=publicKey />
+      <List.Item title=t(."identity.show.publicKey") description=publicKey />
 
-      <List.Item title="Secret Key" description=secretKey />
+      <List.Item title=t(."identity.show.secretKey") description=secretKey />
 
-      <List.Accordion title="Elections">
+      <List.Accordion title=t(."identity.show.elections")>
       {
         Array.map(elections, ((eventHash, _election)) => {
           <List.Item title=eventHash key=eventHash
@@ -38,7 +39,7 @@ let make = (~publicKey) => {
       }
       </List.Accordion>
 
-      <List.Accordion title="Ballots">
+      <List.Accordion title=t(."identity.show.ballots")>
       {
         Array.map(ballots, ((eventHash, _ballot)) => {
           <List.Item title=eventHash key=eventHash

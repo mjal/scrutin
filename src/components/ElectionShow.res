@@ -1,6 +1,7 @@
 @react.component
 let make = (~electionId) => {
   let (state, dispatch) = Context.use()
+  let { t } = ReactI18next.useTranslation()
   let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
   let (showBallots, setShowBallots) = React.useState(_ => false)
 
@@ -20,11 +21,16 @@ let make = (~electionId) => {
     Option.isSome(ballot.ciphertext)
   }) -> Array.length
 
-  let progress  = `${nbBallotsWithCiphertext -> Int.toString} / ${nbBallots -> Int.toString}`
+  let ballotEvents  = `${nbBallotsWithCiphertext -> Int.toString} / ${nbBallots -> Int.toString}`
 
   let tally = Map.String.findFirstBy(state.cached_tallies, (_id, tally) =>
     tally.electionId == electionId
   ) -> Option.map(((_id, tally)) => tally)
+
+  let statusDescription = switch (tally) {
+    | Some(_tally) => t(."election.show.statusFinished")
+    | None => t(."election.show.statusInProgress")
+  }
 
   <>
     <List.Section title="">
@@ -33,41 +39,53 @@ let make = (~electionId) => {
         title=Election.name(election)
         description=Election.description(election) />
 
-      <List.Section title="Choix">
+      <List.Section title=t(."election.show.choices")>
       { Array.mapWithIndex(Election.choices(election), (i, name) => {
         <List.Item title=name key=Int.toString(i) />
       }) -> React.array }
       </List.Section>
 
-      <List.Item title="Status"
-        description={Option.isSome(tally) ? "Finished" : "En cours"} />
+      <List.Item title=t(."election.show.status")
+        description=statusDescription />
 
       <Button mode=#outlined onPress={_ => setShowAdvanced(b => !b)}>
-        { (showAdvanced ? "Hide advanced" : "Show advanced") -> React.string }
+        { (if (showAdvanced) {
+          t(."election.show.hideAdvanced")
+        } else {
+          t(."election.show.showAdvanced")
+        }) -> React.string }
       </Button>
 
       { if showAdvanced {
       <>
-        <List.Item title="Id/Hash" description=electionId />
+        <List.Item title=t(."election.show.id") description=electionId />
 
         {
           let onPress = _ =>
             dispatch(Navigate(Identity_Show(election.ownerPublicKey)))
-          <List.Item title="Owner Public Key" onPress
+          <List.Item title=t(."election.show.ownerPublicKey") onPress
             description=election.ownerPublicKey />
         }
 
-        <List.Item title="Params" description=election.params />
+        <List.Item
+          title=t(."election.show.params")
+          description=election.params />
 
-        <List.Item title="Trustees" description=election.trustees />
+        <List.Item
+          title=t(."election.show.trustees")
+          description=election.trustees />
       </>
       } else { <></> } }
 
-      <List.Item title="Ballot transactions"
-        description=progress />
+      <List.Item title=t(."election.show.ballotEvents")
+        description=ballotEvents />
 
       <Button mode=#outlined onPress={_ => setShowBallots(b => !b)}>
-        { (showBallots ? "Hide ballots" : "Show ballots") -> React.string }
+        { (if (showBallots) {
+          t(."election.show.hideBallots")
+        } else {
+          t(."election.show.showBallots")
+        }) -> React.string }
       </Button>
 
       { if showBallots {
@@ -86,16 +104,18 @@ let make = (~electionId) => {
     </List.Section>
 
     { if Option.isSome(tally) {
-      let result = Option.getExn(tally).result
-      let data = Belenios.Election.scores(result)
+      //let result = Option.getExn(tally).result
+      //let data = Belenios.Election.scores(result)
       <>
-        <List.Item title="Result" description=Option.getExn(tally).result />
+        <List.Item
+          title=t(."election.show.result")
+          description=Option.getExn(tally).result />
         //<ElectionShow__ResultChart data />
       </>
     } else { if Option.isSome(orgId) {
     <>
       <Title style=X.styles["title"]>
-        { "You are admin" -> React.string }
+        { t(."election.show.admin") -> React.string }
       </Title>
 
       <ElectionShow__AddByEmailButton electionId />
@@ -105,13 +125,13 @@ let make = (~electionId) => {
       <Button mode=#outlined onPress={_ =>
         Core.Election.tally(~electionId)(state, dispatch)
       }>
-        { "Close election and tally" -> React.string }
+        { t(."election.show.closeAndTally") -> React.string }
       </Button>
     </>
     } else {
     <>
       <Title style=X.styles["title"]>
-        { "You are not admin" -> React.string }
+        { t(."election.show.notAdmin") -> React.string }
       </Title>
     </>
     } } }

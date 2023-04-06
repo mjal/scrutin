@@ -13,6 +13,7 @@ module Choice = {
 @react.component
 let make = (~ballotId) => {
   let (state, dispatch) = Context.use()
+  let { t } = ReactI18next.useTranslation()
   let (choice, setChoice) = React.useState(_ => None)
 
   let ballot = State.getBallot(state, ballotId)
@@ -25,7 +26,7 @@ let make = (~ballotId) => {
   switch owner {
   | Some(_owner) =>
     <>
-      <List.Section title="Choices">
+      <List.Section title=t(."ballot.new.choices")>
       {
         Array.mapWithIndex(Election.choices(election), (i, choiceName) => {
           let selected = choice == Some(i) 
@@ -39,11 +40,13 @@ let make = (~ballotId) => {
       <Button mode=#contained onPress={_ => {
         let nbChoices = Array.length(Election.choices(election))
         Core.Ballot.vote(~ballot, ~choice, ~nbChoices)(state, dispatch)
-      }}>{ "Voter" -> React.string }</Button>
+      }}>
+        { t(."ballot.new.vote") -> React.string }
+      </Button>
     </>
   | None =>
     <Title style=X.styles["title"]>
-      { "You don't have voting right" -> React.string }
+      { t(."ballot.new.noVotingRight") -> React.string }
     </Title>
   }
 }

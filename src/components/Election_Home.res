@@ -2,22 +2,23 @@ module Election = {
   @react.component
   let make = (~id, ~election:Election.t) => {
     let (_state, dispatch) = Context.use()
+    let { t } = ReactI18next.useTranslation()
+
     let electionParams = Belenios.Election.parse(election.params)
     let show = _ => dispatch(Navigate(Election_Show(id)))
 
     <Card>
       <Card.Content>
-        <List.Section title="Election en cours">
+        <List.Section
+          title=t(."election.home.item.title")>
 
-          <List.Item title="Name"
+          <List.Item
+            title=t(."election.home.item.name")
             description=electionParams.name />
 
-          <List.Item title="Description"
+          <List.Item
+            title=t(."election.home.item.description")
             description=electionParams.description />
-
-          //<List.Item title="Administrator"
-          //  description=election.ownerPublicKey
-          ///>
 
         </List.Section>
       </Card.Content>
@@ -25,7 +26,7 @@ module Election = {
       <Card.Actions>
 
         <Button mode=#contained onPress=show>
-          {"Go"->React.string}
+          { t(."election.home.item.go") -> React.string }
         </Button>
 
       </Card.Actions>
@@ -36,11 +37,12 @@ module Election = {
 @react.component
 let make = () => {
   let (state, dispatch) = Context.use()
+  let { t } = ReactI18next.useTranslation()
 
   <>
     <X.Title>{ "-" -> React.string }</X.Title>
     <Button mode=#contained onPress={_ => dispatch(Navigate(Election_New))}>
-      { "Creer une nouvelle election" -> React.string }
+      { t(."election.home.create") -> React.string }
     </Button>
     <X.Title>{ "-" -> React.string }</X.Title>
     { state.cached_elections

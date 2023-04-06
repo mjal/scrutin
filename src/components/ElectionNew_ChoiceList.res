@@ -17,7 +17,8 @@ module Item = {
 @react.component
 let make = (~choices, ~setChoices) => {
   let (name, setName) = React.useState(_ => "")
-  let (showModal, setshowModal) = React.useState(_ => false);
+  let (showModal, setshowModal) = React.useState(_ => false)
+  let { t } = ReactI18next.useTranslation()
 
   let onSubmit = _ => {
     setChoices(choices => Array.concat(choices, [name]))
@@ -34,7 +35,9 @@ let make = (~choices, ~setChoices) => {
   <View testID="choice-list">
     <X.Row>
       <X.Col>
-        <Text style=X.styles["title"]>{"Choix" -> React.string}</Text>
+        <Text style=X.styles["title"]>
+          { t(."election.new.choiceList.choices") -> React.string }
+        </Text>
       </X.Col>
       <X.Col><Text>{React.string("")}</Text></X.Col>
       <X.Col>
@@ -42,7 +45,7 @@ let make = (~choices, ~setChoices) => {
           mode=#contained
           onPress={_ => setshowModal(_ => true)}
         >
-          {"Ajouter" -> React.string}
+          { t(."election.new.choiceList.add") -> React.string }
         </Button>
       </X.Col>
     </X.Row>
@@ -57,8 +60,11 @@ let make = (~choices, ~setChoices) => {
       }) -> React.array }
     </View>
 
-    <HelperText _type=#error visible={ Array.length(choices) < 2} style=X.styles["center"]>
-      {"Il faut au moins 2 choix !"->React.string}
+    <HelperText
+      _type=#error
+      visible={ Array.length(choices) < 2}
+      style=X.styles["center"]>
+      { t(."election.new.choiceList.error.atLeastTwoChoices") -> React.string }
     </HelperText>
 
     <Portal>
@@ -66,7 +72,7 @@ let make = (~choices, ~setChoices) => {
         <View style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]]) testID="choice-modal">
           <TextInput
             mode=#flat
-            label="Nom du choix"
+            label=t(."election.new.choiceList.modal.choiceName")
             testID="choice-name"
             autoFocus=true
             value=name
@@ -75,10 +81,15 @@ let make = (~choices, ~setChoices) => {
           />
           <X.Row>
             <X.Col>
-              <Button onPress={_ => { setName(_ => ""); setshowModal(_ => false)} }>{"Retour"->React.string}</Button>
+              <Button
+                onPress={_ => { setName(_ => ""); setshowModal(_ => false)} }>
+                { t(."election.new.choiceList.modal.back") -> React.string }
+              </Button>
             </X.Col>
             <X.Col>
-              <Button mode=#contained onPress=onSubmit>{"Ajouter"->React.string}</Button>
+              <Button mode=#contained onPress=onSubmit>
+                { t(."election.new.choiceList.modal.add") -> React.string }
+              </Button>
             </X.Col>
           </X.Row>
         </View>
