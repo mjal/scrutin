@@ -26,6 +26,8 @@ common/lib/ocaml/*
 lib/bs/*
 .merlin
 
+*.bs.js
+
 # cypress artefacts
 app/cypress/screenshots/
 app/cypress/videos/
