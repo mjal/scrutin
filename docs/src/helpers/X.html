@@ -55,11 +55,6 @@
                 </a>
               
                 
-                <a class="source" href="Config.html">
-                  src/helpers/Config.res
-                </a>
-              
-                
                 <a class="source" href="Context.html">
                   src/helpers/Context.res
                 </a>
@@ -95,6 +90,11 @@
                 </a>
               
                 
+                <a class="source" href="ReactI18next.html">
+                  src/helpers/ReactI18next.res
+                </a>
+              
+                
                 <a class="source" href="Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -112,6 +112,11 @@
                 
                 <a class="source" href="../model/Ballot.html">
                   src/model/Ballot.res
+                </a>
+              
+                
+                <a class="source" href="../model/Config.html">
+                  src/model/Config.res
                 </a>
               
                 
@@ -231,6 +236,12 @@
       ()
     ),
 
+    <span class="hljs-string">&quot;margin-y-8&quot;</span>: <span class="hljs-title function_">viewStyle</span>(
+      ~marginTop=<span class="hljs-number">8.0</span>-&gt;dp,
+      ~marginBottom=<span class="hljs-number">8.0</span>-&gt;dp,
+      ()
+    ),
+
     <span class="hljs-string">&quot;modal&quot;</span>: <span class="hljs-title function_">textStyle</span>(
       ~padding=<span class="hljs-number">10.0</span>-&gt;dp,
       ~margin=<span class="hljs-number">10.0</span>-&gt;dp,
@@ -329,6 +340,16 @@
     <span class="hljs-title function_">f</span>(e)
   }
 <span class="hljs-keyword">let</span> isKeyEnter : (<span class="hljs-string">&#x27;a =&gt; bool) = %raw(`function(key) { return key.key == &quot;Enter&quot; }`)
+
+@val external nodeEnv: string = &quot;process.env.NODE_ENV&quot;
+
+let env = switch nodeEnv {
+| &quot;production&quot; =&gt; #prod
+| &quot;development&quot; =&gt; #dev
+| _ =&gt; #dev
+}
+
+let env = #prod
 
 </span></pre></div></div>
             

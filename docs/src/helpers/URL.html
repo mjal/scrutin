@@ -55,11 +55,6 @@
                 </a>
               
                 
-                <a class="source" href="Config.html">
-                  src/helpers/Config.res
-                </a>
-              
-                
                 <a class="source" href="Context.html">
                   src/helpers/Context.res
                 </a>
@@ -95,6 +90,11 @@
                 </a>
               
                 
+                <a class="source" href="ReactI18next.html">
+                  src/helpers/ReactI18next.res
+                </a>
+              
+                
                 <a class="source" href="Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -112,6 +112,11 @@
                 
                 <a class="source" href="../model/Ballot.html">
                   src/model/Ballot.res
+                </a>
+              
+                
+                <a class="source" href="../model/Config.html">
+                  src/model/Config.res
                 </a>
               
                 
@@ -278,6 +283,11 @@ const params = Object.fromEntries(urlSearchParams.entries());</p>
   <span class="hljs-keyword">let</span> _name2 = <span class="hljs-string">`<span class="hljs-subst">${name}</span>2`</span>
   <span class="hljs-keyword">let</span> res = %<span class="hljs-title function_">raw</span>(<span class="hljs-string">`getParameterByName(name)`</span>)
   res
+}
+
+<span class="hljs-keyword">let</span> api_url = <span class="hljs-keyword">switch</span> X.<span class="hljs-property">env</span> {
+| #dev  =&gt; <span class="hljs-string">&quot;http://localhost:8080&quot;</span>
+| #prod =&gt; <span class="hljs-string">&quot;https://scrutin-node.fly.dev&quot;</span>
 }</pre></div></div>
             
         </li>

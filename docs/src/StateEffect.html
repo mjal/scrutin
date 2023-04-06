@@ -55,11 +55,6 @@
                 </a>
               
                 
-                <a class="source" href="helpers/Config.html">
-                  src/helpers/Config.res
-                </a>
-              
-                
                 <a class="source" href="helpers/Context.html">
                   src/helpers/Context.res
                 </a>
@@ -95,6 +90,11 @@
                 </a>
               
                 
+                <a class="source" href="helpers/ReactI18next.html">
+                  src/helpers/ReactI18next.res
+                </a>
+              
+                
                 <a class="source" href="helpers/Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -112,6 +112,11 @@
                 
                 <a class="source" href="model/Ballot.html">
                   src/model/Ballot.res
+                </a>
+              
+                
+                <a class="source" href="model/Config.html">
+                  src/model/Config.res
                 </a>
               
                 
@@ -199,7 +204,10 @@
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">identities_store</span> = (<span class="hljs-params">ids</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span> <span class="hljs-title class_">Identity</span>.<span class="hljs-title function_">store_all</span>(ids)
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">transactions_store</span> = (<span class="hljs-params">txs</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span> <span class="hljs-title class_">Transaction</span>.<span class="hljs-title function_">store_all</span>(txs)
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">trustees_store</span> = (<span class="hljs-params">trustees</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span> <span class="hljs-title class_">Trustee</span>.<span class="hljs-title function_">store_all</span>(trustees)
-<span class="hljs-keyword">let</span> <span class="hljs-title function_">contacts_store</span> = (<span class="hljs-params">contacts</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span> <span class="hljs-title class_">Contact</span>.<span class="hljs-title function_">store_all</span>(contacts)</pre></div></div>
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">contacts_store</span> = (<span class="hljs-params">contacts</span>) =&gt; <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span> <span class="hljs-title class_">Contact</span>.<span class="hljs-title function_">store_all</span>(contacts)
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">language_store</span> = (<span class="hljs-params">language</span>) =&gt;
+  <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span>
+    <span class="hljs-title class_">ReactNativeAsyncStorage</span>.<span class="hljs-title function_">setItem</span>(<span class="hljs-string">&quot;config.language&quot;</span>, language) -&gt; ignore</pre></div></div>
             
         </li>
         
@@ -255,7 +263,20 @@
   -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">thenResolve</span>(<span class="hljs-function">(<span class="hljs-params">os</span>) =&gt;</span> {
     <span class="hljs-title class_">Array</span>.<span class="hljs-title function_">map</span>(os, <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> <span class="hljs-title function_">dispatch</span>(<span class="hljs-title class_">StateMsg</span>.<span class="hljs-title class_">Contact</span>_Add(o)))
   }) -&gt; ignore
-}</pre></div></div>
+}
+
+<span class="hljs-keyword">let</span> <span class="hljs-title function_">language_fetch</span> = (<span class="hljs-params"></span>) =&gt;
+  <span class="hljs-function">(<span class="hljs-params">_dispatch</span>) =&gt;</span>
+    <span class="hljs-title class_">ReactNativeAsyncStorage</span>.<span class="hljs-title function_">getItem</span>(<span class="hljs-string">&quot;config.language&quot;</span>)
+    -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">thenResolve</span>(<span class="hljs-title class_">Js</span>.<span class="hljs-property">Null</span>.<span class="hljs-property">toOption</span>)
+    -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">thenResolve</span>(<span class="hljs-function">(<span class="hljs-params">language</span>) =&gt;</span> {
+      <span class="hljs-keyword">switch</span> language {
+      | <span class="hljs-title class_">Some</span>(language) =&gt;
+        <span class="hljs-keyword">let</span> { i18n } = <span class="hljs-title class_">React</span>I18next.<span class="hljs-title function_">useTranslation</span>()
+        i18n.<span class="hljs-title function_">changeLanguage</span>(. language)
+      | <span class="hljs-function"><span class="hljs-params">None</span> =&gt;</span> ()
+      }
+    }) -&gt; ignore</pre></div></div>
             
         </li>
         
@@ -290,7 +311,7 @@
             
             <div class="content"><div class='highlight'><pre>
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">transactions_get</span> = (<span class="hljs-params">dispatch</span>) =&gt; {
-  <span class="hljs-title class_">Webapi</span>.<span class="hljs-property">Fetch</span>.<span class="hljs-title function_">fetch</span>(j<span class="hljs-string">`<span class="hljs-subst">${Config.api_url}</span>/transactions`</span>)
+  <span class="hljs-title class_">Webapi</span>.<span class="hljs-property">Fetch</span>.<span class="hljs-title function_">fetch</span>(j<span class="hljs-string">`<span class="hljs-subst">${URL.api_url}</span>/transactions`</span>)
   -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">then</span>(<span class="hljs-title class_">Webapi</span>.<span class="hljs-property">Fetch</span>.<span class="hljs-property">Response</span>.<span class="hljs-property">json</span>)
   -&gt; <span class="hljs-title class_">Promise</span>.<span class="hljs-title function_">thenResolve</span>(<span class="hljs-function"><span class="hljs-params">response</span> =&gt;</span> {
     <span class="hljs-keyword">switch</span> <span class="hljs-title class_">Js</span>.<span class="hljs-property">Json</span>.<span class="hljs-title function_">decodeArray</span>(<span class="hljs-params">response</span>) {

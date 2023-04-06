@@ -55,11 +55,6 @@
                 </a>
               
                 
-                <a class="source" href="Config.html">
-                  src/helpers/Config.res
-                </a>
-              
-                
                 <a class="source" href="Context.html">
                   src/helpers/Context.res
                 </a>
@@ -95,6 +90,11 @@
                 </a>
               
                 
+                <a class="source" href="ReactI18next.html">
+                  src/helpers/ReactI18next.res
+                </a>
+              
+                
                 <a class="source" href="Sjcl.html">
                   src/helpers/Sjcl.res
                 </a>
@@ -112,6 +112,11 @@
                 
                 <a class="source" href="../model/Ballot.html">
                   src/model/Ballot.res
+                </a>
+              
+                
+                <a class="source" href="../model/Config.html">
+                  src/model/Config.res
                 </a>
               
                 
@@ -168,7 +173,7 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">let</span> relay_url = <span class="hljs-string">`<span class="hljs-subst">${Config.api_url}</span>/proxy_email`</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">let</span> relay_url = <span class="hljs-string">`<span class="hljs-subst">${URL.api_url}</span>/proxy_email`</span>
 
 <span class="hljs-keyword">let</span> <span class="hljs-title function_">send</span> = (<span class="hljs-params">ballotId, orgId: Identity.t, voterId: Identity.t, email</span>) =&gt; {
   <span class="hljs-keyword">let</span> hexSecretKey = <span class="hljs-title class_">Option</span>.<span class="hljs-title function_">getExn</span>(voterId.<span class="hljs-property">hexSecretKey</span>)
