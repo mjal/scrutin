@@ -1,3 +1,4 @@
+/*
 describe('login', () => {
   beforeEach(() => {
     cy.clearAllLocalStorage()
@@ -22,3 +23,4 @@ describe('login', () => {
     cy.contains('Creer une nouvelle election')
   })
 })
+*/

@@ -14,7 +14,9 @@
     "re:rebuild": "rescript clean && rescript build -with-deps",
     "re:start": "rescript build -with-deps -w",
     "doc": "docco -L assets/languages.json src/*.res src/**/*.res",
-    "eas-build-post-install": "rescript clean && rescript build -with-deps"
+    "eas-build-post-install": "rescript clean && rescript build -with-deps",
+    "test": "cypress run",
+    "test:gui": "cypress open"
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.2",
@@ -48,7 +50,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
-    "cypress": "^12.5.1",
+    "cypress": "^12.9.0",
     "docco": "^0.9.1",
     "rescript": "^10.1.2"
   },
