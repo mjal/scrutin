@@ -18,6 +18,8 @@ jobs:
           node-version: 14
       - name: Npm install
         run: npm install
+      - name: Build rescript
+        run: npm run re:build
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
