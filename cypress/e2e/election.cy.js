@@ -1,7 +1,7 @@
 describe('election', () => {
   beforeEach(() => {
     //cy.clearAllLocalStorage()
-    cy.visit('http://localhost:19000/')
+    cy.visit('http://localhost:19006/')
     cy.intercept("https://scrutin-node.fly.dev/transactions")
     //cy.intercept("https://api.scrutin.app/v0/elections/")
     //cy.get('[data-testid="login-username"]').type(`testaccount`, {delay: 0})
