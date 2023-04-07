@@ -24,3 +24,4 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           start: npm run web
+          wait-on: 'npx wait-on --timeout 60000 http://localhost:19000'
