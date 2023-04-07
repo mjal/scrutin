@@ -1,4 +1,4 @@
-name: Build documentation with Docco and publish it to pages
+name: Docco documentation in gh-pages
 
 on:
   push:
