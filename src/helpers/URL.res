@@ -72,6 +72,6 @@ let getSearchParameter = (name) => {
 }
 
 let api_url = switch X.env {
-| #dev  => "http://localhost:8080"
+| #dev => "https://scrutin-staging.fly.dev"
 | #prod => "https://scrutin-node.fly.dev"
 }
