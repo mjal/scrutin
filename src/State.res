@@ -44,11 +44,9 @@ let reducer = (state, action: StateMsg.t) => {
   | Reset =>
     (initial, [
       StateEffect.identities_fetch,
-      //StateEffect.events_fetch,
-      StateEffect.events_get,
       StateEffect.trustees_fetch,
       StateEffect.contacts_fetch,
-      StateEffect.goToUrl,
+      StateEffect.eventsGetAndGoToUrl,
       StateEffect.importIdentityFromUrl,
     ])
 

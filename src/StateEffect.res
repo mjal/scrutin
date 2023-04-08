@@ -74,7 +74,7 @@ let trustees_clear = (_dispatch) => Trustee.clear()
 
 // ## Network - Get
 
-let events_get = (dispatch) => {
+let eventsGetAndGoToUrl = (dispatch) => {
   Webapi.Fetch.fetch(j`${URL.api_url}/transactions`)
   -> Promise.then(Webapi.Fetch.Response.json)
   -> Promise.thenResolve(response => {
@@ -89,8 +89,19 @@ let events_get = (dispatch) => {
       }
       | None => ()
     }
-  }) -> ignore
-
+  })
+  -> Promise.thenResolve(_ => {
+    URL.getAndThen((url) => {
+      switch url {
+      | list{"ballots", id} =>
+        dispatch(StateMsg.Navigate(Ballot_Show(id)))
+      | list{"elections", id} =>
+        dispatch(StateMsg.Navigate(Election_Show(id)))
+      | _ => ()
+      }
+    })
+  })
+  -> ignore
 }
 
 let identities_get = (dispatch) => {
@@ -106,20 +117,6 @@ let event_broadcast = (ev) =>
   (_dispatch) => {
     Event_.broadcast(ev) -> ignore
   }
-
-// ## Redirect based on url
-
-let goToUrl = (dispatch) => {
-  URL.getAndThen((url) => {
-    switch url {
-      | list{"ballots", id} =>
-        let _ = Js.Global.setTimeout(() => {
-          dispatch(StateMsg.Navigate(Ballot_Show(id)))
-        }, 500)
-      | _ => ()
-    }
-  })
-}
 
 // ## Save secret keys passed by url #hash
 
