@@ -1,6 +1,6 @@
 @react.component
 let make = (~electionId) => {
-  let (state, dispatch) = Context.use()
+  let (state, _) = Context.use()
   let election = State.getElection(state, electionId)
 
   let tally = Map.String.findFirstBy(state.cached_tallies, (_id, tally) =>
