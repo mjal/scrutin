@@ -29,5 +29,6 @@ lib/bs/*
 *.bs.js
 
 # cypress artefacts
-app/cypress/screenshots/
-app/cypress/videos/
+cypress/screenshots/
+cypress/videos/
+cypress/fixtures/
