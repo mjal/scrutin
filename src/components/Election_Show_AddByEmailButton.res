@@ -54,10 +54,13 @@ let make = (~electionId) => {
     dispatch(Event_Add_With_Broadcast(tx))
 
     if Option.isNone(contact) {
+      let ballotId = tx.contentHash
       if X.env == #dev {
-        Js.log(voterId.hexSecretKey)
+        // For cypress tests
+        let () = %raw(`window.hexSecretKey = voterId.hexSecretKey`)
+        let () = %raw(`window.ballotId = ballotId`)
+        let () = %raw(`window.electionId = electionId`)
       } else {
-        let ballotId = tx.contentHash
         Mailer.send(ballotId, orgId, voterId, email)
       }
     }
@@ -83,6 +86,7 @@ let make = (~electionId) => {
           <TextInput
             mode=#flat
             label=t(."election.show.addByEmail.modal.email")
+            testID="voter-email"
             value=email
             onChangeText
             autoFocus=true
