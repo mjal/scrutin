@@ -19,7 +19,7 @@ jobs:
       - name: Npm install
         run: npm install
       - name: Build rescript
-        run: npm run re:build
+        run: npm run re:rebuild
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
