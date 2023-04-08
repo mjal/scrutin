@@ -110,7 +110,7 @@ let make = (~electionId) => {
         <List.Item
           title=t(."election.show.result")
           description=Option.getExn(tally).result />
-        //<ElectionShow__ResultChart data />
+        //<Election_Show__ResultChart data />
       </>
     } else { if Option.isSome(orgId) {
     <>
@@ -118,9 +118,9 @@ let make = (~electionId) => {
         { t(."election.show.admin") -> React.string }
       </Title>
 
-      <ElectionShow__AddByEmailButton electionId />
+      <Election_Show__AddByEmailButton electionId />
 
-      //<ElectionShow__AddContactButton electionId />
+      //<Election_Show__AddContactButton electionId />
 
       <Button mode=#outlined onPress={_ =>
         Core.Election.tally(~electionId)(state, dispatch)

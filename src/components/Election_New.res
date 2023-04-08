@@ -33,7 +33,7 @@ let make = () => {
       onChangeText={text => setDesc(_ => text)}
     />
 
-    <ElectionNew_ChoiceList choices setChoices />
+    <Election_New_ChoiceList choices setChoices />
 
     <List.Item
       title=t(."election.new.owner")
