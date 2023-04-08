@@ -21,7 +21,7 @@ module Item = {
     }
 
     <Card>
-      <List.Item key=event.contentHash title="type" description onPress />
+      <List.Item key=event.contentHash title=t(."events.item.type") description onPress />
     </Card>
   }
 }
