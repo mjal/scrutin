@@ -3,7 +3,7 @@ let make = (~electionId) => {
   let (state, dispatch) = Context.use()
   let { t } = ReactI18next.useTranslation()
   let (email, setEmail) = React.useState(_ => "")
-  let (contact:option<Contact.t>, setContact) = React.useState(_ => None)
+  let (_contact:option<Contact.t>, setContact) = React.useState(_ => None)
   let (showModal, setshowModal) = React.useState(_ => false);
 
   let election = State.getElection(state, electionId)
