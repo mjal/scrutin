@@ -2,13 +2,13 @@ A mobile app for secure voting using the Helios protocol and INRIA’s [Belenios
 
 ```mermaid
 sequenceDiagram
-  participant Organisers
+  participant Guardians
   participant Election
   participant Voters
 
-  Organisers->>Election: Create
+  Guardians->>Election: Create
   Voters->>Election: Vote
-  Organisers->>Election: Tally
+  Guardians->>Election: Tally
 	Voters->>Election: Verify
 ```
 
