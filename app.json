@@ -25,7 +25,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "app.scrutin"
+      "package": "app.scrutin",
+      "permissions": []
     },
     "web": {
       "favicon": "./assets/favicon.png"
