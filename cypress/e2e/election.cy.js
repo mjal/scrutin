@@ -45,9 +45,14 @@ describe('election', () => {
     cy.window().then(window => {
       electionId = window.electionId
 
+      let trustees = window.localStorage.getItem('trustees')
+      let identities = window.localStorage.getItem('identities')
+
       cy.writeFile('cypress/fixtures/crendentials.json', {
         electionId,
-        crendentials
+        crendentials,
+        trustees,
+        identities
       })
     })
   })
@@ -73,18 +78,22 @@ describe('election', () => {
         cy.visit(`http://localhost:19006/ballots/${o.ballotId}#${o.hexSecretKey}`)
         cy.contains(o.choiceText).click()
         cy.contains('Vote').click()
+        cy.wait(1000)
         cy.visit(`http://localhost:19006/`)
       }
     })
   })
 
-  /*
   it('tally', () => {
     cy.readFile('cypress/fixtures/crendentials.json').then((o) => {
+      cy.visit(`http://localhost:19006/`)
+      cy.window().then(window => {
+        window.localStorage.setItem('trustees', o.trustees)
+        window.localStorage.setItem('identities', o.identities)
+      })
       cy.visit(`http://localhost:19006/elections/${o.electionId}`)
       cy.contains("Close election and tally").click()
       cy.wait(2000)
     })
   })
-  */
 })
