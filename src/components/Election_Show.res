@@ -39,11 +39,15 @@ let make = (~electionId) => {
         title=Election.name(election)
         description=Election.description(election) />
 
-      <List.Section title=t(."election.show.choices")>
-      { Array.mapWithIndex(Election.choices(election), (i, name) => {
-        <List.Item title=name key=Int.toString(i) />
-      }) -> React.array }
-      </List.Section>
+      { if Option.isSome(tally) {
+        <Election_Show_ResultChart electionId />
+      } else {
+        <List.Section title=t(."election.show.choices")>
+        { Array.mapWithIndex(Election.choices(election), (i, name) => {
+          <List.Item title=name key=Int.toString(i) />
+        }) -> React.array }
+        </List.Section>
+      } }
 
       <List.Item title=t(."election.show.status")
         description=statusDescription />
@@ -104,14 +108,8 @@ let make = (~electionId) => {
     </List.Section>
 
     { if Option.isSome(tally) {
-      //let result = Option.getExn(tally).result
-      //let data = Belenios.Election.scores(result)
-      <>
-        <List.Item
-          title=t(."election.show.result")
-          description=Option.getExn(tally).result />
-        //<Election_Show_ResultChart data />
-      </>
+      //<Election_Show_ResultChart electionId />
+      <></>
     } else { if Option.isSome(orgId) {
     <>
       <Title style=X.styles["title"]>
