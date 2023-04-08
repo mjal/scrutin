@@ -40,6 +40,15 @@ sequenceDiagram
 - [ ] Extract rescript-belenios
 - [ ] Extract rescript-sjcl
 
+## Developer instructions
+
+```
+# Install dependencies (You need nodejs 14, use nvm if you need)
+npm install
+npm run re:start # or use the vscode plugin
+npm run web
+```
+
 ## Annotated source code
 
 main | models
@@ -50,15 +59,6 @@ main | models
 . | ~~[Identity](https://scrutin-app.github.io/scrutin/src/model/Identity.html)~~
 . | ~~[Election](https://scrutin-app.github.io/scrutin/src/model/Election.html)~~
 
-
-## Developer instructions
-
-```
-# Install dependencies (You need nodejs 14, use nvm if you need)
-npm install
-npm run re:start # or use the vscode plugin
-npm run web
-```
 
 <!--
 ## Release
