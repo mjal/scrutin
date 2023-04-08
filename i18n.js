@@ -5,6 +5,7 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 
 import en from './i18n/en.json'
 import fr from './i18n/fr.json'
+import nb_NO from './i18n/nb_NO.json'
 
 let i18nextPipeline = i18next.use(initReactI18next)
 
@@ -17,6 +18,7 @@ i18nextPipeline.init({
   fallbackLng: 'en',
   resources: {
     en,
-    fr
+    fr,
+    nb_NO
   }
 })
