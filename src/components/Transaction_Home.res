@@ -36,7 +36,7 @@ let make = () => {
     dispatch(Reset)
   }
 
-  <List.Section title=t(."transactions.title")>
+  <List.Section title=t(."events.title")>
 
     { Array.map(state.events, (event) =>
       <Item event key=event.contentHash />
@@ -45,7 +45,7 @@ let make = () => {
     <X.Title>{ "-" -> React.string }</X.Title>
 
     <Button mode=#contained onPress=clear>
-      { t(."transactions.clear") -> React.string }
+      { t(."events.clear") -> React.string }
     </Button>
   </List.Section>
 }
