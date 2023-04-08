@@ -5,6 +5,7 @@
   },
   "build": {
     "development": {
+      "node": "14",
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
@@ -12,12 +13,14 @@
       }
     },
     "apk": {
+      "node": "14",
       "distribution": "internal",
       "ios": {
         "resourceClass": "m1-medium"
       }
     },
     "production": {
+      "node": "14",
       "autoIncrement": true,
       "ios": {
         "resourceClass": "m1-medium"
