@@ -21,16 +21,14 @@ sequenceDiagram
 - [x] Tally election on device
 - [ ] Verify result on device
 
-##### Public key infrastructure
+##### Architecture
 
-- [x] Every action (called a transaction) must be signed by an authorized identity
-- [x] Transactions
+- [x] Every events must be signed by an authorized identity
+- [x] Events
 	- [x] Election creation. From election organizer
 	- [x] Ballot emission (adding a new voter identity). From election organizer
 	- [x] Ballot filling. From voter
-- [ ] Running a main public pod
-- [ ] Merging divergent transactions logs
-	Note: the signed events do not include a `previous` field like in SecureScuttleButt. Making merging easier (maybe using Lamport Clock) 
+- [X] Running a main public pod
 
 ##### UI/UX
 
@@ -39,6 +37,7 @@ sequenceDiagram
 
 ##### Nice to have
 
+- [ ] Extract rescript-belenios
 - [ ] Extract rescript-sjcl
 
 ## Annotated source code
