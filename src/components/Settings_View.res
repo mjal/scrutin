@@ -16,7 +16,8 @@ let make = () => {
         value=language
         buttons=[
           {value: "en", label: "English"},
-          {value: "fr", label: "Français"}
+          {value: "fr", label: "Français"},
+          {value: "nb_NO", label: "Norsk"}
         ]
         onValueChange={lang => {
           i18n.changeLanguage(. lang)
