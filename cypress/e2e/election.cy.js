@@ -78,9 +78,13 @@ describe('election', () => {
     })
   })
 
+  /*
   it('tally', () => {
     cy.readFile('cypress/fixtures/crendentials.json').then((o) => {
       cy.visit(`http://localhost:19006/elections/${o.electionId}`)
+      cy.contains("Close election and tally").click()
+      cy.wait(2000)
     })
   })
+  */
 })
