@@ -45,7 +45,7 @@ sequenceDiagram
 main | models
 -----|-------
 [Core](https://scrutin-app.github.io/scrutin/src/Core.html) | [Event](https://scrutin-app.github.io/scrutin/src/model/Event_.html)
-~~[State](https://scrutin-app.github.io/scrutin/src/State.html)~~ | ~~[Ballot](https://scrutin-app.github.io/scrutin/src/model/Ballot.html)~~
+[State](https://scrutin-app.github.io/scrutin/src/State.html) | ~~[Ballot](https://scrutin-app.github.io/scrutin/src/model/Ballot.html)~~
 ~~[StateEffect](https://scrutin-app.github.io/scrutin/src/StateEffect.html)~~ | ~~[Trustee](https://scrutin-app.github.io/scrutin/src/model/Trustee.html)~~
 . | ~~[Identity](https://scrutin-app.github.io/scrutin/src/model/Identity.html)~~
 . | ~~[Election](https://scrutin-app.github.io/scrutin/src/model/Election.html)~~
