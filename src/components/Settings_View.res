@@ -35,8 +35,8 @@ let make = () => {
       <List.Item title=t(."settings.contacts")
         onPress={_ => dispatch(Navigate(Contact_Index))}
       />
-      <List.Item title=t(."settings.transactions")
-        onPress={_ => dispatch(Navigate(Home_Transactions))}
+      <List.Item title=t(."settings.events")
+        onPress={_ => dispatch(Navigate(Home_Events))}
       />
     </List.Section>
   </>
