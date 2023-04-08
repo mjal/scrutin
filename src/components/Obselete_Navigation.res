@@ -6,7 +6,7 @@ let make = () => {
     | Home_Elections    => 0
     | Home_Identities   => 1
     | Home_Trustees     => 2
-    | Home_Transactions => 3
+    | Home_Events       => 3
     | _ => 0
   }
 
@@ -16,7 +16,7 @@ let make = () => {
         | 0 => dispatch(Navigate(Home_Elections))
         | 1 => dispatch(Navigate(Home_Identities))
         | 2 => dispatch(Navigate(Home_Trustees))
-        | 3 => dispatch(Navigate(Home_Transactions))
+        | 3 => dispatch(Navigate(Home_Events))
         | _ => ()
         }
     }}
