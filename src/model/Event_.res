@@ -1,5 +1,5 @@
 // #### Description
-// The database in an append-only log of signed events
+// Every state mutation is done through events
 
 // ---
 
