@@ -3,20 +3,20 @@ let make = () => {
   let (state, dispatch) = Context.use()
 
   let index = switch state.route {
-    | Home_Elections    => 0
-    | Home_Identities   => 1
-    | Home_Trustees     => 2
-    | Home_Events       => 3
+    | Election_Index    => 0
+    | Identity_Index    => 1
+    | Trustee_Index     => 2
+    | Event_Index       => 3
     | _ => 0
   }
 
   <BottomNavigation
     onIndexChange={i => {
         switch i {
-        | 0 => dispatch(Navigate(Home_Elections))
-        | 1 => dispatch(Navigate(Home_Identities))
-        | 2 => dispatch(Navigate(Home_Trustees))
-        | 3 => dispatch(Navigate(Home_Events))
+        | 0 => dispatch(Navigate(Election_Index))
+        | 1 => dispatch(Navigate(Identity_Index))
+        | 2 => dispatch(Navigate(Trustee_Index))
+        | 3 => dispatch(Navigate(Event_Index))
         | _ => ()
         }
     }}

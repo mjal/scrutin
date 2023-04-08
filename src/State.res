@@ -27,7 +27,7 @@ type t = {
 
 // The initial state of the application
 let initial = {
-  route: Home_Elections,
+  route: Election_Index,
   events: [],
   ids: [],
   trustees: [],
