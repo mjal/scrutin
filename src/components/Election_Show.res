@@ -27,85 +27,75 @@ let make = (~electionId) => {
     tally.electionId == electionId
   ) -> Option.map(((_id, tally)) => tally)
 
-  let statusDescription = switch (tally) {
-    | Some(_tally) => t(."election.show.statusFinished")
-    | None => t(."election.show.statusInProgress")
-  }
-
   <>
-    <List.Section title="">
+    <Election_Show_Title election tally />
+
+    { if Election.description(election) != "" {
+      <List.Item title=Election.description(election) />
+    } else { <></> } }
+
+    { if Option.isSome(tally) {
+      <Election_Show_ResultChart electionId />
+    } else {
+      <List.Section title=t(."election.show.choices")>
+      { Array.mapWithIndex(Election.choices(election), (i, name) => {
+        <List.Item title=name key=Int.toString(i) />
+      }) -> React.array }
+      </List.Section>
+    } }
+
+    <Button mode=#outlined onPress={_ => setShowAdvanced(b => !b)}>
+      { (if (showAdvanced) {
+        t(."election.show.hideAdvanced")
+      } else {
+        t(."election.show.showAdvanced")
+      }) -> React.string }
+    </Button>
+
+    { if showAdvanced {
+    <>
+      <List.Item title=t(."election.show.id") description=electionId />
+
+      {
+        let onPress = _ =>
+          dispatch(Navigate(Identity_Show(election.ownerPublicKey)))
+        <List.Item title=t(."election.show.ownerPublicKey") onPress
+          description=election.ownerPublicKey />
+      }
 
       <List.Item
-        title=Election.name(election)
-        description=Election.description(election) />
+        title=t(."election.show.params")
+        description=election.params />
 
-      { if Option.isSome(tally) {
-        <Election_Show_ResultChart electionId />
+      <List.Item
+        title=t(."election.show.trustees")
+        description=election.trustees />
+    </>
+    } else { <></> } }
+
+    <List.Item title=t(."election.show.ballotEvents")
+      description=ballotEvents />
+
+    <Button mode=#outlined onPress={_ => setShowBallots(b => !b)}>
+      { (if (showBallots) {
+        t(."election.show.hideBallots")
       } else {
-        <List.Section title=t(."election.show.choices")>
-        { Array.mapWithIndex(Election.choices(election), (i, name) => {
-          <List.Item title=name key=Int.toString(i) />
-        }) -> React.array }
-        </List.Section>
-      } }
+        t(."election.show.showBallots")
+      }) -> React.string }
+    </Button>
 
-      <List.Item title=t(."election.show.status")
-        description=statusDescription />
-
-      <Button mode=#outlined onPress={_ => setShowAdvanced(b => !b)}>
-        { (if (showAdvanced) {
-          t(."election.show.hideAdvanced")
-        } else {
-          t(."election.show.showAdvanced")
-        }) -> React.string }
-      </Button>
-
-      { if showAdvanced {
-      <>
-        <List.Item title=t(."election.show.id") description=electionId />
-
-        {
-          let onPress = _ =>
-            dispatch(Navigate(Identity_Show(election.ownerPublicKey)))
-          <List.Item title=t(."election.show.ownerPublicKey") onPress
-            description=election.ownerPublicKey />
-        }
-
-        <List.Item
-          title=t(."election.show.params")
-          description=election.params />
-
-        <List.Item
-          title=t(."election.show.trustees")
-          description=election.trustees />
-      </>
-      } else { <></> } }
-
-      <List.Item title=t(."election.show.ballotEvents")
-        description=ballotEvents />
-
-      <Button mode=#outlined onPress={_ => setShowBallots(b => !b)}>
-        { (if (showBallots) {
-          t(."election.show.hideBallots")
-        } else {
-          t(."election.show.showBallots")
-        }) -> React.string }
-      </Button>
-
-      { if showBallots {
-        <List.Section title=`${nbBallots -> Int.toString} ballots`>
-        {
-          Array.map(ballots, ((id, _ballot)) => {
-            <List.Item title=`Ballot ${id}`
-              key=id
-              onPress={_ => dispatch(Navigate(Ballot_Show(id)))}
-            />
-          }) -> React.array
-        }
-        </List.Section>
-      } else { <></> } }
-
-    </List.Section>
+    { if showBallots {
+      <List.Section title=`${nbBallots -> Int.toString} ballots`>
+      {
+        Array.map(ballots, ((id, _ballot)) => {
+          <List.Item title=`Ballot ${id}`
+            key=id
+            onPress={_ => dispatch(Navigate(Ballot_Show(id)))}
+          />
+        }) -> React.array
+      }
+      </List.Section>
+    } else { <></> } }
 
     { if Option.isSome(tally) {
       //<Election_Show_ResultChart electionId />
