@@ -10,13 +10,13 @@ let make = (~publicKey) => {
     Option.flatMap(identity, (identity) => identity.hexSecretKey)
     -> Option.getWithDefault("")
 
-  let ballots = state.cached_ballots
+  let ballots = state.cachedBallots
     -> Map.String.keep((_eventHash, ballot) =>
       ballot.voterPublicKey == publicKey
     )
     -> Map.String.toArray
 
-  let elections = state.cached_elections
+  let elections = state.cachedElections
     -> Map.String.keep((_eventHash, election) =>
       election.ownerPublicKey == publicKey
     )

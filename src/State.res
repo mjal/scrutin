@@ -20,8 +20,8 @@ type t = {
   route: Route.t,
 
   // Cache of elections and ballot for fast lookup
-  cached_elections: Map.String.t<Election.t>,
-  cached_ballots:   Map.String.t<Ballot.t>,
+  cachedElections: Map.String.t<Election.t>,
+  cachedBallots:   Map.String.t<Ballot.t>,
 }
 
 // The initial state of the application
@@ -31,8 +31,8 @@ let initial = {
   ids: [],
   trustees: [],
   contacts: [],
-  cached_elections: Map.String.empty,
-  cached_ballots: Map.String.empty,
+  cachedElections: Map.String.empty,
+  cachedBallots: Map.String.empty,
 }
 
 // The reducer, the only place where state mutations can happen
@@ -78,14 +78,14 @@ let reducer = (state, action: StateMsg.t) => {
     ({...state, contacts}, [StateEffect.contacts_store(contacts)])
 
   | Cache_Election_Add(contentHash, election) =>
-    let cached_elections =
-      Map.String.set(state.cached_elections, contentHash, election)
-    ({...state, cached_elections}, [])
+    let cachedElections =
+      Map.String.set(state.cachedElections, contentHash, election)
+    ({...state, cachedElections}, [])
 
   | Cache_Ballot_Add(contentHash, ballot) =>
-    let cached_ballots =
-      Map.String.set(state.cached_ballots, contentHash, ballot)
-    ({...state, cached_ballots}, [])
+    let cachedBallots =
+      Map.String.set(state.cachedBallots, contentHash, ballot)
+    ({...state, cachedBallots}, [])
 
   | Config_Store_Language(language) =>
     (state, [StateEffect.language_store(language)])
@@ -96,5 +96,5 @@ let reducer = (state, action: StateMsg.t) => {
   }
 }
 
-let getBallot   = (state, id) => Map.String.getExn(state.cached_ballots, id)
-let getElection = (state, id) => Map.String.getExn(state.cached_elections, id)
+let getBallot   = (state, id) => Map.String.getExn(state.cachedBallots, id)
+let getElection = (state, id) => Map.String.getExn(state.cachedElections, id)

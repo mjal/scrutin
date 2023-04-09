@@ -6,7 +6,7 @@ let make = (~electionId) => {
   let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
   let (showBallots, setShowBallots) = React.useState(_ => false)
 
-  let ballots = Map.String.keep(state.cached_ballots, (_id, ballot) =>
+  let ballots = Map.String.keep(state.cachedBallots, (_id, ballot) =>
     ballot.electionId == electionId
   ) -> Map.String.toArray
 
