@@ -3,12 +3,18 @@
 let cache_update = (ev : Event_.t) =>
   (dispatch) => {
     switch ev.type_ {
-    | #election => dispatch(StateMsg.Cache_Election_Add(ev.contentHash,
+    | #"election.create" =>
+      dispatch(StateMsg.Cache_Election_Add(ev.contentHash,
       Event_.SignedElection.unwrap(ev)))
-    | #ballot => dispatch(StateMsg.Cache_Ballot_Add(ev.contentHash,
+    | #"election.update" =>
+      dispatch(StateMsg.Cache_Election_Add(ev.contentHash,
+      Event_.SignedElection.unwrap(ev)))
+    | #"ballot.create" =>
+      dispatch(StateMsg.Cache_Ballot_Add(ev.contentHash,
       Event_.SignedBallot.unwrap(ev)))
-    | #tally => dispatch(StateMsg.Cache_Tally_Add(ev.contentHash,
-      Event_.SignedTally.unwrap(ev)))
+    | #"ballot.update" =>
+      dispatch(StateMsg.Cache_Ballot_Add(ev.contentHash,
+      Event_.SignedBallot.unwrap(ev)))
     }
   }
 

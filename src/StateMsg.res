@@ -9,5 +9,4 @@ type t =
   | Contact_Remove(int)
   | Cache_Election_Add(string, Election.t)
   | Cache_Ballot_Add(string, Ballot.t)
-  | Cache_Tally_Add(string, ElectionTally.t)
   | Config_Store_Language(string)

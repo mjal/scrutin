@@ -3,12 +3,8 @@ let make = (~electionId) => {
   let (state, _) = Context.use()
   let election = State.getElection(state, electionId)
 
-  let tally = Map.String.findFirstBy(state.cached_tallies, (_id, tally) =>
-    tally.electionId == electionId
-  ) -> Option.map(((_id, tally)) => tally)
-
-  let data = switch tally {
-  | Some(tally) => Belenios.Election.scores(tally.result)
+  let data = switch election.result {
+  | Some(result) => Belenios.Election.scores(result)
   | None => []
   }
 

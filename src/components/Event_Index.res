@@ -4,19 +4,14 @@ module Item = {
     let (_state, dispatch) = Context.use()
     let { t } = ReactI18next.useTranslation()
 
-    let description = switch event.type_ {
-    | #election => "Election"
-    | #ballot   => "Ballot"
-    | #tally    => "Tally"
-    }
+    let description = Event_.event_type_t_to_s(event.type_)
 
     let onPress = _ => {
       switch event.type_ {
-      | #election => dispatch(Navigate(Election_Show(event.contentHash)))
-      | #ballot   => dispatch(Navigate(Ballot_Show(event.contentHash)))
-      | #tally    =>
-        let tally = Event_.SignedTally.unwrap(event)
-        dispatch(Navigate(Election_Show(tally.electionId)))
+      | #"election.create" => dispatch(Navigate(Election_Show(event.contentHash)))
+      | #"election.update" => dispatch(Navigate(Election_Show(event.contentHash)))
+      | #"ballot.create" => dispatch(Navigate(Ballot_Show(event.contentHash)))
+      | #"ballot.update" => dispatch(Navigate(Ballot_Show(event.contentHash)))
       }
     }
 

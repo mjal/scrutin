@@ -1,7 +1,11 @@
 type t = {
+  previousId: option<string>,
   params:   string,
   trustees: string,
-  ownerPublicKey: string
+  ownerPublicKey: string,
+  pda: option<string>,
+  pdb: option<string>,
+  result: option<string>
 }
 
 external parse:           string => t = "JSON.parse"
@@ -14,9 +18,13 @@ let make = (name, description, choices, ownerPublicKey, trustee:Trustee.t) => {
     Belenios.Election._create(~name, ~description, ~choices, ~trustees)
 
   {
+    previousId: None,
     params,
     trustees: Belenios.Trustees.to_str(trustees),
-    ownerPublicKey
+    ownerPublicKey,
+    pda: None,
+    pdb: None,
+    result: None
   }
 }
 

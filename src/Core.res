@@ -30,7 +30,7 @@ module Election = {
         identity.hexPublicKey, trustee)
   
       // wrap it in a transaction
-      let event = Event_.SignedElection.make(election, identity)
+      let event = Event_.SignedElection.create(election, identity)
   
       // Add the new transaction<br />
       dispatch(StateMsg.Event_Add_With_Broadcast(event))
@@ -66,17 +66,15 @@ module Election = {
       })
       let privkey = Option.getExn(trustee).privkey
 
-      // Select the relevents ballots <br />
+      // TODO:Only take the latest of the chain
       let ballots =
         state.events
-        -> Array.keep((event) => event.type_ == #ballot)
+        -> Array.keep((event) => event.type_ == #"ballot.update")
         -> Array.keep((event) => {
           let ballot = Event_.SignedBallot.unwrap(event)
           ballot.electionId == electionId
         })
 
-      // Get the actual ballot content when filled <br />
-      // TODO:Only take the latest from the chain
       let ciphertexts =
         ballots
         -> Array.map(Event_.SignedBallot.unwrap)
@@ -97,11 +95,11 @@ module Election = {
       let (a, b) = Belenios.Election.decrypt(params, ciphertexts, trustees, pubcreds, privkey)
       let result = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
 
-      let tally : ElectionTally.t = {
-        electionId,
-        a: Belenios.PartialDecryption.to_s1(a),
-        b: Belenios.PartialDecryption.to_s2(b),
-        result
+      let election2 = {...election,
+        previousId: Some(electionId),
+        pda: Some(Belenios.PartialDecryption.to_s1(a)),
+        pdb: Some(Belenios.PartialDecryption.to_s2(b)),
+        result: Some(result)
       }
 
       // Lookup for the owner identity in the cache
@@ -109,7 +107,7 @@ module Election = {
         election.ownerPublicKey == id.hexPublicKey
       }) -> Option.getExn
 
-      let tx = Event_.SignedTally.make(tally, owner)
+      let tx = Event_.SignedElection.update(election2, owner)
 
       dispatch(StateMsg.Event_Add_With_Broadcast(tx))
     }

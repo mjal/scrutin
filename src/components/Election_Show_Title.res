@@ -1,14 +1,14 @@
 @react.component
-let make = (~election, ~tally) => {
+let make = (~election:Election.t) => {
   let { t } = ReactI18next.useTranslation()
 
-  let status = switch (tally) {
-  | Some(_tally) => t(."election.show.statusFinished")
+  let status = switch (election.result) {
+  | Some(_) => t(."election.show.statusFinished")
   | None => t(."election.show.statusInProgress")
   }
 
-  let backgroundColor = switch (tally) {
-  | Some(_tally) => Color.lightblue
+  let backgroundColor = switch (election.result) {
+  | Some(_) => Color.lightblue
   | None => Color.grey
   }
 
