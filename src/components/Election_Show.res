@@ -37,11 +37,7 @@ let make = (~electionId) => {
     { if Option.isSome(tally) {
       <Election_Show_ResultChart electionId />
     } else {
-      <List.Section title=t(."election.show.choices")>
-      { Array.mapWithIndex(Election.choices(election), (i, name) => {
-        <List.Item title=name key=Int.toString(i) />
-      }) -> React.array }
-      </List.Section>
+      <Election_Show_Choices electionId />
     } }
 
     <Button mode=#outlined onPress={_ => setShowAdvanced(b => !b)}>
