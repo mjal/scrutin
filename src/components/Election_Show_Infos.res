@@ -2,7 +2,7 @@
 let make = (~electionId) => {
   let (state, dispatch) = Context.use()
   let { t } = ReactI18next.useTranslation()
-  let election = State.getElection(state, electionId)
+  let election = State.getElectionExn(state, electionId)
   let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
   let (showBallots, setShowBallots) = React.useState(_ => false)
 

@@ -3,13 +3,26 @@ let make = (~electionId) => {
   let (state, dispatch) = Context.use()
   let { t } = ReactI18next.useTranslation()
 
-  let election = State.getElection(state, electionId)
+  let election = State.getElectionExn(state, electionId)
 
   let orgId = Array.getBy(state.ids, (id) => {
     id.hexPublicKey == election.ownerPublicKey
   })
 
   <>
+    { switch Map.String.get(state.cachedElectionReplacementIds, electionId) {
+    | Some(replacementId) =>
+      <Text
+        onPress={_ => dispatch(Navigate(Election_Show(replacementId)))}
+        style=Style.textStyle(~color=Color.red,())>
+      { "This object version is obselete.
+        Click here for the next version"
+        -> React.string
+      }
+      </Text>
+    | None => <></>
+    } }
+
     <Election_Show_Title election />
 
     { if Election.description(election) != "" {

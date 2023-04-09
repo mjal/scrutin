@@ -1,7 +1,7 @@
 @react.component
 let make = (~electionId) => {
   let (state, _) = Context.use()
-  let election = State.getElection(state, electionId)
+  let election = State.getElectionExn(state, electionId)
 
   let data = switch election.result {
   | Some(result) => Belenios.Election.scores(result)

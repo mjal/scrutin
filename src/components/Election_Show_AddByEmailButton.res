@@ -6,7 +6,7 @@ let make = (~electionId) => {
   let (_contact:option<Contact.t>, setContact) = React.useState(_ => None)
   let (showModal, setshowModal) = React.useState(_ => false);
 
-  let election = State.getElection(state, electionId)
+  let election = State.getElectionExn(state, electionId)
 
   let orgId = Array.getBy(state.ids, (id) => {
     id.hexPublicKey == election.ownerPublicKey
@@ -60,6 +60,8 @@ let make = (~electionId) => {
         let () = %raw(`window.hexSecretKey = voterId.hexSecretKey`)
         let () = %raw(`window.ballotId = ballotId`)
         let () = %raw(`window.electionId = electionId`)
+        // For manual tests
+        Js.log(`http://localhost:19006/ballots/${ballotId}#${Option.getExn(voterId.hexSecretKey)}`)
       } else {
         Mailer.send(ballotId, orgId, voterId, email)
       }

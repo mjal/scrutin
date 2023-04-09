@@ -53,7 +53,7 @@ module Election = {
   ) => {
     (state: State.t, dispatch) => {
       // Get the election from cache
-      let election = State.getElection(state, electionId)
+      let election = State.getElectionExn(state, electionId)
 
       // Casting value (to remove)
       let params = Belenios.Election.parse(election.params)
@@ -110,6 +110,8 @@ module Election = {
       let tx = Event_.SignedElection.update(election2, owner)
 
       dispatch(StateMsg.Event_Add_With_Broadcast(tx))
+
+      dispatch(Navigate(Election_Show(tx.contentHash)))
     }
   }
 }
@@ -148,7 +150,7 @@ module Ballot = {
         -> Array.mapWithIndex((i, _e) => { choice == Some(i) ? 1 : 0 })
 
       // Fetch the election from cache
-      let election = State.getElection(state, ballot.electionId)
+      let election = State.getElectionExn(state, ballot.electionId)
 
       // Create a ballot expressing that choice
       let ballot = Ballot.make(ballot, election, selection)

@@ -2,7 +2,7 @@
 let make = (~electionId) => {
   let (state, _) = Context.use()
   let { t } = ReactI18next.useTranslation()
-  let election = State.getElection(state, electionId)
+  let election = State.getElectionExn(state, electionId)
 
   <List.Section title=t(."election.show.choices")>
   {

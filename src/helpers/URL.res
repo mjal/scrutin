@@ -75,3 +75,5 @@ let api_url = switch X.env {
 | #dev => "https://scrutin-staging.fly.dev"
 | #prod => "https://scrutin-node.fly.dev"
 }
+
+let api_url = "http://localhost:8080"

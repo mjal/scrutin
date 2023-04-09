@@ -5,7 +5,7 @@ let make = (~ballotId) => {
 
   let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
 
-  let ballot = State.getBallot(state, ballotId)
+  let ballot = State.getBallotExn(state, ballotId)
   let ciphertext = Option.getWithDefault(ballot.ciphertext, "")
 
   <List.Section title=t(."ballot.show.title")>

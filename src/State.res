@@ -21,6 +21,7 @@ type t = {
 
   // Cache of elections and ballot for fast lookup
   cachedElections: Map.String.t<Election.t>,
+  cachedElectionReplacementIds: Map.String.t<string>,
   cachedBallots:   Map.String.t<Ballot.t>,
 }
 
@@ -32,6 +33,7 @@ let initial = {
   trustees: [],
   contacts: [],
   cachedElections: Map.String.empty,
+  cachedElectionReplacementIds: Map.String.empty,
   cachedBallots: Map.String.empty,
 }
 
@@ -80,7 +82,13 @@ let reducer = (state, action: StateMsg.t) => {
   | Cache_Election_Add(contentHash, election) =>
     let cachedElections =
       Map.String.set(state.cachedElections, contentHash, election)
-    ({...state, cachedElections}, [])
+    let cachedElectionReplacementIds = switch election.previousId {
+    | Some(previousId) =>
+      Map.String.set(state.cachedElectionReplacementIds,
+        previousId, contentHash)
+    | None => state.cachedElectionReplacementIds
+    }
+    ({...state, cachedElections, cachedElectionReplacementIds}, [])
 
   | Cache_Ballot_Add(contentHash, ballot) =>
     let cachedBallots =
@@ -96,5 +104,11 @@ let reducer = (state, action: StateMsg.t) => {
   }
 }
 
-let getBallot   = (state, id) => Map.String.getExn(state.cachedBallots, id)
-let getElection = (state, id) => Map.String.getExn(state.cachedElections, id)
+let getBallotExn = (state, id) =>
+  Map.String.getExn(state.cachedBallots, id)
+
+let getElectionExn = (state, id) =>
+  Map.String.getExn(state.cachedElections, id)
+
+let getElectionReplacementId = (state, id) =>
+  Map.String.get(state.cachedElectionReplacementIds, id)
