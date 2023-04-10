@@ -1,4 +1,4 @@
-name: Docco documentation in gh-pages
+name: docco
 
 on:
   push:

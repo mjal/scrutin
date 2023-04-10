@@ -1,7 +1,5 @@
-name: Cypress tests
-on:
-  push:
-    branches: ["main", "dev"]
+name: cypress
+on: ["push"]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -20,10 +18,6 @@ jobs:
         run: npm install
       - name: Build rescript
         run: npm run re:rebuild
-      - name: Debug - show package version
-        run: cat node_modules/rescript-react-native/package.json|grep version
-      - name: Debug - show package content
-        run: ls node_modules/rescript-react-native/src/apis/
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
