@@ -11,11 +11,6 @@ let make = () => {
     Core.Election.create(~name, ~desc, ~choices)(state, dispatch)
   }
 
-  let ownerDescription = switch state.ids[0] {
-  | Some(user) => user.hexPublicKey
-  | None => t(."election.new.noPublicKey")
-  }
-
   <>
     <TextInput
       mode=#flat
@@ -34,10 +29,6 @@ let make = () => {
     />
 
     <Election_New_ChoiceList choices setChoices />
-
-    <List.Item
-      title=t(."election.new.owner")
-      description=ownerDescription />
 
     <Button mode=#contained onPress=electionCreate>
       { t(."election.new.create") -> React.string }
