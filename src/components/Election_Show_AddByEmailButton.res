@@ -50,7 +50,7 @@ let make = (~electionId) => {
       voterPublicKey
     }
 
-    let tx = Event_.SignedBallot.make(ballot, orgId)
+    let tx = Event_.SignedBallot.create(ballot, orgId)
     dispatch(Event_Add_With_Broadcast(tx))
 
     if Option.isNone(contact) {

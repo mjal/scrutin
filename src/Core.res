@@ -161,7 +161,7 @@ module Ballot = {
       }) -> Option.getExn
 
       // Wrap it into a transaction
-      let tx = Event_.SignedBallot.make(ballot, owner)
+      let tx = Event_.SignedBallot.update(ballot, owner)
 
       // Add the new transaction<br />
       dispatch(StateMsg.Event_Add_With_Broadcast(tx))

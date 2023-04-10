@@ -62,17 +62,23 @@ module SignedElection = {
 
 // #### Ballot events
 module SignedBallot = {
-  let make = (ballot : Ballot.t, owner : Identity.t) => {
+  let make = (type_ : event_type_t, ballot : Ballot.t, owner : Identity.t) => {
     let content = Ballot.stringify(ballot)
     let contentHash = hash(content)
     {
       content,
-      type_: #"ballot.create",
+      type_,
       contentHash,
       publicKey: owner.hexPublicKey,
       signature: Identity.signHex(owner, contentHash)
     }
   }
+
+  type create = (Ballot.t, Identity.t) => t
+  let create = make(#"ballot.create")
+
+  type update = (Ballot.t, Identity.t) => t
+  let update = make(#"ballot.update")
 
   let unwrap = (ev) : Ballot.t => {
     Ballot.parse(ev.content)
