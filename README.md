@@ -1,7 +1,9 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/c5ba7726-90e0-474e-b85f-4d1447fb11f5/deploy-status)](https://app.netlify.com/sites/scrutin/deploys) \
+<p align="center">
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c5ba7726-90e0-474e-b85f-4d1447fb11f5/deploy-status)](https://app.netlify.com/sites/scrutin/deploys)
 <a href="https://hosted.weblate.org/engage/scrutin/">
 <img src="https://hosted.weblate.org/widgets/scrutin/-/app/svg-badge.svg" alt="Translation status" />
 </a>
+</p>
 
 A mobile app for secure voting using the Helios protocol and INRIA’s [Belenios](https://www.belenios.org) voting library.
 
