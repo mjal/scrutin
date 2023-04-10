@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c5ba7726-90e0-474e-b85f-4d1447fb11f5/deploy-status)](https://app.netlify.com/sites/scrutin/deploys)
+
 A mobile app for secure voting using the Helios protocol and INRIA’s [Belenios](https://www.belenios.org) voting library.
 
 ```mermaid
