@@ -55,5 +55,9 @@
     "docco": "^0.9.1",
     "rescript": "^10.1.2"
   },
-  "private": true
+  "private": true,
+  "browser": {
+    "crypto": false,
+    "stream": false
+  }
 }
