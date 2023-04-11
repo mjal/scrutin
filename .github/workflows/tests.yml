@@ -8,6 +8,13 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-22.04
+    # Runs tests in parallel with matrix strategy https://docs.cypress.io/guides/guides/parallelization
+    # https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
+    # Also see warning here https://github.com/cypress-io/github-action#parallel
+    strategy:
+      fail-fast: false # https://github.com/cypress-io/github-action/issues/48
+      matrix:
+        containers: [1, 2] # Uses 2 parallel instances
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -24,3 +31,11 @@ jobs:
         with:
           start: npm run web
           wait-on: 'npx wait-on --timeout 60000 http://localhost:19006'
+          # Records to Cypress Cloud
+          # https://docs.cypress.io/guides/cloud/projects#Set-up-a-project-to-record
+          record: true
+          parallel: true # Runs test in parallel using settings above
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # Creating a token https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
