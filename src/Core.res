@@ -66,13 +66,18 @@ module Election = {
       })
       let privkey = Option.getExn(trustee).privkey
 
-      // TODO:Only take the latest of the chain
       let ballots =
         state.events
         -> Array.keep((event) => event.type_ == #"ballot.update")
         -> Array.keep((event) => {
           let ballot = Event_.SignedBallot.unwrap(event)
           ballot.electionId == electionId
+        })
+        // Only keep the last ballot of the chain
+        -> Array.keep((event) => {
+          state.cachedBallotReplacementIds
+          -> Map.String.get(event.contentHash)
+          -> Option.isNone
         })
 
       let ciphertexts =
