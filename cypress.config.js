@@ -19,6 +19,7 @@ async function setupNodeEvents(on, config) {
 }
 
 module.exports = defineConfig({
+  projectId: "cydxys",
   e2e: {
     specPattern: [
       "cypress/e2e/**/*.cy.{js,jsx,ts,tsx}",
