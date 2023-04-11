@@ -35,7 +35,9 @@ let make = () => {
     { state.cachedElections
       -> Map.String.toArray
       -> Array.keep(((id, _election)) => {
-        Option.isNone(State.getElectionReplacementId(state, id))
+        state.cachedElectionReplacementIds
+        -> Map.String.get(id)
+        -> Option.isNone
       })
       -> Array.map(((id, election)) => {
         <Election id election key=id />

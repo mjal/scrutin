@@ -117,6 +117,3 @@ let getBallotExn = (state, id) =>
 
 let getElectionExn = (state, id) =>
   Map.String.getExn(state.cachedElections, id)
-
-let getElectionReplacementId = (state, id) =>
-  Map.String.get(state.cachedElectionReplacementIds, id)
