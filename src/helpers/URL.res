@@ -43,10 +43,16 @@ let getAndThen = (f) => {
 }
 
 let _setUrlPathname : (string) => unit = %raw(`function(pathname) { window.history.pushState({}, null, pathname); }`)
-
 let setUrlPathname = (str) => {
   if ReactNative.Platform.os == #web {
     _setUrlPathname(str)
+  }
+}
+
+let _removeHash : () => unit = %raw(`history.pushState("", document.title, window.location.pathname)`)
+let removeHash = () => {
+  if ReactNative.Platform.os == #web {
+    _removeHash()
   }
 }
 
@@ -60,11 +66,6 @@ function getParameterByName(name, url = window.location.href) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 `)
-// or
-// const params = (new URL(location)).searchParams;
-// or
-// const urlSearchParams = new URLSearchParams(window.location.search);
-// const params = Object.fromEntries(urlSearchParams.entries());
 let getSearchParameter = (name) => {
   let _name2 = `${name}2`
   let res = %raw(`getParameterByName(name)`)
