@@ -43,7 +43,7 @@ let make = (~electionId) => {
 
     let ballot : Ballot.t = {
       electionId,
-      previousTx: None,
+      previousId: None,
       ciphertext: None,
       pubcred: None,
       electionPublicKey: election.ownerPublicKey,

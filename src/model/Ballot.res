@@ -1,6 +1,6 @@
 type t = {
   electionId: string,
-  previousTx: option<string>, // TODO: Rename -> ballotId
+  previousId: option<string>, // TODO: Rename -> ballotId
 
   electionPublicKey: string,
   voterPublicKey:    string,
@@ -12,7 +12,7 @@ type t = {
 external parse:           string => t = "JSON.parse"
 external stringify:       t => string = "JSON.stringify"
 
-let make = (ballot, election:Election.t, selection:array<int>) => {
+let make = (ballot, previousId, election:Election.t, selection:array<int>) => {
   let trustees = Belenios.Trustees.of_str(election.trustees)
   let params = Belenios.Election.parse(election.params)
 
@@ -30,6 +30,7 @@ let make = (ballot, election:Election.t, selection:array<int>) => {
 
   {
     ...ballot,
+    previousId,
     pubcred: Some(pubcred),
     ciphertext: Some(ciphertext)
   }

@@ -133,8 +133,10 @@ module Ballot = {
   // #### Ballot.vote
   // Cast a vote
   let vote = (
-    // **ballot**: TODO
+    // **ballot**
     ~ballot: Ballot.t,
+    // **previousId**: The contentHash of the previous (probably empty) ballot.
+    ~previousId: string,
     // **choice**: The selected option.<br />
     // Options are indexed starting at 0 to (nbChoices - 1)
     ~choice: option<int>,
@@ -153,7 +155,7 @@ module Ballot = {
       let election = State.getElectionExn(state, ballot.electionId)
 
       // Create a ballot expressing that choice
-      let ballot = Ballot.make(ballot, election, selection)
+      let ballot = Ballot.make(ballot, Some(previousId), election, selection)
 
       // Lookup for the voter identity in the cache
       let owner = Array.getBy(state.ids, (id) => {

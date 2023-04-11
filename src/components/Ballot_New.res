@@ -39,7 +39,7 @@ let make = (~ballotId) => {
 
       <Button mode=#contained onPress={_ => {
         let nbChoices = Array.length(Election.choices(election))
-        Core.Ballot.vote(~ballot, ~choice, ~nbChoices)(state, dispatch)
+        Core.Ballot.vote(~ballot, ~previousId=ballotId,  ~choice, ~nbChoices)(state, dispatch)
       }}>
         { t(."ballot.new.vote") -> React.string }
       </Button>

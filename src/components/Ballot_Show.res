@@ -27,7 +27,7 @@ let make = (~ballotId) => {
       />
 
       <List.Item title=t(."ballot.show.previousId")
-        description=Option.getWithDefault(ballot.previousTx, "")
+        description=Option.getWithDefault(ballot.previousId, "")
       />
 
       <List.Item title=t(."ballot.show.voter") description=ballot.voterPublicKey

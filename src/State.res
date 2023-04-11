@@ -23,6 +23,7 @@ type t = {
   cachedElections: Map.String.t<Election.t>,
   cachedElectionReplacementIds: Map.String.t<string>,
   cachedBallots:   Map.String.t<Ballot.t>,
+  cachedBallotReplacementIds: Map.String.t<string>,
 }
 
 // The initial state of the application
@@ -35,6 +36,7 @@ let initial = {
   cachedElections: Map.String.empty,
   cachedElectionReplacementIds: Map.String.empty,
   cachedBallots: Map.String.empty,
+  cachedBallotReplacementIds: Map.String.empty,
 }
 
 // The reducer, the only place where state mutations can happen
@@ -93,7 +95,13 @@ let reducer = (state, action: StateMsg.t) => {
   | Cache_Ballot_Add(contentHash, ballot) =>
     let cachedBallots =
       Map.String.set(state.cachedBallots, contentHash, ballot)
-    ({...state, cachedBallots}, [])
+    let cachedBallotReplacementIds = switch ballot.previousId {
+    | Some(previousId) =>
+      Map.String.set(state.cachedBallotReplacementIds,
+        previousId, contentHash)
+    | None => state.cachedElectionReplacementIds
+    }
+    ({...state, cachedBallots, cachedBallotReplacementIds}, [])
 
   | Config_Store_Language(language) =>
     (state, [StateEffect.language_store(language)])
