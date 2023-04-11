@@ -87,8 +87,12 @@ let eventsGetAndGoToUrl = (dispatch) => {
     switch Js.Json.decodeArray(response) {
       | Some(jsons) => {
         let _ = Array.map(jsons, (json) => {
-          let ev = Event_.from_json(json)
-          dispatch(StateMsg.Event_Add(ev))
+          try {
+            let ev = Event_.from_json(json)
+            dispatch(StateMsg.Event_Add(ev))
+          } catch {
+          | _ => Js.log("Cannot parse event")
+          }
           ()
         })
         ()
