@@ -9,7 +9,7 @@ let send = (ballotId, orgId: Identity.t, voterId: Identity.t, email) => {
 
   let message = `
     Hello !
-    Vous êtes invité à une election.
+    Vous êtes invité à une élection.
     Cliquez ici pour voter :
     https://demo.scrutin.app/ballots/${ballotId}#${hexSecretKey}
   `
@@ -18,7 +18,7 @@ let send = (ballotId, orgId: Identity.t, voterId: Identity.t, email) => {
     let dict = Js.Dict.empty()
     Js.Dict.set(dict, "email", Js.Json.string(email))
     Js.Dict.set(dict, "subject",
-      Js.Json.string("Vous êtes invité à un election"))
+      Js.Json.string("Vous êtes invité à une élection"))
     Js.Dict.set(dict, "text", Js.Json.string(message))
     Js.Dict.set(dict,
       "hexPublicKey", Js.Json.string(orgId.hexPublicKey))
