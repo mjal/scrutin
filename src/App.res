@@ -1,6 +1,6 @@
 @react.component
 let make = () => {
-  let (state, dispatch) = UseTea.useTea(State.reducer, State.initial)
+  let (state, dispatch) = UseTea.useTea(StateReducer.reducer, State.initial)
 
   React.useEffect0(() => {
     dispatch(StateMsg.Reset)
