@@ -49,7 +49,7 @@ let setUrlPathname = (str) => {
   }
 }
 
-let _removeHash : () => unit = %raw(`history.pushState("", document.title, window.location.pathname)`)
+let _removeHash : () => unit = %raw(`function() { history.pushState("", document.title, window.location.pathname) }`)
 let removeHash = () => {
   if ReactNative.Platform.os == #web {
     _removeHash()

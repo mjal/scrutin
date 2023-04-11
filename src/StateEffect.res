@@ -136,6 +136,6 @@ let importIdentityFromUrl = (dispatch) => {
     let hexSecretKey = String.sub(currentHash, 1,
       String.length(currentHash) - 1)
     dispatch(StateMsg.Identity_Add(Identity.make2(~hexSecretKey)))
-    let _ = Js.Global.setTimeout(() => URL.removeHash(), 1000)
+    URL.removeHash()
   }
 }
