@@ -1,7 +1,3 @@
-// FIXME: Workaround CI not founding Color.bs.js for Color.rgb
-external toColorT: (string) => Color.t = "%identity"
-let rgbToColorT = (r,g,b) => toColorT(j`rgb($r,$g,$b)`)
-
 @react.component
 let make = (~electionId) => {
   let (state, _) = Context.use()
@@ -17,7 +13,7 @@ let make = (~electionId) => {
     (123, 158, 135),
     (94,  116, 127),
     (210, 208, 186)
-  ] -> Array.map(((r,g,b)) => rgbToColorT(r,g,b) /*Color.rgb(~r,~g,~b)*/)
+  ] -> Array.map(((r,g,b)) => Color.rgb(~r,~g,~b))
 
   let pieData = Array.mapWithIndex(data, (i, e) => {
     let color = Array.get(colors, i) -> Option.getWithDefault(Color.grey)
