@@ -65,7 +65,7 @@ let make = (~electionId) => {
             </Button>
           } }
 
-          <Button onPress={_ => { setshowModal(_ => false)} }>
+          <Button mode=#outlined onPress={_ => { setshowModal(_ => false)} }>
             { t(."election.show.createInvite.close") -> React.string }
           </Button>
 
