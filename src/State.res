@@ -39,8 +39,8 @@ let initial = {
   cachedBallotReplacementIds: Map.String.empty,
 }
 
-let getBallotExn = (state, id) =>
-  Map.String.getExn(state.cachedBallots, id)
-
+let getBallot = (state, id) => Map.String.get(state.cachedBallots, id)
+let getBallotExn = (state, id) => Map.String.getExn(state.cachedBallots, id)
+let getElection = (state, id) => Map.String.get(state.cachedElections, id)
 let getElectionExn = (state, id) =>
   Map.String.getExn(state.cachedElections, id)

@@ -7,8 +7,8 @@ let reducer = (state: State.t, action: StateMsg.t) => {
       StateEffect.identities_fetch,
       StateEffect.trustees_fetch,
       StateEffect.contacts_fetch,
-      StateEffect.eventsGetAndGoToUrl,
-      StateEffect.importIdentityFromUrl,
+      StateEffect.eventsGet,
+      StateEffect.goToUrl
     ])
 
   | Identity_Add(id) =>

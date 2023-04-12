@@ -80,7 +80,7 @@ let trustees_clear = (_dispatch) => Trustee.clear()
 
 // ## Network - Get
 
-let eventsGetAndGoToUrl = (dispatch) => {
+let eventsGet = (dispatch) => {
   Webapi.Fetch.fetch(j`${URL.api_url}/transactions`)
   -> Promise.then(Webapi.Fetch.Response.json)
   -> Promise.thenResolve(response => {
@@ -100,15 +100,6 @@ let eventsGetAndGoToUrl = (dispatch) => {
       | None => ()
     }
   })
-  -> Promise.thenResolve(_ => {
-    ()
-    //URL.getAndThen((url) => {
-    //  if ReactNative.Platform.os == #web {
-    //    let route = Route.from_path(url)
-    //    dispatch(Navigate(route))
-    //  }
-    //})
-  })
   -> ignore
 }
 
@@ -126,14 +117,11 @@ let event_broadcast = (ev) =>
     Event_.broadcast(ev) -> ignore
   }
 
-// ## Save secret keys passed by url #hash
-
-let importIdentityFromUrl = (dispatch) => {
-  if String.length(URL.getCurrentHash()) > 12 {
-    let currentHash = URL.getCurrentHash()
-    let hexSecretKey = String.sub(currentHash, 1,
-      String.length(currentHash) - 1)
+let goToUrl = (dispatch) => {
+  let url = RescriptReactRouter.dangerouslyGetInitialUrl()
+  if String.length(url.hash) > 12 {
+    let hexSecretKey = url.hash
     dispatch(StateMsg.Identity_Add(Identity.make2(~hexSecretKey)))
-    URL.removeHash()
   }
+  dispatch(Navigate(url.path))
 }
