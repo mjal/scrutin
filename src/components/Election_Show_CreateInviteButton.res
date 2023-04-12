@@ -43,7 +43,7 @@ let make = (~electionId) => {
         <View style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]]) testID="invite-modal">
           <Title style=X.styles["title"]>
             {
-              t(."election.show.createInvite.share")  -> React.string
+              t(."election.show.createInvite.title")  -> React.string
             }
           </Title>
 
@@ -54,6 +54,10 @@ let make = (~electionId) => {
             )>
             { inviteUrl -> React.string }
           </Text>
+
+          <Button onPress={_ => { Share.share({ message: inviteUrl}) -> ignore } }>
+            { t(."election.show.createInvite.share") -> React.string }
+          </Button>
 
           <Button onPress={_ => { setshowModal(_ => false)} }>
             { t(."election.show.createInvite.close") -> React.string }
