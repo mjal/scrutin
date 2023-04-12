@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: 14
       - name: Npm install
-        run: npm install --cache /tmp/empty-cache
+        run: npm install
       - name: Build rescript
         run: npm run re:build
       - name: Build web app (debug)
