@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: 14
       - name: Npm install
-        run: npm cache clear && npm install
+        run: npm install --cache /tmp/empty-cache
       - name: Build rescript
         run: npm run re:build
       - name: Cypress run
