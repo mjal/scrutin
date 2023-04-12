@@ -56,11 +56,11 @@ let make = (~electionId) => {
           </Text>
 
           { if ReactNative.Platform.os == #web {
-            <Button onPress={_ => { Clipboard_.writeText(inviteUrl) -> ignore } }>
+            <Button mode=#outlined onPress={_ => { Clipboard_.writeText(inviteUrl) -> ignore } }>
               { t(."election.show.createInvite.copy") -> React.string }
             </Button>
           } else {
-            <Button onPress={_ => { Share.share({ message: inviteUrl}) -> ignore } }>
+            <Button mode=#outlined onPress={_ => { Share.share({ message: inviteUrl}) -> ignore } }>
               { t(."election.show.createInvite.share") -> React.string }
             </Button>
           } }
