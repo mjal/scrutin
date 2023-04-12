@@ -20,7 +20,7 @@ let cache_update = (ev : Event_.t) =>
 
 // ## LocalStorage - Store
 
-let identities_store = (ids) => (_dispatch) => Identity.store_all(ids)
+let identities_store = (ids) => (_dispatch) => Account.store_all(ids)
 let events_store = (evs) => (_dispatch) => Event_.store_all(evs)
 let trustees_store = (trustees) => (_dispatch) => Trustee.store_all(trustees)
 let contacts_store = (contacts) => (_dispatch) => Contact.store_all(contacts)
@@ -31,7 +31,7 @@ let language_store = (language) =>
 // ## LocalStorage - Fetch
 
 let identities_fetch = (dispatch) => {
-  Identity.fetch_all()
+  Account.fetch_all()
   -> Promise.thenResolve((ids) => {
     Array.map(ids, (id) => dispatch(StateMsg.Identity_Add(id)))
     // FIX: Identity_Add call identites_store as an effect...
@@ -74,7 +74,7 @@ let language_fetch = () =>
 
 // ## LocalStorage - Clear
 
-let identities_clear = (_dispatch) => Identity.clear()
+let identities_clear = (_dispatch) => Account.clear()
 let events_clear = (_dispatch) => Event_.clear()
 let trustees_clear = (_dispatch) => Trustee.clear()
 
@@ -104,7 +104,7 @@ let eventsGet = (dispatch) => {
 }
 
 let identities_get = (dispatch) => {
-  Identity.fetch_all()
+  Account.fetch_all()
   -> Promise.thenResolve((ids) => {
     Array.map(ids, (id) => dispatch(StateMsg.Identity_Add(id)))
     // FIX: Identity_Add call identites_store as an effect...
@@ -121,7 +121,7 @@ let goToUrl = (dispatch) => {
   let url = RescriptReactRouter.dangerouslyGetInitialUrl()
   if String.length(url.hash) > 12 {
     let hexSecretKey = url.hash
-    dispatch(StateMsg.Identity_Add(Identity.make2(~hexSecretKey)))
+    dispatch(StateMsg.Identity_Add(Account.make2(~hexSecretKey)))
   }
   dispatch(Navigate(url.path))
 }

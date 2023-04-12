@@ -56,7 +56,7 @@ let make = () => {
     <X.Title>{ "-" -> React.string }</X.Title>
 
     <Button mode=#contained onPress={_ => {
-      dispatch(Identity_Add(Identity.make()))
+      dispatch(Identity_Add(Account.make()))
     }}>
       { t(."identity.home.generate") -> React.string }
     </Button>
@@ -72,7 +72,7 @@ let make = () => {
     <X.Title>{ "-" -> React.string }</X.Title>
 
     <Button mode=#outlined onPress={_ => {
-      Identity.clear()
+      Account.clear()
       dispatch(Reset)
     }}>
       { t(."identity.home.clear") -> React.string }
@@ -83,7 +83,7 @@ let make = () => {
     <Modal_Import visible=visibleImportModal
       setVisible=setVisibleImportModal
       onImport={ hexSecretKey => {
-        dispatch(Identity_Add(Identity.make2(~hexSecretKey)))
+        dispatch(Identity_Add(Account.make2(~hexSecretKey)))
       } }
       />
   </>

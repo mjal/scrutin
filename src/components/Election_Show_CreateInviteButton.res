@@ -12,7 +12,7 @@ let make = (~electionId) => {
   }) -> Option.getExn
 
   let createInvite = _ => {
-    let voterId = Identity.make() // Only use if no contact found
+    let voterId = Account.make() // Only use if no contact found
 
     let ballot : Ballot.t = {
       electionId,

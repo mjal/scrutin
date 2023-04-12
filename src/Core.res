@@ -17,7 +17,7 @@ module Election = {
       let identity = switch Array.get(state.ids, 0) {
       | Some(identity) => identity
       | None =>
-        let identity = Identity.make()
+        let identity = Account.make()
         dispatch(StateMsg.Identity_Add(identity))
         identity
       }

@@ -1,7 +1,7 @@
 type t =
   | Reset
   | Navigate(list<string>)
-  | Identity_Add(Identity.t)
+  | Identity_Add(Account.t)
   | Event_Add(Event_.t)
   | Event_Add_With_Broadcast(Event_.t)
   | Trustee_Add(Trustee.t)

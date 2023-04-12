@@ -6,7 +6,7 @@ type t = {
 
   // The controlled identities (as voter or election organizer)
   // See [[Identity]]
-  ids: array<Identity.t>,
+  ids: array<Account.t>,
 
   // The controlled election private key (for tallying)
   // See [[Trustee]]

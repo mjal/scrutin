@@ -37,7 +37,7 @@ let hash = (str) => {
 
 // #### Election events
 module SignedElection = {
-  let make = (type_ : event_type_t, election : Election.t, owner : Identity.t) => {
+  let make = (type_ : event_type_t, election : Election.t, owner : Account.t) => {
     let content = Election.stringify(election)
     let contentHash = hash(content)
     {
@@ -45,14 +45,14 @@ module SignedElection = {
       type_,
       contentHash,
       publicKey: owner.hexPublicKey,
-      signature: Identity.signHex(owner, contentHash)
+      signature: Account.signHex(owner, contentHash)
     }
   }
 
-  type create = (Election.t, Identity.t) => t
+  type create = (Election.t, Account.t) => t
   let create = make(#"election.create")
 
-  type update = (Election.t, Identity.t) => t
+  type update = (Election.t, Account.t) => t
   let update = make(#"election.update")
 
   let unwrap = (ev) : Election.t => {
@@ -62,7 +62,7 @@ module SignedElection = {
 
 // #### Ballot events
 module SignedBallot = {
-  let make = (type_ : event_type_t, ballot : Ballot.t, owner : Identity.t) => {
+  let make = (type_ : event_type_t, ballot : Ballot.t, owner : Account.t) => {
     let content = Ballot.stringify(ballot)
     let contentHash = hash(content)
     {
@@ -70,14 +70,14 @@ module SignedBallot = {
       type_,
       contentHash,
       publicKey: owner.hexPublicKey,
-      signature: Identity.signHex(owner, contentHash)
+      signature: Account.signHex(owner, contentHash)
     }
   }
 
-  type create = (Ballot.t, Identity.t) => t
+  type create = (Ballot.t, Account.t) => t
   let create = make(#"ballot.create")
 
-  type update = (Ballot.t, Identity.t) => t
+  type update = (Ballot.t, Account.t) => t
   let update = make(#"ballot.update")
 
   let unwrap = (ev) : Ballot.t => {
