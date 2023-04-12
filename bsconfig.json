@@ -20,7 +20,7 @@
     "@rescript-react-native/svg",
     "@rescript/react",
     "@ryyppy/rescript-promise",
-    "@glennsl/rescript-json-combinators",
+    "rescript-json-combinators",
     "rescript-react-native",
     "rescript-use-tea",
     "rescript-webapi"
