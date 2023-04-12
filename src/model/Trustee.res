@@ -21,7 +21,7 @@ let fetch_all = () =>
   -> Promise.thenResolve(Js.Null.toOption)
   -> Promise.thenResolve(Option.map(_, parse_array))
   -> Promise.thenResolve(Option.getWithDefault(_, []))
-let store_all = (txs) =>
-  ReactNativeAsyncStorage.setItem(storageKey, stringify_array(txs)) -> ignore
+let store_all = (trustees) =>
+  ReactNativeAsyncStorage.setItem(storageKey, stringify_array(trustees)) -> ignore
 let clear = () =>
   ReactNativeAsyncStorage.removeItem(storageKey) -> ignore
