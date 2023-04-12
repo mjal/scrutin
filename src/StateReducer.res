@@ -4,41 +4,41 @@ let reducer = (state: State.t, action: StateMsg.t) => {
 
   | Reset =>
     (State.initial, [
-      StateEffect.identities_fetch,
-      StateEffect.trustees_fetch,
-      StateEffect.contacts_fetch,
-      StateEffect.eventsGet,
+      StateEffect.fetchIdentities,
+      StateEffect.fetchTrustees,
+      StateEffect.fetchContacts,
+      StateEffect.getEvents,
       StateEffect.goToUrl
     ])
 
   | Identity_Add(id) =>
     let ids = Array.concat(state.ids, [id])
-    ({...state, ids}, [StateEffect.identities_store(ids)])
+    ({...state, ids}, [StateEffect.storeIdentities(ids)])
 
   | Event_Add(event) =>
     let events = Array.concat(state.events, [event])
     ({...state, events}, [
-      StateEffect.cache_update(event),
+      StateEffect.cacheUpdate(event),
     ])
 
   | Event_Add_With_Broadcast(event) =>
     let events = Array.concat(state.events, [event])
     ({...state, events}, [
-      StateEffect.event_broadcast(event),
-      StateEffect.cache_update(event),
+      StateEffect.broadcastEvent(event),
+      StateEffect.cacheUpdate(event),
     ])
 
   | Trustee_Add(trustee) =>
     let trustees = Array.concat(state.trustees, [trustee])
-    ({...state, trustees}, [StateEffect.trustees_store(trustees)])
+    ({...state, trustees}, [StateEffect.storeTrustees(trustees)])
 
   | Contact_Add(contact) =>
     let contacts = Array.concat(state.contacts, [contact])
-    ({...state, contacts}, [StateEffect.contacts_store(contacts)])
+    ({...state, contacts}, [StateEffect.storeContacts(contacts)])
 
   | Contact_Remove(index) =>
     let contacts = Array.keepWithIndex(state.contacts, (_, i) => i != index)
-    ({...state, contacts}, [StateEffect.contacts_store(contacts)])
+    ({...state, contacts}, [StateEffect.storeContacts(contacts)])
 
   | Cache_Election_Add(contentHash, election) =>
     let cachedElections =
@@ -63,7 +63,7 @@ let reducer = (state: State.t, action: StateMsg.t) => {
     ({...state, cachedBallots, cachedBallotReplacementIds}, [])
 
   | Config_Store_Language(language) =>
-    (state, [StateEffect.language_store(language)])
+    (state, [StateEffect.storeLanguage(language)])
 
   | Navigate(route) =>
     if ReactNative.Platform.os == #web {

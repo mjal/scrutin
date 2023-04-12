@@ -1,6 +1,6 @@
 // ## Cache management
 
-let cache_update = (ev : Event_.t) =>
+let cacheUpdate = (ev : Event_.t) =>
   (dispatch) => {
     switch ev.type_ {
     | #"election.create" =>
@@ -20,17 +20,16 @@ let cache_update = (ev : Event_.t) =>
 
 // ## LocalStorage - Store
 
-let identities_store = (ids) => (_dispatch) => Account.store_all(ids)
-let events_store = (evs) => (_dispatch) => Event_.store_all(evs)
-let trustees_store = (trustees) => (_dispatch) => Trustee.store_all(trustees)
-let contacts_store = (contacts) => (_dispatch) => Contact.store_all(contacts)
-let language_store = (language) =>
-  (_dispatch) =>
-    ReactNativeAsyncStorage.setItem("config.language", language) -> ignore
+let storeIdentities = (ids) => (_dispatch) => Account.store_all(ids)
+let storeEvents   = (evs) => (_dispatch) => Event_.store_all(evs)
+let storeTrustees = (trustees) => (_dispatch) => Trustee.store_all(trustees)
+let storeContacts = (contacts) => (_dispatch) => Contact.store_all(contacts)
+let storeLanguage = (language) => (_dispatch) =>
+  ReactNativeAsyncStorage.setItem("config.language", language) -> ignore
 
 // ## LocalStorage - Fetch
 
-let identities_fetch = (dispatch) => {
+let fetchIdentities = (dispatch) => {
   Account.fetch_all()
   -> Promise.thenResolve((ids) => {
     Array.map(ids, (id) => dispatch(StateMsg.Identity_Add(id)))
@@ -38,28 +37,28 @@ let identities_fetch = (dispatch) => {
   }) -> ignore
 }
 
-let events_fetch = (dispatch) => {
+let fetchEvents = (dispatch) => {
   Event_.fetch_all()
   -> Promise.thenResolve((evs) => {
     Array.map(evs, (ev) => dispatch(StateMsg.Event_Add(ev)))
   }) -> ignore
 }
 
-let trustees_fetch = (dispatch) => {
+let fetchTrustees = (dispatch) => {
   Trustee.fetch_all()
   -> Promise.thenResolve((os) => {
     Array.map(os, (o) => dispatch(StateMsg.Trustee_Add(o)))
   }) -> ignore
 }
 
-let contacts_fetch = (dispatch) => {
+let fetchContacts = (dispatch) => {
   Contact.fetch_all()
   -> Promise.thenResolve((os) => {
     Array.map(os, (o) => dispatch(StateMsg.Contact_Add(o)))
   }) -> ignore
 }
 
-let language_fetch = () =>
+let fetchLanguage = () =>
   (_dispatch) =>
     ReactNativeAsyncStorage.getItem("config.language")
     -> Promise.thenResolve(Js.Null.toOption)
@@ -74,13 +73,13 @@ let language_fetch = () =>
 
 // ## LocalStorage - Clear
 
-let identities_clear = (_dispatch) => Account.clear()
-let events_clear = (_dispatch) => Event_.clear()
-let trustees_clear = (_dispatch) => Trustee.clear()
+let clearIdentities = (_dispatch) => Account.clear()
+let clearEvents = (_dispatch) => Event_.clear()
+let clearTrustees = (_dispatch) => Trustee.clear()
 
 // ## Network - Get
 
-let eventsGet = (dispatch) => {
+let getEvents = (dispatch) => {
   Webapi.Fetch.fetch(j`${URL.api_url}/transactions`)
   -> Promise.then(Webapi.Fetch.Response.json)
   -> Promise.thenResolve(response => {
@@ -103,7 +102,7 @@ let eventsGet = (dispatch) => {
   -> ignore
 }
 
-let identities_get = (dispatch) => {
+let getIdentities = (dispatch) => {
   Account.fetch_all()
   -> Promise.thenResolve((ids) => {
     Array.map(ids, (id) => dispatch(StateMsg.Identity_Add(id)))
@@ -112,7 +111,7 @@ let identities_get = (dispatch) => {
 }
 
 // ## Send event to the server
-let event_broadcast = (ev) =>
+let broadcastEvent = (ev) =>
   (_dispatch) => {
     Event_.broadcast(ev) -> ignore
   }
