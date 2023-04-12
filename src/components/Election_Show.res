@@ -13,7 +13,7 @@ let make = (~electionId) => {
     { switch Map.String.get(state.cachedElectionReplacementIds, electionId) {
     | Some(replacementId) =>
       <Text
-        onPress={_ => dispatch(Navigate(Election_Show(replacementId)))}
+        onPress={_ => dispatch(Navigate(list{"elections", replacementId}))}
         style=Style.textStyle(~color=Color.red,())>
       { "This object version is obselete.
         Click here for the next version"

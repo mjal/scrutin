@@ -17,7 +17,7 @@ type t = {
 
   // The current route (still waiting for a decent rescript router
   // that works on web and native)
-  route: Route.t,
+  route: list<string>,
 
   // Cache of elections and ballot for fast lookup
   cachedElections: Map.String.t<Election.t>,
@@ -28,7 +28,7 @@ type t = {
 
 // The initial state of the application
 let initial = {
-  route: Election_Index,
+  route: list{""},
   events: [],
   ids: [],
   trustees: [],

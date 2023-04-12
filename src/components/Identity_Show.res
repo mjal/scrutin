@@ -33,7 +33,7 @@ let make = (~publicKey) => {
       {
         Array.map(elections, ((eventHash, _election)) => {
           <List.Item title=eventHash key=eventHash
-            onPress={_ => dispatch(Navigate(Election_Show(eventHash)))}
+            onPress={_ => dispatch(Navigate(list{"elections", eventHash}))}
           />
         }) -> React.array
       }
@@ -43,7 +43,7 @@ let make = (~publicKey) => {
       {
         Array.map(ballots, ((eventHash, _ballot)) => {
           <List.Item title=eventHash key=eventHash
-            onPress={_ => dispatch(Navigate(Ballot_Show(eventHash)))}
+            onPress={_ => dispatch(Navigate(list{"ballots", eventHash}))}
           />
         }) -> React.array
       }

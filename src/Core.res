@@ -39,7 +39,7 @@ module Election = {
       dispatch(StateMsg.Trustee_Add(trustee))
   
       // Go the election page
-      dispatch(StateMsg.Navigate(Election_Show(event.contentHash)))
+      dispatch(StateMsg.Navigate(list{"elections", event.contentHash}))
     }
   }
 
@@ -116,7 +116,7 @@ module Election = {
 
       dispatch(StateMsg.Event_Add_With_Broadcast(tx))
 
-      dispatch(Navigate(Election_Show(tx.contentHash)))
+      dispatch(Navigate(list{"elections", tx.contentHash}))
     }
   }
 }
@@ -174,7 +174,7 @@ module Ballot = {
       dispatch(StateMsg.Event_Add_With_Broadcast(tx))
 
       // Go the ballot page
-      dispatch(Navigate(Election_Show(ballot.electionId)))
+      dispatch(Navigate(list{"ballots", ballot.electionId}))
     }
   }
 }

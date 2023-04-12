@@ -11,7 +11,7 @@ let make = (~ballotId) => {
   <List.Section title=t(."ballot.show.title")>
 
     <List.Item title=t(."ballot.show.election") description=ballot.electionId
-      onPress={_ => dispatch(Navigate(Election_Show(ballot.electionId)))}
+      onPress={_ => dispatch(Navigate(list{"elections", ballot.electionId}))}
     />
 
     <Button mode=#outlined onPress={_ => setShowAdvanced(b => !b)}>
@@ -23,7 +23,7 @@ let make = (~ballotId) => {
       <List.Item title=t(."ballot.show.eventHash") description=ballotId />
 
       <List.Item title=t(."ballot.show.election") description=ballot.electionId
-        onPress={_ => dispatch(Navigate(Election_Show(ballot.electionId)))}
+        onPress={_ => dispatch(Navigate(list{"elections", ballot.electionId}))}
       />
 
       <List.Item title=t(."ballot.show.previousId")
@@ -32,12 +32,10 @@ let make = (~ballotId) => {
 
       <List.Item title=t(."ballot.show.voter") description=ballot.voterPublicKey
         onPress={_ => 
-          dispatch(Navigate(Identity_Show(ballot.voterPublicKey)))
+          dispatch(Navigate(list{"identitites", ballot.voterPublicKey}))
         } />
 
-      <List.Item title=t(."ballot.show.ciphertext") description=ciphertext
-        onPress={_ => dispatch(Navigate(Election_Show(ciphertext)))}
-      />
+      <List.Item title=t(."ballot.show.ciphertext") description=ciphertext />
     </>
     } else { <></> } }
 

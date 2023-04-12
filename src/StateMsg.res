@@ -1,6 +1,6 @@
 type t =
   | Reset
-  | Navigate(Route.t)
+  | Navigate(list<string>)
   | Identity_Add(Identity.t)
   | Event_Add(Event_.t)
   | Event_Add_With_Broadcast(Event_.t)

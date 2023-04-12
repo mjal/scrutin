@@ -11,7 +11,7 @@ module Election = {
         <List.Section title="">
 
           <List.Item
-            onPress={ _ => dispatch(Navigate(Election_Show(id))) }
+            onPress={ _ => dispatch(Navigate(list{"elections", id})) }
             title=name
             description=electionParams.description />
 
@@ -28,7 +28,7 @@ let make = () => {
 
   <>
     <X.Title>{ "-" -> React.string }</X.Title>
-    <Button mode=#contained onPress={_ => dispatch(Navigate(Election_New))}>
+    <Button mode=#contained onPress={_ => dispatch(Navigate(list{"elections", "new"}))}>
       { t(."election.home.create") -> React.string }
     </Button>
     <X.Title>{ "-" -> React.string }</X.Title>

@@ -8,10 +8,10 @@ module Item = {
 
     let onPress = _ => {
       switch event.type_ {
-      | #"election.create" => dispatch(Navigate(Election_Show(event.contentHash)))
-      | #"election.update" => dispatch(Navigate(Election_Show(event.contentHash)))
-      | #"ballot.create" => dispatch(Navigate(Ballot_Show(event.contentHash)))
-      | #"ballot.update" => dispatch(Navigate(Ballot_Show(event.contentHash)))
+      | #"election.create" => dispatch(Navigate(list{"elections", event.contentHash}))
+      | #"election.update" => dispatch(Navigate(list{"elections", event.contentHash}))
+      | #"ballot.create" => dispatch(Navigate(list{"ballots", event.contentHash}))
+      | #"ballot.update" => dispatch(Navigate(list{"ballots", event.contentHash}))
       }
     }
 

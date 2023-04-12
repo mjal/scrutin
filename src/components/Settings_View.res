@@ -28,16 +28,16 @@ let make = () => {
 
     <List.Section title=t(."settings.internals") style=X.styles["margin-x"]>
       <List.Item title=t(."settings.identities")
-        onPress={_ => dispatch(Navigate(Identity_Index))}
+        onPress={_ => dispatch(Navigate(list{"identities"}))}
       />
       <List.Item title=t(."settings.trustees")
-        onPress={_ => dispatch(Navigate(Trustee_Index))}
+        onPress={_ => dispatch(Navigate(list{"trustees"}))}
       />
       <List.Item title=t(."settings.contacts")
-        onPress={_ => dispatch(Navigate(Contact_Index))}
+        onPress={_ => dispatch(Navigate(list{"contacts"}))}
       />
       <List.Item title=t(."settings.events")
-        onPress={_ => dispatch(Navigate(Event_Index))}
+        onPress={_ => dispatch(Navigate(list{"events"}))}
       />
     </List.Section>
   </>

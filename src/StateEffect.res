@@ -101,15 +101,13 @@ let eventsGetAndGoToUrl = (dispatch) => {
     }
   })
   -> Promise.thenResolve(_ => {
-    URL.getAndThen((url) => {
-      switch url {
-      | list{"ballots", id} =>
-        dispatch(StateMsg.Navigate(Ballot_Show(id)))
-      | list{"elections", id} =>
-        dispatch(StateMsg.Navigate(Election_Show(id)))
-      | _ => ()
-      }
-    })
+    ()
+    //URL.getAndThen((url) => {
+    //  if ReactNative.Platform.os == #web {
+    //    let route = Route.from_path(url)
+    //    dispatch(Navigate(route))
+    //  }
+    //})
   })
   -> ignore
 }

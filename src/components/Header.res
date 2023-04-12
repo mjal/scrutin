@@ -12,8 +12,8 @@ let make = () => {
   }
 
   <Appbar.Header>
-    <Appbar.Action icon=Icon.name("home") onPress={_ => dispatch(Navigate(Election_Index))} />
+    <Appbar.Action icon=Icon.name("home") onPress={_ => dispatch(Navigate(list{"elections"}))} />
     <Appbar.Content title />
-    <Appbar.Action icon=Icon.name("cog-outline") onPress={_ => dispatch(Navigate(Route.Settings))}></Appbar.Action>
+    <Appbar.Action icon=Icon.name("cog-outline") onPress={_ => dispatch(Navigate(list{"settings"}))}></Appbar.Action>
   </Appbar.Header>
 }

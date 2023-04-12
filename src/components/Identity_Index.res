@@ -47,7 +47,7 @@ let make = () => {
       <Card key=id.hexPublicKey>
         <List.Item
           title=("0x" ++ id.hexPublicKey)
-          onPress={_ => dispatch(Navigate(Identity_Show(id.hexPublicKey)))}
+          onPress={_ => dispatch(Navigate(list{"identities", id.hexPublicKey}))}
         />
       </Card>
     }) -> React.array }

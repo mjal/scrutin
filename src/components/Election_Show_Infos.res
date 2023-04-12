@@ -27,7 +27,7 @@ let make = (~electionId) => {
 
       {
         let onPress = _ =>
-          dispatch(Navigate(Identity_Show(election.ownerPublicKey)))
+          dispatch(Navigate(list{"identities", election.ownerPublicKey}))
         <List.Item title=t(."election.show.ownerPublicKey") onPress
           description=election.ownerPublicKey />
       }
@@ -56,7 +56,7 @@ let make = (~electionId) => {
         Array.map(ballots, ((id, _ballot)) => {
           <List.Item title=`Ballot ${id}`
             key=id
-            onPress={_ => dispatch(Navigate(Ballot_Show(id)))}
+            onPress={_ => dispatch(Navigate(list{"ballots", id}))}
           />
         }) -> React.array
       }

@@ -7,26 +7,35 @@ let make = () => {
     None
   })
 
+  if ReactNative.Platform.os == #web {
+    let url = RescriptReactRouter.useUrl()
+    if url.path != state.route {
+      dispatch(Navigate(url.path))
+    }
+  }
+
   <Layout state dispatch>
 
     <Header />
 
     { switch state.route {
 
-    | Election_Index    => <Election_Index />
-    | Identity_Index    => <Identity_Index />
-    | Trustee_Index     => <Trustee_Index />
-    | Event_Index       => <Event_Index />
-    | Contact_Index     => <Contact_Index />
+    | list{"elections"}         => <Election_Index />
+    | list{"elections", "new"}  => <Election_New />
+    | list{"elections", id}     => <Election_Show electionId=id />
 
-    | Election_New => <Election_New />
-    | Election_Show(electionId) => <Election_Show electionId />
+    | list{"ballots", id}       => <Ballot_Show ballotId=id />
 
-    | Ballot_Show(ballotId) => <Ballot_Show ballotId />
+    | list{"identities"}       => <Identity_Index />
+    | list{"identities", id}   => <Identity_Show publicKey=id />
 
-    | Identity_Show(publicKey) => <Identity_Show publicKey />
+    | list{"trustees"}         => <Trustee_Index />
+    | list{"events"}           => <Event_Index />
+    | list{"contacts"}         => <Contact_Index />
 
-    | Settings => <Settings_View />
+    | list{"settings"}         => <Settings_View />
+
+    | _                        => <Election_Index />
     } }
 
     //<Navigation />

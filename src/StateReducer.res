@@ -66,6 +66,10 @@ let reducer = (state: State.t, action: StateMsg.t) => {
     (state, [StateEffect.language_store(language)])
 
   | Navigate(route) =>
+    if ReactNative.Platform.os == #web {
+      let path = Belt.List.reduce(route, "", (a, b) => a ++ "/" ++ b)
+      RescriptReactRouter.push(path)
+    }
     ({...state, route}, [])
 
   }
