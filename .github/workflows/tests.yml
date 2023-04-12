@@ -26,12 +26,11 @@ jobs:
         run: npm install
       - name: Build rescript
         run: npm run re:build
-      - name: Build web app (debug)
-        run: npm run export:web
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
-          start: python -m http.server --directory web-build 19006
+          install: false
+          start: npm run web
           wait-on: 'npx wait-on --timeout 60000 http://localhost:19006'
           # Records to Cypress Cloud
           # https://docs.cypress.io/guides/cloud/projects#Set-up-a-project-to-record
