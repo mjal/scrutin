@@ -33,6 +33,7 @@ jobs:
         with:
           start: |
             npm install
+            npm run re:build
             cat node_modules/@rescript/react/src/RescriptReactRouter.bs.js
             npm run web
 
