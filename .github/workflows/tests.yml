@@ -31,12 +31,7 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v5
         with:
-          start: |
-            npm install
-            npm run re:build
-            cat node_modules/@rescript/react/src/RescriptReactRouter.bs.js
-            npm run web
-
+          start: python -m http.server --directory web-build 19006
           wait-on: 'npx wait-on --timeout 60000 http://localhost:19006'
           # Records to Cypress Cloud
           # https://docs.cypress.io/guides/cloud/projects#Set-up-a-project-to-record
