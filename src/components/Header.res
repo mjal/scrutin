@@ -1,5 +1,5 @@
 @react.component
-let make = (~title, ~subtitle="") => {
+let make = (~title="", ~subtitle="") => {
   let (state, dispatch) = Context.use()
 
   let titleTextStyle = Style.textStyle(

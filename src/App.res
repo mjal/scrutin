@@ -9,8 +9,6 @@ let make = () => {
 
   <Layout state dispatch>
 
-    <Header title="" />
-
     { switch state.route {
 
     | list{"elections"}         => <Election_Index />

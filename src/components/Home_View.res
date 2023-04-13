@@ -19,6 +19,8 @@ let make = () => {
   )
 
   <>
+    <Header />
+
     <Logo />
 
     <Button style=buttonStyle mode=#contained
