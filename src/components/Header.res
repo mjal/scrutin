@@ -10,6 +10,7 @@ let make = () => {
       { (t(."app.title") ++ " [DEV MODE]") -> React.string }
     </Text>
   }
+  let title = <></>
 
   <Appbar.Header>
     <Appbar.Action icon=Icon.name("home") onPress={_ => dispatch(Navigate(list{"elections"}))} />

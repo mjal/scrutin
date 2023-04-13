@@ -27,8 +27,11 @@ let make = () => {
   let { t } = ReactI18next.useTranslation()
 
   <>
+    <Logo />
+
     <X.Title>{ "-" -> React.string }</X.Title>
-    <Button mode=#contained onPress={_ => dispatch(Navigate(list{"elections", "new"}))}>
+    <Button mode=#contained
+      onPress={_ => dispatch(Navigate(list{"elections", "new"}))}>
       { t(."election.home.create") -> React.string }
     </Button>
     <X.Title>{ "-" -> React.string }</X.Title>
