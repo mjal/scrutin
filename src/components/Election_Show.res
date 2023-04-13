@@ -14,18 +14,7 @@ let make = (~electionId) => {
     <>
       <Header title=Election.name(election) />
 
-      { switch Map.String.get(state.cachedElectionReplacementIds, electionId) {
-      | Some(replacementId) =>
-        <Text
-          onPress={_ => dispatch(Navigate(list{"elections", replacementId}))}
-          style=Style.textStyle(~color=Color.red,())>
-        { "This object version is obselete.
-          Click here for the next version"
-          -> React.string
-        }
-        </Text>
-      | None => <></>
-      } }
+      <Election_Show_GoToNextVersion electionId />
 
       <Election_Show_Title election />
 
