@@ -12,6 +12,8 @@ let make = () => {
   }
 
   <>
+    <Header title=t(."election.new.title") />
+
     <TextInput
       mode=#flat
       label=t(."election.new.name")

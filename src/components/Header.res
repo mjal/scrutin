@@ -1,12 +1,14 @@
 @react.component
-let make = () => {
+let make = (~title, ~subtitle="") => {
   let (state, dispatch) = Context.use()
-  let { t } = ReactI18next.useTranslation()
 
-  let title = switch state.route {
-  | list{"elections", "new"} => t(."election.new.title") -> React.string
-  | _ => <></>
-  }
+  let titleTextStyle = Style.textStyle(
+    ~alignSelf=#center,
+    ~fontWeight=Style.FontWeight._900,
+    ~fontSize=20.0,
+    ~lineHeight=24.0,
+    ()
+  )
 
   let backButton = switch state.route {
   | list{} | list{""} => <></>
@@ -22,11 +24,18 @@ let make = () => {
   | _ => <></>
   }
 
-  let titleStyle = Style.viewStyle(~alignSelf=#center,())
-
   <Appbar.Header style=Style.viewStyle(~backgroundColor=Color.white,())>
     { backButton }
-    <Appbar.Content title titleStyle />
+    <Appbar.Content title={
+      <>
+        <Title style=titleTextStyle>
+          { title -> React.string }
+        </Title>
+        <Text style=titleTextStyle>
+          { subtitle -> React.string }
+        </Text>
+      </>
+    } />
     { settingsButton }
   </Appbar.Header>
 }

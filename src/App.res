@@ -9,7 +9,7 @@ let make = () => {
 
   <Layout state dispatch>
 
-    <Header />
+    <Header title="" />
 
     { switch state.route {
 

@@ -12,6 +12,8 @@ let make = (~electionId) => {
     })
 
     <>
+      <Header title=Election.name(election) />
+
       { switch Map.String.get(state.cachedElectionReplacementIds, electionId) {
       | Some(replacementId) =>
         <Text
