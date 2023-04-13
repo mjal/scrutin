@@ -13,7 +13,7 @@ let make = () => {
   let title = <></>
 
   <Appbar.Header>
-    <Appbar.Action icon=Icon.name("home") onPress={_ => dispatch(Navigate(list{"elections"}))} />
+    <Appbar.Action icon=Icon.name("home") onPress={_ => dispatch(Navigate(list{}))} />
     <Appbar.Content title />
     <Appbar.Action icon=Icon.name("cog-outline") onPress={_ => dispatch(Navigate(list{"settings"}))}></Appbar.Action>
   </Appbar.Header>

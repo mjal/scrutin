@@ -28,7 +28,12 @@ let make = () => {
 
     | list{"settings"}         => <Settings_View />
 
-    | _                        => <Election_Index />
+    | list{} | list{""}        => <Home_View />
+
+    | route                    =>
+      Js.log("Unknown route")
+      Js.log(route)
+      <Election_Index />
     } }
 
     //<Navigation />
