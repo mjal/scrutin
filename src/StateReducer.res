@@ -68,6 +68,7 @@ let reducer = (state: State.t, action: StateMsg.t) => {
   | Navigate(route) =>
     if ReactNative.Platform.os == #web {
       let path = Belt.List.reduce(route, "", (a, b) => a ++ "/" ++ b)
+      let path = if path == "" { "/" } else { path }
       RescriptReactRouter.push(path)
     }
     ({...state, route}, [])
