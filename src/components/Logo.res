@@ -3,6 +3,7 @@
 let style = {
   open Style
   viewStyle(
+    ~alignSelf=#center,
     ~width=360.0->dp,
     ~height=139.0->dp,
   ())
