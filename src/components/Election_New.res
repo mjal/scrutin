@@ -25,10 +25,6 @@ let make = () => {
   <>
     <Header title=t(."election.new.header") />
 
-    <Title style=S.section>
-      { t(."election.new.question") -> React.string }
-    </Title>
-
     <TextInput
       style=styles["questionInput"]
       mode=#flat
@@ -37,10 +33,6 @@ let make = () => {
 			value=name
       onChangeText={text => setName(_ => text)}
     />
-
-    <Title style=S.section>
-      { t(."election.new.choiceList.choices") -> React.string }
-    </Title>
 
     <Election_New_ChoiceList choices setChoices />
 

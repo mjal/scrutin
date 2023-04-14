@@ -1,16 +1,27 @@
+module ItemInput = {
+  @react.component
+  let make = (~name, ~onUpdate) => {
+    <TextInput
+      mode=#flat
+			value=name
+      onChangeText=onUpdate
+    />
+  }
+}
+
 module Item = {
   @react.component
-  let make = (~onRemove, ~name) => {
-    <List.Item
-      title=name
-      left={_ => <List.Icon icon=Icon.name("vote") />}
-      onPress={_ => ()}
-      right={_ =>
+  let make = (~onRemove, ~onUpdate, ~name) => {
+    <S.Row>
+      <S.Col>
+        <ItemInput name onUpdate />
+      </S.Col>
+      <S.Col>
         <Button onPress=onRemove>
           <List.Icon icon=Icon.name("delete") />
         </Button>
-      }
-    />
+      </S.Col>
+    </S.Row>
   }
 }
 
@@ -32,13 +43,31 @@ let make = (~choices, ~setChoices) => {
     )
   }
 
+  let onUpdate = (i, newName) => {
+    setChoices(choices =>
+      Array.mapWithIndex(choices, (index, oldName) => {
+        if (index == i) {
+          newName
+        } else {
+          oldName
+        }
+      })
+    )
+  }
+
   <View testID="choice-list">
+
+    <Title style=S.section>
+      { t(."election.new.choiceList.choices") -> React.string }
+    </Title>
+
     <View>
       { Array.mapWithIndex(choices, (i, name) => {
         <Item
           name
           key=Int.toString(i)
           onRemove={_ => onRemove(i)}
+          onUpdate={name => onUpdate(i, name)}
         />
       }) -> React.array }
     </View>
