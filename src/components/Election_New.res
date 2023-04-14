@@ -25,6 +25,10 @@ let make = () => {
   <>
     <Header title=t(."election.new.header") />
 
+    <Title style=S.section>
+      { t(."election.new.question") -> React.string }
+    </Title>
+
     <TextInput
       style=styles["questionInput"]
       mode=#flat
