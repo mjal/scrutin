@@ -42,7 +42,7 @@ let make = (~ballotId) => {
       </>
       } else { <></> } }
   
-      <Ballot_New ballotId />
+      <BallotNew ballotId />
   
     </List.Section>
   }

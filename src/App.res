@@ -22,7 +22,7 @@ let make = () => {
     | list{"elections", "new"}  => <Election_New />
     | list{"elections", id}     => <Election_Show electionId=id />
 
-    | list{"ballots", id}       => <Ballot_Show ballotId=id />
+    | list{"ballots", id}       => <BallotShow ballotId=id />
 
     | list{"identities"}       => <Identity_Index />
     | list{"identities", id}   => <Identity_Show publicKey=id />
