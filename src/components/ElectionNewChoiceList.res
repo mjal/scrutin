@@ -1,24 +1,3 @@
-module Item = {
-  @react.component
-  let make = (~onRemove, ~onUpdate, ~name, ~index) => {
-    <S.Row style=Style.viewStyle(~marginHorizontal=Style.dp(20.0),())>
-      <S.Col style=Style.viewStyle(~flexGrow=10.0,())>
-        <TextInput
-          mode=#flat
-          label=j`Choice $index`
-		    	value=name
-          onChangeText=onUpdate
-        />
-      </S.Col>
-      <S.Col>
-        <Button onPress=onRemove>
-          <List.Icon icon=Icon.name("delete") />
-        </Button>
-      </S.Col>
-    </S.Row>
-  }
-}
-
 @react.component
 let make = (~choices, ~setChoices) => {
   let { t } = ReactI18next.useTranslation()
@@ -47,7 +26,7 @@ let make = (~choices, ~setChoices) => {
 
     <View>
       { Array.mapWithIndex(choices, (i, name) => {
-        <Item
+        <ElectionNewChoiceItem
           name
           index=(i+1)
           key=Int.toString(i)
