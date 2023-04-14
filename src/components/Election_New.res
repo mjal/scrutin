@@ -25,6 +25,12 @@ let make = () => {
         ~backgroundColor=Color.white,
         ~shadowRadius=2.0,
       ()),
+      "nextButton": viewStyle(
+        ~alignSelf=#center,
+        ~width=300.0->dp,
+        ~marginTop=25.0->dp,
+        ~borderRadius=0.0,
+      ())
     })
   }
 
@@ -50,8 +56,8 @@ let make = () => {
 
     <Election_New_ChoiceList choices setChoices />
 
-    <Button mode=#contained onPress=electionCreate>
-      { t(."election.new.create") -> React.string }
+    <Button mode=#contained style=styles["nextButton"] onPress=electionCreate>
+      { t(."election.new.next") -> React.string }
     </Button>
   </>
 }
