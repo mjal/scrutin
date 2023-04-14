@@ -14,12 +14,6 @@ let make = () => {
   let styles = {
     open Style
     StyleSheet.create({
-      "section": textStyle(
-        ~fontSize=20.0,
-        ~marginTop=15.0->dp,
-        ~marginBottom=15.0->dp,
-        ~marginLeft=60.0->dp,
-      ()),
       "questionInput": viewStyle(
         ~marginHorizontal=25.0->dp,
         ~backgroundColor=Color.white,
@@ -31,7 +25,7 @@ let make = () => {
   <>
     <Header title=t(."election.new.header") />
 
-    <Title style=styles["section"]>
+    <Title style=S.section>
       { t(."election.new.question") -> React.string }
     </Title>
 
@@ -44,7 +38,7 @@ let make = () => {
       onChangeText={text => setName(_ => text)}
     />
 
-    <Title style=styles["section"]>
+    <Title style=S.section>
       { t(."election.new.choiceList.choices") -> React.string }
     </Title>
 

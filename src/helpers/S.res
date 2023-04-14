@@ -30,6 +30,14 @@ let modal = textStyle(
   ()
 )
 
+let section = textStyle(
+  ~fontSize=20.0,
+  ~marginTop=15.0->dp,
+  ~marginBottom=15.0->dp,
+  ~marginLeft=60.0->dp,
+  ()
+)
+
 let layout =
   if ReactNative.Platform.os == #web && Dimension.width() > 800 {
     viewStyle(
