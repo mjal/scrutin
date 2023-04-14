@@ -78,6 +78,10 @@ let styles = {
         viewStyle(
           ~width=800.0->dp,
           ~alignSelf=#center,
+          ~borderColor=Color.rgb(~r=103, ~g=80, ~b=164),
+          ~borderWidth=3.0,
+          ~borderRadius=40.0,
+          ~height=100.0->pct,
           ()
         )
       } else { viewStyle() }
