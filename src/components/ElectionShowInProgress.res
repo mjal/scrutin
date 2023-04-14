@@ -11,19 +11,19 @@ let make = (~election:Election.t, ~electionId) => {
   <>
     <Header title=Election.name(election) />
 
-    <Election_Show_GoToNextVersion electionId />
+    <ElectionShowGoToNextVersion electionId />
     //<Election_Show_Title election />
 
     // TODO: Election_Show_Ballot
     { if Election.description(election) != "" {
       <List.Item title=Election.description(election) />
     } else { <></> } }
-    <Election_Show_Choices electionId />
+    <ElectionShowChoices electionId />
 
     { if Option.isSome(election.result) {
       <ElectionResultChart electionId />
     } else {
-      <Election_Show_Choices electionId />
+      <ElectionShowChoices electionId />
     } }
 
     { if Option.isNone(election.result) {
@@ -33,7 +33,7 @@ let make = (~election:Election.t, ~electionId) => {
             { t(."election.show.admin") -> React.string }
           </S.Title>
 
-          <Election_Show_AddByEmailButton electionId />
+          <ElectionShowAddByEmailButton electionId />
           <ElectionInviteButton electionId />
 
           <Button mode=#outlined onPress={_ =>
@@ -50,6 +50,6 @@ let make = (~election:Election.t, ~electionId) => {
       } else { <></> }
     }
 
-    <Election_Show_Infos electionId />
+    <ElectionInfos electionId />
   </>
 }

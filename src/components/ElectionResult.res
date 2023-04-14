@@ -11,7 +11,7 @@ let make = (~election:Election.t, ~electionId) => {
   <>
     <Header title=Election.name(election) />
 
-    <Election_Show_GoToNextVersion electionId />
+    <ElectionShowGoToNextVersion electionId />
 
     <ElectionResultChart electionId />
 
@@ -21,7 +21,7 @@ let make = (~election:Election.t, ~electionId) => {
           { t(."election.show.admin") -> React.string }
         </S.Title>
 
-        <Election_Show_AddByEmailButton electionId />
+        <ElectionShowAddByEmailButton electionId />
         <ElectionInviteButton electionId />
 
         <Button mode=#outlined onPress={_ =>
@@ -37,7 +37,7 @@ let make = (~election:Election.t, ~electionId) => {
       }
     } 
 
-    <Election_Show_Infos electionId />
+    <ElectionInfos electionId />
   </>
 }
 

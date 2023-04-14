@@ -6,7 +6,7 @@ let make = (~electionId) => {
   | None => <NotFound />
   | Some(election) =>
     switch election.result {
-    | None => <Election_Show_InProgress electionId election />
+    | None => <ElectionShowInProgress electionId election />
     | Some(_result) =>
       <ElectionResult electionId election />
     }

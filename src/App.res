@@ -24,21 +24,21 @@ let make = () => {
 
     | list{"ballots", id}       => <BallotShow ballotId=id />
 
-    | list{"identities"}       => <Identity_Index />
-    | list{"identities", id}   => <Identity_Show publicKey=id />
+    | list{"identities"}       => <IdentityIndex />
+    | list{"identities", id}   => <IdentityShow publicKey=id />
 
-    | list{"trustees"}         => <Trustee_Index />
-    | list{"events"}           => <Event_Index />
+    | list{"trustees"}         => <TrusteeIndex />
+    | list{"events"}           => <EventIndex />
     | list{"contacts"}         => <ContactIndex />
 
-    | list{"settings"}         => <Settings_View />
+    | list{"settings"}         => <SettingsView />
 
-    | list{} | list{""}        => <Home_View />
+    | list{} | list{""}        => <HomeView />
 
     | route                    =>
       Js.log("Unknown route")
       Js.log(route)
-      <Home_View />
+      <HomeView />
     } }
 
     //<Navigation />
