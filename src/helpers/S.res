@@ -45,8 +45,8 @@ let layout =
       ~alignSelf=#center,
       ~borderColor=Color.rgb(~r=103, ~g=80, ~b=164),
       ~borderWidth=3.0,
-      ~borderRadius=40.0,
-      ~height=100.0->pct,
+      //~borderRadius=40.0,
+      ~minHeight=1180.0->dp,
       ()
     )
   } else { viewStyle() }
@@ -113,7 +113,8 @@ module Button = {
       ~alignSelf=#center,
       ~width=300.0->dp,
       ~marginTop=25.0->dp,
-      ~borderRadius=0.0,
+      ~paddingVertical=5.0->dp,
+      ~borderRadius=15.0,
     ())
 
     let defaultTitleStyle = textStyle(
