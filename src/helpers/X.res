@@ -18,16 +18,6 @@ let styles = {
   open Style
 
   StyleSheet.create({
-    "subtitle": textStyle(
-      ~textAlign=#center,
-      ()
-    ),
-
-    "separator": viewStyle(
-      ~height=20.0->dp,
-      ()
-    ),
-
     "row": viewStyle(
       ~flexDirection=#row,
       ~padding=10.0->dp,
@@ -87,23 +77,6 @@ let styles = {
   })
 }
 
-module Row = {
-  @react.component
-  let make = (~children) => {
-    <ReactNative.View style=styles["row"]>
-      {children}
-    </ReactNative.View>
-  }
-}
-
-module Col = {
-  @react.component
-  let make = (~children) => {
-    <ReactNative.View style=styles["col"]>
-      {children}
-    </ReactNative.View>
-  }
-}
 
 module SegmentedButtons = {
   type button = {

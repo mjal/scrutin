@@ -80,19 +80,19 @@ let make = (~choices, ~setChoices) => {
             onChangeText={text => setName(_ => text)}
             onSubmitEditing=onSubmit
           />
-          <X.Row>
-            <X.Col>
+          <S.Row>
+            <S.Col>
               <Button
                 onPress={_ => { setName(_ => ""); setshowModal(_ => false)} }>
                 { t(."election.new.choiceList.modal.back") -> React.string }
               </Button>
-            </X.Col>
-            <X.Col>
+            </S.Col>
+            <S.Col>
               <Button mode=#contained onPress=onSubmit>
                 { t(."election.new.choiceList.modal.add") -> React.string }
               </Button>
-            </X.Col>
-          </X.Row>
+            </S.Col>
+          </S.Row>
         </View>
       </Modal>
     </Portal>

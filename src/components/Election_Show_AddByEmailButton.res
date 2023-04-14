@@ -95,13 +95,13 @@ let make = (~electionId) => {
             onSubmitEditing=onSubmit
           />
 
-          <X.Row>
-            <X.Col>
+          <S.Row>
+            <S.Col>
               <Button onPress={_ => { setEmail(_ => ""); setshowModal(_ => false)} }>
                 { t(."election.show.addByEmail.modal.back") -> React.string }
               </Button>
-            </X.Col>
-            <X.Col>
+            </S.Col>
+            <S.Col>
               <Button mode=#outlined onPress=onSubmit>
                 { /*if Option.isSome(contact) {
                   "Utiliser le contact existant" -> React.string
@@ -109,8 +109,8 @@ let make = (~electionId) => {
                   { t(."election.show.addByEmail.modal.sendInvite") -> React.string }
                 } }
               </Button>
-            </X.Col>
-          </X.Row>
+            </S.Col>
+          </S.Row>
         </View>
       </Modal>
     </Portal>

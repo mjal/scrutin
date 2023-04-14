@@ -33,13 +33,13 @@ let make = (~electionId) => {
 
   let pieStyle = Style.viewStyle(~height=Style.dp(200.0), ())
 
-  <X.Row>
-    <X.Col>
+  <S.Row>
+    <S.Col>
       <PieChart style=pieStyle data=pieData />
-    </X.Col>
-    <X.Col>
+    </S.Col>
+    <S.Col>
       { choiceList }
-    </X.Col>
-  </X.Row>
+    </S.Col>
+  </S.Row>
 }
 
