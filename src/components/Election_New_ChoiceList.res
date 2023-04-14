@@ -51,9 +51,7 @@ let make = (~choices, ~setChoices) => {
 
   <View testID="choice-list">
 
-    <Title style=S.section>
-      { t(."election.new.choiceList.choices") -> React.string }
-    </Title>
+    <S.Section title=t(."election.new.choiceList.choices") />
 
     <View>
       { Array.mapWithIndex(choices, (i, name) => {

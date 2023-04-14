@@ -54,6 +54,15 @@ let layout =
     )
   } else { viewStyle() }
 
+module Section = {
+  @react.component
+  let make = (~title) => {
+    <Title style=section>
+      { title -> React.string }
+    </Title>
+  }
+}
+
 module Title = {
   @react.component
   let make = (~children) => {
@@ -147,3 +156,21 @@ module Button = {
     </Button>
   }
 }
+
+module TextInput = {
+  @react.component
+  let make = (~label, ~testID, ~value, ~onChangeText) => {
+    let style = viewStyle(
+      ~marginHorizontal=25.0->dp,
+      ~backgroundColor=Color.white,
+      ~shadowRadius=2.0,
+      ())
+
+    <TextInput
+      style mode=#flat
+      label testID
+			value onChangeText
+    />
+  }
+}
+
