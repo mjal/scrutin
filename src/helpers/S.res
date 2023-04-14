@@ -82,9 +82,9 @@ module Row = {
         ()),
       Option.getWithDefault(style, viewStyle(()))
     ])
-    <ReactNative.View style>
+    <View style>
       {children}
-    </ReactNative.View>
+    </View>
   }
 }
 
@@ -98,9 +98,9 @@ module Col = {
         ()),
       Option.getWithDefault(style, viewStyle(()))
     ])
-    <ReactNative.View style>
+    <View style>
       {children}
-    </ReactNative.View>
+    </View>
   }
 }
 
