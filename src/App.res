@@ -20,7 +20,7 @@ let make = () => {
 
     | list{"elections"}         => <ElectionIndex />
     | list{"elections", "new"}  => <ElectionNew />
-    | list{"elections", id}     => <Election_Show electionId=id />
+    | list{"elections", id}     => <ElectionShow electionId=id />
 
     | list{"ballots", id}       => <BallotShow ballotId=id />
 
