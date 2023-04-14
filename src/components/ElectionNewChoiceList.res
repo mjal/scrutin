@@ -11,35 +11,27 @@ let make = (~choices, ~setChoices) => {
   let onUpdate = (i, newName) => {
     setChoices(choices =>
       Array.mapWithIndex(choices, (index, oldName) => {
-        if (index == i) {
-          newName
-        } else {
-          oldName
-        }
+        (index == i) ? newName : oldName
       })
     )
   }
 
   <View testID="choice-list">
-
     <S.Section title=t(."election.new.choiceList.choices") />
 
-    <View>
-      { Array.mapWithIndex(choices, (i, name) => {
-        <ElectionNewChoiceItem
-          name
-          index=(i+1)
-          key=Int.toString(i)
-          onRemove={_ => onRemove(i)}
-          onUpdate={name => onUpdate(i, name)}
-        />
-      }) -> React.array }
-    </View>
+    { Array.mapWithIndex(choices, (i, name) => {
+      <ElectionNewChoiceItem
+        name
+        index=(i+1)
+        key=Int.toString(i)
+        onRemove={_ => onRemove(i)}
+        onUpdate={name => onUpdate(i, name)}
+      />
+    }) -> React.array }
 
     <S.Button
       style=Style.viewStyle(~width=100.0->Style.dp,())
       title="+"
       onPress={_ => setChoices(choices => Array.concat(choices, [""])) } />
-
   </View>
 }
