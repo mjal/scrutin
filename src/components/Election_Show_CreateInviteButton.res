@@ -40,7 +40,7 @@ let make = (~electionId) => {
 
     <Portal>
       <Modal visible={showModal} onDismiss={_ => setshowModal(_ => false)}>
-        <View style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]]) testID="invite-modal">
+        <View style=S.flatten([S.modal, S.layout]) testID="invite-modal">
           <S.Title>
             {
               t(."election.show.createInvite.title")  -> React.string

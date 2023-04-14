@@ -14,7 +14,7 @@ let make = () => {
     <List.Section
       title=t(."settings.language")
       style=S.marginX>
-      <X.SegmentedButtons
+      <S.SegmentedButtons
         value=language
         buttons=[
           {value: "en", label: "English"},

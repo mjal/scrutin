@@ -78,7 +78,7 @@ let make = (~electionId) => {
 
     <Portal>
       <Modal visible={showModal} onDismiss={_ => setshowModal(_ => false)}>
-        <View style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]]) testID="choice-modal">
+        <View style=S.flatten([S.modal, S.layout]) testID="choice-modal">
           <S.Title>
             {
               t(."election.show.addByEmail.modal.title")  -> React.string

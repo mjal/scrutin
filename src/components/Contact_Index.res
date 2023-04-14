@@ -4,7 +4,7 @@ let make = () => {
   let { t } = ReactI18next.useTranslation()
 
   <>
-    <X.Title>{ t(."contact.title") -> React.string }</X.Title>
+    <S.Title>{ t(."contact.title") -> React.string }</S.Title>
     <List.Section title="" style=S.marginX>
     { Array.mapWithIndex(state.contacts, (i, contact) => {
       <Card key=contact.hexPublicKey>
@@ -33,7 +33,7 @@ let make = () => {
       { t(."contact.clearAll") -> React.string }
     </Button>
 
-    <X.Title>{ "-" -> React.string }</X.Title>
+    <S.Title>{ "-" -> React.string }</S.Title>
   </>
 }
 

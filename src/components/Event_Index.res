@@ -37,7 +37,7 @@ let make = () => {
       <Item event key=event.contentHash />
     ) -> React.array }
 
-    <X.Title>{ "-" -> React.string }</X.Title>
+    <S.Title>{ "-" -> React.string }</S.Title>
 
     <Button mode=#contained onPress=clear>
       { t(."events.clear") -> React.string }

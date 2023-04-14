@@ -6,7 +6,7 @@ module Election = {
     let electionParams = Belenios.Election.parse(election.params)
     let name = electionParams.name == "" ? "Unnamed" : electionParams.name
 
-    <Card style=X.styles["margin-y-8"]>
+    <Card style=S.marginY(8.0)>
       <Card.Content>
         <List.Section title="">
 

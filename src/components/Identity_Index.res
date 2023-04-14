@@ -12,7 +12,7 @@ module Modal_Import = {
     <Portal>
       <Modal visible
         onDismiss={_ => setVisible(_ => false)}>
-        <View style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]])
+        <View style=S.flatten([S.modal, S.layout])
           testID="choice-modal">
           <TextInput
             mode=#flat
@@ -39,9 +39,9 @@ let make = () => {
   let (visibleImportModal, setVisibleImportModal) = React.useState(_ => false)
 
   <>
-    <X.Title>
+    <S.Title>
       { t(."identity.home.title") -> React.string }
-    </X.Title>
+    </S.Title>
     <List.Section title="" style=S.marginX>
     { Array.map(state.ids, (id) => {
       <Card key=id.hexPublicKey>
@@ -53,7 +53,7 @@ let make = () => {
     }) -> React.array }
     </List.Section>
 
-    <X.Title>{ "-" -> React.string }</X.Title>
+    <S.Title>{ "-" -> React.string }</S.Title>
 
     <Button mode=#contained onPress={_ => {
       dispatch(Identity_Add(Account.make()))
@@ -61,7 +61,7 @@ let make = () => {
       { t(."identity.home.generate") -> React.string }
     </Button>
 
-    <X.Title>{ "-" -> React.string }</X.Title>
+    <S.Title>{ "-" -> React.string }</S.Title>
 
     <Button mode=#contained onPress={_ => {
       setVisibleImportModal(_ => true)
@@ -69,7 +69,7 @@ let make = () => {
       { t(."identity.home.import") -> React.string }
     </Button>
 
-    <X.Title>{ "-" -> React.string }</X.Title>
+    <S.Title>{ "-" -> React.string }</S.Title>
 
     <Button mode=#outlined onPress={_ => {
       Account.clear()
@@ -78,7 +78,7 @@ let make = () => {
       { t(."identity.home.clear") -> React.string }
     </Button>
 
-    <X.Title>{ "-" -> React.string }</X.Title>
+    <S.Title>{ "-" -> React.string }</S.Title>
     
     <Modal_Import visible=visibleImportModal
       setVisible=setVisibleImportModal

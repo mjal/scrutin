@@ -1,11 +1,47 @@
 open Style
 
+let flatten = StyleSheet.flatten
+
 let title = textStyle(
   ~textAlign=#center,
   ~fontSize=20.0,
   ~color=Color.black,
   ()
 )
+
+let marginX = viewStyle(
+  ~marginLeft=15.0->dp,
+  ~marginRight=15.0->dp,
+  ()
+)
+
+let marginY = (size) => {
+  viewStyle(
+    ~marginTop=size->dp,
+    ~marginBottom=size->dp,
+    ()
+  )
+}
+
+let modal = textStyle(
+  ~padding=10.0->dp,
+  ~margin=10.0->dp,
+  ~backgroundColor=Color.white,
+  ()
+)
+
+let layout =
+  if ReactNative.Platform.os == #web && Dimension.width() > 800 {
+    viewStyle(
+      ~width=800.0->dp,
+      ~alignSelf=#center,
+      ~borderColor=Color.rgb(~r=103, ~g=80, ~b=164),
+      ~borderWidth=3.0,
+      ~borderRadius=40.0,
+      ~height=100.0->pct,
+      ()
+    )
+  } else { viewStyle() }
 
 module Title = {
   @react.component
@@ -44,8 +80,18 @@ module Col = {
   }
 }
 
-let marginX = viewStyle(
-  ~marginLeft=15.0->dp,
-  ~marginRight=15.0->dp,
-  ()
-)
+module SegmentedButtons = {
+  type button = {
+    value: string,
+    label: string
+  }
+  @module("react-native-paper") @react.component
+  external make: (
+    ~value: string,
+    ~onValueChange: (string) => (),
+    ~buttons: array<button>,
+    ~theme: Paper__ThemeProvider.Theme.t=?,
+    ~style: ReactNative.Style.t=?,
+    // density
+  ) => React.element = "SegmentedButtons"
+}

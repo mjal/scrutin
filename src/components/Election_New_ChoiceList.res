@@ -64,13 +64,13 @@ let make = (~choices, ~setChoices) => {
     <HelperText
       _type=#error
       visible={ Array.length(choices) < 2}
-      style=X.styles["center"]>
+      style=Style.viewStyle(~alignSelf=#center, ())>
       { t(."election.new.choiceList.error.atLeastTwoChoices") -> React.string }
     </HelperText>
 
     <Portal>
       <Modal visible={showModal} onDismiss={_ => setshowModal(_ => false)}>
-        <View style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]]) testID="choice-modal">
+        <View style=S.flatten([S.modal, S.layout]) testID="choice-modal">
           <TextInput
             mode=#flat
             label=t(."election.new.choiceList.modal.choiceName")

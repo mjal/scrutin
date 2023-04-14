@@ -18,8 +18,8 @@ let make = (~election:Election.t) => {
     ()
   )
 
-  <X.Title>
+  <S.Title>
     { Election.name(election) -> React.string }
     <Chip mode=#flat style=chipStyle>{ status -> React.string }</Chip>
-  </X.Title>
+  </S.Title>
 }
