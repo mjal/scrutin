@@ -1,15 +1,7 @@
-@module external source: Image.Source.t = "./Background.svg"
-
 @react.component
 let make = () => {
   let (_state, dispatch) = Context.use()
   let { t } = ReactI18next.useTranslation()
-
-  let style = Style.viewStyle(
-    ~width=100.0->Style.pct,
-    ~height=868.0->Style.dp,
-    ()
-  )
 
   <View>
     <Header />
@@ -23,7 +15,7 @@ let make = () => {
       { t(."home.search") -> React.string }
     </Button>
 
-    <Image source style />
+    <HomeBackground />
   </View>
 }
 
