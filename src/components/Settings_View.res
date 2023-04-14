@@ -9,6 +9,8 @@ let make = () => {
   }
 
   <>
+    <Header />
+
     <List.Section
       title=t(."settings.language")
       style=X.styles["margin-x"]>
