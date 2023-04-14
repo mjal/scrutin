@@ -21,7 +21,7 @@ let make = (~election:Election.t, ~electionId) => {
     <Election_Show_Choices electionId />
 
     { if Option.isSome(election.result) {
-      <Election_Show_ResultChart electionId />
+      <ElectionResultChart electionId />
     } else {
       <Election_Show_Choices electionId />
     } }

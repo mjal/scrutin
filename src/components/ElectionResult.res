@@ -13,7 +13,7 @@ let make = (~election:Election.t, ~electionId) => {
 
     <Election_Show_GoToNextVersion electionId />
 
-    <Election_Show_ResultChart electionId />
+    <ElectionResultChart electionId />
 
     { if Option.isSome(orgId) {
       <>

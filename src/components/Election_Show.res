@@ -8,7 +8,7 @@ let make = (~electionId) => {
     switch election.result {
     | None => <Election_Show_InProgress electionId election />
     | Some(_result) =>
-      <Election_Show_Result electionId election />
+      <ElectionResult electionId election />
     }
   }
 }
