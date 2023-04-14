@@ -5,8 +5,8 @@ let make = (~title="", ~subtitle="") => {
   let titleTextStyle = Style.textStyle(
     ~alignSelf=#center,
     ~fontWeight=Style.FontWeight._900,
-    ~fontSize=30.0,
-    ~lineHeight=28.0,
+    ~fontSize=25.0,
+    ~lineHeight=24.0,
     ~color=Color.rgb(~r=103, ~g=80, ~b=164),
     ()
   )
