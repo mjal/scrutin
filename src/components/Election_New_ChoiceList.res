@@ -33,23 +33,6 @@ let make = (~choices, ~setChoices) => {
   }
 
   <View testID="choice-list">
-    <X.Row>
-      <X.Col>
-        <Text style=X.styles["title"]>
-          { t(."election.new.choiceList.choices") -> React.string }
-        </Text>
-      </X.Col>
-      <X.Col><Text>{React.string("")}</Text></X.Col>
-      <X.Col>
-        <Button
-          mode=#contained
-          onPress={_ => setshowModal(_ => true)}
-        >
-          { t(."election.new.choiceList.add") -> React.string }
-        </Button>
-      </X.Col>
-    </X.Row>
-
     <View>
       { Array.mapWithIndex(choices, (i, name) => {
         <Item
@@ -59,6 +42,13 @@ let make = (~choices, ~setChoices) => {
         />
       }) -> React.array }
     </View>
+
+    <Button
+      mode=#contained
+      onPress={_ => setshowModal(_ => true)}
+    >
+      { t(."election.new.choiceList.add") -> React.string }
+    </Button>
 
     <HelperText
       _type=#error
