@@ -12,7 +12,7 @@ module ItemInput = {
 module Item = {
   @react.component
   let make = (~onRemove, ~onUpdate, ~name) => {
-    <S.Row style=Style.viewStyle(~margin=Style.dp(20.0),())>
+    <S.Row style=Style.viewStyle(~marginHorizontal=Style.dp(20.0),())>
       <S.Col style=Style.viewStyle(~flexGrow=10.0,())>
         <ItemInput name onUpdate />
       </S.Col>
@@ -72,23 +72,10 @@ let make = (~choices, ~setChoices) => {
       }) -> React.array }
     </View>
 
-    <Button
-      style=Style.viewStyle(
-        ~alignSelf=#center,
-        ~width=50.0->Style.dp,
-      ())
-      mode=#contained
-      onPress={_ => setshowModal(_ => true)}
-    >
-      <Text
-        style=Style.textStyle(
-          ~fontSize=30.0,
-          ~color=Color.white,
-        ())
-      >
-        { "+" -> React.string }
-      </Text>
-    </Button>
+    <S.Button
+      style=Style.viewStyle(~width=100.0->Style.dp,())
+      title="+"
+      onPress={_ => setChoices(choices => Array.concat(choices, [""])) } />
 
     <Portal>
       <Modal visible={showModal} onDismiss={_ => setshowModal(_ => false)}>
