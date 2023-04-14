@@ -18,27 +18,6 @@ let styles = {
   open Style
 
   StyleSheet.create({
-    "row": viewStyle(
-      ~flexDirection=#row,
-      ~padding=10.0->dp,
-      ()
-    ),
-    "col": viewStyle(
-      ~flex=1.0,
-      ~padding=5.0->dp,
-      ()
-    ),
-
-    "smallButton": textStyle(
-      ~height=15.0->dp,
-      ()
-    ),
-
-    "margin-x": viewStyle(
-      ~marginLeft=15.0->dp,
-      ~marginRight=15.0->dp,
-      ()
-    ),
 
     "pad-left": viewStyle(
       ~marginLeft=40.0->dp,

@@ -13,7 +13,7 @@ let make = () => {
 
     <List.Section
       title=t(."settings.language")
-      style=X.styles["margin-x"]>
+      style=S.marginX>
       <X.SegmentedButtons
         value=language
         buttons=[
@@ -28,7 +28,7 @@ let make = () => {
       />
     </List.Section>
 
-    <List.Section title=t(."settings.internals") style=X.styles["margin-x"]>
+    <List.Section title=t(."settings.internals") style=S.marginX>
       <List.Item title=t(."settings.identities")
         onPress={_ => dispatch(Navigate(list{"identities"}))}
       />

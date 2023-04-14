@@ -43,3 +43,9 @@ module Col = {
     </ReactNative.View>
   }
 }
+
+let marginX = viewStyle(
+  ~marginLeft=15.0->dp,
+  ~marginRight=15.0->dp,
+  ()
+)

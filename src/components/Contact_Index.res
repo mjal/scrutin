@@ -5,7 +5,7 @@ let make = () => {
 
   <>
     <X.Title>{ t(."contact.title") -> React.string }</X.Title>
-    <List.Section title="" style=X.styles["margin-x"]>
+    <List.Section title="" style=S.marginX>
     { Array.mapWithIndex(state.contacts, (i, contact) => {
       <Card key=contact.hexPublicKey>
         <Card.Content>

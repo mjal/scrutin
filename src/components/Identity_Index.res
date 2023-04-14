@@ -42,7 +42,7 @@ let make = () => {
     <X.Title>
       { t(."identity.home.title") -> React.string }
     </X.Title>
-    <List.Section title="" style=X.styles["margin-x"]>
+    <List.Section title="" style=S.marginX>
     { Array.map(state.ids, (id) => {
       <Card key=id.hexPublicKey>
         <List.Item
