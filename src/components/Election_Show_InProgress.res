@@ -29,9 +29,9 @@ let make = (~election:Election.t, ~electionId) => {
     { if Option.isNone(election.result) {
       if Option.isSome(orgId) {
         <>
-          <Title style=X.styles["title"]>
+          <S.Title>
             { t(."election.show.admin") -> React.string }
-          </Title>
+          </S.Title>
 
           <Election_Show_AddByEmailButton electionId />
           <Election_Show_CreateInviteButton electionId />
@@ -43,9 +43,9 @@ let make = (~election:Election.t, ~electionId) => {
           </Button>
         </>
         } else {
-          <Title style=X.styles["title"]>
+          <S.Title>
             { t(."election.show.notAdmin") -> React.string }
-          </Title>
+          </S.Title>
         }
       } else { <></> }
     }

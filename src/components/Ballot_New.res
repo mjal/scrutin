@@ -45,8 +45,8 @@ let make = (~ballotId) => {
       </Button>
     </>
   | None =>
-    <Title style=X.styles["title"]>
+    <S.Title>
       { t(."ballot.new.noVotingRight") -> React.string }
-    </Title>
+    </S.Title>
   }
 }

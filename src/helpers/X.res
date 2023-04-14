@@ -18,12 +18,6 @@ let styles = {
   open Style
 
   StyleSheet.create({
-    "title": textStyle(
-      ~textAlign=#center,
-      ~fontSize=20.0,
-      ~color=Color.black,
-      ()
-    ),
     "subtitle": textStyle(
       ~textAlign=#center,
       ()
@@ -130,7 +124,7 @@ module SegmentedButtons = {
 module Title = {
   @react.component
   let make = (~children) => {
-    <Title style=styles["title"]>
+    <Title style=S.title>
       {children}
     </Title>
   }

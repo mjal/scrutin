@@ -41,11 +41,11 @@ let make = (~electionId) => {
     <Portal>
       <Modal visible={showModal} onDismiss={_ => setshowModal(_ => false)}>
         <View style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]]) testID="invite-modal">
-          <Title style=X.styles["title"]>
+          <S.Title>
             {
               t(."election.show.createInvite.title")  -> React.string
             }
-          </Title>
+          </S.Title>
 
           <Text style=Style.textStyle(
               ~width=600.0->Style.dp,

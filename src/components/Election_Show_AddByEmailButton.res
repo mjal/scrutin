@@ -79,11 +79,11 @@ let make = (~electionId) => {
     <Portal>
       <Modal visible={showModal} onDismiss={_ => setshowModal(_ => false)}>
         <View style=StyleSheet.flatten([X.styles["modal"], X.styles["layout"]]) testID="choice-modal">
-          <Title style=X.styles["title"]>
+          <S.Title>
             {
               t(."election.show.addByEmail.modal.title")  -> React.string
             }
-          </Title>
+          </S.Title>
 
           <TextInput
             mode=#flat
