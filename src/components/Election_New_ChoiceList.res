@@ -12,8 +12,8 @@ module ItemInput = {
 module Item = {
   @react.component
   let make = (~onRemove, ~onUpdate, ~name) => {
-    <S.Row>
-      <S.Col>
+    <S.Row style=Style.viewStyle(~margin=Style.dp(20.0),())>
+      <S.Col style=Style.viewStyle(~flexGrow=10.0,())>
         <ItemInput name onUpdate />
       </S.Col>
       <S.Col>
