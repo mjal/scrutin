@@ -44,10 +44,21 @@ let make = (~choices, ~setChoices) => {
     </View>
 
     <Button
+      style=Style.viewStyle(
+        ~alignSelf=#center,
+        ~width=50.0->Style.dp,
+      ())
       mode=#contained
       onPress={_ => setshowModal(_ => true)}
     >
-      { t(."election.new.choiceList.add") -> React.string }
+      <Text
+        style=Style.textStyle(
+          ~fontSize=30.0,
+          ~color=Color.white,
+        ())
+      >
+        { "+" -> React.string }
+      </Text>
     </Button>
 
     <HelperText
