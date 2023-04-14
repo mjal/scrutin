@@ -18,8 +18,8 @@ let make = () => {
 
     { switch state.route {
 
-    | list{"elections"}         => <Election_Index />
-    | list{"elections", "new"}  => <Election_New />
+    | list{"elections"}         => <ElectionIndex />
+    | list{"elections", "new"}  => <ElectionNew />
     | list{"elections", id}     => <Election_Show electionId=id />
 
     | list{"ballots", id}       => <BallotShow ballotId=id />
@@ -29,7 +29,7 @@ let make = () => {
 
     | list{"trustees"}         => <Trustee_Index />
     | list{"events"}           => <Event_Index />
-    | list{"contacts"}         => <Contact_Index />
+    | list{"contacts"}         => <ContactIndex />
 
     | list{"settings"}         => <Settings_View />
 
@@ -38,7 +38,7 @@ let make = () => {
     | route                    =>
       Js.log("Unknown route")
       Js.log(route)
-      <Election_Index />
+      <Home_View />
     } }
 
     //<Navigation />

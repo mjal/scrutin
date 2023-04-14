@@ -28,7 +28,7 @@ let make = () => {
       onChangeText={text => setDesc(_ => text)}
     />
 
-    <Election_New_ChoiceList choices setChoices />
+    <ElectionNewChoiceList choices setChoices />
 
     <S.Button onPress=electionCreate title=t(."election.new.next") />
   </>
