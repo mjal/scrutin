@@ -26,11 +26,11 @@ let make = () => {
     <Button style=buttonStyle mode=#contained
       onPress={_ => dispatch(Navigate(list{"elections", "new"}))}>
       <Text style=buttonTextStyle>
-        { t(."election.home.create") -> React.string }
+        { t(."home.create") -> React.string }
       </Text>
     </Button>
     <Button mode=#text onPress={_ => dispatch(Navigate(list{"elections"}))}>
-      { "Search an election..." -> React.string }
+      { t(."home.search") -> React.string }
     </Button>
   </>
 }
