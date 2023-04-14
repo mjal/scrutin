@@ -7,6 +7,13 @@ let make = () => {
     None
   })
 
+  if ReactNative.Platform.os == #web {
+    let url = RescriptReactRouter.useUrl()
+    if url.path != state.route {
+      dispatch(Navigate(url.path))
+    }
+  }
+
   <Layout state dispatch>
 
     { switch state.route {

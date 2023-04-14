@@ -70,6 +70,7 @@ let reducer = (state: State.t, action: StateMsg.t) => {
       let path = Belt.List.reduce(route, "", (a, b) => a ++ "/" ++ b)
       let path = if path == "" { "/" } else { path }
       RescriptReactRouter.push(path)
+      Js.log(path)
     }
     ({...state, route}, [])
 
