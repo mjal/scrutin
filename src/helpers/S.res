@@ -95,3 +95,39 @@ module SegmentedButtons = {
     // density
   ) => React.element = "SegmentedButtons"
 }
+
+module Button = {
+  @react.component
+  let make = (~onPress, ~title,
+    ~style=?, ~titleStyle=?
+  ) => {
+    let defaultStyle = viewStyle(
+      ~alignSelf=#center,
+      ~width=300.0->dp,
+      ~marginTop=25.0->dp,
+      ~borderRadius=0.0,
+    ())
+
+    let defaultTitleStyle = textStyle(
+      ~fontSize=20.0,
+      ~color=Color.white,
+      ()
+    )
+
+    let style = switch style {
+    | Some(style) => StyleSheet.flatten([defaultStyle, style])
+    | None => defaultStyle
+    }
+
+    let titleStyle = switch titleStyle {
+    | Some(titleStyle) => StyleSheet.flatten([defaultTitleStyle, titleStyle])
+    | None => defaultTitleStyle
+    }
+
+    <Button mode=#contained style onPress>
+      <Text style=titleStyle>
+        { title -> React.string }
+      </Text>
+    </Button>
+  }
+}

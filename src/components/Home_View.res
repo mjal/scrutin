@@ -24,12 +24,9 @@ let make = () => {
 
     <Logo />
 
-    <Button style=buttonStyle mode=#contained
-      onPress={_ => dispatch(Navigate(list{"elections", "new"}))}>
-      <Text style=buttonTextStyle>
-        { t(."home.create") -> React.string }
-      </Text>
-    </Button>
+    <S.Button title=t(."home.create")
+      onPress={_ => dispatch(Navigate(list{"elections", "new"}))} />
+
     <Button mode=#text onPress={_ => dispatch(Navigate(list{"elections"}))}>
       { t(."home.search") -> React.string }
     </Button>
