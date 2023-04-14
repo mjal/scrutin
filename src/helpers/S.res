@@ -6,21 +6,24 @@ let title = textStyle(
   ~textAlign=#center,
   ~fontSize=20.0,
   ~color=Color.black,
-  ()
-)
+  ())
 
 let marginX = viewStyle(
   ~marginLeft=15.0->dp,
   ~marginRight=15.0->dp,
-  ()
-)
+  ())
 
 let marginY = (size) => {
   viewStyle(
     ~marginTop=size->dp,
     ~marginBottom=size->dp,
-    ()
-  )
+    ())
+}
+
+let widthPct = (size) => {
+  viewStyle(
+    ~width=size->pct,
+    ())
 }
 
 let modal = textStyle(
@@ -62,12 +65,14 @@ module Title = {
 
 module Row = {
   @react.component
-  let make = (~children) => {
-    let style = viewStyle(
-      ~flexDirection=#row,
-      ~padding=10.0->dp,
-      ()
-    )
+  let make = (~children, ~style=?) => {
+    let style = StyleSheet.flatten([
+      viewStyle(
+        ~flexDirection=#row,
+        ~padding=10.0->dp,
+        ()),
+      Option.getWithDefault(style, viewStyle(()))
+    ])
     <ReactNative.View style>
       {children}
     </ReactNative.View>
@@ -76,12 +81,14 @@ module Row = {
 
 module Col = {
   @react.component
-  let make = (~children) => {
-    let style = viewStyle(
-      ~flex=1.0,
-      ~padding=5.0->dp,
-      ()
-    )
+  let make = (~children, ~style=?) => {
+    let style = StyleSheet.flatten([
+      viewStyle(
+        ~flex=1.0,
+        ~padding=5.0->dp,
+        ()),
+      Option.getWithDefault(style, viewStyle(()))
+    ])
     <ReactNative.View style>
       {children}
     </ReactNative.View>
