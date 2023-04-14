@@ -24,8 +24,11 @@ module Election = {
 @react.component
 let make = () => {
   let (state, _dispatch) = Context.use()
+  let { t } = ReactI18next.useTranslation()
 
   <>
+    <Header title=t(."search.header.title") />
+
     { state.cachedElections
       -> Map.String.toArray
       -> Array.keep(((id, _election)) => {
