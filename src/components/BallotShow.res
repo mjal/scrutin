@@ -1,5 +1,5 @@
 @react.component
-let make = (~ballot, ~ballotId) => {
+let make = (~ballot:Ballot.t, ~ballotId) => {
   let (state, dispatch) = Context.use()
   let { t } = ReactI18next.useTranslation()
   let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
