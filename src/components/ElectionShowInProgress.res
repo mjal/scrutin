@@ -2,11 +2,7 @@
 let make = (~election:Election.t, ~electionId) => {
   let (state, dispatch) = Context.use()
   let { t } = ReactI18next.useTranslation()
-
-  // TODO: Refactor by State.getAccount(state, election.ownerPublicKey)
-  let orgId = Array.getBy(state.ids, (id) => {
-    id.hexPublicKey == election.ownerPublicKey
-  })
+  let orgId = State.getAccount(state, election.ownerPublicKey)
 
   <>
     <Header title=Election.name(election) />

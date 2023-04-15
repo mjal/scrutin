@@ -44,3 +44,5 @@ let getBallotExn = (state, id) => Map.String.getExn(state.cachedBallots, id)
 let getElection = (state, id) => Map.String.get(state.cachedElections, id)
 let getElectionExn = (state, id) =>
   Map.String.getExn(state.cachedElections, id)
+let getAccount = (state, publicKey) =>
+  Array.getBy(state.ids, (id) => publicKey == id.hexPublicKey)
