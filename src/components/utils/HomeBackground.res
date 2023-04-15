@@ -1,4 +1,4 @@
-@module external source: Image.Source.t = "./HomeBackground.svg"
+@module("./HomeBackground.svg") external source: Image.Source.t = "default"
 
 @react.component
 let make = () => {

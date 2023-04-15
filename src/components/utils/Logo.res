@@ -1,4 +1,4 @@
-@module external source: Image.Source.t = "./Logo.png"
+@module("./Logo.png") external source: Image.Source.t = "default"
 
 let style = {
   open Style
