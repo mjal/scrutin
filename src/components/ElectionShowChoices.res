@@ -4,15 +4,17 @@ let make = (~electionId) => {
   let { t } = ReactI18next.useTranslation()
   let election = State.getElectionExn(state, electionId)
 
-  { if Election.description(election) != "" {
-    <List.Item title=Election.description(election) />
-  } else { <></> } }
+  <>
+    { if Election.description(election) != "" {
+      <List.Item title=Election.description(election) />
+    } else { <></> } }
 
-  <List.Section title=t(."election.show.choices")>
-  {
-    Array.mapWithIndex(Election.choices(election), (i, name) => {
-      <List.Item title=name key=Int.toString(i) />
-    }) -> React.array
-  }
-  </List.Section>
+    <List.Section title=t(."election.show.choices")>
+    {
+      Array.mapWithIndex(Election.choices(election), (i, name) => {
+        <List.Item title=name key=Int.toString(i) />
+      }) -> React.array
+    }
+    </List.Section>
+  </>
 }

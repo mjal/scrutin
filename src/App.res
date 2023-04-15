@@ -24,9 +24,18 @@ let make = () => {
 
     | list{"elections"}         => <ElectionIndex />
     | list{"elections", "new"}  => <ElectionNew />
-    | list{"elections", id}     => <ElectionShow electionId=id />
 
-    | list{"ballots", id}       => <BallotShow ballotId=id />
+    | list{"elections", electionId} =>
+      switch State.getElection(state, electionId) {
+      | None => "Not found yet..." -> React.string
+      | Some(election) => <ElectionShow election electionId />
+      }
+
+    | list{"ballots", ballotId} =>
+      switch State.getBallot(state, ballotId) {
+      | None => "Not found yet..." -> React.string
+      | Some(ballot) => <BallotShow ballot ballotId />
+      }
 
     | list{"identities"}       => <IdentityIndex />
     | list{"identities", id}   => <IdentityShow publicKey=id />
