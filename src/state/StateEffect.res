@@ -117,10 +117,12 @@ let broadcastEvent = (ev) =>
   }
 
 let goToUrl = (dispatch) => {
-  let url = RescriptReactRouter.dangerouslyGetInitialUrl()
-  if String.length(url.hash) > 12 {
-    let hexSecretKey = url.hash
-    dispatch(StateMsg.Identity_Add(Account.make2(~hexSecretKey)))
+  if ReactNative.Platform.os == #web {
+    let url = RescriptReactRouter.dangerouslyGetInitialUrl()
+    if String.length(url.hash) > 12 {
+      let hexSecretKey = url.hash
+      dispatch(StateMsg.Identity_Add(Account.make2(~hexSecretKey)))
+    }
+    dispatch(Navigate(url.path))
   }
-  dispatch(Navigate(url.path))
 }
