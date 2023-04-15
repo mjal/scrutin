@@ -15,13 +15,13 @@
   "suffix": ".bs.js",
   "reason": { "react-jsx": 3 },
   "bs-dependencies": [
-    "rescript-react-native-async-storage",
     "@rescript-react-native/paper",
     "@rescript-react-native/svg",
     "@rescript/react",
     "@ryyppy/rescript-promise",
     "@glennsl/rescript-json-combinators",
     "rescript-react-native",
+    "rescript-react-native-async-storage",
     "rescript-use-tea",
     "rescript-webapi"
   ],

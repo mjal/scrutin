@@ -18,8 +18,8 @@ module Datum = {
   }
 }
 
-@module("react-native-svg-charts") @react.component
-external make: (
-  ~data: array<Datum.t>,
-  ~style: ReactNative.Style.t=?,
-) => React.element = "PieChart"
+//@module("react-native-svg-charts") @react.component
+//external make: (
+//  ~data: array<Datum.t>,
+//  ~style: ReactNative.Style.t=?,
+//) => React.element = "PieChart"
