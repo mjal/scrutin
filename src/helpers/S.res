@@ -1,5 +1,7 @@
 open Style
 
+let primaryColor = Color.rgb(~r=103, ~g=80, ~b=164)
+
 let flatten = StyleSheet.flatten
 
 let title = textStyle(
@@ -46,7 +48,7 @@ let layout =
     viewStyle(
       ~width=800.0->dp,
       ~alignSelf=#center,
-      ~borderColor=Color.rgb(~r=103, ~g=80, ~b=164),
+      ~borderColor=primaryColor,
       ~borderWidth=3.0,
       //~borderRadius=40.0,
       ~minHeight=1180.0->dp,
