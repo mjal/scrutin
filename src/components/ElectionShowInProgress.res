@@ -5,7 +5,7 @@ let make = (~election:Election.t, ~electionId) => {
   let orgId = State.getAccount(state, election.ownerPublicKey)
 
   <>
-    <Header title=Election.name(election) />
+    <ElectionHeader election />
 
     <ElectionShowChoices electionId />
 
