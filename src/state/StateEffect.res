@@ -33,7 +33,7 @@ let fetchIdentities = (dispatch) => {
   Account.fetch_all()
   -> Promise.thenResolve((ids) => {
     Array.map(ids, (id) => dispatch(StateMsg.Identity_Add(id)))
-    // FIX: Identity_Add call identites_store as an effect...
+    // FIX: Identity_Add call storeIdentities as an effect...
   }) -> ignore
 }
 
@@ -100,14 +100,6 @@ let getEvents = (dispatch) => {
     }
   })
   -> ignore
-}
-
-let getIdentities = (dispatch) => {
-  Account.fetch_all()
-  -> Promise.thenResolve((ids) => {
-    Array.map(ids, (id) => dispatch(StateMsg.Identity_Add(id)))
-    // FIX: Identity_Add call identites_store as an effect...
-  }) -> ignore
 }
 
 // ## Send event to the server
