@@ -11,14 +11,10 @@ let make = (~election:Election.t, ~electionId) => {
   <>
     <Header title=Election.name(election) />
 
-    <ElectionShowGoToNextVersion electionId />
-    //<Election_Show_Title election />
-
     // TODO: Election_Show_Ballot
     { if Election.description(election) != "" {
       <List.Item title=Election.description(election) />
     } else { <></> } }
-    <ElectionShowChoices electionId />
 
     { if Option.isSome(election.result) {
       <ElectionResultChart electionId />

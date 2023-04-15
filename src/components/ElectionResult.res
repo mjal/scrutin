@@ -11,8 +11,6 @@ let make = (~election:Election.t, ~electionId) => {
   <>
     <Header title=Election.name(election) />
 
-    <ElectionShowGoToNextVersion electionId />
-
     <ElectionResultChart electionId />
 
     { if Option.isSome(orgId) {

@@ -7,12 +7,16 @@ let make = () => {
     None
   })
 
+  // Go to url
   if ReactNative.Platform.os == #web {
     let url = RescriptReactRouter.useUrl()
     if url.path != state.route {
       dispatch(Navigate(url.path))
     }
   }
+
+  // Use latest version of objects
+  StateUseLatest.useLatest()
 
   <Layout state dispatch>
 
