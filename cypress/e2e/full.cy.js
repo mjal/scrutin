@@ -3,7 +3,7 @@ describe('election', () => {
     cy.visit('http://localhost:19006/')
     cy.intercept("https://scrutin-staging.fly.dev/transactions")
 
-    cy.contains('Create a new election').click()
+    cy.contains('Create an election').click()
     cy.get('[data-testid="election-name"]').type(`Testing election from cypress`, {delay: 0})
 
     let choices = [

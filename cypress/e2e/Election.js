@@ -2,7 +2,7 @@ import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
 
 When("I go to new election", () => {
   cy.visit('http://localhost:19006/')
-  cy.contains('Create a new election').click()
+  cy.contains('Create an election').click()
 })
 
 When("I add a title", () => {
