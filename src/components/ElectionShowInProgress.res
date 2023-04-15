@@ -11,35 +11,32 @@ let make = (~election:Election.t, ~electionId) => {
   <>
     <Header title=Election.name(election) />
 
-    { switch election.result {
-    | Some(_result) => <ElectionResultChart electionId />
-    | None => <ElectionShowChoices electionId />
-    } }
+    <ElectionShowChoices electionId />
 
-    { if Option.isNone(election.result) {
-      if Option.isSome(orgId) {
-        <>
-          <S.Title>
-            { t(."election.show.admin") -> React.string }
-          </S.Title>
+    //{ if Option.isNone(election.result) {
+    //  if Option.isSome(orgId) {
+    //    <>
+    //      <S.Title>
+    //        { t(."election.show.admin") -> React.string }
+    //      </S.Title>
 
-          <ElectionShowAddByEmailButton electionId />
-          <ElectionInviteButton electionId />
+    //      <ElectionShowAddByEmailButton electionId />
+    //      <ElectionInviteButton electionId />
 
-          <Button mode=#outlined onPress={_ =>
-            Core.Election.tally(~electionId)(state, dispatch)
-          }>
-            { t(."election.show.closeAndTally") -> React.string }
-          </Button>
-        </>
-        } else {
-          <S.Title>
-            { t(."election.show.notAdmin") -> React.string }
-          </S.Title>
-        }
-      } else { <></> }
-    }
+    //      <Button mode=#outlined onPress={_ =>
+    //        Core.Election.tally(~electionId)(state, dispatch)
+    //      }>
+    //        { t(."election.show.closeAndTally") -> React.string }
+    //      </Button>
+    //    </>
+    //    } else {
+    //      <S.Title>
+    //        { t(."election.show.notAdmin") -> React.string }
+    //      </S.Title>
+    //    }
+    //  } else { <></> }
+    //}
 
-    <ElectionInfos electionId />
+    //<ElectionInfos electionId />
   </>
 }
