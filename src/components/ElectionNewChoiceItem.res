@@ -4,7 +4,7 @@ let make = (~onRemove, ~onUpdate, ~name, ~index) => {
     <S.Col style=Style.viewStyle(~flexGrow=10.0,())>
       <TextInput
         mode=#flat
-        label=j`Choice $index`
+        label=`Choice ${index->Int.toString}`
 	    	value=name
         onChangeText=onUpdate
       />

@@ -29,7 +29,7 @@ let make = (~electionId) => {
     let ballotId = tx.contentHash
     let secretKey = Option.getExn(voterId.hexSecretKey)
     
-    setInviteUrl(_ => j`${URL.base_url}/ballots/$ballotId#$secretKey`)
+    setInviteUrl(_ => `${URL.base_url}/ballots/${ballotId}#${secretKey}`)
     setshowModal(_ => true)
   }
 
