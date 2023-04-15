@@ -15,10 +15,10 @@ let make = (~electionId) => {
     (210, 208, 186)
   ] -> Array.map(((r,g,b)) => Color.rgb(~r,~g,~b))
 
-  let pieData = Array.mapWithIndex(data, (i, e) => {
-    let color = Array.get(colors, i) -> Option.getWithDefault(Color.grey)
-    PieChart.Datum.make(~value=e, ~key=j`pie-$e`, ~color)
-  })
+  //let _pieData = Array.mapWithIndex(data, (i, e) => {
+  //  let color = Array.get(colors, i) -> Option.getWithDefault(Color.grey)
+  //  PieChart.Datum.make(~value=e, ~key=j`pie-$e`, ~color)
+  //})
 
   let choiceList =
     Election.choices(election)
@@ -26,12 +26,12 @@ let make = (~electionId) => {
       let color = Array.get(colors, i) -> Option.getWithDefault(Color.grey)
       let count = Array.getExn(data, i)
 
-      <List.Item title=j`$name ($count)` key=Int.toString(i)
+      <List.Item title=`${name} (${count->Int.toString})` key=Int.toString(i)
         titleStyle=Style.textStyle(~color,())
       />
     }) -> React.array
 
-  let pieStyle = Style.viewStyle(~height=Style.dp(200.0), ())
+  //let pieStyle = Style.viewStyle(~height=Style.dp(200.0), ())
 
   <S.Row>
     <S.Col>

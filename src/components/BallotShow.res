@@ -1,6 +1,6 @@
 @react.component
 let make = (~ballot:Ballot.t, ~ballotId) => {
-  let (state, dispatch) = Context.use()
+  let (_state, dispatch) = Context.use()
   let { t } = ReactI18next.useTranslation()
   let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
   let ciphertext = Option.getWithDefault(ballot.ciphertext, "")

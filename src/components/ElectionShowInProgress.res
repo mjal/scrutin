@@ -1,8 +1,8 @@
 @react.component
 let make = (~election:Election.t, ~electionId) => {
-  let (state, dispatch) = Context.use()
-  let { t } = ReactI18next.useTranslation()
-  let orgId = State.getAccount(state, election.ownerPublicKey)
+  let (_state, _dispatch) = Context.use()
+  //let { t } = ReactI18next.useTranslation()
+  //let orgId = State.getAccount(state, election.ownerPublicKey)
 
   <>
     <ElectionHeader election />
