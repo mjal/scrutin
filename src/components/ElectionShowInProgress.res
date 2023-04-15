@@ -11,15 +11,9 @@ let make = (~election:Election.t, ~electionId) => {
   <>
     <Header title=Election.name(election) />
 
-    // TODO: Election_Show_Ballot
-    { if Election.description(election) != "" {
-      <List.Item title=Election.description(election) />
-    } else { <></> } }
-
-    { if Option.isSome(election.result) {
-      <ElectionResultChart electionId />
-    } else {
-      <ElectionShowChoices electionId />
+    { switch election.result {
+    | Some(_result) => <ElectionResultChart electionId />
+    | None => <ElectionShowChoices electionId />
     } }
 
     { if Option.isNone(election.result) {
