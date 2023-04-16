@@ -35,7 +35,9 @@ let make = (~electionId) => {
 
   <S.Row>
     <S.Col>
-      { "The result should be here" -> React.string }
+      <Text>
+        { "The result should be here" -> React.string }
+      </Text>
       //<PieChart style=pieStyle data=pieData />
     </S.Col>
     <S.Col>
