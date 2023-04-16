@@ -34,15 +34,23 @@ let make = (~electionId) => {
   //let pieStyle = Style.viewStyle(~height=Style.dp(200.0), ())
 
   <S.Row>
-    <S.Col>
-      <Text>
-        { "The result should be here" -> React.string }
-      </Text>
-      //<PieChart style=pieStyle data=pieData />
-    </S.Col>
-    <S.Col>
-      { choiceList }
-    </S.Col>
+  {
+    let ratios = [1.0,0.5,0.3]
+    Array.map([0,1,2], (i) => {
+      let color = Option.getExn(colors[i])
+      let ratio = Option.getExn(ratios[i])
+      <S.Col key=(i->Int.toString)>
+        <ReactNativeSvg.Svg style=Style.viewStyle(~width=10.0->Style.dp, ~alignSelf=#center,())>
+          <ReactNativeSvg.Rect
+            fill=color
+            width=(10.0->Style.dp)
+            height=((100.0 *. ratio)->Style.dp)
+            />
+        </ReactNativeSvg.Svg>
+        <Text style=Style.textStyle(~color, ~alignSelf=#center, ())>{ "Choice name (n)" -> React.string }</Text>
+      </S.Col>
+    }) -> React.array
+  }
   </S.Row>
 }
 
