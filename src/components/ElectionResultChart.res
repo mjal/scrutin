@@ -15,11 +15,6 @@ let make = (~electionId) => {
     (210, 208, 186)
   ] -> Array.map(((r,g,b)) => Color.rgb(~r,~g,~b))
 
-  //let _pieData = Array.mapWithIndex(data, (i, e) => {
-  //  let color = Array.get(colors, i) -> Option.getWithDefault(Color.grey)
-  //  PieChart.Datum.make(~value=e, ~key=j`pie-$e`, ~color)
-  //})
-
   let choiceList =
     Election.choices(election)
     -> Array.mapWithIndex((i, name) => {
@@ -30,8 +25,6 @@ let make = (~electionId) => {
         titleStyle=Style.textStyle(~color,())
       />
     }) -> React.array
-
-  //let pieStyle = Style.viewStyle(~height=Style.dp(200.0), ())
 
   <S.Row>
   {
