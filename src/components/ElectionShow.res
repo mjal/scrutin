@@ -21,8 +21,8 @@ let make = (~election:Election.t, ~electionId) => {
     | false => Map.String.mapWithKey(ballots, (ballotId, _ballot) => {
       // TODO: i18n
       <S.Button title="Use invite to vote" onPress={_ =>
-        dispatch(Navigate(list{"ballot", ballotId}))
-      } />
+        dispatch(Navigate(list{"ballots", ballotId}))
+      } key=ballotId />
       }) -> Map.String.valuesToArray -> React.array
     } }
 
