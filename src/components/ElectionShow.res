@@ -2,10 +2,21 @@
 let make = (~election:Election.t, ~electionId) => {
   let (state, dispatch) = Context.use()
 
+  if (Option.isSome(election.result)) {
+    dispatch(Navigate(list{"elections", electionId, "result"}))
+  }
+
   let ballots = 
     state.cachedBallots
     -> Map.String.keep((_ballotId, ballot) =>
-      Array.some(state.ids, (id) => id.hexPublicKey == ballot.voterPublicKey)
+      ballot.electionId == electionId
+    )
+    -> Map.String.keep((_ballotId, ballot) =>
+      state.ids
+      -> Array.keep((id) => Option.isSome(id.hexSecretKey))
+      -> Array.some((id) => {
+        id.hexPublicKey == ballot.voterPublicKey
+      })
     )
 
   <>
@@ -15,9 +26,9 @@ let make = (~election:Election.t, ~electionId) => {
 
     { switch Map.String.isEmpty(ballots) {
     | true =>
-      <Text>
+      <S.Title>
         { "You are not invited to this election." -> React.string } // TODO: 18n
-      </Text>
+      </S.Title>
     | false => Map.String.mapWithKey(ballots, (ballotId, _ballot) => {
       // TODO: i18n
       <S.Button title="Use invite to vote" onPress={_ =>
@@ -25,7 +36,6 @@ let make = (~election:Election.t, ~electionId) => {
       } key=ballotId />
       }) -> Map.String.valuesToArray -> React.array
     } }
-
 
     { switch State.getAccount(state, election.ownerPublicKey) {
     | Some(_adminAccount) =>
