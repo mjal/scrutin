@@ -27,19 +27,19 @@ let make = () => {
 
     | list{"elections", electionId} =>
       switch State.getElection(state, electionId) {
-      | None => "Not found yet..." -> React.string
+      | None => <NotFoundYet />
       | Some(election) => <ElectionShow election electionId />
       }
 
     | list{"elections", electionId, "result"} =>
       switch State.getElection(state, electionId) {
-      | None => "Not found yet..." -> React.string
+      | None => <NotFoundYet />
       | Some(election) => <ElectionResult election electionId />
       }
 
     | list{"ballots", ballotId} =>
       switch State.getBallot(state, ballotId) {
-      | None => "Not found yet..." -> React.string
+      | None => <NotFoundYet />
       | Some(ballot) => <BallotShow ballot ballotId />
       }
 
