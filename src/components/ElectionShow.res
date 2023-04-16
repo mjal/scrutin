@@ -2,9 +2,12 @@
 let make = (~election:Election.t, ~electionId) => {
   let (state, dispatch) = Context.use()
 
-  if (Option.isSome(election.result)) {
-    dispatch(Navigate(list{"elections", electionId, "result"}))
-  }
+  React.useEffect(() => {
+    if (Option.isSome(election.result)) {
+      dispatch(Navigate(list{"elections", electionId, "result"}))
+    }
+    None
+  })
 
   let ballots = 
     state.cachedBallots
