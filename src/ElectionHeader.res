@@ -16,7 +16,9 @@ let make = (
   }
 
   let subtitle = switch section {
-  | #invite => "Ajouter des votants" // TODO: i18n
+  | #invite => "Ajouter des votants"
+  | #inviteLink => "Invitation par lien"
+  | #inviteMail => "Invitation mail"
   | _ => ""
   }
 

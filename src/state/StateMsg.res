@@ -1,6 +1,7 @@
 type t =
   | Reset
   | Navigate(list<string>)
+  | Navigate_Back
   | Identity_Add(Account.t)
   | Event_Add(Event_.t)
   | Event_Add_With_Broadcast(Event_.t)

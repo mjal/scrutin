@@ -34,44 +34,30 @@ let make = (~electionId) => {
   }
 
   <>
-    <Button mode=#contained onPress=createInvite>
-      { t(."election.show.createInvite.button") -> React.string }
+    <ElectionHeader election section=#inviteLink />
+
+    <View style=Style.viewStyle(~margin=30.0, ())>
+      <Text style=Style.textStyle(
+          ~width=600.0->Style.dp, ~alignSelf=#center,
+          ())>
+        { inviteUrl -> React.string }
+      </Text>
+    </View>
+
+    <Button mode=#outlined onPress={_ => {
+      Clipboard_.writeText(inviteUrl) -> ignore }
+    }>
+      { t(."election.show.createInvite.copy") -> React.string }
     </Button>
 
-    <Portal>
-      <Modal visible={showModal} onDismiss={_ => setshowModal(_ => false)}>
-        <View style=S.flatten([S.modal, S.layout]) testID="invite-modal">
-          <S.Title>
-            {
-              t(."election.show.createInvite.title")  -> React.string
-            }
-          </S.Title>
+    } else {
+      <Button mode=#outlined onPress={_ => { Share.share({ message: inviteUrl}) -> ignore } }>
+        { t(."election.show.createInvite.share") -> React.string }
+      </Button>
+    } }
 
-          <Text style=Style.textStyle(
-              ~width=600.0->Style.dp,
-              ~alignSelf=#center,
-              ()
-            )>
-            { inviteUrl -> React.string }
-          </Text>
-
-          { if ReactNative.Platform.os == #web {
-            <Button mode=#outlined onPress={_ => { Clipboard_.writeText(inviteUrl) -> ignore } }>
-              { t(."election.show.createInvite.copy") -> React.string }
-            </Button>
-          } else {
-            <Button mode=#outlined onPress={_ => { Share.share({ message: inviteUrl}) -> ignore } }>
-              { t(."election.show.createInvite.share") -> React.string }
-            </Button>
-          } }
-
-          <Button mode=#outlined onPress={_ => { setshowModal(_ => false)} }>
-            { t(."election.show.createInvite.close") -> React.string }
-          </Button>
-
-        </View>
-      </Modal>
-    </Portal>
+    <Button mode=#outlined onPress={_ => { setshowModal(_ => false)} }>
+      { t(."election.show.createInvite.close") -> React.string }
+    </Button>
   </>
 }
-

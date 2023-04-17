@@ -73,6 +73,13 @@ let reducer = (state: State.t, action: StateMsg.t) => {
     }
     ({...state, route}, [])
 
+  | Navigate(route) =>
+    if ReactNative.Platform.os == #web {
+      let () = %raw(`history.back()`)
+      (state, route}, [])
+    } else {
+      ({...state, route: list{}}, [])
+    }
   }
 }
 

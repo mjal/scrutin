@@ -72,39 +72,39 @@ let make = (~election, ~electionId) => {
   }
 
   <>
-    <View style=S.flatten([S.modal, S.layout]) testID="choice-modal">
-      <S.Title>
-        { t(."election.show.addByEmail.modal.title")  -> React.string }
-      </S.Title>
+    <ElectionHeader election section=#inviteMail />
 
-      <TextInput
-        mode=#flat
-        label=t(."election.show.addByEmail.modal.email")
-        testID="voter-email"
-        value=email
-        onChangeText
-        autoFocus=true
-        onSubmitEditing=onSubmit
-      />
+    <S.Title>
+      { t(."election.show.addByEmail.modal.title")  -> React.string }
+    </S.Title>
 
-      <S.Row>
-        <S.Col>
-          <Button onPress={_ => { setEmail(_ => ""); setshowModal(_ => false)} }>
-            { t(."election.show.addByEmail.modal.back") -> React.string }
-          </Button>
-        </S.Col>
-        <S.Col>
-          <Button mode=#outlined onPress=onSubmit>
-            { /*if Option.isSome(contact) {
-              "Utiliser le contact existant" -> React.string
-            } else */{
-              { t(."election.show.addByEmail.modal.sendInvite") -> React.string }
-            } }
-          </Button>
-        </S.Col>
-      </S.Row>
+    <TextInput
+      mode=#flat
+      label=t(."election.show.addByEmail.modal.email")
+      testID="voter-email"
+      value=email
+      onChangeText
+      autoFocus=true
+      onSubmitEditing=onSubmit
+    />
 
-      <S.Button onPress=onSubmit title="Invite!" /> // TODO: i18n
-    </View>
+    <S.Row>
+      <S.Col>
+        <Button onPress={_ => { setEmail(_ => ""); setshowModal(_ => false)} }>
+          { t(."election.show.addByEmail.modal.back") -> React.string }
+        </Button>
+      </S.Col>
+      <S.Col>
+        <Button mode=#outlined onPress=onSubmit>
+          { /*if Option.isSome(contact) {
+            "Utiliser le contact existant" -> React.string
+          } else */{
+            { t(."election.show.addByEmail.modal.sendInvite") -> React.string }
+          } }
+        </Button>
+      </S.Col>
+    </S.Row>
+
+    <S.Button onPress=onSubmit title="Invite" />
   </>
 }

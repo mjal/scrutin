@@ -32,7 +32,7 @@ let make = (~title="", ~subtitle="",
   | list{} | list{""} => <></>
   | _ => <Appbar.Action
       icon=Icon.name("arrow-left")
-      onPress={_ => dispatch(Navigate(list{}))} />
+      onPress={_ => dispatch(NavigateBack:)} />
   }
 
   let settingsButton = switch state.route {
