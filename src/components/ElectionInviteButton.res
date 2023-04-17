@@ -7,9 +7,7 @@ let make = (~electionId) => {
 
   let election = State.getElectionExn(state, electionId)
 
-  let orgId = Array.getBy(state.ids, (id) => {
-    id.hexPublicKey == election.ownerPublicKey
-  }) -> Option.getExn
+  let orgId = State.getAccountExn(state, election.ownerPublicKey)
 
   let createInvite = _ => {
     let voterId = Account.make() // Only use if no contact found
