@@ -1,5 +1,5 @@
 @react.component
-let make = (~electionId) => {
+let make = (~election, ~electionId) => {
   let (state, dispatch) = Context.use()
   let { t } = ReactI18next.useTranslation()
   let (email, setEmail) = React.useState(_ => "")
@@ -72,47 +72,39 @@ let make = (~electionId) => {
   }
 
   <>
-    <Button mode=#contained onPress={_ => setshowModal(_ => true)}>
-      { t(."election.show.addByEmail.addParticipant") -> React.string }
-    </Button>
+    <View style=S.flatten([S.modal, S.layout]) testID="choice-modal">
+      <S.Title>
+        { t(."election.show.addByEmail.modal.title")  -> React.string }
+      </S.Title>
 
-    <Portal>
-      <Modal visible={showModal} onDismiss={_ => setshowModal(_ => false)}>
-        <View style=S.flatten([S.modal, S.layout]) testID="choice-modal">
-          <S.Title>
-            {
-              t(."election.show.addByEmail.modal.title")  -> React.string
-            }
-          </S.Title>
+      <TextInput
+        mode=#flat
+        label=t(."election.show.addByEmail.modal.email")
+        testID="voter-email"
+        value=email
+        onChangeText
+        autoFocus=true
+        onSubmitEditing=onSubmit
+      />
 
-          <TextInput
-            mode=#flat
-            label=t(."election.show.addByEmail.modal.email")
-            testID="voter-email"
-            value=email
-            onChangeText
-            autoFocus=true
-            onSubmitEditing=onSubmit
-          />
+      <S.Row>
+        <S.Col>
+          <Button onPress={_ => { setEmail(_ => ""); setshowModal(_ => false)} }>
+            { t(."election.show.addByEmail.modal.back") -> React.string }
+          </Button>
+        </S.Col>
+        <S.Col>
+          <Button mode=#outlined onPress=onSubmit>
+            { /*if Option.isSome(contact) {
+              "Utiliser le contact existant" -> React.string
+            } else */{
+              { t(."election.show.addByEmail.modal.sendInvite") -> React.string }
+            } }
+          </Button>
+        </S.Col>
+      </S.Row>
 
-          <S.Row>
-            <S.Col>
-              <Button onPress={_ => { setEmail(_ => ""); setshowModal(_ => false)} }>
-                { t(."election.show.addByEmail.modal.back") -> React.string }
-              </Button>
-            </S.Col>
-            <S.Col>
-              <Button mode=#outlined onPress=onSubmit>
-                { /*if Option.isSome(contact) {
-                  "Utiliser le contact existant" -> React.string
-                } else */{
-                  { t(."election.show.addByEmail.modal.sendInvite") -> React.string }
-                } }
-              </Button>
-            </S.Col>
-          </S.Row>
-        </View>
-      </Modal>
-    </Portal>
+      <S.Button onPress=onSubmit title="Invite!" /> // TODO: i18n
+    </View>
   </>
 }
