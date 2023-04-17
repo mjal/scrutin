@@ -5,7 +5,10 @@ let make = () => {
 
   let (name, setName) = React.useState(_ => "")
   let (desc, setDesc) = React.useState(_ => "")
-  let (choices, setChoices) = React.useState(_ => ["", ""])
+  let (choices, setChoices) = React.useState(_ => [
+    "Placeholder 1",
+    "Placeholder 2"
+  ])
 
   let electionCreate = _ => {
     Core.Election.create(~name, ~desc, ~choices)(state, dispatch)
