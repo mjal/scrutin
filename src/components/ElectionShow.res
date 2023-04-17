@@ -43,7 +43,9 @@ let make = (~election:Election.t, ~electionId) => {
     { switch State.getAccount(state, election.ownerPublicKey) {
     | Some(_adminAccount) =>
     <>
-      <S.Button title="Ajouter des votants" onPress={_ => ()} /> // TODO: i18n
+      <S.Button title="Ajouter des votants" onPress={_ => 
+        dispatch(Navigate(list{"elections", electionId, "invite"}))
+      } /> // TODO: i18n
 
       <S.Button title="Calculer le résultat" onPress={_ => // TODO: i18n
         Core.Election.tally(~electionId)(state, dispatch)

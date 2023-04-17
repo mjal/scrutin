@@ -1,5 +1,8 @@
 @react.component
-let make = (~title="", ~subtitle="", ~titleTextStyle=?) => {
+let make = (~title="", ~subtitle="",
+  ~titleTextStyle=?,
+  ~subtitleTextStyle=?
+) => {
   let (state, dispatch) = Context.use()
 
   let titleTextStyle = StyleSheet.flatten([
@@ -12,6 +15,18 @@ let make = (~title="", ~subtitle="", ~titleTextStyle=?) => {
       ()),
     Option.getWithDefault(titleTextStyle, Style.textStyle())
   ])
+
+  let subtitleTextStyle = StyleSheet.flatten([
+    Style.textStyle(
+      ~alignSelf=#center,
+      ~fontWeight=Style.FontWeight._600,
+      ~fontSize=22.0,
+      ~lineHeight=20.0,
+      ~color=Color.rgb(~r=103, ~g=80, ~b=164),
+      ()),
+    Option.getWithDefault(subtitleTextStyle, Style.textStyle())
+  ])
+
 
   let backButton = switch state.route {
   | list{} | list{""} => <></>
@@ -34,7 +49,7 @@ let make = (~title="", ~subtitle="", ~titleTextStyle=?) => {
         <Title style=titleTextStyle>
           { title -> React.string }
         </Title>
-        <Text style=titleTextStyle>
+        <Text style=subtitleTextStyle>
           { subtitle -> React.string }
         </Text>
       </>
