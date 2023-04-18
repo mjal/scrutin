@@ -13,7 +13,7 @@
     }
   ],
   "suffix": ".bs.js",
-  "reason": { "react-jsx": 3 },
+  "reason": { "react-jsx": 4 },
   "bs-dependencies": [
     "@rescript-react-native/paper",
     "@rescript-react-native/svg",
