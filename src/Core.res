@@ -168,13 +168,13 @@ module Ballot = {
       }) -> Option.getExn
 
       // Wrap it into an event
-      let tx = Event_.SignedBallot.update(ballot, owner)
+      let ev = Event_.SignedBallot.update(ballot, owner)
 
       // Add the new event<br />
-      dispatch(StateMsg.Event_Add_With_Broadcast(tx))
+      dispatch(StateMsg.Event_Add_With_Broadcast(ev))
 
       // Go the ballot page
-      dispatch(Navigate(list{"ballots", ballot.electionId}))
+      dispatch(Navigate(list{"ballots", ev.cid}))
     }
   }
 }
