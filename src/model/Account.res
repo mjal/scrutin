@@ -1,6 +1,6 @@
 type t = {
   hexPublicKey:   string,
-  hexSecretKey:   option<string>,
+  hexSecretKey:   string,
 }
 
 let make = () => {
@@ -11,7 +11,7 @@ let make = () => {
 
   ({
     hexPublicKey:   Sjcl.Ecdsa.PublicKey.toHex(publicKey),
-    hexSecretKey:   Some(Sjcl.Ecdsa.SecretKey.toHex(secretKey)),
+    hexSecretKey:   Sjcl.Ecdsa.SecretKey.toHex(secretKey),
   } : t)
 }
 
@@ -22,15 +22,14 @@ let make2 = (~hexSecretKey) => {
 
   {
     hexPublicKey,
-    hexSecretKey: Some(hexSecretKey),
+    hexSecretKey: hexSecretKey,
   }
 }
 
 // #### methods
 
 let signHex = (id, hexStr) => {
-  let hexSecretKey = Option.getExn(id.hexSecretKey)
-  let secretKey = Sjcl.Ecdsa.SecretKey.fromHex(hexSecretKey)
+  let secretKey = Sjcl.Ecdsa.SecretKey.fromHex(id.hexSecretKey)
   let baEventHash = Sjcl.Hex.toBits(hexStr)
   let baSig = Sjcl.Ecdsa.SecretKey.sign(secretKey, baEventHash)
   Sjcl.Hex.fromBits(baSig)

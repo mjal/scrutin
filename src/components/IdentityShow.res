@@ -6,9 +6,10 @@ let make = (~publicKey) => {
   let identity = Array.getBy(state.ids, (id) => {
     id.hexPublicKey == publicKey
   })
-  let secretKey =
-    Option.flatMap(identity, (identity) => identity.hexSecretKey)
-    -> Option.getWithDefault("")
+  let secretKey = switch (identity) {
+  | Some(identity) => identity.hexSecretKey
+  | None => ""
+  }
 
   let ballots = state.ballots
     -> Map.String.keep((_eventHash, ballot) =>

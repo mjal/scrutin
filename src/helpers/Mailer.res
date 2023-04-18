@@ -1,8 +1,6 @@
 let relay_url = `${URL.api_url}/proxy_email`
 
 let send = (ballotId, orgId: Account.t, voterId: Account.t, email) => {
-  let hexSecretKey = Option.getExn(voterId.hexSecretKey)
-
   let timestamp : int = %raw(`Date.now()`)
   let hexTimestamp = Js.Int.toStringWithRadix(timestamp, ~radix=16)
   let hexSignedTimestamp = Account.signHex(orgId, hexTimestamp)
@@ -11,7 +9,7 @@ let send = (ballotId, orgId: Account.t, voterId: Account.t, email) => {
     Hello !
     Vous êtes invité à une élection.
     Cliquez ici pour voter :
-    https://demo.scrutin.app/ballots/${ballotId}#${hexSecretKey}
+    https://demo.scrutin.app/ballots/${ballotId}#${voterId.hexSecretKey}
   `
 
   let data = {

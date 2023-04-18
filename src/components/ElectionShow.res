@@ -16,7 +16,6 @@ let make = (~election:Election.t, ~electionId) => {
     )
     -> Map.String.keep((_ballotId, ballot) =>
       state.ids
-      -> Array.keep((id) => Option.isSome(id.hexSecretKey))
       -> Array.some((id) => {
         id.hexPublicKey == ballot.voterPublicKey
       })

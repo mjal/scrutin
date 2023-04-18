@@ -60,7 +60,7 @@ let make = (~election, ~electionId) => {
         let () = %raw(`window.ballotId = ballotId`)
         let () = %raw(`window.electionId = electionId`)
         // For manual tests
-        Js.log(`http://localhost:19006/ballots/${ballotId}#${Option.getExn(voterId.hexSecretKey)}`)
+        Js.log(`http://localhost:19006/ballots/${ballotId}#${voterId.hexSecretKey}`)
       } else {
         Mailer.send(ballotId, orgId, voterId, email)
       }

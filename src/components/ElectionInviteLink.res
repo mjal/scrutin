@@ -46,7 +46,7 @@ let make = (~election: Election.t, ~electionId) => {
     let ev = Event_.SignedBallot.create(ballot, orgId)
     dispatch(Event_Add_With_Broadcast(ev))
 
-    let secretKey = Option.getExn(voterId.hexSecretKey)
+    let secretKey = voterId.hexSecretKey
     
     setInviteUrl(_ => `${URL.base_url}/ballots/${ev.contentHash}#${secretKey}`)
     None
