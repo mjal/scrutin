@@ -6,7 +6,7 @@ module State = {
 
     @react.component
     let make = (~value, ~children) => {
-      React.createElement(provider, {value: value, children: children})
+      React.createElement(provider, {"value": value, "children": children})
     }
   }
 
@@ -21,7 +21,7 @@ module Dispatch = {
 
     @react.component
     let make = (~value, ~children) => {
-      React.createElement(provider, {value: value, children: children})
+      React.createElement(provider, {"value": value, "children": children})
     }
   }
 
