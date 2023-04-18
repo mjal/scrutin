@@ -2,7 +2,7 @@ open Style
 
 @react.component
 let make = (~electionId) => {
-  let (state, _) = Context.use()
+  let (state, _) = StateContext.use()
   let { t } = ReactI18next.useTranslation()
   // TODO: Get from params instead of refetchin?
   let election = State.getElectionExn(state, electionId)

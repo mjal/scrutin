@@ -34,7 +34,7 @@ module Modal_Import = {
 
 @react.component
 let make = () => {
-  let (state, dispatch) = Context.use()
+  let (state, dispatch) = StateContext.use()
   let { t } = ReactI18next.useTranslation()
   let (visibleImportModal, setVisibleImportModal) = React.useState(_ => false)
 

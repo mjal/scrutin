@@ -1,7 +1,7 @@
 module Item = {
   @react.component
   let make = (~event : Event_.t) => {
-    let (_state, dispatch) = Context.use()
+    let (_state, dispatch) = StateContext.use()
     let { t } = ReactI18next.useTranslation()
 
     let description = Event_.event_type_t_to_s(event.type_)
@@ -23,7 +23,7 @@ module Item = {
 
 @react.component
 let make = () => {
-  let (state, dispatch) = Context.use()
+  let (state, dispatch) = StateContext.use()
   let { t } = ReactI18next.useTranslation()
 
   let clear = _ => {

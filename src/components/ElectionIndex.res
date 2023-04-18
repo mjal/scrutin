@@ -1,7 +1,7 @@
 module Election = {
   @react.component
   let make = (~id, ~election:Election.t) => {
-    let (_state, dispatch) = Context.use()
+    let (_state, dispatch) = StateContext.use()
 
     let electionParams = Belenios.Election.parse(election.params)
     let name = electionParams.name == "" ? "Unnamed" : electionParams.name
@@ -23,7 +23,7 @@ module Election = {
 
 @react.component
 let make = () => {
-  let (state, _dispatch) = Context.use()
+  let (state, _dispatch) = StateContext.use()
   let { t } = ReactI18next.useTranslation()
 
   <>

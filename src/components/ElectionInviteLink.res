@@ -25,7 +25,7 @@ module CopyButton = {
 
 @react.component
 let make = (~election: Election.t, ~electionId) => {
-  let (state, dispatch) = Context.use()
+  let (state, dispatch) = StateContext.use()
   let { t } = ReactI18next.useTranslation()
   let (inviteUrl, setInviteUrl) = React.useState(_ => "");
   let orgId = State.getAccountExn(state, election.ownerPublicKey)

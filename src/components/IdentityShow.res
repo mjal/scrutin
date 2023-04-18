@@ -1,6 +1,6 @@
 @react.component
 let make = (~publicKey) => {
-  let (state, dispatch) = Context.use()
+  let (state, dispatch) = StateContext.use()
   let { t } = ReactI18next.useTranslation()
 
   let identity = Array.getBy(state.ids, (id) => {

@@ -12,7 +12,7 @@ module Choice = {
 
 @react.component
 let make = (~ballot:Ballot.t, ~ballotId) => {
-  let (state, dispatch) = Context.use()
+  let (state, dispatch) = StateContext.use()
   let { t } = ReactI18next.useTranslation()
   let (choice, setChoice) = React.useState(_ => None)
 

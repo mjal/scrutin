@@ -1,6 +1,6 @@
 @react.component
 let make = (~election, ~electionId) => {
-  let (state, dispatch) = Context.use()
+  let (state, dispatch) = StateContext.use()
   let { t } = ReactI18next.useTranslation()
   let (email, setEmail) = React.useState(_ => "")
   let (_contact:option<Contact.t>, setContact) = React.useState(_ => None)

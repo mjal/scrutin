@@ -1,6 +1,6 @@
 @react.component
 let make = () => {
-  let (state, _dispatch) = Context.use()
+  let (state, _dispatch) = StateContext.use()
   let { t } = ReactI18next.useTranslation()
 
   <List.Section title=t(."trustees.title")>

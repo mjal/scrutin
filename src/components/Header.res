@@ -3,7 +3,7 @@ let make = (~title="", ~subtitle="",
   ~titleTextStyle=?,
   ~subtitleTextStyle=?
 ) => {
-  let (state, dispatch) = Context.use()
+  let (state, dispatch) = StateContext.use()
 
   let titleTextStyle = StyleSheet.flatten([
     Style.textStyle(

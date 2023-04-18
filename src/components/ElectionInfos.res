@@ -1,6 +1,6 @@
 @react.component
 let make = (~electionId) => {
-  let (state, dispatch) = Context.use()
+  let (state, dispatch) = StateContext.use()
   let { t } = ReactI18next.useTranslation()
   let election = State.getElectionExn(state, electionId)
   let (showAdvanced, setShowAdvanced) = React.useState(_ => false)

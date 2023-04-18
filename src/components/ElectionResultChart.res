@@ -1,6 +1,6 @@
 @react.component
 let make = (~electionId) => {
-  let (state, _) = Context.use()
+  let (state, _) = StateContext.use()
   let election = State.getElectionExn(state, electionId)
 
   let data = switch election.result {

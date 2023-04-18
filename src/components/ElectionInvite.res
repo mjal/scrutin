@@ -1,6 +1,6 @@
 @react.component
 let make = (~election:Election.t, ~electionId) => {
-  let (_state, dispatch) = Context.use()
+  let (_state, dispatch) = StateContext.use()
   //let { t } = ReactI18next.useTranslation()
 
   <>

@@ -1,5 +1,5 @@
 let use = () => {
-  let (state, dispatch) = Context.use()
+  let (state, dispatch) = StateContext.use()
 
   switch state.route {
   | list{"elections", electionId} =>

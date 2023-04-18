@@ -1,6 +1,6 @@
 @react.component
 let make = () => {
-  let (_state, dispatch) = Context.use()
+  let (_state, dispatch) = StateContext.use()
   let { t, i18n } = ReactI18next.useTranslation()
 
   let language = switch i18n.language {

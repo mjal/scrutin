@@ -1,6 +1,6 @@
 @react.component
 let make = (~election:Election.t, ~electionId) => {
-  let (state, dispatch) = Context.use()
+  let (state, dispatch) = StateContext.use()
 
   React.useEffect(() => {
     if (Option.isSome(election.result)) {
