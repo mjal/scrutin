@@ -38,7 +38,7 @@
     "react-native-svg": "13.4.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.10",
-    "rescript-react-native": "git+https://github.com/scrutin-app/rescript-react-native#498c2acab4a04861ef8d7d837b212dcbbf486dec",
+    "rescript-react-native": "^0.70.0",
     "rescript-react-native-async-storage": "git+https://github.com/scrutin-app/rescript-react-native-async-storage",
     "rescript-webapi": "^0.7.0",
     "sjcl-with-all": "^1.0.8"
@@ -49,7 +49,7 @@
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "cypress": "^12.9.0",
     "docco": "^0.9.1",
-    "rescript": "^10.0.1"
+    "rescript": "^10.1.4"
   },
   "browser": {
     "crypto": false,
