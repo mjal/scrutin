@@ -22,7 +22,7 @@
     "@expo/webpack-config": "^18.0.1",
     "@glennsl/rescript-json-combinators": "^1.1.0",
     "@react-native-async-storage/async-storage": "1.17.11",
-    "@rescript-react-native/paper": "git+https://github.com/scrutin-app/paper",
+    "@rescript-react-native/paper": "git+https://github.com/scrutin-app/rescript-react-native-paper",
     "@rescript-react-native/svg": "^12.1.9",
     "@rescript/react": "^0.11.0",
     "@ryyppy/rescript-promise": "^2.1.0",
