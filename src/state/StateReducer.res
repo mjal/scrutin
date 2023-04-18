@@ -41,26 +41,26 @@ let reducer = (state: State.t, action: StateMsg.t) => {
     ({...state, contacts}, [StateEffect.storeContacts(contacts)])
 
   | Cache_Election_Add(contentHash, election) =>
-    let cachedElections =
-      Map.String.set(state.cachedElections, contentHash, election)
-    let cachedElectionReplacementIds = switch election.previousId {
+    let elections =
+      Map.String.set(state.elections, contentHash, election)
+    let electionReplacementIds = switch election.previousId {
     | Some(previousId) =>
-      Map.String.set(state.cachedElectionReplacementIds,
+      Map.String.set(state.electionReplacementIds,
         previousId, contentHash)
-    | None => state.cachedElectionReplacementIds
+    | None => state.electionReplacementIds
     }
-    ({...state, cachedElections, cachedElectionReplacementIds}, [])
+    ({...state, elections, electionReplacementIds}, [])
 
   | Cache_Ballot_Add(contentHash, ballot) =>
-    let cachedBallots =
-      Map.String.set(state.cachedBallots, contentHash, ballot)
-    let cachedBallotReplacementIds = switch ballot.previousId {
+    let ballots =
+      Map.String.set(state.ballots, contentHash, ballot)
+    let ballotReplacementIds = switch ballot.previousId {
     | Some(previousId) =>
-      Map.String.set(state.cachedBallotReplacementIds,
+      Map.String.set(state.ballotReplacementIds,
         previousId, contentHash)
-    | None => state.cachedElectionReplacementIds
+    | None => state.electionReplacementIds
     }
-    ({...state, cachedBallots, cachedBallotReplacementIds}, [])
+    ({...state, ballots, ballotReplacementIds}, [])
 
   | Config_Store_Language(language) =>
     (state, [StateEffect.storeLanguage(language)])

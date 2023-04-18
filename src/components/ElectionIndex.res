@@ -29,10 +29,10 @@ let make = () => {
   <>
     <Header title=t(."search.header.title") />
 
-    { state.cachedElections
+    { state.elections
       -> Map.String.toArray
       -> Array.keep(((id, _election)) => {
-        state.cachedElectionReplacementIds
+        state.electionReplacementIds
         -> Map.String.get(id)
         -> Option.isNone
       })

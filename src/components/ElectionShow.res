@@ -10,7 +10,7 @@ let make = (~election:Election.t, ~electionId) => {
   })
 
   let ballots = 
-    state.cachedBallots
+    state.ballots
     -> Map.String.keep((_ballotId, ballot) =>
       ballot.electionId == electionId
     )

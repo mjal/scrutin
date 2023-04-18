@@ -1,7 +1,8 @@
 // The state of the application.
 
 type t = {
-  // See [[Event]]
+  // See [[Event]].
+  // We use this to populate elections and ballots
   events: array<Event_.t>,
 
   // The controlled identities (as voter or election organizer)
@@ -19,11 +20,11 @@ type t = {
   // that works on web and native)
   route: list<string>,
 
-  // Cache of elections and ballot for fast lookup
-  cachedElections: Map.String.t<Election.t>,
-  cachedElectionReplacementIds: Map.String.t<string>,
-  cachedBallots:   Map.String.t<Ballot.t>,
-  cachedBallotReplacementIds: Map.String.t<string>,
+  // elections and ballot (from parsed events)
+  elections: Map.String.t<Election.t>,
+  electionReplacementIds: Map.String.t<string>,
+  ballots:   Map.String.t<Ballot.t>,
+  ballotReplacementIds: Map.String.t<string>,
 }
 
 // The initial state of the application
@@ -33,17 +34,17 @@ let initial = {
   ids: [],
   trustees: [],
   contacts: [],
-  cachedElections: Map.String.empty,
-  cachedElectionReplacementIds: Map.String.empty,
-  cachedBallots: Map.String.empty,
-  cachedBallotReplacementIds: Map.String.empty,
+  elections: Map.String.empty,
+  electionReplacementIds: Map.String.empty,
+  ballots: Map.String.empty,
+  ballotReplacementIds: Map.String.empty,
 }
 
-let getBallot = (state, id) => Map.String.get(state.cachedBallots, id)
-let getBallotExn = (state, id) => Map.String.getExn(state.cachedBallots, id)
-let getElection = (state, id) => Map.String.get(state.cachedElections, id)
+let getBallot = (state, id) => Map.String.get(state.ballots, id)
+let getBallotExn = (state, id) => Map.String.getExn(state.ballots, id)
+let getElection = (state, id) => Map.String.get(state.elections, id)
 let getElectionExn = (state, id) =>
-  Map.String.getExn(state.cachedElections, id)
+  Map.String.getExn(state.elections, id)
 let getAccount = (state, publicKey) =>
   Array.getBy(state.ids, (id) => publicKey == id.hexPublicKey)
 let getAccountExn = (state, publicKey) =>

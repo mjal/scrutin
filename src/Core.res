@@ -75,7 +75,7 @@ module Election = {
         })
         // Only keep the last ballot of the chain
         -> Array.keep((event) => {
-          state.cachedBallotReplacementIds
+          state.ballotReplacementIds
           -> Map.String.get(event.contentHash)
           -> Option.isNone
         })
