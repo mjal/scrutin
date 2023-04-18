@@ -1,11 +1,9 @@
 @react.component
-let make = (~election, ~electionId) => {
+let make = (~election:Election.t, ~electionId) => {
   let (state, dispatch) = StateContext.use()
   let { t } = ReactI18next.useTranslation()
   let (email, setEmail) = React.useState(_ => "")
   let (_contact:option<Contact.t>, setContact) = React.useState(_ => None)
-
-  let election = State.getElectionExn(state, electionId)
 
   let orgId = Array.getBy(state.ids, (id) => {
     id.hexPublicKey == election.ownerPublicKey

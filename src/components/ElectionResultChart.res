@@ -15,7 +15,7 @@ let make = (~electionId) => {
     (210, 208, 186)
   ] -> Array.map(((r,g,b)) => Color.rgb(~r,~g,~b))
 
-  let choiceList =
+  let _choiceList =
     Election.choices(election)
     -> Array.mapWithIndex((i, name) => {
       let color = Array.get(colors, i) -> Option.getWithDefault(Color.grey)

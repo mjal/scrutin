@@ -1,5 +1,3 @@
-open Style
-
 @react.component
 let make = (~electionId) => {
   let (state, _) = StateContext.use()
