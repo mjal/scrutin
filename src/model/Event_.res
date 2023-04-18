@@ -16,12 +16,12 @@ type t = {
   type_: event_type_t,
   // **content**: The stringified JSON representing the state mutation
   content: string,
-  // **contentHash**: hash(content)
-  contentHash: string,
+  // **cid**: hash(content)
+  cid: string,
   // **publicKey**: The public key of the emitter of the event.<br />
   // Could be the election organizer or the voter
   publicKey: string,
-  // **signature**: a signature of the contentHash from the emitter.
+  // **signature**: a signature of the cid from the emitter.
   signature: string
 }
 
@@ -39,13 +39,13 @@ let hash = (str) => {
 module SignedElection = {
   let make = (type_ : event_type_t, election : Election.t, owner : Account.t) => {
     let content = Election.stringify(election)
-    let contentHash = hash(content)
+    let cid = hash(content)
     {
       content,
       type_,
-      contentHash,
+      cid,
       publicKey: owner.hexPublicKey,
-      signature: Account.signHex(owner, contentHash)
+      signature: Account.signHex(owner, cid)
     }
   }
 
@@ -64,13 +64,13 @@ module SignedElection = {
 module SignedBallot = {
   let make = (type_ : event_type_t, ballot : Ballot.t, owner : Account.t) => {
     let content = Ballot.stringify(ballot)
-    let contentHash = hash(content)
+    let cid = hash(content)
     {
       content,
       type_,
-      contentHash,
+      cid,
       publicKey: owner.hexPublicKey,
-      signature: Account.signHex(owner, contentHash)
+      signature: Account.signHex(owner, cid)
     }
   }
 
@@ -90,13 +90,13 @@ module SignedBallot = {
 module SignedTally = {
   let make = (tally : ElectionTally.t, owner : Identity.t) => {
     let content = ElectionTally.stringify(tally)
-    let contentHash = hash(content)
+    let cid = hash(content)
     {
       content,
       type_: #tally,
-      contentHash,
+      cid,
       publicKey: owner.hexPublicKey,
-      signature: Identity.signHex(owner, contentHash)
+      signature: Identity.signHex(owner, cid)
     }
   }
 
@@ -137,7 +137,7 @@ let from_json = (json) => {
     {
       type_,
       content: field.required(. "content", string),
-      contentHash: field.required(. "contentHash", string),
+      cid: field.required(. "cid", string),
       publicKey: field.required(. "publicKey", string),
       signature: field.required(. "signature", string),
     }
@@ -156,7 +156,7 @@ let to_json = (r: t) : Js.Json.t => {
   Unsafe.object({
     "type_": type_,
     "content": string(r.content),
-    "contentHash": string(r.contentHash),
+    "cid": string(r.cid),
     "publicKey": string(r.publicKey),
     "signature": string(r.signature),
   })

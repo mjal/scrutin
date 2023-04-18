@@ -53,7 +53,7 @@ let make = (~election, ~electionId) => {
     dispatch(Event_Add_With_Broadcast(tx))
 
     if Option.isNone(contact) {
-      let ballotId = tx.contentHash
+      let ballotId = tx.cid
       if X.env == #dev {
         // For cypress tests
         let () = %raw(`window.hexSecretKey = voterId.hexSecretKey`)

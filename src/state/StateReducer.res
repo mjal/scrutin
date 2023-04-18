@@ -40,24 +40,24 @@ let reducer = (state: State.t, action: StateMsg.t) => {
     let contacts = Array.keepWithIndex(state.contacts, (_, i) => i != index)
     ({...state, contacts}, [StateEffect.storeContacts(contacts)])
 
-  | Cache_Election_Add(contentHash, election) =>
+  | Cache_Election_Add(cid, election) =>
     let elections =
-      Map.String.set(state.elections, contentHash, election)
+      Map.String.set(state.elections, cid, election)
     let electionReplacementIds = switch election.previousId {
     | Some(previousId) =>
       Map.String.set(state.electionReplacementIds,
-        previousId, contentHash)
+        previousId, cid)
     | None => state.electionReplacementIds
     }
     ({...state, elections, electionReplacementIds}, [])
 
-  | Cache_Ballot_Add(contentHash, ballot) =>
+  | Cache_Ballot_Add(cid, ballot) =>
     let ballots =
-      Map.String.set(state.ballots, contentHash, ballot)
+      Map.String.set(state.ballots, cid, ballot)
     let ballotReplacementIds = switch ballot.previousId {
     | Some(previousId) =>
       Map.String.set(state.ballotReplacementIds,
-        previousId, contentHash)
+        previousId, cid)
     | None => state.electionReplacementIds
     }
     ({...state, ballots, ballotReplacementIds}, [])

@@ -8,15 +8,15 @@ module Item = {
 
     let onPress = _ => {
       switch event.type_ {
-      | #"election.create" => dispatch(Navigate(list{"elections", event.contentHash}))
-      | #"election.update" => dispatch(Navigate(list{"elections", event.contentHash}))
-      | #"ballot.create" => dispatch(Navigate(list{"ballots", event.contentHash}))
-      | #"ballot.update" => dispatch(Navigate(list{"ballots", event.contentHash}))
+      | #"election.create" => dispatch(Navigate(list{"elections", event.cid}))
+      | #"election.update" => dispatch(Navigate(list{"elections", event.cid}))
+      | #"ballot.create" => dispatch(Navigate(list{"ballots", event.cid}))
+      | #"ballot.update" => dispatch(Navigate(list{"ballots", event.cid}))
       }
     }
 
     <Card>
-      <List.Item key=event.contentHash title=t(."events.item.type") description onPress />
+      <List.Item key=event.cid title=t(."events.item.type") description onPress />
     </Card>
   }
 }
@@ -34,7 +34,7 @@ let make = () => {
   <List.Section title=t(."events.title")>
 
     { Array.map(state.events, (event) =>
-      <Item event key=event.contentHash />
+      <Item event key=event.cid />
     ) -> React.array }
 
     <S.Title>{ "-" -> React.string }</S.Title>

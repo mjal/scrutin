@@ -48,7 +48,7 @@ let make = (~election: Election.t, ~electionId) => {
 
     let secretKey = voterId.hexSecretKey
     
-    setInviteUrl(_ => `${URL.base_url}/ballots/${ev.contentHash}#${secretKey}`)
+    setInviteUrl(_ => `${URL.base_url}/ballots/${ev.cid}#${secretKey}`)
     None
   })
 

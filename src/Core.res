@@ -39,7 +39,7 @@ module Election = {
       dispatch(StateMsg.Trustee_Add(trustee))
   
       // Go the election page
-      dispatch(StateMsg.Navigate(list{"elections", event.contentHash}))
+      dispatch(StateMsg.Navigate(list{"elections", event.cid}))
     }
   }
 
@@ -76,7 +76,7 @@ module Election = {
         // Only keep the last ballot of the chain
         -> Array.keep((event) => {
           state.ballotReplacementIds
-          -> Map.String.get(event.contentHash)
+          -> Map.String.get(event.cid)
           -> Option.isNone
         })
 
@@ -112,11 +112,11 @@ module Election = {
         election.ownerPublicKey == id.hexPublicKey
       }) -> Option.getExn
 
-      let tx = Event_.SignedElection.update(election2, owner)
+      let ev = Event_.SignedElection.update(election2, owner)
 
-      dispatch(StateMsg.Event_Add_With_Broadcast(tx))
+      dispatch(StateMsg.Event_Add_With_Broadcast(ev))
 
-      dispatch(Navigate(list{"elections", tx.contentHash}))
+      dispatch(Navigate(list{"elections", ev.cid}))
     }
   }
 }
