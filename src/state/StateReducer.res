@@ -80,6 +80,7 @@ let reducer = (state: State.t, action: StateMsg.t) => {
       let () = %raw(`history.back()`)
       (state, [])
     } else {
+      // At the moment we directly go home on mobile, as we don't store history
       ({...state, route: list{}}, [])
     }
   }
