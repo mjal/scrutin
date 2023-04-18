@@ -1,6 +1,9 @@
 open Style
 
-let primaryColor = Color.rgb(~r=103, ~g=80, ~b=164)
+let primaryColor = switch X.env {
+| #dev => Color.rgb(~r=255, ~g=128, ~b=128)
+| #prod => Color.rgb(~r=103, ~g=80, ~b=164)
+}
 
 let flatten = StyleSheet.flatten
 
