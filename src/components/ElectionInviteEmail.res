@@ -4,7 +4,6 @@ let make = (~election, ~electionId) => {
   let { t } = ReactI18next.useTranslation()
   let (email, setEmail) = React.useState(_ => "")
   let (_contact:option<Contact.t>, setContact) = React.useState(_ => None)
-  let (showModal, setshowModal) = React.useState(_ => false);
 
   let election = State.getElectionExn(state, electionId)
 
@@ -68,7 +67,6 @@ let make = (~election, ~electionId) => {
     }
 
     setEmail(_ => "")
-    setshowModal(_ => false)
   }
 
   <>
@@ -90,7 +88,7 @@ let make = (~election, ~electionId) => {
 
     <S.Row>
       <S.Col>
-        <Button onPress={_ => { setEmail(_ => ""); setshowModal(_ => false)} }>
+        <Button onPress={_ => setEmail(_ => ""); }>
           { t(."election.show.addByEmail.modal.back") -> React.string }
         </Button>
       </S.Col>
