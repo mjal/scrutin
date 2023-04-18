@@ -56,6 +56,12 @@ let layout =
     )
   } else { viewStyle() }
 
+let questionBox = viewStyle(
+  ~margin=30.0->dp,
+  ~borderWidth=3.0,
+  ~borderColor=primaryColor,
+  ())
+
 module Section = {
   @react.component
   let make = (~title) => {

@@ -4,20 +4,15 @@ open Style
 let make = (~electionId) => {
   let (state, _) = Context.use()
   let { t } = ReactI18next.useTranslation()
+  // TODO: Get from params instead of refetchin?
   let election = State.getElectionExn(state, electionId)
-
-  let style = viewStyle(
-    ~margin=30.0->dp,
-    ~borderWidth=3.0,
-    ~borderColor=S.primaryColor,
-    ())
 
   let question = switch Election.description(election) {
   | "" => t(."election.new.question")
   | question => question
   }
 
-  <View style>
+  <View style=S.questionBox>
     <S.Section title=question />
 
     {
