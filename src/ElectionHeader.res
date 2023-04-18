@@ -1,7 +1,7 @@
 @react.component
 let make = (
   ~election: Election.t,
-  ~section=#index: [#index | #invite]
+  ~section=#index
 ) => {
   let { t } = ReactI18next.useTranslation()
 
@@ -16,10 +16,10 @@ let make = (
   }
 
   let subtitle = switch section {
+  | #index => ""
   | #invite => "Ajouter des votants"
   | #inviteLink => "Invitation par lien"
   | #inviteMail => "Invitation mail"
-  | _ => ""
   }
 
   <Header title titleTextStyle subtitle />

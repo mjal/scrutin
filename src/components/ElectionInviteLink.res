@@ -1,5 +1,5 @@
 @react.component
-let make = (~electionId) => {
+let make = (~election, ~electionId) => {
   let (state, dispatch) = Context.use()
   let { t } = ReactI18next.useTranslation()
   let (showModal, setshowModal) = React.useState(_ => false);
@@ -34,7 +34,10 @@ let make = (~electionId) => {
   <>
     <ElectionHeader election section=#inviteLink />
 
-    <View style=Style.viewStyle(~margin=30.0, ())>
+    <View style=Style.viewStyle(
+      ~margin=30.0->Style.dp,
+      ~borderColor=S.primaryColor,
+      ())>
       <Text style=Style.textStyle(
           ~width=600.0->Style.dp, ~alignSelf=#center,
           ())>
@@ -48,11 +51,9 @@ let make = (~electionId) => {
       { t(."election.show.createInvite.copy") -> React.string }
     </Button>
 
-    } else {
-      <Button mode=#outlined onPress={_ => { Share.share({ message: inviteUrl}) -> ignore } }>
-        { t(."election.show.createInvite.share") -> React.string }
-      </Button>
-    } }
+    <Button mode=#outlined onPress={_ => { Share.share({ message: inviteUrl}) -> ignore } }>
+      { t(."election.show.createInvite.share") -> React.string }
+    </Button>
 
     <Button mode=#outlined onPress={_ => { setshowModal(_ => false)} }>
       { t(."election.show.createInvite.close") -> React.string }

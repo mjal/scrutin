@@ -16,7 +16,7 @@ let make = () => {
   }
 
   // Use latest version of objects
-  StateUseLatest.useLatest()
+  StateRedirectLatest.use()
 
   <Layout state dispatch>
 

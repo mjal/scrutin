@@ -1,4 +1,4 @@
-let useLatest = () => {
+let use = () => {
   let (state, dispatch) = Context.use()
 
   switch state.route {
