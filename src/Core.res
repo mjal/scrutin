@@ -29,10 +29,10 @@ module Election = {
       let election = Election.make(name, desc, choices,
         identity.hexPublicKey, trustee)
   
-      // wrap it in a transaction
+      // wrap it in an event
       let event = Event_.SignedElection.create(election, identity)
   
-      // Add the new transaction<br />
+      // Add the new event<br />
       dispatch(StateMsg.Event_Add_With_Broadcast(event))
   
       // Store the trustee private key
@@ -47,7 +47,7 @@ module Election = {
   // #### Election.tally
   // Compute the result of an election, with help of the trustees keys
   let tally = (
-    // **electionEventHash**: The transaction hash of the election to tally
+    // **electionId**: The election to tally
     ~electionId : string
     // ---
   ) => {
@@ -167,10 +167,10 @@ module Ballot = {
         ballot.voterPublicKey == id.hexPublicKey
       }) -> Option.getExn
 
-      // Wrap it into a transaction
+      // Wrap it into an event
       let tx = Event_.SignedBallot.update(ballot, owner)
 
-      // Add the new transaction<br />
+      // Add the new event<br />
       dispatch(StateMsg.Event_Add_With_Broadcast(tx))
 
       // Go the ballot page
