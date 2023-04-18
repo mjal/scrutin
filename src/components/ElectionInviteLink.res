@@ -1,16 +1,38 @@
+module CopyButton = {
+  @react.component
+  let make = (~inviteUrl) => {
+    let { t } = ReactI18next.useTranslation()
+    let (visible, setVisible) = React.useState(_ => false);
+
+    <>
+      <S.Button onPress={_ => {
+        Clipboard_.writeText(inviteUrl) -> ignore
+        setVisible(_ => true)
+      } }
+      title=t(."election.show.createInvite.copy") />
+
+      <Portal>
+        <Snackbar
+          visible
+          duration=Snackbar.Duration.value(2000)
+          onDismiss={_ => setVisible(_ => false)}>
+          { "Copied!" -> React.string }
+        </Snackbar>
+      </Portal>
+    </>
+  }
+}
+
 @react.component
-let make = (~election, ~electionId) => {
+let make = (~election: Election.t, ~electionId) => {
   let (state, dispatch) = Context.use()
   let { t } = ReactI18next.useTranslation()
-  let (showModal, setshowModal) = React.useState(_ => false);
   let (inviteUrl, setInviteUrl) = React.useState(_ => "");
-
-  let election = State.getElectionExn(state, electionId)
-
   let orgId = State.getAccountExn(state, election.ownerPublicKey)
 
-  let createInvite = _ => {
-    let voterId = Account.make() // Only use if no contact found
+  React.useEffect0(() => {
+    // Create a new account
+    let voterId = Account.make()
 
     let ballot : Ballot.t = {
       electionId,
@@ -21,15 +43,14 @@ let make = (~election, ~electionId) => {
       voterPublicKey: voterId.hexPublicKey
     }
 
-    let tx = Event_.SignedBallot.create(ballot, orgId)
-    dispatch(Event_Add_With_Broadcast(tx))
+    let ev = Event_.SignedBallot.create(ballot, orgId)
+    dispatch(Event_Add_With_Broadcast(ev))
 
-    let ballotId = tx.contentHash
     let secretKey = Option.getExn(voterId.hexSecretKey)
     
-    setInviteUrl(_ => `${URL.base_url}/ballots/${ballotId}#${secretKey}`)
-    setshowModal(_ => true)
-  }
+    setInviteUrl(_ => `${URL.base_url}/ballots/${ev.contentHash}#${secretKey}`)
+    None
+  })
 
   <>
     <ElectionHeader election section=#inviteLink />
@@ -39,24 +60,16 @@ let make = (~election, ~electionId) => {
       ~borderColor=S.primaryColor,
       ())>
       <Text style=Style.textStyle(
-          ~width=600.0->Style.dp, ~alignSelf=#center,
-          ())>
+        ~width=600.0->Style.dp, ~alignSelf=#center,
+        ())>
         { inviteUrl -> React.string }
       </Text>
     </View>
 
-    <Button mode=#outlined onPress={_ => {
-      Clipboard_.writeText(inviteUrl) -> ignore }
-    }>
-      { t(."election.show.createInvite.copy") -> React.string }
-    </Button>
+    <CopyButton inviteUrl />
 
-    <Button mode=#outlined onPress={_ => { Share.share({ message: inviteUrl}) -> ignore } }>
-      { t(."election.show.createInvite.share") -> React.string }
-    </Button>
-
-    <Button mode=#outlined onPress={_ => { setshowModal(_ => false)} }>
-      { t(."election.show.createInvite.close") -> React.string }
-    </Button>
+    <S.Button onPress={_ => {
+      Share.share({ message: inviteUrl}) -> ignore }
+    } title=t(."election.show.createInvite.share") />
   </>
 }
