@@ -22,7 +22,6 @@
     "@glennsl/rescript-json-combinators",
     "rescript-react-native",
     "rescript-react-native-async-storage",
-    "rescript-use-tea",
     "rescript-webapi"
   ],
   "bsc-flags": [

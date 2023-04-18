@@ -40,7 +40,6 @@
     "react-native-web": "~0.18.10",
     "rescript-react-native": "git+https://github.com/scrutin-app/rescript-react-native",
     "rescript-react-native-async-storage": "git+https://github.com/scrutin-app/rescript-react-native-async-storage",
-    "rescript-use-tea": "^0.1.1",
     "rescript-webapi": "^0.7.0",
     "sjcl-with-all": "^1.0.8"
   },
