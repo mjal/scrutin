@@ -11,7 +11,7 @@ let make = () => {
     <S.Button title=t(."home.create")
       onPress={_ => dispatch(Navigate(list{"elections", "new"}))} />
 
-    <Button mode=#text onPress={_ => dispatch(Navigate(list{"elections"}))}>
+    <Button mode=#text onPress={_ => dispatch(Navigate(list{"elections", "search"}))}>
       { t(."home.search") -> React.string }
     </Button>
 
