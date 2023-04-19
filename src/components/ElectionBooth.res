@@ -4,6 +4,10 @@ module Choice = {
     let iconName = selected ? "radiobox-marked" : "radiobox-blank"
 
     <List.Item title=name
+      style=Style.viewStyle(
+        ~padding=20.0->Style.dp,
+        ~paddingLeft=40.0->Style.dp,
+        ())
       left={_ => <List.Icon icon=Icon.name(iconName) />}
       onPress={_ => onSelect()}
     />
@@ -31,6 +35,7 @@ let make = (~ballot:Ballot.t, ~ballotId) => {
 
     <View style=S.questionBox>
       <S.Section title=question />
+
       { Array.mapWithIndex(Election.choices(election), (i, choiceName) => {
         let selected = choice == Some(i) 
 
