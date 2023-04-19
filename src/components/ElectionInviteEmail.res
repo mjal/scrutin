@@ -65,7 +65,7 @@ let make = (~election:Election.t, ~electionId) => {
     <S.Button
       style=Style.viewStyle(~width=100.0->Style.dp,())
       title="+"
-      onPress={_ => setEmails(Array.concat([""])) } />
+      onPress={_ => setEmails(emails => Array.concat(emails, [""])) } />
 
     <List.Item
       title="Envoyer une invitation"
