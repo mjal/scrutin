@@ -1,29 +1,14 @@
 @react.component
 let make = (~election:Election.t, ~electionId) => {
+  //let { t } = ReactI18next.useTranslation()
   let (state, dispatch) = StateContext.use()
-  let { t } = ReactI18next.useTranslation()
-  let (email, setEmail) = React.useState(_ => "")
-  let (_contact:option<Contact.t>, setContact) = React.useState(_ => None)
-
-  let orgId = Array.getBy(state.ids, (id) => {
-    id.hexPublicKey == election.ownerPublicKey
-  }) -> Option.getExn
-
-  let onChangeText = text => {
-    setEmail(_ => text)
-    let contact = Array.getBy(state.contacts, (contact) => {
-      Option.getWithDefault(contact.email, "") == text
-    })
-    setContact(_ => contact)
-  }
+  let (emails, setEmails) = React.useState(_ => [""])
+  let orgId = state->State.getAccountExn(election.ownerPublicKey)
 
   let onSubmit = _ => {
-    let voterId = Account.make() // Only use if no contact found
+    Array.forEach(emails, (email) => {
+      let voterId = Account.make()
 
-    // NOTE: This is to disable the "Use existing contact feature"
-    let contact:option<Contact.t> = None
-
-    if Option.isNone(contact) {
       let contact : Contact.t = {
         hexPublicKey: voterId.hexPublicKey,
         email: Some(email),
@@ -31,75 +16,50 @@ let make = (~election:Election.t, ~electionId) => {
       }
 
       dispatch(Contact_Add(contact))
-    }
 
-    let voterPublicKey = switch (contact) {
-    | Some(contact) => contact.hexPublicKey
-    | None => voterId.hexPublicKey
-    }
-
-    let ballot : Ballot.t = {
-      electionId,
-      previousId: None,
-      ciphertext: None,
-      pubcred: None,
-      electionPublicKey: election.ownerPublicKey,
-      voterPublicKey
-    }
-
-    let tx = Event_.SignedBallot.create(ballot, orgId)
-    dispatch(Event_Add_With_Broadcast(tx))
-
-    if Option.isNone(contact) {
-      let ballotId = tx.cid
-      if X.env == #dev {
-        // For cypress tests
-        let () = %raw(`window.hexSecretKey = voterId.hexSecretKey`)
-        let () = %raw(`window.ballotId = ballotId`)
-        let () = %raw(`window.electionId = electionId`)
-        // For manual tests
-        Js.log(`http://localhost:19006/ballots/${ballotId}#${voterId.hexSecretKey}`)
-      } else {
-        Mailer.send(ballotId, orgId, voterId, email)
+      let ballot : Ballot.t = {
+        electionId,
+        previousId: None,
+        ciphertext: None,
+        pubcred: None,
+        electionPublicKey: election.ownerPublicKey,
+        voterPublicKey: voterId.hexPublicKey
       }
-    }
 
-    setEmail(_ => "")
+      let ev = Event_.SignedBallot.create(ballot, orgId)
+      dispatch(Event_Add_With_Broadcast(ev))
+
+      Mailer.send(ev.cid, orgId, voterId, email)
+    })
+  }
+
+  let onRemove = i => {
+    setEmails(Array.keepWithIndex(_, (_, index) => index != i))
+  }
+
+  let onUpdate = (i, newEmail) => {
+    setEmails(emails =>
+      Array.mapWithIndex(emails, (index, oldEmail) => {
+        (index == i) ? newEmail : oldEmail
+      })
+    )
   }
 
   <>
     <ElectionHeader election section=#inviteMail />
 
-    <S.Title>
-      { t(."election.show.addByEmail.modal.title")  -> React.string }
-    </S.Title>
+    { Array.mapWithIndex(emails, (i, email) => {
+      <ElectionInviteEmailItem email
+        index=(i+1) key=Int.toString(i)
+        onRemove={_ => onRemove(i)}
+        onUpdate={email => onUpdate(i, email)}
+      />
+    }) -> React.array }
 
-    <TextInput
-      mode=#flat
-      label=t(."election.show.addByEmail.modal.email")
-      testID="voter-email"
-      value=email
-      onChangeText
-      autoFocus=true
-      onSubmitEditing=onSubmit
-    />
-
-    <S.Row>
-      <S.Col>
-        <Button onPress={_ => setEmail(_ => ""); }>
-          { t(."election.show.addByEmail.modal.back") -> React.string }
-        </Button>
-      </S.Col>
-      <S.Col>
-        <Button mode=#outlined onPress=onSubmit>
-          { /*if Option.isSome(contact) {
-            "Utiliser le contact existant" -> React.string
-          } else */{
-            { t(."election.show.addByEmail.modal.sendInvite") -> React.string }
-          } }
-        </Button>
-      </S.Col>
-    </S.Row>
+    <S.Button
+      style=Style.viewStyle(~width=100.0->Style.dp,())
+      title="+"
+      onPress={_ => setEmails(Array.concat([""])) } />
 
     <S.Button onPress=onSubmit title="Invite" />
   </>
