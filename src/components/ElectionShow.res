@@ -69,31 +69,7 @@ let make = (~election:Election.t, ~electionId) => {
         { "Vote privé" -> React.string }
       </Text>
       </View>
-
-      //<S.Row>
-      //  <S.Col style=Style.viewStyle(
-      //      ~width=50.0->Style.dp, ())
-      //    <Text style=Style.textStyle(
-      //      ~width=30.0->Style.dp,
-      //      ())>
-      //      { "Vote privé" -> React.string }
-      //    </Text>
-      //  </S.Col>
-      //</S.Row>
     </View>
-
-    //{ switch Map.String.isEmpty(ballots) {
-    //| true => <></>
-    //  //<S.Title>
-    //  //  { "You are not invited to this election." -> React.string }
-    //  //</S.Title>
-    //| false => Map.String.mapWithKey(ballots, (ballotId, _ballot) => {
-    //  // TODO: i18n
-    //  <S.Button title="Use invite to vote" onPress={_ =>
-    //    dispatch(Navigate(list{"ballots", ballotId}))
-    //  } key=ballotId />
-    //  }) -> Map.String.valuesToArray -> React.array
-    //} }
 
     { switch State.getAccount(state, election.ownerPublicKey) {
     | Some(_adminAccount) =>
