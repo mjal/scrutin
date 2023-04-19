@@ -9,16 +9,12 @@
 
 A mobile app for secure voting using the Helios protocol and INRIA’s [Belenios](https://www.belenios.org) voting library.
 
-```mermaid
-sequenceDiagram
-  participant Guardians
-  participant Election
-  participant Voters
+## Developer instructions
 
-  Guardians->>Election: Create
-  Voters->>Election: Vote
-  Guardians->>Election: Tally
-	Voters->>Election: Verify
+```
+npm install
+npm run re:start # or use the VSCode plugin
+npm start
 ```
 
 ## Features
@@ -55,15 +51,26 @@ on [Hosted Weblate](https://hosted.weblate.org/engage/scrutin/) \
 - [ ] Extract rescript-belenios
 - [ ] Extract rescript-sjcl
 
-## Developer instructions
 
-```
-npm install
-npm run re:start # or use the VSCode plugin
-npm start
+## Documentation
+
+**TODO**
+
+There is no good documentation yet. You can find [some outdated informations here](https://scrutin.app/article/)
+
+```mermaid
+sequenceDiagram
+  participant Guardians
+  participant Election
+  participant Voters
+
+  Guardians->>Election: Create
+  Voters->>Election: Vote
+  Guardians->>Election: Tally
+	Voters->>Election: Verify
 ```
 
-## Annotated source code
+Some of the code is annotated in a literate programming style:
 
 main | models
 -----|-------
