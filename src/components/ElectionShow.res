@@ -54,6 +54,33 @@ let make = (~election:Election.t, ~electionId) => {
         />
       } }
     </View>
+    <View style=Style.viewStyle( ~marginTop=-30.0->Style.dp, ())>
+      <View style=Style.viewStyle(
+        ~position=#absolute,
+        ~right=30.0->Style.dp,
+        ())>
+      <Text style=Style.textStyle(
+        ~width=80.0->Style.dp,
+        ~backgroundColor=S.primaryColor,
+        ~color=Color.white,
+        ~paddingBottom=5.0->Style.dp,
+        ~paddingLeft=8.0->Style.dp,
+        ())>
+        { "Vote privé" -> React.string }
+      </Text>
+      </View>
+
+      //<S.Row>
+      //  <S.Col style=Style.viewStyle(
+      //      ~width=50.0->Style.dp, ())
+      //    <Text style=Style.textStyle(
+      //      ~width=30.0->Style.dp,
+      //      ())>
+      //      { "Vote privé" -> React.string }
+      //    </Text>
+      //  </S.Col>
+      //</S.Row>
+    </View>
 
     //{ switch Map.String.isEmpty(ballots) {
     //| true => <></>
