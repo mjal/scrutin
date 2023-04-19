@@ -2,8 +2,9 @@
 let make = (~election:Election.t, ~electionId) => {
   //let { t } = ReactI18next.useTranslation()
   let (state, dispatch) = StateContext.use()
-  let (emails, setEmails) = React.useState(_ => [""])
+  let (emails, setEmails) = React.useState(_ => ["", ""])
   let orgId = state->State.getAccountExn(election.ownerPublicKey)
+  let (sendInvite, setSendInvite) = React.useState(_ => true)
 
   let onSubmit = _ => {
     Array.forEach(emails, (email) => {
@@ -29,8 +30,13 @@ let make = (~election:Election.t, ~electionId) => {
       let ev = Event_.SignedBallot.create(ballot, orgId)
       dispatch(Event_Add_With_Broadcast(ev))
 
-      Mailer.send(ev.cid, orgId, voterId, email)
+      switch (sendInvite) {
+      | true  => Mailer.send(ev.cid, orgId, voterId, email)
+      | false => ()
+      }
     })
+
+    dispatch(Navigate(list{"elections", electionId}))
   }
 
   let onRemove = i => {
@@ -61,6 +67,13 @@ let make = (~election:Election.t, ~electionId) => {
       title="+"
       onPress={_ => setEmails(Array.concat([""])) } />
 
-    <S.Button onPress=onSubmit title="Invite" />
+    <List.Item
+      title="Envoyer une invitation"
+      description="Tous les participants recevront un email"
+      onPress={_ => setSendInvite(b => !b)}
+      right={_ => <Switch value=sendInvite /> }
+    />
+
+    <S.Button onPress=onSubmit title="Inviter" />
   </>
 }
