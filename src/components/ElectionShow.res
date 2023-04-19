@@ -21,23 +21,52 @@ let make = (~election:Election.t, ~electionId) => {
       })
     )
 
+  let styles = {
+    open Style
+    StyleSheet.create({
+      "choiceEditButton": viewStyle(
+        ~position=#absolute,
+        ~top=0.0->dp,
+        ~right=0.0->dp,
+        ~width=100.0->dp,
+        ~backgroundColor=S.primaryColor,
+        ()),
+      "choiceListView": viewStyle(())
+    })
+  }
+
   <>
     <ElectionHeader election />
 
-    <ElectionShowChoices electionId />
+    <View>
+      <ElectionShowChoices electionId />
+      { switch Map.String.isEmpty(ballots) {
+      | true => <></>
+      | false =>
+        <IconButton
+          icon=Icon.name("square-edit-outline")
+          style=styles["choiceEditButton"]
+          onPress={_ => {
+            let (ballotId, _ballot) =
+              Option.getExn(Map.String.minimum(ballots))
+            dispatch(Navigate(list{"ballots", ballotId}))
+          }}
+        />
+      } }
+    </View>
 
-    { switch Map.String.isEmpty(ballots) {
-    | true =>
-      <S.Title>
-        { "You are not invited to this election." -> React.string } // TODO: 18n
-      </S.Title>
-    | false => Map.String.mapWithKey(ballots, (ballotId, _ballot) => {
-      // TODO: i18n
-      <S.Button title="Use invite to vote" onPress={_ =>
-        dispatch(Navigate(list{"ballots", ballotId}))
-      } key=ballotId />
-      }) -> Map.String.valuesToArray -> React.array
-    } }
+    //{ switch Map.String.isEmpty(ballots) {
+    //| true => <></>
+    //  //<S.Title>
+    //  //  { "You are not invited to this election." -> React.string }
+    //  //</S.Title>
+    //| false => Map.String.mapWithKey(ballots, (ballotId, _ballot) => {
+    //  // TODO: i18n
+    //  <S.Button title="Use invite to vote" onPress={_ =>
+    //    dispatch(Navigate(list{"ballots", ballotId}))
+    //  } key=ballotId />
+    //  }) -> Map.String.valuesToArray -> React.array
+    //} }
 
     { switch State.getAccount(state, election.ownerPublicKey) {
     | Some(_adminAccount) =>

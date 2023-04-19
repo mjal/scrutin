@@ -75,5 +75,11 @@ let make = (~election:Election.t, ~electionId) => {
     />
 
     <S.Button onPress=onSubmit title="Inviter" />
+
+    <Button mode=#text onPress={_ =>
+      dispatch(Navigate(list{"elections"}))}
+    >
+      { "Gérer les invitations" -> React.string }
+    </Button>
   </>
 }
