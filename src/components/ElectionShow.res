@@ -2,13 +2,6 @@
 let make = (~election:Election.t, ~electionId) => {
   let (state, dispatch) = StateContext.use()
 
-  React.useEffect(() => {
-    if (Option.isSome(election.result)) {
-      dispatch(Navigate(list{"elections", electionId, "result"}))
-    }
-    None
-  })
-
   let ballots = 
     state.ballots
     -> Map.String.keep((_ballotId, ballot) =>
@@ -71,18 +64,26 @@ let make = (~election:Election.t, ~electionId) => {
       </View>
     </View>
 
-    { switch State.getAccount(state, election.ownerPublicKey) {
-    | Some(_adminAccount) =>
-    <>
-      <S.Button title="Ajouter des votants" onPress={_ => 
-        dispatch(Navigate(list{"elections", electionId, "invite"}))
-      } /> // TODO: i18n
-
-      <S.Button title="Calculer le résultat" onPress={_ => // TODO: i18n
-        Core.Election.tally(~electionId)(state, dispatch)
+    { switch election.result {
+    | Some(_) =>
+      <S.Button title="Afficher le résultat" onPress={_ =>
+        dispatch(Navigate(list{"elections", electionId, "result"}))
       } />
-    </>
-    | None => <></>
-    } }
+    | None =>
+      switch State.getAccount(state, election.ownerPublicKey) {
+      | None => <></>
+      | Some(_adminAccount) =>
+      <>
+        <S.Button title="Ajouter des votants" onPress={_ => 
+          dispatch(Navigate(list{"elections", electionId, "invite"}))
+        } /> // TODO: i18n
+
+        <S.Button title="Calculer le résultat" onPress={_ =>
+          Core.Election.tally(~electionId)(state, dispatch)
+        } />
+      </>
+      }
+    }
+  }
   </>
 }
