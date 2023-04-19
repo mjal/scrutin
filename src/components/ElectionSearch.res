@@ -1,4 +1,4 @@
-module Election = {
+module Item = {
   @react.component
   let make = (~id, ~election:Election.t) => {
     let (_state, dispatch) = StateContext.use()
@@ -49,12 +49,18 @@ let make = () => {
     { state.elections
       -> Map.String.toArray
       -> Array.keep(((id, _election)) => {
-        state.electionReplacementIds
-        -> Map.String.get(id)
+        Map.String.get(state.electionReplacementIds, id)
         -> Option.isNone
       })
+      -> Array.keep(((_, election)) => {
+        let name = Js.String.toLowerCase(Election.name(election))
+        let question = Js.String.toLowerCase(Election.description(election))
+
+        Js.String.indexOf(Js.String.toLowerCase(query), name) != -1
+        || Js.String.indexOf(Js.String.toLowerCase(query), question) != -1
+      })
       -> Array.map(((id, election)) => {
-        <Election id election key=id />
+        <Item id election key=id />
     }) -> React.array }
   </>
 }
