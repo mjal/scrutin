@@ -29,9 +29,15 @@ let make = (~title="", ~subtitle="",
 
   let backButton = switch state.route {
   | list{} | list{""} => <></>
-  | _ => <Appbar.Action
-      icon=Icon.name("arrow-left")
-      onPress={_ => dispatch(StateMsg.Navigate_Back)} />
+  | _ =>
+    <TouchableOpacity
+      style=Style.viewStyle(
+        ~marginTop=40.0->Style.dp,
+        ~marginLeft=40.0->Style.dp,
+        ())
+      onPress={_ => dispatch(StateMsg.Navigate_Back)}>
+      <BackButton />
+    </TouchableOpacity>
   }
 
   let settingsButton = switch state.route {
