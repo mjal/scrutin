@@ -1,5 +1,5 @@
 @react.component
-let make = (~election:Election.t, ~electionId) => {
+let make = (~election:Election.t) => {
   let (_state, _dispatch) = StateContext.use()
   //let { t } = ReactI18next.useTranslation()
   //let orgId = State.getAccount(state, election.ownerPublicKey)
@@ -7,7 +7,7 @@ let make = (~election:Election.t, ~electionId) => {
   <>
     <ElectionHeader election />
 
-    <ElectionShowChoices electionId />
+    <ElectionShowChoices election />
 
     //{ if Option.isNone(election.result) {
     //  if Option.isSome(orgId) {

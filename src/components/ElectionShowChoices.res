@@ -1,9 +1,6 @@
 @react.component
-let make = (~electionId) => {
-  let (state, _) = StateContext.use()
+let make = (~election) => {
   let { t } = ReactI18next.useTranslation()
-  // TODO: Get from params instead of refetchin?
-  let election = State.getElectionExn(state, electionId)
 
   let question = switch Election.description(election) {
   | "" => t(."election.new.question")

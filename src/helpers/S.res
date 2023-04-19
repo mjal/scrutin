@@ -61,7 +61,7 @@ let layout =
 
 let questionBox = viewStyle(
   ~margin=30.0->dp,
-  ~borderWidth=3.0,
+  ~borderWidth=5.0,
   ~borderColor=primaryColor,
   ())
 

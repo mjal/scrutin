@@ -20,6 +20,7 @@ let make = (
   | #invite => "Ajouter des votants"
   | #inviteLink => "Invitation par lien"
   | #inviteMail => "Invitation mail"
+  | #result => "Résultats"
   }
 
   <Header title titleTextStyle subtitle />

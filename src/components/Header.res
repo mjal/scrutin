@@ -9,9 +9,10 @@ let make = (~title="", ~subtitle="",
     Style.textStyle(
       ~alignSelf=#center,
       ~fontWeight=Style.FontWeight._900,
+      ~marginTop=30.0->Style.dp,
       ~fontSize=25.0,
       ~lineHeight=24.0,
-      ~color=Color.rgb(~r=103, ~g=80, ~b=164),
+      ~color=S.primaryColor,
       ()),
     Option.getWithDefault(titleTextStyle, Style.textStyle())
   ])
@@ -19,10 +20,8 @@ let make = (~title="", ~subtitle="",
   let subtitleTextStyle = StyleSheet.flatten([
     Style.textStyle(
       ~alignSelf=#center,
-      ~fontWeight=Style.FontWeight._600,
       ~fontSize=22.0,
-      ~lineHeight=20.0,
-      ~color=Color.rgb(~r=103, ~g=80, ~b=164),
+      ~color=S.primaryColor,
       ()),
     Option.getWithDefault(subtitleTextStyle, Style.textStyle())
   ])
@@ -42,7 +41,10 @@ let make = (~title="", ~subtitle="",
   | _ => <></>
   }
 
-  <Appbar.Header style=Style.viewStyle(~backgroundColor=Color.white,())>
+  <Appbar.Header style=Style.viewStyle(
+    ~backgroundColor=Color.white,
+    ~marginBottom=20.0->Style.dp,
+    ())>
     { backButton }
     <Appbar.Content title={
       <>

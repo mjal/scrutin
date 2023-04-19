@@ -39,7 +39,7 @@ let make = (~election:Election.t, ~electionId) => {
     <ElectionHeader election />
 
     <View>
-      <ElectionShowChoices electionId />
+      <ElectionShowChoices election />
       { switch Map.String.isEmpty(ballots) {
       | true => <></>
       | false =>
