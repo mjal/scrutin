@@ -27,6 +27,8 @@ let make = (~ballot:Ballot.t, ~ballotId) => {
   }
 
   <>
+    <ElectionHeader election />
+
     <View style=S.questionBox>
       <S.Section title=question />
       { Array.mapWithIndex(Election.choices(election), (i, choiceName) => {
@@ -37,11 +39,9 @@ let make = (~ballot:Ballot.t, ~ballotId) => {
       }) -> React.array }
     </View>
 
-    <Button mode=#contained onPress={_ => {
+    <S.Button title="Voter" onPress={_ => {
       let nbChoices = Array.length(Election.choices(election))
       Core.Ballot.vote(~ballot, ~previousId=ballotId,  ~choice, ~nbChoices)(state, dispatch)
-    }}>
-      { t(."ballot.new.vote") -> React.string }
-    </Button>
+    }} />
   </>
 }
