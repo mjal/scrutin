@@ -36,7 +36,7 @@ let make = (~title="", ~subtitle="",
         ~marginLeft=40.0->Style.dp,
         ())
       onPress={_ => dispatch(StateMsg.Navigate_Back)}>
-      <BackButton />
+      <IconButtonBack />
     </TouchableOpacity>
   }
 

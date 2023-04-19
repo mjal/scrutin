@@ -1,4 +1,4 @@
-@module("./BackButton.svg") external source: Image.Source.t = "default"
+@module("./IconButtonSearch.svg") external source: Image.Source.t = "default"
 
 let style = {
   open Style
