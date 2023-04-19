@@ -163,9 +163,7 @@ module Ballot = {
       let ballot = Ballot.make(ballot, Some(previousId), election, selection)
 
       // Lookup for the voter identity in the cache
-      let owner = Array.getBy(state.ids, (id) => {
-        ballot.voterPublicKey == id.hexPublicKey
-      }) -> Option.getExn
+      let owner = State.getAccountExn(state, ballot.voterPublicKey)
 
       // Wrap it into an event
       let ev = Event_.SignedBallot.update(ballot, owner)
@@ -174,7 +172,7 @@ module Ballot = {
       dispatch(StateMsg.Event_Add_With_Broadcast(ev))
 
       // Go the ballot page
-      dispatch(Navigate(list{"ballots", ev.cid}))
+      dispatch(Navigate(list{"elections", ballot.electionId}))
     }
   }
 }
