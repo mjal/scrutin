@@ -38,21 +38,21 @@ let reducer = (state: State.t, action: StateMsg.t) => {
 
   | Cache_Election_Add(cid, election) =>
     let elections = Map.String.set(state.elections, cid, election)
-    let electionReplacementIds = switch election.previousId {
-    | Some(previousId) => Map.String.set(state.electionReplacementIds, previousId, cid)
-    | None => state.electionReplacementIds
+    let electionNextIds = switch election.previousId {
+    | Some(previousId) => Map.String.set(state.electionNextIds, previousId, cid)
+    | None => state.electionNextIds
     }
-    ({...state, elections, electionReplacementIds}, [])
+    ({...state, elections, electionNextIds}, [])
 
   | Cache_Ballot_Add(cid, ballot) =>
     let ballots = Map.String.set(state.ballots, cid, ballot)
-    let ballotReplacementIds = switch ballot.previousId {
+    let ballotNextIds = switch ballot.previousId {
     | Some(previousId) =>
       Js.log((previousId, cid))
-      Map.String.set(state.ballotReplacementIds, previousId, cid)
-    | None => state.ballotReplacementIds
+      Map.String.set(state.ballotNextIds, previousId, cid)
+    | None => state.ballotNextIds
     }
-    ({...state, ballots, ballotReplacementIds}, [])
+    ({...state, ballots, ballotNextIds}, [])
 
   | Config_Store_Language(language) => (state, [StateEffect.storeLanguage(language)])
 

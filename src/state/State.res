@@ -18,10 +18,10 @@ type t = {
   // elections and ballot (from parsed events)
   elections: Map.String.t<Election.t>,
   // opposite of election.previousId (TODO: remove)
-  electionReplacementIds: Map.String.t<string>,
+  electionNextIds: Map.String.t<string>,
   ballots: Map.String.t<Ballot.t>,
   // opposite of ballot.previousId (TODO: rename nextIds)
-  ballotReplacementIds: Map.String.t<string>,
+  ballotNextIds: Map.String.t<string>,
 }
 
 // The initial state of the application
@@ -32,9 +32,9 @@ let initial = {
   trustees: [],
   contacts: [],
   elections: Map.String.empty,
-  electionReplacementIds: Map.String.empty,
+  electionNextIds: Map.String.empty,
   ballots: Map.String.empty,
-  ballotReplacementIds: Map.String.empty,
+  ballotNextIds: Map.String.empty,
 }
 
 let getBallot = (state, id) => Map.String.get(state.ballots, id)
@@ -59,7 +59,7 @@ let countVotes = (state, electionId) => {
   Map.String.toArray(state.ballots)
   ->Array.keep(((_id, ballot)) => ballot.electionId == electionId)
   ->Array.keep(((id, _ballot)) => {
-    Map.String.get(state.ballotReplacementIds, id)->Option.isNone
+    Map.String.get(state.ballotNextIds, id)->Option.isNone
   })
   ->Array.keep(((_id, ballot)) => {
     Option.isSome(ballot.ciphertext)
@@ -73,7 +73,7 @@ let countVotes = (state, electionId) => {
 }
 
 let getBallotNext = (state: t, ballotId) => {
-  switch Map.String.get(state.ballotReplacementIds, ballotId) {
+  switch Map.String.get(state.ballotNextIds, ballotId) {
   | Some(nextBallotId) => state->getBallot(nextBallotId)
   | None => None
   }

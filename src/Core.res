@@ -78,7 +78,7 @@ module Election = {
         })
         // Only keep the last ballot of the chain (if multiple update of the same ballot)
         ->Array.keep(((id, _ballot)) => {
-          Map.String.get(state.ballotReplacementIds, id)->Option.isNone
+          Map.String.get(state.ballotNextIds, id)->Option.isNone
         })
         // Only keep the most recent successor of a ballot
         ->Js.Array2.map(((id, ballot)) => {

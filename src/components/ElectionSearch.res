@@ -48,7 +48,7 @@ let make = () => {
     {state.elections
     ->Map.String.toArray
     ->Array.keep(((id, _election)) => {
-      Map.String.get(state.electionReplacementIds, id)->Option.isNone
+      Map.String.get(state.electionNextIds, id)->Option.isNone
     })
     ->Array.keep(((_, election)) => {
       let name = Js.String.toLowerCase(Election.name(election))
