@@ -1,4 +1,4 @@
-@module("./IconButtonSearch.svg") external source: Image.Source.t = "default"
+@module("./IconButtonAbout.svg") external source: Image.Source.t = "default"
 
 let defaultStyle = {
   open Style
@@ -13,3 +13,4 @@ let make = (~style=?) => {
   }
   <Image source style />
 }
+

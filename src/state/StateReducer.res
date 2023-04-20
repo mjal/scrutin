@@ -80,5 +80,11 @@ let reducer = (state: State.t, action: StateMsg.t) => {
       // At the moment we directly go home on mobile, as we don't store history
       ({...state, route: list{}}, [])
     }
+
+  | Navigate_About =>
+    if ReactNative.Platform.os == #web {
+      let () = %raw(`window.location = "https://scrutin.app"`)
+    }
+    (state, [])
   }
 }

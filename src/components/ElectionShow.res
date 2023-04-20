@@ -26,8 +26,7 @@ let make = (~election: Election.t, ~electionId) => {
         ~width=100.0->dp,
         ~backgroundColor=S.primaryColor,
         (),
-      ),
-      "choiceListView": viewStyle(),
+      )
     })
   }
 
