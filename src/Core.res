@@ -123,7 +123,7 @@ module Election = {
 
       dispatch(StateMsg.Event_Add_With_Broadcast(ev))
 
-      dispatch(Navigate(list{"elections", ev.cid}))
+      dispatch(Navigate(list{"elections", ev.cid, "result"}))
     }
   }
 }
