@@ -91,6 +91,7 @@ let getEvents = dispatch => {
           }
           ()
         })
+        dispatch(StateMsg.Fetching_Events_End)
       }
     | None => ()
     }

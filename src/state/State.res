@@ -4,6 +4,8 @@ type t = {
   // See [[Event]].
   // We use this to populate elections and ballots
   events: array<Event_.t>,
+  // If we are syncing events
+  fetchingEvents: bool,
   // The controlled identities (as voter or election organizer)
   // See [[Identity]]
   ids: array<Account.t>,
@@ -28,6 +30,7 @@ type t = {
 let initial = {
   route: list{""},
   events: [],
+  fetchingEvents: true,
   ids: [],
   trustees: [],
   contacts: [],

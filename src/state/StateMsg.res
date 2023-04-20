@@ -11,3 +11,4 @@ type t =
   | Cache_Election_Add(string, Election.t)
   | Cache_Ballot_Add(string, Ballot.t)
   | Config_Store_Language(string)
+  | Fetching_Events_End

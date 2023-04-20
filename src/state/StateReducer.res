@@ -12,6 +12,8 @@ let reducer = (state: State.t, action: StateMsg.t) => {
       ],
     )
 
+  | Fetching_Events_End => ({...state, fetchingEvents: false}, [])
+
   | Identity_Add(id) =>
     let ids = Array.concat(state.ids, [id])
     ({...state, ids}, [StateEffect.storeIdentities(ids)])
