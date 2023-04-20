@@ -73,7 +73,7 @@ module Election = {
           let ballot = Event_.SignedBallot.unwrap(event)
           ballot.electionId == electionId
         })
-        // Only keep the last ballot of the chain
+        // Only keep the last ballot of the chain (if multiple update of the same ballot)
         -> Array.keep((event) => {
           state.ballotReplacementIds
           -> Map.String.get(event.cid)
@@ -84,12 +84,11 @@ module Election = {
         ballots
         -> Array.map(Event_.SignedBallot.unwrap)
         -> Array.map((ballot) => ballot.ciphertext)
-        -> Array.keep((ciphertext) => Option.getWithDefault(ciphertext, "") != "")
-        -> Array.map((ciphertext) => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
+        -> Array.keep((ciphertext) =>
+          Option.getWithDefault(ciphertext, "") != "")
+        -> Array.map((ciphertext) =>
+          Belenios.Ballot.of_str(Option.getExn(ciphertext)))
 
-      // HACK: Fetch the public creds stored in the ballots.
-      // We don't use it but it is needed by Belenios.
-      // (for every ballot we generate a new private credential)
       let pubcreds =
         ballots
         -> Array.map(Event_.SignedBallot.unwrap)
@@ -97,8 +96,10 @@ module Election = {
         -> Array.map((pubcred) => Option.getWithDefault(pubcred, ""))
         -> Array.keep((pubcred) => pubcred != "")
 
-      let (a, b) = Belenios.Election.decrypt(params, ciphertexts, trustees, pubcreds, privkey)
-      let result = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
+      let (a, b) = Belenios.Election.decrypt(params, ciphertexts, trustees,
+        pubcreds, privkey)
+      let result = Belenios.Election.result(params, ciphertexts, trustees,
+        pubcreds, a, b)
 
       let election2 = {...election,
         previousId: Some(electionId),
