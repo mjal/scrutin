@@ -74,7 +74,5 @@ let make = () => {
       Js.log(("Unknown route", route))
       <HomeView />
     }}
-
-    //<Navigation />
   </Layout>
 }
