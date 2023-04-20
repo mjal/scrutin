@@ -46,7 +46,6 @@ let getElectionExn = (state, id) => Map.String.getExn(state.elections, id)
 let getAccount = (state, publicKey) => Array.getBy(state.ids, id => publicKey == id.hexPublicKey)
 let getAccountExn = (state, publicKey) => getAccount(state, publicKey)->Option.getExn
 
-//
 let rec getBallotOriginalId = (state, ballotId) => {
   let ballot = state->getBallotExn(ballotId)
   switch ballot.previousId {
