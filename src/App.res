@@ -52,7 +52,7 @@ let make = () => {
     | list{"elections", electionId, "result"} =>
       switch State.getElection(state, electionId) {
       | None => <NotFoundYet />
-      | Some(election) => <ElectionResult election />
+      | Some(election) => <ElectionResult election electionId />
       }
 
     | list{"ballots", ballotId} =>

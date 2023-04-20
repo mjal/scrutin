@@ -1,28 +1,3 @@
-module CopyButton = {
-  @react.component
-  let make = (~inviteUrl) => {
-    let { t } = ReactI18next.useTranslation()
-    let (visible, setVisible) = React.useState(_ => false);
-
-    <>
-      <S.Button onPress={_ => {
-        Clipboard_.writeText(inviteUrl) -> ignore
-        setVisible(_ => true)
-      } }
-      title=t(."election.show.createInvite.copy") />
-
-      <Portal>
-        <Snackbar
-          visible
-          duration=Snackbar.Duration.value(2000)
-          onDismiss={_ => setVisible(_ => false)}>
-          { "Copied!" -> React.string }
-        </Snackbar>
-      </Portal>
-    </>
-  }
-}
-
 @react.component
 let make = (~election: Election.t, ~electionId) => {
   let (state, dispatch) = StateContext.use()
@@ -66,7 +41,7 @@ let make = (~election: Election.t, ~electionId) => {
       </Text>
     </View>
 
-    <CopyButton inviteUrl />
+    <CopyButton text=inviteUrl />
 
     <S.Button onPress={_ => {
       Share.share({ message: inviteUrl}) -> ignore }

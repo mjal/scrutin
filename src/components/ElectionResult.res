@@ -1,7 +1,10 @@
 @react.component
-let make = (~election:Election.t) => {
+let make = (~election:Election.t, ~electionId) => {
+  let (state, _) = StateContext.use()
   let { t } = ReactI18next.useTranslation()
 
+  let electionUrl = `${URL.base_url}/elections/${electionId}`
+  let countVotes = State.countVotes(state, Option.getExn(election.previousId))
   let data = switch election.result {
   | Some(result) => Belenios.Election.scores(result)
   | None => []
@@ -17,16 +20,15 @@ let make = (~election:Election.t) => {
   let choices = Election.choices(election)
   let maxValue = Array.reduce(data, 0, (v1, v2) => (v1 > v2) ? v1 : v2)
 
-  let question = switch Election.description(election) {
-  | "" => t(."election.new.question")
-  | question => question
-  }
-
   <>
     <ElectionHeader election section=#result />
 
     <View style=S.questionBox>
-      <S.Section title=question />
+      { switch Election.description(election) {
+        | "" => <></>
+        | question => <S.Section title=question />
+      } }
+      <S.Section title=`${countVotes->Int.toString} votants` />
       <S.Row>
       {
         Array.mapWithIndex(data, (i, value) => {
@@ -57,6 +59,10 @@ let make = (~election:Election.t) => {
       }
       </S.Row>
     </View>
+
+    <S.TextInput label="" onChangeText={_ => ()} testID="" value=electionUrl />
+
+    <CopyButton text=electionUrl />
   </>
 }
 

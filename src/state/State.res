@@ -49,3 +49,16 @@ let getAccount = (state, publicKey) =>
   Array.getBy(state.ids, (id) => publicKey == id.hexPublicKey)
 let getAccountExn = (state, publicKey) =>
   getAccount(state, publicKey) -> Option.getExn
+
+let countVotes = (state, electionId) => {
+  Map.String.toArray(state.ballots)
+  -> Array.keep(((_id, ballot)) =>
+    ballot.electionId == electionId)
+  -> Array.keep(((id, _ballot)) => {
+    Map.String.get(state.ballotReplacementIds, id)
+    -> Option.isNone
+  })
+  -> Array.keep(((_id, ballot)) => {
+    Option.isSome(ballot.ciphertext)
+  }) -> Array.length
+}
