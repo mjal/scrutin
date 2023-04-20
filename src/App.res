@@ -71,8 +71,7 @@ let make = () => {
     | list{} | list{""} => <HomeView />
 
     | route =>
-      Js.log("Unknown route")
-      Js.log(route)
+      Js.log(("Unknown route", route))
       <HomeView />
     }}
 
