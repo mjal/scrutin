@@ -1,7 +1,4 @@
 @react.component
 let make = () => {
-  <Text>
-    { "Not found yet..." -> React.string }
-  </Text>
+  <Text> {"Not found yet..."->React.string} </Text>
 }
-

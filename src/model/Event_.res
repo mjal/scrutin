@@ -22,7 +22,7 @@ type t = {
   // Could be the election organizer or the voter
   publicKey: string,
   // **signature**: a signature of the cid from the emitter.
-  signature: string
+  signature: string,
 }
 
 // ---
@@ -30,14 +30,14 @@ type t = {
 // #### Utils
 
 // Shorthand to hash a string and transform it to hex
-let hash = (str) => {
+let hash = str => {
   let baEventHash = Sjcl.Sha256.hash(str)
   Sjcl.Hex.fromBits(baEventHash)
 }
 
 // #### Election events
 module SignedElection = {
-  let make = (type_ : event_type_t, election : Election.t, owner : Account.t) => {
+  let make = (type_: event_type_t, election: Election.t, owner: Account.t) => {
     let content = Election.stringify(election)
     let cid = hash(content)
     {
@@ -45,7 +45,7 @@ module SignedElection = {
       type_,
       cid,
       publicKey: owner.hexPublicKey,
-      signature: Account.signHex(owner, cid)
+      signature: Account.signHex(owner, cid),
     }
   }
 
@@ -55,14 +55,14 @@ module SignedElection = {
   type update = (Election.t, Account.t) => t
   let update = make(#"election.update")
 
-  let unwrap = (ev) : Election.t => {
+  let unwrap = (ev): Election.t => {
     Election.parse(ev.content)
   }
 }
 
 // #### Ballot events
 module SignedBallot = {
-  let make = (type_ : event_type_t, ballot : Ballot.t, owner : Account.t) => {
+  let make = (type_: event_type_t, ballot: Ballot.t, owner: Account.t) => {
     let content = Ballot.stringify(ballot)
     let cid = hash(content)
     {
@@ -70,7 +70,7 @@ module SignedBallot = {
       type_,
       cid,
       publicKey: owner.hexPublicKey,
-      signature: Account.signHex(owner, cid)
+      signature: Account.signHex(owner, cid),
     }
   }
 
@@ -80,7 +80,7 @@ module SignedBallot = {
   type update = (Ballot.t, Account.t) => t
   let update = make(#"ballot.update")
 
-  let unwrap = (ev) : Ballot.t => {
+  let unwrap = (ev): Ballot.t => {
     Ballot.parse(ev.content)
   }
 }
@@ -107,7 +107,7 @@ module SignedTally = {
 */
 
 // #### Helpers
-let event_type_t_to_s = (type_) => {
+let event_type_t_to_s = type_ => {
   switch type_ {
   | #"election.create" => "election.create"
   | #"election.update" => "election.update"
@@ -116,15 +116,14 @@ let event_type_t_to_s = (type_) => {
   }
 }
 
-
 // #### Unsafe Serialization
-external parse:           string => t = "JSON.parse"
-external stringify:       t => string = "JSON.stringify"
-external parse_array:     string => array<t> = "JSON.parse"
+external parse: string => t = "JSON.parse"
+external stringify: t => string = "JSON.stringify"
+external parse_array: string => array<t> = "JSON.parse"
 external stringify_array: array<t> => string = "JSON.stringify"
 
 // #### Safe serialization
-let from_json = (json) => {
+let from_json = json => {
   open Json.Decode
   let decode = object(field => {
     let type_ = switch field.required(. "type_", string) {
@@ -142,15 +141,13 @@ let from_json = (json) => {
       signature: field.required(. "signature", string),
     }
   })
-  switch (json->Json.decode(decode)) {
-    | Ok(result) => result
-    | Error(error) => {
-      raise(DecodeError({error}))
-    }
+  switch json->Json.decode(decode) {
+  | Ok(result) => result
+  | Error(error) => raise(DecodeError({error}))
   }
 }
 
-let to_json = (r: t) : Js.Json.t => {
+let to_json = (r: t): Js.Json.t => {
   open! Json.Encode
   let type_ = event_type_t_to_s(r.type_)
   Unsafe.object({
@@ -162,22 +159,19 @@ let to_json = (r: t) : Js.Json.t => {
   })
 }
 
-
 // #### Storage
 let storageKey = "events"
 
 let fetch_all = () =>
   ReactNativeAsyncStorage.getItem(storageKey)
-  -> Promise.thenResolve(Js.Null.toOption)
-  -> Promise.thenResolve(Option.map(_, parse_array))
-  -> Promise.thenResolve(Option.getWithDefault(_, []))
+  ->Promise.thenResolve(Js.Null.toOption)
+  ->Promise.thenResolve(Option.map(_, parse_array))
+  ->Promise.thenResolve(Option.getWithDefault(_, []))
 
-let store_all = (evs) =>
-  ReactNativeAsyncStorage.setItem(storageKey, stringify_array(evs)) -> ignore
+let store_all = evs => ReactNativeAsyncStorage.setItem(storageKey, stringify_array(evs))->ignore
 
-let clear = () =>
-  ReactNativeAsyncStorage.removeItem(storageKey) -> ignore
+let clear = () => ReactNativeAsyncStorage.removeItem(storageKey)->ignore
 
-let broadcast = (ev) => {
+let broadcast = ev => {
   X.post(`${URL.api_url}/events`, to_json(ev))
 }

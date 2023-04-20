@@ -2,11 +2,7 @@
 
 let style = {
   open Style
-  viewStyle(
-    ~alignSelf=#center,
-    ~width=46.0->dp,
-    ~height=46.0->dp,
-  ())
+  viewStyle(~alignSelf=#center, ~width=46.0->dp, ~height=46.0->dp, ())
 }
 
 @react.component

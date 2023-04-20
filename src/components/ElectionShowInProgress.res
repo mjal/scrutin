@@ -1,12 +1,11 @@
 @react.component
-let make = (~election:Election.t) => {
+let make = (~election: Election.t) => {
   let (_state, _dispatch) = StateContext.use()
   //let { t } = ReactI18next.useTranslation()
   //let orgId = State.getAccount(state, election.ownerPublicKey)
 
   <>
     <ElectionHeader election />
-
     <ElectionShowChoices election />
 
     //{ if Option.isNone(election.result) {

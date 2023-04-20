@@ -1,19 +1,17 @@
 module Datum = {
-  type svg_t = {
-    fill: string
-  }
+  type svg_t = {fill: string}
   type t = {
     value: int,
     key: string,
-    svg: svg_t
+    svg: svg_t,
   }
 
   let make = (~value, ~key, ~color) => {
-    let svg = { fill: color }
+    let svg = {fill: color}
     {
       value,
       key,
-      svg
+      svg,
     }
   }
 }

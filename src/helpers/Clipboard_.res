@@ -1,1 +1,2 @@
-@scope(("navigator", "clipboard")) @val external writeText: (string) => Js.Promise.t<unit> = "writeText"
+@scope(("navigator", "clipboard")) @val
+external writeText: string => Js.Promise.t<unit> = "writeText"

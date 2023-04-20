@@ -19,11 +19,9 @@ let make = () => {
   StateRedirectLatest.use()
 
   <Layout state dispatch>
-
-    { switch state.route {
-
+    {switch state.route {
     | list{"elections", "search"} => <ElectionSearch />
-    | list{"elections", "new"}  => <ElectionNew />
+    | list{"elections", "new"} => <ElectionNew />
 
     | list{"elections", electionId} =>
       switch State.getElection(state, electionId) {
@@ -61,24 +59,23 @@ let make = () => {
       | Some(ballot) => <ElectionBooth ballot ballotId />
       }
 
-    | list{"identities"}       => <IdentityIndex />
-    | list{"identities", id}   => <IdentityShow publicKey=id />
+    | list{"identities"} => <IdentityIndex />
+    | list{"identities", id} => <IdentityShow publicKey=id />
 
-    | list{"trustees"}         => <TrusteeIndex />
-    | list{"events"}           => <EventIndex />
-    | list{"contacts"}         => <ContactIndex />
+    | list{"trustees"} => <TrusteeIndex />
+    | list{"events"} => <EventIndex />
+    | list{"contacts"} => <ContactIndex />
 
-    | list{"settings"}         => <SettingsView />
+    | list{"settings"} => <SettingsView />
 
-    | list{} | list{""}        => <HomeView />
+    | list{} | list{""} => <HomeView />
 
-    | route                    =>
+    | route =>
       Js.log("Unknown route")
       Js.log(route)
       <HomeView />
-    } }
+    }}
 
     //<Navigation />
-
   </Layout>
 }

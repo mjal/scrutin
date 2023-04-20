@@ -1,8 +1,8 @@
 type t
 
-@new external make: (string) => t = "URL"
-@get external pathname: (t) => string = "pathname"
-@get external hash: (t) => string = "hash"
+@new external make: string => t = "URL"
+@get external pathname: t => string = "pathname"
+@get external hash: t => string = "hash"
 
 @val external _currentHash: string = "window.location.hash"
 let getCurrentHash = () => {
@@ -24,10 +24,10 @@ let arrayToList = a => {
   tolist(Array.length(a) - 1, list{})
 }
 
-let getAndThen = (f) => {
+let getAndThen = f => {
   ReactNative.Linking.getInitialURL()
-  -> Promise.thenResolve(res => {
-    let sUrl = res -> Js.Null.toOption -> Option.getWithDefault("") -> make -> pathname
+  ->Promise.thenResolve(res => {
+    let sUrl = res->Js.Null.toOption->Option.getWithDefault("")->make->pathname
     /* remove the preceeding /, which every pathname seems to have */
     let sUrl = Js.String.sliceToEnd(~from=1, sUrl)
     /* remove the trailing /, which some pathnames might have. Ugh */
@@ -36,20 +36,25 @@ let getAndThen = (f) => {
     | _ => sUrl
     }
     // Transform to a list
-    let l = sUrl |> Js.String.split("/") |> Js.Array.filter(item => String.length(item) != 0) |> arrayToList
+    let l =
+      sUrl
+      |> Js.String.split("/")
+      |> Js.Array.filter(item => String.length(item) != 0)
+      |> arrayToList
     // Call callback
     f(l)
-  }) -> ignore
+  })
+  ->ignore
 }
 
-let _setUrlPathname : (string) => unit = %raw(`function(pathname) { window.history.pushState({}, null, pathname); }`)
-let setUrlPathname = (str) => {
+let _setUrlPathname: string => unit = %raw(`function(pathname) { window.history.pushState({}, null, pathname); }`)
+let setUrlPathname = str => {
   if ReactNative.Platform.os == #web {
     _setUrlPathname(str)
   }
 }
 
-let _removeHash : () => unit = %raw(`function() { history.pushState("", document.title, window.location.pathname) }`)
+let _removeHash: unit => unit = %raw(`function() { history.pushState("", document.title, window.location.pathname) }`)
 let removeHash = () => {
   if ReactNative.Platform.os == #web {
     _removeHash()
@@ -66,7 +71,7 @@ function getParameterByName(name, url = window.location.href) {
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 `)
-let getSearchParameter = (name) => {
+let getSearchParameter = name => {
   let _name2 = `${name}2`
   let res = %raw(`getParameterByName(name)`)
   res

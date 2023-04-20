@@ -1,4 +1,4 @@
-let inspect = (x) => {
+let inspect = x => {
   Js.log(x)
   x
 }

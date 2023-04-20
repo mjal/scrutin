@@ -1,15 +1,16 @@
 // The reducer, the only place where state mutations can happen
 let reducer = (state: State.t, action: StateMsg.t) => {
   switch action {
-
-  | Reset =>
-    (State.initial, [
-      StateEffect.fetchIdentities,
-      StateEffect.fetchTrustees,
-      StateEffect.fetchContacts,
-      StateEffect.getEvents,
-      StateEffect.goToUrl
-    ])
+  | Reset => (
+      State.initial,
+      [
+        StateEffect.fetchIdentities,
+        StateEffect.fetchTrustees,
+        StateEffect.fetchContacts,
+        StateEffect.getEvents,
+        StateEffect.goToUrl,
+      ],
+    )
 
   | Identity_Add(id) =>
     let ids = Array.concat(state.ids, [id])
@@ -17,16 +18,11 @@ let reducer = (state: State.t, action: StateMsg.t) => {
 
   | Event_Add(event) =>
     let events = Array.concat(state.events, [event])
-    ({...state, events}, [
-      StateEffect.cacheUpdate(event),
-    ])
+    ({...state, events}, [StateEffect.cacheUpdate(event)])
 
   | Event_Add_With_Broadcast(event) =>
     let events = Array.concat(state.events, [event])
-    ({...state, events}, [
-      StateEffect.broadcastEvent(event),
-      StateEffect.cacheUpdate(event),
-    ])
+    ({...state, events}, [StateEffect.broadcastEvent(event), StateEffect.cacheUpdate(event)])
 
   | Trustee_Add(trustee) =>
     let trustees = Array.concat(state.trustees, [trustee])
@@ -43,9 +39,7 @@ let reducer = (state: State.t, action: StateMsg.t) => {
   | Cache_Election_Add(cid, election) =>
     let elections = Map.String.set(state.elections, cid, election)
     let electionReplacementIds = switch election.previousId {
-    | Some(previousId) =>
-      Map.String.set(state.electionReplacementIds,
-        previousId, cid)
+    | Some(previousId) => Map.String.set(state.electionReplacementIds, previousId, cid)
     | None => state.electionReplacementIds
     }
     ({...state, elections, electionReplacementIds}, [])
@@ -60,14 +54,17 @@ let reducer = (state: State.t, action: StateMsg.t) => {
     }
     ({...state, ballots, ballotReplacementIds}, [])
 
-  | Config_Store_Language(language) =>
-    (state, [StateEffect.storeLanguage(language)])
+  | Config_Store_Language(language) => (state, [StateEffect.storeLanguage(language)])
 
   | Navigate(route) =>
     if ReactNative.Platform.os == #web {
-      if (route != RescriptReactRouter.dangerouslyGetInitialUrl().path) {
+      if route != RescriptReactRouter.dangerouslyGetInitialUrl().path {
         let path = Belt.List.reduce(route, "", (a, b) => a ++ "/" ++ b)
-        let path = if path == "" { "/" } else { path }
+        let path = if path == "" {
+          "/"
+        } else {
+          path
+        }
         RescriptReactRouter.push(path)
       }
     }
@@ -83,4 +80,3 @@ let reducer = (state: State.t, action: StateMsg.t) => {
     }
   }
 }
-

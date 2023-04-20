@@ -1,18 +1,17 @@
 type t = {
-  hexPublicKey:   string,
-  hexSecretKey:   string,
+  hexPublicKey: string,
+  hexSecretKey: string,
 }
 
 let make = () => {
-  let (
-    publicKey: Sjcl.Ecdsa.PublicKey.t,
-    secretKey: Sjcl.Ecdsa.SecretKey.t
-  ) = Sjcl.Ecdsa.new()
+  let (publicKey: Sjcl.Ecdsa.PublicKey.t, secretKey: Sjcl.Ecdsa.SecretKey.t) = Sjcl.Ecdsa.new()
 
-  ({
-    hexPublicKey:   Sjcl.Ecdsa.PublicKey.toHex(publicKey),
-    hexSecretKey:   Sjcl.Ecdsa.SecretKey.toHex(secretKey),
-  } : t)
+  (
+    {
+      hexPublicKey: Sjcl.Ecdsa.PublicKey.toHex(publicKey),
+      hexSecretKey: Sjcl.Ecdsa.SecretKey.toHex(secretKey),
+    }: t
+  )
 }
 
 let make2 = (~hexSecretKey) => {
@@ -22,7 +21,7 @@ let make2 = (~hexSecretKey) => {
 
   {
     hexPublicKey,
-    hexSecretKey: hexSecretKey,
+    hexSecretKey,
   }
 }
 
@@ -37,9 +36,9 @@ let signHex = (id, hexStr) => {
 
 // #### Serialization
 
-external parse:           string => t = "JSON.parse"
-external stringify:       t => string = "JSON.stringify"
-external parse_array:     string => array<t> = "JSON.parse"
+external parse: string => t = "JSON.parse"
+external stringify: t => string = "JSON.stringify"
+external parse_array: string => array<t> = "JSON.parse"
 external stringify_array: array<t> => string = "JSON.stringify"
 
 // #### Storage
@@ -48,14 +47,10 @@ let storageKey = "identities"
 
 let fetch_all = () =>
   ReactNativeAsyncStorage.getItem(storageKey)
-  -> Promise.thenResolve(Js.Null.toOption)
-  -> Promise.thenResolve(Option.map(_, parse_array))
-  -> Promise.thenResolve(Option.getWithDefault(_, []))
+  ->Promise.thenResolve(Js.Null.toOption)
+  ->Promise.thenResolve(Option.map(_, parse_array))
+  ->Promise.thenResolve(Option.getWithDefault(_, []))
 
-let store_all = (ids) =>
-  ReactNativeAsyncStorage.setItem(storageKey,
-    stringify_array(ids)) -> ignore
+let store_all = ids => ReactNativeAsyncStorage.setItem(storageKey, stringify_array(ids))->ignore
 
-let clear = () =>
-  ReactNativeAsyncStorage.removeItem(storageKey) -> ignore
-
+let clear = () => ReactNativeAsyncStorage.removeItem(storageKey)->ignore
