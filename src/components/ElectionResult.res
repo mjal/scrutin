@@ -1,7 +1,6 @@
 @react.component
 let make = (~election: Election.t, ~electionId) => {
   let (state, _) = StateContext.use()
-  let {t} = ReactI18next.useTranslation()
 
   let electionUrl = `${URL.base_url}/elections/${electionId}/result`
   let countVotes = State.countVotes(state, Option.getExn(election.previousId))
