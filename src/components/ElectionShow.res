@@ -14,6 +14,18 @@ let make = (~election:Election.t, ~electionId) => {
       })
     )
 
+  let nbVotes =
+    Map.String.toArray(state.ballots)
+    -> Array.keep(((_id, ballot)) =>
+      ballot.electionId == electionId)
+    -> Array.keep(((id, _ballot)) => {
+      Map.String.get(state.ballotReplacementIds, id)
+      -> Option.isNone
+    })
+    -> Array.keep(((_id, ballot)) => {
+      Option.isSome(ballot.ciphertext)
+    }) -> Array.length
+
   let styles = {
     open Style
     StyleSheet.create({
@@ -78,15 +90,15 @@ let make = (~election:Election.t, ~electionId) => {
           dispatch(Navigate(list{"elections", electionId, "invite"}))
         } /> // TODO: i18n
 
-        <Button mode=#text onPress={_ =>
-          dispatch(Navigate(list{"elections", electionId, "invite"}))
-        }>
-          { "Gérer les invitations" -> React.string }
-        </Button>
+        //<Button mode=#text onPress={_ =>
+        //  dispatch(Navigate(list{"elections", electionId, "invite"}))
+        //}>
+        //  { "Gérer les invitations" -> React.string }
+        //</Button>
 
-        <Divider />
+        //<Divider />
 
-        <S.Button title="Calculer le résultat" onPress={_ =>
+        <S.Button title=`Calculer le résultat des ${nbVotes->Int.toString} votes` onPress={_ =>
           Core.Election.tally(~electionId)(state, dispatch)
         } />
       </>
