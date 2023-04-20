@@ -13,7 +13,7 @@ let make = (~election: Election.t, ~electionId) => {
     )
 
   let nbVotes = state
-    ->State.getElectionValidBallots(Option.getExn(election.previousId))
+    ->State.getElectionValidBallots(electionId)
     ->Array.length
 
   let styles = {
