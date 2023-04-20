@@ -22,8 +22,10 @@ type t = {
 
   // elections and ballot (from parsed events)
   elections: Map.String.t<Election.t>,
+  // opposite of election.previousId (TODO: remove)
   electionReplacementIds: Map.String.t<string>,
   ballots:   Map.String.t<Ballot.t>,
+  // opposite of ballot.previousId (TODO: rename nextIds)
   ballotReplacementIds: Map.String.t<string>,
 }
 
@@ -42,14 +44,17 @@ let initial = {
 
 let getBallot = (state, id) => Map.String.get(state.ballots, id)
 let getBallotExn = (state, id) => Map.String.getExn(state.ballots, id)
+
 let getElection = (state, id) => Map.String.get(state.elections, id)
 let getElectionExn = (state, id) =>
   Map.String.getExn(state.elections, id)
+
 let getAccount = (state, publicKey) =>
   Array.getBy(state.ids, (id) => publicKey == id.hexPublicKey)
 let getAccountExn = (state, publicKey) =>
   getAccount(state, publicKey) -> Option.getExn
 
+//
 let rec getBallotOriginalId = (state, ballotId) => {
   let ballot = state->getBallotExn(ballotId)
   switch ballot.previousId {
@@ -77,3 +82,9 @@ let countVotes = (state, electionId) => {
   -> Array.length
 }
 
+let getBallotNext = (state: t, ballotId) => {
+  switch Map.String.get(state.ballotReplacementIds, ballotId) {
+  | Some(nextBallotId) => state->getBallot(nextBallotId)
+  | None => None
+  }
+}
