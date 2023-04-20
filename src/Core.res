@@ -177,9 +177,6 @@ module Ballot = {
 
       // Add the new event<br />
       dispatch(StateMsg.Event_Add_With_Broadcast(ev))
-
-      // Go the ballot page
-      dispatch(Navigate(list{"elections", ballot.electionId}))
     }
   }
 }

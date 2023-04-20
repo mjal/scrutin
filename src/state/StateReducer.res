@@ -41,8 +41,7 @@ let reducer = (state: State.t, action: StateMsg.t) => {
     ({...state, contacts}, [StateEffect.storeContacts(contacts)])
 
   | Cache_Election_Add(cid, election) =>
-    let elections =
-      Map.String.set(state.elections, cid, election)
+    let elections = Map.String.set(state.elections, cid, election)
     let electionReplacementIds = switch election.previousId {
     | Some(previousId) =>
       Map.String.set(state.electionReplacementIds,
@@ -52,13 +51,12 @@ let reducer = (state: State.t, action: StateMsg.t) => {
     ({...state, elections, electionReplacementIds}, [])
 
   | Cache_Ballot_Add(cid, ballot) =>
-    let ballots =
-      Map.String.set(state.ballots, cid, ballot)
+    let ballots = Map.String.set(state.ballots, cid, ballot)
     let ballotReplacementIds = switch ballot.previousId {
     | Some(previousId) =>
-      Map.String.set(state.ballotReplacementIds,
-        previousId, cid)
-    | None => state.electionReplacementIds
+      Js.log((previousId, cid))
+      Map.String.set(state.ballotReplacementIds, previousId, cid)
+    | None => state.ballotReplacementIds
     }
     ({...state, ballots, ballotReplacementIds}, [])
 
