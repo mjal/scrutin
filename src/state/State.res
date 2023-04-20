@@ -50,6 +50,14 @@ let getAccount = (state, publicKey) =>
 let getAccountExn = (state, publicKey) =>
   getAccount(state, publicKey) -> Option.getExn
 
+let rec getBallotOriginalId = (state, ballotId) => {
+  let ballot = state->getBallotExn(ballotId)
+  switch ballot.previousId {
+  | Some(previousId) => state->getBallotOriginalId(previousId)
+  | None => ballotId
+  }
+}
+
 let countVotes = (state, electionId) => {
   Map.String.toArray(state.ballots)
   -> Array.keep(((_id, ballot)) =>
@@ -60,5 +68,12 @@ let countVotes = (state, electionId) => {
   })
   -> Array.keep(((_id, ballot)) => {
     Option.isSome(ballot.ciphertext)
-  }) -> Array.length
+  })
+  -> Js.Array2.map(((id, ballot)) => {
+    (state->getBallotOriginalId(id), ballot)
+  })
+  -> Js.Dict.fromArray
+  -> Js.Dict.values
+  -> Array.length
 }
+

@@ -69,20 +69,27 @@ module Election = {
       let ballots =
         state.events
         -> Array.keep((event) => event.type_ == #"ballot.update")
-        -> Array.keep((event) => {
+        -> Array.map((event) => {
           let ballot = Event_.SignedBallot.unwrap(event)
+          (event.cid, ballot)
+        })
+        -> Array.keep(((_id, ballot)) => {
           ballot.electionId == electionId
         })
         // Only keep the last ballot of the chain (if multiple update of the same ballot)
-        -> Array.keep((event) => {
-          state.ballotReplacementIds
-          -> Map.String.get(event.cid)
+        -> Array.keep(((id, _ballot)) => {
+          Map.String.get(state.ballotReplacementIds, id)
           -> Option.isNone
         })
+        // Only keep the most recent successor of a ballot
+        -> Js.Array2.map(((id, ballot)) => {
+          (state->State.getBallotOriginalId(id), ballot)
+        })
+        -> Js.Dict.fromArray
+        -> Js.Dict.values
 
       let ciphertexts =
         ballots
-        -> Array.map(Event_.SignedBallot.unwrap)
         -> Array.map((ballot) => ballot.ciphertext)
         -> Array.keep((ciphertext) =>
           Option.getWithDefault(ciphertext, "") != "")
@@ -91,7 +98,6 @@ module Election = {
 
       let pubcreds =
         ballots
-        -> Array.map(Event_.SignedBallot.unwrap)
         -> Array.map((ballot) => ballot.pubcred)
         -> Array.map((pubcred) => Option.getWithDefault(pubcred, ""))
         -> Array.keep((pubcred) => pubcred != "")
