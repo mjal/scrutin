@@ -78,6 +78,14 @@ let make = (~election:Election.t, ~electionId) => {
           dispatch(Navigate(list{"elections", electionId, "invite"}))
         } /> // TODO: i18n
 
+        <Button mode=#text onPress={_ =>
+          dispatch(Navigate(list{"elections", electionId, "invite"}))
+        }>
+          { "Gérer les invitations" -> React.string }
+        </Button>
+
+        <Divider />
+
         <S.Button title="Calculer le résultat" onPress={_ =>
           Core.Election.tally(~electionId)(state, dispatch)
         } />
