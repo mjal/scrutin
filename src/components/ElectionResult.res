@@ -60,7 +60,9 @@ let make = (~election:Election.t, ~electionId) => {
       </S.Row>
     </View>
 
-    <S.TextInput label="" onChangeText={_ => ()} testID="" value=electionUrl />
+    <View style=Style.viewStyle(~margin=30.0->Style.dp, ())>
+      <S.TextInput label="" onChangeText={_ => ()} testID="" value=electionUrl />
+    </View>
 
     <CopyButton text=electionUrl />
   </>

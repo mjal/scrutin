@@ -30,10 +30,7 @@ let make = (~election: Election.t, ~electionId) => {
   <>
     <ElectionHeader election section=#inviteLink />
 
-    <View style=Style.viewStyle(
-      ~margin=30.0->Style.dp,
-      ~borderColor=S.primaryColor,
-      ())>
+    <View style=Style.viewStyle(~margin=30.0->Style.dp, ())>
       <S.TextInput label="" onChangeText={_ => ()} testID=""
         value=inviteUrl />
     </View>
