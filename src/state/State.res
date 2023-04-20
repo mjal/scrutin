@@ -55,7 +55,7 @@ let rec getBallotOriginalId = (state, ballotId) => {
   }
 }
 
-let countVotes = (state, electionId) => {
+let getElectionValidBallots = (state, electionId) => {
   Map.String.toArray(state.ballots)
   ->Array.keep(((_id, ballot)) => ballot.electionId == electionId)
   ->Array.keep(((id, _ballot)) => {
@@ -69,7 +69,6 @@ let countVotes = (state, electionId) => {
   })
   ->Js.Dict.fromArray
   ->Js.Dict.values
-  ->Array.length
 }
 
 let getBallotNext = (state: t, ballotId) => {

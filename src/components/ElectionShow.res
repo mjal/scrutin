@@ -2,6 +2,7 @@
 let make = (~election: Election.t, ~electionId) => {
   let (state, dispatch) = StateContext.use()
 
+  // ballots we have an invitation for
   let ballots =
     state.ballots
     ->Map.String.keep((_ballotId, ballot) => ballot.electionId == electionId)
@@ -11,7 +12,9 @@ let make = (~election: Election.t, ~electionId) => {
       })
     )
 
-  let nbVotes = state->State.countVotes(electionId)
+  let nbVotes = state
+    ->State.getElectionValidBallots(Option.getExn(election.previousId))
+    ->Array.length
 
   let styles = {
     open Style

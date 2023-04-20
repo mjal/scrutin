@@ -3,7 +3,12 @@ let make = (~election: Election.t, ~electionId) => {
   let (state, _) = StateContext.use()
 
   let electionUrl = `${URL.base_url}/elections/${electionId}/result`
-  let countVotes = State.countVotes(state, Option.getExn(election.previousId))
+  // NOTE: We have to use election.previousId here.
+  // At the moment publishing the tally create a new election object with previousId set to the original election owning the ballots. This may change.
+  let nbVotes = state
+    ->State.getElectionValidBallots(Option.getExn(election.previousId))
+    ->Array.length
+
   let data = switch election.result {
   | Some(result) => Belenios.Election.scores(result)
   | None => []
@@ -24,7 +29,7 @@ let make = (~election: Election.t, ~electionId) => {
       | "" => <> </>
       | question => <S.Section title=question />
       }}
-      <S.Section title={`${countVotes->Int.toString} votants`} />
+      <S.Section title={`${nbVotes->Int.toString} votants`} />
       <S.Row>
         {Array.mapWithIndex(data, (i, value) => {
           let color = Option.getWithDefault(colors[i], Color.rgb(~r=128, ~g=128, ~b=128))

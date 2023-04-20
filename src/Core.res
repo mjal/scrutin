@@ -66,26 +66,7 @@ module Election = {
       })
       let privkey = Option.getExn(trustee).privkey
 
-      let ballots =
-        state.events
-        ->Array.keep(event => event.type_ == #"ballot.update")
-        ->Array.map(event => {
-          let ballot = Event_.SignedBallot.unwrap(event)
-          (event.cid, ballot)
-        })
-        ->Array.keep(((_id, ballot)) => {
-          ballot.electionId == electionId
-        })
-        // Only keep the last ballot of the chain (if multiple update of the same ballot)
-        ->Array.keep(((id, _ballot)) => {
-          Map.String.get(state.ballotNextIds, id)->Option.isNone
-        })
-        // Only keep the most recent successor of a ballot
-        ->Js.Array2.map(((id, ballot)) => {
-          (state->State.getBallotOriginalId(id), ballot)
-        })
-        ->Js.Dict.fromArray
-        ->Js.Dict.values
+      let ballots = state->State.getElectionValidBallots(electionId)
 
       let ciphertexts =
         ballots
