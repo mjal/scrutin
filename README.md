@@ -9,7 +9,7 @@
 
 A mobile app for secure voting using the Helios protocol and INRIA’s [Belenios](https://www.belenios.org) voting library.
 
-## Developer instructions
+## Install
 
 ```
 npm install
