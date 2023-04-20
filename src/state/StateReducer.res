@@ -4,10 +4,10 @@ let reducer = (state: State.t, action: StateMsg.t) => {
   | Reset => (
       State.initial,
       [
-        StateEffect.fetchIdentities,
-        StateEffect.fetchTrustees,
-        StateEffect.fetchContacts,
-        StateEffect.getEvents,
+        StateEffect.loadIdentities,
+        StateEffect.loadTrustees,
+        StateEffect.loadContacts,
+        StateEffect.fetchEvents,
         StateEffect.goToUrl,
       ],
     )

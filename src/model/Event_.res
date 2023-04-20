@@ -162,7 +162,7 @@ let to_json = (r: t): Js.Json.t => {
 // #### Storage
 let storageKey = "events"
 
-let fetch_all = () =>
+let loadAll = () =>
   ReactNativeAsyncStorage.getItem(storageKey)
   ->Promise.thenResolve(Js.Null.toOption)
   ->Promise.thenResolve(Option.map(_, parse_array))

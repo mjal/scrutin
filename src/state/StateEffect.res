@@ -20,10 +20,10 @@ let storeContacts = (contacts, _dispatch) => Contact.store_all(contacts)
 let storeLanguage = (language, _dispatch) =>
   ReactNativeAsyncStorage.setItem("config.language", language)->ignore
 
-// ## LocalStorage - Fetch
+// ## LocalStorage - Load
 
-let fetchIdentities = dispatch => {
-  Account.fetch_all()
+let loadIdentities = dispatch => {
+  Account.loadAll()
   ->Promise.thenResolve(ids => {
     Array.map(ids, id => dispatch(StateMsg.Identity_Add(id)))
     // FIX: Identity_Add call storeIdentities as an effect...
@@ -31,31 +31,31 @@ let fetchIdentities = dispatch => {
   ->ignore
 }
 
-let fetchEvents = dispatch => {
-  Event_.fetch_all()
+let loadEvents = dispatch => {
+  Event_.loadAll()
   ->Promise.thenResolve(evs => {
     Array.map(evs, ev => dispatch(StateMsg.Event_Add(ev)))
   })
   ->ignore
 }
 
-let fetchTrustees = dispatch => {
-  Trustee.fetch_all()
+let loadTrustees = dispatch => {
+  Trustee.loadAll()
   ->Promise.thenResolve(os => {
     Array.map(os, o => dispatch(StateMsg.Trustee_Add(o)))
   })
   ->ignore
 }
 
-let fetchContacts = dispatch => {
-  Contact.fetch_all()
+let loadContacts = dispatch => {
+  Contact.loadAll()
   ->Promise.thenResolve(os => {
     Array.map(os, o => dispatch(StateMsg.Contact_Add(o)))
   })
   ->ignore
 }
 
-let fetchLanguage = ((), _dispatch) =>
+let loadLanguage = ((), _dispatch) =>
   ReactNativeAsyncStorage.getItem("config.language")
   ->Promise.thenResolve(Js.Null.toOption)
   ->Promise.thenResolve(language => {
@@ -74,9 +74,9 @@ let clearIdentities = _dispatch => Account.clear()
 let clearEvents = _dispatch => Event_.clear()
 let clearTrustees = _dispatch => Trustee.clear()
 
-// ## Network - Get
+// ## Network - Fetch
 
-let getEvents = dispatch => {
+let fetchEvents = dispatch => {
   Webapi.Fetch.fetch(`${URL.api_url}/events`)
   ->Promise.then(Webapi.Fetch.Response.json)
   ->Promise.thenResolve(response => {

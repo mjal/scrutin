@@ -12,7 +12,7 @@ external stringify_array: array<t> => string = "JSON.stringify"
 
 // == Storage
 let storageKey = "contacts"
-let fetch_all = () =>
+let loadAll = () =>
   ReactNativeAsyncStorage.getItem(storageKey)
   ->Promise.thenResolve(Js.Null.toOption)
   ->Promise.thenResolve(Option.map(_, parse_array))
