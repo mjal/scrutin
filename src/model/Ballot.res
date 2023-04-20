@@ -35,4 +35,3 @@ let make = (ballot, previousId, election:Election.t, selection:array<int>) => {
     ciphertext: Some(ciphertext)
   }
 }
-
