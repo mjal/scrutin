@@ -34,11 +34,8 @@ let make = (~election: Election.t, ~electionId) => {
       ~margin=30.0->Style.dp,
       ~borderColor=S.primaryColor,
       ())>
-      <Text style=Style.textStyle(
-        ~width=600.0->Style.dp, ~alignSelf=#center,
-        ())>
-        { inviteUrl -> React.string }
-      </Text>
+      <S.TextInput label="" onChangeText={_ => ()} testID=""
+        value=inviteUrl />
     </View>
 
     <CopyButton text=inviteUrl />
