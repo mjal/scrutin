@@ -7,9 +7,9 @@ let make = (~onRemove, ~onUpdate, ~name, ~index) => {
       />
     </S.Col>
     <S.Col>
-      <Button onPress=onRemove>
-        <List.Icon icon={Icon.name("delete")} />
-      </Button>
+      <TouchableOpacity onPress=onRemove>
+        <IconButtonCross />
+      </TouchableOpacity>
     </S.Col>
   </S.Row>
 }

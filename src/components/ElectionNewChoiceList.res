@@ -25,10 +25,9 @@ let make = (~choices, ~setChoices) => {
         onUpdate={name => onUpdate(i, name)}
       />
     })->React.array}
-    <S.Button
-      style={Style.viewStyle(~width=100.0->Style.dp, ())}
-      title="+"
-      onPress={_ => setChoices(choices => Array.concat(choices, [""]))}
-    />
+    <TouchableOpacity
+      onPress={_ => setChoices(choices => Array.concat(choices, [""]))}>
+      <IconButtonPlus />
+    </TouchableOpacity>
   </View>
 }
