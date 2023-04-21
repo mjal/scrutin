@@ -5,7 +5,7 @@ let make = (~title="", ~subtitle="", ~titleTextStyle=?, ~subtitleTextStyle=?) =>
   let titleTextStyle = StyleSheet.flatten([
     Style.textStyle(
       ~alignSelf=#center,
-      ~fontFamily="Inter-Bold",
+      ~fontFamily="Inter_700Bold",
       ~fontWeight=Style.FontWeight._900,
       ~marginTop=45.0->Style.dp,
       ~fontSize=28.0,
