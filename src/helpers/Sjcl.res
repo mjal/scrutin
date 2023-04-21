@@ -133,3 +133,11 @@ module Ecdsa = {
     (keys.pub, keys.sec)
   }
 }
+
+%%raw(`
+import * as Crypto from 'expo-crypto'
+var ab = new Uint32Array(32);
+Crypto.getRandomValues(ab)
+`)
+let ab = %raw(`ab`)
+Random.addEntropy(ab, 1024, "expo-crypto")
