@@ -7,7 +7,9 @@ let primaryColor = switch X.env {
 
 let flatten = StyleSheet.flatten
 
-let title = textStyle(~textAlign=#center, ~fontSize=20.0, ~color=Color.black, ())
+let title = textStyle(
+  ~fontFamily="Inter",
+  ~textAlign=#center, ~fontSize=20.0, ~color=Color.black, ())
 
 let marginX = viewStyle(~marginLeft=15.0->dp, ~marginRight=15.0->dp, ())
 
@@ -22,6 +24,7 @@ let widthPct = size => {
 let modal = textStyle(~padding=10.0->dp, ~margin=10.0->dp, ~backgroundColor=Color.white, ())
 
 let section = textStyle(
+  ~fontFamily="Inter",
   ~fontSize=20.0,
   ~marginTop=15.0->dp,
   ~marginBottom=15.0->dp,
@@ -105,11 +108,13 @@ module Button = {
       ~width=300.0->dp,
       ~marginTop=25.0->dp,
       ~paddingVertical=5.0->dp,
-      ~borderRadius=15.0,
+      ~borderRadius=0.0,
       (),
     )
 
-    let defaultTitleStyle = textStyle(~fontSize=20.0, ~color=Color.white, ())
+    let defaultTitleStyle = textStyle(
+      ~fontFamily="Inter",
+      ~fontSize=20.0, ~color=Color.white, ())
 
     let style = switch style {
     | Some(style) => StyleSheet.flatten([defaultStyle, style])
