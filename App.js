@@ -1,6 +1,7 @@
 import { make as App } from "./src/App.bs.js"
 import 'react-native-get-random-values'
 import './i18n'
+import AppLoading from 'expo-app-loading';
 import {
   useFonts,
   Inter_400Regular,
@@ -13,5 +14,9 @@ export default () => {
     Inter_700Bold
   });
 
-  return <App />;
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  } else {
+    return <App />;
+  }
 }

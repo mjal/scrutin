@@ -59,6 +59,8 @@ module Mode = {
 module Random = {
   @module("sjcl-with-all") @scope("random") @val
   external randomWords: int => BitArray.t = "randomWords"
+  @module("sjcl-with-all") @scope("random") @val
+  external addEntropy: ('a, int, string) => () = "addEntropy"
 }
 
 module Ecc = {
