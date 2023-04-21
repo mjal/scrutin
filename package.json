@@ -43,7 +43,8 @@
     "rescript-react-native": "^0.70.0",
     "rescript-react-native-async-storage": "git+https://github.com/scrutin-app/rescript-react-native-async-storage",
     "rescript-webapi": "^0.7.0",
-    "sjcl-with-all": "^1.0.8"
+    "sjcl-with-all": "^1.0.8",
+    "expo-crypto": "~12.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

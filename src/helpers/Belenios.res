@@ -1,8 +1,8 @@
 module Credentials = {
-  @module("./belenios") @scope("belenios") @val
+  @module("./belenios") @val
   external create: (string, int) => (array<string>, array<string>) = "makeCredentials"
 
-  @module("./belenios") @scope("belenios") @val
+  @module("./belenios") @val
   external derive: (~uuid: string, ~privateCredential: string) => string = "derive"
 
   type t = array<string>
@@ -20,7 +20,7 @@ module Trustees = {
 
   type t
 
-  @module("./belenios") @scope("belenios") @val
+  @module("./belenios") @val
   external create: unit => (Privkey.t, t) = "genTrustee"
 
   let pubkey: t => string = %raw(`
@@ -86,21 +86,23 @@ module Election = {
   external parse: string => t = "JSON.parse"
   external stringify: t => string = "JSON.stringify"
 
-  @module("./belenios") @scope("belenios") @val
+  @module("./belenios") @val
   external _create: (
     ~name: string,
     ~description: string,
     ~choices: array<string>,
     ~trustees: Trustees.t,
   ) => string = "makeElection"
-  @module("./belenios") @scope("belenios") @val
+
+  @module("./belenios") @val
   external _vote: (
     string,
     ~cred: string,
     ~selections: array<array<int>>,
     ~trustees: Trustees.t,
   ) => Ballot.t = "encryptBallot"
-  @module("./belenios") @scope("belenios") @val
+
+  @module("./belenios") @val
   external _decrypt: (
     string,
     array<Ballot.t>,
@@ -108,7 +110,8 @@ module Election = {
     array<string>,
     Trustees.Privkey.t,
   ) => (PartialDecryption.t1, PartialDecryption.t2) = "decrypt"
-  @module("./belenios") @scope("belenios") @val
+
+  @module("./belenios") @val
   external _result: (
     string,
     array<Ballot.t>,
