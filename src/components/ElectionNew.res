@@ -8,6 +8,12 @@ let make = () => {
   let (choices, setChoices) = React.useState(_ => ["", ""])
 
   let electionCreate = _ => {
+    let choices = Array.mapWithIndex(choices, (i, choice) => {
+      switch choice {
+      | "" => "Choice " ++ Int.toString(i+1)
+      | _  => choice
+      }
+    })
     Core.Election.create(~name, ~desc, ~choices)(state, dispatch)
   }
 
