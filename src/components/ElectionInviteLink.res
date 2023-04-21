@@ -30,7 +30,7 @@ let make = (~election: Election.t, ~electionId) => {
   <>
     <ElectionHeader election section=#inviteLink />
     <View style={Style.viewStyle(~margin=30.0->Style.dp, ())}>
-      <S.TextInput label="" onChangeText={_ => ()} testID="" value=inviteUrl />
+      <S.TextInput onChangeText={_ => ()} value=inviteUrl />
     </View>
     <CopyButton text=inviteUrl />
     <S.Button

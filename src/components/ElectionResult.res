@@ -58,7 +58,7 @@ let make = (~election: Election.t, ~electionId) => {
       </S.Row>
     </View>
     <View style={Style.viewStyle(~margin=30.0->Style.dp, ())}>
-      <S.TextInput label="" onChangeText={_ => ()} testID="" value=electionUrl />
+      <S.TextInput onChangeText={_ => ()} value=electionUrl />
     </View>
     <CopyButton text=electionUrl />
   </>
