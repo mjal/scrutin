@@ -32,8 +32,8 @@ let make = () => {
     <Logo />
     <S.Button
       title={t(. "home.create")}
-      style=Style.viewStyle(~width=450.0->Style.dp, ~paddingVertical=10.0->Style.dp, ())
-      titleStyle=Style.textStyle(~fontSize=30.0, ())
+      style=Style.viewStyle(~width=450.0->Style.dp, ~paddingVertical=12.0->Style.dp, ())
+      titleStyle=Style.textStyle(~fontSize=25.0, ())
       onPress={_ => dispatch(Navigate(list{"elections", "new"}))}
     />
     // NOTE: Keep on web version later
