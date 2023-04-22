@@ -51,7 +51,10 @@ let make = (~election: Election.t, ~electionId) => {
       <View style={Style.viewStyle(~position=#absolute, ~right=30.0->Style.dp, ())}>
         <Text
           style={Style.textStyle(
-            ~width=80.0->Style.dp,
+            ~width=switch ReactNative.Platform.os {
+            | #web => 80.0->Style.dp
+            | _ => 120.0->Style.dp
+            },
             ~backgroundColor=S.primaryColor,
             ~color=Color.white,
             ~paddingBottom=5.0->Style.dp,
@@ -62,6 +65,12 @@ let make = (~election: Election.t, ~electionId) => {
         </Text>
       </View>
     </View>
+
+    { switch ReactNative.Platform.os {
+    | #web => <></>
+    | _ => <View style={Style.viewStyle(~height=30.0->Style.dp, ())} />
+    } }
+
     {switch election.result {
     | Some(_) =>
       <S.Button

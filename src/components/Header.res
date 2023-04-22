@@ -3,16 +3,7 @@ let make = (~title="", ~subtitle="", ~titleTextStyle=?, ~subtitleTextStyle=?) =>
   let (state, dispatch) = StateContext.use()
 
   let titleTextStyle = StyleSheet.flatten([
-    Style.textStyle(
-      ~alignSelf=#center,
-      ~fontFamily="Inter_700Bold",
-      ~fontWeight=Style.FontWeight._900,
-      ~marginTop=45.0->Style.dp,
-      ~fontSize=28.0,
-      ~lineHeight=24.0,
-      ~color=S.primaryColor,
-      (),
-    ),
+    S.headerTitle,
     Option.getWithDefault(titleTextStyle, Style.textStyle()),
   ])
 

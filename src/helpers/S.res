@@ -4,12 +4,36 @@ let primaryColor = switch X.env {
 | #dev => Color.rgb(~r=255, ~g=128, ~b=128)
 | #prod => Color.rgb(~r=103, ~g=80, ~b=164)
 }
+let primaryColor = Color.rgb(~r=103, ~g=80, ~b=164)
 
 let flatten = StyleSheet.flatten
 
 let title = textStyle(
   ~fontFamily="Inter_400Regular",
   ~textAlign=#center, ~fontSize=20.0, ~color=Color.black, ())
+
+let headerTitle = switch ReactNative.Platform.os {
+| #web =>
+  textStyle(
+    ~alignSelf=#center,
+    ~fontFamily="Inter_700Bold",
+    ~fontWeight=FontWeight._900,
+    ~marginTop=45.0->dp,
+    ~fontSize=28.0,
+    ~lineHeight=24.0,
+    ~color=primaryColor,
+    ())
+| _ =>
+  textStyle(
+    ~alignSelf=#center,
+    ~fontFamily="Inter_700Bold",
+    ~fontWeight=FontWeight._300,
+    ~marginTop=20.0->dp,
+    ~fontSize=20.0,
+    ~color=primaryColor,
+    ())
+}
+
 
 let marginX = viewStyle(~marginLeft=15.0->dp, ~marginRight=15.0->dp, ())
 
@@ -135,6 +159,7 @@ module TextInput = {
     let style = viewStyle(
       ~marginHorizontal=25.0->dp,
       ~backgroundColor=Color.white,
+      ~borderWidth=1.0,
       ~shadowRadius=2.0,
       (),
     )
