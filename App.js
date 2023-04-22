@@ -10,7 +10,6 @@ import {
   Inter_700Bold,
 } from '@expo-google-fonts/inter';
 
-// Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
 export default () => {
@@ -19,11 +18,7 @@ export default () => {
     Inter_700Bold
   });
 
-  const onLayoutRootView = useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
+  SplashScreen.hideAsync();
 
   if (!fontsLoaded) {
     return <Text>Loading</Text>;
