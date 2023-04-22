@@ -84,6 +84,8 @@ let reducer = (state: State.t, action: StateMsg.t) => {
   | Navigate_About =>
     if ReactNative.Platform.os == #web {
       let () = %raw(`window.location = "https://scrutin.app"`)
+    } else {
+      Linking.openURL("https://www.scrutin.app") -> ignore
     }
     (state, [])
   }

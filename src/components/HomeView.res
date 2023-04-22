@@ -42,7 +42,7 @@ let make = () => {
     //</Button>
     <View style=Style.viewStyle(~height=50.0->Style.dp,()) />
     <View>
-      <View style=Style.viewStyle(~width=214.0, ~height=414.0->Style.dp,())>
+      <View style=Style.viewStyle(~height=414.0->Style.dp,())>
         <HomeBackground />
       </View>
       <TouchableOpacity style=styles["aboutView"]
