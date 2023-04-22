@@ -29,9 +29,11 @@
     "@ryyppy/rescript-promise": "^2.1.0",
     "expo": "~48.0.11",
     "expo-app-loading": "^2.1.1",
+    "expo-crypto": "~12.2.1",
     "expo-status-bar": "~1.4.4",
     "i18next": "^22.4.14",
     "i18next-browser-languagedetector": "^7.0.1",
+    "intl-pluralrules": "^2.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-i18next": "^12.2.0",
@@ -43,8 +45,7 @@
     "rescript-react-native": "^0.70.0",
     "rescript-react-native-async-storage": "git+https://github.com/scrutin-app/rescript-react-native-async-storage",
     "rescript-webapi": "^0.7.0",
-    "sjcl-with-all": "^1.0.8",
-    "expo-crypto": "~12.2.1"
+    "sjcl-with-all": "^1.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
