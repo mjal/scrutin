@@ -36,23 +36,28 @@ let make = () => {
       titleStyle=Style.textStyle(~fontSize=18.0, ())
       onPress={_ => dispatch(Navigate(list{"elections", "new"}))}
     />
-    // NOTE: Keep on web version later
-    //<Button mode=#text onPress={_ => dispatch(Navigate(list{"elections", "search"}))}>
-    //  {t(. "home.search")->React.string}
-    //</Button>
-    <View style=Style.viewStyle(~height=50.0->Style.dp,()) />
-    <View>
-      <View style=Style.viewStyle(~height=414.0->Style.dp,())>
-        <HomeBackground />
+    { switch ReactNative.Platform.os {
+    | #web =>
+      <Button mode=#text onPress={_ => dispatch(Navigate(list{"elections", "search"}))}>
+        {t(. "home.search")->React.string}
+      </Button>
+    | _ =>
+    <>
+      <View style=Style.viewStyle(~height=50.0->Style.dp,()) />
+      <View>
+        <View>// style=Style.viewStyle(~height=414.0->Style.dp,())>
+          <HomeBackground />
+        </View>
+        <TouchableOpacity style=styles["aboutView"]
+          onPress={_ => dispatch(StateMsg.Navigate_About)} >
+          <SIcon.ButtonAbout />// style=styles["aboutButton"] />
+        </TouchableOpacity>
+        <TouchableOpacity style=styles["searchView"]
+          onPress={_ => dispatch(Navigate(list{"elections", "search"}))}>
+          <SIcon.ButtonSearch />// style=styles["searchButton"] />
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style=styles["aboutView"]
-        onPress={_ => dispatch(StateMsg.Navigate_About)} >
-        <SIcon.ButtonAbout />// style=styles["aboutButton"] />
-      </TouchableOpacity>
-      <TouchableOpacity style=styles["searchView"]
-        onPress={_ => dispatch(Navigate(list{"elections", "search"}))}>
-        <SIcon.ButtonSearch />// style=styles["searchButton"] />
-      </TouchableOpacity>
-    </View>
+    </>
+    } }
   </View>
 }

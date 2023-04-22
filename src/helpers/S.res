@@ -36,10 +36,6 @@ let layout = if ReactNative.Platform.os == #web && Dimension.width() > 800 {
   viewStyle(
     ~width=800.0->dp,
     ~alignSelf=#center,
-    ~borderColor=primaryColor,
-    ~borderWidth=3.0,
-    //~borderRadius=40.0,
-    ~minHeight=1180.0->dp,
     (),
   )
 } else {
