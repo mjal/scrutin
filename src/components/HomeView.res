@@ -32,8 +32,8 @@ let make = () => {
     <Logo />
     <S.Button
       title={t(. "home.create")}
-      style=Style.viewStyle(~width=450.0->Style.dp, ~paddingVertical=12.0->Style.dp, ())
-      titleStyle=Style.textStyle(~fontSize=25.0, ())
+      style=Style.viewStyle(~width=300.0->Style.dp, ~paddingVertical=12.0->Style.dp, ())
+      titleStyle=Style.textStyle(~fontSize=18.0, ())
       onPress={_ => dispatch(Navigate(list{"elections", "new"}))}
     />
     // NOTE: Keep on web version later
@@ -45,11 +45,11 @@ let make = () => {
       <HomeBackground />
       <TouchableOpacity style=styles["aboutView"]
         onPress={_ => dispatch(StateMsg.Navigate_About)} >
-        <IconButtonAbout style=styles["aboutButton"] />
+        <SIcon.ButtonAbout />// style=styles["aboutButton"] />
       </TouchableOpacity>
       <TouchableOpacity style=styles["searchView"]
         onPress={_ => dispatch(Navigate(list{"elections", "search"}))}>
-        <IconButtonSearch style=styles["searchButton"] />
+        <SIcon.ButtonSearch />// style=styles["searchButton"] />
       </TouchableOpacity>
     </View>
   </View>

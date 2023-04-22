@@ -41,7 +41,7 @@ let make = () => {
       </S.Col>
       <S.Col>
         <Button onPress=onSearch>
-          <IconButtonSearch />
+          <SIcon.ButtonSearch />
         </Button>
       </S.Col>
     </S.Row>

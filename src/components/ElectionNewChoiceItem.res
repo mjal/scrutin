@@ -8,7 +8,7 @@ let make = (~onRemove, ~onUpdate, ~name, ~index) => {
     </S.Col>
     <S.Col>
       <TouchableOpacity onPress=onRemove>
-        <IconButtonCross />
+        <SIcon.ButtonCross />
       </TouchableOpacity>
     </S.Col>
   </S.Row>

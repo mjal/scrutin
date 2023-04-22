@@ -27,7 +27,7 @@ let make = (~title="", ~subtitle="", ~titleTextStyle=?, ~subtitleTextStyle=?) =>
     <TouchableOpacity
       style={Style.viewStyle(~marginTop=40.0->Style.dp, ~marginLeft=40.0->Style.dp, ())}
       onPress={_ => dispatch(StateMsg.Navigate_Back)}>
-      <IconButtonBack />
+      <SIcon.ButtonBack />
     </TouchableOpacity>
   }
 

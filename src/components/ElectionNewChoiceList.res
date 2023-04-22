@@ -27,7 +27,7 @@ let make = (~choices, ~setChoices) => {
     })->React.array}
     <TouchableOpacity
       onPress={_ => setChoices(choices => Array.concat(choices, [""]))}>
-      <IconButtonPlus />
+      <SIcon.ButtonPlus />
     </TouchableOpacity>
   </View>
 }
