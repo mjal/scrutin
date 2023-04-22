@@ -42,7 +42,9 @@ let make = () => {
     //</Button>
     <View style=Style.viewStyle(~height=50.0->Style.dp,()) />
     <View>
-      <HomeBackground />
+      <View style=Style.viewStyle(~width=214.0, ~height=414.0->Style.dp,())>
+        <HomeBackground />
+      </View>
       <TouchableOpacity style=styles["aboutView"]
         onPress={_ => dispatch(StateMsg.Navigate_About)} >
         <SIcon.ButtonAbout />// style=styles["aboutButton"] />
