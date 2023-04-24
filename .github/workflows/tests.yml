@@ -30,7 +30,7 @@ jobs:
         uses: cypress-io/github-action@v5
         with:
           install: false
-          start: npm run web
+          start: npm run bbs, npm run web
           wait-on: 'npx wait-on --timeout 60000 http://localhost:19006'
           # Records to Cypress Cloud
           # https://docs.cypress.io/guides/cloud/projects#Set-up-a-project-to-record

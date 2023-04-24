@@ -15,20 +15,16 @@ web-build/
 .DS_Store
 
 # local .env
-app/.env
-server/.env
+.env
 
 # rescript build artefacts
-app/lib/bs/*
-server/lib/bs/*
-common/lib/bs/*
-common/lib/ocaml/*
 lib/bs/*
 .merlin
-
 *.bs.js
 
 # cypress artefacts
 cypress/screenshots/
 cypress/videos/
 cypress/fixtures/
+
+bbs/db.sqlite3
