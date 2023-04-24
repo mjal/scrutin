@@ -13,7 +13,7 @@ A mobile app for secure voting using the Helios protocol and INRIA’s [Belenios
 
 ```
 npm install
-npx pod-install # only useful for iOS
+npx pod-install # for iOS
 npm run re:start # or use the VSCode plugin
 npm start
 ```
