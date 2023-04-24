@@ -35,6 +35,7 @@ let make = (~election: Election.t, ~electionId) => {
           let color = Option.getWithDefault(colors[i], Color.rgb(~r=128, ~g=128, ~b=128))
           let ratio = Int.toFloat(value) /. Int.toFloat(maxValue)
           let ratio = Js.Float.isNaN(ratio) ? 0.0 : ratio
+          let ratio = Js.Math.max_float(ratio, 0.05)
           let choiceName = choices[i]->Option.getExn
           <S.Col key={i->Int.toString}>
             <ReactNativeSvg.Svg
