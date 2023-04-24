@@ -1,5 +1,5 @@
 type t = {
-  hexPublicKey: string,
+  publicKey: string,
   email: option<string>,
   phoneNumber: option<string>,
 }
@@ -11,7 +11,7 @@ external parse_array: string => array<t> = "JSON.parse"
 external stringify_array: array<t> => string = "JSON.stringify"
 
 // == Storage
-let storageKey = "contacts"
+let storageKey = "invitations"
 let loadAll = () =>
   ReactNativeAsyncStorage.getItem(storageKey)
   ->Promise.thenResolve(Js.Null.toOption)

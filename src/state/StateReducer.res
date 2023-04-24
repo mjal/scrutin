@@ -6,7 +6,7 @@ let reducer = (state: State.t, action: StateMsg.t) => {
       [
         StateEffect.loadIdentities,
         StateEffect.loadTrustees,
-        StateEffect.loadContacts,
+        StateEffect.loadInvitations,
         StateEffect.fetchEvents,
         StateEffect.goToUrl,
       ],
@@ -30,13 +30,13 @@ let reducer = (state: State.t, action: StateMsg.t) => {
     let trustees = Array.concat(state.trustees, [trustee])
     ({...state, trustees}, [StateEffect.storeTrustees(trustees)])
 
-  | Contact_Add(contact) =>
-    let contacts = Array.concat(state.contacts, [contact])
-    ({...state, contacts}, [StateEffect.storeContacts(contacts)])
+  | Invitation_Add(invitation) =>
+    let invitations = Array.concat(state.invitations, [invitation])
+    ({...state, invitations}, [StateEffect.storeInvitations(invitations)])
 
-  | Contact_Remove(index) =>
-    let contacts = Array.keepWithIndex(state.contacts, (_, i) => i != index)
-    ({...state, contacts}, [StateEffect.storeContacts(contacts)])
+  | Invitation_Remove(index) =>
+    let invitations = Array.keepWithIndex(state.invitations, (_, i) => i != index)
+    ({...state, invitations}, [StateEffect.storeInvitations(invitations)])
 
   | Cache_Election_Add(cid, election) =>
     let elections = Map.String.set(state.elections, cid, election)

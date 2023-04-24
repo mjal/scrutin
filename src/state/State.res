@@ -13,7 +13,7 @@ type t = {
   // See [[Trustee]]
   trustees: array<Trustee.t>,
   // Contacts, to keep track on who is associated with which public key
-  contacts: array<Contact.t>,
+  invitations: array<Invitation.t>,
   // The current route (still waiting for a decent rescript router
   // that works on web and native)
   route: list<string>,
@@ -33,7 +33,7 @@ let initial = {
   fetchingEvents: true,
   ids: [],
   trustees: [],
-  contacts: [],
+  invitations: [],
   elections: Map.String.empty,
   electionNextIds: Map.String.empty,
   ballots: Map.String.empty,

@@ -10,13 +10,13 @@ let make = (~election: Election.t, ~electionId) => {
     Array.forEach(emails, email => {
       let voterId = Account.make()
 
-      let contact: Contact.t = {
-        hexPublicKey: voterId.hexPublicKey,
+      let invitation: Invitation.t = {
+        publicKey: voterId.hexPublicKey,
         email: Some(email),
         phoneNumber: None,
       }
 
-      dispatch(Contact_Add(contact))
+      dispatch(Invitation_Add(invitation))
 
       let ballot: Ballot.t = {
         electionId,
@@ -74,8 +74,5 @@ let make = (~election: Election.t, ~electionId) => {
       right={_ => <Switch value=sendInvite />}
     />
     <S.Button onPress=onSubmit title="Inviter" />
-    <Button mode=#text onPress={_ => dispatch(Navigate(list{"elections"}))}>
-      {"Gérer les invitations"->React.string}
-    </Button>
   </>
 }

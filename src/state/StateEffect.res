@@ -16,7 +16,8 @@ let cacheUpdate = (ev: Event_.t, dispatch) => {
 let storeIdentities = (ids, _dispatch) => Account.store_all(ids)
 let storeEvents = (evs, _dispatch) => Event_.store_all(evs)
 let storeTrustees = (trustees, _dispatch) => Trustee.store_all(trustees)
-let storeContacts = (contacts, _dispatch) => Contact.store_all(contacts)
+let storeInvitations = (invitations, _dispatch) =>
+  Invitation.store_all(invitations)
 let storeLanguage = (language, _dispatch) =>
   ReactNativeAsyncStorage.setItem("config.language", language)->ignore
 
@@ -47,10 +48,10 @@ let loadTrustees = dispatch => {
   ->ignore
 }
 
-let loadContacts = dispatch => {
-  Contact.loadAll()
+let loadInvitations = dispatch => {
+  Invitation.loadAll()
   ->Promise.thenResolve(os => {
-    Array.map(os, o => dispatch(StateMsg.Contact_Add(o)))
+    Array.map(os, o => dispatch(StateMsg.Invitation_Add(o)))
   })
   ->ignore
 }

@@ -6,8 +6,8 @@ let make = () => {
   <>
     <S.Title> {t(. "contact.title")->React.string} </S.Title>
     <List.Section title="" style=S.marginX>
-      {Array.mapWithIndex(state.contacts, (i, contact) => {
-        <Card key=contact.hexPublicKey>
+      {Array.mapWithIndex(state.invitations, (i, contact) => {
+        <Card key=contact.publicKey>
           <Card.Content>
             <List.Item
               title={t(. "contact.item.email")}
@@ -17,10 +17,10 @@ let make = () => {
               title={t(. "contact.item.phoneNumber")}
               description={Option.getWithDefault(contact.phoneNumber, "")}
             />
-            <List.Item title={"0x" ++ contact.hexPublicKey} />
+            <List.Item title={"0x" ++ contact.publicKey} />
           </Card.Content>
           <Card.Actions>
-            <Button mode=#contained onPress={_ => dispatch(Contact_Remove(i))}>
+            <Button mode=#contained onPress={_ => dispatch(Invitation_Remove(i))}>
               {t(. "contact.delete")->React.string}
             </Button>
           </Card.Actions>
@@ -30,7 +30,7 @@ let make = () => {
     <Button
       mode=#outlined
       onPress={_ => {
-        Contact.clear()
+        Invitation.clear()
         dispatch(Reset)
       }}>
       {t(. "contact.clearAll")->React.string}
