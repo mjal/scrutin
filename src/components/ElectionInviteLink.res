@@ -6,23 +6,15 @@ let make = (~election: Election.t, ~electionId) => {
   let orgId = State.getAccountExn(state, election.ownerPublicKey)
 
   React.useEffect0(() => {
-    // Create a new account
     let voterId = Account.make()
+    let invitation: Invitation.t = { publicKey: voterId.hexPublicKey }
+    dispatch(Invitation_Add(invitation))
 
-    let ballot: Ballot.t = {
-      electionId,
-      previousId: None,
-      ciphertext: None,
-      pubcred: None,
-      electionPublicKey: election.ownerPublicKey,
-      voterPublicKey: voterId.hexPublicKey,
-    }
-
+    let ballot = Ballot.new(election, electionId, voterId.hexPublicKey)
     let ev = Event_.SignedBallot.create(ballot, orgId)
     dispatch(Event_Add_With_Broadcast(ev))
 
     let secretKey = voterId.hexSecretKey
-
     setInviteUrl(_ => `${URL.base_url}/ballots/${ev.cid}#${secretKey}`)
     None
   })

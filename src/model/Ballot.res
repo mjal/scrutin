@@ -10,6 +10,17 @@ type t = {
 external parse: string => t = "JSON.parse"
 external stringify: t => string = "JSON.stringify"
 
+let new = (election:Election.t, electionId, voterPublicKey) => {
+  {
+    electionId,
+    previousId: None,
+    ciphertext: None,
+    pubcred: None,
+    electionPublicKey: election.ownerPublicKey,
+    voterPublicKey
+  }
+}
+
 let make = (ballot, previousId, election: Election.t, selection: array<int>) => {
   let trustees = Belenios.Trustees.of_str(election.trustees)
   let params = Belenios.Election.parse(election.params)

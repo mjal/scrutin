@@ -9,24 +9,13 @@ let make = (~election: Election.t, ~electionId) => {
   let onSubmit = _ => {
     Array.forEach(emails, email => {
       let voterId = Account.make()
-
       let invitation: Invitation.t = {
         publicKey: voterId.hexPublicKey,
-        email: Some(email),
-        phoneNumber: None,
+        email
       }
-
       dispatch(Invitation_Add(invitation))
 
-      let ballot: Ballot.t = {
-        electionId,
-        previousId: None,
-        ciphertext: None,
-        pubcred: None,
-        electionPublicKey: election.ownerPublicKey,
-        voterPublicKey: voterId.hexPublicKey,
-      }
-
+      let ballot = Ballot.new(election, electionId, voterId.hexPublicKey)
       let ev = Event_.SignedBallot.create(ballot, orgId)
       dispatch(Event_Add_With_Broadcast(ev))
 

@@ -1,7 +1,7 @@
 type t = {
   publicKey: string,
-  email: option<string>,
-  phoneNumber: option<string>,
+  email?: string,
+  phoneNumber?: string
 }
 
 // == Serialization
