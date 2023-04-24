@@ -4,24 +4,24 @@ let make = () => {
   let {t} = ReactI18next.useTranslation()
 
   <>
-    <S.Title> {t(. "contact.title")->React.string} </S.Title>
+    <S.Title> {t(. "invitation.title")->React.string} </S.Title>
     <List.Section title="" style=S.marginX>
-      {Array.mapWithIndex(state.invitations, (i, contact) => {
-        <Card key=contact.publicKey>
+      {Array.mapWithIndex(state.invitations, (i, invitation) => {
+        <Card key=invitation.publicKey>
           <Card.Content>
             <List.Item
-              title={t(. "contact.item.email")}
-              description={Option.getWithDefault(contact.email, "")}
+              title={t(. "invitation.item.email")}
+              description={Option.getWithDefault(invitation.email, "")}
             />
             <List.Item
-              title={t(. "contact.item.phoneNumber")}
-              description={Option.getWithDefault(contact.phoneNumber, "")}
+              title={t(. "invitation.item.phoneNumber")}
+              description={Option.getWithDefault(invitation.phoneNumber, "")}
             />
-            <List.Item title={"0x" ++ contact.publicKey} />
+            <List.Item title={"0x" ++ invitation.publicKey} />
           </Card.Content>
           <Card.Actions>
             <Button mode=#contained onPress={_ => dispatch(Invitation_Remove(i))}>
-              {t(. "contact.delete")->React.string}
+              {t(. "invitation.delete")->React.string}
             </Button>
           </Card.Actions>
         </Card>
@@ -33,7 +33,7 @@ let make = () => {
         Invitation.clear()
         dispatch(Reset)
       }}>
-      {t(. "contact.clearAll")->React.string}
+      {t(. "invitation.clearAll")->React.string}
     </Button>
     <S.Title> {"-"->React.string} </S.Title>
   </>

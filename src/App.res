@@ -47,6 +47,12 @@ let make = () => {
       | Some(election) => <ElectionInviteEmail election electionId />
       }
 
+    | list{"elections", electionId, "invite_manage"} =>
+      switch State.getElection(state, electionId) {
+      | None => <NotFoundYet />
+      | Some(election) => <ElectionInviteManage election electionId />
+      }
+
     | list{"elections", electionId, "result"} =>
       switch State.getElection(state, electionId) {
       | None => <NotFoundYet />

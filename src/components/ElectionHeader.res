@@ -17,6 +17,7 @@ let make = (~election: Election.t, ~section=#index) => {
   | #invite => "Ajouter des votants"
   | #inviteLink => "Invitation par lien"
   | #inviteMail => "Invitation mail"
+  | #inviteManage => "Manage invitations"
   | #result => "Résultats"
   }
 
