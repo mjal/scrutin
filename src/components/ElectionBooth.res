@@ -45,14 +45,20 @@ let make = (~ballot: Ballot.t, ~ballotId) => {
             />
           })->React.array}
         </View>
-        <S.Button
-          title="Voter"
-          onPress={_ => {
-            let nbChoices = Array.length(Election.choices(election))
-            Core.Ballot.vote(~ballot, ~previousId=ballotId, ~choice, ~nbChoices)(state, dispatch)
-            setVoteAgain(_ => false)
-          }}
-        />
+        { switch State.getAccount(state, ballot.voterPublicKey) {
+        | Some(_id) => <S.Button
+            title="Voter"
+            onPress={_ => {
+              let nbChoices = Array.length(Election.choices(election))
+              Core.Ballot.vote(~ballot, ~previousId=ballotId, ~choice, ~nbChoices)(state, dispatch)
+              setVoteAgain(_ => false)
+            }}
+          />
+        | None =>
+          <Text style={S.flatten([S.title, Style.viewStyle(~margin=30.0->Style.dp, ())])}>
+            {"Invitation invalide"->React.string}
+          </Text>
+        } }
       </>
     | (Some(_ballot), false) =>
       <>
