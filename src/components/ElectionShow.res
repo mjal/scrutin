@@ -8,7 +8,7 @@ let make = (~election: Election.t, ~electionId) => {
     ->Array.keep((ballot) => ballot.electionId == electionId)
     ->Array.keep((ballot) =>
       Array.some(state.accounts, id => {
-        id.hexPublicKey == ballot.voterId
+        id.userId == ballot.voterId
       })
     )
 
@@ -80,7 +80,7 @@ let make = (~election: Election.t, ~electionId) => {
       />
     | None =>
       switch Array.getBy(state.accounts, (account) => {
-        Array.getBy(election.adminIds, userId => userId == account.hexPublicKey)->Option.isSome
+        Array.getBy(election.adminIds, userId => userId == account.userId)->Option.isSome
       }) {
       | None => <> </>
       | Some(_adminAccount) =>

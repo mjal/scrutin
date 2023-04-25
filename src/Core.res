@@ -36,7 +36,7 @@ module Election = {
 
       let election : Election.t = {
         originId: None,
-        adminIds: [admin.hexPublicKey],
+        adminIds: [admin.userId],
         voterIds: [],
         params,
         trustees: Belenios.Trustees.to_str(trustees),
@@ -106,7 +106,7 @@ module Election = {
 
       // Lookup for the admin identity
       let admin = Array.getBy(state.accounts, (account) => {
-        Array.getBy(election.adminIds, (userId) => userId == account.hexPublicKey)
+        Array.getBy(election.adminIds, (userId) => userId == account.userId)
         -> Option.isSome
       }) -> Option.getExn
 
@@ -145,7 +145,7 @@ module Ballot = {
       let ballot = Ballot.make(
         ~election,
         ~electionId,
-        ~voterId=voter.hexPublicKey,
+        ~voterId=voter.userId,
         ~selection
       )
 

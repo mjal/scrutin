@@ -8,16 +8,16 @@ let make = (~election: Election.t, ~electionId) => {
 
   React.useEffect0(() => {
     let voterAccount = Account.make()
-    let invitation: Invitation.t = { publicKey: voterAccount.hexPublicKey }
+    let invitation: Invitation.t = { publicKey: voterAccount.userId }
     dispatch(Invitation_Add(invitation))
 
     let election = {...election,
-      voterIds: Array.concat(election.voterIds, [voterAccount.hexPublicKey])
+      voterIds: Array.concat(election.voterIds, [voterAccount.userId])
     }
     let ev = Event_.SignedElection.update(election, admin)
     dispatch(Event_Add_With_Broadcast(ev))
 
-    let secretKey = voterAccount.hexSecretKey
+    let secretKey = voterAccount.secret
     setInviteUrl(_ => `${URL.base_url}/elections/${ev.cid}/booth#${secretKey}`)
     None
   })

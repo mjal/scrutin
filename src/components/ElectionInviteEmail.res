@@ -9,11 +9,11 @@ let make = (~election: Election.t, ~electionId) => {
   let onSubmit = _ => {
     Array.forEach(emails, email => {
       let voter = Account.make()
-      let invitation: Invitation.t = { publicKey: voter.hexPublicKey, email }
+      let invitation: Invitation.t = { publicKey: voter.userId, email }
       dispatch(Invitation_Add(invitation))
 
       let election = {...election,
-        voterIds: Array.concat(election.voterIds, [voter.hexPublicKey])
+        voterIds: Array.concat(election.voterIds, [voter.userId])
       }
       let ev = Event_.SignedElection.update(election, admin)
       dispatch(Event_Add_With_Broadcast(ev))

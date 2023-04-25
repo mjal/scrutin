@@ -28,7 +28,7 @@ let make = (~election: Election.t, ~electionId) => {
     <ElectionHeader election />
 
     { switch Array.getBy(state.accounts, (account) => {
-      Array.getBy(election.voterIds, userId => userId == account.hexPublicKey)->Option.isSome
+      Array.getBy(election.voterIds, userId => userId == account.userId)->Option.isSome
     }) {
     | None =>
       <Text style={S.flatten([S.title, Style.viewStyle(~margin=30.0->Style.dp, ())])}>
@@ -36,7 +36,7 @@ let make = (~election: Election.t, ~electionId) => {
       </Text>
     | Some(account) =>
       switch Array.getBy(state.ballots, (ballot) => {
-        ballot.electionId == electionId && ballot.voterId == account.hexPublicKey
+        ballot.electionId == electionId && ballot.voterId == account.userId
       }) {
       | None =>
         <>

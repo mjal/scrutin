@@ -42,7 +42,7 @@ module SignedElection = {
       content,
       type_,
       cid,
-      publicKey: owner.hexPublicKey,
+      publicKey: owner.userId,
       signature: Account.signHex(owner, cid),
     }
   }
@@ -67,7 +67,7 @@ module SignedBallot = {
       type_: #"ballot",
       content,
       cid,
-      publicKey: owner.hexPublicKey,
+      publicKey: owner.userId,
       signature: Account.signHex(owner, cid),
     }
   }

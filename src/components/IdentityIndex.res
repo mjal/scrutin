@@ -40,10 +40,10 @@ let make = () => {
     <S.Title> {t(. "identity.home.title")->React.string} </S.Title>
     <List.Section title="" style=S.marginX>
       {Array.map(state.accounts, id => {
-        <Card key=id.hexPublicKey>
+        <Card key=id.userId>
           <List.Item
-            title={"0x" ++ id.hexPublicKey}
-            onPress={_ => dispatch(Navigate(list{"identities", id.hexPublicKey}))}
+            title={"0x" ++ id.userId}
+            onPress={_ => dispatch(Navigate(list{"identities", id.userId}))}
           />
         </Card>
       })->React.array}
@@ -77,8 +77,8 @@ let make = () => {
     <Modal_Import
       visible=visibleImportModal
       setVisible=setVisibleImportModal
-      onImport={hexSecretKey => {
-        dispatch(Account_Add(Account.make2(~hexSecretKey)))
+      onImport={secret => {
+        dispatch(Account_Add(Account.make2(~secret)))
       }}
     />
   </>

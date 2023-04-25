@@ -4,10 +4,10 @@ let make = (~publicKey) => {
   let {t} = ReactI18next.useTranslation()
 
   let identity = Array.getBy(state.accounts, id => {
-    id.hexPublicKey == publicKey
+    id.userId == publicKey
   })
   let secretKey = switch identity {
-  | Some(identity) => identity.hexSecretKey
+  | Some(identity) => identity.secret
   | None => ""
   }
 
