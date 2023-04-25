@@ -8,7 +8,7 @@ type t = {
   fetchingEvents: bool,
   // The controlled identities (as voter or election organizer)
   // See [[Identity]]
-  ids: array<Account.t>,
+  accounts: array<Account.t>,
   // The controlled election private key (for tallying)
   // See [[Trustee]]
   trustees: array<Trustee.t>,
@@ -30,7 +30,7 @@ let initial = {
   route: list{""},
   events: [],
   fetchingEvents: true,
-  ids: [],
+  accounts: [],
   trustees: [],
   invitations: [],
   elections: Map.String.empty,
@@ -41,10 +41,11 @@ let initial = {
 //let getBallot = (state, id) => Map.String.get(state.ballots, id)
 //let getBallotExn = (state, id) => Map.String.getExn(state.ballots, id)
 
+// TODO: Remove
 let getElection = (state, id) => Map.String.get(state.elections, id)
 let getElectionExn = (state, id) => Map.String.getExn(state.elections, id)
 
-let getAccount = (state, publicKey) => Array.getBy(state.ids, id => publicKey == id.hexPublicKey)
+let getAccount = (state, publicKey) => Array.getBy(state.accounts, id => publicKey == id.hexPublicKey)
 let getAccountExn = (state, publicKey) => getAccount(state, publicKey)->Option.getExn
 
 let getInvitation = (state, publicKey) => Array.getBy(state.invitations, invitation => publicKey == invitation.publicKey)
@@ -59,7 +60,7 @@ let getElectionValidBallots = (state, electionId) => {
 }
 
 let getElectionAdmin = (state, election:Election.t) =>
-  Array.getBy(state.ids, (account) => {
+  Array.getBy(state.accounts, (account) => {
     Array.getBy(election.adminIds, (userId) => userId == account.hexPublicKey)
     -> Option.isSome
   }) -> Option.getExn

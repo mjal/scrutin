@@ -15,11 +15,11 @@ module Election = {
     (state: State.t, dispatch) => {
       // Select the first identity we own<br />
       // If we don't have any, create a new one
-      let admin = switch state.ids[0] {
+      let admin = switch state.accounts[0] {
       | Some(account) => account
       | None =>
         let account = Account.make()
-        dispatch(StateMsg.Identity_Add(account))
+        dispatch(StateMsg.Account_Add(account))
         account
       }
 
@@ -65,7 +65,7 @@ module Election = {
 
     (state: State.t, dispatch) => {
       // Get the election from cache
-      let election = State.getElectionExn(state, electionId)
+      let election = Map.String.getExn(state.elections, electionId)
 
       // Casting values (to remove)
       let params = Belenios.Election.parse(election.params)
@@ -105,7 +105,7 @@ module Election = {
 
 
       // Lookup for the admin identity
-      let admin = Array.getBy(state.ids, (account) => {
+      let admin = Array.getBy(state.accounts, (account) => {
         Array.getBy(election.adminIds, (userId) => userId == account.hexPublicKey)
         -> Option.isSome
       }) -> Option.getExn
@@ -136,7 +136,7 @@ module Ballot = {
   ) => {
     // ---
     (state: State.t, dispatch) => {
-      let election = State.getElectionExn(state, electionId)
+      let election = Map.String.getExn(state.elections, electionId)
       // Transform the choice index to an array of 0 and 1 for every options
       let selection =
         Array.make(nbChoices, 0)

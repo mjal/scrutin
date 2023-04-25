@@ -39,7 +39,7 @@ let make = () => {
   <>
     <S.Title> {t(. "identity.home.title")->React.string} </S.Title>
     <List.Section title="" style=S.marginX>
-      {Array.map(state.ids, id => {
+      {Array.map(state.accounts, id => {
         <Card key=id.hexPublicKey>
           <List.Item
             title={"0x" ++ id.hexPublicKey}
@@ -52,7 +52,7 @@ let make = () => {
     <Button
       mode=#contained
       onPress={_ => {
-        dispatch(Identity_Add(Account.make()))
+        dispatch(Account_Add(Account.make()))
       }}>
       {t(. "identity.home.generate")->React.string}
     </Button>
@@ -78,7 +78,7 @@ let make = () => {
       visible=visibleImportModal
       setVisible=setVisibleImportModal
       onImport={hexSecretKey => {
-        dispatch(Identity_Add(Account.make2(~hexSecretKey)))
+        dispatch(Account_Add(Account.make2(~hexSecretKey)))
       }}
     />
   </>

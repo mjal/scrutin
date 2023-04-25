@@ -27,7 +27,7 @@ let make = (~election: Election.t, ~electionId) => {
   <>
     <ElectionHeader election />
 
-    { switch Array.getBy(state.ids, (account) => {
+    { switch Array.getBy(state.accounts, (account) => {
       Array.getBy(election.voterIds, userId => userId == account.hexPublicKey)->Option.isSome
     }) {
     | None =>

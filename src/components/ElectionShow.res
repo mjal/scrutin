@@ -7,7 +7,7 @@ let make = (~election: Election.t, ~electionId) => {
     state.ballots
     ->Array.keep((ballot) => ballot.electionId == electionId)
     ->Array.keep((ballot) =>
-      Array.some(state.ids, id => {
+      Array.some(state.accounts, id => {
         id.hexPublicKey == ballot.voterId
       })
     )
@@ -79,7 +79,7 @@ let make = (~election: Election.t, ~electionId) => {
         onPress={_ => dispatch(Navigate(list{"elections", electionId, "result"}))}
       />
     | None =>
-      switch Array.getBy(state.ids, (account) => {
+      switch Array.getBy(state.accounts, (account) => {
         Array.getBy(election.adminIds, userId => userId == account.hexPublicKey)->Option.isSome
       }) {
       | None => <> </>

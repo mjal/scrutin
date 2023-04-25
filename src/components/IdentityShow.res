@@ -3,7 +3,7 @@ let make = (~publicKey) => {
   let (state, dispatch) = StateContext.use()
   let {t} = ReactI18next.useTranslation()
 
-  let identity = Array.getBy(state.ids, id => {
+  let identity = Array.getBy(state.accounts, id => {
     id.hexPublicKey == publicKey
   })
   let secretKey = switch identity {

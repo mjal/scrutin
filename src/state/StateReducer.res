@@ -4,7 +4,7 @@ let reducer = (state: State.t, action: StateMsg.t) => {
   | Reset => (
       State.initial,
       [
-        StateEffect.loadIdentities,
+        StateEffect.loadAccounts,
         StateEffect.loadTrustees,
         StateEffect.loadInvitations,
         StateEffect.fetchEvents,
@@ -14,9 +14,9 @@ let reducer = (state: State.t, action: StateMsg.t) => {
 
   | Fetching_Events_End => ({...state, fetchingEvents: false}, [])
 
-  | Identity_Add(id) =>
-    let ids = Array.concat(state.ids, [id])
-    ({...state, ids}, [StateEffect.storeIdentities(ids)])
+  | Account_Add(account) =>
+    let accounts = Array.concat(state.accounts, [account])
+    ({...state, accounts}, [StateEffect.storeAccounts(accounts)])
 
   | Event_Add(event) =>
     let events = Array.concat(state.events, [event])

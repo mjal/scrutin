@@ -3,7 +3,7 @@ type t =
   | Navigate(list<string>)
   | Navigate_Back
   | Navigate_About
-  | Identity_Add(Account.t)
+  | Account_Add(Account.t)
   | Event_Add(Event_.t)
   | Event_Add_With_Broadcast(Event_.t)
   | Trustee_Add(Trustee.t)

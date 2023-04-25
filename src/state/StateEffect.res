@@ -11,7 +11,7 @@ let cacheUpdate = (ev: Event_.t, dispatch) => {
 
 // ## LocalStorage - Store
 
-let storeIdentities = (ids, _dispatch) => Account.store_all(ids)
+let storeAccounts = (ids, _dispatch) => Account.store_all(ids)
 let storeEvents = (evs, _dispatch) => Event_.store_all(evs)
 let storeTrustees = (trustees, _dispatch) => Trustee.store_all(trustees)
 let storeInvitations = (invitations, _dispatch) =>
@@ -21,11 +21,11 @@ let storeLanguage = (language, _dispatch) =>
 
 // ## LocalStorage - Load
 
-let loadIdentities = dispatch => {
+let loadAccounts = dispatch => {
   Account.loadAll()
   ->Promise.thenResolve(ids => {
-    Array.map(ids, id => dispatch(StateMsg.Identity_Add(id)))
-    // FIX: Identity_Add call storeIdentities as an effect...
+    Array.map(ids, id => dispatch(StateMsg.Account_Add(id)))
+    // FIX: Account_Add call storeAccount as an effect...
   })
   ->ignore
 }
@@ -69,7 +69,7 @@ let loadLanguage = ((), _dispatch) =>
 
 // ## LocalStorage - Clear
 
-let clearIdentities = _dispatch => Account.clear()
+let clearAccounts = _dispatch => Account.clear()
 let clearEvents = _dispatch => Event_.clear()
 let clearTrustees = _dispatch => Trustee.clear()
 
@@ -108,7 +108,7 @@ let goToUrl = dispatch => {
     let url = RescriptReactRouter.dangerouslyGetInitialUrl()
     if String.length(url.hash) > 12 {
       let hexSecretKey = url.hash
-      dispatch(StateMsg.Identity_Add(Account.make2(~hexSecretKey)))
+      dispatch(StateMsg.Account_Add(Account.make2(~hexSecretKey)))
     }
     dispatch(Navigate(url.path))
   }

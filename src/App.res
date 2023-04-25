@@ -24,43 +24,43 @@ let make = () => {
     | list{"elections", "new"} => <ElectionNew />
 
     | list{"elections", electionId} =>
-      switch State.getElection(state, electionId) {
+      switch Map.String.get(state.elections, electionId) {
       | None => <NotFoundYet />
       | Some(election) => <ElectionShow election electionId />
       }
 
     | list{"elections", electionId, "invite"} =>
-      switch State.getElection(state, electionId) {
+      switch Map.String.get(state.elections, electionId) {
       | None => <NotFoundYet />
       | Some(election) => <ElectionInvite election electionId />
       }
 
     | list{"elections", electionId, "invite_link"} =>
-      switch State.getElection(state, electionId) {
+      switch Map.String.get(state.elections, electionId) {
       | None => <NotFoundYet />
       | Some(election) => <ElectionInviteLink election electionId />
       }
 
     | list{"elections", electionId, "invite_email"} =>
-      switch State.getElection(state, electionId) {
+      switch Map.String.get(state.elections, electionId) {
       | None => <NotFoundYet />
       | Some(election) => <ElectionInviteEmail election electionId />
       }
 
     | list{"elections", electionId, "invite_manage"} =>
-      switch State.getElection(state, electionId) {
+      switch Map.String.get(state.elections, electionId) {
       | None => <NotFoundYet />
       | Some(election) => <ElectionInviteManage election />
       }
 
     | list{"elections", electionId, "result"} =>
-      switch State.getElection(state, electionId) {
+      switch Map.String.get(state.elections, electionId) {
       | None => <NotFoundYet />
       | Some(election) => <ElectionResult election electionId />
       }
 
     | list{"elections", electionId, "booth"} =>
-      switch State.getElection(state, electionId) {
+      switch Map.String.get(state.elections, electionId) {
       | None => <NotFoundYet />
       | Some(election) => <ElectionBooth election electionId />
       }
