@@ -1,5 +1,5 @@
 type t = {
-  publicKey: string,
+  userId: string,
   email?: string,
   phoneNumber?: string
 }

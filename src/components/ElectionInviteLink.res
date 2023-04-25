@@ -8,7 +8,7 @@ let make = (~election: Election.t, ~electionId) => {
 
   React.useEffect0(() => {
     let voterAccount = Account.make()
-    let invitation: Invitation.t = { publicKey: voterAccount.userId }
+    let invitation: Invitation.t = { userId: voterAccount.userId }
     dispatch(Invitation_Add(invitation))
 
     let election = {...election,

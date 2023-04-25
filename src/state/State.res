@@ -48,8 +48,8 @@ let getElectionExn = (state, id) => Map.String.getExn(state.elections, id)
 let getAccount = (state, publicKey) => Array.getBy(state.accounts, id => publicKey == id.userId)
 let getAccountExn = (state, publicKey) => getAccount(state, publicKey)->Option.getExn
 
-let getInvitation = (state, publicKey) => Array.getBy(state.invitations, invitation => publicKey == invitation.publicKey)
-let getInvitationExn = (state, publicKey) => getInvitation(state, publicKey)->Option.getExn
+let getInvitation = (state, userId) => Array.getBy(state.invitations, invitation => userId == invitation.userId)
+let getInvitationExn = (state, userId) => getInvitation(state, userId)->Option.getExn
 
 let getElectionValidBallots = (state, electionId) => {
   state.ballots

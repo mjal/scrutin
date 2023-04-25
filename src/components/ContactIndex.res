@@ -7,7 +7,7 @@ let make = () => {
     <S.Title> {t(. "invitation.title")->React.string} </S.Title>
     <List.Section title="" style=S.marginX>
       {Array.mapWithIndex(state.invitations, (i, invitation) => {
-        <Card key=invitation.publicKey>
+        <Card key=invitation.userId>
           <Card.Content>
             <List.Item
               title={t(. "invitation.item.email")}
@@ -17,7 +17,7 @@ let make = () => {
               title={t(. "invitation.item.phoneNumber")}
               description={Option.getWithDefault(invitation.phoneNumber, "")}
             />
-            <List.Item title={"0x" ++ invitation.publicKey} />
+            <List.Item title={"0x" ++ invitation.userId} />
           </Card.Content>
           <Card.Actions>
             <Button mode=#contained onPress={_ => dispatch(Invitation_Remove(i))}>
