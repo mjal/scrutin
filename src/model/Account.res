@@ -27,8 +27,8 @@ let make2 = (~hexSecretKey) => {
 
 // #### methods
 
-let signHex = (id, hexStr) => {
-  let secretKey = Sjcl.Ecdsa.SecretKey.fromHex(id.hexSecretKey)
+let signHex = (account, hexStr) => {
+  let secretKey = Sjcl.Ecdsa.SecretKey.fromHex(account.hexSecretKey)
   let baEventHash = Sjcl.Hex.toBits(hexStr)
   let baSig = Sjcl.Ecdsa.SecretKey.sign(secretKey, baEventHash)
   Sjcl.Hex.fromBits(baSig)
@@ -43,7 +43,7 @@ external stringify_array: array<t> => string = "JSON.stringify"
 
 // #### Storage
 
-let storageKey = "identities"
+let storageKey = "accounts"
 
 let loadAll = () =>
   ReactNativeAsyncStorage.getItem(storageKey)
@@ -51,6 +51,6 @@ let loadAll = () =>
   ->Promise.thenResolve(Option.map(_, parse_array))
   ->Promise.thenResolve(Option.getWithDefault(_, []))
 
-let store_all = ids => ReactNativeAsyncStorage.setItem(storageKey, stringify_array(ids))->ignore
+let store_all = accounts => ReactNativeAsyncStorage.setItem(storageKey, stringify_array(accounts))->ignore
 
 let clear = () => ReactNativeAsyncStorage.removeItem(storageKey)->ignore

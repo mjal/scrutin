@@ -23,8 +23,8 @@ let storeLanguage = (language, _dispatch) =>
 
 let loadAccounts = dispatch => {
   Account.loadAll()
-  ->Promise.thenResolve(ids => {
-    Array.map(ids, id => dispatch(StateMsg.Account_Add(id)))
+  ->Promise.thenResolve(accounts => {
+    Array.map(accounts, account => dispatch(StateMsg.Account_Add(account)))
     // FIX: Account_Add call storeAccount as an effect...
   })
   ->ignore
