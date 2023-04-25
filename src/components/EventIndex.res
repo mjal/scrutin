@@ -8,10 +8,9 @@ module Item = {
 
     let onPress = _ => {
       switch event.type_ {
-      | #"election.create" => dispatch(Navigate(list{"elections", event.cid}))
+      | #"election" => dispatch(Navigate(list{"elections", event.cid}))
       | #"election.update" => dispatch(Navigate(list{"elections", event.cid}))
-      | #"ballot.create" => dispatch(Navigate(list{"ballots", event.cid}))
-      | #"ballot.update" => dispatch(Navigate(list{"ballots", event.cid}))
+      | #"ballot" => dispatch(Navigate(list{"ballots", event.cid}))
       }
     }
 

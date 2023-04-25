@@ -3,24 +3,23 @@ let make = (~election: Election.t, ~electionId) => {
   //let { t } = ReactI18next.useTranslation()
   let (state, dispatch) = StateContext.use()
   let (emails, setEmails) = React.useState(_ => ["", ""])
-  let orgId = state->State.getAccountExn(election.ownerPublicKey)
+  let admin = state->State.getElectionAdmin(election)
   let (sendInvite, setSendInvite) = React.useState(_ => true)
 
   let onSubmit = _ => {
     Array.forEach(emails, email => {
-      let voterId = Account.make()
-      let invitation: Invitation.t = {
-        publicKey: voterId.hexPublicKey,
-        email
-      }
+      let voter = Account.make()
+      let invitation: Invitation.t = { publicKey: voter.hexPublicKey, email }
       dispatch(Invitation_Add(invitation))
 
-      let ballot = Ballot.new(election, electionId, voterId.hexPublicKey)
-      let ev = Event_.SignedBallot.create(ballot, orgId)
+      let election = {...election,
+        voterIds: Array.concat(election.voterIds, [voter.hexPublicKey])
+      }
+      let ev = Event_.SignedElection.update(election, admin)
       dispatch(Event_Add_With_Broadcast(ev))
 
       switch sendInvite {
-      | true => Mailer.send(ev.cid, orgId, voterId, email)
+      | true => Mailer.send(ev.cid, admin, voter, email)
       | false => ()
       }
     })

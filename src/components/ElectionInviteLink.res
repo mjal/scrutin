@@ -1,21 +1,24 @@
 @react.component
 let make = (~election: Election.t, ~electionId) => {
+  let _ = electionId // TODO: remove this param
   let (state, dispatch) = StateContext.use()
   let {t} = ReactI18next.useTranslation()
   let (inviteUrl, setInviteUrl) = React.useState(_ => "")
-  let orgId = State.getAccountExn(state, election.ownerPublicKey)
+  let admin = state->State.getElectionAdmin(election)
 
   React.useEffect0(() => {
-    let voterId = Account.make()
-    let invitation: Invitation.t = { publicKey: voterId.hexPublicKey }
+    let voterAccount = Account.make()
+    let invitation: Invitation.t = { publicKey: voterAccount.hexPublicKey }
     dispatch(Invitation_Add(invitation))
 
-    let ballot = Ballot.new(election, electionId, voterId.hexPublicKey)
-    let ev = Event_.SignedBallot.create(ballot, orgId)
+    let election = {...election,
+      voterIds: Array.concat(election.voterIds, [voterAccount.hexPublicKey])
+    }
+    let ev = Event_.SignedElection.update(election, admin)
     dispatch(Event_Add_With_Broadcast(ev))
 
-    let secretKey = voterId.hexSecretKey
-    setInviteUrl(_ => `${URL.base_url}/ballots/${ev.cid}#${secretKey}`)
+    let secretKey = voterAccount.hexSecretKey
+    setInviteUrl(_ => `${URL.base_url}/elections/${ev.cid}/booth#${secretKey}`)
     None
   })
 

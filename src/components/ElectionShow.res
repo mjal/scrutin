@@ -5,10 +5,10 @@ let make = (~election: Election.t, ~electionId) => {
   // ballots we have an invitation for
   let ballots =
     state.ballots
-    ->Map.String.keep((_ballotId, ballot) => ballot.electionId == electionId)
-    ->Map.String.keep((_ballotId, ballot) =>
-      state.ids->Array.some(id => {
-        id.hexPublicKey == ballot.voterPublicKey
+    ->Array.keep((ballot) => ballot.electionId == electionId)
+    ->Array.keep((ballot) =>
+      Array.some(state.ids, id => {
+        id.hexPublicKey == ballot.voterId
       })
     )
 
@@ -34,15 +34,16 @@ let make = (~election: Election.t, ~electionId) => {
     <ElectionHeader election />
     <View>
       <ElectionShowChoices election />
-      {switch Map.String.isEmpty(ballots) {
-      | true => <> </>
-      | false =>
+      {switch ballots {
+      | [] => <></>
+      | _ =>
         <IconButton
           icon={Icon.name("square-edit-outline")}
           style={styles["choiceEditButton"]}
           onPress={_ => {
-            let (ballotId, _ballot) = Option.getExn(Map.String.minimum(ballots))
-            dispatch(Navigate(list{"ballots", ballotId}))
+            ()
+            //let (ballotId, _ballot) = hd
+            //dispatch(Navigate(list{"ballots", ballotId}))
           }}
         />
       }}
@@ -78,7 +79,9 @@ let make = (~election: Election.t, ~electionId) => {
         onPress={_ => dispatch(Navigate(list{"elections", electionId, "result"}))}
       />
     | None =>
-      switch State.getAccount(state, election.ownerPublicKey) {
+      switch Array.getBy(state.ids, (account) => {
+        Array.getBy(election.adminIds, userId => userId == account.hexPublicKey)->Option.isSome
+      }) {
       | None => <> </>
       | Some(_adminAccount) =>
         <>

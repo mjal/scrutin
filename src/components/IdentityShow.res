@@ -11,15 +11,14 @@ let make = (~publicKey) => {
   | None => ""
   }
 
-  let ballots =
+  let _ballots =
     state.ballots
-    ->Map.String.keep((_eventHash, ballot) => ballot.voterPublicKey == publicKey)
-    ->Map.String.toArray
+    ->Array.keep((ballot) => ballot.voterId == publicKey)
 
-  let elections =
-    state.elections
-    ->Map.String.keep((_eventHash, election) => election.ownerPublicKey == publicKey)
-    ->Map.String.toArray
+  let elections = []
+  //  state.elections
+  //  ->Map.String.keep((_eventHash, election) => election.ownerPublicKey == publicKey)
+  //  ->Map.String.toArray
 
   <>
     <List.Section title={t(. "identity.show.title")}>
@@ -34,15 +33,15 @@ let make = (~publicKey) => {
           />
         })->React.array}
       </List.Accordion>
-      <List.Accordion title={t(. "identity.show.ballots")}>
-        {Array.map(ballots, ((eventHash, _ballot)) => {
-          <List.Item
-            title=eventHash
-            key=eventHash
-            onPress={_ => dispatch(Navigate(list{"ballots", eventHash}))}
-          />
-        })->React.array}
-      </List.Accordion>
+      //<List.Accordion title={t(. "identity.show.ballots")}>
+      //  {Array.map(ballots, ((eventHash, _ballot)) => {
+      //    <List.Item
+      //      title=eventHash
+      //      key=eventHash
+      //      onPress={_ => dispatch(Navigate(list{"ballots", eventHash}))}
+      //    />
+      //  })->React.array}
+      //</List.Accordion>
     </List.Section>
   </>
 }

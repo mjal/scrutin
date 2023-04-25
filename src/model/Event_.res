@@ -2,12 +2,10 @@
 // Every state mutation is done through events
 
 // ---
-
 type event_type_t = [
-  | #"election.create"
+  | #"election"
   | #"election.update"
-  | #"ballot.create"
-  | #"ballot.update"
+  | #"ballot"
 ]
 
 // #### Event.t
@@ -50,7 +48,7 @@ module SignedElection = {
   }
 
   type create = (Election.t, Account.t) => t
-  let create = make(#"election.create")
+  let create = make(#"election")
 
   type update = (Election.t, Account.t) => t
   let update = make(#"election.update")
@@ -62,23 +60,17 @@ module SignedElection = {
 
 // #### Ballot events
 module SignedBallot = {
-  let make = (type_: event_type_t, ballot: Ballot.t, owner: Account.t) => {
+  let create = (ballot: Ballot.t, owner: Account.t) => {
     let content = Ballot.stringify(ballot)
     let cid = hash(content)
     {
+      type_: #"ballot",
       content,
-      type_,
       cid,
       publicKey: owner.hexPublicKey,
       signature: Account.signHex(owner, cid),
     }
   }
-
-  type create = (Ballot.t, Account.t) => t
-  let create = make(#"ballot.create")
-
-  type update = (Ballot.t, Account.t) => t
-  let update = make(#"ballot.update")
 
   let unwrap = (ev): Ballot.t => {
     Ballot.parse(ev.content)
@@ -109,10 +101,9 @@ module SignedTally = {
 // #### Helpers
 let event_type_t_to_s = type_ => {
   switch type_ {
-  | #"election.create" => "election.create"
+  | #"election" => "election"
   | #"election.update" => "election.update"
-  | #"ballot.create" => "ballot.create"
-  | #"ballot.update" => "ballot.update"
+  | #"ballot" => "ballot"
   }
 }
 
@@ -127,10 +118,9 @@ let from_json = json => {
   open Json.Decode
   let decode = object(field => {
     let type_ = switch field.required(. "type_", string) {
-    | "election.create" => #"election.create"
+    | "election" => #"election"
     | "election.update" => #"election.update"
-    | "ballot.create" => #"ballot.create"
-    | "ballot.update" => #"ballot.update"
+    | "ballot" => #"ballot"
     | _ => Js.Exn.raiseError("Unknown event type")
     }
     {

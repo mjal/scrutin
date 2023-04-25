@@ -2,12 +2,10 @@
 
 let cacheUpdate = (ev: Event_.t, dispatch) => {
   switch ev.type_ {
-  | #"election.create" =>
+  | #"election" | #"election.update" =>
     dispatch(StateMsg.Cache_Election_Add(ev.cid, Event_.SignedElection.unwrap(ev)))
-  | #"election.update" =>
-    dispatch(StateMsg.Cache_Election_Add(ev.cid, Event_.SignedElection.unwrap(ev)))
-  | #"ballot.create" => dispatch(StateMsg.Cache_Ballot_Add(ev.cid, Event_.SignedBallot.unwrap(ev)))
-  | #"ballot.update" => dispatch(StateMsg.Cache_Ballot_Add(ev.cid, Event_.SignedBallot.unwrap(ev)))
+  | #"ballot" =>
+    dispatch(StateMsg.Cache_Ballot_Add(ev.cid, Event_.SignedBallot.unwrap(ev)))
   }
 }
 

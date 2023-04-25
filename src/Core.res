@@ -15,28 +15,39 @@ module Election = {
     (state: State.t, dispatch) => {
       // Select the first identity we own<br />
       // If we don't have any, create a new one
-      let identity = switch state.ids[0] {
-      | Some(identity) => identity
+      let admin = switch state.ids[0] {
+      | Some(account) => account
       | None =>
-        let identity = Account.make()
-        dispatch(StateMsg.Identity_Add(identity))
-        identity
+        let account = Account.make()
+        dispatch(StateMsg.Identity_Add(account))
+        account
       }
 
       // Generate a single trustee for now
       let trustee = Trustee.make()
-
-      // Generate the election
-      let election = Election.make(name, desc, choices, identity.hexPublicKey, trustee)
-
-      // wrap it in an event
-      let event = Event_.SignedElection.create(election, identity)
-
-      // Add the new event<br />
-      dispatch(StateMsg.Event_Add_With_Broadcast(event))
+      let trustees = trustee.trustees
 
       // Store the trustee private key
       dispatch(StateMsg.Trustee_Add(trustee))
+
+      // Create an election
+      let params = Belenios.Election._create(~name, ~description=desc,
+        ~choices, ~trustees)
+
+      let election : Election.t = {
+        originId: None,
+        adminIds: [admin.hexPublicKey],
+        voterIds: [],
+        params,
+        trustees: Belenios.Trustees.to_str(trustees),
+        pda: None, pdb: None, result: None
+      }
+
+      // wrap it in an event
+      let event = Event_.SignedElection.create(election, admin)
+
+      // Add the new event<br />
+      dispatch(StateMsg.Event_Add_With_Broadcast(event))
 
       // Go the election page
       dispatch(StateMsg.Navigate(list{"elections", event.cid}))
@@ -56,7 +67,7 @@ module Election = {
       // Get the election from cache
       let election = State.getElectionExn(state, electionId)
 
-      // Casting value (to remove)
+      // Casting values (to remove)
       let params = Belenios.Election.parse(election.params)
       let trustees = Belenios.Trustees.of_str(election.trustees)
 
@@ -66,37 +77,40 @@ module Election = {
       })
       let privkey = Option.getExn(trustee).privkey
 
-      let ballots = state->State.getElectionValidBallots(electionId)
+      let ballots =
+        state.ballots
+        ->Array.keep((ballot) => ballot.electionId == electionId)
 
       let ciphertexts =
         ballots
         ->Array.map(ballot => ballot.ciphertext)
-        ->Array.keep(ciphertext => Option.getWithDefault(ciphertext, "") != "")
-        ->Array.map(ciphertext => Belenios.Ballot.of_str(Option.getExn(ciphertext)))
+        ->Array.map(Belenios.Ballot.of_str)
 
       let pubcreds =
         ballots
         ->Array.map(ballot => ballot.pubcred)
-        ->Array.map(pubcred => Option.getWithDefault(pubcred, ""))
-        ->Array.keep(pubcred => pubcred != "")
 
       let (a, b) = Belenios.Election.decrypt(params, ciphertexts, trustees, pubcreds, privkey)
       let result = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
 
+      let originId = Some(Option.getWithDefault(election.originId, electionId))
+
       let election2 = {
         ...election,
-        previousId: Some(electionId),
+        originId,
         pda: Some(Belenios.PartialDecryption.to_s1(a)),
         pdb: Some(Belenios.PartialDecryption.to_s2(b)),
         result: Some(result),
       }
 
-      // Lookup for the owner identity in the cache
-      let owner = Array.getBy(state.ids, id => {
-        election.ownerPublicKey == id.hexPublicKey
-      })->Option.getExn
 
-      let ev = Event_.SignedElection.update(election2, owner)
+      // Lookup for the admin identity
+      let admin = Array.getBy(state.ids, (account) => {
+        Array.getBy(election.adminIds, (userId) => userId == account.hexPublicKey)
+        -> Option.isSome
+      }) -> Option.getExn
+
+      let ev = Event_.SignedElection.update(election2, admin)
 
       dispatch(StateMsg.Event_Add_With_Broadcast(ev))
 
@@ -107,24 +121,12 @@ module Election = {
 
 module Ballot = {
   // ---
-  // #### Ballot.emit
-  // TODO: Extract from Election_Show.res
-  let emit = () => {
-    // ---
-    (_state, _dispatch) => {
-      // Nothing for now
-      None
-    }
-  }
-
-  // ---
   // #### Ballot.vote
   // Cast a vote
   let vote = (
-    // **ballot**
-    ~ballot: Ballot.t,
-    // **previousId**: The contentHash of the previous (probably empty) ballot.
-    ~previousId: string,
+    // **electionId** (election.originId || electionEvent.cid)
+    ~electionId: string,
+    ~voter: Account.t,
     // **choice**: The selected option.<br />
     // Options are indexed starting at 0 to (nbChoices - 1)
     ~choice: option<int>,
@@ -134,23 +136,20 @@ module Ballot = {
   ) => {
     // ---
     (state: State.t, dispatch) => {
+      let election = State.getElectionExn(state, electionId)
       // Transform the choice index to an array of 0 and 1 for every options
       let selection =
-        Array.make(nbChoices, 0)->Array.mapWithIndex((i, _e) => {choice == Some(i) ? 1 : 0})
+        Array.make(nbChoices, 0)
+        ->Array.mapWithIndex((i, _value) => {choice == Some(i) ? 1 : 0})
 
-      // Fetch the election from cache
-      let election = State.getElectionExn(state, ballot.electionId)
+      let ballot = Ballot.make(
+        ~election,
+        ~electionId,
+        ~voterId=voter.hexPublicKey,
+        ~selection
+      )
 
-      // Create a ballot expressing that choice
-      let ballot = Ballot.make(ballot, Some(previousId), election, selection)
-
-      // Lookup for the voter identity in the cache
-      let owner = State.getAccountExn(state, ballot.voterPublicKey)
-
-      // Wrap it into an event
-      let ev = Event_.SignedBallot.update(ballot, owner)
-
-      // Add the new event<br />
+      let ev = Event_.SignedBallot.create(ballot, voter)
       dispatch(StateMsg.Event_Add_With_Broadcast(ev))
     }
   }

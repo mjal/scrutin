@@ -17,13 +17,12 @@ type t = {
   // The current route (still waiting for a decent rescript router
   // that works on web and native)
   route: list<string>,
-  // elections and ballot (from parsed events)
+  // elections (from parsed events)
   elections: Map.String.t<Election.t>,
-  // opposite of election.previousId (TODO: remove)
-  electionNextIds: Map.String.t<string>,
-  ballots: Map.String.t<Ballot.t>,
-  // opposite of ballot.previousId (TODO: rename nextIds)
-  ballotNextIds: Map.String.t<string>,
+  // opposite of election.previousId
+  electionLatestIds: Map.String.t<string>,
+  // ballots (from parsed events)
+  ballots: array<Ballot.t>
 }
 
 // The initial state of the application
@@ -35,13 +34,12 @@ let initial = {
   trustees: [],
   invitations: [],
   elections: Map.String.empty,
-  electionNextIds: Map.String.empty,
-  ballots: Map.String.empty,
-  ballotNextIds: Map.String.empty,
+  electionLatestIds: Map.String.empty,
+  ballots: []
 }
 
-let getBallot = (state, id) => Map.String.get(state.ballots, id)
-let getBallotExn = (state, id) => Map.String.getExn(state.ballots, id)
+//let getBallot = (state, id) => Map.String.get(state.ballots, id)
+//let getBallotExn = (state, id) => Map.String.getExn(state.ballots, id)
 
 let getElection = (state, id) => Map.String.get(state.elections, id)
 let getElectionExn = (state, id) => Map.String.getExn(state.elections, id)
@@ -52,33 +50,16 @@ let getAccountExn = (state, publicKey) => getAccount(state, publicKey)->Option.g
 let getInvitation = (state, publicKey) => Array.getBy(state.invitations, invitation => publicKey == invitation.publicKey)
 let getInvitationExn = (state, publicKey) => getInvitation(state, publicKey)->Option.getExn
 
-let rec getBallotOriginalId = (state, ballotId) => {
-  let ballot = state->getBallotExn(ballotId)
-  switch ballot.previousId {
-  | Some(previousId) => state->getBallotOriginalId(previousId)
-  | None => ballotId
-  }
-}
-
 let getElectionValidBallots = (state, electionId) => {
-  Map.String.toArray(state.ballots)
-  ->Array.keep(((_id, ballot)) => ballot.electionId == electionId)
-  ->Array.keep(((id, _ballot)) => {
-    Map.String.get(state.ballotNextIds, id)->Option.isNone
-  })
-  ->Array.keep(((_id, ballot)) => {
-    Option.isSome(ballot.ciphertext)
-  })
-  ->Js.Array2.map(((id, ballot)) => {
-    (state->getBallotOriginalId(id), ballot)
-  })
+  state.ballots
+  ->Array.keep((ballot) => ballot.electionId == electionId)
+  ->Js.Array2.map((ballot) => (ballot.voterId, ballot))
   ->Js.Dict.fromArray
   ->Js.Dict.values
 }
 
-let getBallotNext = (state: t, ballotId) => {
-  switch Map.String.get(state.ballotNextIds, ballotId) {
-  | Some(nextBallotId) => state->getBallot(nextBallotId)
-  | None => None
-  }
-}
+let getElectionAdmin = (state, election:Election.t) =>
+  Array.getBy(state.ids, (account) => {
+    Array.getBy(election.adminIds, (userId) => userId == account.hexPublicKey)
+    -> Option.isSome
+  }) -> Option.getExn

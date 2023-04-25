@@ -3,10 +3,10 @@ let make = (~election: Election.t, ~electionId) => {
   let (state, _) = StateContext.use()
 
   let electionUrl = `${URL.base_url}/elections/${electionId}/result`
-  // NOTE: We have to use election.previousId here.
-  // At the moment publishing the tally create a new election object with previousId set to the original election owning the ballots. This may change.
-  let nbVotes = state
-    ->State.getElectionValidBallots(Option.getExn(election.previousId))
+
+  let nbVotes =
+    state.ballots
+    ->Array.keep((ballot) => ballot.electionId == electionId)
     ->Array.length
 
   let data = switch election.result {

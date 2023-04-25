@@ -1,29 +1,22 @@
 module Item = {
   @react.component
-  let make = (~ballotId, ~ballot: Ballot.t) => {
+  let make = (~userId) => {
     let (state, _dispatch) = StateContext.use()
 
-    let _ = ballotId
-    let invitation = state->State.getInvitationExn(ballot.voterPublicKey)
+    let invitation = state->State.getInvitationExn(userId)
     let email = Option.getWithDefault(invitation.email, "No email")
 
-    <List.Item title=ballot.voterPublicKey description=email />
+    <List.Item title=userId description=email />
   }
 }
 
 @react.component
-let make = (~election: Election.t, ~electionId) => {
-  let (state, _dispatch) = StateContext.use()
-
-  let ballots = Map.String.toArray(state.ballots)
-  ->Array.keep(((_id, ballot)) => ballot.electionId == electionId)
-  ->Array.keep(((_id, ballot)) => Option.isNone(ballot.previousId))
-
+let make = (~election: Election.t) => {
   <>
     <ElectionHeader election section=#inviteManage />
 
-    { Array.map(ballots, ((ballotId, ballot)) =>
-      <Item key=ballotId ballotId ballot />
+    { Array.map(election.voterIds, (userId) =>
+      <Item key=userId userId />
     ) -> React.array }
   </>
 }

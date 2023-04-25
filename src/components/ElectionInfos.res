@@ -7,10 +7,7 @@ let make = (~electionId) => {
   let (showBallots, setShowBallots) = React.useState(_ => false)
 
   let ballots =
-    Map.String.keep(state.ballots, (_id, ballot) =>
-      ballot.electionId == electionId
-    )->Map.String.toArray
-
+    Array.keep(state.ballots, (ballot) => ballot.electionId == electionId)
   let nbBallots = Array.length(ballots)
 
   <>
@@ -24,12 +21,12 @@ let make = (~electionId) => {
     {if showAdvanced {
       <>
         <List.Item title={t(. "election.show.id")} description=electionId />
-        {
-          let onPress = _ => dispatch(Navigate(list{"identities", election.ownerPublicKey}))
+        { Array.map(election.adminIds, (userId) => {
           <List.Item
-            title={t(. "election.show.ownerPublicKey")} onPress description=election.ownerPublicKey
+            title={t(. "election.show.ownerPublicKey")} description=userId
+            onPress={_ => dispatch(Navigate(list{"identities", userId})) }
           />
-        }
+        }) -> React.array }
         <List.Item title={t(. "election.show.params")} description=election.params />
         <List.Item title={t(. "election.show.trustees")} description=election.trustees />
       </>
@@ -45,10 +42,10 @@ let make = (~electionId) => {
     </Button>
     {if showBallots {
       <List.Section title={`${nbBallots->Int.toString} ballots`}>
-        {Array.map(ballots, ((id, _ballot)) => {
+        {Array.mapWithIndex(ballots, (i, _ballot) => {
           <List.Item
-            title={`Ballot ${id}`} key=id onPress={_ => dispatch(Navigate(list{"ballots", id}))}
-          />
+            title={`Ballot ${i->Int.toString}`}
+            key=(i->Int.toString) />
         })->React.array}
       </List.Section>
     } else {

@@ -16,7 +16,7 @@ let make = () => {
   }
 
   // Use latest version of objects
-  StateRedirectLatest.use()
+  StateRedirectOriginal.use()
 
   <Layout state dispatch>
     {switch state.route {
@@ -50,7 +50,7 @@ let make = () => {
     | list{"elections", electionId, "invite_manage"} =>
       switch State.getElection(state, electionId) {
       | None => <NotFoundYet />
-      | Some(election) => <ElectionInviteManage election electionId />
+      | Some(election) => <ElectionInviteManage election />
       }
 
     | list{"elections", electionId, "result"} =>
@@ -59,10 +59,10 @@ let make = () => {
       | Some(election) => <ElectionResult election electionId />
       }
 
-    | list{"ballots", ballotId} =>
-      switch State.getBallot(state, ballotId) {
+    | list{"elections", electionId, "booth"} =>
+      switch State.getElection(state, electionId) {
       | None => <NotFoundYet />
-      | Some(ballot) => <ElectionBooth ballot ballotId />
+      | Some(election) => <ElectionBooth election electionId />
       }
 
     | list{"identities"} => <IdentityIndex />
