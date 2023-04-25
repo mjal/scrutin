@@ -7,5 +7,5 @@
 //  <Image source style />
 //}
 
-@module("./HomeBackground") @react.component
+@module("./HomeBackgroundJs") @react.component
 external make: () => React.element = "default"

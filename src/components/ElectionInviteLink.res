@@ -8,7 +8,7 @@ let make = (~election: Election.t, ~electionId) => {
 
   React.useEffect0(() => {
     let voterAccount = Account.make()
-    let invitation: Invitation.t = { userId: voterAccount.userId }
+    let invitation: Invitation.t = { userId: voterAccount.userId, email: None, phoneNumber: None }
     dispatch(Invitation_Add(invitation))
 
     let election = {...election,
@@ -30,7 +30,7 @@ let make = (~election: Election.t, ~electionId) => {
     <CopyButton text=inviteUrl />
     <S.Button
       onPress={_ => {
-        Share.share({message: inviteUrl})->ignore
+        Share.share({message: Some(inviteUrl), title: None, url: None})->ignore
       }}
       title={t(. "election.show.createInvite.share")}
     />

@@ -1,7 +1,7 @@
 type t = {
   userId: string,
-  email?: string,
-  phoneNumber?: string
+  email: option<string>,
+  phoneNumber: option<string>
 }
 
 // == Serialization

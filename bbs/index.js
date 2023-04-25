@@ -38,5 +38,20 @@ app.post('/events', cors(), asyncHandler(async (req, res) => {
   }
 }))
 
+// For testing (in production it's sent to the mailing server instead)
+const fs = require('fs').promises
+app.post('/proxy_email', cors(), asyncHandler(async (req, res) => {
+  try {
+    //if (!await fs.exists("emails")) {
+    //  await fs.mkdir("emails")
+    //}
+    await fs.mkdir("emails")
+    await fs.writeFile("emails/"+req.body.email, req.body.text)
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ message: "internal error" })
+  }
+}))
+
 const port = process.env.PORT || 8080
 app.listen(port, () => console.log(`app listening on port ${port}!`))
