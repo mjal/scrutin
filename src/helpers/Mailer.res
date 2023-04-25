@@ -1,4 +1,4 @@
-let relay_url = `${URL.api_url}/proxy_email`
+let relay_url = `${URL.server_auth_email}/proxy_email`
 
 let send = (ballotId, account: Account.t, voterId: Account.t, email) => {
   let timestamp: int = %raw(`Date.now()`)
