@@ -5,7 +5,7 @@ Feature: Organize elections
     When I go to new election
     And I add a title
     And I add choices
-    And I click create
+    And I click next
     Then Election should be created
 
   Scenario: Adding a voter

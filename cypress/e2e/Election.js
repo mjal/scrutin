@@ -6,25 +6,21 @@ When("I go to new election", () => {
 })
 
 When("I add a title", () => {
-  cy.get('[data-testid="election-name"]').type(`Testing election from cypress`, {delay: 0})
+  cy.get('[data-testid="election-title"]').type(`Testing election from cypress`, {delay: 0})
 })
 
 When("I add choices", () => {
   let choices = [
     "First choice",
     "Second choice",
-    "Third choice"
   ]
 
-  for (let choice of choices) {
-    cy.get('[data-testid="choice-list"]').contains('Add').click()
-    cy.get('[data-testid="choice-name"]').type(choice, {delay: 0})
-    cy.get('[data-testid="choice-modal"]').contains('Add').click()
-  }
+  cy.get('[data-testid="choice-1"]').type(choices[0], {delay: 0})
+  cy.get('[data-testid="choice-2"]').type(choices[1], {delay: 0})
 })
 
-When("I click create", () => {
-  cy.contains("Create").click()
+When("I click next", () => {
+  cy.contains("Next").click()
 })
 
 Then("Election should be created", () => {
