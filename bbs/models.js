@@ -12,7 +12,7 @@ module.exports = function (sequelize) {
     cid: {
       type: DataTypes.TEXT
     },
-    publicKey: {
+    emitterId: {
       type: DataTypes.TEXT
     },
     signature: {

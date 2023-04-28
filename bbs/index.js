@@ -22,13 +22,13 @@ app.get('/events', async (req, res) => {
 })
 
 app.post('/events', cors(), asyncHandler(async (req, res) => {
-  const { type_, content, cid, publicKey, signature } = req.body
+  const { type_, content, cid, emitterId, signature } = req.body
   try {
     const event_ = await Event.create({
       type_,
       content,
       cid,
-      publicKey,
+      emitterId,
       signature
     })
     res.json(event_.toJSON())
