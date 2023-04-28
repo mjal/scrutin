@@ -87,6 +87,7 @@ let make = (~election: Election.t, ~electionId) => {
         <>
           <S.Button
             title="Ajouter des votants"
+            testID="button-add-voters"
             onPress={_ => dispatch(Navigate(list{"elections", electionId, "invite"}))}
           /> // TODO: i18n
           //<Button mode=#text onPress={_ =>
