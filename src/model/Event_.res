@@ -10,7 +10,7 @@ type event_type_t = [
   | #"election.tally"
 ]
 
-let event_type_map = [
+let event_type_map : array<(event_type_t, string)> = [
     (#"election.init", "election.init"),
     (#"election.voter", "election.voter"),
     (#"election.delegation", "election.delegation"),
