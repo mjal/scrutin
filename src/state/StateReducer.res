@@ -1,4 +1,4 @@
-let reducer = (state: State.t, action: StateMsg.t) => {
+let rec reducer = (state: State.t, action: StateMsg.t) => {
   switch action {
   | Reset => (
       State.initial,
@@ -19,11 +19,12 @@ let reducer = (state: State.t, action: StateMsg.t) => {
 
   | Event_Add(event) =>
     let events = Array.concat(state.events, [event])
-    ({...state, events}, [StateEffect.electionsUpdate(state.elections, event)])
+    let (elections, ballots) = StateEffect.electionsUpdate(state.elections, state.ballots, event)
+    ({...state, events, elections, ballots}, [])
 
   | Event_Add_With_Broadcast(event) =>
-    let events = Array.concat(state.events, [event])
-    ({...state, events}, [StateEffect.broadcastEvent(event), StateEffect.electionsUpdate(state.elections, event)])
+    let (state, actions) = reducer(state, Event_Add(event))
+    (state, Array.concat(actions, [StateEffect.broadcastEvent(event)]))
 
   | Trustee_Add(trustee) =>
     let trustees = Array.concat(state.trustees, [trustee])

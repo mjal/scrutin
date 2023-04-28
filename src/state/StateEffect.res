@@ -1,34 +1,63 @@
-let electionsUpdate =  (elections: Map.String.t<Election.t>, ev: Event_.t, dispatch) => {
+let electionsUpdate =  (
+  elections: Map.String.t<Election.t>,
+  ballots: array<Ballot.t>,
+  ev: Event_.t
+) => {
   switch ev.type_ {
   | #"election.init" =>
     let election = Event_.ElectionInit.unwrap(ev)
-    dispatch(StateMsg.ElectionInit(ev.cid, election))
+    let election = {...election,
+      electionId: Some(ev.cid)
+    }
+    let elections = Map.String.set(elections, ev.cid, election)
+    (elections, ballots)
   | #"election.voter" =>
     let {electionId, voterId} = Event_.ElectionVoter.parse(ev.content)
-    let election = Map.String.getExn(elections, electionId)
-    dispatch(StateMsg.ElectionUpdate(ev.cid, {
-      ...election,
-      voterIds: Array.concat(election.voterIds, [voterId])
-    }))
+    switch Map.String.get(elections, electionId) {
+    | None =>
+      Js.log(("Cannot find election", electionId))
+      (elections, ballots)
+    | Some(election) =>
+      let election = {
+        ...election,
+        voterIds: Array.concat(election.voterIds, [voterId])
+      }
+      let elections = Map.String.set(elections, electionId, election)
+      (elections, ballots)
+    }
   | #"election.delegation" =>
     let {electionId, voterId, delegateId} = Event_.ElectionDelegate.parse(ev.content)
-    let election = Map.String.getExn(elections, electionId)
-    let voterIds = election.voterIds->Array.map((userId) => {
-      if userId == voterId { delegateId } else { voterId }
-    })
-    dispatch(StateMsg.ElectionUpdate(ev.cid, { ...election, voterIds }))
+    switch Map.String.get(elections, electionId) {
+    | None =>
+      Js.log(("Cannot find election", electionId))
+      (elections, ballots)
+    | Some(election) =>
+      let voterIds = election.voterIds->Array.map((userId) => {
+        if userId == voterId { delegateId } else { voterId }
+      })
+      let election = { ...election, voterIds }
+      let elections = Map.String.set(elections, electionId, election)
+      (elections, ballots)
+    }
   | #"election.ballot" =>
     let ballot = Event_.ElectionBallot.unwrap(ev)
-    dispatch(StateMsg.BallotAdd(ev.cid, ballot))
+    (elections, Array.concat(ballots, [ballot]))
   | #"election.tally" =>
     let { electionId, pda, pdb, result } = Event_.ElectionTally.parse(ev.content)
-    let election = Map.String.getExn(elections, electionId)
-    dispatch(StateMsg.ElectionUpdate(ev.cid, {
-      ...election,
-      pda: Some(pda),
-      pdb: Some(pdb),
-      result: Some(result)
-    }))
+    switch Map.String.get(elections, electionId) {
+    | None =>
+      Js.log(("Cannot find election", electionId))
+      (elections, ballots)
+    | Some(election) =>
+      let election = {
+        ...election,
+        pda: Some(pda),
+        pdb: Some(pdb),
+        result: Some(result)
+      }
+      let elections = Map.String.set(elections, electionId, election)
+      (elections, ballots)
+    }
   }
 }
 
