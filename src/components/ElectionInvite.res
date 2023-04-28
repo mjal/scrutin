@@ -7,12 +7,14 @@ let make = (~election: Election.t, ~electionId) => {
     <ElectionHeader election section=#invite />
     <S.Button
       title="Invite by email"
+      testID="button-invite-email"
       onPress={_ => {
         dispatch(Navigate(list{"elections", electionId, "invite_email"}))
       }}
     />
     <S.Button
       title="Invite by link"
+      testID="button-invite-link"
       onPress={_ => dispatch(Navigate(list{"elections", electionId, "invite_link"}))}
     />
     <Button mode=#text
