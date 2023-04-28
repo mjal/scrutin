@@ -145,8 +145,8 @@ module Button = {
     | None => defaultTitleStyle
     }
 
-    <Button mode=#contained style onPress ?testId>
-      <Text style=titleStyle> {title->React.string} </Text>
+    <Button mode=#contained style onPress>
+      <Text style=titleStyle ?testID> {title->React.string} </Text>
     </Button>
   }
 }
