@@ -35,7 +35,7 @@ module Election = {
         ~choices, ~trustees)
 
       let election : Election.t = {
-        originId: None,
+        electionId: None,
         adminIds: [admin.userId],
         voterIds: [],
         params,
@@ -44,7 +44,7 @@ module Election = {
       }
 
       // wrap it in an event
-      let event = Event_.SignedElection.create(election, admin)
+      let event = Event_.ElectionInit.create(election, admin)
 
       // Add the new event<br />
       dispatch(StateMsg.Event_Add_With_Broadcast(event))
@@ -93,28 +93,17 @@ module Election = {
       let (a, b) = Belenios.Election.decrypt(params, ciphertexts, trustees, pubcreds, privkey)
       let result = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
 
-      let originId = Some(Option.getWithDefault(election.originId, electionId))
-
-      let election2 = {
-        ...election,
-        originId,
-        pda: Some(Belenios.PartialDecryption.to_s1(a)),
-        pdb: Some(Belenios.PartialDecryption.to_s2(b)),
-        result: Some(result),
-      }
-
-
       // Lookup for the admin identity
-      let admin = Array.getBy(state.accounts, (account) => {
-        Array.getBy(election.adminIds, (userId) => userId == account.userId)
-        -> Option.isSome
-      }) -> Option.getExn
+      let admin = state->State.getElectionAdmin(election)
 
-      let ev = Event_.SignedElection.update(election2, admin)
+      let ev = Event_.ElectionTally.create({
+        electionId,
+        pda: Belenios.PartialDecryption.to_s1(a),
+        pdb: Belenios.PartialDecryption.to_s2(b),
+        result
+      }, admin)
 
       dispatch(StateMsg.Event_Add_With_Broadcast(ev))
-
-      dispatch(Navigate(list{"elections", ev.cid, "result"}))
     }
   }
 }
@@ -149,7 +138,7 @@ module Ballot = {
         ~selection
       )
 
-      let ev = Event_.SignedBallot.create(ballot, voter)
+      let ev = Event_.ElectionBallot.create(ballot, voter)
       dispatch(StateMsg.Event_Add_With_Broadcast(ev))
     }
   }

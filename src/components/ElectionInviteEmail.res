@@ -10,14 +10,17 @@ let make = (~election: Election.t, ~electionId) => {
     emails
     ->Array.keep(email => email != "")
     ->Array.forEach(email => {
+
+      // TODO: Request auth server voterId
+
       let voter = Account.make()
       let invitation: Invitation.t = { userId: voter.userId, email: Some(email), phoneNumber: None }
       dispatch(Invitation_Add(invitation))
 
-      let election = {...election,
-        voterIds: Array.concat(election.voterIds, [voter.userId])
-      }
-      let ev = Event_.SignedElection.update(election, admin)
+      let ev = Event_.ElectionVoter.create({
+        electionId,
+        voterId: voter.userId
+      }, admin)
       dispatch(Event_Add_With_Broadcast(ev))
 
       switch sendInvite {

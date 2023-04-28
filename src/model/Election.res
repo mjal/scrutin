@@ -1,6 +1,6 @@
 type t = {
   // First version of the election (None for new elections)
-  originId: option<string>,
+  electionId: option<string>,
 
   // Public keys of election admins (can update the election)
   adminIds: array<string>,

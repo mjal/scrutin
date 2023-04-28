@@ -41,10 +41,6 @@ let initial = {
 //let getBallot = (state, id) => Map.String.get(state.ballots, id)
 //let getBallotExn = (state, id) => Map.String.getExn(state.ballots, id)
 
-// TODO: Remove
-let getElection = (state, id) => Map.String.get(state.elections, id)
-let getElectionExn = (state, id) => Map.String.getExn(state.elections, id)
-
 let getAccount = (state, publicKey) => Array.getBy(state.accounts, id => publicKey == id.userId)
 let getAccountExn = (state, publicKey) => getAccount(state, publicKey)->Option.getExn
 

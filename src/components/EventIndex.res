@@ -1,18 +1,19 @@
 module Item = {
   @react.component
   let make = (~event: Event_.t) => {
-    let (_state, dispatch) = StateContext.use()
+    let (_state, _dispatch) = StateContext.use()
     let {t} = ReactI18next.useTranslation()
 
-    let description = Event_.event_type_t_to_s(event.type_)
+    let event_type = Event_.event_type_map
+    ->Array.getBy(((variant, _str)) => variant == event.type_)
+    ->Option.map(((_,str)) => str)
 
-    let onPress = _ => {
-      switch event.type_ {
-      | #"election" => dispatch(Navigate(list{"elections", event.cid}))
-      | #"election.update" => dispatch(Navigate(list{"elections", event.cid}))
-      | #"ballot" => dispatch(Navigate(list{"ballots", event.cid}))
-      }
+    let description = switch event_type {
+    | Some(event_type) => event_type
+    | None => "Unknown type"
     }
+
+    let onPress = _ => ()
 
     <Card>
       <List.Item key=event.cid title={t(. "events.item.type")} description onPress />

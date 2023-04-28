@@ -1,4 +1,3 @@
-// The reducer, the only place where state mutations can happen
 let reducer = (state: State.t, action: StateMsg.t) => {
   switch action {
   | Reset => (
@@ -20,11 +19,11 @@ let reducer = (state: State.t, action: StateMsg.t) => {
 
   | Event_Add(event) =>
     let events = Array.concat(state.events, [event])
-    ({...state, events}, [StateEffect.cacheUpdate(event)])
+    ({...state, events}, [StateEffect.electionsUpdate(state.elections, event)])
 
   | Event_Add_With_Broadcast(event) =>
     let events = Array.concat(state.events, [event])
-    ({...state, events}, [StateEffect.broadcastEvent(event), StateEffect.cacheUpdate(event)])
+    ({...state, events}, [StateEffect.broadcastEvent(event), StateEffect.electionsUpdate(state.elections, event)])
 
   | Trustee_Add(trustee) =>
     let trustees = Array.concat(state.trustees, [trustee])
@@ -38,15 +37,17 @@ let reducer = (state: State.t, action: StateMsg.t) => {
     let invitations = Array.keepWithIndex(state.invitations, (_, i) => i != index)
     ({...state, invitations}, [StateEffect.storeInvitations(invitations)])
 
-  | Cache_Election_Add(cid, election) =>
-    let elections = Map.String.set(state.elections, cid, election)
-    let electionLatestIds = switch election.originId {
-    | Some(originId) => Map.String.set(state.electionLatestIds, originId, cid)
-    | None => state.electionLatestIds
-    }
-    ({...state, elections, electionLatestIds}, [])
+  | ElectionInit(cid, election) =>
+    let elections = Map.String.set(state.elections, cid, {...election,
+      electionId: Some(cid)
+    })
+    ({...state, elections}, [])
 
-  | Cache_Ballot_Add(_cid, ballot) =>
+  | ElectionUpdate(cid, election) =>
+    let elections = Map.String.set(state.elections, cid, election)
+    ({...state, elections}, [])
+
+  | BallotAdd(_cid, ballot) =>
     let ballots = Array.concat(state.ballots, [ballot])
     ({...state, ballots}, [])
 

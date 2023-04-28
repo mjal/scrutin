@@ -1,11 +1,34 @@
-// ## Cache management
-
-let cacheUpdate = (ev: Event_.t, dispatch) => {
+let electionsUpdate =  (elections: Map.String.t<Election.t>, ev: Event_.t, dispatch) => {
   switch ev.type_ {
-  | #"election" | #"election.update" =>
-    dispatch(StateMsg.Cache_Election_Add(ev.cid, Event_.SignedElection.unwrap(ev)))
-  | #"ballot" =>
-    dispatch(StateMsg.Cache_Ballot_Add(ev.cid, Event_.SignedBallot.unwrap(ev)))
+  | #"election.init" =>
+    let election = Event_.ElectionInit.unwrap(ev)
+    dispatch(StateMsg.ElectionInit(ev.cid, election))
+  | #"election.voter" =>
+    let {electionId, voterId} = Event_.ElectionVoter.parse(ev.content)
+    let election = Map.String.getExn(elections, electionId)
+    dispatch(StateMsg.ElectionUpdate(ev.cid, {
+      ...election,
+      voterIds: Array.concat(election.voterIds, [voterId])
+    }))
+  | #"election.delegation" =>
+    let {electionId, voterId, delegateId} = Event_.ElectionDelegate.parse(ev.content)
+    let election = Map.String.getExn(elections, electionId)
+    let voterIds = election.voterIds->Array.map((userId) => {
+      if userId == voterId { delegateId } else { voterId }
+    })
+    dispatch(StateMsg.ElectionUpdate(ev.cid, { ...election, voterIds }))
+  | #"election.ballot" =>
+    let ballot = Event_.ElectionBallot.unwrap(ev)
+    dispatch(StateMsg.BallotAdd(ev.cid, ballot))
+  | #"election.tally" =>
+    let { electionId, pda, pdb, result } = Event_.ElectionTally.parse(ev.content)
+    let election = Map.String.getExn(elections, electionId)
+    dispatch(StateMsg.ElectionUpdate(ev.cid, {
+      ...election,
+      pda: Some(pda),
+      pdb: Some(pdb),
+      result: Some(result)
+    }))
   }
 }
 

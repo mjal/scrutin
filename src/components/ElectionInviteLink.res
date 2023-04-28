@@ -7,18 +7,17 @@ let make = (~election: Election.t, ~electionId) => {
   let admin = state->State.getElectionAdmin(election)
 
   React.useEffect0(() => {
-    let voterAccount = Account.make()
-    let invitation: Invitation.t = { userId: voterAccount.userId, email: None, phoneNumber: None }
+    let voter = Account.make()
+    let invitation: Invitation.t = { userId: voter.userId, email: None, phoneNumber: None }
     dispatch(Invitation_Add(invitation))
 
-    let election = {...election,
-      voterIds: Array.concat(election.voterIds, [voterAccount.userId])
-    }
-    let ev = Event_.SignedElection.update(election, admin)
+    let ev = Event_.ElectionVoter.create({
+      electionId,
+      voterId: voter.userId
+    }, admin)
     dispatch(Event_Add_With_Broadcast(ev))
 
-    let secretKey = voterAccount.secret
-    setInviteUrl(_ => `${URL.base_url}/elections/${ev.cid}/booth#${secretKey}`)
+    setInviteUrl(_ => `${URL.base_url}/elections/${electionId}/booth#${voter.secret}`)
     None
   })
 
@@ -30,7 +29,7 @@ let make = (~election: Election.t, ~electionId) => {
     <CopyButton text=inviteUrl />
     <S.Button
       onPress={_ => {
-        Share.share({message: Some(inviteUrl), title: None, url: None})->ignore
+        Share.share({message: inviteUrl})->ignore
       }}
       title={t(. "election.show.createInvite.share")}
     />

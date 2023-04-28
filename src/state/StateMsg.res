@@ -9,7 +9,10 @@ type t =
   | Trustee_Add(Trustee.t)
   | Invitation_Add(Invitation.t)
   | Invitation_Remove(int)
-  | Cache_Election_Add(string, Election.t)
-  | Cache_Ballot_Add(string, Ballot.t)
   | Config_Store_Language(string)
   | Fetching_Events_End
+
+  | ElectionInit(string, Election.t)
+  | ElectionUpdate(string, Election.t)
+
+  | BallotAdd(string, Ballot.t)

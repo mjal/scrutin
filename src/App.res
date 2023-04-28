@@ -15,9 +15,6 @@ let make = () => {
     }
   }
 
-  // Use latest version of objects
-  StateRedirectOriginal.use()
-
   <Layout state dispatch>
     {switch state.route {
     | list{"elections", "search"} => <ElectionSearch />

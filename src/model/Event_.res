@@ -1,12 +1,22 @@
 // #### Description
-// Every state mutation is done through events
+// State mutations are done through events
 
-// ---
+// #### Event types
 type event_type_t = [
-  | #"election"
-  | #"election.update"
-  | #"ballot"
+  | #"election.init"
+  | #"election.voter"
+  | #"election.delegation"
+  | #"election.ballot"
+  | #"election.tally"
 ]
+
+let event_type_map = [
+    (#"election.init", "election.init"),
+    (#"election.voter", "election.voter"),
+    (#"election.delegation", "election.delegation"),
+    (#"election.ballot", "election.ballot"),
+    (#"election.tally", "election.tally")
+  ]
 
 // #### Event.t
 type t = {
@@ -16,95 +26,75 @@ type t = {
   content: string,
   // **cid**: hash(content)
   cid: string,
-  // **publicKey**: The public key of the emitter of the event.<br />
-  // Could be the election organizer or the voter
-  publicKey: string,
-  // **signature**: a signature of the cid from the emitter.
+  // **emitterId**: The emitter of the event.<br />
+  // Depending on the event, it can be a voter or an admin
+  emitterId: string,
+  // **signature**: the emitter's digital signature
   signature: string,
 }
 
 // ---
 
 // #### Utils
-
 // Shorthand to hash a string and transform it to hex
 let hash = str => {
   let baEventHash = Sjcl.Sha256.hash(str)
   Sjcl.Hex.fromBits(baEventHash)
 }
 
-// #### Election events
-module SignedElection = {
-  let make = (type_: event_type_t, election: Election.t, owner: Account.t) => {
-    let content = Election.stringify(election)
-    let cid = hash(content)
-    {
-      content,
-      type_,
-      cid,
-      publicKey: owner.userId,
-      signature: Account.signHex(owner, cid),
-    }
+let makeEvent = (type_, content, account: Account.t) => {
+  let cid = hash(content)
+  let emitterId = account.userId
+  let signature = account->Account.signHex(cid)
+  { type_, content, cid, emitterId, signature }
+}
+
+module ElectionInit = {
+  let create = (election: Election.t, admin: Account.t) => {
+    makeEvent(#"election.init", Election.stringify(election), admin)
   }
-
-  type create = (Election.t, Account.t) => t
-  let create = make(#"election")
-
-  type update = (Election.t, Account.t) => t
-  let update = make(#"election.update")
-
   let unwrap = (ev): Election.t => {
     Election.parse(ev.content)
   }
 }
 
-// #### Ballot events
-module SignedBallot = {
-  let create = (ballot: Ballot.t, owner: Account.t) => {
-    let content = Ballot.stringify(ballot)
-    let cid = hash(content)
-    {
-      type_: #"ballot",
-      content,
-      cid,
-      publicKey: owner.userId,
-      signature: Account.signHex(owner, cid),
-    }
+module ElectionBallot = {
+  let create = (ballot: Ballot.t, voter: Account.t) => {
+    makeEvent(#"election.ballot", Ballot.stringify(ballot), voter)
   }
-
   let unwrap = (ev): Ballot.t => {
     Ballot.parse(ev.content)
   }
 }
 
-/*
-// #### Tally event
-module SignedTally = {
-  let make = (tally : ElectionTally.t, owner : Identity.t) => {
-    let content = ElectionTally.stringify(tally)
-    let cid = hash(content)
-    {
-      content,
-      type_: #tally,
-      cid,
-      publicKey: owner.hexPublicKey,
-      signature: Identity.signHex(owner, cid)
-    }
+module ElectionVoter = {
+  type t = { electionId: string, voterId: string }
+  external parse: string => t = "JSON.parse"
+  external stringify: t => string = "JSON.stringify"
+  let create = (payload: t, admin: Account.t) => {
+    makeEvent(#"election.voter", stringify(payload), admin)
   }
-
-  let unwrap = (ev) : ElectionTally.t => {
-    ElectionTally.parse(ev.content)
-  }
+  let unwrap = (ev): t => { parse(ev.content) }
 }
-*/
 
-// #### Helpers
-let event_type_t_to_s = type_ => {
-  switch type_ {
-  | #"election" => "election"
-  | #"election.update" => "election.update"
-  | #"ballot" => "ballot"
+module ElectionTally = {
+  type t = { electionId: string, pda: string, pdb: string, result: string }
+  external parse: string => t = "JSON.parse"
+  external stringify: t => string = "JSON.stringify"
+  let create = (payload: t, admin: Account.t) => {
+    makeEvent(#"election.tally", stringify(payload), admin)
   }
+  let unwrap = (ev): t => { parse(ev.content) }
+}
+
+module ElectionDelegate = {
+  type t = { electionId: string, voterId: string, delegateId: string }
+  external parse: string => t = "JSON.parse"
+  external stringify: t => string = "JSON.stringify"
+  let create = (payload: t, voter: Account.t) => {
+    makeEvent(#"election.delegation", stringify(payload), voter)
+  }
+  let unwrap = (ev): t => { parse(ev.content) }
 }
 
 // #### Unsafe Serialization
@@ -117,18 +107,17 @@ external stringify_array: array<t> => string = "JSON.stringify"
 let from_json = json => {
   open Json.Decode
   let decode = object(field => {
-    let type_ = switch field.required(. "type_", string) {
-    | "election" => #"election"
-    | "election.update" => #"election.update"
-    | "ballot" => #"ballot"
+    let type_str = field.required(. "type_", string)
+    switch Array.getBy(event_type_map, ((_, str)) => str == type_str) {
+    | Some((variant_type, _)) =>
+      {
+        type_: variant_type,
+        content: field.required(. "content", string),
+        cid: field.required(. "cid", string),
+        emitterId: field.required(. "emitterId", string),
+        signature: field.required(. "signature", string),
+      }
     | _ => Js.Exn.raiseError("Unknown event type")
-    }
-    {
-      type_,
-      content: field.required(. "content", string),
-      cid: field.required(. "cid", string),
-      publicKey: field.required(. "publicKey", string),
-      signature: field.required(. "signature", string),
     }
   })
   switch json->Json.decode(decode) {
@@ -139,14 +128,17 @@ let from_json = json => {
 
 let to_json = (r: t): Js.Json.t => {
   open! Json.Encode
-  let type_ = event_type_t_to_s(r.type_)
-  Unsafe.object({
-    "type_": type_,
-    "content": string(r.content),
-    "cid": string(r.cid),
-    "publicKey": string(r.publicKey),
-    "signature": string(r.signature),
-  })
+  switch Array.getBy(event_type_map, ((variant, _)) => variant == r.type_) {
+  | Some((_, str_type)) =>
+    Unsafe.object({
+      "type_": str_type,
+      "content": string(r.content),
+      "cid": string(r.cid),
+      "emitterId": string(r.emitterId),
+      "signature": string(r.signature),
+    })
+  | None => Js.Exn.raiseError("Unknown event type")
+  }
 }
 
 // #### Storage
