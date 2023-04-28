@@ -77,17 +77,19 @@ let getSearchParameter = name => {
   res
 }
 
-let base_url = switch X.env {
+let env = X.env
+
+let base_url = switch env {
 | #dev => "http://localhost:19006"
 | #prod => "https://demo.scrutin.app"
 }
 
-let api_url = switch X.env {
+let bbs_url = switch env {
 | #dev => "http://localhost:8080"
 | #prod => "https://scrutin-bbs.fly.dev"
 }
 
-let server_auth_email = switch X.env {
+let server_auth_email = switch env {
 | #dev => "http://localhost:8081"
-| #prod => "https://scrutin-auth-email.fly.dev"
+| #prod => "https://scrutin-auth.fly.dev"
 }

@@ -155,5 +155,5 @@ let store_all = evs => ReactNativeAsyncStorage.setItem(storageKey, stringify_arr
 let clear = () => ReactNativeAsyncStorage.removeItem(storageKey)->ignore
 
 let broadcast = ev => {
-  X.post(`${URL.api_url}/events`, to_json(ev))
+  X.post(`${URL.bbs_url}/events`, to_json(ev))
 }
