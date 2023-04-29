@@ -3,7 +3,8 @@ let make = (~onRemove, ~onUpdate, ~email, ~index) => {
   <S.Row style={Style.viewStyle(~marginHorizontal=Style.dp(20.0), ())}>
     <S.Col style={Style.viewStyle(~flexGrow=10.0, ())}>
       <TextInput
-        mode=#flat label={`Email ${index->Int.toString}`} value=email onChangeText=onUpdate
+        mode=#flat value=email onChangeText=onUpdate
+        label={`Email ${index->Int.toString}`} testID={`input-invite-email-${index->Int.toString}`}
       />
     </S.Col>
     <S.Col>

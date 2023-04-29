@@ -52,7 +52,32 @@ When("I go to the invitation link", () => {
   })
 })
 
-Then("I should see the booth", () => {
+//When("I invite {string} by email, with email notification", (email) => {
+When("I invite {string} by email, with email notification", (email) => {
+  cy.get('[data-testid="button-invite"]').click()
+  cy.get('[data-testid="button-invite-email"]').click()
+  cy.wait(1000)
+  cy.get('[data-testid="input-invite-email-1"]').type(email, {delay: 0})
+  cy.contains('Inviter').click()
+})
+
+Given(/^a table step$/, (table) => {
+  const expected = [
+    ["Cucumber", "Cucumis sativus"],
+    ["Burr Gherkin", "Cucumis anguria"]
+  ];
+  assert.deepEqual(table.raw(), expected);
+})
+
+When("I follow the link on {string} email", (email) => {
+  cy.readFile('../scrutin-auth/emails/'+email)
+  .then((data) => {
+    let data2 = JSON.parse(data)
+    cy.visit(data2.link)
+  })
+})
+
+Then("I see the booth", () => {
   cy.contains("Question")
   cy.contains("Voter")
 })
