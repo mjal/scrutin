@@ -6,7 +6,7 @@ let electionsUpdate =  (
 ) => {
   switch ev.type_ {
   | #"election.init" =>
-    let election = Event_.ElectionInit.unwrap(ev)
+    let election = Event_.ElectionInit.parse(ev)
     let election = {...election,
       electionId: Some(ev.cid)
     }
@@ -34,14 +34,15 @@ let electionsUpdate =  (
       (elections, ballots)
     | Some(election) =>
       let voterIds = election.voterIds->Array.map((userId) => {
-        if userId == voterId { delegateId } else { voterId }
+        if userId == voterId { delegateId } else { userId }
       })
+      Js.log(voterIds)
       let election = { ...election, voterIds }
       let elections = Map.String.set(elections, electionId, election)
       (elections, ballots)
     }
   | #"election.ballot" =>
-    let ballot = Event_.ElectionBallot.unwrap(ev)
+    let ballot = Event_.ElectionBallot.parse(ev)
     (elections, Array.concat(ballots, [ballot]))
   | #"election.tally" =>
     let { electionId, pda, pdb, result } = Event_.ElectionTally.parse(ev.content)

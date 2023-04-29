@@ -94,7 +94,7 @@ module Election = {
       let result = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
 
       // Lookup for the admin identity
-      let admin = state->State.getElectionAdmin(election)
+      let admin = state->State.getElectionAdminExn(election)
 
       let ev = Event_.ElectionTally.create({
         electionId,

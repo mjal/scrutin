@@ -3,7 +3,7 @@ let make = (~election: Election.t, ~electionId) => {
   //let { t } = ReactI18next.useTranslation()
   let (state, dispatch) = StateContext.use()
   let (emails, setEmails) = React.useState(_ => ["", ""])
-  let admin = state->State.getElectionAdmin(election)
+  let admin = state->State.getElectionAdminExn(election)
   let (sendInvite, setSendInvite) = React.useState(_ => true)
 
   let onSubmit = _ => {
@@ -45,7 +45,7 @@ let make = (~election: Election.t, ~electionId) => {
             voterId: managerId,
           }, admin)
           dispatch(Event_Add_With_Broadcast(ev))
-          //dispatch(Navigate(list{"elections", electionId}))
+          dispatch(Navigate(list{"elections", electionId}))
         | None => Js.log("No managerId found...")
         }
       })->ignore

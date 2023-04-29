@@ -58,5 +58,8 @@ let getElectionValidBallots = (state, electionId) => {
 let getElectionAdmin = (state, election:Election.t) =>
   Array.getBy(state.accounts, (account) => {
     Array.getBy(election.adminIds, (userId) => userId == account.userId)
-    -> Option.isSome
-  }) -> Option.getExn
+    ->Option.isSome
+  })
+
+let getElectionAdminExn = (state, election:Election.t) =>
+  getElectionAdmin(state, election)->Option.getExn

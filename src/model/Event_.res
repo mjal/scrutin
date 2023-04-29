@@ -53,18 +53,14 @@ module ElectionInit = {
   let create = (election: Election.t, admin: Account.t) => {
     makeEvent(#"election.init", Election.stringify(election), admin)
   }
-  let unwrap = (ev): Election.t => {
-    Election.parse(ev.content)
-  }
+  let parse = (ev): Election.t => { Election.parse(ev.content) }
 }
 
 module ElectionBallot = {
   let create = (ballot: Ballot.t, voter: Account.t) => {
     makeEvent(#"election.ballot", Ballot.stringify(ballot), voter)
   }
-  let unwrap = (ev): Ballot.t => {
-    Ballot.parse(ev.content)
-  }
+  let parse = (ev): Ballot.t => { Ballot.parse(ev.content) }
 }
 
 module ElectionVoter = {
@@ -74,7 +70,6 @@ module ElectionVoter = {
   let create = (payload: t, admin: Account.t) => {
     makeEvent(#"election.voter", stringify(payload), admin)
   }
-  let unwrap = (ev): t => { parse(ev.content) }
 }
 
 module ElectionTally = {
@@ -84,7 +79,6 @@ module ElectionTally = {
   let create = (payload: t, admin: Account.t) => {
     makeEvent(#"election.tally", stringify(payload), admin)
   }
-  let unwrap = (ev): t => { parse(ev.content) }
 }
 
 module ElectionDelegate = {
@@ -94,7 +88,6 @@ module ElectionDelegate = {
   let create = (payload: t, voter: Account.t) => {
     makeEvent(#"election.delegation", stringify(payload), voter)
   }
-  let unwrap = (ev): t => { parse(ev.content) }
 }
 
 // #### Unsafe Serialization

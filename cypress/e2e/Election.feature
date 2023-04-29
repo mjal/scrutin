@@ -13,11 +13,13 @@ Feature: Organize elections
     When I go to the invitation link
     Then I see the booth
 
-  @focus
   Scenario: Adding a voter by email
     Given I created an election
     When I invite "someone@fakeemail.fr" by email, with email notification
+    Given I save trustees and identities
+    Given I clear localStorage
     When I follow the link on "someone@fakeemail.fr" email
+    When I use the token
     Then I see the booth
 
   @skip

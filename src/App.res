@@ -26,6 +26,12 @@ let make = () => {
       | Some(election) => <ElectionShow election electionId />
       }
 
+    | list{"elections", electionId, "challenge", userToken} =>
+      switch Map.String.get(state.elections, electionId) {
+      | None => <NotFoundYet />
+      | Some(election) => <ElectionChallenge election electionId userToken />
+      }
+
     | list{"elections", electionId, "invite"} =>
       switch Map.String.get(state.elections, electionId) {
       | None => <NotFoundYet />

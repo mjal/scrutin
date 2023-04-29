@@ -36,6 +36,24 @@ Given("I created an election", () => {
   cy.contains("Next").click()
 })
 
+Given("I save trustees and identities", () => {
+  cy.window().then(window => {
+    let trustees = window.localStorage.getItem('trustees')
+    let identities = window.localStorage.getItem('identities')
+
+    cy.writeFile('cypress/fixtures/crendentials.json', {
+      trustees,
+      identities
+    })
+  })
+})
+
+Given("I clear localStorage", () => {
+  cy.window().then(window => {
+    window.localStorage.clear()
+  })
+})
+
 When("I create an invitation link", () => {
   cy.get('[data-testid="button-invite"]').click()
   cy.get('[data-testid="button-invite-link"]').click()
@@ -75,6 +93,10 @@ When("I follow the link on {string} email", (email) => {
     let data2 = JSON.parse(data)
     cy.visit(data2.link)
   })
+})
+
+When("I use the token", () => {
+  cy.contains('Utiliser').click()
 })
 
 Then("I see the booth", () => {
