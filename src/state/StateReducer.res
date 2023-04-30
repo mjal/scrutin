@@ -6,21 +6,34 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
         StateEffect.loadAccounts,
         StateEffect.loadTrustees,
         StateEffect.loadInvitations,
-        StateEffect.fetchEvents,
+        StateEffect.loadAndFetchEvents,
         StateEffect.goToUrl,
       ],
     )
 
-  | Fetching_Events_End => ({...state, fetchingEvents: false}, [])
+  | FetchLatest =>
+    let latestId = state.events
+      ->Array.reduce(0, (acc, ev) => acc > ev.id ? acc : ev.id)
+    (state, [StateEffect.fetchLatestEvents(latestId)])
+
+  | Fetched => ({...state, fetchingEvents: false}, [])
 
   | Account_Add(account) =>
     let accounts = Array.concat(state.accounts, [account])
     ({...state, accounts}, [StateEffect.storeAccounts(accounts)])
 
   | Event_Add(event) =>
-    let events = Array.concat(state.events, [event])
-    let (elections, ballots) = StateEffect.electionsUpdate(state.elections, state.ballots, event)
-    ({...state, events, elections, ballots}, [])
+    if (state.events->Array.getBy(oldEvent =>
+      event.id == oldEvent.id || event.cid == oldEvent.cid)
+      ->Option.isSome)
+    {
+      Js.log("Duplicated event")
+      (state, [])
+    } else {
+      let events = Array.concat(state.events, [event])
+      let (elections, ballots) = StateEffect.electionsUpdate(state.elections, state.ballots, event)
+      ({...state, events, elections, ballots}, [StateEffect.storeEvents(events)])
+    }
 
   | Event_Add_With_Broadcast(event) =>
     let (state, actions) = reducer(state, Event_Add(event))

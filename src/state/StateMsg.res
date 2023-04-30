@@ -10,7 +10,9 @@ type t =
   | Invitation_Add(Invitation.t)
   | Invitation_Remove(int)
   | Config_Store_Language(string)
-  | Fetching_Events_End
+
+  | FetchLatest
+  | Fetched
 
   | ElectionInit(string, Election.t)
   | ElectionUpdate(string, Election.t)

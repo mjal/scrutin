@@ -128,28 +128,52 @@ let clearEvents = _dispatch => Event_.clear()
 let clearTrustees = _dispatch => Trustee.clear()
 
 // ## Network - Fetch
-
-let fetchEvents = dispatch => {
-  Webapi.Fetch.fetch(`${URL.bbs_url}/events`)
-  ->Promise.then(Webapi.Fetch.Response.json)
-  ->Promise.thenResolve(response => {
-    switch Js.Json.decodeArray(response) {
-    | Some(jsons) => {
-        let _ = Array.map(jsons, json => {
+let loadAndFetchEvents = dispatch => {
+  Event_.loadAll()
+  ->Promise.thenResolve(evs => {
+    Array.forEach(evs, ev => dispatch(StateMsg.Event_Add(ev)))
+    evs
+  })
+  ->Promise.thenResolve(evs => {
+    Js.log(evs)
+    let latestId = evs->Array.reduce(0, (acc, ev:Event_.t) => acc > ev.id ? acc : ev.id)
+    Webapi.Fetch.fetch(`${URL.bbs_url}/events?from=${latestId->Int.toString}`)
+    ->Promise.then(Webapi.Fetch.Response.json)
+    ->Promise.thenResolve(response => {
+      switch Js.Json.decodeArray(response) {
+      | Some(jsons) =>
+        Array.forEach(jsons, json => {
           try {
-            let ev = Event_.from_json(json)
-            dispatch(StateMsg.Event_Add(ev))
+            dispatch(StateMsg.Event_Add(Event_.from_json(json)))
           } catch {
           | _ => Js.log("Cannot parse event")
           }
-          ()
         })
-        dispatch(StateMsg.Fetching_Events_End)
+        dispatch(StateMsg.Fetched)
+      | None => ()
       }
-    | None => ()
-    }
+    })
   })
   ->ignore
+}
+
+let fetchLatestEvents = (latestId, dispatch) => {
+  Webapi.Fetch.fetch(`${URL.bbs_url}/events?from=${latestId->Int.toString}`)
+  ->Promise.then(Webapi.Fetch.Response.json)
+  ->Promise.thenResolve(response => {
+    switch Js.Json.decodeArray(response) {
+    | Some(jsons) =>
+      Array.forEach(jsons, json => {
+        try {
+          dispatch(StateMsg.Event_Add(Event_.from_json(json)))
+        } catch {
+        | _ => Js.log("Cannot parse event")
+        }
+      })
+      dispatch(StateMsg.Fetched)
+    | None => ()
+    }
+  })->ignore
 }
 
 // ## Send event to the server

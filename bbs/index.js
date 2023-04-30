@@ -1,7 +1,13 @@
 const express = require('express')
 const asyncHandler = require('express-async-handler')
 const cors = require('cors') // TODO: Configure cors
+
+const env = process.env.NODE_ENV || 'development'
 require('dotenv').config()
+
+import Knex from "knex"
+import knexConfig from './knexfile'
+const knex = Knex(knexConfig[env])
 
 const { Sequelize, Op } = require('sequelize')
 const sequelize = new Sequelize(process.env.DATABASE_URL)

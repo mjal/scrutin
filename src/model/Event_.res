@@ -20,6 +20,7 @@ let event_type_map : array<(event_type_t, string)> = [
 
 // #### Event.t
 type t = {
+  id: int,
   // **type**
   type_: event_type_t,
   // **content**: The stringified JSON representing the state mutation
@@ -46,7 +47,7 @@ let makeEvent = (type_, content, account: Account.t) => {
   let cid = hash(content)
   let emitterId = account.userId
   let signature = account->Account.signHex(cid)
-  { type_, content, cid, emitterId, signature }
+  { id: 0, type_, content, cid, emitterId, signature }
 }
 
 module ElectionInit = {
@@ -104,6 +105,7 @@ let from_json = json => {
     switch Array.getBy(event_type_map, ((_, str)) => str == type_str) {
     | Some((variant_type, _)) =>
       {
+        id: field.required(. "id", int),
         type_: variant_type,
         content: field.required(. "content", string),
         cid: field.required(. "cid", string),

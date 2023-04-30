@@ -7,6 +7,13 @@ let make = () => {
     None
   })
 
+  React.useEffect0(() => {
+    Js.Global.setInterval(() => {
+      dispatch(StateMsg.FetchLatest)
+    }, 5000)->ignore
+    None
+  })
+
   // Go to url
   if ReactNative.Platform.os == #web {
     let url = RescriptReactRouter.useUrl()
