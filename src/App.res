@@ -27,52 +27,32 @@ let make = () => {
     | list{"elections", "search"} => <ElectionSearch />
     | list{"elections", "new"} => <ElectionNew />
 
-    | list{"elections", electionId} =>
-      switch Map.String.get(state.elections, electionId) {
-      | None => <NotFoundYet />
-      | Some(election) => <ElectionShow election electionId />
-      }
+    | list{"elections", electionId, ...electionRoute} =>
 
-    | list{"elections", electionId, "challenge", userToken} =>
       switch Map.String.get(state.elections, electionId) {
       | None => <NotFoundYet />
-      | Some(election) => <ElectionChallenge election electionId userToken />
-      }
-
-    | list{"elections", electionId, "invite"} =>
-      switch Map.String.get(state.elections, electionId) {
-      | None => <NotFoundYet />
-      | Some(election) => <ElectionInvite election electionId />
-      }
-
-    | list{"elections", electionId, "invite_link"} =>
-      switch Map.String.get(state.elections, electionId) {
-      | None => <NotFoundYet />
-      | Some(election) => <ElectionInviteLink election electionId />
-      }
-
-    | list{"elections", electionId, "invite_email"} =>
-      switch Map.String.get(state.elections, electionId) {
-      | None => <NotFoundYet />
-      | Some(election) => <ElectionInviteEmail election electionId />
-      }
-
-    | list{"elections", electionId, "invite_manage"} =>
-      switch Map.String.get(state.elections, electionId) {
-      | None => <NotFoundYet />
-      | Some(election) => <ElectionInviteManage election />
-      }
-
-    | list{"elections", electionId, "result"} =>
-      switch Map.String.get(state.elections, electionId) {
-      | None => <NotFoundYet />
-      | Some(election) => <ElectionResult election electionId />
-      }
-
-    | list{"elections", electionId, "booth"} =>
-      switch Map.String.get(state.elections, electionId) {
-      | None => <NotFoundYet />
-      | Some(election) => <ElectionBooth election electionId />
+      | Some(election) =>
+        switch electionRoute {
+        | list{} =>
+          <ElectionShow election electionId />
+        | list{"challenge", userToken} =>
+          <ElectionChallenge election electionId userToken />
+        | list{"invite"} =>
+          <ElectionInvite election electionId />
+        | list{"invite_link"} =>
+          <ElectionInviteLink election electionId />
+        | list{"invite_email"} =>
+          <ElectionInviteEmail election electionId />
+        | list{"invite_manage"} =>
+          <ElectionInviteManage election />
+        | list{"result"} =>
+          <ElectionResult election electionId />
+        | list{"booth"} =>
+          <ElectionBooth election electionId />
+        | route =>
+          Js.log(("Unknown election route", route))
+          <HomeView />
+        }
       }
 
     | list{"identities"} => <IdentityIndex />
