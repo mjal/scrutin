@@ -17,7 +17,7 @@
     "eas-build-post-install": "rescript clean && rescript build -with-deps",
     "test": "cypress run",
     "test:gui": "cypress open",
-    "bbs": "cd bbs && npm start:dev"
+    "bbs": "cd bbs && npm run start:dev"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.3",
@@ -48,7 +48,9 @@
     "rescript-react-native": "^0.70.0",
     "rescript-react-native-async-storage": "git+https://github.com/scrutin-app/rescript-react-native-async-storage",
     "rescript-webapi": "^0.7.0",
-    "sjcl-with-all": "^1.0.8"
+    "sjcl-with-all": "^1.0.8",
+    "typescript": "^4.9.4",
+    "@types/react": "~18.0.27"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
