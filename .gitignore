@@ -27,5 +27,4 @@ cypress/screenshots/
 cypress/videos/
 cypress/fixtures/
 
-bbs/db.sqlite3
-bbs/emails
+bbs/dev.sqlite3
