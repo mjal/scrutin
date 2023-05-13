@@ -1,5 +1,7 @@
+lib/
 Dockerfile
 .dockerignore
 node_modules
 .git
 .env
+*.sqlite3
