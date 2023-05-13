@@ -1,4 +1,3 @@
-// TODO: Move
 let electionsUpdate =  (
   elections: Map.String.t<Election.t>,
   ballots: array<Ballot.t>,
@@ -36,7 +35,7 @@ let electionsUpdate =  (
       let voterIds = election.voterIds->Array.map((userId) => {
         if userId == voterId { delegateId } else { userId }
       })
-      Js.log(voterIds)
+      Js.log((election.voterIds, voterId, voterIds))
       let election = { ...election, voterIds }
       let elections = Map.String.set(elections, electionId, election)
       (elections, ballots)

@@ -19,6 +19,7 @@ web-build/
 
 # rescript build artefacts
 lib/bs/*
+auth/lib/bs/*
 .merlin
 *.bs.js
 
@@ -28,3 +29,6 @@ cypress/videos/
 cypress/fixtures/
 
 bbs/dev.sqlite3
+
+!auth/emails/.gitkeep
+auth/emails/*

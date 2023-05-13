@@ -24,6 +24,8 @@ let make = (~election: Election.t, ~electionId) => {
   | question => question
   }
 
+  Js.log(election)
+
   <>
     <ElectionHeader election />
 

@@ -88,7 +88,7 @@ Given(/^a table step$/, (table) => {
 })
 
 When("I follow the link on {string} email", (email) => {
-  cy.readFile('../scrutin-auth/emails/'+email)
+  cy.readFile('./auth/emails/'+email)
   .then((data) => {
     let data2 = JSON.parse(data)
     cy.visit(data2.link)
