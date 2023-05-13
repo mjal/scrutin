@@ -32,3 +32,4 @@ bbs/dev.sqlite3
 
 !auth/emails/.gitkeep
 auth/emails/*
+auth/dev.sqlite3

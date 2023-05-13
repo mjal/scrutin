@@ -10,8 +10,10 @@ import knexConfig from './knexfile'
 const env = process.env.NODE_ENV || 'development'
 const knex = Knex(knexConfig[env])
 
-const Account = require("./scrutin-lib/Account.bs.js")
-const Event_ = require("./scrutin-lib/Event_.bs.js")
+//const Account = require("./scrutin-lib/Account.bs.js")
+//const Event_ = require("./scrutin-lib/Event_.bs.js")
+
+import { Account, Event_ } from "./scrutin-lib"
 
 let baseUrl = "https://demo.scrutin.app"
 if (env == 'development') {
@@ -123,7 +125,8 @@ app.post('/challenge', async (req, res) => {
   console.log(user.managerId)
   console.log(manager.userId)
 
-  res.status(200).send({...event, id: 0})
+  res.status(200).send(event)
+  //res.status(200).send({...event, id: 0})
 })
 
 const port = process.env.PORT || 8081
