@@ -18,12 +18,12 @@ app.get('/', (_req, res) => {
 })
 
 app.get('/events', async (req, res) => {
-  const { id } = req.query
+  const { from } = req.query
   let nId = 0
-  if ( typeof id === "string" )
-    nId = parseInt(id)
-  // Query where id is superior to nId
+  if ( typeof from === "string" )
+    nId = parseInt(from)
   const events = await knex('events').select()
+    .where('id', '>', nId).orderBy('id')
   res.json(events)
 })
 
