@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "re:build": "rescript build -with-deps",
     "migrate": "knex migrate:latest",
-    "start": "npm run build && npm run re:build && node index.js",
+    "start": "npm run build && node index.js",
     "start:dev": "nodemon -x ts-node index.ts",
     "lint": "eslint . --ext .ts",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -45,7 +44,6 @@
     "express": "^4.18.2",
     "knex": "^2.4.2",
     "pg": "^8.10.0",
-    "rescript": "^10.1.4",
     "sjcl-with-all": "^1.0.8",
     "sqlite3": "^5.1.6"
   }
