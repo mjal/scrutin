@@ -2,6 +2,7 @@ import express from "express"
 import cors from "cors"
 import crypto from "crypto"
 import dotenv from "dotenv"
+dotenv.config()
 import sgMail from "@sendgrid/mail"
 import { promises as fs} from "fs"
 
@@ -10,9 +11,6 @@ import knexConfig from './knexfile'
 const env = process.env.NODE_ENV || 'development'
 const knex = Knex(knexConfig[env])
 
-//const Account = require("./scrutin-lib/Account.bs.js")
-//const Event_ = require("./scrutin-lib/Event_.bs.js")
-
 import { Account, Event_ } from "./scrutin-lib"
 
 let baseUrl = "https://demo.scrutin.app"
@@ -20,15 +18,12 @@ if (env == 'development') {
   baseUrl = "http://localhost:19006"
 }
 
-dotenv.config()
-
-if (process.env.SENDGRID_API_KEY) {
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-}
-
 function sendMail(email: string, electionId: string, userToken: string) {
 	let link = `${baseUrl}/elections/${electionId}/challenge/${userToken}`
   if (env === 'production') {
+    if (process.env.SENDGRID_API_KEY) {
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+    }
     sgMail.send({
       from: 'Scrutin <hello@scrutin-mailing.org>',
       to: email,
@@ -57,6 +52,49 @@ function sendMail(email: string, electionId: string, userToken: string) {
   }
 }
 
+function sendSMS(phone: string, electionId: string, userToken: string) {
+	let link = `${baseUrl}/elections/${electionId}/challenge/${userToken}`
+  if (env === 'production') {
+    fetch("https://mpg8q9.api.infobip.com/sms/2/text/advanced", {
+      method: "POST",
+      body: JSON.stringify({
+        messages: [
+          {
+            from:"447491163443",
+            destinations:[{ to: phone }],
+            text: `
+              Vous êtes invité à une élection.
+              Cliquez ici pour voter :
+              ${link}
+            `
+          }
+        ]
+      }),
+      headers: {
+        "Authorization": "App " + process.env.INFOBIP_API_KEY,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      console.log(data.status)
+    })
+    .catch(error => console.log(error))
+  } else {
+    fs.mkdir("sms", { recursive: true }).then(() => {
+      fs.writeFile("sms/"+phone, JSON.stringify({
+        electionId,
+        userToken,
+        link
+      })).then(() => {
+        console.log("sms written to disk")
+      })
+    })
+  }
+}
+
 const app = express()
 app.use(express.json())
 app.use(cors())
@@ -66,7 +104,7 @@ app.get('/', (_req, res) => {
 })
 
 app.post('/users', cors(), async (req, res) => {
-  let { email, electionId, sendInvite } = req.body
+  let { electionId, username, type, sendInvite } = req.body
 
   let userToken = crypto.randomBytes(16).toString('hex')
     .slice(0, 16).toUpperCase()
@@ -76,30 +114,38 @@ app.post('/users', cors(), async (req, res) => {
   
   await knex('users').insert({
   	electionId,
-  	email,
+  	username,
+    type,
   	managerId,
   	secret: managerAccount.secret,
     userToken
   })
 
   if (sendInvite) {
-    sendMail(email, electionId, userToken)
+    if (type === "email") {
+      sendMail(username, electionId, userToken)
+    } else if (type === "phone") {
+      sendSMS(username, electionId, userToken)
+    }
   }
   
   res.send({
   	electionId,
-  	email,
+  	username,
+    type,
   	managerId
   })
 })
 
 app.post('/login', async (req, res) => {
-	let { email, electionId } = req.body
+	let { username, type, electionId } = req.body
 
-  const user = await knex('users').where({ email, electionId }).first();
+  const user = await knex('users').where({ username, type, electionId }).first();
 
   if (user) {
-    sendMail(user.email, user.electionId, user.userToken)
+    if (user.type === "email") {
+      sendMail(user.username, user.electionId, user.userToken)
+    }
   	res.send(200)
   }
 
