@@ -14,6 +14,7 @@ let make = (~election: Election.t, ~electionId) => {
       let data = {
         let dict = Js.Dict.empty()
         Js.Dict.set(dict, "email", Js.Json.string(email))
+        Js.Dict.set(dict, "type", Js.Json.string("email"))
         Js.Dict.set(dict, "electionId", Js.Json.string(electionId))
         Js.Dict.set(dict, "sendInvite", Js.Json.boolean(sendInvite))
         Js.Json.object_(dict)
