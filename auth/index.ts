@@ -80,7 +80,6 @@ function sendSMS(phone: string, electionId: string, userToken: string) {
     .then(response => response.json())
     .then(data => {
       console.log(data)
-      console.log(data.status)
     })
     .catch(error => console.log(error))
   } else {
