@@ -17,7 +17,8 @@
     "eas-build-post-install": "rescript clean && rescript build -with-deps",
     "test": "cypress run",
     "test:gui": "cypress open",
-    "bbs": "cd bbs && npm run start:dev"
+    "bbs": "cd bbs && npm run start:dev",
+    "auth": "cd auth && npm run start:dev"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.3",
