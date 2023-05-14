@@ -24,6 +24,14 @@ let make = (~election: Election.t, ~electionId, ~userToken: string) => {
     ->ignore
   }
 
+  // Auto-submit
+  React.useEffect0(() => {
+    if userToken != "" {
+      submit()
+    }
+    None
+  })
+
   <>
     <ElectionHeader election />
     <S.Title> {"Invitation par token"->React.string} </S.Title>
