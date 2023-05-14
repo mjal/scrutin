@@ -5,7 +5,7 @@ import dotenv from "dotenv"
 dotenv.config()
 import sgMail from "@sendgrid/mail"
 import { promises as fs} from "fs"
-import fetch from "node-fetch"
+import fetch from "cross-fetch"
 
 import Knex from "knex"
 import knexConfig from './knexfile'
