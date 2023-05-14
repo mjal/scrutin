@@ -23,9 +23,7 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
     ({...state, accounts}, [StateEffect.storeAccounts(accounts)])
 
   | Event_Add(event) =>
-    if (state.events->Array.getBy(oldEvent =>
-      event.id == oldEvent.id || event.cid == oldEvent.cid)
-      ->Option.isSome)
+    if (state.events->Array.getBy(oldEvent => event.cid == oldEvent.cid)->Option.isSome)
     {
       Js.log("Duplicated event")
       (state, [])
