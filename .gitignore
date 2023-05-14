@@ -32,5 +32,7 @@ cypress/fixtures/
 bbs/dev.sqlite3
 
 !auth/emails/.gitkeep
+!auth/sms/.gitkeep
 auth/emails/*
+auth/sms/*
 auth/dev.sqlite3

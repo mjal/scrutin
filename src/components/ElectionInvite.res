@@ -13,6 +13,13 @@ let make = (~election: Election.t, ~electionId) => {
       }}
     />
     <S.Button
+      title="Invite by phone"
+      testID="button-invite-phone"
+      onPress={_ => {
+        dispatch(Navigate(list{"elections", electionId, "invite_phone"}))
+      }}
+    />
+    <S.Button
       title="Invite by link"
       testID="button-invite-link"
       onPress={_ => dispatch(Navigate(list{"elections", electionId, "invite_link"}))}

@@ -43,6 +43,8 @@ let make = () => {
           <ElectionInviteLink election electionId />
         | list{"invite_email"} =>
           <ElectionInviteEmail election electionId />
+        | list{"invite_phone"} =>
+          <ElectionInvitePhone election electionId />
         | list{"invite_manage"} =>
           <ElectionInviteManage election />
         | list{"result"} =>
