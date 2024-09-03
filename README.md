@@ -1,12 +1,3 @@
-<p align="center">
-  <a href="https://app.netlify.com/sites/scrutin/deploys">
-    <img src="https://api.netlify.com/api/v1/badges/c5ba7726-90e0-474e-b85f-4d1447fb11f5/deploy-status" alt="Deploy status" />
-  </a>
-  <a href="https://hosted.weblate.org/engage/scrutin/">
-    <img src="https://hosted.weblate.org/widgets/scrutin/-/app/svg-badge.svg" alt="Translation status" />
-  </a>
-</p>
-
 A mobile app for secure voting using the Helios protocol and INRIA’s [Belenios](https://www.belenios.org) voting library.
 
 ## Install
@@ -41,12 +32,6 @@ npm start
 
 - [ ] Resuts as a pie chart
 - [ ] Inspect the progress of an elections (how many empty/filled ballots)
-
-##### Translations
-on [Hosted Weblate](https://hosted.weblate.org/engage/scrutin/) \
-<a href="https://hosted.weblate.org/engage/scrutin/">
-<img src="https://hosted.weblate.org/widgets/scrutin/-/app/multi-auto.svg" alt="Translation status" />
-</a>
 
 ##### Nice to have
 
