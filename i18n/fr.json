@@ -1,0 +1,98 @@
+{
+    "translation": {
+        "app.title": "Scrutin : Elections sécurisés et verifiables",
+        "home": {
+            "create": "Créer une élection",
+            "search": "Chercher une élection..."
+        },
+        "search": {
+            "header.title": "Chercher une élection"
+        },
+        "ballot.show": {
+            "title": "Bulletin de vote",
+            "election": "Élection",
+            "eventHash": "Id de l'événement",
+            "previousId": "Id de la version précédente",
+            "voter": "Votant",
+            "ciphertext": "Vote crypté"
+        },
+        "ballot.new": {
+            "choices": "Choix",
+            "vote": "Votant",
+            "noVotingRight": "Vous n'avez pas le droit de voter"
+        },
+        "election.new": {
+            "header": "Nouvelle élection",
+            "question": "Question",
+            "noPublicKey": "Pas de clef publique trouvée",
+            "title": "Titre",
+            "description": "Description",
+            "owner": "Créateur",
+            "create": "Créer",
+            "next": "Suivant",
+            "choiceList": {
+                "choices": "Choix"
+            }
+        },
+        "election.show": {
+            "unnamed": "Élection sans nom",
+            "choices": "Choix",
+            "status": "Status",
+            "statusInProgress": "En cours",
+            "statusFinished": "Fini",
+            "showAdvanced": "Afficher plus",
+            "hideAdvanced": "Afficher moins",
+            "id": "Id de l'élection",
+            "ownerPublicKey": "Administrateur",
+            "params": "Paramètres",
+            "trustees": "Gardiens",
+            "ballotEvents": "Événements de vote",
+            "showBallots": "Montrer les bulletins",
+            "hideBallots": "Cacher les bulletins",
+            "result": "Resultat",
+            "admin": "Vous êtes administrateur",
+            "notAdmin": "Vous n'êtes pas administrateur",
+            "closeAndTally": "Terminer l'élection ef calculer le resultat",
+            "addByEmail": {
+                "addParticipant": "Ajouter un participant",
+                "modal.title": "Inviter quelqu'un by email",
+                "modal.email": "Email",
+                "modal.back": "Retour",
+                "modal.sendInvite": "Envoyer une invitation par email"
+            }
+        },
+        "settings": {
+            "language": "Langue",
+            "internals": "Paramètres avancés",
+            "identities": "Identitées",
+            "trustees": "Guardiens",
+            "contacts": "Contacts",
+            "events": "Événements"
+        },
+        "trustees": {
+            "title": "Guardiens",
+            "clear": "Effacer tout"
+        },
+        "identity.home": {
+            "title": "Identités",
+            "generate": "Générer une identité",
+            "import": "Importer une identité",
+            "clear": "Effacer tout",
+            "modal": {
+                "privateKey": "Clef secrète",
+                "add": "Ajouter"
+            }
+        },
+        "identity.show": {
+            "title": "Identités",
+            "publicKey": "Clefs publiques",
+            "secretKey": "Clefs secrètes",
+            "elections": "Élections",
+            "ballots": "Bulletins de vote"
+        },
+        "events": {
+            "title": "Événements",
+            "clear": "Effacer tout"
+        }
+    }
+}

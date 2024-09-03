@@ -1,0 +1,116 @@
+{
+    "translation": {
+        "app.title": "Scrutin: Secure, verifiable elections",
+        "home": {
+            "create": "Create an election",
+            "search": "Search an election..."
+        },
+        "search": {
+            "header.title": "Search an election"
+        },
+        "ballot.show": {
+            "title": "Ballot",
+            "election": "Election",
+            "eventHash": "Event Hash",
+            "previousId": "Previous ID",
+            "voter": "Voter",
+            "ciphertext": "Ciphertext"
+        },
+        "ballot.new": {
+            "choices": "Choices",
+            "vote": "Voter",
+            "noVotingRight": "You don't have voting right"
+        },
+        "invitation": {
+            "title": "Invitation",
+            "item.email": "Email",
+            "item.phoneNumber": "Phone number",
+            "delete": "Delete",
+            "clearAll": "Clear contacts"
+        },
+        "election.new": {
+            "header": "New election",
+            "question": "Question",
+            "noPublicKey": "No public key found",
+            "title": "Title",
+            "description": "Description",
+            "owner": "Owner",
+            "create": "Create",
+            "next": "Next",
+            "choiceList": {
+                "choices": "Choices"
+            }
+        },
+        "election.show": {
+            "choices": "Choices",
+            "status": "Status",
+            "statusInProgress": "In progress",
+            "statusFinished": "Finished",
+            "showAdvanced": "Show more",
+            "hideAdvanced": "Show less",
+            "id": "Election id",
+            "ownerPublicKey": "Owner's Public Key",
+            "params": "Params",
+            "trustees": "Guardians",
+            "ballotEvents": "Ballot events",
+            "showBallots": "Show ballots",
+            "hideBallots": "Hide ballots",
+            "result": "Result",
+            "admin": "You are admin",
+            "notAdmin": "You are not admin",
+            "closeAndTally": "Close election and tally",
+            "addByEmail": {
+                "addParticipant": "Add someone",
+                "modal.title": "Invite someone by email",
+                "modal.email": "Email",
+                "modal.back": "Back",
+                "modal.sendInvite": "Send invite by email"
+            },
+            "createInvite": {
+                "button": "Create invite",
+                "title": "Share invite",
+                "share": "Share",
+                "copy": "Copy",
+                "close": "Close"
+            },
+            "unnamed": "Unnamed election"
+        },
+        "settings": {
+            "language": "Language",
+            "internals": "Advanced settings",
+            "identities": "Identities",
+            "trustees": "Guardians",
+            "contacts": "Contacts",
+            "events": "Events"
+        },
+        "trustees": {
+            "title": "Guardians",
+            "clear": "Clear"
+        },
+        "events": {
+            "title": "Events",
+            "clear": "Clear"
+        },
+        "identity.home": {
+            "title": "Identities",
+            "generate": "Generate identity",
+            "import": "Import identity",
+            "clear": "Clear identitites",
+            "modal": {
+                "privateKey": "Private key",
+                "add": "Add"
+            }
+        },
+        "identity.show": {
+            "title": "Identity",
+            "publicKey": "Public key",
+            "secretKey": "Secret key",
+            "elections": "Elections",
+            "ballots": "Ballots"
+        },
+        "utils.copybutton": {
+            "text": "Copy",
+            "feedback": "Copied!"
+        }
+    }
+}
