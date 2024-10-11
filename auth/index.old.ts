@@ -20,7 +20,7 @@ if (env == 'development') {
 }
 
 function sendMail(email: string, electionId: string, userToken: string) {
-	let link = `${baseUrl}/elections/${electionId}/token/${userToken}`
+	let link = `${baseUrl}/elections/${electionId}/challenge/${userToken}`
   if (env === 'production') {
     if (process.env.SENDGRID_API_KEY) {
       sgMail.setApiKey(process.env.SENDGRID_API_KEY)
@@ -54,7 +54,7 @@ function sendMail(email: string, electionId: string, userToken: string) {
 }
 
 function sendSMS(phone: string, electionId: string, userToken: string) {
-	let link = `${baseUrl}/elections/${electionId}/token/${userToken}`
+	let link = `${baseUrl}/elections/${electionId}/challenge/${userToken}`
   if (env === 'production') {
     fetch("https://mpg8q9.api.infobip.com/sms/2/text/advanced", {
       method: "POST",
@@ -109,9 +109,6 @@ app.post('/users', cors(), async (req, res) => {
   let userToken = crypto.randomBytes(16).toString('hex')
     .slice(0, 16).toUpperCase()
 
-  let managerId = userToken
-
-  /*
   let managerAccount = Account.make()
   let managerId = managerAccount.userId
   
@@ -123,7 +120,6 @@ app.post('/users', cors(), async (req, res) => {
   	secret: managerAccount.secret,
     userToken
   })
-  */
 
   if (sendInvite) {
     if (type === "email") {
@@ -179,5 +175,5 @@ app.post('/challenge', async (req, res) => {
   //res.status(200).send({...event, id: 0})
 })
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8081
 app.listen(port, () => console.log(`app listening on port ${port}!`))
