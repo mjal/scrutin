@@ -88,10 +88,6 @@ let make = (~election: Election.t, ~electionId) => {
       </Text>
     | Some(secret) =>
       let account = Account.make2(~secret)
-      Js.log("account")
-      Js.log(account)
-      Js.log("PublicKey:")
-      Js.log(account.userId)
       // NOTE: Should we save the account for later ?
       //dispatch(StateMsg.Account_Add(account))
       // TODO: Check before if account doesn't yet exist ?
