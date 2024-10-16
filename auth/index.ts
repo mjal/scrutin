@@ -106,10 +106,12 @@ app.get('/', (_req, res) => {
 app.post('/users', cors(), async (req, res) => {
   let { electionId, username, type, sendInvite } = req.body
 
-  let userToken = crypto.randomBytes(16).toString('hex')
-    .slice(0, 16).toUpperCase()
+  //let userToken = crypto.randomBytes(16).toString('hex')
+  //  .slice(0, 16).toUpperCase()
 
-  let managerId = userToken
+  let account = Account.make()
+  let userToken = account.secret
+  let managerId = account.userId
 
   /*
   let managerAccount = Account.make()
@@ -179,5 +181,5 @@ app.post('/challenge', async (req, res) => {
   //res.status(200).send({...event, id: 0})
 })
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 8081
 app.listen(port, () => console.log(`app listening on port ${port}!`))
