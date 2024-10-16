@@ -35,8 +35,10 @@ let make = () => {
         switch electionRoute {
         | list{} =>
           <ElectionShow election electionId />
-        | list{"challenge", userToken} =>
+        | list{"challenge", userToken} => // Unused
           <ElectionChallenge election electionId userToken />
+        | list{"token", secret} =>
+          <ElectionToken election electionId secret />
         | list{"invite"} =>
           <ElectionInvite election electionId />
         | list{"invite_link"} =>
