@@ -79,10 +79,10 @@ let make = (~election: Election.t, ~electionId, ~secret) => {
 
   <>
     <ElectionHeader election />
-    switch oBallot {
+    { switch oBallot {
     | None => <Booth election electionId account />
     | Some(_ballot) => <BoothAfterVote electionId />
-    }
+    } }
   </>
 
   //let oBallot = switch oAccount {
