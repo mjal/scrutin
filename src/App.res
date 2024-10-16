@@ -51,8 +51,8 @@ let make = () => {
           <ElectionInviteManage election />
         | list{"result"} =>
           <ElectionResult election electionId />
-        | list{"booth", secret} =>
-          <ElectionBooth election electionId secret />
+        | list{"booth"} =>
+          <ElectionBooth election electionId />
         | route =>
           Js.log(("Unknown election route", route))
           <HomeView />

@@ -60,51 +60,50 @@ module Booth = {
   }
 }
 
+let getSecret = () => {
+  if ReactNative.Platform.os == #web {
+    let url = RescriptReactRouter.dangerouslyGetInitialUrl()
+    if String.length(url.hash) > 12 {
+      Some(url.hash)
+    } else {
+      None
+    }
+  } else {
+    None
+  }
+}
+
 @react.component
-let make = (~election: Election.t, ~electionId, ~secret) => {
-  let (state, _dispatch) = StateContext.use()
+let make = (~election: Election.t, ~electionId) => {
+  let (state, dispatch) = StateContext.use()
 
-  let oAccount = Array.getBy(state.accounts, (account) => {
-    Array.getBy(election.voterIds, userId => userId == account.userId)
-    ->Option.isSome
-  })
-
-  let account = Account.make2(~secret)
-  Js.log("PublicKey:")
-  Js.log(account.userId)
-
-  let oBallot = Array.getBy(state.ballots, (ballot) => {
-    ballot.electionId == electionId && ballot.voterId == account.userId
-  })
+  let oSecret = getSecret()
 
   <>
     <ElectionHeader election />
-    { switch oBallot {
-    | None => <Booth election electionId account />
-    | Some(_ballot) => <BoothAfterVote electionId />
-    } }
+    { switch oSecret {
+    | None =>
+      <Text style={S.flatten([S.title, Style.viewStyle(~margin=30.0->Style.dp, ())])}>
+        {"Vous n'avez pas de clés de vote"->React.string}
+      </Text>
+    | Some(secret) =>
+      let account = Account.make2(~secret)
+      Js.log("account")
+      Js.log(account)
+      Js.log("PublicKey:")
+      Js.log(account.userId)
+      // NOTE: Should we save the account for later ?
+      //dispatch(StateMsg.Account_Add(account))
+      // TODO: Check before if account doesn't yet exist ?
+
+      let oBallot = Array.getBy(state.ballots, (ballot) => {
+        ballot.electionId == electionId && ballot.voterId == account.userId
+      })
+
+      { switch oBallot {
+      | None => <Booth election electionId account />
+      | Some(_ballot) => <BoothAfterVote electionId />
+      } }
+    }}
   </>
-
-  //let oBallot = switch oAccount {
-  //| None => None
-  //| Some(account) => Array.getBy(state.ballots, (ballot) => {
-  //    ballot.electionId == electionId && ballot.voterId == account.userId
-  //  })
-  //}
-
-  //<>
-  //  <ElectionHeader election />
-
-  //  { switch oAccount {
-  //  | None =>
-  //    <Text style={S.flatten([S.title, Style.viewStyle(~margin=30.0->Style.dp, ())])}>
-  //      {"Vous n'avez pas de clés de vote"->React.string}
-  //    </Text>
-  //  | Some(account) =>
-  //    switch oBallot {
-  //    | None => <Booth election electionId account />
-  //    | Some(_ballot) => <BoothAfterVote electionId />
-  //    }
-  //  } }
-  //</>
 }

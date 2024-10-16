@@ -20,7 +20,7 @@ if (env == 'development') {
 }
 
 function sendMail(email: string, electionId: string, userToken: string) {
-	let link = `${baseUrl}/elections/${electionId}/booth/${userToken}`
+	let link = `${baseUrl}/elections/${electionId}/booth#${userToken}`
   if (env === 'production') {
     if (process.env.SENDGRID_API_KEY) {
       sgMail.setApiKey(process.env.SENDGRID_API_KEY)
@@ -54,7 +54,7 @@ function sendMail(email: string, electionId: string, userToken: string) {
 }
 
 function sendSMS(phone: string, electionId: string, userToken: string) {
-	let link = `${baseUrl}/elections/${electionId}/booth/${userToken}`
+	let link = `${baseUrl}/elections/${electionId}/booth#${userToken}`
   if (env === 'production') {
     fetch("https://mpg8q9.api.infobip.com/sms/2/text/advanced", {
       method: "POST",

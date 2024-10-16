@@ -183,10 +183,6 @@ let broadcastEvent = (ev, _dispatch) => {
 let goToUrl = dispatch => {
   if ReactNative.Platform.os == #web {
     let url = RescriptReactRouter.dangerouslyGetInitialUrl()
-    if String.length(url.hash) > 12 {
-      let secret = url.hash
-      dispatch(StateMsg.Account_Add(Account.make2(~secret)))
-    }
-    dispatch(Navigate(url.path))
+    dispatch(StateMsg.Navigate(url.path))
   }
 }
