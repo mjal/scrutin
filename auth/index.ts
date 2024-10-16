@@ -20,7 +20,7 @@ if (env == 'development') {
 }
 
 function sendMail(email: string, electionId: string, userToken: string) {
-	let link = `${baseUrl}/elections/${electionId}/token/${userToken}`
+	let link = `${baseUrl}/elections/${electionId}/booth/${userToken}`
   if (env === 'production') {
     if (process.env.SENDGRID_API_KEY) {
       sgMail.setApiKey(process.env.SENDGRID_API_KEY)
@@ -54,7 +54,7 @@ function sendMail(email: string, electionId: string, userToken: string) {
 }
 
 function sendSMS(phone: string, electionId: string, userToken: string) {
-	let link = `${baseUrl}/elections/${electionId}/token/${userToken}`
+	let link = `${baseUrl}/elections/${electionId}/booth/${userToken}`
   if (env === 'production') {
     fetch("https://mpg8q9.api.infobip.com/sms/2/text/advanced", {
       method: "POST",
@@ -110,8 +110,9 @@ app.post('/users', cors(), async (req, res) => {
   //  .slice(0, 16).toUpperCase()
 
   let account = Account.make()
-  let userToken = account.secret
   let managerId = account.userId
+
+  console.log("ManagerId:", managerId)
 
   /*
   let managerAccount = Account.make()
@@ -129,9 +130,9 @@ app.post('/users', cors(), async (req, res) => {
 
   if (sendInvite) {
     if (type === "email") {
-      sendMail(username, electionId, userToken)
+      sendMail(username, electionId, account.secret)
     } else if (type === "phone") {
-      sendSMS(username, electionId, userToken)
+      sendSMS(username, electionId, account.secret)
     }
   }
   

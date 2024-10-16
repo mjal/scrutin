@@ -37,7 +37,7 @@ let make = () => {
           <ElectionShow election electionId />
         | list{"challenge", userToken} => // Unused
           <ElectionChallenge election electionId userToken />
-        | list{"token", secret} =>
+        | list{"token", secret} => // Unused
           <ElectionToken election electionId secret />
         | list{"invite"} =>
           <ElectionInvite election electionId />
@@ -51,8 +51,8 @@ let make = () => {
           <ElectionInviteManage election />
         | list{"result"} =>
           <ElectionResult election electionId />
-        | list{"booth"} =>
-          <ElectionBooth election electionId />
+        | list{"booth", secret} =>
+          <ElectionBooth election electionId secret />
         | route =>
           Js.log(("Unknown election route", route))
           <HomeView />

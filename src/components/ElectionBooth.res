@@ -61,7 +61,7 @@ module Booth = {
 }
 
 @react.component
-let make = (~election: Election.t, ~electionId) => {
+let make = (~election: Election.t, ~electionId, ~secret) => {
   let (state, _dispatch) = StateContext.use()
 
   let oAccount = Array.getBy(state.accounts, (account) => {
@@ -69,26 +69,42 @@ let make = (~election: Election.t, ~electionId) => {
     ->Option.isSome
   })
 
-  let oBallot = switch oAccount {
-  | None => None
-  | Some(account) => Array.getBy(state.ballots, (ballot) => {
-      ballot.electionId == electionId && ballot.voterId == account.userId
-    })
-  }
+  let account = Account.make2(~secret)
+  Js.log("PublicKey:")
+  Js.log(account.userId)
+
+  let oBallot = Array.getBy(state.ballots, (ballot) => {
+    ballot.electionId == electionId && ballot.voterId == account.userId
+  })
 
   <>
     <ElectionHeader election />
-
-    { switch oAccount {
-    | None =>
-      <Text style={S.flatten([S.title, Style.viewStyle(~margin=30.0->Style.dp, ())])}>
-        {"Vous n'avez pas de clés de vote"->React.string}
-      </Text>
-    | Some(account) =>
-      switch oBallot {
-      | None => <Booth election electionId account />
-      | Some(_ballot) => <BoothAfterVote electionId />
-      }
-    } }
+    switch oBallot {
+    | None => <Booth election electionId account />
+    | Some(_ballot) => <BoothAfterVote electionId />
+    }
   </>
+
+  //let oBallot = switch oAccount {
+  //| None => None
+  //| Some(account) => Array.getBy(state.ballots, (ballot) => {
+  //    ballot.electionId == electionId && ballot.voterId == account.userId
+  //  })
+  //}
+
+  //<>
+  //  <ElectionHeader election />
+
+  //  { switch oAccount {
+  //  | None =>
+  //    <Text style={S.flatten([S.title, Style.viewStyle(~margin=30.0->Style.dp, ())])}>
+  //      {"Vous n'avez pas de clés de vote"->React.string}
+  //    </Text>
+  //  | Some(account) =>
+  //    switch oBallot {
+  //    | None => <Booth election electionId account />
+  //    | Some(_ballot) => <BoothAfterVote electionId />
+  //    }
+  //  } }
+  //</>
 }
