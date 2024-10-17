@@ -15,7 +15,7 @@ module Choice = {
 module BoothAfterVote = {
   @react.component
   let make = (~electionId) => {
-    let (state, dispatch) = StateContext.use()
+    let (_state, dispatch) = StateContext.use()
     <>
       <Text style={S.flatten([S.title, Style.viewStyle(~margin=30.0->Style.dp, ())])}>
         {"Merci pour votre vote"->React.string}
@@ -75,7 +75,7 @@ let getSecret = () => {
 
 @react.component
 let make = (~election: Election.t, ~electionId) => {
-  let (state, dispatch) = StateContext.use()
+  let (state, _dispatch) = StateContext.use()
 
   let oSecret = getSecret()
 
