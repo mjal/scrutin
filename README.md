@@ -57,8 +57,9 @@ sequenceDiagram
 	Voters->>Election: Verify
 ```
 
-Some of the code is annotated in a literate programming style:
+Some of the code is annotated in a literate programming style.
 
+<!--
 main | models
 -----|-------
 [Core](https://scrutin-app.github.io/scrutin/src/Core.html) | [Event](https://scrutin-app.github.io/scrutin/src/model/Event_.html)
@@ -68,7 +69,6 @@ main | models
 . | ~~[Election](https://scrutin-app.github.io/scrutin/src/model/Election.html)~~
 
 
-<!--
 ## Release
 [Web demo](https://demo.scrutin.app)
 [Android APK](https://expo.dev/accounts/mlalisse/projects/scrutin/builds/e6bd66f5-ce96-4dac-b874-ab2c0a1f3b1b)
