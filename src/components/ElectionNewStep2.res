@@ -32,6 +32,10 @@ let make = () => {
 
     <ElectionNewChoiceList choices setChoices />
 
-    <S.Button onPress=electionCreate title={t(. "election.new.next")} />
+    <S.Button
+      title={t(. "election.new.next")}
+      disabled=(!Array.every(choices, (c) => c != ""))
+      onPress=electionCreate
+      />
   </>
 }
