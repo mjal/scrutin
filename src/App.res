@@ -26,6 +26,7 @@ let make = () => {
     {switch state.route {
     | list{"elections", "search"} => <ElectionSearch />
     | list{"elections", "new"} => <ElectionNew />
+    | list{"elections", "new", "step2"} => <ElectionNewStep2 />
 
     | list{"elections", electionId, ...electionRoute} =>
 

@@ -1,5 +1,11 @@
 // The state of the application.
 
+type newElection = {
+  title: string,
+  description: string,
+  choices: array<string>
+}
+
 type t = {
   // See [[Event]].
   // We use this to populate elections and ballots
@@ -22,7 +28,9 @@ type t = {
   // opposite of election.previousId
   electionLatestIds: Map.String.t<string>,
   // ballots (from parsed events)
-  ballots: array<Ballot.t>
+  ballots: array<Ballot.t>,
+  // The temporary election we're creating
+  newElection: newElection
 }
 
 // The initial state of the application
@@ -35,7 +43,12 @@ let initial = {
   invitations: [],
   elections: Map.String.empty,
   electionLatestIds: Map.String.empty,
-  ballots: []
+  ballots: [],
+  newElection: {
+    title: "",
+    description: "",
+    choices: []
+  }
 }
 
 //let getBallot = (state, id) => Map.String.get(state.ballots, id)

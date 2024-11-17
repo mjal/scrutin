@@ -18,3 +18,4 @@ type t =
   | ElectionUpdate(string, Election.t)
 
   | BallotAdd(string, Ballot.t)
+  | UpdateNewElection(State.newElection)

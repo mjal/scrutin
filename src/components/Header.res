@@ -31,7 +31,10 @@ let make = (~title="", ~subtitle="", ~titleTextStyle=?, ~subtitleTextStyle=?) =>
   }
 
   <Appbar.Header
-    style={Style.viewStyle(~backgroundColor=Color.white, ~marginBottom=20.0->Style.dp, ())}>
+    style={Style.viewStyle(
+      ~backgroundColor=Color.white,
+      ~marginBottom=20.0->Style.dp,
+      ())}>
     {backButton}
     <Appbar.Content
       title={<>

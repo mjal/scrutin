@@ -95,5 +95,7 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
       Linking.openURL("https://www.scrutin.app") -> ignore
     }
     (state, [])
+
+  | UpdateNewElection(newElection) => ({...state, newElection}, [])
   }
 }

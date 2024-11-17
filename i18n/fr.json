@@ -31,7 +31,7 @@
             "create": "Créer",
             "next": "Suivant",
             "choiceList": {
-                "choices": "Choix"
+                "choices": "Quels sont les choix ?"
             }
         },
         "election.show": {
