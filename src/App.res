@@ -27,6 +27,7 @@ let make = () => {
     | list{"elections", "search"} => <ElectionSearch />
     | list{"elections", "new"} => <ElectionNew />
     | list{"elections", "new", "step2"} => <ElectionNewStep2 />
+    | list{"elections", "new", "step3"} => <ElectionNewStep3 />
 
     | list{"elections", electionId, ...electionRoute} =>
 

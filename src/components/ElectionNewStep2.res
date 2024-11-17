@@ -9,16 +9,17 @@ let make = () => {
     dispatch(StateMsg.Navigate(list{"elections", "new"}))
   }
 
-  let electionCreate = _ => {
-    let desc = ""
-    let name = state.newElection.title
+  let next = _ => {
+    // TODO: Remove map since no empty allowed
     let choices = Array.mapWithIndex(choices, (i, choice) => {
       switch choice {
       | "" => "Choice " ++ Int.toString(i+1)
       | _  => choice
       }
     })
-    Core.Election.create(~name, ~desc, ~choices)(state, dispatch)
+    let newElection = {...state.newElection, choices}
+    dispatch(StateMsg.UpdateNewElection(newElection))
+    dispatch(StateMsg.Navigate(list{"elections", "new", "step3"}))
   }
 
   <>
@@ -28,14 +29,13 @@ let make = () => {
         { state.newElection.title->React.string }
       </Title>
     </View>
-    //<S.Title>{ state.newElection.title -> React.string }</S.Title>
 
     <ElectionNewChoiceList choices setChoices />
 
     <S.Button
       title={t(. "election.new.next")}
       disabled=(!Array.every(choices, (c) => c != ""))
-      onPress=electionCreate
+      onPress=next
       />
   </>
 }

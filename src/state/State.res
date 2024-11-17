@@ -1,9 +1,12 @@
 // The state of the application.
 
+type mode = Undefined | Open | Closed
+
 type newElection = {
   title: string,
   description: string,
-  choices: array<string>
+  choices: array<string>,
+  mode: mode
 }
 
 type t = {
@@ -47,7 +50,8 @@ let initial = {
   newElection: {
     title: "",
     description: "",
-    choices: []
+    choices: [],
+    mode: Undefined
   }
 }
 
