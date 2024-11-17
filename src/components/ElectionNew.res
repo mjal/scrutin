@@ -17,6 +17,8 @@ let make = () => {
     <S.TextInput
       testID="election-title"
       value=title
+      placeholder=t(. "election.new.titlePlaceholder")
+      placeholderTextColor="#bbb"
       onChangeText={text => setTitle(_ => text)}
     />
 
