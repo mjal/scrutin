@@ -1,6 +1,6 @@
 {
     "translation": {
-        "app.title": "Scrutin : Elections sécurisées et vérifiables",
+        "app.title": "Scrutin : Élections sécurisées et vérifiables",
         "home": {
             "create": "Créer une élection",
             "search": "Chercher une élection..."
@@ -25,7 +25,7 @@
             "header": "Nouvelle élection",
             "question": "Question",
             "noPublicKey": "Pas de clef publique trouvée",
-            "title": "Titre",
+            "title": "Sujet de l'élection",
             "description": "Description",
             "owner": "Propriétaire",
             "create": "Créer",
