@@ -22,7 +22,7 @@ let make = () => {
 
     <S.Button
       title={t(. "election.new.next")}
-      //disabled=(title == "")
+      disabled=(title == "")
       onPress=next
       />
   </>
