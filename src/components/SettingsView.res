@@ -14,8 +14,8 @@ let make = () => {
       <S.SegmentedButtons
         value=language
         buttons=[
-          {value: "en", label: "English"},
           {value: "fr", label: "Français"},
+          {value: "en", label: "English"},
           {value: "nb_NO", label: "Norsk"},
         ]
         onValueChange={lang => {
