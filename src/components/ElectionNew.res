@@ -19,6 +19,7 @@ let make = () => {
       value=title
       placeholder=t(. "election.new.titlePlaceholder")
       placeholderTextColor="#bbb"
+      onSubmitEditing=next
       onChangeText={text => setTitle(_ => text)}
     />
 

@@ -154,7 +154,7 @@ module Button = {
 module TextInput = {
   @react.component
   let make = (~label=?, ~testID=?, ~value,
-    ~onChangeText, ~placeholder=?, ~placeholderTextColor=?) => {
+    ~onChangeText, ~placeholder=?, ~placeholderTextColor=?, ~onSubmitEditing=?) => {
     let style = viewStyle(
       ~marginHorizontal=25.0->dp,
       ~backgroundColor=Color.white,
@@ -165,6 +165,7 @@ module TextInput = {
 
     <TextInput style mode=#flat ?label ?testID
     ?placeholder ?placeholderTextColor
+    ?onSubmitEditing
     value onChangeText />
   }
 }
