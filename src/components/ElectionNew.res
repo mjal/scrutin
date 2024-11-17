@@ -20,6 +20,10 @@ let make = () => {
       onChangeText={text => setTitle(_ => text)}
     />
 
-    <S.Button onPress=next title={t(. "election.new.next")} />
+    <S.Button
+      title={t(. "election.new.next")}
+      //disabled=(title == "")
+      onPress=next
+      />
   </>
 }
