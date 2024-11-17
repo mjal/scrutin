@@ -5,6 +5,10 @@ let make = () => {
 
   let (choices, setChoices) = React.useState(_ => ["", ""])
 
+  if (state.newElection.title == "") {
+    dispatch(StateMsg.Navigate(list{"elections", "new"}))
+  }
+
   let electionCreate = _ => {
     let desc = ""
     let name = state.newElection.title
