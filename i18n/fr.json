@@ -1,6 +1,6 @@
 {
     "translation": {
-        "app.title": "Scrutin : Elections sécurisés et verifiables",
+        "app.title": "Scrutin : Elections sécurisées et vérifiables",
         "home": {
             "create": "Créer une élection",
             "search": "Chercher une élection..."
@@ -13,12 +13,12 @@
             "election": "Élection",
             "eventHash": "Id de l'événement",
             "previousId": "Id de la version précédente",
-            "voter": "Votant",
-            "ciphertext": "Vote crypté"
+            "voter": "Votant.e",
+            "ciphertext": "Vote chiffré"
         },
         "ballot.new": {
             "choices": "Choix",
-            "vote": "Votant",
+            "vote": "Votant.e",
             "noVotingRight": "Vous n'avez pas le droit de voter"
         },
         "election.new": {
@@ -27,7 +27,7 @@
             "noPublicKey": "Pas de clef publique trouvée",
             "title": "Titre",
             "description": "Description",
-            "owner": "Créateur",
+            "owner": "Propriétaire",
             "create": "Créer",
             "next": "Suivant",
             "choiceList": {
@@ -37,24 +37,24 @@
         "election.show": {
             "unnamed": "Élection sans nom",
             "choices": "Choix",
-            "status": "Status",
+            "status": "Statut",
             "statusInProgress": "En cours",
             "statusFinished": "Fini",
             "showAdvanced": "Afficher plus",
             "hideAdvanced": "Afficher moins",
             "id": "Id de l'élection",
-            "ownerPublicKey": "Administrateur",
+            "ownerPublicKey": "Administrateur.ice",
             "params": "Paramètres",
-            "trustees": "Gardiens",
+            "trustees": "Gardien.nes",
             "ballotEvents": "Événements de vote",
             "showBallots": "Montrer les bulletins",
             "hideBallots": "Cacher les bulletins",
             "result": "Resultat",
-            "admin": "Vous êtes administrateur",
-            "notAdmin": "Vous n'êtes pas administrateur",
+            "admin": "Vous êtes administrateur.ice",
+            "notAdmin": "Vous n'êtes pas administrateur.ice",
             "closeAndTally": "Terminer l'élection ef calculer le resultat",
             "addByEmail": {
-                "addParticipant": "Ajouter un participant",
+                "addParticipant": "Ajouter un.e participant.e",
                 "modal.title": "Inviter quelqu'un by email",
                 "modal.email": "Email",
                 "modal.back": "Retour",
@@ -64,13 +64,13 @@
         "settings": {
             "language": "Langue",
             "internals": "Paramètres avancés",
-            "identities": "Identitées",
-            "trustees": "Guardiens",
+            "identities": "Identités",
+            "trustees": "Gardien.nes",
             "contacts": "Contacts",
             "events": "Événements"
         },
         "trustees": {
-            "title": "Guardiens",
+            "title": "Gardien.nes",
             "clear": "Effacer tout"
         },
         "identity.home": {
