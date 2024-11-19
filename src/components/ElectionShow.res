@@ -1,6 +1,7 @@
 @react.component
 let make = (~election: Election.t, ~electionId) => {
   let (state, dispatch) = StateContext.use()
+  let { t } = ReactI18next.useTranslation()
 
   let nbVotes = state
     ->State.getElectionValidBallots(electionId)
@@ -51,8 +52,9 @@ let make = (~election: Election.t, ~electionId) => {
             testID="button-invite"
             onPress={_ => dispatch(Navigate(list{"elections", electionId, "invite"}))}
           />
+          <S.Title>{`${nbVotes->Int.toString} votes yet` -> React.string}</S.Title>
           <S.Button
-            title={`Calculer le résultat des ${nbVotes->Int.toString} votes`}
+            title=t(. "election.show.closeAndTally")
             onPress={_ => Core.Election.tally(~electionId)(state, dispatch)}
           />
         </>
