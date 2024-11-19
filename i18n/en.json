@@ -58,7 +58,7 @@
             "result": "Result",
             "admin": "You are admin",
             "notAdmin": "You are not admin",
-            "closeAndTally": "Close election and tally",
+            "closeAndTally": "Tally the election",
             "addByEmail": {
                 "addParticipant": "Add someone",
                 "modal.title": "Invite someone by email",

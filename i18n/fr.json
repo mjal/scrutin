@@ -60,7 +60,7 @@
             "result": "Resultat",
             "admin": "Vous êtes administrateur.ice",
             "notAdmin": "Vous n'êtes pas administrateur.ice",
-            "closeAndTally": "Terminer l'élection ef calculer le resultat",
+            "closeAndTally": "Dépouillement",
             "addByEmail": {
                 "addParticipant": "Ajouter un.e participant.e",
                 "modal.title": "Inviter quelqu'un by email",
