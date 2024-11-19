@@ -14,11 +14,12 @@
     "re:rebuild": "rescript clean && rescript build -with-deps",
     "re:start": "rescript build -with-deps -w",
     "doc": "docco -L assets/languages.json src/*.res src/**/*.res",
-    "eas-build-post-install": "rescript clean && rescript build -with-deps",
+    "eas-build-post-install": "npx rescript -v ; rescript clean && rescript build -with-deps",
     "test": "cypress run",
     "test:gui": "cypress open",
     "bbs": "cd bbs && npm run start:dev",
-    "auth": "cd auth && npm run start:dev"
+    "auth": "cd auth && npm run start:dev",
+    "build:android": "eas build --platform android --local --profile development"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.3",
@@ -51,7 +52,8 @@
     "rescript-webapi": "^0.7.0",
     "sjcl-with-all": "^1.0.8",
     "typescript": "^4.9.4",
-    "@types/react": "~18.0.27"
+    "@types/react": "~18.0.27",
+    "expo-dev-client": "~2.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
