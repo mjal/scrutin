@@ -16,7 +16,7 @@ let headerTitle = switch ReactNative.Platform.os {
   textStyle(
     ~alignSelf=#center,
     ~fontFamily="Inter_700Bold",
-    ~fontWeight=FontWeight._900,
+    ~fontWeight=#900,
     ~marginTop=45.0->dp,
     ~fontSize=28.0,
     ~lineHeight=24.0,
@@ -26,7 +26,7 @@ let headerTitle = switch ReactNative.Platform.os {
   textStyle(
     ~alignSelf=#center,
     ~fontFamily="Inter_700Bold",
-    ~fontWeight=FontWeight._300,
+    ~fontWeight=#300,
     ~marginTop=20.0->dp,
     ~fontSize=20.0,
     ~color=primaryColor,

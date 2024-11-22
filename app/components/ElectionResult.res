@@ -16,7 +16,8 @@ let make = (~election: Election.t, ~electionId) => {
 
   let colors =
     [(229, 193, 189), (123, 158, 135), (94, 116, 127), (210, 208, 186)]->Array.map(((r, g, b)) =>
-      Color.rgb(~r, ~g, ~b)
+      //Color.rgb(~r, ~g, ~b)
+      "000000"// BUG:
     )
 
   let choices = Election.choices(election)
@@ -32,7 +33,8 @@ let make = (~election: Election.t, ~electionId) => {
       <S.Section title={`${nbVotes->Int.toString} votants`} />
       <S.Row>
         {Array.mapWithIndex(data, (i, value) => {
-          let color = Option.getWithDefault(colors[i], Color.rgb(~r=128, ~g=128, ~b=128))
+          //let color = Option.getWithDefault(colors[i], Color.rgb(~r=128, ~g=128, ~b=128))
+          let color = "000000"// BUG:
           let ratio = Int.toFloat(value) /. Int.toFloat(maxValue)
           let ratio = Js.Float.isNaN(ratio) ? 0.0 : ratio
           let ratio = Js.Math.max_float(ratio, 0.05)

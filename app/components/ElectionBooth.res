@@ -62,12 +62,14 @@ module Booth = {
 
 let getSecret = () => {
   if ReactNative.Platform.os == #web {
-    let url = RescriptReactRouter.dangerouslyGetInitialUrl()
-    if String.length(url.hash) > 12 {
-      Some(url.hash)
-    } else {
-      None
-    }
+    // BUG:
+    //let url = RescriptReactRouter.dangerouslyGetInitialUrl()
+    //if String.length(url.hash) > 12 {
+    //  Some(url.hash)
+    //} else {
+    //  None
+    //}
+    None
   } else {
     None
   }

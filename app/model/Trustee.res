@@ -18,7 +18,7 @@ external stringify_array: array<t> => string = "JSON.stringify"
 let storageKey = "trustees"
 let loadAll = () =>
   ReactNativeAsyncStorage.getItem(storageKey)
-  ->Promise.thenResolve(Js.Null.toOption)
+  ->Promise.thenResolve((e) => Js.Null.toOption(e)) // NOTE: Weird currying error
   ->Promise.thenResolve(Option.map(_, parse_array))
   ->Promise.thenResolve(Option.getWithDefault(_, []))
 let store_all = trustees =>

@@ -6,7 +6,7 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
         StateEffect.loadAccounts,
         StateEffect.loadTrustees,
         StateEffect.loadInvitations,
-        StateEffect.loadAndFetchEvents,
+        // StateEffect.loadAndFetchEvents, BUG:
         StateEffect.goToUrl,
       ],
     )
@@ -14,13 +14,13 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
   | FetchLatest =>
     let latestId = state.events
       ->Array.reduce(0, (acc, ev) => acc > ev.id ? acc : ev.id)
-    (state, [StateEffect.fetchLatestEvents(latestId)])
+    (state, [StateEffect.fetchLatestEvents(latestId, ...)])
 
   | Fetched => ({...state, fetchingEvents: false}, [])
 
   | Account_Add(account) =>
     let accounts = Array.concat(state.accounts, [account])
-    ({...state, accounts}, [StateEffect.storeAccounts(accounts)])
+    ({...state, accounts}, [StateEffect.storeAccounts(accounts, ...)])
 
   | Event_Add(event) =>
     if (state.events->Array.getBy(oldEvent => event.cid == oldEvent.cid)->Option.isSome)
@@ -30,24 +30,24 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
     } else {
       let events = Array.concat(state.events, [event])
       let (elections, ballots) = StateEffect.electionsUpdate(state.elections, state.ballots, event)
-      ({...state, events, elections, ballots}, [StateEffect.storeEvents(events)])
+      ({...state, events, elections, ballots}, [StateEffect.storeEvents(events, ...)])
     }
 
   | Event_Add_With_Broadcast(event) =>
     let (state, actions) = reducer(state, Event_Add(event))
-    (state, Array.concat(actions, [StateEffect.broadcastEvent(event)]))
+    (state, Array.concat(actions, [StateEffect.broadcastEvent(event, ...)]))
 
   | Trustee_Add(trustee) =>
     let trustees = Array.concat(state.trustees, [trustee])
-    ({...state, trustees}, [StateEffect.storeTrustees(trustees)])
+    ({...state, trustees}, [StateEffect.storeTrustees(trustees, ...)])
 
   | Invitation_Add(invitation) =>
     let invitations = Array.concat(state.invitations, [invitation])
-    ({...state, invitations}, [StateEffect.storeInvitations(invitations)])
+    ({...state, invitations}, [StateEffect.storeInvitations(invitations, ...)])
 
   | Invitation_Remove(index) =>
     let invitations = Array.keepWithIndex(state.invitations, (_, i) => i != index)
-    ({...state, invitations}, [StateEffect.storeInvitations(invitations)])
+    ({...state, invitations}, [StateEffect.storeInvitations(invitations, ...)])
 
   | ElectionInit(cid, election) =>
     let elections = Map.String.set(state.elections, cid, {...election,
@@ -63,7 +63,7 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
     let ballots = Array.concat(state.ballots, [ballot])
     ({...state, ballots}, [])
 
-  | Config_Store_Language(language) => (state, [StateEffect.storeLanguage(language)])
+  | Config_Store_Language(language) => (state, [StateEffect.storeLanguage(language, ...)])
 
   | Navigate(route) =>
     if ReactNative.Platform.os == #web {

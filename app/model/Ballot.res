@@ -15,8 +15,7 @@ let make = (~election: Election.t, ~electionId, ~voterId, ~selection: array<int>
   let (pubcred, privcred) = (Array.getExn(pubcreds, 0), Array.getExn(privcreds, 0))
 
   let ciphertext =
-    Belenios.Election.vote(
-      params,
+    Belenios.Election.vote(params)(
       ~cred=privcred,
       ~selections=[selection],
       ~trustees,

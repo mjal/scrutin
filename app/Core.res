@@ -90,8 +90,8 @@ module Election = {
         ballots
         ->Array.map(ballot => ballot.pubcred)
 
-      let (a, b) = Belenios.Election.decrypt(params, ciphertexts, trustees, pubcreds, privkey)
-      let result = Belenios.Election.result(params, ciphertexts, trustees, pubcreds, a, b)
+      let (a, b) = Belenios.Election.decrypt(params)(ciphertexts, trustees, pubcreds, privkey)
+      let result = Belenios.Election.result(params)(ciphertexts, trustees, pubcreds, a, b)
 
       // Lookup for the admin identity
       let admin = state->State.getElectionAdminExn(election)

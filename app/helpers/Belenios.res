@@ -123,11 +123,11 @@ module Election = {
 
   let create = (~name, ~description, ~choices, ~trustees) =>
     parse(_create(~name, ~description, ~choices, ~trustees))
-  let vote = o => _vote(stringify(o))
-  let decrypt = o => _decrypt(stringify(o))
+  let vote = o => _vote(stringify(o), ...)
+  let decrypt = o => _decrypt(stringify(o), ...)
 
   external parseResults: string => results_t = "JSON.parse"
-  let result = o => _result(stringify(o))
+  let result = o => _result(stringify(o), ...)
 
   let scores: string => array<int> = s => Option.getExn(parseResults(s).result[0])
 

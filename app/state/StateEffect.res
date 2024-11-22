@@ -109,7 +109,7 @@ let loadInvitations = dispatch => {
 
 let loadLanguage = ((), _dispatch) =>
   ReactNativeAsyncStorage.getItem("config.language")
-  ->Promise.thenResolve(Js.Null.toOption)
+  ->Promise.thenResolve((e) => Js.Null.toOption(e)) // NOTE: Weird currying error
   ->Promise.thenResolve(language => {
     switch language {
     | Some(language) =>

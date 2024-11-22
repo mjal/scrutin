@@ -7,5 +7,7 @@ let style = {
 
 @react.component
 let make = () => {
-  <Image source style />
+  // BUG: Can't use image ?
+  //<Image source style />
+  <Text>{ "Image" -> React.string }</Text>
 }

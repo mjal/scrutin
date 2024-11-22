@@ -47,7 +47,7 @@ let storageKey = "accounts"
 
 let loadAll = () =>
   ReactNativeAsyncStorage.getItem(storageKey)
-  ->Promise.thenResolve(Js.Null.toOption)
+  ->Promise.thenResolve((e) => Js.Null.toOption(e)) // NOTE: Weird currying error
   ->Promise.thenResolve(Option.map(_, parse_array))
   ->Promise.thenResolve(Option.getWithDefault(_, []))
 

@@ -9,17 +9,20 @@ let make = () => {
 
   React.useEffect0(() => {
     Js.Global.setInterval(() => {
-      dispatch(StateMsg.FetchLatest)
+      //dispatch(StateMsg.FetchLatest) BUG:
+      ()
     }, 5000)->ignore
     None
   })
 
   // Go to url
   if ReactNative.Platform.os == #web {
-    let url = RescriptReactRouter.useUrl()
-    if url.path != state.route {
-      dispatch(Navigate(url.path))
-    }
+    // BUG:
+    //let url = RescriptReactRouter.useUrl()
+    //if url.path != state.route {
+    //  dispatch(Navigate(url.path))
+    //}
+    ()
   }
 
   <Layout state dispatch>

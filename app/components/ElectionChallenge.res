@@ -20,7 +20,7 @@ let make = (~election: Election.t, ~electionId, ~userToken: string) => {
       let ev = Event_.from_json(json)
       dispatch(StateMsg.Event_Add_With_Broadcast(ev))
       dispatch(StateMsg.Navigate(list{"elections", electionId, "booth"}))
-    })->Promise.thenResolve(Js.log)
+    })->Promise.thenResolve((e) => Js.log(e)) // NOTE: Weird currying error
     ->ignore
   }
 

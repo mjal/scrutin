@@ -1,0 +1,33 @@
+{
+  "name": "scrutin-app",
+  "sources": [
+    {
+      "dir": "app",
+      "subdirs": true
+    }
+  ],
+  "package-specs": [
+    {
+      "module": "esmodule",
+      "in-source": true
+    }
+  ],
+  "suffix": ".bs.js",
+  "jsx": { "version": 4 },
+  "bs-dependencies": [
+    "@rescript-react-native/paper",
+    "@rescript-react-native/svg",
+    "@rescript/react",
+    "@ryyppy/rescript-promise",
+    "@glennsl/rescript-json-combinators",
+    "rescript-react-native",
+    "@rescript-react-native/async-storage",
+    "rescript-webapi"
+  ],
+  "bsc-flags": [
+    "-open Belt", 
+    "-open JsonCombinators",
+    "-open ReactNative",
+    "-open Paper"
+  ]
+}
