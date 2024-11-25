@@ -66,18 +66,25 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
   | Config_Store_Language(language) => (state, [StateEffect.storeLanguage(language, ...)])
 
   | Navigate(route) =>
-    if ReactNative.Platform.os == #web {
-      if route != RescriptReactRouter.dangerouslyGetInitialUrl().path {
-        let path = Belt.List.reduce(route, "", (a, b) => a ++ "/" ++ b)
-        let path = if path == "" {
-          "/"
-        } else {
-          path
-        }
-        RescriptReactRouter.push(path)
-      }
+    //if ReactNative.Platform.os == #web {
+    //  if route != RescriptReactRouter.dangerouslyGetInitialUrl().path {
+    //    let path = Belt.List.reduce(route, "", (a, b) => a ++ "/" ++ b)
+    //    let path = if path == "" {
+    //      "/"
+    //    } else {
+    //      path
+    //    }
+    //    RescriptReactRouter.push(path)
+    //  }
+    //}
+    let path = Belt.List.reduce(route, "", (a, b) => a ++ "/" ++ b)
+    Js.log("path!:")
+    Js.log(path)
+    if (path != "") {
+      Router.navigate(path)
     }
-    ({...state, route}, [])
+    //({...state, route}, [])
+    (state, [])
 
   | Navigate_Back =>
     if ReactNative.Platform.os == #web {

@@ -4,6 +4,10 @@
     {
       "dir": "app",
       "subdirs": true
+    },
+    {
+      "dir": "src",
+      "subdirs": true
     }
   ],
   "package-specs": [
@@ -12,7 +16,7 @@
       "in-source": true
     }
   ],
-  "suffix": ".bs.js",
+  "suffix": ".js",
   "jsx": { "version": 4 },
   "bs-dependencies": [
     "@rescript-react-native/paper",

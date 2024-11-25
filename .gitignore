@@ -24,6 +24,8 @@ lib/bs/*
 auth/lib/bs/*
 .merlin
 *.bs.js
+src/**/*.js
+src/*/*.js
 
 # cypress artefacts
 cypress/screenshots/

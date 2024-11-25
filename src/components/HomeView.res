@@ -36,6 +36,11 @@ let make = () => {
       titleStyle=Style.textStyle(~fontSize=18.0, ())
       onPress={_ => dispatch(Navigate(list{"elections", "new"}))}
     />
+  
+    <Expo_Router.Link href="/elections/new">
+        {"NeWELECTION"->React.string}
+    </Expo_Router.Link>
+
     { switch ReactNative.Platform.os {
     | #web =>
       <Button mode=#text onPress={_ => dispatch(Navigate(list{"elections", "search"}))}>
