@@ -3,11 +3,11 @@ A mobile app for secure voting using the Helios protocol and INRIA’s [Belenios
 ## Install
 
 ```
-npm install
+yarn
 npx pod-install # for iOS
 npm run re:start # or use the VSCode plugin
 npm run bbs # run the bulletin board server
-npm start
+yarn start
 ```
 
 ## Features
