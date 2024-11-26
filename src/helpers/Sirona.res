@@ -6,15 +6,13 @@ module Trustee = {
 }
 
 module QuestionH = {
-  export type t = {
-    answers: Array<string>;
-    blank?: boolean;
-    min: number;
-    max: number;
-    question: string;
+  type t = {
+    answers: array<string>,
+    blank?: bool,
+    min: int,
+    max: int,
+    question: string
   };
-}
-
 }
 
 module Election = {
