@@ -11,12 +11,12 @@ module Item = {
 }
 
 @react.component
-let make = (~election: Election.t) => {
+let make = (~election: Sirona.Election.t) => {
   <>
     <ElectionHeader election section=#inviteManage />
 
-    { Array.map(election.voterIds, (userId) =>
-      <Item key=userId userId />
-    ) -> React.array }
+    //{ Array.map(election.voterIds, (userId) =>
+    //  <Item key=userId userId />
+    //) -> React.array }
   </>
 }

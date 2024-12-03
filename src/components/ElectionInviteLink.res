@@ -1,4 +1,9 @@
 @react.component
+let make = (~election: Sirona.Election.t, ~electionId) => {
+  <></>
+}
+
+/*
 let make = (~election: Election.t, ~electionId) => {
   let _ = electionId // TODO: remove this param
   let (state, dispatch) = StateContext.use()
@@ -35,3 +40,4 @@ let make = (~election: Election.t, ~electionId) => {
     />
   </>
 }
+*/

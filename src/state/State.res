@@ -27,7 +27,7 @@ type t = {
   // that works on web and native)
   route: list<string>,
   // elections (from parsed events)
-  elections: Map.String.t<Election.t>,
+  elections: Map.String.t<Sirona.Election.t>,
   // opposite of election.previousId
   electionLatestIds: Map.String.t<string>,
   // ballots (from parsed events)

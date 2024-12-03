@@ -8,7 +8,7 @@ let make = (~onRemove, ~onUpdate, ~name, ~index) => {
         placeholderTextColor="#bbb"
         value=name
         onChangeText=onUpdate
-
+        autoFocus=(index == 1)
       />
     </S.Col>
     <S.Col>

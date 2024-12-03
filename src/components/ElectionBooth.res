@@ -1,3 +1,4 @@
+/*
 module Choice = {
   @react.component
   let make = (~name, ~selected, ~onSelect) => {
@@ -74,7 +75,7 @@ let getSecret = () => {
 }
 
 @react.component
-let make = (~election: Election.t, ~electionId) => {
+let make = (~election: Sirona.Election.t, ~electionId) => {
   let (state, _dispatch) = StateContext.use()
 
   let oSecret = getSecret()
@@ -103,3 +104,6 @@ let make = (~election: Election.t, ~electionId) => {
     }}
   </>
 }
+*/
+@react.component
+let make = (~election: Sirona.Election.t, ~electionId) => { <></> }

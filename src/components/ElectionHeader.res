@@ -1,13 +1,13 @@
 @react.component
-let make = (~election: Election.t, ~section=#index) => {
+let make = (~election: Sirona.Election.t, ~section=#index) => {
   let {t} = ReactI18next.useTranslation()
 
-  let title = switch Election.name(election) {
+  let title = switch election.name {
   | "" => t(. "election.show.unnamed")
   | electionName => electionName
   }
 
-  let titleTextStyle = switch Election.name(election) {
+  let titleTextStyle = switch election.name {
   | "" => Style.textStyle(~color=Color.grey, ())
   | _ => Style.textStyle()
   }

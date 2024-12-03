@@ -14,7 +14,7 @@ type t =
   | FetchLatest
   | Fetched
 
-  | ElectionInit(string, Election.t)
+  | ElectionInit(string, Sirona.Election.t)
   | ElectionUpdate(string, Election.t)
 
   | BallotAdd(string, Ballot.t)

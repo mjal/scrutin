@@ -1,5 +1,5 @@
 @react.component
-let make = (~election: Election.t, ~electionId) => {
+let make = (~election: Sirona.Election.t, ~electionId) => {
   let (state, dispatch) = StateContext.use()
   let { t } = ReactI18next.useTranslation()
 
@@ -36,29 +36,29 @@ let make = (~election: Election.t, ~electionId) => {
     | _ => <View style={Style.viewStyle(~height=30.0->Style.dp, ())} />
     } }
 
-    {switch election.result {
-    | Some(_) =>
-      <S.Button
-        title="Afficher le résultat"
-        onPress={_ => dispatch(Navigate(list{"elections", electionId, "result"}))}
-      />
-    | None =>
-      switch state->State.getElectionAdmin(election) {
-      | None => <> </>
-      | Some(_adminAccount) =>
-        <>
-          <S.Button
-            title="Ajouter des votants"
-            testID="button-invite"
-            onPress={_ => dispatch(Navigate(list{"elections", electionId, "invite"}))}
-          />
-          <S.Title>{`${nbVotes->Int.toString} votes yet` -> React.string}</S.Title>
-          <S.Button
-            title=t(. "election.show.closeAndTally")
-            onPress={_ => Core.Election.tally(~electionId)(state, dispatch)}
-          />
-        </>
-      }
-    }}
+    //{switch election.result {
+    //| Some(_) =>
+    //  <S.Button
+    //    title="Afficher le résultat"
+    //    onPress={_ => dispatch(Navigate(list{"elections", electionId, "result"}))}
+    //  />
+    //| None =>
+    //  switch state->State.getElectionAdmin(election) {
+    //  | None => <> </>
+    //  | Some(_adminAccount) =>
+    //    <>
+    //      <S.Button
+    //        title="Ajouter des votants"
+    //        testID="button-invite"
+    //        onPress={_ => dispatch(Navigate(list{"elections", electionId, "invite"}))}
+    //      />
+    //      <S.Title>{`${nbVotes->Int.toString} votes yet` -> React.string}</S.Title>
+    //      <S.Button
+    //        title=t(. "election.show.closeAndTally")
+    //        onPress={_ => Core.Election.tally(~electionId)(state, dispatch)}
+    //      />
+    //    </>
+    //  }
+    //}}
   </>
 }

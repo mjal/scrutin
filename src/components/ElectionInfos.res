@@ -11,6 +11,7 @@ let make = (~electionId) => {
   let nbBallots = Array.length(ballots)
 
   <>
+  /*
     <Button mode=#outlined onPress={_ => setShowAdvanced(b => !b)}>
       {if showAdvanced {
         t(. "election.show.hideAdvanced")
@@ -51,5 +52,6 @@ let make = (~electionId) => {
     } else {
       <> </>
     }}
+  */
   </>
 }

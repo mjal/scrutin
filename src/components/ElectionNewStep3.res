@@ -20,6 +20,7 @@ let make = () => {
     }
     // TODO: Dispatch mode
     dispatch(CreateElection)
+    dispatch(StateMsg.Navigate(list{"elections", "new", "step4"}))
     // TODO: Remove
     //Core.Election.create(~name, ~desc, ~choices)(state, dispatch)
   }

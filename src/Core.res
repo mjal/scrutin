@@ -67,6 +67,7 @@ module Election = {
       // Get the election from cache
       let election = Map.String.getExn(state.elections, electionId)
 
+      /*
       // Casting values (to remove)
       let params = Belenios.Election.parse(election.params)
       let trustees = Belenios.Trustees.of_str(election.trustees)
@@ -104,6 +105,7 @@ module Election = {
       }, admin)
 
       dispatch(StateMsg.Event_Add_With_Broadcast(ev))
+      */
     }
   }
 }
@@ -131,6 +133,7 @@ module Ballot = {
         Array.make(nbChoices, 0)
         ->Array.mapWithIndex((i, _value) => {choice == Some(i) ? 1 : 0})
 
+      /*
       let ballot = Ballot.make(
         ~election,
         ~electionId,
@@ -140,6 +143,7 @@ module Ballot = {
 
       let ev = Event_.ElectionBallot.create(ballot, voter)
       dispatch(StateMsg.Event_Add_With_Broadcast(ev))
+      */
     }
   }
 }

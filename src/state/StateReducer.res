@@ -28,9 +28,10 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
       Js.log("Duplicated event")
       (state, [])
     } else {
-      let events = Array.concat(state.events, [event])
-      let (elections, ballots) = StateEffect.electionsUpdate(state.elections, state.ballots, event)
-      ({...state, events, elections, ballots}, [StateEffect.storeEvents(events)])
+      //let events = Array.concat(state.events, [event])
+      //let (elections, ballots) = StateEffect.electionsUpdate(state.elections, state.ballots, event)
+      //({...state, events, elections, ballots}, [StateEffect.storeEvents(events)])
+      (state, [])
     }
 
   | Event_Add_With_Broadcast(event) =>
@@ -49,15 +50,14 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
     let invitations = Array.keepWithIndex(state.invitations, (_, i) => i != index)
     ({...state, invitations}, [StateEffect.storeInvitations(invitations)])
 
-  | ElectionInit(cid, election) =>
-    let elections = Map.String.set(state.elections, cid, {...election,
-      electionId: Some(cid)
-    })
+  | ElectionInit(uuid, election) =>
+    let elections = Map.String.set(state.elections, uuid, election)
     ({...state, elections}, [])
 
   | ElectionUpdate(cid, election) =>
-    let elections = Map.String.set(state.elections, cid, election)
-    ({...state, elections}, [])
+    //let elections = Map.String.set(state.elections, cid, election)
+    //({...state, elections}, [])
+    (state, [])
 
   | BallotAdd(_cid, ballot) =>
     let ballots = Array.concat(state.ballots, [ballot])
@@ -109,7 +109,6 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
       max: 1
     }
     let election = Sirona.Election.create(title, description, [trustee], [question])
-
     Js.log(election)
     ({...state, newElection : {
       title: "",
@@ -117,7 +116,7 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
       choices: [],
       mode: Undefined
     }}, [
-      StateEffect.uploadElection(election, [trustee], [])
+      //StateEffect.uploadElection(election, [trustee], [])
     ])
   }
 }

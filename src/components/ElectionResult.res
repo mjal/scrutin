@@ -1,5 +1,5 @@
 @react.component
-let make = (~election: Election.t, ~electionId) => {
+let make = (~election: Sirona.Election.t, ~electionId) => {
   let (state, _) = StateContext.use()
 
   let electionUrl = `${URL.base_url}/elections/${electionId}/result`
@@ -9,31 +9,32 @@ let make = (~election: Election.t, ~electionId) => {
     ->Array.keep((ballot) => ballot.electionId == electionId)
     ->Array.length
 
-  let data = switch election.result {
-  | Some(result) => Belenios.Election.scores(result)
-  | None => []
-  }
+  //let data = switch election.result {
+  //| Some(result) => Belenios.Election.scores(result)
+  //| None => []
+  //}
 
   let colors =
     [(229, 193, 189), (123, 158, 135), (94, 116, 127), (210, 208, 186)]->Array.map(((r, g, b)) =>
       Color.rgb(~r, ~g, ~b)
     )
 
-  let choices = Election.choices(election)
-  let maxValue = Array.reduce(data, 0, (v1, v2) => v1 > v2 ? v1 : v2)
+  let choices = [] // FIX: Election.choices(election)
+
+  //let maxValue = Array.reduce(data, 0, (v1, v2) => v1 > v2 ? v1 : v2)
 
   <>
     <ElectionHeader election section=#result />
     <View style=S.questionBox>
-      {switch Election.description(election) {
+      {switch election.description {
       | "" => <> </>
       | question => <S.Section title=question />
       }}
       <S.Section title={`${nbVotes->Int.toString} votants`} />
       <S.Row>
-        {Array.mapWithIndex(data, (i, value) => {
+        {Array.mapWithIndex([]/*data*/, (i, value) => { // FIX: Use data
           let color = Option.getWithDefault(colors[i], Color.rgb(~r=128, ~g=128, ~b=128))
-          let ratio = Int.toFloat(value) /. Int.toFloat(maxValue)
+          let ratio = Int.toFloat(value) /. Int.toFloat(/*maxValue*/1) // FIX: Use maxValue
           let ratio = Js.Float.isNaN(ratio) ? 0.0 : ratio
           let ratio = Js.Math.max_float(ratio, 0.05)
           let choiceName = choices[i]->Option.getExn

@@ -18,20 +18,21 @@ module Item = {
 }
 
 @react.component
-let make = (~election: Election.t, ~electionId) => {
+let make = (~election: Sirona.Election.t, ~electionId) => {
   //let { t } = ReactI18next.useTranslation()
   let (state, dispatch) = StateContext.use()
   let (phones, setPhones) = React.useState(_ => ["", ""])
-  let admin = state->State.getElectionAdminExn(election)
+  //let admin = state->State.getElectionAdminExn(election)
   let (sendInvite, setSendInvite) = React.useState(_ => true)
 
-  let onSubmit = _ => {
-    phones
-    ->Array.keep(phone => phone != "")
-    ->Array.forEach(phone => {
-      InviteQuery.send(dispatch, admin, "phone", phone, electionId, sendInvite)
-    })
-  }
+  let onSubmit = _ => ()
+  //let onSubmit = _ => {
+  //  phones
+  //  ->Array.keep(phone => phone != "")
+  //  ->Array.forEach(phone => {
+  //    InviteQuery.send(dispatch, admin, "phone", phone, electionId, sendInvite)
+  //  })
+  //}
 
   let onRemove = i => {
     setPhones(Array.keepWithIndex(_, (_, index) => index != i))

@@ -191,9 +191,19 @@ let uploadElection = (election, trustees, credentials, dispatch) => {
   let obj: Js.Json.t = Js.Json.object_(Js.Dict.fromArray([
     ("election", Sirona.Election.toJSONs(Sirona.Election.serialize(election))),
     ("trustees", Js.Json.array([])), // FIX: Add trustees
-    ("credentials", Js.Json.array([])) // TODO: Allow credentials
+    ("credentials", Js.Json.array([])) // FIX: Add credentials
   ]))
   X.put(`${URL.bbs_url}/${election.uuid}`, obj)
+  ->Promise.thenResolve(response => {
+    dispatch(StateMsg.ElectionInit(election.uuid, election))
+    dispatch(StateMsg.UpdateNewElection({
+      title: "",
+      description: "",
+      choices: [],
+      mode: Undefined
+    }))
+    Js.log(response)
+  })
   ->Promise.thenResolve(response => {
     Js.log(response)
   })->ignore

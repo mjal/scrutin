@@ -1,5 +1,5 @@
 @react.component
-let make = (~election: Election.t, ~electionId, ~userToken: string) => {
+let make = (~election: Sirona.Election.t, ~electionId, ~userToken: string) => {
   let (_state, dispatch) = StateContext.use()
   let (userToken, setUserToken) = React.useState(_ => userToken)
 

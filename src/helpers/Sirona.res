@@ -29,7 +29,7 @@ module Election = {
     name: string,
     group: string,
     //public_key: Point.t;
-    //questions: Question.t[];
+    questions: array<QuestionH.t>,
     uuid: string,
     administrator?: string,
     credential_authority?: string
