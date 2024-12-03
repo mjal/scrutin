@@ -1,8 +1,15 @@
 module Trustee = {
   type t
+  type serialized_t
 
   @module("sirona") @scope("Trustee") @val
-  external create: () => t = "generate"
+  external create: () => (int, serialized_t) = "generate"
+
+  @module("sirona") @scope("Trustee") @val
+  external fromJSON: (serialized_t) => t = "fromJSON"
+
+  @module("sirona") @scope("Trustee") @val
+  external toJSON: (t) => serialized_t = "toJSON"
 }
 
 module QuestionH = {
@@ -29,14 +36,5 @@ module Election = {
   }
 
   @module("sirona") @scope("Election") @val
-  external create: (string, int) => t = "create"
+  external create: (string, string, array<Trustee.t>, array<QuestionH.t>) => t = "create"
 }
-
-//@module("react-native") @scope("Share") @val
-//let genTrustee: string => string = %raw(`
-//  function(e) {
-//    const Trustee = require("sirona/dist/Trustee)
-//    console.log(Trustee.generate()[1][1].pok)
-//    return "";
-//  }
-//`)
