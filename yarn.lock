@@ -1739,10 +1739,9 @@
   resolved "https://registry.npmjs.org/@gar/promisify/-/promisify-1.1.3.tgz"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@glennsl/rescript-json-combinators@^1.4.0":
+"@glennsl/rescript-json-combinators@git+https://github.com/scrutin-app/rescript-json-combinators#b7a4d0e":
   version "1.4.0"
-  resolved "https://registry.npmjs.org/@glennsl/rescript-json-combinators/-/rescript-json-combinators-1.4.0.tgz"
-  integrity sha512-tIhAJoAqyfF3Mbd66Koipl6WZxLKJTJFHTx99jDG5+YAv/Hr6XrXYryCXs1Qi8BWUwx5WQcgKay3lUzElUYC7Q==
+  resolved "git+ssh://git@github.com/scrutin-app/rescript-json-combinators.git#b7a4d0ecb4ab63fb9a51a019c3f5025c2bf4d580"
 
 "@graphql-typed-document-node/core@^3.1.0":
   version "3.2.0"
@@ -9563,6 +9562,16 @@ simple-swizzle@^0.2.2:
   integrity sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg==
   dependencies:
     is-arrayish "^0.3.1"
+
+"sirona@file:../sirona":
+  version "0.0.3"
+  resolved "file:../sirona"
+  dependencies:
+    "@noble/curves" "^1.4.0"
+    commander "^12.1.0"
+    js-untar "^2.0.0"
+    sjcl "^1.0.8"
+    vue "^3.4.21"
 
 sisteransi@^1.0.5:
   version "1.0.5"
