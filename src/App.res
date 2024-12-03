@@ -4,6 +4,17 @@ let make = () => {
 
   React.useEffect0(() => {
     dispatch(StateMsg.Reset)
+    Js.log(Sirona.Trustee.create())
+    let (pubkey, trustee) = Sirona.Trustee.create()
+    Js.log(trustee)
+    let question : Sirona.QuestionH.t =  {
+      answers: ["Answer1", "Answer2"],
+      min: 1,
+      max: 1,
+      question: "Question"
+    }
+    let election = Sirona.Election.create("Name", "Desc", [Sirona.Trustee.fromJSON(trustee)], [question])
+    Js.log(election)
     None
   })
 
