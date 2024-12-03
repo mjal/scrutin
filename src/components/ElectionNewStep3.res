@@ -18,7 +18,10 @@ let make = () => {
     | "closed" => State.Closed
     | _ => State.Undefined
     }
-    Core.Election.create(~name, ~desc, ~choices)(state, dispatch)
+    // TODO: Dispatch mode
+    dispatch(CreateElection)
+    // TODO: Remove
+    //Core.Election.create(~name, ~desc, ~choices)(state, dispatch)
   }
 
   <>

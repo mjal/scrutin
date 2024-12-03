@@ -97,5 +97,24 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
     (state, [])
 
   | UpdateNewElection(newElection) => ({...state, newElection}, [])
+
+  | CreateElection =>
+    let { title, description, choices } = state.newElection
+    let (privkey, serializedTrustee) = Sirona.Trustee.create()
+    let trustee = Sirona.Trustee.fromJSON(serializedTrustee)
+    let question : Sirona.QuestionH.t =  {
+      question: "Question",
+      answers: choices,
+      min: 1,
+      max: 1
+    }
+    let election = Sirona.Election.create(title, description, [trustee], [question])
+    Js.log(election)
+    ({...state, newElection : {
+      title: "",
+      description: "",
+      choices: [],
+      mode: Undefined
+    }}, [])
   }
 }
