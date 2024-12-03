@@ -34,7 +34,17 @@ module Election = {
     administrator?: string,
     credential_authority?: string
   }
+  type serialized_t
 
   @module("sirona") @scope("Election") @val
   external create: (string, string, array<Trustee.t>, array<QuestionH.t>) => t = "create"
+
+  external toJSON : t => Js.Json.t = "%identity"
+  external toJSONs : serialized_t => Js.Json.t = "%identity"
+
+  @module("sirona") @scope("Election") @val
+  external parse: serialized_t => t = "parse"
+
+  @module("sirona") @scope("Election") @val
+  external serialize: t => serialized_t = "serialize"
 }

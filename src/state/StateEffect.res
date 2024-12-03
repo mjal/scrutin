@@ -186,3 +186,15 @@ let goToUrl = dispatch => {
     dispatch(StateMsg.Navigate(url.path))
   }
 }
+
+let uploadElection = (election, trustees, credentials, dispatch) => {
+  let obj: Js.Json.t = Js.Json.object_(Js.Dict.fromArray([
+    ("election", Sirona.Election.toJSONs(Sirona.Election.serialize(election))),
+    ("trustees", Js.Json.array([])), // FIX: Add trustees
+    ("credentials", Js.Json.array([])) // TODO: Allow credentials
+  ]))
+  X.put(`${URL.bbs_url}/${election.uuid}`, obj)
+  ->Promise.thenResolve(response => {
+    Js.log(response)
+  })->ignore
+}

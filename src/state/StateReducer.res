@@ -6,7 +6,7 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
         StateEffect.loadAccounts,
         StateEffect.loadTrustees,
         StateEffect.loadInvitations,
-        StateEffect.loadAndFetchEvents,
+        //StateEffect.loadAndFetchEvents,
         StateEffect.goToUrl,
       ],
     )
@@ -109,12 +109,15 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
       max: 1
     }
     let election = Sirona.Election.create(title, description, [trustee], [question])
+
     Js.log(election)
     ({...state, newElection : {
       title: "",
       description: "",
       choices: [],
       mode: Undefined
-    }}, [])
+    }}, [
+      StateEffect.uploadElection(election, [trustee], [])
+    ])
   }
 }
