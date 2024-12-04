@@ -16,6 +16,11 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.1",
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "@flydotio/dockerfile": "^0.5.9",
+    "@types/node": "^22.10.1"
   }
 }

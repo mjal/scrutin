@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for scrutin-bbs2 on 2024-12-04T20:23:49+01:00
+# fly.toml app configuration file generated for scrutin-registrar on 2024-12-04T20:18:46+01:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'scrutin-bbs2'
+app = 'scrutin-registrar'
 primary_region = 'cdg'
 kill_signal = 'SIGINT'
 kill_timeout = '5s'
@@ -14,7 +14,6 @@ kill_timeout = '5s'
 [build]
 
 [deploy]
-  release_command = 'npm run migrate'
 
 [env]
   PORT = '8080'
