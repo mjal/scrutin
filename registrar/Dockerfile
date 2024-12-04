@@ -33,7 +33,7 @@ COPY . .
 RUN yarn run build
 
 # Remove development dependencies
-RUN yarn install --production=true
+RUN yarn install --production=false
 
 
 # Final stage for app image
@@ -43,5 +43,5 @@ FROM base
 COPY --from=build /app /app
 
 # Start the server by default, this can be overwritten at runtime
-EXPOSE 3000
+EXPOSE 8080
 CMD [ "yarn", "run", "start" ]

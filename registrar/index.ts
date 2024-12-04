@@ -52,6 +52,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+app.get("/", (_req, res) => {
+  res.send("<h1>Hello o/</h1>");
+});
+
 // Endpoint to send keys
 app.post("/send-keys", async (req, res) => {
   const { uuid, emails } = req.body;
