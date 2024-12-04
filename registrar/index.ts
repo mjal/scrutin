@@ -9,7 +9,7 @@ import { Account, Event_ } from "./scrutin-lib"
 
 const env = process.env.NODE_ENV || 'development'
 
-let baseUrl = "https://demo.scrutin.app"
+let baseUrl = "https:/staging.scrutin.app"
 if (env == 'development') {
   baseUrl = "http://localhost:19006"
 }
