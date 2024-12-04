@@ -220,7 +220,7 @@ let sendEmailsAndCreateElection = (emails, election: Sirona.Election.t, trustees
     ("uuid", Js.Json.string(election.uuid)),
     ("emails", Js.Json.array(emails)),
   ]))
-  X.post(`${URL.registrar_url}`, obj)
+  X.post(`${URL.registrar_url}/send-keys`, obj)
   ->Promise.thenResolve(response => {
     Js.log(response)
   })->ignore

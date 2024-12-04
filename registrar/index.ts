@@ -50,6 +50,7 @@ function sendMail(email: string, uuid: string, userToken: string) {
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 // Endpoint to send keys
 app.post("/send-keys", async (req, res) => {

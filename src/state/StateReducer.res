@@ -120,6 +120,7 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
       min: 1,
       max: 1
     }
+    Js.log(emails)
     let election = Sirona.Election.create(title, description, [trustee], [question])
     let election = {...election, unrestricted: (state.newElection.mode == State.Open)}
     Js.log("TODO")

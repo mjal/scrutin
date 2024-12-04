@@ -36,3 +36,4 @@ bbs/dev.sqlite3
 auth/emails/*
 auth/sms/*
 auth/dev.sqlite3
+registrar/emails/*
