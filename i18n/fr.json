@@ -39,7 +39,7 @@
             "title": "Comment participer ?",
             "closed.title": "Participation fermée",
             "closed.description": "L'administrateur.ice de l'élection doit inviter chaque participant.e, en général via une liste l'e-mails.",
-            "open.title": "Participation ouverte (Pas encore disponible)",
+            "open.title": "Participation ouverte",
             "open.description": "Les participant.es peuvent rejoindre librement l'élection grâce à un lien ou un QR code."
         },
         "election.show": {

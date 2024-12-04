@@ -195,16 +195,40 @@ let uploadElection = (election, trustees, credentials, dispatch) => {
   ]))
   X.put(`${URL.bbs_url}/${election.uuid}`, obj)
   ->Promise.thenResolve(response => {
+    // TODO: Assert response.status == 201
     dispatch(StateMsg.ElectionInit(election.uuid, election))
     dispatch(StateMsg.UpdateNewElection({
       title: "",
       description: "",
       choices: [],
-      mode: Undefined
+      mode: Undefined,
+      emails: []
     }))
+    dispatch(StateMsg.Navigate(list{"elections", election.uuid}))
     Js.log(response)
   })
   ->Promise.thenResolve(response => {
     Js.log(response)
   })->ignore
+}
+
+let fetchElection = (uuid, dispatch) => {
+  (async (uuid, dispatch) => {
+    let response = await Webapi.Fetch.fetch(`${URL.bbs_url}/${uuid}`)
+    switch Webapi.Fetch.Response.ok(response) { 
+    | false =>
+      Js.log("Can't find election")
+    | true =>
+      let json = await Webapi.Fetch.Response.json(response)
+      switch Js.Json.decodeObject(json) {
+      | None => Js.log("No object")
+      | Some(o) => switch Js.Dict.get(o, "election") {
+        | None => Js.log("No election")
+        | Some(election) =>
+          let election = Sirona.Election.parse(Sirona.Election.fromJSONs(election))
+          dispatch(StateMsg.ElectionInit(uuid, election))
+        }
+      }
+    }
+  })(uuid, dispatch)->ignore
 }

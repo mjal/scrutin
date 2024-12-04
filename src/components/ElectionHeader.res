@@ -2,12 +2,14 @@
 let make = (~election: Sirona.Election.t, ~section=#index) => {
   let {t} = ReactI18next.useTranslation()
 
-  let title = switch election.name {
+  Js.log(election.description)
+
+  let title = switch election.description {
   | "" => t(. "election.show.unnamed")
   | electionName => electionName
   }
 
-  let titleTextStyle = switch election.name {
+  let titleTextStyle = switch election.description {
   | "" => Style.textStyle(~color=Color.grey, ())
   | _ => Style.textStyle()
   }

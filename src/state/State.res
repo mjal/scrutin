@@ -6,7 +6,8 @@ type newElection = {
   title: string,
   description: string,
   choices: array<string>,
-  mode: mode
+  mode: mode,
+  emails: array<string>
 }
 
 type t = {
@@ -33,7 +34,8 @@ type t = {
   // ballots (from parsed events)
   ballots: array<Ballot.t>,
   // The temporary election we're creating
-  newElection: newElection
+  newElection: newElection,
+  electionsTryFetch: Map.String.t<bool>,
 }
 
 // The initial state of the application
@@ -46,12 +48,14 @@ let initial = {
   invitations: [],
   elections: Map.String.empty,
   electionLatestIds: Map.String.empty,
+  electionsTryFetch: Map.String.empty,
   ballots: [],
   newElection: {
     title: "",
     description: "",
     choices: [],
-    mode: Undefined
+    mode: Undefined,
+    emails: []
   }
 }
 

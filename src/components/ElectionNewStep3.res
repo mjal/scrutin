@@ -19,8 +19,15 @@ let make = () => {
     | _ => State.Undefined
     }
     // TODO: Dispatch mode
-    dispatch(CreateElection)
-    dispatch(StateMsg.Navigate(list{"elections", "new", "step4"}))
+    let newElection = {...state.newElection, mode}
+    dispatch(StateMsg.UpdateNewElection(newElection))
+
+    if mode == State.Open {
+      dispatch(CreateElection)
+      dispatch(StateMsg.Navigate(list{"elections", "new", "step4"}))
+    } else {
+      dispatch(StateMsg.Navigate(list{"elections", "new", "step5"}))
+    }
     // TODO: Remove
     //Core.Election.create(~name, ~desc, ~choices)(state, dispatch)
   }
@@ -32,23 +39,6 @@ let make = () => {
         { t(. "election.new3.title") -> React.string }
       </Title>
     </View>
-
-    //<View>
-    //  <Text>{ "Hello"->React.string }</Text>
-    //  <RadioButton
-    //    status=(mode == Open ? #checked : #unchecked)
-    //    onPress={_ => setMode(_ => State.Open)}
-    //    value="open" />
-    //</View>
-    //<S.Title> {t(. "election.new3.open.title")->React.string} </S.Title>
-    //<S.Title> {t(. "election.new3.open.description")->React.string} </S.Title>
-
-    //<RadioButton
-    //  status=(mode == Closed ? #checked : #unchecked)
-    //  onPress={_ => setMode(_ => State.Closed)}
-    //  value="closed" />
-    //<S.Title> {t(. "election.new3.closed.title")->React.string} </S.Title>
-    //<S.Title> {t(. "election.new3.closed.description")->React.string} </S.Title>
 
     <RadioButton.Group
       onValueChange={v => {setValue(_ => v); v}}
@@ -62,18 +52,12 @@ let make = () => {
       </View>
       <View>
         <RadioButtonItem label={t(. "election.new3.open.title")} value="open"
-        disabled=true
         />
         <Text>
           {t(. "election.new3.open.description")->React.string}
         </Text>
       </View>
     </RadioButton.Group>
-
-    // "closed.title": "Participation fermée",
-    // "closed.description": "L'administrateur.ice de l'élection doit inviter chaque participant.e, en général via une liste l'e-mails.",
-    // "open": "Participation ouverte",
-    // "open.description": "Les participant.es peuvent rejoindre librement l'élection grâce à un lien ou un QR code.",
 
     <S.Button
       title={t(. "election.new.next")}

@@ -109,14 +109,13 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
       max: 1
     }
     let election = Sirona.Election.create(title, description, [trustee], [question])
+    let election = {...election, unrestricted: (state.newElection.mode == State.Open)}
     Js.log(election)
-    ({...state, newElection : {
-      title: "",
-      description: "",
-      choices: [],
-      mode: Undefined
-    }}, [
-      //StateEffect.uploadElection(election, [trustee], [])
+    (state, [
+      StateEffect.uploadElection(election, [trustee], [])
     ])
+  | ElectionFetch(uuid) =>
+    let electionsTryFetch = Map.String.set(state.electionsTryFetch, uuid, true)
+    ({...state, electionsTryFetch}, [StateEffect.fetchElection(uuid)])
   }
 }

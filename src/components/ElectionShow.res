@@ -3,6 +3,9 @@ let make = (~election: Sirona.Election.t, ~electionId) => {
   let (state, dispatch) = StateContext.use()
   let { t } = ReactI18next.useTranslation()
 
+  Js.log("got")
+  Js.log(election)
+
   let nbVotes = state
     ->State.getElectionValidBallots(electionId)
     ->Array.length

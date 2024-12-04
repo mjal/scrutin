@@ -20,3 +20,4 @@ type t =
   | BallotAdd(string, Ballot.t)
   | UpdateNewElection(State.newElection)
   | CreateElection
+  | ElectionFetch(string)

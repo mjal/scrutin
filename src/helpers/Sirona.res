@@ -1,3 +1,7 @@
+module Point = {
+  type t
+}
+
 module Trustee = {
   type t
   type serialized_t
@@ -28,11 +32,12 @@ module Election = {
     description: string,
     name: string,
     group: string,
-    //public_key: Point.t;
+    public_key: Point.t,
     questions: array<QuestionH.t>,
     uuid: string,
     administrator?: string,
-    credential_authority?: string
+    credential_authority?: string,
+    unrestricted?: bool
   }
   type serialized_t
 
@@ -41,6 +46,9 @@ module Election = {
 
   external toJSON : t => Js.Json.t = "%identity"
   external toJSONs : serialized_t => Js.Json.t = "%identity"
+
+  external fromJSON : Js.Json.t => t = "JSON.parse"
+  external fromJSONs : Js.Json.t => serialized_t = "JSON.parse"
 
   @module("sirona") @scope("Election") @val
   external parse: serialized_t => t = "parse"
