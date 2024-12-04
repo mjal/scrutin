@@ -15,9 +15,10 @@ if (ReactNative.Platform.OS === "web") {
 
 i18nextPipeline.init({
   //debug: true,
-  fallbackLng: 'en',
+  //fallbackLng: 'en',
+  fallbackLng: 'fr',
   resources: {
-    en,
+    //en,
     fr
   }
 })
