@@ -22,7 +22,7 @@ module Item = {
 
 @react.component
 let make = () => {
-  let (state, _dispatch) = StateContext.use()
+  //let (state, _dispatch) = StateContext.use()
   let {t} = ReactI18next.useTranslation()
 
   let (query, setQuery) = React.useState(_ => "")

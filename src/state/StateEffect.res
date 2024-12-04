@@ -188,6 +188,7 @@ let goToUrl = dispatch => {
 }
 
 let uploadElection = (election, trustees, credentials, dispatch) => {
+  let _ = (trustees, credentials)
   let obj: Js.Json.t = Js.Json.object_(Js.Dict.fromArray([
     ("election", Sirona.Election.toJSONs(Sirona.Election.serialize(election))),
     ("trustees", Js.Json.array([])), // FIX: Add trustees
@@ -207,6 +208,19 @@ let uploadElection = (election, trustees, credentials, dispatch) => {
     dispatch(StateMsg.Navigate(list{"elections", election.uuid}))
     Js.log(response)
   })
+  ->Promise.thenResolve(response => {
+    Js.log(response)
+  })->ignore
+}
+
+let sendEmailsAndCreateElection = (emails, election: Sirona.Election.t, trustees, credentials, dispatch) => {
+  let _ = (trustees, credentials, dispatch)
+  let emails = Array.map(emails, email => Js.Json.string(email))
+  let obj: Js.Json.t = Js.Json.object_(Js.Dict.fromArray([
+    ("uuid", Js.Json.string(election.uuid)),
+    ("emails", Js.Json.array(emails)),
+  ]))
+  X.post(`${URL.registrar_url}`, obj)
   ->Promise.thenResolve(response => {
     Js.log(response)
   })->ignore

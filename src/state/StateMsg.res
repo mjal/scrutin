@@ -15,9 +15,9 @@ type t =
   | Fetched
 
   | ElectionInit(string, Sirona.Election.t)
-  | ElectionUpdate(string, Election.t)
 
   | BallotAdd(string, Ballot.t)
   | UpdateNewElection(State.newElection)
-  | CreateElection
+  | CreateOpenElection
+  | CreateClosedElection
   | ElectionFetch(string)

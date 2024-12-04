@@ -1,14 +1,15 @@
 @react.component
 let make = (~electionId) => {
-  let (state, dispatch) = StateContext.use()
-  let {t} = ReactI18next.useTranslation()
-  let election = Map.String.getExn(state.elections, electionId)
-  let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
-  let (showBallots, setShowBallots) = React.useState(_ => false)
+  let _ = electionId
+  //let (state, _dispatch) = StateContext.use()
+  //let {t} = ReactI18next.useTranslation()
+  //let election = Map.String.getExn(state.elections, electionId)
+  //let (showAdvanced, setShowAdvanced) = React.useState(_ => false)
+  //let (showBallots, setShowBallots) = React.useState(_ => false)
 
-  let ballots =
-    Array.keep(state.ballots, (ballot) => ballot.electionId == electionId)
-  let nbBallots = Array.length(ballots)
+  //let ballots =
+  //  Array.keep(state.ballots, (ballot) => ballot.electionId == electionId)
+  //let nbBallots = Array.length(ballots)
 
   <>
   /*

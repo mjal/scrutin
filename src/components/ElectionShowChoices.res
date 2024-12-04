@@ -1,11 +1,11 @@
 @react.component
 let make = (~election: Sirona.Election.t) => {
-  let {t} = ReactI18next.useTranslation()
+  //let {t} = ReactI18next.useTranslation()
 
-  let question = switch election.name {
-  | "" => t(. "election.new.question")
-  | question => question
-  }
+  //let question = switch election.name {
+  //| "" => t(. "election.new.question")
+  //| question => question
+  //}
 
   {Array.mapWithIndex(election.questions, (j, question) => {
     <View style=S.questionBox key={Int.toString(j)}>

@@ -18,9 +18,9 @@ module Item = {
 }
 
 @react.component
-let make = (~election: Sirona.Election.t, ~electionId) => {
+let make = (~election: Sirona.Election.t) => {
   //let { t } = ReactI18next.useTranslation()
-  let (state, dispatch) = StateContext.use()
+  //let (state, dispatch) = StateContext.use()
   let (phones, setPhones) = React.useState(_ => ["", ""])
   //let admin = state->State.getElectionAdminExn(election)
   let (sendInvite, setSendInvite) = React.useState(_ => true)

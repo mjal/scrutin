@@ -1,3 +1,4 @@
+/*
 module Election = {
   // ---
   // #### Election.create
@@ -63,7 +64,7 @@ module Election = {
   ) => {
     // ---
 
-    (state: State.t, dispatch) => {
+    (state: State.t, _dispatch) => {
       // Get the election from cache
       let election = Map.String.getExn(state.elections, electionId)
 
@@ -147,3 +148,4 @@ module Ballot = {
     }
   }
 }
+*/

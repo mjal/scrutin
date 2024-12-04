@@ -106,4 +106,6 @@ let make = (~election: Sirona.Election.t, ~electionId) => {
 }
 */
 @react.component
-let make = (~election: Sirona.Election.t, ~electionId) => { <></> }
+let make = (~election: Sirona.Election.t, ~electionId) => {
+  let _ = (election, electionId)
+  <></> }

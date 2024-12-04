@@ -9,7 +9,7 @@ let make = () => {
     let emails = Js.String.split("\n", emails)
     let newElection = {...state.newElection, emails: emails}
     dispatch(StateMsg.UpdateNewElection(newElection))
-    dispatch(StateMsg.Navigate(list{"elections", "new", "step6"}))
+    dispatch(StateMsg.CreateClosedElection)
   }
 
   <>

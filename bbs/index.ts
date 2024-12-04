@@ -23,7 +23,7 @@ app.put("/:uuid", async (req, res) => {
   console.log(election, trustees, credentials)
 
   try {
-    const inserted = await knex("elections").insert({
+    await knex("elections").insert({
       uuid,
       election,
       trustees,
@@ -48,7 +48,7 @@ app.post("/:uuid/ballots", async (req, res) => {
       return res.status(404).json({ success: false, message: "Election not found." });
     }
 
-    const inserted = await knex("ballots").insert({
+    await knex("ballots").insert({
       election_uuid: uuid,
       ballot,
     });

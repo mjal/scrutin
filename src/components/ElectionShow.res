@@ -1,14 +1,15 @@
 @react.component
 let make = (~election: Sirona.Election.t, ~electionId) => {
-  let (state, dispatch) = StateContext.use()
-  let { t } = ReactI18next.useTranslation()
+  let _ = electionId
+  //let (state, _dispatch) = StateContext.use()
+  //let { t } = ReactI18next.useTranslation()
 
   Js.log("got")
   Js.log(election)
 
-  let nbVotes = state
-    ->State.getElectionValidBallots(electionId)
-    ->Array.length
+  //let nbVotes = state
+  //  ->State.getElectionValidBallots(electionId)
+  //  ->Array.length
 
   <>
     <ElectionHeader election />

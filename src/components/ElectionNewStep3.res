@@ -10,9 +10,6 @@ let make = () => {
   }
 
   let electionCreate = _ => {
-    let name = state.newElection.title
-    let desc = ""
-    let choices = state.newElection.choices
     let mode = switch value {
     | "open" => State.Open
     | "closed" => State.Closed
@@ -23,7 +20,7 @@ let make = () => {
     dispatch(StateMsg.UpdateNewElection(newElection))
 
     if mode == State.Open {
-      dispatch(CreateElection)
+      dispatch(CreateOpenElection)
       dispatch(StateMsg.Navigate(list{"elections", "new", "step4"}))
     } else {
       dispatch(StateMsg.Navigate(list{"elections", "new", "step5"}))

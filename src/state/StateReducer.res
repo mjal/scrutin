@@ -54,11 +54,6 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
     let elections = Map.String.set(state.elections, uuid, election)
     ({...state, elections}, [])
 
-  | ElectionUpdate(cid, election) =>
-    //let elections = Map.String.set(state.elections, cid, election)
-    //({...state, elections}, [])
-    (state, [])
-
   | BallotAdd(_cid, ballot) =>
     let ballots = Array.concat(state.ballots, [ballot])
     ({...state, ballots}, [])
@@ -98,9 +93,9 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
 
   | UpdateNewElection(newElection) => ({...state, newElection}, [])
 
-  | CreateElection =>
+  | CreateOpenElection =>
     let { title, description, choices } = state.newElection
-    let (privkey, serializedTrustee) = Sirona.Trustee.create()
+    let (_privkey, serializedTrustee) = Sirona.Trustee.create()
     let trustee = Sirona.Trustee.fromJSON(serializedTrustee)
     let question : Sirona.QuestionH.t =  {
       question: "Question",
@@ -114,6 +109,24 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
     (state, [
       StateEffect.uploadElection(election, [trustee], [])
     ])
+
+  | CreateClosedElection =>
+    let { title, description, choices, emails } = state.newElection
+    let (_privkey, serializedTrustee) = Sirona.Trustee.create()
+    let trustee = Sirona.Trustee.fromJSON(serializedTrustee)
+    let question : Sirona.QuestionH.t =  {
+      question: "Question",
+      answers: choices,
+      min: 1,
+      max: 1
+    }
+    let election = Sirona.Election.create(title, description, [trustee], [question])
+    let election = {...election, unrestricted: (state.newElection.mode == State.Open)}
+    Js.log("TODO")
+    (state, [
+      StateEffect.sendEmailsAndCreateElection(emails, election, [trustee], [])
+    ])
+
   | ElectionFetch(uuid) =>
     let electionsTryFetch = Map.String.set(state.electionsTryFetch, uuid, true)
     ({...state, electionsTryFetch}, [StateEffect.fetchElection(uuid)])

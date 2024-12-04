@@ -1,5 +1,6 @@
 @react.component
 let make = (~election: Sirona.Election.t, ~electionId) => {
+  let _ = (election, electionId)
   <></>
 }
 //@react.component

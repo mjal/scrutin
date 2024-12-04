@@ -5,7 +5,7 @@ let make = () => {
   React.useEffect0(() => {
     dispatch(StateMsg.Reset)
     Js.log(Sirona.Trustee.create())
-    let (pubkey, trustee) = Sirona.Trustee.create()
+    let (_priv, trustee) = Sirona.Trustee.create()
     Js.log(trustee)
     let question : Sirona.QuestionH.t =  {
       answers: ["Answer1", "Answer2"],
@@ -66,7 +66,7 @@ let make = () => {
         | list{"invite_email"} =>
           <ElectionInviteEmail election electionId />
         | list{"invite_phone"} =>
-          <ElectionInvitePhone election electionId />
+          <ElectionInvitePhone election />
         | list{"invite_manage"} =>
           <ElectionInviteManage election />
         | list{"result"} =>
