@@ -38,9 +38,10 @@ let make = () => {
     />
     { switch ReactNative.Platform.os {
     | #web =>
-      <Button mode=#text onPress={_ => dispatch(Navigate(list{"elections", "search"}))}>
-        {t(. "home.search")->React.string}
-      </Button>
+      //<Button mode=#text onPress={_ => dispatch(Navigate(list{"elections", "search"}))}>
+      //  {t(. "home.search")->React.string}
+      //</Button>
+      <></>
     | _ =>
     <>
       <View style=Style.viewStyle(~height=50.0->Style.dp,()) />
