@@ -17,9 +17,10 @@ let make = () => {
       | _  => choice
       }
     })
-    let newElection = {...state.newElection, choices}
+    let newElection = {...state.newElection, choices, mode: State.Open}
     dispatch(StateMsg.UpdateNewElection(newElection))
-    dispatch(StateMsg.Navigate(list{"elections", "new", "step3"}))
+    dispatch(CreateOpenElection)
+    dispatch(StateMsg.Navigate(list{"elections", "new", "step4"}))
   }
 
   <>

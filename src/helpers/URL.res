@@ -98,4 +98,4 @@ let registrar_url = switch env {
 | #dev => "http://localhost:8081"
 | #prod => "https://scrutin-registrar.fly.dev"
 }
-let registrar_url = "https://scrutin-registrar.fly.dev"
+//let registrar_url = "https://scrutin-registrar.fly.dev"
