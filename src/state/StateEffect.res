@@ -213,11 +213,12 @@ let uploadElection = (election, trustees, credentials, dispatch) => {
   })->ignore
 }
 
-let uploadBallot = (name, election: Sirona.Election.t, ballot: Sirona.Ballot.t, dispatch) => {
+let uploadBallot = (name, election: Sirona.Election.t, ballot: Sirona.Ballot.t, demo_plaintexts: array<array<int>>, dispatch) => {
   let obj: Js.Json.t = Js.Json.object_(Js.Dict.fromArray([
     ("name", Js.Json.string(name)),
     ("ballot", Sirona.Ballot.toJSON(ballot)),
     ("election_uuid", Js.Json.string(election.uuid)),
+    ("demo_plaintexts", Obj.magic(demo_plaintexts)),
   ]))
   X.post(`${URL.bbs_url}/${election.uuid}/ballots`, obj)
   ->Promise.thenResolve(response => {

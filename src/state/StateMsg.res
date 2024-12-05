@@ -18,8 +18,8 @@ type t =
 
   | BallotAdd(string, Ballot.t)
   | UpdateNewElection(State.newElection)
-  | CreateOpenElection
+  | CreateOpenElection(array<Sirona.Trustee.t>)
   | CreateClosedElection
   | ElectionFetch(string)
 
-  | UploadBallot(string, Sirona.Election.t, Sirona.Ballot.t)
+  | UploadBallot(string, Sirona.Election.t, Sirona.Ballot.t, array<array<int>>)

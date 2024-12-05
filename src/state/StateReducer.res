@@ -93,26 +93,24 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
 
   | UpdateNewElection(newElection) => ({...state, newElection}, [])
 
-  | CreateOpenElection =>
+  | CreateOpenElection(trustees) =>
     let { title, description, choices } = state.newElection
-    let (_privkey, serializedTrustee) = Sirona.Trustee.create()
-    let trustee = Sirona.Trustee.fromJSON(serializedTrustee)
     let question : Sirona.QuestionH.t =  {
       question: "Question",
       answers: choices,
       min: 1,
       max: 1
     }
-    let election = Sirona.Election.create(title, description, [trustee], [question])
+    let election = Sirona.Election.create(title, description, trustees, [question])
     let election = {...election, unrestricted: (state.newElection.mode == State.Open)}
     Js.log(election)
     (state, [
-      StateEffect.uploadElection(election, [trustee], [])
+      StateEffect.uploadElection(election, trustees, [])
     ])
 
-  | UploadBallot(name, election, ballot) =>
+  | UploadBallot(name, election, ballot, demo_plaintexts) =>
     (state, [
-      StateEffect.uploadBallot(name, election, ballot)
+      StateEffect.uploadBallot(name, election, ballot, demo_plaintexts)
     ])
 
   | CreateClosedElection =>

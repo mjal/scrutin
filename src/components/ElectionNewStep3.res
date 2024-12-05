@@ -19,12 +19,12 @@ let make = () => {
     let newElection = {...state.newElection, mode}
     dispatch(StateMsg.UpdateNewElection(newElection))
 
-    if mode == State.Open {
-      dispatch(CreateOpenElection)
-      dispatch(StateMsg.Navigate(list{"elections", "new", "step4"}))
-    } else {
-      dispatch(StateMsg.Navigate(list{"elections", "new", "step5"}))
-    }
+    //if mode == State.Open {
+    //  dispatch(CreateOpenElection)
+    //  dispatch(StateMsg.Navigate(list{"elections", "new", "step4"}))
+    //} else {
+    //  dispatch(StateMsg.Navigate(list{"elections", "new", "step5"}))
+    //}
     // TODO: Remove
     //Core.Election.create(~name, ~desc, ~choices)(state, dispatch)
   }

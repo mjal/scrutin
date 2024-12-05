@@ -77,8 +77,9 @@ module Booth = {
             priv,
             choices
           ) // FIX: overall_proof
-          dispatch(StateMsg.UploadBallot(name, election, ballot))
+          dispatch(StateMsg.UploadBallot(name, election, ballot, choices))
         }}
+        disabled=(name == "")
       />
     </>
   }

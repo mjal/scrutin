@@ -39,7 +39,7 @@ app.put("/:uuid", async (req, res) => {
 
 app.post("/:uuid/ballots", async (req, res) => {
   const { uuid } = req.params;
-  const { ballot, name } = req.body;
+  const { ballot, name, demo_plaintexts } = req.body;
 
   try {
     // Check if election exists
@@ -52,6 +52,7 @@ app.post("/:uuid/ballots", async (req, res) => {
       election_uuid: uuid,
       ballot,
       name,
+      demo_plaintexts: JSON.stringify(demo_plaintexts),
     });
 
     res.status(201).json({ success: true, election_uuid: uuid, ballot });
