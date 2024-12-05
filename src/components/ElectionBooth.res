@@ -12,27 +12,12 @@ module Choice = {
   }
 }
 
-module BoothAfterVote = {
-  @react.component
-  let make = (~electionId) => {
-    let (_state, dispatch) = StateContext.use()
-    <>
-      <Text style={S.flatten([S.title, Style.viewStyle(~margin=30.0->Style.dp, ())])}>
-        {"Merci pour votre vote"->React.string}
-      </Text>
-      <S.Button
-        title="Retour à l'élection"
-        onPress={_ => { dispatch(Navigate(list{"elections", electionId})) }}
-      />
-    </>
-  }
-}
-
 module Booth = {
   @react.component
   let make = (~election: Sirona.Election.t, ~electionId, ~name) => {
-    let (state, dispatch) = StateContext.use()
-    let {t} = ReactI18next.useTranslation()
+    let _ = electionId
+    let (_state, dispatch) = StateContext.use()
+    //let {t} = ReactI18next.useTranslation()
     let (choice, setChoice) = React.useState(_ => None)
 
     <>
@@ -41,8 +26,6 @@ module Booth = {
           <S.Section title=question.question />
           {Array.mapWithIndex(question.answers, (i, name) => {
             let selected = choice == Some(i)
-            //<List.Item title=name key={`${Int.toString(j)}-${Int.toString(i)}`} />
-            //<List.Item title=name key={`${Int.toString(j)}-${Int.toString(i)}`} />
             <Choice
               name selected key={Int.toString(i)} onSelect={_ => setChoice(_ => Some(i))}
             />
@@ -63,11 +46,11 @@ module Booth = {
             trustees: [], // FIX:
             credentials: [hPublicCredential],
           }
-          let choices = Array.mapWithIndex(election.questions, (j, question) => {
-            Array.mapWithIndex(question.answers, (i, name) => {
+          let choices = Array.mapWithIndex(election.questions, (_j, question) => {
+            Array.mapWithIndex(question.answers, (i, _name) => {
               switch choice {
               | None => 0
-              | Some(i) => i
+              | Some(n) => (i == n) ? 1 : 0
               }
             })
           })
@@ -100,7 +83,7 @@ module Booth = {
 
 @react.component
 let make = (~election: Sirona.Election.t, ~electionId) => {
-  let (state, _dispatch) = StateContext.use()
+  let (_state, _dispatch) = StateContext.use()
   //let oSecret = getSecret()
   let (name, setName) = React.useState(_ => "")
 

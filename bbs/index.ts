@@ -63,7 +63,6 @@ app.post("/:uuid/ballots", async (req, res) => {
 });
 
 app.get("/:uuid", async (req, res) => {
-  console.log(1)
   const { uuid } = req.params;
   try {
     const setup = await knex("elections").select().where({ uuid }).first();
