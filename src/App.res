@@ -9,6 +9,7 @@ let make = () => {
     Js.log(trustee)
     let question : Sirona.QuestionH.t =  {
       answers: ["Answer1", "Answer2"],
+      blank: false,
       min: 1,
       max: 1,
       question: "Question"
@@ -73,6 +74,8 @@ let make = () => {
           <ElectionResult election electionId />
         | list{"booth"} =>
           <ElectionBooth election electionId />
+        | list{"avote"} =>
+          <ElectionAVote election electionId />
         | list{"tally"} =>
           <ElectionTally election electionId />
         | route =>

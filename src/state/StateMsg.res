@@ -21,3 +21,5 @@ type t =
   | CreateOpenElection
   | CreateClosedElection
   | ElectionFetch(string)
+
+  | UploadBallot(string, Sirona.Election.t, Sirona.Ballot.t)

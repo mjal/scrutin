@@ -2,6 +2,19 @@ module Point = {
   type t
 }
 
+module Credential = {
+  type pair_t = {
+    nPrivateCredential: string,
+    hPublicCredential: string,
+  }
+
+  @module("sirona") @scope("Credential") @val
+  external generatePriv: () => (string) = "generatePriv"
+
+  @module("sirona") @scope("Credential") @val
+  external derive: (string, string) => pair_t = "derive"
+}
+
 module Trustee = {
   type t
   type serialized_t
@@ -56,3 +69,21 @@ module Election = {
   @module("sirona") @scope("Election") @val
   external serialize: t => serialized_t = "serialize"
 }
+
+module Setup = {
+  type t = {
+    trustees: array<Trustee.t>,
+    election: Election.t,
+    credentials: array<string>,
+  }
+}
+
+module Ballot = {
+  type t
+
+  @module("sirona") @scope("Ballot") @val
+  external generate : (Setup.t, string, array<array<int>>) => t = "generate"
+
+  external toJSON : t => Js.Json.t = "%identity"
+}
+

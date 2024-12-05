@@ -110,6 +110,11 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
       StateEffect.uploadElection(election, [trustee], [])
     ])
 
+  | UploadBallot(name, election, ballot) =>
+    (state, [
+      StateEffect.uploadBallot(name, election, ballot)
+    ])
+
   | CreateClosedElection =>
     let { title, description, choices, emails } = state.newElection
     let (_privkey, serializedTrustee) = Sirona.Trustee.create()

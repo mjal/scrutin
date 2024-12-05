@@ -39,7 +39,7 @@ app.put("/:uuid", async (req, res) => {
 
 app.post("/:uuid/ballots", async (req, res) => {
   const { uuid } = req.params;
-  const { ballot } = req.body;
+  const { ballot, name } = req.body;
 
   try {
     // Check if election exists
@@ -51,6 +51,7 @@ app.post("/:uuid/ballots", async (req, res) => {
     await knex("ballots").insert({
       election_uuid: uuid,
       ballot,
+      name,
     });
 
     res.status(201).json({ success: true, election_uuid: uuid, ballot });

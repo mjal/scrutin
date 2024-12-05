@@ -53,8 +53,31 @@ module Booth = {
       <S.Button
         title="Voter"
         onPress={_ => {
-          // TODO:
-          ()
+          let priv = Sirona.Credential.generatePriv()
+          let { nPrivateCredential, hPublicCredential } =
+            Sirona.Credential.derive(election.uuid, priv)
+          Js.log(hPublicCredential)
+          Js.log(nPrivateCredential)
+          let setup: Sirona.Setup.t = {
+            election,
+            trustees: [], // FIX:
+            credentials: [hPublicCredential],
+          }
+          let choices = Array.mapWithIndex(election.questions, (j, question) => {
+            Array.mapWithIndex(question.answers, (i, name) => {
+              switch choice {
+              | None => 0
+              | Some(i) => i
+              }
+            })
+          })
+          Js.log(choices)
+          let ballot = Sirona.Ballot.generate(
+            setup,
+            priv,
+            choices
+          ) // FIX: overall_proof
+          dispatch(StateMsg.UploadBallot(name, election, ballot))
         }}
       />
     </>

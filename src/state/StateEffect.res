@@ -213,6 +213,18 @@ let uploadElection = (election, trustees, credentials, dispatch) => {
   })->ignore
 }
 
+let uploadBallot = (name, election: Sirona.Election.t, ballot: Sirona.Ballot.t, dispatch) => {
+  let obj: Js.Json.t = Js.Json.object_(Js.Dict.fromArray([
+    ("name", Js.Json.string(name)),
+    ("ballot", Sirona.Ballot.toJSON(ballot)),
+    ("election_uuid", Js.Json.string(election.uuid)),
+  ]))
+  X.post(`${URL.bbs_url}/${election.uuid}/ballots`, obj)
+  ->Promise.thenResolve(response => {
+    dispatch(StateMsg.Navigate(list{"elections", election.uuid, "avote"}))
+  })->ignore
+}
+
 let sendEmailsAndCreateElection = (emails, election: Sirona.Election.t, trustees, credentials, dispatch) => {
   let _ = (trustees, credentials, dispatch)
   let emails = Array.map(emails, email => Js.Json.string(email))
