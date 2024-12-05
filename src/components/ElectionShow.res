@@ -29,7 +29,14 @@ let make = (~election: Sirona.Election.t, ~electionId) => {
     <View style={Style.viewStyle(~height=30.0->Style.dp, ())} />
 
     <S.Button
-      title="Page de dépouillement (admin)"
+      title="Voter"
+      onPress={_ =>
+        dispatch(Navigate(list{"elections", electionId, "booth"}))
+      }
+    />
+
+    <S.Button
+      title="Admin: dépouillement"
       onPress={_ =>
         dispatch(Navigate(list{"elections", electionId, "tally"}))
       }
