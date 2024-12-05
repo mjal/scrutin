@@ -73,6 +73,8 @@ let make = () => {
           <ElectionResult election electionId />
         | list{"booth"} =>
           <ElectionBooth election electionId />
+        | list{"tally"} =>
+          <ElectionTally election electionId />
         | route =>
           Js.log(("Unknown election route", route))
           <HomeView />
