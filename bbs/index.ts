@@ -62,6 +62,30 @@ app.post("/:uuid/ballots", async (req, res) => {
   }
 });
 
+app.post("/:uuid/result", async (req, res) => {
+  const { uuid } = req.params;
+  const { result } = req.body;
+
+  try {
+    // Check if election exists
+    const election = await knex("elections").select().where({ uuid }).first();
+    if (!election) {
+      return res.status(404).json({ success: false, message: "Election not found." });
+    }
+
+    await knex("ballots").insert({
+      election_uuid: uuid,
+      result: JSON.stringify(result)
+    });
+
+    res.status(201).json({ success: true, election_uuid: uuid, result });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Error storing result." });
+  }
+});
+
+
 app.get("/:uuid", async (req, res) => {
   const { uuid } = req.params;
   try {
