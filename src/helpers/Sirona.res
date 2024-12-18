@@ -86,4 +86,3 @@ module Ballot = {
 
   external toJSON : t => Js.Json.t = "%identity"
 }
-

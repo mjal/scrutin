@@ -27,9 +27,13 @@ let useTea = (reducer: ('state, 'action) => ('state, 'effect), initialState: 'st
   }, [dispatch])
 
   //React.useEffect(() => {
-  if effects->Belt.Array.length != 0 {
+  if Belt.Array.length(effects) != 0 {
     dispatch(RemoveEffects)
-    effects->Belt.Array.forEach(fx => fx(action => dispatch(DomainAction(action))))
+    Belt.Array.forEach(effects, fx => {
+      (async (fx) => {
+        fx(action => dispatch(DomainAction(action)))
+      })(fx)->ignore
+    })
   }
   //  None
   //})//, [effects]);

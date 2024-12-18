@@ -1,8 +1,8 @@
 @react.component
 let make = (~election: Sirona.Election.t, ~electionId) => {
-  let (state, dispatch) = StateContext.use()
+  let (_state, dispatch) = StateContext.use()
   let (passphrase, setPassphrase) = React.useState(_ => "")
-  let (ballots, setBallots) = React.useState(_ => [])
+  let (_ballots, setBallots) = React.useState(_ => [])
   let (demoPlaintexts, setDemoPlaintexts) = React.useState(_ => [])
 
   React.useEffect0(() => {
@@ -16,7 +16,7 @@ let make = (~election: Sirona.Election.t, ~electionId) => {
         Js.log(json) // Needed for next line
         let ballots: array<Sirona.Ballot.t> = %raw(`json.ballots`)
         setBallots(_ => ballots)
-        let dm = Array.map(ballots, (b) => {
+        let dm = Array.map(ballots, (_b) => {
           %raw(`JSON.parse(b.demo_plaintexts)`)
         })
         //let dm: array<array<int>> = %raw(`json.demo_plaintexts`)

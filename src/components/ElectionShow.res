@@ -1,6 +1,6 @@
 @react.component
 let make = (~election: Sirona.Election.t, ~electionId) => {
-  let (state, dispatch) = StateContext.use()
+  let (_state, dispatch) = StateContext.use()
 
   <>
     <ElectionHeader election />

@@ -64,17 +64,17 @@ let electionsUpdate =  (
 
 // ## LocalStorage - Store
 
-let storeAccounts = (ids, _dispatch) => Account.store_all(ids)
-let storeEvents = (evs, _dispatch) => Event_.store_all(evs)
-let storeTrustees = (trustees, _dispatch) => Trustee.store_all(trustees)
-let storeInvitations = (invitations, _dispatch) =>
+let storeAccounts = async (ids, _dispatch) => Account.store_all(ids)
+let storeEvents = async (evs, _dispatch) => Event_.store_all(evs)
+let storeTrustees = async (trustees, _dispatch) => Trustee.store_all(trustees)
+let storeInvitations = async (invitations, _dispatch) =>
   Invitation.store_all(invitations)
-let storeLanguage = (language, _dispatch) =>
+let storeLanguage = async (language, _dispatch) =>
   ReactNativeAsyncStorage.setItem("config.language", language)->ignore
 
 // ## LocalStorage - Load
 
-let loadAccounts = dispatch => {
+let loadAccounts = async dispatch => {
   Account.loadAll()
   ->Promise.thenResolve(accounts => {
     Array.map(accounts, account => dispatch(StateMsg.Account_Add(account)))
@@ -91,7 +91,7 @@ let loadEvents = dispatch => {
   ->ignore
 }
 
-let loadTrustees = dispatch => {
+let loadTrustees = async dispatch => {
   Trustee.loadAll()
   ->Promise.thenResolve(os => {
     Array.map(os, o => dispatch(StateMsg.Trustee_Add(o)))
@@ -99,7 +99,7 @@ let loadTrustees = dispatch => {
   ->ignore
 }
 
-let loadInvitations = dispatch => {
+let loadInvitations = async dispatch => {
   Invitation.loadAll()
   ->Promise.thenResolve(os => {
     Array.map(os, o => dispatch(StateMsg.Invitation_Add(o)))
@@ -107,7 +107,7 @@ let loadInvitations = dispatch => {
   ->ignore
 }
 
-let loadLanguage = ((), _dispatch) =>
+let loadLanguage = async ((), _dispatch) =>
   ReactNativeAsyncStorage.getItem("config.language")
   ->Promise.thenResolve(Js.Null.toOption)
   ->Promise.thenResolve(language => {
@@ -122,12 +122,12 @@ let loadLanguage = ((), _dispatch) =>
 
 // ## LocalStorage - Clear
 
-let clearAccounts = _dispatch => Account.clear()
-let clearEvents = _dispatch => Event_.clear()
-let clearTrustees = _dispatch => Trustee.clear()
+let clearAccounts = async _dispatch => Account.clear()
+let clearEvents = async _dispatch => Event_.clear()
+let clearTrustees = async _dispatch => Trustee.clear()
 
 // ## Network - Fetch
-let loadAndFetchEvents = dispatch => {
+let loadAndFetchEvents = async dispatch => {
   Event_.loadAll()
   ->Promise.thenResolve(evs => {
     Array.forEach(evs, ev => dispatch(StateMsg.Event_Add(ev)))
@@ -156,7 +156,7 @@ let loadAndFetchEvents = dispatch => {
   ->ignore
 }
 
-let fetchLatestEvents = (latestId, dispatch) => {
+let fetchLatestEvents = async (latestId, dispatch) => {
   Webapi.Fetch.fetch(`${URL.bbs_url}/events?from=${latestId->Int.toString}`)
   ->Promise.then(Webapi.Fetch.Response.json)
   ->Promise.thenResolve(response => {
@@ -176,86 +176,87 @@ let fetchLatestEvents = (latestId, dispatch) => {
 }
 
 // ## Send event to the server
-let broadcastEvent = (ev, _dispatch) => {
+let broadcastEvent = async (ev, _dispatch) => {
   Event_.broadcast(ev)->ignore
 }
 
-let goToUrl = dispatch => {
+let goToUrl = async dispatch => {
   if ReactNative.Platform.os == #web {
     let url = RescriptReactRouter.dangerouslyGetInitialUrl()
     dispatch(StateMsg.Navigate(url.path))
   }
 }
 
-let uploadElection = (election, trustees, credentials, dispatch) => {
+let uploadElection = async (election, trustees, credentials, dispatch) => {
   let _ = (trustees, credentials)
   let obj: Js.Json.t = Js.Json.object_(Js.Dict.fromArray([
     ("election", Sirona.Election.toJSONs(Sirona.Election.serialize(election))),
     ("trustees", Js.Json.array([])), // FIX: Add trustees
     ("credentials", Js.Json.array([])) // FIX: Add credentials
   ]))
-  X.put(`${URL.bbs_url}/${election.uuid}`, obj)
-  ->Promise.thenResolve(response => {
-    // TODO: Assert response.status == 201
-    dispatch(StateMsg.ElectionInit(election.uuid, election))
-    dispatch(StateMsg.UpdateNewElection({
-      title: "",
-      description: "",
-      choices: [],
-      mode: Undefined,
-      emails: []
-    }))
-    dispatch(StateMsg.Navigate(list{"elections", election.uuid}))
+  let response = await X.put(`${URL.bbs_url}/${election.uuid}`, obj)
+
+  switch Webapi.Fetch.Response.ok(response) { 
+  | false =>
+    Js.log("Can't find election")
+  | true =>
+    Js.log("Created")
+  }
+
+  // TODO: Assert response.status == 201
+  dispatch(StateMsg.ElectionInit(election.uuid, election))
+  dispatch(StateMsg.UpdateNewElection({
+    title: "",
+    description: "",
+    choices: [],
+    mode: Undefined,
+    emails: []
+  }))
+  dispatch(StateMsg.Navigate(list{"elections", election.uuid}))
+  Js.log(response)
+  //})
+  //->Promise.thenResolve(response => {
     Js.log(response)
-  })
-  ->Promise.thenResolve(response => {
-    Js.log(response)
-  })->ignore
+  //})->ignore
 }
 
-let uploadBallot = (name, election: Sirona.Election.t, ballot: Sirona.Ballot.t, demo_plaintexts: array<array<int>>, dispatch) => {
+let uploadBallot = async (name, election: Sirona.Election.t, ballot: Sirona.Ballot.t, demo_plaintexts: array<array<int>>, dispatch) => {
   let obj: Js.Json.t = Js.Json.object_(Js.Dict.fromArray([
     ("name", Js.Json.string(name)),
     ("ballot", Sirona.Ballot.toJSON(ballot)),
     ("election_uuid", Js.Json.string(election.uuid)),
     ("demo_plaintexts", Obj.magic(demo_plaintexts)),
   ]))
-  X.post(`${URL.bbs_url}/${election.uuid}/ballots`, obj)
-  ->Promise.thenResolve(response => {
-    dispatch(StateMsg.Navigate(list{"elections", election.uuid, "avote"}))
-  })->ignore
+  let _response = await X.post(`${URL.bbs_url}/${election.uuid}/ballots`, obj)
+  dispatch(StateMsg.Navigate(list{"elections", election.uuid, "avote"}))
 }
 
-let sendEmailsAndCreateElection = (emails, election: Sirona.Election.t, trustees, credentials, dispatch) => {
+let sendEmailsAndCreateElection = async (emails, election: Sirona.Election.t, trustees, credentials, dispatch) => {
   let _ = (trustees, credentials, dispatch)
   let emails = Array.map(emails, email => Js.Json.string(email))
   let obj: Js.Json.t = Js.Json.object_(Js.Dict.fromArray([
     ("uuid", Js.Json.string(election.uuid)),
     ("emails", Js.Json.array(emails)),
   ]))
-  X.post(`${URL.registrar_url}/send-keys`, obj)
-  ->Promise.thenResolve(response => {
-    Js.log(response)
-  })->ignore
+  let response = await X.post(`${URL.registrar_url}/send-keys`, obj)
+  Js.log(response)
 }
 
-let fetchElection = (uuid, dispatch) => {
-  (async (uuid, dispatch) => {
-    let response = await Webapi.Fetch.fetch(`${URL.bbs_url}/${uuid}`)
-    switch Webapi.Fetch.Response.ok(response) { 
-    | false =>
-      Js.log("Can't find election")
-    | true =>
-      let json = await Webapi.Fetch.Response.json(response)
-      switch Js.Json.decodeObject(json) {
-      | None => Js.log("No object")
-      | Some(o) => switch Js.Dict.get(o, "election") {
-        | None => Js.log("No election")
-        | Some(election) =>
-          let election = Sirona.Election.parse(Sirona.Election.fromJSONs(election))
-          dispatch(StateMsg.ElectionInit(uuid, election))
-        }
+let fetchElection = async (uuid, dispatch) => {
+  let response = await Webapi.Fetch.fetch(`${URL.bbs_url}/${uuid}`)
+  switch Webapi.Fetch.Response.ok(response) { 
+  | false =>
+    Js.log("Can't find election")
+  | true =>
+    let json = await Webapi.Fetch.Response.json(response)
+    switch Js.Json.decodeObject(json) {
+    | None => Js.log("No object")
+    | Some(o) => switch Js.Dict.get(o, "election") {
+      | None => Js.log("No election")
+      | Some(election) =>
+        let election = Sirona.Election.parse(Sirona.Election.fromJSONs(election))
+        dispatch(StateMsg.ElectionInit(uuid, election))
       }
     }
-  })(uuid, dispatch)->ignore
+  }
 }

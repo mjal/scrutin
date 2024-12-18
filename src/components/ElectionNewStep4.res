@@ -1,7 +1,7 @@
 @react.component
 let make = () => {
   let {t} = ReactI18next.useTranslation()
-  let (state, dispatch) = StateContext.use()
+  let (_state, dispatch) = StateContext.use()
 
   let (privkey, serializedTrustee) = Sirona.Trustee.create()
   let trustee = Sirona.Trustee.fromJSON(serializedTrustee)
