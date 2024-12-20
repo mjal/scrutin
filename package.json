@@ -60,7 +60,6 @@
     "@babel/core": "^7.20.0",
     "@badeball/cypress-cucumber-preprocessor": "^16.0.3",
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
-    "babel-plugin-optional-require": "^0.3.1",
     "cypress": "^12.9.0",
     "docco": "^0.9.1",
     "rescript": "^10.1.4"
