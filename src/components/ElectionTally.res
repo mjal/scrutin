@@ -3,7 +3,6 @@ let make = (~election: Sirona.Election.t, ~electionId) => {
   let (_state, dispatch) = StateContext.use()
   let (passphrase, setPassphrase) = React.useState(_ => "")
   let (_ballots, setBallots) = React.useState(_ => [])
-  let (demoPlaintexts, setDemoPlaintexts) = React.useState(_ => [])
 
   React.useEffect0(() => {
     (async () => {
@@ -24,15 +23,15 @@ let make = (~election: Sirona.Election.t, ~electionId) => {
   })
 
   let tally = _ => {
-    let initial = Array.map(election.questions, (q) => {
-      Array.make(Array.length(q.answers), 0)
-    })
-    let result = Array.reduce(demoPlaintexts, initial, (a, b) => {
-      Array.zip(a,b)-> Array.map(((row1, row2)) =>
-        Array.zip(row1,row2)->Array.map(((e1,e2)) => e1 + e2)
-      )
-    })
-    Js.log(result)
+    //let initial = Array.map(election.questions, (q) => {
+    //  Array.make(Array.length(q.answers), 0)
+    //})
+    //let result = Array.reduce(demoPlaintexts, initial, (a, b) => {
+    //  Array.zip(a,b)-> Array.map(((row1, row2)) =>
+    //    Array.zip(row1,row2)->Array.map(((e1,e2)) => e1 + e2)
+    //  )
+    //})
+    //Js.log(result)
 
     // TODO: Compute encrypted tally
     // (2 points: Extract multiply ballot logic in sirona)
