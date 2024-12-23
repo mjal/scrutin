@@ -16,12 +16,7 @@ let make = (~election: Sirona.Election.t, ~electionId) => {
         Js.log(json) // Needed for next line
         let ballots: array<Sirona.Ballot.t> = %raw(`json.ballots`)
         setBallots(_ => ballots)
-        let dm = Array.map(ballots, (_b) => {
-          %raw(`JSON.parse(b.demo_plaintexts)`)
-        })
-        //let dm: array<array<int>> = %raw(`json.demo_plaintexts`)
-        setDemoPlaintexts(_ => dm)
-        Js.log(dm)
+        Js.log(ballots)
       }
     })()
     ->ignore
