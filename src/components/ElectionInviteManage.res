@@ -10,8 +10,10 @@ module Item = {
   }
 }
 
+
 @react.component
-let make = (~election: Sirona.Election.t) => {
+let make = (~setup: Setup.t) => {
+  let election = setup.election
   <>
     <ElectionHeader election section=#inviteManage />
 

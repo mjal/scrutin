@@ -1,5 +1,8 @@
 @react.component
-let make = (~election: Sirona.Election.t, ~electionId, ~userToken: string) => {
+let make = (~setup: Setup.t, ~electionId, ~userToken: string) => {
+  let _ = (setup, electionId, userToken)
+  <></>
+  /*
   let (_state, dispatch) = StateContext.use()
   let (userToken, setUserToken) = React.useState(_ => userToken)
 
@@ -40,4 +43,5 @@ let make = (~election: Sirona.Election.t, ~electionId, ~userToken: string) => {
     />
     <S.Button title="Utiliser" onPress=submit />
   </>
+  */
 }

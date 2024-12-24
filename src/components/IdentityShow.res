@@ -1,5 +1,8 @@
 @react.component
 let make = (~publicKey) => {
+  let _ = publicKey
+  <></>
+/*
   let (state, dispatch) = StateContext.use()
   let {t} = ReactI18next.useTranslation()
 
@@ -44,4 +47,5 @@ let make = (~publicKey) => {
       //</List.Accordion>
     </List.Section>
   </>
+*/
 }

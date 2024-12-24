@@ -4,17 +4,17 @@ let make = () => {
 
   React.useEffect0(() => {
     dispatch(StateMsg.Reset)
-    Js.log(Sirona.Trustee.create())
-    let (_priv, trustee) = Sirona.Trustee.create()
+    Js.log(Trustee.create())
+    let (_priv, trustee) = Trustee.create()
     Js.log(trustee)
-    let question : Sirona.QuestionH.t =  {
+    let question : QuestionH.t =  {
       answers: ["Answer1", "Answer2"],
       blank: false,
       min: 1,
       max: 1,
       question: "Question"
     }
-    let election = Sirona.Election.create("Name", "Desc", [Sirona.Trustee.fromJSON(trustee)], [question])
+    let election = Election.create("Name", "Desc", [Trustee.fromJSON(trustee)], [question])
     Js.log(election)
     None
   })
@@ -45,39 +45,39 @@ let make = () => {
 
     // TODO: Rename electionId -> uuid
     | list{"elections", electionId, ...electionRoute} =>
-      switch Map.String.get(state.elections, electionId) {
+      switch Map.String.get(state.setups, electionId) {
       | None =>
         switch Map.String.get(state.electionsTryFetch, electionId) {
           | Some(true) => ()
-          | _ => dispatch(StateMsg.ElectionFetch(electionId))
+          | _ => dispatch(StateMsg.ElectionFetch(electionId)) // TODO: Rename
         }
         <NotFoundYet />
-      | Some(election) =>
+      | Some(setup) =>
         switch electionRoute {
         | list{} =>
-          <ElectionShow election electionId />
+          <ElectionShow setup electionId />
         | list{"challenge", userToken} => // Unused
-          <ElectionChallenge election electionId userToken />
+          <ElectionChallenge setup electionId userToken />
         | list{"token", secret} => // Unused
-          <ElectionToken election electionId secret />
+          <ElectionToken setup electionId secret />
         | list{"invite"} =>
-          <ElectionInvite election electionId />
+          <ElectionInvite setup electionId />
         | list{"invite_link"} =>
-          <ElectionInviteLink election electionId />
+          <ElectionInviteLink setup electionId />
         | list{"invite_email"} =>
-          <ElectionInviteEmail election electionId />
+          <ElectionInviteEmail setup electionId />
         | list{"invite_phone"} =>
-          <ElectionInvitePhone election />
+          <ElectionInvitePhone setup />
         | list{"invite_manage"} =>
-          <ElectionInviteManage election />
+          <ElectionInviteManage setup />
         | list{"result"} =>
-          <ElectionResult election electionId />
+          <ElectionResult setup electionId />
         | list{"booth"} =>
-          <ElectionBooth election electionId />
+          <ElectionBooth setup electionId />
         | list{"avote"} =>
-          <ElectionAVote election electionId />
+          <ElectionAVote setup electionId />
         | list{"tally"} =>
-          <ElectionTally election electionId />
+          <ElectionTally setup electionId />
         | route =>
           Js.log(("Unknown election route", route))
           <HomeView />

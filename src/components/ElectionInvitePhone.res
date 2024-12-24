@@ -18,7 +18,7 @@ module Item = {
 }
 
 @react.component
-let make = (~election: Sirona.Election.t) => {
+let make = (~setup: Setup.t) => {
   //let { t } = ReactI18next.useTranslation()
   //let (state, dispatch) = StateContext.use()
   let (phones, setPhones) = React.useState(_ => ["", ""])
@@ -45,6 +45,8 @@ let make = (~election: Sirona.Election.t) => {
       })
     )
   }
+
+  let election = setup.election
 
   <>
     <ElectionHeader election section=#inviteMail />

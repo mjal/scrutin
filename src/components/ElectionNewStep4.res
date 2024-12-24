@@ -3,9 +3,21 @@ let make = () => {
   let {t} = ReactI18next.useTranslation()
   let (_state, dispatch) = StateContext.use()
 
-  let (privkey, serializedTrustee) = Sirona.Trustee.create()
-  let trustee = Sirona.Trustee.fromJSON(serializedTrustee)
+  let (privkey, serializedTrustee) = Trustee.create()
+  let trustee = Trustee.fromJSON(serializedTrustee)
   let trustees = [trustee]
+
+  Js.log("privkey")
+  Js.log(privkey)
+  let bigIntToString = %raw(`
+    function (n, radix) {
+      return n.toString(radix)
+    }
+  `);
+  let hexPrivkey = bigIntToString(privkey, 16)
+  Js.log(hexPrivkey)
+  Js.log("trustees")
+  Js.log(trustees)
 
   let next = _ => {
     dispatch(CreateOpenElection(trustees))
@@ -13,11 +25,15 @@ let make = () => {
 
   <>
     <Title style=Style.textStyle(~fontSize=32.0, ())>
-      { "Here is your guardian private key. Keep it with care" -> React.string }
+      { "Voici votre clé de gardien." -> React.string }
+    </Title>
+
+    <Title style=Style.textStyle(~fontSize=20.0, ())>
+      { hexPrivkey -> React.string }
     </Title>
 
     <Title style=Style.textStyle(~fontSize=32.0, ())>
-      { Int.toString(privkey) -> React.string }
+      { "Notez la, vous en aurez besoin pour cloturer l'élection." -> React.string }
     </Title>
 
     <S.Button

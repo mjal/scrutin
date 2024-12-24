@@ -1,6 +1,7 @@
 @react.component
-let make = (~election: Sirona.Election.t, ~electionId, ~secret: string) => {
+let make = (~setup: Setup.t, ~electionId, ~secret: string) => {
   let (_state, dispatch) = StateContext.use()
+  let election = setup.election
   //let (userToken, setUserToken) = React.useState(_ => userToken)
 
   let account = Account.make2(~secret)

@@ -14,7 +14,7 @@ module Choice = {
 
 module Booth = {
   @react.component
-  let make = (~election: Sirona.Election.t, ~electionId, ~name) => {
+  let make = (~election: Election.t, ~electionId, ~name) => {
     let _ = electionId
     let (_state, dispatch) = StateContext.use()
     //let {t} = ReactI18next.useTranslation()
@@ -36,12 +36,12 @@ module Booth = {
       <S.Button
         title="Voter"
         onPress={_ => {
-          let priv = Sirona.Credential.generatePriv()
+          let priv = Credential.generatePriv()
           let { nPrivateCredential, hPublicCredential } =
-            Sirona.Credential.derive(election.uuid, priv)
+            Credential.derive(election.uuid, priv)
           Js.log(hPublicCredential)
           Js.log(nPrivateCredential)
-          let setup: Sirona.Setup.t = {
+          let setup: Setup.t = {
             election,
             trustees: [], // FIX:
             credentials: [hPublicCredential],
@@ -55,12 +55,12 @@ module Booth = {
             })
           })
           Js.log(choices)
-          let ballot = Sirona.Ballot.generate(
+          let ballot = Ballot.generate(
             setup,
             priv,
             choices
           ) // FIX: overall_proof
-          dispatch(StateMsg.UploadBallot(name, election, ballot, choices))
+          dispatch(StateMsg.UploadBallot(name, election, ballot))
         }}
         disabled=(name == "")
       />
@@ -82,10 +82,11 @@ module Booth = {
 //}
 
 @react.component
-let make = (~election: Sirona.Election.t, ~electionId) => {
+let make = (~setup: Setup.t, ~electionId) => {
   let (_state, _dispatch) = StateContext.use()
   //let oSecret = getSecret()
   let (name, setName) = React.useState(_ => "")
+  let election = setup.election
 
   <>
     <ElectionHeader election />

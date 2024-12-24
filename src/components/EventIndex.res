@@ -1,3 +1,4 @@
+/*
 module Item = {
   @react.component
   let make = (~event: Event_.t) => {
@@ -20,9 +21,11 @@ module Item = {
     </Card>
   }
 }
-
+*/
 @react.component
 let make = () => {
+  <></>
+/*
   let (state, dispatch) = StateContext.use()
   let {t} = ReactI18next.useTranslation()
 
@@ -36,4 +39,5 @@ let make = () => {
     <S.Title> {"-"->React.string} </S.Title>
     <Button mode=#contained onPress=clear> {t(. "events.clear")->React.string} </Button>
   </List.Section>
+*/
 }

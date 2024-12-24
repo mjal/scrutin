@@ -1,8 +1,9 @@
 @react.component
-let make = (~election: Sirona.Election.t, ~electionId) => {
+let make = (~setup: Setup.t, ~electionId) => {
+  let election = setup.election
   let (_state, dispatch) = StateContext.use()
   let (passphrase, setPassphrase) = React.useState(_ => "")
-  let (_ballots, setBallots) = React.useState(_ => [])
+  let (ballots, setBallots) = React.useState(_ => [])
 
   React.useEffect0(() => {
     (async () => {
@@ -13,7 +14,7 @@ let make = (~election: Sirona.Election.t, ~electionId) => {
       | true =>
         let json = await Webapi.Fetch.Response.json(response)
         Js.log(json) // Needed for next line
-        let ballots: array<Sirona.Ballot.t> = %raw(`json.ballots`)
+        let ballots: array<Ballot.t> = %raw(`json.ballots`)
         setBallots(_ => ballots)
         Js.log(ballots)
       }
@@ -23,18 +24,20 @@ let make = (~election: Sirona.Election.t, ~electionId) => {
   })
 
   let tally = _ => {
-    //let initial = Array.map(election.questions, (q) => {
-    //  Array.make(Array.length(q.answers), 0)
-    //})
-    //let result = Array.reduce(demoPlaintexts, initial, (a, b) => {
-    //  Array.zip(a,b)-> Array.map(((row1, row2)) =>
-    //    Array.zip(row1,row2)->Array.map(((e1,e2)) => e1 + e2)
-    //  )
-    //})
-    //Js.log(result)
+    Js.log(passphrase)
+    let bigIntOfString = %raw(`
+      function (s) {
+        return BigInt('0x'+s);
+      }
+    `);
+    let x = bigIntOfString(passphrase)
+    Js.log(x)
+
+    Js.log(election)
+    Js.log(ballots)
 
     // TODO: Compute encrypted tally
-    // (2 points: Extract multiply ballot logic in sirona)
+
 
     // TODO: Compute partial decryptions (skip proofs ?)
     // (5 points)

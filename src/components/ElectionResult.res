@@ -1,5 +1,8 @@
 @react.component
-let make = (~election: Sirona.Election.t, ~electionId) => {
+let make = (~setup: Setup.t, ~electionId) => {
+  let _ = (setup, electionId)
+  <></>
+/*
   let (state, _) = StateContext.use()
 
   let electionUrl = `${URL.base_url}/elections/${electionId}/result`
@@ -65,4 +68,5 @@ let make = (~election: Sirona.Election.t, ~electionId) => {
     </View>
     <CopyButton text=electionUrl />
   </>
+*/
 }

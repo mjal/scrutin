@@ -1,27 +1,29 @@
-module Item = {
-  @react.component
-  let make = (~id, ~election: Election.t) => {
-    let (_state, dispatch) = StateContext.use()
-
-    let electionParams = Belenios.Election.parse(election.params)
-    let name = electionParams.name == "" ? "Unnamed" : electionParams.name
-
-    <Card style={S.marginY(8.0)}>
-      <Card.Content>
-        <List.Section title="">
-          <List.Item
-            onPress={_ => dispatch(Navigate(list{"elections", id}))}
-            title=name
-            description=electionParams.description
-          />
-        </List.Section>
-      </Card.Content>
-    </Card>
-  }
-}
+//module Item = {
+//  @react.component
+//  let make = (~id, ~election: Election.t) => {
+//    let (_state, dispatch) = StateContext.use()
+//
+//    let electionParams = Belenios.Election.parse(election.params)
+//    let name = electionParams.name == "" ? "Unnamed" : electionParams.name
+//
+//    <Card style={S.marginY(8.0)}>
+//      <Card.Content>
+//        <List.Section title="">
+//          <List.Item
+//            onPress={_ => dispatch(Navigate(list{"elections", id}))}
+//            title=name
+//            description=electionParams.description
+//          />
+//        </List.Section>
+//      </Card.Content>
+//    </Card>
+//  }
+//}
 
 @react.component
 let make = () => {
+  <></>
+/*
   //let (state, _dispatch) = StateContext.use()
   let {t} = ReactI18next.useTranslation()
 
@@ -62,4 +64,5 @@ let make = () => {
     //})
     //->React.array}
   </>
+*/
 }

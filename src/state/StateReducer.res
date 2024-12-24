@@ -1,20 +1,20 @@
-let rec reducer = (state: State.t, action: StateMsg.t) => {
+let reducer = (state: State.t, action: StateMsg.t) => {
   switch action {
   | Reset => (
       State.initial,
       [
         StateEffect.loadAccounts,
-        StateEffect.loadTrustees,
+        //StateEffect.loadTrustees,
         StateEffect.loadInvitations,
         //StateEffect.loadAndFetchEvents,
         StateEffect.goToUrl,
       ],
     )
 
-  | FetchLatest =>
-    let latestId = state.events
-      ->Array.reduce(0, (acc, ev) => acc > ev.id ? acc : ev.id)
-    (state, [StateEffect.fetchLatestEvents(latestId)])
+//  | FetchLatest =>
+//    let latestId = state.events
+//      ->Array.reduce(0, (acc, ev) => acc > ev.id ? acc : ev.id)
+//    (state, [StateEffect.fetchLatestEvents(latestId)])
 
   | Fetched => ({...state, fetchingEvents: false}, [])
 
@@ -22,25 +22,25 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
     let accounts = Array.concat(state.accounts, [account])
     ({...state, accounts}, [StateEffect.storeAccounts(accounts)])
 
-  | Event_Add(event) =>
-    if (state.events->Array.getBy(oldEvent => event.cid == oldEvent.cid)->Option.isSome)
-    {
-      Js.log("Duplicated event")
-      (state, [])
-    } else {
-      //let events = Array.concat(state.events, [event])
-      //let (elections, ballots) = StateEffect.electionsUpdate(state.elections, state.ballots, event)
-      //({...state, events, elections, ballots}, [StateEffect.storeEvents(events)])
-      (state, [])
-    }
+//  | Event_Add(event) =>
+//    if (state.events->Array.getBy(oldEvent => event.cid == oldEvent.cid)->Option.isSome)
+//    {
+//      Js.log("Duplicated event")
+//      (state, [])
+//    } else {
+//      //let events = Array.concat(state.events, [event])
+//      //let (elections, ballots) = StateEffect.electionsUpdate(state.elections, state.ballots, event)
+//      //({...state, events, elections, ballots}, [StateEffect.storeEvents(events)])
+//      (state, [])
+//    }
 
-  | Event_Add_With_Broadcast(event) =>
-    let (state, actions) = reducer(state, Event_Add(event))
-    (state, Array.concat(actions, [StateEffect.broadcastEvent(event)]))
+//  | Event_Add_With_Broadcast(event) =>
+//    let (state, actions) = reducer(state, Event_Add(event))
+//    (state, Array.concat(actions, [StateEffect.broadcastEvent(event)]))
 
-  | Trustee_Add(trustee) =>
-    let trustees = Array.concat(state.trustees, [trustee])
-    ({...state, trustees}, [StateEffect.storeTrustees(trustees)])
+//  | Trustee_Add(trustee) =>
+//    let trustees = Array.concat(state.trustees, [trustee])
+//    ({...state, trustees}, [StateEffect.storeTrustees(trustees)])
 
   | Invitation_Add(invitation) =>
     let invitations = Array.concat(state.invitations, [invitation])
@@ -50,9 +50,9 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
     let invitations = Array.keepWithIndex(state.invitations, (_, i) => i != index)
     ({...state, invitations}, [StateEffect.storeInvitations(invitations)])
 
-  | ElectionInit(uuid, election) =>
-    let elections = Map.String.set(state.elections, uuid, election)
-    ({...state, elections}, [])
+  | ElectionSetup(uuid, setup) =>
+    let setups = Map.String.set(state.setups, uuid, setup)
+    ({...state, setups}, [])
 
   | BallotAdd(_cid, ballot) =>
     let ballots = Array.concat(state.ballots, [ballot])
@@ -95,36 +95,36 @@ let rec reducer = (state: State.t, action: StateMsg.t) => {
 
   | CreateOpenElection(trustees) =>
     let { title, description, choices } = state.newElection
-    let question : Sirona.QuestionH.t =  {
+    let question : QuestionH.t =  {
       question: "Question",
       answers: choices,
       min: 1,
       max: 1
     }
-    let election = Sirona.Election.create(title, description, trustees, [question])
+    let election = Election.create(title, description, trustees, [question])
     let election = {...election, unrestricted: (state.newElection.mode == State.Open)}
     Js.log(election)
     (state, [
       StateEffect.uploadElection(election, trustees, [])
     ])
 
-  | UploadBallot(name, election, ballot, demo_plaintexts) =>
+  | UploadBallot(name, election, ballot) =>
     (state, [
-      StateEffect.uploadBallot(name, election, ballot, demo_plaintexts)
+      StateEffect.uploadBallot(name, election, ballot)
     ])
 
   | CreateClosedElection =>
     let { title, description, choices, emails } = state.newElection
-    let (_privkey, serializedTrustee) = Sirona.Trustee.create()
-    let trustee = Sirona.Trustee.fromJSON(serializedTrustee)
-    let question : Sirona.QuestionH.t =  {
+    let (_privkey, serializedTrustee) = Trustee.create()
+    let trustee = Trustee.fromJSON(serializedTrustee)
+    let question : QuestionH.t =  {
       question: "Question",
       answers: choices,
       min: 1,
       max: 1
     }
     Js.log(emails)
-    let election = Sirona.Election.create(title, description, [trustee], [question])
+    let election = Election.create(title, description, [trustee], [question])
     let election = {...election, unrestricted: (state.newElection.mode == State.Open)}
     Js.log("TODO")
     (state, [

@@ -1,3 +1,4 @@
+/*
 // #### Description
 // State mutations are done through events
 
@@ -152,3 +153,4 @@ let clear = () => ReactNativeAsyncStorage.removeItem(storageKey)->ignore
 let broadcast = ev => {
   X.post(`${URL.bbs_url}/events`, to_json(ev))
 }
+*/

@@ -39,7 +39,7 @@ app.put("/:uuid", async (req, res) => {
 
 app.post("/:uuid/ballots", async (req, res) => {
   const { uuid } = req.params;
-  const { ballot, name, demo_plaintexts } = req.body;
+  const { ballot, name } = req.body;
 
   try {
     // Check if election exists
@@ -52,7 +52,6 @@ app.post("/:uuid/ballots", async (req, res) => {
       election_uuid: uuid,
       ballot,
       name,
-      demo_plaintexts: JSON.stringify(demo_plaintexts),
     });
 
     res.status(201).json({ success: true, election_uuid: uuid, ballot });
@@ -94,7 +93,7 @@ app.get("/:uuid", async (req, res) => {
     if (!election) {
       return res.status(404).json({ success: false, message: "Election not found." });
     }
-    res.status(200).json({ success: true, election, trustees, credentials });
+    res.status(200).json({ success: true, setup });
   } catch (error) {
     res.status(500).json({ success: false, message: "Error fetching election." });
   }

@@ -1,29 +1,28 @@
 type t = {
-  // First version of the election (None for new elections)
-  electionId: option<string>,
-
-  // Public keys of election admins (can update the election)
-  adminIds: array<string>,
-
-  // Public keys of voters (can sign ballots)
-  voterIds: array<string>,
-
-  // Election parameters
-  params: string,
-  trustees: string,
-
-  // Tally parameters
-  pda: option<string>,
-  pdb: option<string>,
-  result: option<string>
+  version: int,
+  description: string,
+  name: string,
+  group: string,
+  public_key: Point.t,
+  questions: array<QuestionH.t>,
+  uuid: string,
+  administrator?: string,
+  credential_authority?: string,
+  unrestricted?: bool
 }
+type serialized_t
 
-external parse: string => t = "JSON.parse"
-external stringify: t => string = "JSON.stringify"
+  @module("sirona") @scope("Election") @val
+  external create: (string, string, array<Trustee.t>, array<QuestionH.t>) => t = "create"
 
-let answers = election => Belenios.Election.answers(Belenios.Election.parse(election.params))
-let choices = answers
+  external toJSON : t => Js.Json.t = "%identity"
+  external toJSONs : serialized_t => Js.Json.t = "%identity"
 
-let name = election => Belenios.Election.parse(election.params).name
+  external fromJSON : Js.Json.t => t = "JSON.parse"
+  external fromJSONs : Js.Json.t => serialized_t = "JSON.parse"
 
-let description = election => Belenios.Election.parse(election.params).description
+  @module("sirona") @scope("Election") @val
+  external parse: serialized_t => t = "parse"
+
+  @module("sirona") @scope("Election") @val
+  external serialize: t => serialized_t = "serialize"

@@ -1,5 +1,5 @@
 @react.component
-let make = (~election: Sirona.Election.t, ~section=#index) => {
+let make = (~election: Election.t, ~section=#index) => {
   let {t} = ReactI18next.useTranslation()
 
   Js.log(election.description)

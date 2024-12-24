@@ -1,4 +1,4 @@
-let send = (dispatch, admin, type_, username, electionId, sendInvite)  => {
+let send = (dispatch, _admin, type_, username, electionId, sendInvite)  => {
   let data = {
     let dict = Js.Dict.empty()
     Js.Dict.set(dict, "username", Js.Json.string(username))
@@ -29,11 +29,11 @@ let send = (dispatch, admin, type_, username, electionId, sendInvite)  => {
         phoneNumber: None
       }
       dispatch(StateMsg.Invitation_Add(invitation))
-      let ev = Event_.ElectionVoter.create({
-        electionId,
-        voterId: managerId,
-      }, admin)
-      dispatch(Event_Add_With_Broadcast(ev))
+      //let ev = Event_.ElectionVoter.create({
+      //  electionId,
+      //  voterId: managerId,
+      //}, admin)
+      //dispatch(Event_Add_With_Broadcast(ev))
       dispatch(Navigate(list{"elections", electionId}))
     | None => Js.log("No managerId found...")
     }
