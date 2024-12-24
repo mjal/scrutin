@@ -14,7 +14,8 @@ module Choice = {
 
 module Booth = {
   @react.component
-  let make = (~election: Election.t, ~electionId, ~name) => {
+  let make = (~setup: Setup.t, ~electionId, ~name) => {
+    let election = setup.election
     let _ = electionId
     let (_state, dispatch) = StateContext.use()
     //let {t} = ReactI18next.useTranslation()
@@ -55,6 +56,9 @@ module Booth = {
             })
           })
           Js.log(choices)
+          Js.log(1)
+          Js.log(setup)
+          Js.log(2)
           let ballot = Ballot.generate(
             setup,
             priv,
@@ -96,7 +100,7 @@ let make = (~setup: Setup.t, ~electionId) => {
       onChangeText={text => setName(_ => text)}
     />
 
-    <Booth election electionId name />
+    <Booth setup electionId name />
 
     //{ switch oSecret {
     //| None =>

@@ -18,8 +18,8 @@ type serialized_t
   external toJSON : t => Js.Json.t = "%identity"
   external toJSONs : serialized_t => Js.Json.t = "%identity"
 
-  external fromJSON : Js.Json.t => t = "JSON.parse"
-  external fromJSONs : Js.Json.t => serialized_t = "JSON.parse"
+  external fromJSON : string => t = "JSON.parse"
+  external fromJSONs : string => serialized_t = "JSON.parse"
 
   @module("sirona") @scope("Election") @val
   external parse: serialized_t => t = "parse"

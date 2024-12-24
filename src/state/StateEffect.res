@@ -252,7 +252,7 @@ let fetchElection = async (uuid, dispatch) => {
     let json = await Webapi.Fetch.Response.json(response)
     let res : res_t = Obj.magic(json)
     let setup : Setup.t = {
-      election: Obj.magic(Js.Json.parseExn(res.setup.election)),
+      election: Election.parse(Election.fromJSONs(res.setup.election)),
       trustees: [],
       credentials: []
     } // FIX:
