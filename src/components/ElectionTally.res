@@ -1,3 +1,5 @@
+type tt = { ballot: string }
+
 @react.component
 let make = (~setup: Setup.t, ~electionId) => {
   let election = setup.election
@@ -14,7 +16,10 @@ let make = (~setup: Setup.t, ~electionId) => {
       | true =>
         let json = await Webapi.Fetch.Response.json(response)
         Js.log(json) // Needed for next line
-        let ballots: array<Ballot.t> = %raw(`json.ballots`)
+
+        // FIX: Ballots are wrongs
+        let ballots: array<tt> = %raw(`json.ballots`)
+        let ballots: array<Ballot.t> = Array.map(ballots, (b) => Obj.magic(Js.Json.parseExn(b.ballot)))
         setBallots(_ => ballots)
         Js.log(ballots)
       }
@@ -24,24 +29,31 @@ let make = (~setup: Setup.t, ~electionId) => {
   })
 
   let tally = _ => {
-    Js.log(passphrase)
     let bigIntOfString = %raw(`
       function (s) {
         return BigInt('0x'+s);
       }
     `);
     let x = bigIntOfString(passphrase)
-    Js.log(x)
 
-    Js.log(election)
-    Js.log(ballots)
+    // Add credentials to setup
+    let credentials = Array.map(ballots, (b) => {
+      b.credential
+    })
+    let setup = {
+      ...setup,
+      credentials
+    }
 
-    // TODO: Compute encrypted tally
+    let et = EncryptedTally.generate(setup, ballots)
+    Js.log(et)
 
+    let pd = PartialDecryption.generate(setup, et, 1, x);
+    let pds = [pd]
+    Js.log(pd)
 
-    // TODO: Compute partial decryptions (skip proofs ?)
-    // (5 points)
-
+    let result = Result_.generate(setup, et, pds)
+    Js.log(result)
     // TODO: Compute result by bruteforcing decrypted values
     // (5 points)
     ()
@@ -63,6 +75,7 @@ let make = (~setup: Setup.t, ~electionId) => {
 
     <S.Button
       title="Dépouiller"
+      disabled=(passphrase == "")
       onPress=tally
     />
 
