@@ -1,5 +1,7 @@
 module BitArray = {
   type t
+  @module("sjcl-with-all") @scope("bitArray") @val
+  external extract: (t, int, int) => int = "extract"
 }
 
 module Bn = {
@@ -12,7 +14,8 @@ module Bn = {
   @send external mulmod: (t, t, t) => t = "mulmod"
   @send external powermod: (t, t, t) => t = "powermod"
 
-  @module("sjcl-with-all") @scope("bn") @val external fromBits: BitArray.t => t = "fromBits"
+  @module("sjcl-with-all") @scope("bn") @val
+  external fromBits: BitArray.t => t = "fromBits"
 }
 
 module Hex = {
