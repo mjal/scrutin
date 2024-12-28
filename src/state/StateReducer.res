@@ -115,7 +115,7 @@ let reducer = (state: State.t, action: StateMsg.t) => {
 
   | CreateClosedElection =>
     let { title, description, choices, emails } = state.newElection
-    let (_privkey, serializedTrustee) = Trustee.create()
+    let (_privkey, serializedTrustee) = Trustee.generate() // FIX: Should be done in step 4
     let trustee = Trustee.fromJSON(serializedTrustee)
     let question : QuestionH.t =  {
       question: "Question",
