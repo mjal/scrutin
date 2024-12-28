@@ -13,7 +13,10 @@ type t = (string, PublicKey.t)
 type serialized_t = (string, PublicKey.serialized_t)
 
 @module("sirona") @scope("Trustee") @val
-external create: () => (int, serialized_t) = "generate"
+external generate: () => (int, serialized_t) = "generate"
+
+@module("sirona") @scope("Trustee") @val
+external generateFromPriv: (BigInt.t) => (int, serialized_t) = "generateFromPriv"
 
 @module("sirona") @scope("Trustee") @val
 external fromJSON: (serialized_t) => t = "fromJSON"

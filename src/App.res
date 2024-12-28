@@ -4,9 +4,7 @@ let make = () => {
 
   React.useEffect0(() => {
     dispatch(StateMsg.Reset)
-    Js.log(Trustee.create())
-    let (_priv, trustee) = Trustee.create()
-    Js.log(trustee)
+    let (_priv, trustee) = Trustee.generate()
     let question : QuestionH.t =  {
       answers: ["Answer1", "Answer2"],
       blank: false,
