@@ -40,8 +40,10 @@ let make = (~setup: Setup.t, ~electionId) => {
     let (_privkey, trustee) = Trustee.generateFromPriv(privkey)
 
     let trustee2 = Trustee.fromJSON(trustee)
-    let (a, b) = trustee2
+    let (_a, b) = trustee2
     Js.log(Point.serialize(b.public_key))
+
+    // TODO: Check that trustee exist in election.trustees
 
     // Add credentials to setup
     let credentials = Array.map(ballots, (b) => b.credential)
@@ -60,8 +62,6 @@ let make = (~setup: Setup.t, ~electionId) => {
 
     let result = Result_.generate(setup, et, pds)
     Js.log(result)
-    // TODO: Compute result by bruteforcing decrypted values
-    // (5 points)
     ()
   }
 

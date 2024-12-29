@@ -91,22 +91,11 @@ let reducer = (state: State.t, action: StateMsg.t) => {
     }
     (state, [])
 
-  | UpdateNewElection(newElection) => ({...state, newElection}, [])
+  | UpdateNewElection(newElection) =>
+    ({...state, newElection}, [])
 
-  | CreateOpenElection(trustees) =>
-    let { title, description, choices } = state.newElection
-    let question : QuestionH.t =  {
-      question: "Question",
-      answers: choices,
-      min: 1,
-      max: 1
-    }
-    let election = Election.create(title, description, trustees, [question])
-    let election = {...election, unrestricted: (state.newElection.mode == State.Open)}
-    Js.log(election)
-    (state, [
-      StateEffect.uploadElection(election, trustees, [])
-    ])
+  | CreateOpenElection(setup) =>
+    (state, [ StateEffect.uploadElection(setup) ])
 
   | UploadBallot(name, election, ballot) =>
     (state, [

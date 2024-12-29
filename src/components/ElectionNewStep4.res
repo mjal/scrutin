@@ -1,7 +1,7 @@
 @react.component
 let make = () => {
   let {t} = ReactI18next.useTranslation()
-  let (_state, dispatch) = StateContext.use()
+  let (state, dispatch) = StateContext.use()
 
   let words = Array.init(12, _ => {
     let index = Sjcl.BitArray.extract(Sjcl.Random.randomWords(1),0,31)
@@ -16,8 +16,24 @@ let make = () => {
   let trustee = Trustee.fromJSON(serializedTrustee)
   let trustees = [trustee]
 
-  let (a, b) = trustee
+  let (_a, b) = trustee
   Js.log(Point.serialize(b.public_key))
+
+  let { title, description, choices } = state.newElection
+  let question : QuestionH.t =  {
+    question: "Question",
+    answers: choices,
+    min: 1,
+    max: 1
+  }
+  let election = Election.create(title, description, trustees, [question])
+  let election = {...election, unrestricted: (state.newElection.mode == State.Open)}
+
+  let setup : Setup.t = {
+    election,
+    trustees,
+    credentials: []
+  }
 
   <>
     <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
@@ -38,7 +54,7 @@ let make = () => {
 
     <S.Button
       title={t(. "election.new.next")}
-      onPress={ _ => dispatch(CreateOpenElection(trustees)) }
+      onPress={ _ => dispatch(CreateOpenElection(setup)) }
       />
   </>
 }

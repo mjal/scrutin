@@ -19,7 +19,7 @@ type t =
 
   | BallotAdd(string, Ballot.t)
   | UpdateNewElection(State.newElection)
-  | CreateOpenElection(array<Trustee.t>)
+  | CreateOpenElection(Setup.t)
   | CreateClosedElection
   | ElectionFetch(string)
 

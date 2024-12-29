@@ -189,23 +189,16 @@ let goToUrl = async dispatch => {
   }
 }
 
-let uploadElection = async (election, trustees, credentials, dispatch) => {
-  Js.log("Calling uploadElection")
-  let _ = (trustees, credentials)
-  let obj: Js.Json.t = Js.Json.object_(Js.Dict.fromArray([
-    ("election", Election.toJSONs(Election.serialize(election))),
-    ("trustees", Js.Json.array([])), // FIX: Add trustees
-    ("credentials", Js.Json.array([])) // FIX: Add credentials
-  ]))
-  try {
+let uploadElection = async (setup: Setup.t, dispatch) => {
+  let { election } = setup
+  let obj : Js.Json.t = Obj.magic({"setup": Setup.serialize(setup)})
+  //try {
     let response = await X.put(`${URL.bbs_url}/${election.uuid}`, obj)
 
     // TODO: Assert response.status == 201
-    dispatch(StateMsg.ElectionSetup(election.uuid, {
-      election,
-      trustees: [], // FIX:
-      credentials: [] // FIX:
-    }))
+
+    dispatch(StateMsg.ElectionSetup(election.uuid, setup))
+
     dispatch(StateMsg.UpdateNewElection({
       title: "",
       description: "",
@@ -213,11 +206,13 @@ let uploadElection = async (election, trustees, credentials, dispatch) => {
       mode: Undefined,
       emails: []
     }))
+
     dispatch(StateMsg.Navigate(list{"elections", election.uuid}))
+
     Js.log(response)
-  } catch {
-  | _ => Js.log("Error creating election")
-  }
+  //} catch {
+  //| _ => Js.log("Error creating election")
+  //}
 }
 
 let uploadBallot = async (name, election: Election.t, ballot: Ballot.t, dispatch) => {
