@@ -245,7 +245,8 @@ let fetchElection = async (uuid, dispatch) => {
   | true =>
     let json = await Webapi.Fetch.Response.json(response)
     let res : res_t = Obj.magic(json)
-    let setup : Setup.t = Obj.magic(Result.getExn(Json.parse(res.setup)))
+    let setup : Setup.serialized_t = Obj.magic(Result.getExn(Json.parse(res.setup)))
+    let setup = Setup.parse(setup)
     dispatch(StateMsg.ElectionSetup(uuid, setup))
   }
 }
