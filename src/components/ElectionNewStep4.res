@@ -11,10 +11,13 @@ let make = () => {
 
   let mnemonic = Js.Array.joinWith(" ", words)
   let hash = Sjcl.Sha256.hash(mnemonic)
-  let privkey = BigInt.create("0x"++Sjcl.Hex.fromBits(hash))
+  let privkey = Zq.mod(BigInt.create("0x"++Sjcl.Hex.fromBits(hash)))
   let (_privkey, serializedTrustee) = Trustee.generateFromPriv(privkey)
   let trustee = Trustee.fromJSON(serializedTrustee)
   let trustees = [trustee]
+
+  let (a, b) = trustee
+  Js.log(Point.serialize(b.public_key))
 
   <>
     <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
@@ -22,12 +25,16 @@ let make = () => {
     </Text>
 
     <Text style={S.flatten([S.title, Style.viewStyle(~margin=10.0->Style.dp, ())])}>
-      { "Sur du papier, dans un gestionnaire de mot de passe, dans une messagerie chiffrée, dans un fichier ou dans un mail... (du plus au moins sécurisé)" -> React.string }
+      { "Sur du papier, dans un gestionnaire de mot de passe, dans une messagerie chiffrée, dans un fichier..." -> React.string }
     </Text>
 
     <Title style=Style.textStyle(~fontSize=20.0, ~color=Color.green, ())>
       { mnemonic -> React.string }
     </Title>
+
+    <Text style={S.flatten([S.title, Style.viewStyle(~margin=10.0->Style.dp, ())])}>
+      { "Vous pouvez aussi la télécharger en cliquant ici (TODO)" -> React.string }
+    </Text>
 
     <S.Button
       title={t(. "election.new.next")}

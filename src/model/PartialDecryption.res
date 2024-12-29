@@ -9,4 +9,4 @@ type t = {
 };
 
 @module("sirona") @scope("PartialDecryption") @val
-external generate : (Setup.t, EncryptedTally.t, int, int /*bigint*/) => t = "generate"
+external generate : (Setup.t, EncryptedTally.t, int, BigInt.t) => t = "generate"

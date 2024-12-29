@@ -29,28 +29,34 @@ let make = (~setup: Setup.t, ~electionId) => {
   })
 
   let tally = _ => {
-    let bigIntOfString = %raw(`
-      function (s) {
-        return BigInt('0x'+s);
-      }
-    `);
-    let x = bigIntOfString(passphrase)
+    Js.log(passphrase)
+
+    let regex = %re("/\s+/g")
+    let words = Js.String.splitByRe(regex, String.trim(passphrase))
+    let mnemonic = Js.Array.joinWith(" ", words)
+    let hash = Sjcl.Sha256.hash(mnemonic)
+    let privkey = Zq.mod(BigInt.create("0x"++Sjcl.Hex.fromBits(hash)))
+
+    let (_privkey, trustee) = Trustee.generateFromPriv(privkey)
+
+    let trustee2 = Trustee.fromJSON(trustee)
+    let (a, b) = trustee2
+    Js.log(Point.serialize(b.public_key))
 
     // Add credentials to setup
-    let credentials = Array.map(ballots, (b) => {
-      b.credential
-    })
+    let credentials = Array.map(ballots, (b) => b.credential)
     let setup = {
       ...setup,
+      trustees: [trustee2],
       credentials
     }
 
     let et = EncryptedTally.generate(setup, ballots)
     Js.log(et)
 
-    let pd = PartialDecryption.generate(setup, et, 1, x);
+    let pd = PartialDecryption.generate(setup, et, 1, privkey);
     let pds = [pd]
-    Js.log(pd)
+    Js.log(setup)
 
     let result = Result_.generate(setup, et, pds)
     Js.log(result)
