@@ -9735,10 +9735,10 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-sirona@^0.0.16:
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/sirona/-/sirona-0.0.16.tgz#9e248d0048f41513fff645bc7eb50b235ca8cb43"
-  integrity sha512-Dxq87n40dSqisjRV7+IVjCvKNSZ5Ya5lf6hIw2bhP9jiYxbO2h8jiGEtewuPsK4tkyHM5r72hKi9r3xhHvs8Mg==
+sirona@^0.0.17:
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/sirona/-/sirona-0.0.17.tgz#cb9837a483a958091ac791ef604d5306cea1a3c5"
+  integrity sha512-NVOjAsjEZ8j7MMM8Hq88EeqUmEUPTIkG83U75hC0Y4QKK4eTwq9tXptNB6Wp7w7L0KzojX3qi7NSiMpapYQnvQ==
   dependencies:
     "@noble/curves" "^1.4.0"
     commander "^12.1.0"

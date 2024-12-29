@@ -52,7 +52,7 @@
     "rescript-react-native": "^0.70.0",
     "rescript-react-native-async-storage": "https://github.com/scrutin-app/rescript-react-native-async-storage",
     "rescript-webapi": "^0.7.0",
-    "sirona": "^0.0.16",
+    "sirona": "^0.0.17",
     "sjcl-with-all": "^1.0.8",
     "typescript": "^4.9.4"
   },
