@@ -236,8 +236,7 @@ let sendEmailsAndCreateElection = async (emails, election: Election.t, trustees,
   Js.log(response)
 }
 
-type ele_t = { election: string /*Setup.t*/ }
-type res_t = { success: bool, setup: ele_t } // FIX:
+type res_t = { success: bool, setup: string }
 let fetchElection = async (uuid, dispatch) => {
   let response = await Webapi.Fetch.fetch(`${URL.bbs_url}/${uuid}`)
   switch Webapi.Fetch.Response.ok(response) { 
@@ -246,11 +245,7 @@ let fetchElection = async (uuid, dispatch) => {
   | true =>
     let json = await Webapi.Fetch.Response.json(response)
     let res : res_t = Obj.magic(json)
-    let setup : Setup.t = {
-      election: Election.parse(Election.fromJSONs(res.setup.election)),
-      trustees: [],
-      credentials: []
-    } // FIX:
+    let setup : Setup.t = Obj.magic(Result.getExn(Json.parse(res.setup)))
     dispatch(StateMsg.ElectionSetup(uuid, setup))
   }
 }
