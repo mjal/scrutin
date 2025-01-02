@@ -4,25 +4,8 @@ let make = () => {
 
   React.useEffect0(() => {
     dispatch(StateMsg.Reset)
-    let (_priv, trustee) = Trustee.generate()
-    let question : QuestionH.t =  {
-      answers: ["Answer1", "Answer2"],
-      blank: false,
-      min: 1,
-      max: 1,
-      question: "Question"
-    }
-    let election = Election.create("Name", "Desc", [Trustee.fromJSON(trustee)], [question])
-    Js.log(election)
     None
   })
-
-  //React.useEffect0(() => {
-  //  Js.Global.setInterval(() => {
-  //    dispatch(StateMsg.FetchLatest)
-  //  }, 5000)->ignore
-  //  None
-  //})
 
   // Go to url
   if ReactNative.Platform.os == #web {
