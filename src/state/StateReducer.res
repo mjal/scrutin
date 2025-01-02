@@ -50,13 +50,15 @@ let reducer = (state: State.t, action: StateMsg.t) => {
     let invitations = Array.keepWithIndex(state.invitations, (_, i) => i != index)
     ({...state, invitations}, [StateEffect.storeInvitations(invitations)])
 
-  | ElectionSetup(uuid, setup) =>
+  | ElectionAdd(uuid, setup, ballots) =>
     let setups = Map.String.set(state.setups, uuid, setup)
-    ({...state, setups}, [])
+    let ballots = Map.String.set(state.ballots, uuid, ballots)
+    ({...state, setups, ballots}, [])
 
-  | BallotAdd(_cid, ballot) =>
-    let ballots = Array.concat(state.ballots, [ballot])
-    ({...state, ballots}, [])
+  | BallotAdd(_cid, _ballot) =>
+    (state, [])
+    //let ballots = Array.concat(state.ballots, [ballot])
+    //({...state, ballots}, [])
 
   | Config_Store_Language(language) => (state, [StateEffect.storeLanguage(language)])
 

@@ -14,7 +14,8 @@ type t =
 //| FetchLatest
   | Fetched
 
-  | ElectionSetup(string, Setup.t)
+//| ElectionSetup(string, Setup.t)
+  | ElectionAdd(string, Setup.t, array<Ballot.t>)
 //| ElectionInit(string, Election.t)
 
   | BallotAdd(string, Ballot.t)

@@ -23,7 +23,7 @@ type t = {
   trustees: array<Trustee.t>,
   invitations: array<Invitation.t>,
   electionLatestIds: Map.String.t<string>,
-  ballots: array<Ballot.t>,
+  ballots: Map.String.t<array<Ballot.t>>,
 }
 
 // The initial state of the application
@@ -37,7 +37,7 @@ let initial = {
   setups: Map.String.empty,
   electionLatestIds: Map.String.empty,
   electionsTryFetch: Map.String.empty,
-  ballots: [],
+  ballots: Map.String.empty,
   newElection: {
     title: "",
     description: "",
