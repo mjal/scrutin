@@ -38,10 +38,7 @@ module Booth = {
         title="Voter"
         onPress={_ => {
           let priv = Credential.generatePriv()
-          let { nPrivateCredential, hPublicCredential } =
-            Credential.derive(election.uuid, priv)
-          Js.log(hPublicCredential)
-          Js.log(nPrivateCredential)
+          let { hPublicCredential } = Credential.derive(election.uuid, priv)
           let setup: Setup.t = {
             election,
             trustees: [], // FIX:
@@ -55,10 +52,6 @@ module Booth = {
               }
             })
           })
-          Js.log(choices)
-          Js.log(1)
-          Js.log(setup)
-          Js.log(2)
           let ballot = Ballot.generate(
             setup,
             priv,
