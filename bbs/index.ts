@@ -117,6 +117,7 @@ app.get("/:uuid", async (req, res) => {
     const result = await knex("result").select().where({ uuid }).first();
     res.status(200).json({ success: true, setup: setup.setup, ballots: ballots.map((o) => o.ballot), partialDecryptions, encryptedTally, result });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ success: false, message: "Error fetching election." });
   }
 });
