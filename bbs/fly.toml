@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for scrutin-bbs2 on 2024-12-04T20:23:49+01:00
+# fly.toml app configuration file generated for scrutin-bbs on 2025-01-04T14:18:25+01:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'scrutin-bbs2'
+app = 'scrutin-bbs'
 primary_region = 'cdg'
 kill_signal = 'SIGINT'
 kill_timeout = '5s'
