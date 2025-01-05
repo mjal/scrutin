@@ -107,15 +107,46 @@ app.put("/:uuid/result", async (req, res) => {
 app.get("/:uuid", async (req, res) => {
   const { uuid } = req.params;
   try {
-    const setup = await knex("setup").select().where({ uuid }).first();
-    if (!setup) {
-      return res.status(404).json({ success: false, message: "Election not found." });
+    let response;
+    let setup = null, ballots = [], encryptedTally = null, partialDecryptions = [], result = null;
+
+    response = await knex("setup").select().where({ uuid }).first();
+    if (response) {
+      setup = (typeof response.setup === "string") ? JSON.parse(response.setup) : response.setup;
     }
-    const ballots = await knex("ballots").select().where({ uuid });
-    const encryptedTally = await knex("encryptedTally").select().where({ uuid }).first();
-    const partialDecryptions = await knex("partialDecryptions").select().where({ uuid });
-    const result = await knex("result").select().where({ uuid }).first();
-    res.status(200).json({ success: true, setup: setup.setup, ballots: ballots.map((o) => o.ballot), partialDecryptions, encryptedTally, result });
+    if (!setup) {
+      return response.status(404).json({ success: false, message: "Election not found." });
+    }
+
+    response = await knex("ballots").select().where({ uuid });
+    ballots = response.map((o: any) => {
+      if (typeof o.ballot === "string") {
+        return JSON.parse(o.ballot);
+      } else {
+        return o.ballot;
+      }
+    });
+
+    response = await knex("encryptedTally").select().where({ uuid }).first();
+    if (response) {
+      encryptedTally = (typeof response.encryptedTally === "string") ? JSON.parse(response.encryptedTally) : response.encryptedTally;
+    }
+
+    response = await knex("partialDecryptions").select().where({ uuid });
+    partialDecryptions = response.map((o: any) => {
+      if (typeof o.partialDecryption === "string") {
+        return JSON.parse(o.partialDecryption);
+      } else {
+        return o.partialDecryption;
+      }
+    });
+
+    response = await knex("result").select().where({ uuid }).first();
+    if (response) {
+      result = typeof response.result === "string" ? JSON.parse(response.result) : response.result;
+    }
+
+    res.status(200).json({ success: true, setup, ballots, partialDecryptions, encryptedTally, result });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "Error fetching election." });
