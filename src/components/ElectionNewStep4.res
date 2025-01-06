@@ -68,7 +68,16 @@ let make = () => {
         onPress={_ => {
           (async () => {
             if ReactNative.Platform.os == #web {
-              ()
+              let download = %raw(`function(content, filename) {
+                  let blob = new Blob([content], {"type": "text/plain"})
+                  let url = URL.createObjectURL(blob)
+                  let a = document.createElement("a")
+                  a.href = url
+                  a.download = filename
+                  a.click()
+                  URL.revokeObjectURL(url)
+                }`)
+              download(mnemonic, "election-password.txt")
             } else {
               let fileUri = FileSystem.documentDirectory ++ "example.json"
               await FileSystem.writeAsStringAsync(fileUri, mnemonic)
@@ -77,6 +86,10 @@ let make = () => {
           ()
         }}
         />
+
+      <Text style={S.flatten([S.title, Style.viewStyle(~marginTop=20.0->Style.dp, ())])}>
+        { "Une fois le mot de passe sauvegardé, vous pouvez passer à la suite" -> React.string }
+      </Text>
 
       <S.Button
         title={t(. "election.new.next")}
