@@ -1,8 +1,13 @@
 type tt = { ballot: string }
 
+module Window = {
+  @scope("window") @val
+  external alert: string => unit = "alert"
+}
+
 @react.component
-let make = (~setup: Setup.t, ~electionId) => {
-  let election = setup.election
+let make = (~electionData: ElectionData.t, ~electionId) => {
+  let election = electionData.setup.election
   let (_state, dispatch) = StateContext.use()
   let (passphrase, setPassphrase) = React.useState(_ => "")
   let (ballots, setBallots) = React.useState(_ => [])
@@ -43,12 +48,21 @@ let make = (~setup: Setup.t, ~electionId) => {
     let (_a, b) = trustee2
     Js.log(Point.serialize(b.public_key))
 
-    // TODO: Check that trustee exist in election.trustees
+    let (type_, trustee) = Array.getExn(electionData.setup.trustees, 0)
+    Js.log(Point.serialize(trustee.public_key))
+
+    // TODO: Use <Dialog />
+    if (Point.serialize(trustee.public_key) == Point.serialize(b.public_key)) {
+      Window.alert("Good password")
+    } else {
+      Window.alert("Bad password")
+    }
+
 
     // Add credentials to setup
     let credentials = Array.map(ballots, (b) => b.credential)
     let setup = {
-      ...setup,
+      ...electionData.setup,
       trustees: [trustee2],
       credentials
     }

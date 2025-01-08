@@ -12,8 +12,8 @@ module Item = {
 
 
 @react.component
-let make = (~setup: Setup.t) => {
-  let election = setup.election
+let make = (~electionData: ElectionData.t) => {
+  let election = electionData.setup.election
   <>
     <ElectionHeader election section=#inviteManage />
 

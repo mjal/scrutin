@@ -14,8 +14,8 @@ module Choice = {
 
 module Booth = {
   @react.component
-  let make = (~setup: Setup.t, ~electionId, ~name) => {
-    let election = setup.election
+  let make = (~electionData: ElectionData.t, ~electionId, ~name) => {
+    let election = electionData.setup.election
     let _ = electionId
     let (_state, dispatch) = StateContext.use()
     //let {t} = ReactI18next.useTranslation()
@@ -79,11 +79,11 @@ module Booth = {
 //}
 
 @react.component
-let make = (~setup: Setup.t, ~electionId) => {
+let make = (~electionData: ElectionData.t, ~electionId) => {
   let (_state, _dispatch) = StateContext.use()
   //let oSecret = getSecret()
   let (name, setName) = React.useState(_ => "")
-  let election = setup.election
+  let election = electionData.setup.election
 
   <>
     <ElectionHeader election />
@@ -93,7 +93,7 @@ let make = (~setup: Setup.t, ~electionId) => {
       onChangeText={text => setName(_ => text)}
     />
 
-    <Booth setup electionId name />
+    <Booth electionData electionId name />
 
     //{ switch oSecret {
     //| None =>

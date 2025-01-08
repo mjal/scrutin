@@ -34,3 +34,4 @@ let env = switch nodeEnv {
 | "development" => #dev
 | _ => #dev
 }
+//let env = #prod

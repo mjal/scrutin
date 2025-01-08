@@ -1,6 +1,7 @@
 @react.component
-let make = (~setup: Setup.t, ~electionId) => {
+let make = (~electionData: ElectionData.t, ~electionId) => {
   let (_state, dispatch) = StateContext.use()
+  let { setup } = electionData
   let election = setup.election
 
   <>

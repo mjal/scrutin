@@ -1,7 +1,7 @@
 @react.component
-let make = (~setup: Setup.t, ~electionId) => {
+let make = (~electionData: ElectionData.t, ~electionId) => {
   let (_state, dispatch) = StateContext.use()
-  let _ = setup
+  let _ = electionData
   <>
     <Text style={S.flatten([S.title, Style.viewStyle(~margin=30.0->Style.dp, ())])}>
       {"Merci pour votre vote"->React.string}

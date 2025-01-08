@@ -2,6 +2,7 @@
 
 type mode = Undefined | Open | Closed
 
+// TODO: Use (augmented) Setup.t ? + emails
 type newElection = {
   title: string,
   description: string,
@@ -12,8 +13,7 @@ type newElection = {
 
 type t = {
   route: list<string>,
-
-  setups: Map.String.t<Setup.t>,
+  electionDatas: Map.String.t<ElectionData.t>,
 
   newElection: newElection,
   electionsTryFetch: Map.String.t<bool>,
@@ -23,7 +23,6 @@ type t = {
   trustees: array<Trustee.t>,
   invitations: array<Invitation.t>,
   electionLatestIds: Map.String.t<string>,
-  ballots: Map.String.t<array<Ballot.t>>,
 }
 
 // The initial state of the application
@@ -34,10 +33,9 @@ let initial = {
   accounts: [],
   trustees: [],
   invitations: [],
-  setups: Map.String.empty,
+  electionDatas: Map.String.empty,
   electionLatestIds: Map.String.empty,
   electionsTryFetch: Map.String.empty,
-  ballots: Map.String.empty,
   newElection: {
     title: "",
     description: "",

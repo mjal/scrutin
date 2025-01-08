@@ -1,6 +1,6 @@
 @react.component
-let make = (~setup: Setup.t, ~electionId) => {
-  let _ = (setup, electionId)
+let make = (~electionData: ElectionData.t, ~electionId) => {
+  let _ = (electionData, electionId)
   <></>
 }
 

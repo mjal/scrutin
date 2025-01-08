@@ -195,9 +195,21 @@ let uploadElection = async (setup: Setup.t, dispatch) => {
   //try {
     let response = await X.put(`${URL.bbs_url}/${election.uuid}`, obj)
 
-    // TODO: Assert response.status == 201
+    switch Webapi.Fetch.Response.ok(response) { 
+    | false =>
+      Js.log("Can't upload election")
+    | true =>
+      let json = await Webapi.Fetch.Response.json(response)
+      Js.log("Got result:")
+      Js.log(json)
+      //let res : ElectionData.serialized_t = Obj.magic(json)
+      //let electionData = ElectionData.parse(res)
+      //dispatch(StateMsg.ElectionData_Set(uuid, electionData))
+    }
 
-    dispatch(StateMsg.ElectionAdd(election.uuid, setup, []))
+    // OR
+
+    //dispatch(StateMsg.ElectionData_Set(election.uuid, setup, []))
 
     dispatch(StateMsg.UpdateNewElection({
       title: "",
@@ -236,7 +248,14 @@ let sendEmailsAndCreateElection = async (emails, election: Election.t, trustees,
   Js.log(response)
 }
 
-type res_t = { success: bool, setup: Setup.serialized_t, ballots: array<Ballot.t> }
+type res_t = {
+  success: bool,
+  setup: Setup.serialized_t,
+  ballots: array<Ballot.t>,
+  encryptedTally: EncryptedTally.t,
+  partialDecryptions: array<PartialDecryption.t>,
+  result: Result_.t
+}
 let fetchElection = async (uuid, dispatch) => {
   let response = await Webapi.Fetch.fetch(`${URL.bbs_url}/${uuid}`)
   switch Webapi.Fetch.Response.ok(response) { 
@@ -244,8 +263,8 @@ let fetchElection = async (uuid, dispatch) => {
     Js.log("Can't find election")
   | true =>
     let json = await Webapi.Fetch.Response.json(response)
-    let res : res_t = Obj.magic(json)
-    let setup = Setup.parse(res.setup)
-    dispatch(StateMsg.ElectionAdd(uuid, setup, res.ballots))
+    let res : ElectionData.serialized_t = Obj.magic(json)
+    let electionData = ElectionData.parse(res)
+    dispatch(StateMsg.ElectionData_Set(uuid, electionData))
   }
 }

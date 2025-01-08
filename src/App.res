@@ -26,39 +26,39 @@ let make = () => {
 
     // TODO: Rename electionId -> uuid
     | list{"elections", electionId, ...electionRoute} =>
-      switch Map.String.get(state.setups, electionId) {
+      switch Map.String.get(state.electionDatas, electionId) {
       | None =>
         switch Map.String.get(state.electionsTryFetch, electionId) {
-          | Some(true) => ()
+          | Some(true) => () // FIX: After some time, (~20s ?) Try fetch again. Use timestamps (as float) instead of bool
           | _ => dispatch(StateMsg.ElectionFetch(electionId)) // TODO: Rename
         }
         <NotFoundYet />
-      | Some(setup) =>
+      | Some(electionData) =>
         switch electionRoute {
         | list{} =>
-          <ElectionShow setup electionId />
+          <ElectionShow electionData electionId />
         | list{"challenge", userToken} => // Unused
-          <ElectionChallenge setup electionId userToken />
+          <ElectionChallenge electionData electionId userToken />
         | list{"token", secret} => // Unused
-          <ElectionToken setup electionId secret />
+          <ElectionToken electionData electionId secret />
         | list{"invite"} =>
-          <ElectionInvite setup electionId />
+          <ElectionInvite electionData electionId />
         | list{"invite_link"} =>
-          <ElectionInviteLink setup electionId />
+          <ElectionInviteLink electionData electionId />
         | list{"invite_email"} =>
-          <ElectionInviteEmail setup electionId />
+          <ElectionInviteEmail electionData electionId />
         | list{"invite_phone"} =>
-          <ElectionInvitePhone setup />
+          <ElectionInvitePhone electionData />
         | list{"invite_manage"} =>
-          <ElectionInviteManage setup />
+          <ElectionInviteManage electionData />
         | list{"result"} =>
-          <ElectionResult setup electionId />
+          <ElectionResult electionData electionId />
         | list{"booth"} =>
-          <ElectionBooth setup electionId />
+          <ElectionBooth electionData electionId />
         | list{"avote"} =>
-          <ElectionAVote setup electionId />
+          <ElectionAVote electionData electionId />
         | list{"tally"} =>
-          <ElectionTally setup electionId />
+          <ElectionTally electionData electionId />
         | route =>
           Js.log(("Unknown election route", route))
           <HomeView />
