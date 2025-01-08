@@ -55,9 +55,9 @@ let make = () => {
         { "Sur du papier, dans un gestionnaire de mot de passe, dans une messagerie chiffrée, dans un fichier..." -> React.string }
       </Text>
 
-      <Title style=Style.textStyle(~fontSize=20.0, ~color=Color.green, ())>
+      <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ~borderColor=Color.green, ~borderWidth=4.0, ())])}>
         { mnemonic -> React.string }
-      </Title>
+      </Text>
 
       <Text style={S.flatten([S.title, Style.viewStyle(~margin=10.0->Style.dp, ())])}>
         { "Vous pouvez aussi la télécharger en cliquant ici" -> React.string }
