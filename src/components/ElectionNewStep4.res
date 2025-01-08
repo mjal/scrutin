@@ -77,7 +77,7 @@ let make = () => {
                   a.click()
                   URL.revokeObjectURL(url)
                 }`)
-              download(mnemonic, "election-password.txt")
+              download(mnemonic, `election-password-${election.uuid}.txt`)
             } else {
               let fileUri = FileSystem.documentDirectory ++ "example.json"
               await FileSystem.writeAsStringAsync(fileUri, mnemonic)
