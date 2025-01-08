@@ -53,8 +53,8 @@ let make = () => {
           <ElectionInviteManage electionData />
         | list{"result"} =>
           <ElectionResult electionData electionId />
-        | list{"booth"} =>
-          <ElectionBooth electionData electionId />
+        | list{"openbooth"} =>
+          <Election_OpenBooth electionData electionId />
         | list{"avote"} =>
           <ElectionAVote electionData electionId />
         | list{"tally"} =>
