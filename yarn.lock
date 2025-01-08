@@ -9659,10 +9659,10 @@ simple-swizzle@^0.2.2:
   dependencies:
     is-arrayish "^0.3.1"
 
-sirona@^0.0.19:
-  version "0.0.19"
-  resolved "https://registry.npmjs.org/sirona/-/sirona-0.0.19.tgz"
-  integrity sha512-HPLGTPjUYLSt8GkrDn3S3pzQEVvPo5SqPJB5yQ8Ymj4LVciyEcSLh9Hz/Ti1wuJ9LCdt8Fivb00AqbhEVgKJzw==
+sirona@^0.0.20:
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/sirona/-/sirona-0.0.20.tgz#106ed993f612052fd191f3cc15f2f6d1bcdd8f59"
+  integrity sha512-h9dbs5Fu/8PZPgru8eHZc0+169yeJmqz2qtp9gzcLl4Jz1XaRFUxFiq7hqKU1Ej1sQ2u6Y4eWbk2TCrgWUPDEA==
   dependencies:
     "@noble/curves" "^1.4.0"
     commander "^12.1.0"
