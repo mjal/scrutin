@@ -4,7 +4,7 @@ const baseUrl = 'http://localhost:19006/'
 
 When("I go to new election", () => {
   cy.visit(baseUrl)
-  cy.contains('Create an election').click()
+  cy.contains('Créer une élection').click()
 })
 
 When("I add a title", () => {
