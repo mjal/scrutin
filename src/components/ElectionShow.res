@@ -55,11 +55,11 @@ let make = (~electionData: ElectionData.t, ~electionId) => {
     //  }
     ///>
 
-    <S.Button
-      title="Admin: dépouillement"
-      onPress={_ =>
-        dispatch(Navigate(list{"elections", electionId, "tally"}))
-      }
-    />
+    //<S.Button
+    //  title="Admin: dépouillement"
+    //  onPress={_ =>
+    //    dispatch(Navigate(list{"elections", electionId, "tally"}))
+    //  }
+    ///>
   </>
 }
