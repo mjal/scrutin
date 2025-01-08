@@ -28,6 +28,13 @@ let make = (~electionData: ElectionData.t, ~electionId) => {
       </View>
     </View>
 
+    <Title>
+      {
+        let nBallots = Array.length(electionData.ballots)
+        `${Int.toString(nBallots)} votes`->React.string 
+      }
+    </Title>
+
     <View style={Style.viewStyle(~height=30.0->Style.dp, ())} />
 
     <S.Button
