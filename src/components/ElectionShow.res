@@ -20,24 +20,6 @@ let make = (~electionData: ElectionData.t, ~electionId) => {
     <View>
       <ElectionShowChoices election />
     </View>
-    <View style={Style.viewStyle(~marginTop=-30.0->Style.dp, ())}>
-      <View style={Style.viewStyle(~position=#absolute, ~right=30.0->Style.dp, ())}>
-        <Text
-          style={Style.textStyle(
-            ~width=switch ReactNative.Platform.os {
-            | #web => 80.0->Style.dp
-            | _ => 120.0->Style.dp
-            },
-            ~backgroundColor=S.primaryColor,
-            ~color=Color.white,
-            ~paddingBottom=5.0->Style.dp,
-            ~paddingLeft=8.0->Style.dp,
-            (),
-          )}>
-          {"Vote privé"->React.string}
-        </Text>
-      </View>
-    </View>
 
     <Title>
       {
