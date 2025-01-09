@@ -1,14 +1,14 @@
 @react.component
-let make = (~choices, ~setChoices) => {
+let make = (~answers, ~setAnswers) => {
   let {t} = ReactI18next.useTranslation()
 
   let onRemove = i => {
-    setChoices(choices => Array.keepWithIndex(choices, (_name, index) => index != i))
+    setAnswers(answers => Array.keepWithIndex(answers, (_name, index) => index != i))
   }
 
   let onUpdate = (i, newName) => {
-    setChoices(choices =>
-      Array.mapWithIndex(choices, (index, oldName) => {
+    setAnswers(answers =>
+      Array.mapWithIndex(answers, (index, oldName) => {
         index == i ? newName : oldName
       })
     )
@@ -16,7 +16,7 @@ let make = (~choices, ~setChoices) => {
 
   <View testID="choice-list">
     <S.Section title={t(. "election.new.choiceList.choices")} />
-    {Array.mapWithIndex(choices, (i, name) => {
+    {Array.mapWithIndex(answers, (i, name) => {
       <ElectionNewChoiceItem
         name
         index={i + 1}
@@ -27,7 +27,7 @@ let make = (~choices, ~setChoices) => {
     })->React.array}
     <TouchableOpacity
       style=Style.viewStyle(~alignSelf=#center,())
-      onPress={_ => setChoices(choices => Array.concat(choices, [""]))}>
+      onPress={_ => setAnswers(choices => Array.concat(choices, [""]))}>
       <SIcon.ButtonPlus />
     </TouchableOpacity>
   </View>

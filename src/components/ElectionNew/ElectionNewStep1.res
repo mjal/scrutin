@@ -1,14 +1,12 @@
 @react.component
-let make = () => {
-  let (state, dispatch) = StateContext.use()
+let make = (~state: ElectionNewState.t, ~dispatch) => {
   let {t} = ReactI18next.useTranslation()
 
   let (title, setTitle) = React.useState(_ => "")
 
   let next = _ => {
-    let newElection = {...state.newElection, title}
-    dispatch(StateMsg.UpdateNewElection(newElection))
-    dispatch(StateMsg.Navigate(list{"elections", "new", "step2"}))
+    dispatch(ElectionNewState.SetTitle(title))
+    dispatch(ElectionNewState.SetStep(Step2))
   }
 
   <>
@@ -31,3 +29,4 @@ let make = () => {
       />
   </>
 }
+

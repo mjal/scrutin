@@ -7,9 +7,9 @@ let make = () => {
   let next = _ => {
     // Split emails by newline
     let emails = Js.String.split("\n", emails)
-    let newElection = {...state.newElection, emails: emails}
-    dispatch(StateMsg.UpdateNewElection(newElection))
-    dispatch(StateMsg.CreateClosedElection)
+    //let newElection = {...state.newElection, emails: emails}
+    //dispatch(StateMsg.UpdateNewElection(newElection))
+    //dispatch(StateMsg.CreateClosedElection)
   }
 
   <>

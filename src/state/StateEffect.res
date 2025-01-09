@@ -192,39 +192,21 @@ let goToUrl = async dispatch => {
 let uploadElection = async (setup: Setup.t, dispatch) => {
   let { election } = setup
   let obj : Js.Json.t = Obj.magic({"setup": Setup.serialize(setup)})
-  //try {
-    let response = await X.put(`${URL.bbs_url}/${election.uuid}`, obj)
+  let _response = await X.put(`${URL.bbs_url}/${election.uuid}`, obj)
 
-    switch Webapi.Fetch.Response.ok(response) { 
-    | false =>
-      Js.log("Can't upload election")
-    | true =>
-      let json = await Webapi.Fetch.Response.json(response)
-      Js.log("Got result:")
-      Js.log(json)
-      //let res : ElectionData.serialized_t = Obj.magic(json)
-      //let electionData = ElectionData.parse(res)
-      //dispatch(StateMsg.ElectionData_Set(uuid, electionData))
-    }
-
-    // OR
-
-    //dispatch(StateMsg.ElectionData_Set(election.uuid, setup, []))
-
-    dispatch(StateMsg.UpdateNewElection({
-      title: "",
-      description: "",
-      choices: [],
-      mode: Undefined,
-      emails: []
-    }))
-
-    dispatch(StateMsg.Navigate(list{"elections", election.uuid}))
-
-    Js.log(response)
-  //} catch {
-  //| _ => Js.log("Error creating election")
+  //switch Webapi.Fetch.Response.ok(response) { 
+  //| false =>
+  //  Js.log("Can't upload election")
+  //| true =>
+  //  let json = await Webapi.Fetch.Response.json(response)
+  //  Js.log("Got result:")
+  //  Js.log(json)
+  //  //let res : ElectionData.serialized_t = Obj.magic(json)
+  //  //let electionData = ElectionData.parse(res)
+  //  //dispatch(StateMsg.ElectionData_Set(uuid, electionData))
   //}
+
+  dispatch(StateMsg.Navigate(list{"elections", election.uuid}))
 }
 
 let uploadBallot = async (name, election: Election.t, ballot: Ballot.t, dispatch) => {

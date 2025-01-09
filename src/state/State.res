@@ -1,21 +1,7 @@
-// The state of the application.
-
-type mode = Undefined | Open | Closed
-
-// TODO: Use (augmented) Setup.t ? + emails
-type newElection = {
-  title: string,
-  description: string,
-  choices: array<string>,
-  mode: mode,
-  emails: array<string>
-}
-
 type t = {
   route: list<string>,
   electionDatas: Map.String.t<ElectionData.t>,
 
-  newElection: newElection,
   electionsTryFetch: Map.String.t<bool>,
 
   fetchingEvents: bool,
@@ -36,13 +22,6 @@ let initial = {
   electionDatas: Map.String.empty,
   electionLatestIds: Map.String.empty,
   electionsTryFetch: Map.String.empty,
-  newElection: {
-    title: "",
-    description: "",
-    choices: [],
-    mode: Undefined,
-    emails: []
-  }
 }
 
 //let getBallot = (state, id) => Map.String.get(state.ballots, id)

@@ -19,10 +19,6 @@ let make = () => {
     {switch state.route {
     | list{"elections", "search"} => <ElectionSearch />
     | list{"elections", "new"} => <ElectionNew />
-    | list{"elections", "new", "step2"} => <ElectionNewStep2 />
-    | list{"elections", "new", "step3"} => <ElectionNewStep3 />
-    | list{"elections", "new", "step4"} => <ElectionNewStep4 />
-    | list{"elections", "new", "step5"} => <ElectionNewStep5 />
 
     // TODO: Rename electionId -> uuid
     | list{"elections", electionId, ...electionRoute} =>

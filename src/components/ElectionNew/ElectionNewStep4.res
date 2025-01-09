@@ -1,7 +1,7 @@
 @react.component
-let make = () => {
+let make = (~state: ElectionNewState.t, ~dispatch) => {
   let {t} = ReactI18next.useTranslation()
-  let (state, dispatch) = StateContext.use()
+  let (globalState, globalDispatch) = StateContext.use()
   let (loading, setLoading) = React.useState(() => false)
 
   let words = React.useMemo(() => {
@@ -11,32 +11,29 @@ let make = () => {
       Array.getExn(Wordlist.english, index)
     })
   })
-
   let mnemonic = Js.Array.joinWith(" ", words)
+
   let hash = Sjcl.Sha256.hash(mnemonic)
   let privkey = Zq.mod(BigInt.create("0x"++Sjcl.Hex.fromBits(hash)))
-
   let (_privkey, serializedTrustee) = Trustee.generateFromPriv(privkey)
   let trustee = Trustee.fromJSON(serializedTrustee)
   let trustees = [trustee]
+  let description = ""
+  let { title, questions } = state
+  let election = React.useMemo(() => {
+    Election.create(Option.getExn(title), description, trustees, questions)
+  })
+  let election = {...election, unrestricted: true}
 
-  let (_a, b) = trustee
-  Js.log(Point.serialize(b.public_key))
+  let create = _ => {
+    let setup : Setup.t = {
+      election,
+      trustees,
+      credentials: []
+    }
 
-  let { title, description, choices } = state.newElection
-  let question : QuestionH.t =  {
-    question: "Question",
-    answers: choices,
-    min: 1,
-    max: 1
-  }
-  let election = Election.create(title, description, trustees, [question])
-  let election = {...election, unrestricted: (state.newElection.mode == State.Open)}
-
-  let setup : Setup.t = {
-    election,
-    trustees,
-    credentials: []
+    globalDispatch(CreateOpenElection(setup))
+    setLoading(_=>true)
   }
 
   if loading {
@@ -93,10 +90,7 @@ let make = () => {
 
       <S.Button
         title={t(. "election.new.next")}
-        onPress={ _ => {
-          dispatch(CreateOpenElection(setup))
-          setLoading(_=>true)
-        }}
+        onPress=create
         />
     </>
   }
