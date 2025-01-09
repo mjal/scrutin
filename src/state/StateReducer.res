@@ -121,12 +121,7 @@ let reducer = (state: State.t, action: StateMsg.t) => {
     (state, [])
 
   | ElectionFetch(uuid) =>
-    // FIX: Retry after some time (~20s) ? Use timestamps (as float) instead of bool in electionsTryFetch
-    let effects = switch Map.String.get(state.electionsTryFetch, uuid) {
-      | Some(true) => []
-      | _ => [StateEffect.fetchElection(uuid)]
-    }
     let electionsTryFetch = Map.String.set(state.electionsTryFetch, uuid, true)
-    ({...state, electionsTryFetch}, effects)
+    ({...state, electionsTryFetch}, [StateEffect.fetchElection(uuid)])
   }
 }

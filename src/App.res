@@ -21,7 +21,10 @@ let make = () => {
     | list{"elections", uuid, ...electionRoute} =>
       switch Map.String.get(state.electionDatas, uuid) {
       | None =>
-        dispatch(StateMsg.ElectionFetch(uuid))
+        switch Map.String.get(state.electionsTryFetch, uuid) {
+        | Some(true) => ()
+        | _ => dispatch(StateMsg.ElectionFetch(uuid))
+        }
         <NotFoundYet />
       | Some(electionData) =>
         switch electionRoute {
