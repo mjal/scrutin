@@ -6,7 +6,7 @@ module Window = {
 }
 
 @react.component
-let make = (~electionData: ElectionData.t, ~electionId) => {
+let make = (~electionData: ElectionData.t) => {
   let election = electionData.setup.election
   let (_state, dispatch) = StateContext.use()
   let (passphrase, setPassphrase) = React.useState(_ => "")
@@ -104,7 +104,7 @@ let make = (~electionData: ElectionData.t, ~electionId) => {
     <S.Button
       title="Retour"
       onPress={_ =>
-        dispatch(Navigate(list{"elections", electionId}))
+        dispatch(Navigate(list{"elections", election.uuid}))
       }
     />
   </>

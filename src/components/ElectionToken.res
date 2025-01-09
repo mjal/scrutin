@@ -1,7 +1,8 @@
 @react.component
-let make = (~electionData: ElectionData.t, ~electionId, ~secret: string) => {
+let make = (~electionData: ElectionData.t, ~secret: string) => {
   let (_state, dispatch) = StateContext.use()
   let election = electionData.setup.election
+  let uuid = election.uuid
   //let (userToken, setUserToken) = React.useState(_ => userToken)
 
   let account = Account.make2(~secret)
@@ -10,7 +11,7 @@ let make = (~electionData: ElectionData.t, ~electionId, ~secret: string) => {
   Js.log(account)
 
   dispatch(StateMsg.Account_Add(account))
-  dispatch(StateMsg.Navigate(list{"elections", electionId, "booth"}))
+  dispatch(StateMsg.Navigate(list{"elections", uuid, "booth"}))
 
   <>
     <ElectionHeader election />

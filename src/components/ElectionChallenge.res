@@ -1,6 +1,6 @@
 @react.component
-let make = (~electionData: ElectionData.t, ~electionId, ~userToken: string) => {
-  let _ = (electionData, electionId, userToken)
+let make = (~electionData: ElectionData.t, ~userToken: string) => {
+  let _ = (electionData, userToken)
   <></>
   /*
   let (_state, dispatch) = StateContext.use()

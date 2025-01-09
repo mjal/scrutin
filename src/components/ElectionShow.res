@@ -1,15 +1,16 @@
 @react.component
-let make = (~electionData: ElectionData.t, ~electionId) => {
+let make = (~electionData: ElectionData.t) => {
   let (_state, dispatch) = StateContext.use()
   let { setup } = electionData
   let election = setup.election
 
 
   React.useEffect1(() => {
-    dispatch(StateMsg.ElectionFetch(electionId))
+    let uuid = setup.election.uuid
 
+    dispatch(StateMsg.ElectionFetch(uuid))
     let intervalId = Js.Global.setInterval(() => {
-      dispatch(StateMsg.ElectionFetch(electionId))
+      dispatch(StateMsg.ElectionFetch(uuid))
     }, 5000)
 
     Some(() => Js.Global.clearInterval(intervalId))
