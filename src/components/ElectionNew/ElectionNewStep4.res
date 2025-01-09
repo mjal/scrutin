@@ -22,7 +22,7 @@ let make = (~state: ElectionNewState.t, ~dispatch) => {
   let description = ""
   let { title, questions } = state
   let election = React.useMemo(() => {
-    Election.create(Option.getExn(title), description, trustees, questions)
+    Election.create(description, Option.getExn(title), trustees, questions)
   })
   let election = {...election, unrestricted: true}
 

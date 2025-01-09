@@ -2,14 +2,12 @@
 let make = (~election: Election.t, ~section=#index) => {
   let {t} = ReactI18next.useTranslation()
 
-  Js.log(election.description)
-
-  let title = switch election.description {
+  let title = switch election.name {
   | "" => t(. "election.show.unnamed")
   | electionName => electionName
   }
 
-  let titleTextStyle = switch election.description {
+  let titleTextStyle = switch election.name {
   | "" => Style.textStyle(~color=Color.grey, ())
   | _ => Style.textStyle()
   }
