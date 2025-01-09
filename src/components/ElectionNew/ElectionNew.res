@@ -4,7 +4,7 @@ let make = () => {
   //let (globalState, globalDispatch) = StateContext.use()
 
   switch (state.step) {
-  | Step1 => <ElectionNewStep1 state dispatch />
+  | Step1 => <ElectionNewStep1 dispatch />
   | Step2 => <ElectionNewStep2 state dispatch />
   | Step3 => <ElectionNewStep3 />
   | Step4 => <ElectionNewStep4 state dispatch />

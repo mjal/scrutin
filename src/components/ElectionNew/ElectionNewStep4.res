@@ -1,8 +1,9 @@
 @react.component
 let make = (~state: ElectionNewState.t, ~dispatch) => {
   let {t} = ReactI18next.useTranslation()
-  let (globalState, globalDispatch) = StateContext.use()
+  let (_globalState, globalDispatch) = StateContext.use()
   let (loading, setLoading) = React.useState(() => false)
+  let _ = dispatch
 
   let words = React.useMemo(() => {
     Array.init(12, _ => {

@@ -1,5 +1,5 @@
 @react.component
-let make = (~state: ElectionNewState.t, ~dispatch) => {
+let make = (~dispatch) => {
   let {t} = ReactI18next.useTranslation()
 
   let (title, setTitle) = React.useState(_ => "")

@@ -1,12 +1,12 @@
 @react.component
 let make = () => {
-  let (state, dispatch) = StateContext.use()
+  //let (state, dispatch) = StateContext.use()
 
   let (emails, setEmails) = React.useState(_ => "")
 
   let next = _ => {
     // Split emails by newline
-    let emails = Js.String.split("\n", emails)
+    let _emails = Js.String.split("\n", emails)
     //let newElection = {...state.newElection, emails: emails}
     //dispatch(StateMsg.UpdateNewElection(newElection))
     //dispatch(StateMsg.CreateClosedElection)

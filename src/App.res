@@ -50,7 +50,7 @@ let make = () => {
         | list{"result"} =>
           <ElectionResult electionData electionId />
         | list{"openbooth"} =>
-          <Election_OpenBooth electionData electionId />
+          <Election_OpenBooth electionData />
         | list{"avote"} =>
           <ElectionAVote electionData electionId />
         | list{"tally"} =>

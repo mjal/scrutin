@@ -26,7 +26,7 @@ module Choice = {
 }
 
 @react.component
-let make = (~electionData: ElectionData.t, ~electionId) => {
+let make = (~electionData: ElectionData.t) => {
   let (_, globalDispatch) = StateContext.use()
   let (state, dispatch) = React.useReducer(reducer, {name: None})
   let (name, setName) = React.useState(_ => "")

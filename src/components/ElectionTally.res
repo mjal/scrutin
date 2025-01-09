@@ -48,7 +48,7 @@ let make = (~electionData: ElectionData.t, ~electionId) => {
     let (_a, b) = trustee2
     Js.log(Point.serialize(b.public_key))
 
-    let (type_, trustee) = Array.getExn(electionData.setup.trustees, 0)
+    let (_type, trustee) = Array.getExn(electionData.setup.trustees, 0)
     Js.log(Point.serialize(trustee.public_key))
 
     // TODO: Use <Dialog />
