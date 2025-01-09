@@ -17,7 +17,6 @@ let make = () => {
 
   <Layout state dispatch>
     {switch state.route {
-    | list{"elections", "search"} => <ElectionSearch />
     | list{"elections", "new"} => <ElectionNew />
 
     // TODO: Rename electionId -> uuid
