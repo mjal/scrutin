@@ -6,7 +6,8 @@ let make = (~election: Election.t) => {
 
   <>
     <ElectionHeader election />
-    <ElectionShowChoices election />
+
+    //<ElectionShowChoices election />
 
     //{ if Option.isNone(election.result) {
     //  if Option.isSome(orgId) {

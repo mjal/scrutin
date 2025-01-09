@@ -18,9 +18,23 @@ let make = (~electionData: ElectionData.t) => {
 
   <>
     <ElectionHeader election />
-    <View>
-      <ElectionShowChoices election />
+
+    //<View>
+    //  <ElectionShowChoices election />
+    //</View>
+
+    <View style=Style.viewStyle(~marginTop=30.0->Style.dp, ())>
     </View>
+
+    <Title style=Style.textStyle(~color=Color.black, ~fontSize=30.0, ())>
+      { `${election.name}`->React.string }
+    </Title>
+
+    <Badge size=40 style=Style.viewStyle(~margin=30.0->Style.dp, ())>
+      //<Text>
+        { `En cours`->React.string }
+      //</Text>
+    </Badge>
 
     <Title>
       {
