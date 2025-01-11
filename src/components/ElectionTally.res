@@ -7,31 +7,10 @@ module Window = {
 
 @react.component
 let make = (~electionData: ElectionData.t) => {
-  let election = electionData.setup.election
+  let { setup, ballots } = electionData
+  let { election } = setup
   let (_state, dispatch) = StateContext.use()
   let (passphrase, setPassphrase) = React.useState(_ => "")
-  let (ballots, setBallots) = React.useState(_ => [])
-
-  React.useEffect0(() => {
-    (async () => {
-      let response = await Webapi.Fetch.fetch(`${URL.bbs_url}/${election.uuid}/ballots`)
-      switch Webapi.Fetch.Response.ok(response) { 
-      | false =>
-        Js.log("Can't find ballots")
-      | true =>
-        let json = await Webapi.Fetch.Response.json(response)
-        Js.log(json) // Needed for next line
-
-        // FIX: Ballots are wrongs
-        let ballots: array<tt> = %raw(`json.ballots`)
-        let ballots: array<Ballot.t> = Array.map(ballots, (b) => Obj.magic(Js.Json.parseExn(b.ballot)))
-        setBallots(_ => ballots)
-        Js.log(ballots)
-      }
-    })()
-    ->ignore
-    None
-  })
 
   let tally = async _ => {
     Js.log(passphrase)
@@ -51,13 +30,11 @@ let make = (~electionData: ElectionData.t) => {
     let (_type, trustee) = Array.getExn(electionData.setup.trustees, 0)
     Js.log(Point.serialize(trustee.public_key))
 
-    // TODO: Use <Dialog />
     if (Point.serialize(trustee.public_key) == Point.serialize(b.public_key)) {
-      Window.alert("Good password")
+      ()
     } else {
       Window.alert("Bad password")
     }
-
 
     // Add credentials to setup
     let credentials = Array.map(ballots, (b) => b.credential)
@@ -85,8 +62,7 @@ let make = (~electionData: ElectionData.t) => {
 
     let _response = await X.put(`${URL.bbs_url}/${election.uuid}/result`, obj)
 
-    // TODO: Send Result
-    ()
+    dispatch(Navigate(list{"elections", election.uuid, "result"}))
   }
 
   <>
