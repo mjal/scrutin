@@ -15,7 +15,8 @@ let make = (~state: ElectionNewState.t, ~dispatch) => {
   }
 
   <>
-    <Header title={t(. "election.new.header")} />
+    <Header title="Nouvelle élection" subtitle="2/5" />
+
     <View style={Style.viewStyle(~margin=30.0->Style.dp, ())}>
       <Title style=Style.textStyle(~fontSize=32.0, ())>
         { state.title->Option.getWithDefault("")->React.string }

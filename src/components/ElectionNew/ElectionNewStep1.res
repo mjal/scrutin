@@ -10,8 +10,10 @@ let make = (~dispatch) => {
   }
 
   <>
-    <Header title={t(. "election.new.header")} />
+    <Header title="Nouvelle élection" subtitle="1/5" />
+
     <S.Section title={t(. "election.new.title")} />
+
     <S.TextInput
       testID="election-title"
       value=title

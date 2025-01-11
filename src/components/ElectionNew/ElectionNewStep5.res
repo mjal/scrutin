@@ -13,7 +13,8 @@ let make = () => {
   }
 
   <>
-    <Header title={"Créer une nouvelle élection"} />
+    <Header title="Nouvelle élection" subtitle="5/5" />
+
     <View style=Style.viewStyle(~margin=30.0->Style.dp, ())>
       <Title style=Style.textStyle(~fontSize=32.0, ())>
         { "Ajouter les emails des participants" -> React.string }

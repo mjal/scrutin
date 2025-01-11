@@ -39,12 +39,16 @@ let make = (~state: ElectionNewState.t, ~dispatch) => {
 
   if loading {
     <>
+      <Header title="Nouvelle élection" subtitle="4/5" />
+
       <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
         { "Chargement..." -> React.string }
       </Text>
     </>
   } else {
     <>
+      <Header title="Nouvelle élection" subtitle="4/5" />
+
       <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
         { "Sauvegardez précieusement le mot de passe qui permet de cloturer l'urne." -> React.string }
       </Text>

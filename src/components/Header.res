@@ -4,9 +4,9 @@ let make = (~title="", ~subtitle="", ~titleTextStyle=?, ~subtitleTextStyle=?) =>
 
   let titleTextStyle = StyleSheet.flatten([
     Style.textStyle(
-      ~alignSelf=#center,
       ~fontFamily="Inter_700Bold",
       ~color=Color.rgb(~r=0x3f, ~g=0x3f, ~b=0x3f),
+      ~marginBottom=10.0->Style.dp,
       ()),
     switch ReactNative.Platform.os {
     | #web =>
@@ -27,7 +27,7 @@ let make = (~title="", ~subtitle="", ~titleTextStyle=?, ~subtitleTextStyle=?) =>
   ])
 
   let subtitleTextStyle = StyleSheet.flatten([
-    Style.textStyle(~alignSelf=#center, ~fontSize=22.0, ~color=S.primaryColor, ()),
+    Style.textStyle(~fontSize=22.0, ~color=Color.rgb(~r=0x90, ~g=0x90, ~b=0x90), ()),
     Option.getWithDefault(subtitleTextStyle, Style.textStyle()),
   ])
 
@@ -55,6 +55,7 @@ let make = (~title="", ~subtitle="", ~titleTextStyle=?, ~subtitleTextStyle=?) =>
     style={Style.viewStyle(
       ~backgroundColor,
       ~marginBottom=40.0->Style.dp,
+      ~marginLeft=15.0->Style.dp,
       ())}>
     //{backButton}
     <Appbar.Content
