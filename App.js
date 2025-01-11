@@ -32,6 +32,4 @@ import * as Crypto from 'expo-crypto'
 
 var ab = new Uint32Array(32);
 Crypto.getRandomValues(ab)
-console.log(sirona.sjcl);
-console.log(ab);
 sirona.sjcl.random.addEntropy(ab, 1024, "expo-crypto")
