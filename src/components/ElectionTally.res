@@ -33,7 +33,7 @@ let make = (~electionData: ElectionData.t) => {
     None
   })
 
-  let tally = _ => {
+  let tally = async _ => {
     Js.log(passphrase)
 
     let regex = %re("/\s+/g")
@@ -76,6 +76,16 @@ let make = (~electionData: ElectionData.t) => {
 
     let result = Result_.generate(setup, et, pds)
     Js.log(result)
+
+    let obj : Js.Json.t = Obj.magic({
+      "encryptedTally": EncryptedTally.serialize(et, election),
+      "partialDecryptions": pds,
+      "result": result
+    })
+
+    let _response = await X.put(`${URL.bbs_url}/${election.uuid}/result`, obj)
+
+    // TODO: Send Result
     ()
   }
 
@@ -96,7 +106,9 @@ let make = (~electionData: ElectionData.t) => {
     <S.Button
       title="Dépouiller"
       disabled=(passphrase == "")
-      onPress=tally
+      onPress= (_ => {
+        tally()->ignore
+      })
     />
 
     <View style={Style.viewStyle(~height=20.0->Style.dp, ())} />

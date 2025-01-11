@@ -48,9 +48,10 @@ app.post("/:uuid/ballots", async (req, res) => {
   }
 });
 
-app.put("/:uuid/encryptedTally", async (req, res) => {
+
+app.put("/:uuid/result", async (req, res) => {
   const { uuid } = req.params;
-  const { encryptedTally } = req.body;
+  const { encryptedTally, partialDecryptions, result } = req.body;
 
   try {
     const election = await knex("setup").select().where({ uuid }).first();
@@ -59,42 +60,9 @@ app.put("/:uuid/encryptedTally", async (req, res) => {
     }
 
     await knex("encryptedTally").insert({ uuid, encryptedTally });
-    res.status(201).json({ success: true, uuid, encryptedTally });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: "Error storing encryptedTally." });
-  }
-});
-
-app.post("/:uuid/partialDecryptions", async (req, res) => {
-  const { uuid } = req.params;
-  const { partialDecryption } = req.body;
-
-  try {
-    const election = await knex("setup").select().where({ uuid }).first();
-    if (!election) {
-      return res.status(404).json({ success: false, message: "Election not found." });
+    for (let i = 0; i < partialDecryptions.length; i++) {
+      await knex("partialDecryptions").insert({ uuid, partialDecryption: partialDecryptions[i] });
     }
-
-    await knex("partialDecryptions").insert({ uuid, partialDecryption });
-    res.status(201).json({ success: true, uuid, partialDecryption });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: "Error storing partialDecryption." });
-  }
-});
-
-
-app.put("/:uuid/result", async (req, res) => {
-  const { uuid } = req.params;
-  const { result } = req.body;
-
-  try {
-    const election = await knex("setup").select().where({ uuid }).first();
-    if (!election) {
-      return res.status(404).json({ success: false, message: "Election not found." });
-    }
-
     await knex("result").insert({ uuid, result });
     res.status(201).json({ success: true, uuid, result });
   } catch (error) {
