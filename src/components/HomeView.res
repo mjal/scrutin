@@ -28,7 +28,7 @@ let make = () => {
   }
 
   <View>
-    <Header />
+    //<Header />
     <Logo />
     <S.Button
       title={t(. "home.create")}
