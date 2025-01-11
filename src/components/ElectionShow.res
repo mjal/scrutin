@@ -30,11 +30,15 @@ let make = (~electionData: ElectionData.t) => {
       { `${election.name}`->React.string }
     </Title>
 
-    <Badge size=40 style=Style.viewStyle(~margin=30.0->Style.dp, ())>
-      //<Text>
-        { `En cours`->React.string }
-      //</Text>
-    </Badge>
+    //<Badge size=40 style=Style.viewStyle(~margin=30.0->Style.dp, ())>
+    //  //<Text>
+    //    { `En cours`->React.string }
+    //  //</Text>
+    //</Badge>
+
+    <Chip icon=Paper.Icon.name("information") mode=#outlined>
+      { `Status: En cours`->React.string }
+    </Chip>
 
     <Title>
       {
