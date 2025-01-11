@@ -3,7 +3,26 @@ let make = (~title="", ~subtitle="", ~titleTextStyle=?, ~subtitleTextStyle=?) =>
   let (state, dispatch) = StateContext.use()
 
   let titleTextStyle = StyleSheet.flatten([
-    S.headerTitle,
+    Style.textStyle(
+      ~alignSelf=#center,
+      ~fontFamily="Inter_700Bold",
+      ~color=Color.rgb(~r=0x3f, ~g=0x3f, ~b=0x3f),
+      ()),
+    switch ReactNative.Platform.os {
+    | #web =>
+      Style.textStyle(
+        ~fontWeight=Style.FontWeight._900,
+        ~marginTop=45.0->Style.dp,
+        ~fontSize=28.0,
+        ~lineHeight=24.0,
+        ())
+    | _ =>
+      Style.textStyle(
+        ~fontWeight=Style.FontWeight._300,
+        ~marginTop=20.0->Style.dp,
+        ~fontSize=20.0,
+        ())
+    },
     Option.getWithDefault(titleTextStyle, Style.textStyle()),
   ])
 
@@ -12,15 +31,15 @@ let make = (~title="", ~subtitle="", ~titleTextStyle=?, ~subtitleTextStyle=?) =>
     Option.getWithDefault(subtitleTextStyle, Style.textStyle()),
   ])
 
-  let backButton = switch state.route {
-  | list{} | list{""} => <> </>
-  | _ =>
-    <TouchableOpacity
-      style={Style.viewStyle(~marginTop=40.0->Style.dp, ~marginLeft=40.0->Style.dp, ())}
-      onPress={_ => dispatch(StateMsg.Navigate_Back)}>
-      <SIcon.ButtonBack />
-    </TouchableOpacity>
-  }
+  //let backButton = switch state.route {
+  //| list{} | list{""} => <> </>
+  //| _ =>
+  //  <TouchableOpacity
+  //    style={Style.viewStyle(~marginTop=40.0->Style.dp, ~marginLeft=40.0->Style.dp, ())}
+  //    onPress={_ => dispatch(StateMsg.Navigate_Back)}>
+  //    <SIcon.ButtonBack />
+  //  </TouchableOpacity>
+  //}
 
   let settingsButton = switch state.route {
   | list{} | list{""} =>
@@ -30,12 +49,14 @@ let make = (~title="", ~subtitle="", ~titleTextStyle=?, ~subtitleTextStyle=?) =>
   | _ => <> </>
   }
 
+  let backgroundColor = Color.rgb(~r=0xf4, ~g=0xf4, ~b=0xf4)
+
   <Appbar.Header
     style={Style.viewStyle(
-      ~backgroundColor=Color.white,
-      ~marginBottom=20.0->Style.dp,
+      ~backgroundColor,
+      ~marginBottom=40.0->Style.dp,
       ())}>
-    {backButton}
+    //{backButton}
     <Appbar.Content
       title={<>
         <Title style=titleTextStyle> {title->React.string} </Title>

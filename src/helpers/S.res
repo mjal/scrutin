@@ -11,29 +11,6 @@ let title = textStyle(
   ~fontFamily="Inter_400Regular",
   ~textAlign=#center, ~fontSize=20.0, ~color=Color.black, ())
 
-let headerTitle = switch ReactNative.Platform.os {
-| #web =>
-  textStyle(
-    ~alignSelf=#center,
-    ~fontFamily="Inter_700Bold",
-    ~fontWeight=FontWeight._900,
-    ~marginTop=45.0->dp,
-    ~fontSize=28.0,
-    ~lineHeight=24.0,
-    ~color=primaryColor,
-    ())
-| _ =>
-  textStyle(
-    ~alignSelf=#center,
-    ~fontFamily="Inter_700Bold",
-    ~fontWeight=FontWeight._300,
-    ~marginTop=20.0->dp,
-    ~fontSize=20.0,
-    ~color=primaryColor,
-    ())
-}
-
-
 let marginX = viewStyle(~marginLeft=15.0->dp, ~marginRight=15.0->dp, ())
 
 let marginY = size => {
