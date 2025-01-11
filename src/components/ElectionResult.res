@@ -39,15 +39,18 @@ let make = (~electionData: ElectionData.t) => {
       {
         let row = Array.getExn(result, i)
         let total = Array.reduce(row, 0, (a, b) => a + b)
+        let max = Array.reduce(row, 0, (a, b) => a > b ? a : b)
         {Array.mapWithIndex(question.answers, (j, name) => {
           let count = Array.getExn(row, j)
 
-          <View key={Int.toString(i) ++ "-" ++ Int.toString(j)}>
+          <View
+            style=Style.viewStyle(~marginBottom=30.0->Style.dp, ())
+            key={Int.toString(i) ++ "-" ++ Int.toString(j)} >
             <Text style=Style.textStyle(~fontSize=30.0, ())>
               { name -> React.string }
             </Text>
-
-            <View>
+            <ProgressBar progress={Int.toFloat(count) /. Int.toFloat(max)} color={Color.red} />
+            <View style=Style.viewStyle(~margin=5.0->Style.dp, ())>
               <Text>
                 { `${Int.toString(count)} / ${Int.toString(total)}` -> React.string }
               </Text>
