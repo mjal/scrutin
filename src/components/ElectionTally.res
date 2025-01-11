@@ -61,8 +61,6 @@ let make = (~electionData: ElectionData.t) => {
     })
 
     let _response = await X.put(`${URL.bbs_url}/${election.uuid}/result`, obj)
-
-    dispatch(Navigate(list{"elections", election.uuid, "result"}))
   }
 
   <>
