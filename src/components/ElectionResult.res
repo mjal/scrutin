@@ -49,11 +49,13 @@ let make = (~electionData: ElectionData.t) => {
             <Text style=Style.textStyle(~fontSize=30.0, ())>
               { name -> React.string }
             </Text>
-            <ProgressBar progress={Int.toFloat(count) /. Int.toFloat(max)} color={Color.red} />
-            <View style=Style.viewStyle(~margin=5.0->Style.dp, ())>
-              <Text>
-                { `${Int.toString(count)} / ${Int.toString(total)}` -> React.string }
-              </Text>
+            <View style=Style.viewStyle(~position=#relative, ())>
+              <ProgressBar style=Style.viewStyle(~zIndex=2, ~position=#absolute, ~height=24.0->Style.dp, ()) progress={Int.toFloat(count) /. Int.toFloat(total)} color={Color.red} />
+              <View style=Style.viewStyle(~zIndex=1, ~position=#absolute, ~margin=5.0->Style.dp, ())>
+                <Text>
+                  { `${Int.toString(count)} / ${Int.toString(total)}` -> React.string }
+                </Text>
+              </View>
             </View>
           </View>
         })->React.array}
