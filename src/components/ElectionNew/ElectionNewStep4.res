@@ -39,7 +39,7 @@ let make = (~state: ElectionNewState.t, ~dispatch) => {
 
   if loading {
     <>
-      <Header title="Nouvelle élection" subtitle="4/5" />
+      <Header title="Nouvelle élection" subtitle="5/5" />
 
       <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
         { "Chargement..." -> React.string }
