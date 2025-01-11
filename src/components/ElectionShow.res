@@ -4,7 +4,6 @@ let make = (~electionData: ElectionData.t) => {
   let { setup } = electionData
   let election = setup.election
 
-
   React.useEffect1(() => {
     let uuid = setup.election.uuid
 
@@ -17,11 +16,7 @@ let make = (~electionData: ElectionData.t) => {
   }, [])
 
   <>
-    <ElectionHeader election />
-
-    //<View>
-    //  <ElectionShowChoices election />
-    //</View>
+    <Header title="Résultats de l'élection" />
 
     <View style=Style.viewStyle(~marginTop=30.0->Style.dp, ())>
     </View>
@@ -30,37 +25,34 @@ let make = (~electionData: ElectionData.t) => {
       { `${election.name}`->React.string }
     </Title>
 
-    //<Badge size=40 style=Style.viewStyle(~margin=30.0->Style.dp, ())>
-    //  //<Text>
-    //    { `En cours`->React.string }
-    //  //</Text>
-    //</Badge>
+    <View style=Style.viewStyle(~margin=20.0->Style.dp, ())>
+      <Chip icon=Paper.Icon.name("information") mode=#outlined>
+        { `Status: En cours`->React.string }
+      </Chip>
+    </View>
 
-    <Chip icon=Paper.Icon.name("information") mode=#outlined>
-      { `Status: En cours`->React.string }
-    </Chip>
+    <Text style=Style.textStyle(~color=Color.black, ~fontWeight=Style.FontWeight.bold, ())>
+      { "Date de début: Non définie"->React.string }
+    </Text>
 
-    <Title>
+    <Text style=Style.textStyle(~color=Color.black, ~fontWeight=Style.FontWeight.bold, ())>
+      { "Date de fin: Non définie"->React.string }
+    </Text>
+
+    <Text>
       {
-        let nBallots = Array.length(electionData.ballots)
-        `${Int.toString(nBallots)} votes`->React.string 
+        let nCredentials = Int.toString(Array.length(setup.credentials))
+        `Nombre de votants invités par email: ${nCredentials}`->React.string
       }
-    </Title>
+    </Text>
+
+    <Text>
+      {
+        let nBallots = Int.toString(Array.length(electionData.ballots))
+        `Nombre de votes enregistrés: ${nBallots}`->React.string
+      }
+    </Text>
 
     <View style={Style.viewStyle(~height=30.0->Style.dp, ())} />
-
-    //<S.Button
-    //  title="Voter"
-    //  onPress={_ =>
-    //    dispatch(Navigate(list{"elections", electionId, "openbooth"}))
-    //  }
-    ///>
-
-    //<S.Button
-    //  title="Admin: dépouillement"
-    //  onPress={_ =>
-    //    dispatch(Navigate(list{"elections", electionId, "tally"}))
-    //  }
-    ///>
   </>
 }
