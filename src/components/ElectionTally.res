@@ -1,5 +1,3 @@
-type tt = { ballot: string }
-
 module Window = {
   @scope("window") @val
   external alert: string => unit = "alert"
