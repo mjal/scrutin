@@ -234,9 +234,9 @@ type res_t = {
   success: bool,
   setup: Setup.serialized_t,
   ballots: array<Ballot.t>,
-  encryptedTally: EncryptedTally.t,
+  encryptedTally: Js.null<EncryptedTally.t>,
   partialDecryptions: array<PartialDecryption.t>,
-  result: Result_.t
+  result: Js.null<Result_.t>
 }
 let fetchElection = async (uuid, dispatch) => {
   let response = await Webapi.Fetch.fetch(`${URL.bbs_url}/${uuid}`)
@@ -245,8 +245,24 @@ let fetchElection = async (uuid, dispatch) => {
     Js.log("Can't find election")
   | true =>
     let json = await Webapi.Fetch.Response.json(response)
-    let res : ElectionData.serialized_t = Obj.magic(json)
-    let electionData = ElectionData.parse(res)
+    let res : res_t = Obj.magic(json)
+    let {
+      setup,
+      ballots,
+      encryptedTally,
+      partialDecryptions,
+      result
+    } = res
+    let electionData = ElectionData.parse({
+      setup,
+      ballots,
+      encryptedTally: Js.Null.toOption(encryptedTally),
+      partialDecryptions,
+      result: Js.Null.toOption(result)
+    })
+    Js.log(1)
+    Js.log(electionData)
+    Js.log(2)
     dispatch(StateMsg.ElectionData_Set(uuid, electionData))
   }
 }
