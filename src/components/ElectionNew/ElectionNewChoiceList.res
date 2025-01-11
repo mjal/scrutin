@@ -26,7 +26,8 @@ let make = (~answers, ~setAnswers) => {
       />
     })->React.array}
     <TouchableOpacity
-      style=Style.viewStyle(~alignSelf=#center,())
+      //style=Style.viewStyle(~alignSelf=#center,())
+      style=Style.viewStyle(~marginLeft=60.0->Style.dp, ())
       onPress={_ => setAnswers(choices => Array.concat(choices, [""]))}>
       <SIcon.ButtonPlus />
     </TouchableOpacity>

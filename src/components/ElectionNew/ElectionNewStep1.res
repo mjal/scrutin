@@ -12,6 +12,8 @@ let make = (~dispatch) => {
   <>
     <Header title="Nouvelle élection" subtitle="1/5" />
 
+    <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
+
     <S.Section title={t(. "election.new.title")} />
 
     <S.TextInput

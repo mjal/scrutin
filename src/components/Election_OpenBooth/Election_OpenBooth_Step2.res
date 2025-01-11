@@ -5,8 +5,10 @@ let make = (~electionData: ElectionData.t, ~state: Election_OpenBooth_State.t, ~
 
   <>
     <Header title="S'identifier" />
+
+    <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
   
-    <Title>
+    <Title style=Style.textStyle(~color=Color.black, ~fontSize=40.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
       { "Qui êtes-vous ?" -> React.string }
     </Title>
   

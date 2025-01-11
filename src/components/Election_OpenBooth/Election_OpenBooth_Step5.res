@@ -7,15 +7,22 @@ let make = (~electionData: ElectionData.t, ~state: Election_OpenBooth_State.t, ~
   <>
     <Header title="A voté" />
 
-    <Button icon=Paper.Icon.name("party-popper")>
-      { "" -> React.string }
-    </Button>
+    {
+      open Style
+      let viewStyle = viewStyle(~alignSelf=#center, ~margin=42.0->dp, ())
+      let textStyle = textStyle(~fontSize=120.0, ())
+      <View style=viewStyle>
+        <Text style=textStyle>
+          { "🎉" -> React.string }
+        </Text>
+      </View>
+    }
 
-    <Title>
+    <Title style=Style.textStyle(~alignSelf=#center, ~color=Color.black, ~fontSize=60.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
       { "A voté" -> React.string }
     </Title>
 
-    <Text>
+    <Text style=Style.textStyle(~alignSelf=#center, ~fontSize=30.0, ~margin=30.0->Style.dp, ())>
       { "Votre vote a bien été pris en compte" -> React.string }
     </Text>
 
