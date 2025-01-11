@@ -11,7 +11,7 @@ let make = (~electionData: ElectionData.t) => {
     <View style=Style.viewStyle(~marginTop=30.0->Style.dp, ())>
     </View>
 
-    <Title style=Style.textStyle(~color=Color.black, ~fontSize=30.0, ())>
+    <Title style=Style.textStyle(~color=Color.black, ~fontSize=40.0, ~fontWeight=Style.FontWeight._900, ())>
       { `${election.name}`->React.string }
     </Title>
 
@@ -32,6 +32,8 @@ let make = (~electionData: ElectionData.t) => {
       }
     </Text>
 
+    <View style=Style.viewStyle(~marginTop=30.0->Style.dp, ()) />
+
     {Array.mapWithIndex(election.questions, (i, question) => {
       <View key={Int.toString(i)}>
       {
@@ -41,7 +43,7 @@ let make = (~electionData: ElectionData.t) => {
           let count = Array.getExn(row, j)
 
           <View key={Int.toString(i) ++ "-" ++ Int.toString(j)}>
-            <Text>
+            <Text style=Style.textStyle(~fontSize=30.0, ())>
               { name -> React.string }
             </Text>
 
