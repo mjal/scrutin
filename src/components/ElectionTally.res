@@ -11,8 +11,6 @@ let make = (~electionData: ElectionData.t) => {
   let (passphrase, setPassphrase) = React.useState(_ => "")
 
   let tally = async _ => {
-    Js.log(passphrase)
-
     let regex = %re("/\s+/g")
     let words = Js.String.splitByRe(regex, String.trim(passphrase))
     let mnemonic = Js.Array.joinWith(" ", words)
