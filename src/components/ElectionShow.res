@@ -26,9 +26,18 @@ let make = (~electionData: ElectionData.t) => {
     </Title>
 
     <View style=Style.viewStyle(~margin=20.0->Style.dp, ())>
-      <Chip icon=Paper.Icon.name("information") mode=#outlined>
-        { `Status: En cours`->React.string }
-      </Chip>
+      {
+        switch electionData.result {
+        | None =>
+          <Chip icon=Paper.Icon.name("information") mode=#outlined>
+            { `Status: En cours`->React.string }
+          </Chip>
+        | Some(_result) =>
+          <Chip icon=Paper.Icon.name("information") mode=#outlined>
+            { `Status: Finished`->React.string }
+          </Chip>
+        }
+      }
     </View>
 
     <Text style=Style.textStyle(~color=Color.black, ~fontWeight=Style.FontWeight.bold, ())>
