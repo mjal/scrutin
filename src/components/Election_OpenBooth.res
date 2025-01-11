@@ -52,7 +52,7 @@ let make = (~electionData: ElectionData.t) => {
       setup,
       priv,
       choices
-    ) // FIX: overall_proof ?
+    )
     globalDispatch(StateMsg.UploadBallot(name, election, ballot))
   }
 
