@@ -1,7 +1,62 @@
 @react.component
 let make = (~electionData: ElectionData.t) => {
   let _ = (electionData)
-  <></>
+  let { setup, result } = electionData
+  let result = Option.getExn(result).result
+  let { election } = setup
+
+  <>
+    <Header title="Résultats de l'élection" />
+
+    <View style=Style.viewStyle(~marginTop=30.0->Style.dp, ())>
+    </View>
+
+    <Title style=Style.textStyle(~color=Color.black, ~fontSize=30.0, ())>
+      { `${election.name}`->React.string }
+    </Title>
+
+    <View style=Style.viewStyle(~marginTop=30.0->Style.dp, ()) />
+
+    <Text style=Style.textStyle(~color=Color.grey, ())>
+      { "Date de début: Non définie"->React.string }
+    </Text>
+
+    <Text style=Style.textStyle(~color=Color.grey, ())>
+      { "Date de fin: Non définie"->React.string }
+    </Text>
+
+    <Text style=Style.textStyle(~color=Color.grey, ())>
+      {
+        let nBallots = Int.toString(Array.length(electionData.ballots))
+        `Nombre de votes enregistrés: ${nBallots}`->React.string
+      }
+    </Text>
+
+    {Array.mapWithIndex(election.questions, (i, question) => {
+      <View key={Int.toString(i)}>
+      {
+        let row = Array.getExn(result, i)
+        let total = Array.reduce(row, 0, (a, b) => a + b)
+        {Array.mapWithIndex(question.answers, (j, name) => {
+          let count = Array.getExn(row, j)
+
+          <View key={Int.toString(i) ++ "-" ++ Int.toString(j)}>
+            <Text>
+              { name -> React.string }
+            </Text>
+
+            <View>
+              <Text>
+                { `${Int.toString(count)} / ${Int.toString(total)}` -> React.string }
+              </Text>
+            </View>
+          </View>
+        })->React.array}
+      }
+      </View>
+    })->React.array}
+  </>
+
 /*
   let (state, _) = StateContext.use()
 

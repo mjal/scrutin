@@ -62,6 +62,19 @@ let make = (~electionData: ElectionData.t) => {
       }
     </Text>
 
+    {
+      switch electionData.result {
+      | None => <></>
+      | Some(_result) =>
+        <S.Button
+          title="Voir les résultats"
+          onPress={_ => {
+            dispatch(Navigate(list{"elections", election.uuid, "result"}))
+          }}
+        />
+      }
+    }
+
     <View style={Style.viewStyle(~height=30.0->Style.dp, ())} />
   </>
 }
