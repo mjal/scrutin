@@ -20,15 +20,15 @@ app.get("/", (_req, res) => {
 
 app.put("/:uuid", async (req, res) => {
   const { uuid } = req.params;
-  const { emails, setup } = req.body;
-
+  let { emails, setup } = req.body;
 
   // For email in emails
   for (let email of emails) {
     let priv = Credential.generatePriv()
     let { pub } = Credential.derive(uuid, priv)
-    sendMail(email, uuid, "mytoken")
-    //sendMail("thomas.who@gmail.com", "myuuid", "mytoken")
+    setup.credentials.push(pub)
+    // TODO: Store uuid, email, pub(, priv?) in database
+    // sendMail(email, uuid, priv)
   }
 
   try {
