@@ -7,17 +7,8 @@ let make = (~state: Election_New_State.t, ~dispatch) => {
   let (policy : option<policy_t>, setPolicy) = React.useState(_ => None)
   let _ = dispatch
 
-  let words = React.useMemo(() => {
-    Array.init(12, _ => {
-      let index = Sjcl.BitArray.extract(Sjcl.Random.randomWords(1),0,31)
-      let index = mod(index, 2048)
-      Array.getExn(Wordlist.english, index)
-    })
-  })
-  let mnemonic = Js.Array.joinWith(" ", words)
-
-  let hash = Sjcl.Sha256.hash(mnemonic)
-  let privkey = Zq.mod(BigInt.create("0x"++Sjcl.Hex.fromBits(hash)))
+  let mnemonic = Mnemonic.generate()
+  let privkey = Mnemonic.toPrivkey(mnemonic)
   let (_privkey, serializedTrustee) = Trustee.generateFromPriv(privkey)
   let trustee = Trustee.parse(serializedTrustee)
   let trustees = [trustee]

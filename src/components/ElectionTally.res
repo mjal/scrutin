@@ -10,30 +10,26 @@ let make = (~electionData: ElectionData.t) => {
   let (_state, dispatch) = StateContext.use()
   let (passphrase, setPassphrase) = React.useState(_ => "")
 
-  let passphrase2privkey = (passphrase) => {
-    let words = Js.String.splitByRe(%re("/\s+/g"), String.trim(passphrase))
-    let mnemonic = Js.Array.joinWith(" ", words)
-    let hash = Sjcl.Sha256.hash(mnemonic)
-    Zq.mod(BigInt.create("0x"++Sjcl.Hex.fromBits(hash)))
-  }
-
   let verifyPrivkey = (privkey, electionTrustee: Trustee.PublicKey.t) => {
     let (_privkey, trustee) = Trustee.generateFromPriv(privkey)
     let (_a, b) = Trustee.parse(trustee)
     Point.serialize(electionTrustee.public_key) == Point.serialize(b.public_key)
   }
 
-  let fetchPassword = async _ => {
-    let res = await ReactNativeAsyncStorage.getItem(election.uuid)
-    switch (Js.Null.toOption(res)) {
-    | None => ()
-    | Some(pass) => setPassphrase(_ => pass)
+  React.useEffect0(() => {
+    let fetchPassword = async _ => {
+      let res = await ReactNativeAsyncStorage.getItem(election.uuid)
+      switch (Js.Null.toOption(res)) {
+      | None => ()
+      | Some(pass) => setPassphrase(_ => pass)
+      }
     }
-  }
-  fetchPassword()->ignore
+    fetchPassword()->ignore
+    None
+  })
 
   let tally = async _ => {
-    let privkey = passphrase2privkey(passphrase)
+    let privkey = Mnemonic.toPrivkey(passphrase)
     let (_type, trustee) = Array.getExn(electionData.setup.trustees, 0)
     if (!verifyPrivkey(privkey, trustee)) {
       Window.alert("Bad password")
