@@ -29,6 +29,8 @@ let make = () => {
 
   <View>
     //<Header />
+
+    <View style=Style.viewStyle(~height=50.0->Style.dp,()) />
     
     <Image source=Logo.source style=Style.viewStyle(~alignSelf=#center, ~width=360.0->Style.dp, ~height=139.0->Style.dp, ()) />
     <S.Button
