@@ -1,8 +1,17 @@
 @react.component
-let make = (~state: Election_New_State.t, ~dispatch) => {
+let make = (~state: Election_New_State.t, ~setState) => {
   let { t } = ReactI18next.useTranslation()
   let (emails, setEmails) = React.useState(_ => "")
-  let _ = (state, dispatch)
+
+  let next = _ => {
+    let emails = Js.String.split("\n", emails)->Array.map(String.trim)
+    Js.log(emails)
+    setState(_ => {
+      ...state,
+      step: Step5,
+      emails
+    })
+  }
 
   <>
     <Header title="Nouvelle élection" subtitle="4/5" />
@@ -28,7 +37,7 @@ let make = (~state: Election_New_State.t, ~dispatch) => {
 
     <S.Button
       title={t(. "election.new.next")}
-      onPress={_ => dispatch(Election_New_State.SetStep(Step5)) }
+      onPress=next
       />
   </>
 }

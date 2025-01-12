@@ -25,13 +25,6 @@ type t = {
   emails: array<string>
 }
 
-type action =
-  | Reset
-  | SetStep(step)
-  | SetTitle(string)
-  | SetAccess(access)
-  | AddQuestion(QuestionH.t)
-
 let empty = {
   step: Step1,
   title: None,
@@ -39,14 +32,3 @@ let empty = {
   questions: [],
   emails: []
 }
-
-let reducer = (state, action) => {
-  switch action {
-  | Reset => empty
-  | SetStep(step) => {...state, step }
-  | SetTitle(title) => {...state, title: Some(title) }
-  | SetAccess(access) => {...state, access: Some(access) }
-  | AddQuestion(question) => {...state, questions: Array.concat(state.questions, [question]) }
-  }
-}
-

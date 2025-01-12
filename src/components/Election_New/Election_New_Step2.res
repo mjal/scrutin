@@ -1,5 +1,5 @@
 @react.component
-let make = (~state: Election_New_State.t, ~dispatch) => {
+let make = (~state: Election_New_State.t, ~setState) => {
   let {t} = ReactI18next.useTranslation()
 
   let question = "Question"
@@ -10,8 +10,11 @@ let make = (~state: Election_New_State.t, ~dispatch) => {
       question, answers, min: 1, max: 1
     }
 
-    dispatch(Election_New_State.AddQuestion(question))
-    dispatch(Election_New_State.SetStep(Step3))
+    setState(_ => {
+      ...state,
+      step: Step3,
+      questions: state.questions->Array.concat([question])
+    })
   }
 
   <>

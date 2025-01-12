@@ -1,12 +1,14 @@
 @react.component
-let make = (~dispatch) => {
+let make = (~state: Election_New_State.t, ~setState) => {
   let {t} = ReactI18next.useTranslation()
-
   let (title, setTitle) = React.useState(_ => "")
 
   let next = _ => {
-    dispatch(Election_New_State.SetTitle(title))
-    dispatch(Election_New_State.SetStep(Step2))
+    setState(_ => {
+      ...state,
+      step: Step2,
+      title: Some(title),
+    })
   }
 
   <>
