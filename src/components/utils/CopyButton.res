@@ -9,7 +9,7 @@ let make = (~text) => {
         Clipboard_.writeText(text)->ignore
         setVisible(_ => true)
       }}
-      title={t(. "utils.copybutton.text")}
+      title={"Copier"}//t(. "utils.copybutton.text")}
     />
     <Portal>
       <Snackbar

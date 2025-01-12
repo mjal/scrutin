@@ -75,6 +75,19 @@ let make = (~electionData: ElectionData.t) => {
       }
     }
 
+    {
+      switch election.access {
+      | Some("open") =>
+        <S.Button
+          title="Partager un lien d'accès"
+          onPress={_ => {
+            dispatch(Navigate(list{"elections", election.uuid, "share"}))
+          }}
+        />  
+      | _ => <></>
+      }
+    }
+
     <View style={Style.viewStyle(~height=30.0->Style.dp, ())} />
   </>
 }
