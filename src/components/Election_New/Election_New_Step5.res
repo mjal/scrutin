@@ -28,7 +28,10 @@ let make = (~state: Election_New_State.t, ~dispatch) => {
     }
 
     let { election } = setup
-    let obj : Js.Json.t = Obj.magic({"setup": Setup.serialize(setup)})
+    let obj : Js.Json.t = Obj.magic({
+      "setup": Setup.serialize(setup),
+      "emails": state.emails
+    })
     let _response = await X.put(`${URL.bbs_url}/${election.uuid}`, obj)
     globalDispatch(StateMsg.Navigate(list{"elections", election.uuid}))
   }
