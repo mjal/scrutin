@@ -45,7 +45,7 @@ let make = (~state: Election_New_State.t, ~dispatch) => {
           </View>
           <Text style=Style.textStyle(~color=Color.gray, ~marginLeft=36.0->Style.dp, ())>
             {
-              "Les participant-es peuvent rejoindre librement l'élection grâce à un lien ou un QR code."
+              "Les participant·es peuvent rejoindre librement l'élection grâce à un lien ou un QR code."
               ->React.string
             }
           </Text>
@@ -64,12 +64,12 @@ let make = (~state: Election_New_State.t, ~dispatch) => {
                 (),
               )
             >
-              { "Participation fermée"->React.string }
+              { "Participation par email"->React.string }
             </Text>
           </View>
           <Text style=Style.textStyle(~color=Color.gray, ~marginLeft=36.0->Style.dp, ())>
             {
-              "L’administrateur·ice de l’élection doit inviter chaque participant·e, en général via une liste d’e-mails."
+              "L’administrateur·ice de l’élection doit inviter chaque participant·e via une liste d’e-mails."
               ->React.string
             }
           </Text>
