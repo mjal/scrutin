@@ -126,16 +126,5 @@ app.get("/:uuid", async (req, res) => {
   }
 });
 
-//app.get("/:uuid/ballots", async (req, res) => {
-//  const { uuid } = req.params;
-//  try {
-//    const ballots = await knex("ballots").select().where({ election_uuid: uuid });
-//    res.status(200).json({ success: true, ballots });
-//  } catch (error) {
-//    res.status(500).json({ success: false, message: "Error fetching ballots." });
-//  }
-//});
-
-// Start Server
 const port = process.env.PORT || 8080;
 app.listen(port, () => console.log(`App listening on port ${port}!`));
