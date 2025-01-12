@@ -6,7 +6,10 @@ let make = (~state: Election_New_State.t, ~dispatch) => {
 
   let next = _ => {
     dispatch(Election_New_State.SetAccess(Option.getExn(access)))
-    dispatch(Election_New_State.SetStep(Step4))
+    switch access {
+    | Some(#closed) => dispatch(Election_New_State.SetStep(Step4))
+    | _ => dispatch(Election_New_State.SetStep(Step5))
+    }
   }
 
   let value = switch access {
