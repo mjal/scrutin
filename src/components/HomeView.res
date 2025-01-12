@@ -3,29 +3,29 @@ let make = () => {
   let (_state, dispatch) = StateContext.use()
   let {t} = ReactI18next.useTranslation()
 
-  let styles = {
-    open Style
-    StyleSheet.create({
-      "aboutView": viewStyle(
-        ~position=#absolute,
-        ~left=145.0->dp,
-        ~top=150.0->dp,
-        ()),
-      "aboutButton": viewStyle(
-        ~width=80.0->dp,
-        ~height=80.0->dp,
-        ()),
-      "searchView": viewStyle(
-        ~position=#absolute,
-        ~right=145.0->dp,
-        ~top=150.0->dp,
-        ()),
-      "searchButton": viewStyle(
-        ~width=80.0->dp,
-        ~height=80.0->dp,
-        ())
-    })
-  }
+  //let styles = {
+  //  open Style
+  //  StyleSheet.create({
+  //    "aboutView": viewStyle(
+  //      ~position=#absolute,
+  //      ~left=145.0->dp,
+  //      ~top=150.0->dp,
+  //      ()),
+  //    "aboutButton": viewStyle(
+  //      ~width=80.0->dp,
+  //      ~height=80.0->dp,
+  //      ()),
+  //    "searchView": viewStyle(
+  //      ~position=#absolute,
+  //      ~right=145.0->dp,
+  //      ~top=150.0->dp,
+  //      ()),
+  //    "searchButton": viewStyle(
+  //      ~width=80.0->dp,
+  //      ~height=80.0->dp,
+  //      ())
+  //  })
+  //}
 
   <View>
     //<Header />
@@ -50,14 +50,14 @@ let make = () => {
         <View>// style=Style.viewStyle(~height=414.0->Style.dp,())>
           <HomeBackground />
         </View>
-        <TouchableOpacity style=styles["aboutView"]
-          onPress={_ => dispatch(StateMsg.Navigate_About)} >
-          <SIcon.ButtonAbout />// style=styles["aboutButton"] />
-        </TouchableOpacity>
-        <TouchableOpacity style=styles["searchView"]
-          onPress={_ => dispatch(Navigate(list{"elections", "search"}))}>
-          <SIcon.ButtonSearch />// style=styles["searchButton"] />
-        </TouchableOpacity>
+        //<TouchableOpacity style=styles["aboutView"]
+        //  onPress={_ => dispatch(StateMsg.Navigate_About)} >
+        //  <SIcon.ButtonAbout />// style=styles["aboutButton"] />
+        //</TouchableOpacity>
+        //<TouchableOpacity style=styles["searchView"]
+        //  onPress={_ => dispatch(Navigate(list{"elections", "search"}))}>
+        //  <SIcon.ButtonSearch />// style=styles["searchButton"] />
+        //</TouchableOpacity>
       </View>
     </>
     } }
