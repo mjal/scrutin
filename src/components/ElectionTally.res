@@ -10,45 +10,43 @@ let make = (~electionData: ElectionData.t) => {
   let (_state, dispatch) = StateContext.use()
   let (passphrase, setPassphrase) = React.useState(_ => "")
 
-  let tally = async _ => {
-    let regex = %re("/\s+/g")
-    let words = Js.String.splitByRe(regex, String.trim(passphrase))
+  let passphrase2privkey = (passphrase) => {
+    let words = Js.String.splitByRe(%re("/\s+/g"), String.trim(passphrase))
     let mnemonic = Js.Array.joinWith(" ", words)
     let hash = Sjcl.Sha256.hash(mnemonic)
-    let privkey = Zq.mod(BigInt.create("0x"++Sjcl.Hex.fromBits(hash)))
+    Zq.mod(BigInt.create("0x"++Sjcl.Hex.fromBits(hash)))
+  }
 
+  let verifyPrivkey = (privkey, electionTrustee: Trustee.PublicKey.t) => {
     let (_privkey, trustee) = Trustee.generateFromPriv(privkey)
+    let (_a, b) = Trustee.fromJSON(trustee)
+    Point.serialize(electionTrustee.public_key) == Point.serialize(b.public_key)
+  }
 
-    let trustee2 = Trustee.fromJSON(trustee)
-    let (_a, b) = trustee2
-    Js.log(Point.serialize(b.public_key))
+  let fetchPassword = async _ => {
+    let res = await ReactNativeAsyncStorage.getItem(election.uuid)
+    switch (Js.Null.toOption(res)) {
+    | None => ()
+    | Some(pass) => setPassphrase(_ => pass)
+    }
+  }
+  fetchPassword()->ignore
 
+  let tally = async _ => {
+    let privkey = passphrase2privkey(passphrase)
     let (_type, trustee) = Array.getExn(electionData.setup.trustees, 0)
-    Js.log(Point.serialize(trustee.public_key))
-
-    if (Point.serialize(trustee.public_key) == Point.serialize(b.public_key)) {
-      ()
-    } else {
+    if (!verifyPrivkey(privkey, trustee)) {
       Window.alert("Bad password")
     }
 
     // Add credentials to setup
     let credentials = Array.map(ballots, (b) => b.credential)
-    let setup = {
-      ...electionData.setup,
-      trustees: [trustee2],
-      credentials
-    }
+    let setup = {...electionData.setup, credentials }
 
     let et = EncryptedTally.generate(setup, ballots)
-    Js.log(et)
-
     let pd = PartialDecryption.generate(setup, et, 1, privkey);
     let pds = [pd]
-    Js.log(setup)
-
     let result = Result_.generate(setup, et, pds)
-    Js.log(result)
 
     let obj : Js.Json.t = Obj.magic({
       "encryptedTally": EncryptedTally.serialize(et, election),
@@ -57,6 +55,8 @@ let make = (~electionData: ElectionData.t) => {
     })
 
     let _response = await X.put(`${URL.bbs_url}/${election.uuid}/result`, obj)
+
+    dispatch(Navigate(list{"elections", election.uuid}))
   }
 
   <>
