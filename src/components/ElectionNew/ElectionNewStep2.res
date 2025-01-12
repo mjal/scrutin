@@ -11,7 +11,7 @@ let make = (~state: ElectionNewState.t, ~dispatch) => {
     }
 
     dispatch(ElectionNewState.AddQuestion(question))
-    dispatch(ElectionNewState.SetStep(Step4))
+    dispatch(ElectionNewState.SetStep(Step3))
   }
 
   <>

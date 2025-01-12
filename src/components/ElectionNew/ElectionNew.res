@@ -6,7 +6,7 @@ let make = () => {
   switch (state.step) {
   | Step1 => <ElectionNewStep1 dispatch />
   | Step2 => <ElectionNewStep2 state dispatch />
-  | Step3 => <ElectionNewStep3 />
+  | Step3 => <ElectionNewStep3 state dispatch />
   | Step4 => <ElectionNewStep4 state dispatch />
   | Step5 => <ElectionNewStep5 />
   }
