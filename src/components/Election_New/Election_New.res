@@ -1,7 +1,6 @@
 @react.component
 let make = () => {
   let (state, dispatch) = React.useReducer(Election_New_State.reducer, Election_New_State.empty)
-  //let (globalState, globalDispatch) = StateContext.use()
 
   switch (state.step) {
   | Step1 => <Election_New_Step1 dispatch />
