@@ -8,10 +8,10 @@ let make = (~electionData: ElectionData.t, ~state: Election_OpenBooth_State.t, ~
   let vote = async _ => {
     let name = Option.getExn(state.name)
     let priv = Credential.generatePriv()
-    let { hPublicCredential } = Credential.derive(election.uuid, priv)
+    let { pub } = Credential.derive(election.uuid, priv)
     let setup = {
       ...electionData.setup,
-      credentials: Array.concat(electionData.setup.credentials, [hPublicCredential])
+      credentials: Array.concat(electionData.setup.credentials, [pub])
     }
     let choices = Array.mapWithIndex(election.questions, (_j, question) => {
       Array.mapWithIndex(question.answers, (i, _name) => {

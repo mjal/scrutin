@@ -1,6 +1,6 @@
 type pair_t = {
-  nPrivateCredential: string,
-  hPublicCredential: string,
+  priv: BigInt.t,
+  pub: string,
 }
 
 @module("sirona") @scope("Credential") @val
