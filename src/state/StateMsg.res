@@ -15,8 +15,6 @@ type t =
   | ElectionData_Set(string, ElectionData.t)
 
   | BallotAdd(string, Ballot.t)
-  | CreateOpenElection(Setup.t)
-  | CreateClosedElection
   | ElectionFetch(string)
 
   | UploadBallot(string, Election.t, Ballot.t)

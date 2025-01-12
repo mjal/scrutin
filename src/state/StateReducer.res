@@ -93,32 +93,10 @@ let reducer = (state: State.t, action: StateMsg.t) => {
     }
     (state, [])
 
-  | CreateOpenElection(setup) =>
-    (state, [ StateEffect.uploadElection(setup) ])
-
   | UploadBallot(name, election, ballot) =>
     (state, [
       StateEffect.uploadBallot(name, election, ballot)
     ])
-
-  | CreateClosedElection =>
-    //let { title, description, choices, emails } = state.newElection
-    //let (_privkey, serializedTrustee) = Trustee.generate() // FIX: Should be done in step 4
-    //let trustee = Trustee.fromJSON(serializedTrustee)
-    //let question : QuestionH.t =  {
-    //  question: "Question",
-    //  answers: choices,
-    //  min: 1,
-    //  max: 1
-    //}
-    //Js.log(emails)
-    //let election = Election.create(title, description, [trustee], [question])
-    //let election = {...election, unrestricted: (state.newElection.mode == State.Open)}
-    //Js.log("TODO")
-    //(state, [
-    //  StateEffect.sendEmailsAndCreateElection(emails, election, [trustee], [])
-    //])
-    (state, [])
 
   | ElectionFetch(uuid) =>
     let electionsTryFetch = Map.String.set(state.electionsTryFetch, uuid, true)

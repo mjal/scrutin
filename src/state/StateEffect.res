@@ -1,69 +1,3 @@
-/*
-let electionsUpdate =  async (
-  elections: Map.String.t<Election.t>,
-  ballots: array<Ballot.t>,
-  ev: Event_.t
-) => {
-  switch ev.type_ {
-  | #"election.init" =>
-    let election = Event_.ElectionInit.parse(ev)
-    let election = {...election,
-      electionId: Some(ev.cid)
-    }
-    let elections = Map.String.set(elections, ev.cid, election)
-    (elections, ballots)
-  | #"election.voter" =>
-    let {electionId, voterId} = Event_.ElectionVoter.parse(ev.content)
-    switch Map.String.get(elections, electionId) {
-    | None =>
-      Js.log(("Cannot find election", electionId))
-      (elections, ballots)
-    | Some(election) =>
-      let election = {
-        ...election,
-        voterIds: Array.concat(election.voterIds, [voterId])
-      }
-      let elections = Map.String.set(elections, electionId, election)
-      (elections, ballots)
-    }
-  | #"election.delegation" =>
-    let {electionId, voterId, delegateId} = Event_.ElectionDelegate.parse(ev.content)
-    switch Map.String.get(elections, electionId) {
-    | None =>
-      Js.log(("Cannot find election", electionId))
-      (elections, ballots)
-    | Some(election) =>
-      let voterIds = election.voterIds->Array.map((userId) => {
-        if userId == voterId { delegateId } else { userId }
-      })
-      Js.log((election.voterIds, voterId, voterIds))
-      let election = { ...election, voterIds }
-      let elections = Map.String.set(elections, electionId, election)
-      (elections, ballots)
-    }
-  | #"election.ballot" =>
-    let ballot = Event_.ElectionBallot.parse(ev)
-    (elections, Array.concat(ballots, [ballot]))
-  | #"election.tally" =>
-    let { electionId, pda, pdb, result } = Event_.ElectionTally.parse(ev.content)
-    switch Map.String.get(elections, electionId) {
-    | None =>
-      Js.log(("Cannot find election", electionId))
-      (elections, ballots)
-    | Some(election) =>
-      let election = {
-        ...election,
-        pda: Some(pda),
-        pdb: Some(pdb),
-        result: Some(result)
-      }
-      let elections = Map.String.set(elections, electionId, election)
-      (elections, ballots)
-    }
-  }
-}
-*/
-
 // ## LocalStorage - Store
 
 let storeAccounts = async (ids, _dispatch) => Account.store_all(ids)
@@ -187,26 +121,6 @@ let goToUrl = async dispatch => {
     let url = RescriptReactRouter.dangerouslyGetInitialUrl()
     dispatch(StateMsg.Navigate(url.path))
   }
-}
-
-let uploadElection = async (setup: Setup.t, dispatch) => {
-  let { election } = setup
-  let obj : Js.Json.t = Obj.magic({"setup": Setup.serialize(setup)})
-  let _response = await X.put(`${URL.bbs_url}/${election.uuid}`, obj)
-
-  //switch Webapi.Fetch.Response.ok(response) { 
-  //| false =>
-  //  Js.log("Can't upload election")
-  //| true =>
-  //  let json = await Webapi.Fetch.Response.json(response)
-  //  Js.log("Got result:")
-  //  Js.log(json)
-  //  //let res : ElectionData.serialized_t = Obj.magic(json)
-  //  //let electionData = ElectionData.parse(res)
-  //  //dispatch(StateMsg.ElectionData_Set(uuid, electionData))
-  //}
-
-  dispatch(StateMsg.Navigate(list{"elections", election.uuid}))
 }
 
 let uploadBallot = async (name, election: Election.t, ballot: Ballot.t, dispatch) => {
