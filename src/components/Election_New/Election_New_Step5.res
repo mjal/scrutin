@@ -19,7 +19,7 @@ let make = (~state: Election_New_State.t, ~dispatch) => {
   let hash = Sjcl.Sha256.hash(mnemonic)
   let privkey = Zq.mod(BigInt.create("0x"++Sjcl.Hex.fromBits(hash)))
   let (_privkey, serializedTrustee) = Trustee.generateFromPriv(privkey)
-  let trustee = Trustee.fromJSON(serializedTrustee)
+  let trustee = Trustee.parse(serializedTrustee)
   let trustees = [trustee]
   let description = ""
   let { title, questions } = state

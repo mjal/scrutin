@@ -19,7 +19,7 @@ external generate: () => (int, serialized_t) = "generate"
 external generateFromPriv: (BigInt.t) => (int, serialized_t) = "generateFromPriv"
 
 @module("sirona") @scope("Trustee") @val
-external fromJSON: (serialized_t) => t = "fromJSON"
+external parse: (serialized_t) => t = "parse"
 
 @module("sirona") @scope("Trustee") @val
-external toJSON: (t) => serialized_t = "toJSON"
+external serialize: (t) => serialized_t = "serialize"

@@ -19,7 +19,7 @@ let make = (~electionData: ElectionData.t) => {
 
   let verifyPrivkey = (privkey, electionTrustee: Trustee.PublicKey.t) => {
     let (_privkey, trustee) = Trustee.generateFromPriv(privkey)
-    let (_a, b) = Trustee.fromJSON(trustee)
+    let (_a, b) = Trustee.parse(trustee)
     Point.serialize(electionTrustee.public_key) == Point.serialize(b.public_key)
   }
 
