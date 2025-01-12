@@ -1,8 +1,3 @@
-module Window = {
-  @scope("window") @val
-  external alert: string => unit = "alert"
-}
-
 @react.component
 let make = (~electionData: ElectionData.t) => {
   let { setup, ballots } = electionData
