@@ -1,5 +1,5 @@
 @react.component
-let make = (~state: ElectionNewState.t, ~dispatch) => {
+let make = (~state: Election_New_State.t, ~dispatch) => {
   let {t} = ReactI18next.useTranslation()
 
   let question = "Question"
@@ -10,8 +10,8 @@ let make = (~state: ElectionNewState.t, ~dispatch) => {
       question, answers, min: 1, max: 1
     }
 
-    dispatch(ElectionNewState.AddQuestion(question))
-    dispatch(ElectionNewState.SetStep(Step3))
+    dispatch(Election_New_State.AddQuestion(question))
+    dispatch(Election_New_State.SetStep(Step3))
   }
 
   <>
@@ -23,7 +23,7 @@ let make = (~state: ElectionNewState.t, ~dispatch) => {
       </Title>
     </View>
 
-    <ElectionNewChoiceList answers setAnswers />
+    <Election_New_ChoiceList answers setAnswers />
 
     <S.Button
       title={t(. "election.new.next")}

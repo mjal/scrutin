@@ -16,7 +16,8 @@ let make = () => {
 
   <Layout state dispatch>
     {switch state.route {
-    | list{"elections", "new"} => <ElectionNew />
+    | list{"elections", "new"} =>
+      <Election_New />
 
     | list{"elections", uuid, ...electionRoute} =>
       switch Map.String.get(state.electionDatas, uuid) {

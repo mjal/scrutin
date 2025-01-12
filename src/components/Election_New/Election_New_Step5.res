@@ -1,5 +1,5 @@
 @react.component
-let make = (~state: ElectionNewState.t, ~dispatch) => {
+let make = (~state: Election_New_State.t, ~dispatch) => {
   let {t} = ReactI18next.useTranslation()
   let (_globalState, globalDispatch) = StateContext.use()
   let (loading, setLoading) = React.useState(() => false)

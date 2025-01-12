@@ -1,11 +1,11 @@
 @react.component
-let make = (~state: ElectionNewState.t, ~dispatch) => {
+let make = (~state: Election_New_State.t, ~dispatch) => {
   let {t} = ReactI18next.useTranslation()
   let (access, setAccess) = React.useState(_ => None)
 
   let next = _ => {
-    dispatch(ElectionNewState.SetAccess(Option.getExn(access)))
-    dispatch(ElectionNewState.SetStep(Step4))
+    dispatch(Election_New_State.SetAccess(Option.getExn(access)))
+    dispatch(Election_New_State.SetStep(Step4))
   }
 
   let value = switch access {

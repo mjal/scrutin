@@ -5,8 +5,8 @@ let make = (~dispatch) => {
   let (title, setTitle) = React.useState(_ => "")
 
   let next = _ => {
-    dispatch(ElectionNewState.SetTitle(title))
-    dispatch(ElectionNewState.SetStep(Step2))
+    dispatch(Election_New_State.SetTitle(title))
+    dispatch(Election_New_State.SetStep(Step2))
   }
 
   <>

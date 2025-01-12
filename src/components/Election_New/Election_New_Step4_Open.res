@@ -1,5 +1,5 @@
 @react.component
-let make = (~state: ElectionNewState.t, ~dispatch) => {
+let make = (~state: Election_New_State.t, ~dispatch) => {
   let { t } = ReactI18next.useTranslation()
   let _ = (state, dispatch)
 
@@ -14,7 +14,7 @@ let make = (~state: ElectionNewState.t, ~dispatch) => {
 
     <S.Button
       title={t(. "election.new.next")}
-      onPress={_ => dispatch(ElectionNewState.SetStep(Step5)) }
+      onPress={_ => dispatch(Election_New_State.SetStep(Step5)) }
       />
   </>
 }

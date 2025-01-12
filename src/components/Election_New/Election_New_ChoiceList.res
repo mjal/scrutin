@@ -17,7 +17,7 @@ let make = (~answers, ~setAnswers) => {
   <View testID="choice-list">
     <S.Section title={t(. "election.new.choiceList.choices")} />
     {Array.mapWithIndex(answers, (i, name) => {
-      <ElectionNewChoiceItem
+      <Election_New_ChoiceItem
         name
         index={i + 1}
         key={Int.toString(i)}
