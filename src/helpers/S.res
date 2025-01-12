@@ -98,7 +98,7 @@ module SegmentedButtons = {
 
 module Button = {
   @react.component
-  let make = (~onPress, ~title, ~style=?, ~titleStyle=?, ~testID=?, ~disabled=?) => {
+  let make = (~onPress, ~title, ~style=?, ~titleStyle=?, ~testID=?, ~disabled=?, ~mode=#contained) => {
     let defaultStyle = viewStyle(
       ~alignSelf=#center,
       ~width=300.0->dp,
@@ -122,7 +122,7 @@ module Button = {
     | None => defaultTitleStyle
     }
 
-    <Button mode=#contained style onPress ?disabled>
+    <Button mode style onPress ?disabled>
       <Text style=titleStyle ?testID> {title->React.string} </Text>
     </Button>
   }
