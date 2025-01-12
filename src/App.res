@@ -76,5 +76,6 @@ let make = () => {
       Js.log(("Unknown route", route))
       <HomeView />
     }}
+    <View style=Style.viewStyle(~margin=60.0->Style.dp, ()) />
   </Layout>
 }
