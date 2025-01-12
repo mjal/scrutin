@@ -8,7 +8,7 @@ type t = {
   uuid: string,
   administrator?: string,
   credential_authority?: string,
-  unrestricted?: bool
+  access?: string
 }
 type serialized_t
 

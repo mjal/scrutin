@@ -12,20 +12,6 @@ let make = (~state: Election_New_State.t, ~dispatch) => {
     }
   }
 
-  let value = switch access {
-  | None => ""
-  | Some(#"open") => "open"
-  | Some(#"closed") => "closed"
-  }
-
-  let valueToAccess = x => {
-    switch x {
-    | "open" => Some(#"open")
-    | "closed" => Some(#"closed")
-    | _ => None
-    }
-  }
-
   <>
     <Header title="Nouvelle élection" subtitle="3/5" />
 
@@ -37,9 +23,9 @@ let make = (~state: Election_New_State.t, ~dispatch) => {
 
     <View style=Style.viewStyle(~padding=16.0->Style.dp, ())>
       <RadioButton.Group
-        value
+        value={Election_New_State.accessToString(access)}
         onValueChange={v => {
-          setAccess(_ => valueToAccess(v))
+          setAccess(_ => Election_New_State.stringToAccess(v))
           v
         }}
       >
