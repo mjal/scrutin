@@ -21,6 +21,11 @@ app.put("/:uuid", async (req, res) => {
   const { setup } = req.body;
 
   try {
+    const election = await knex("setup").select().where({ uuid }).first();
+    if (election) {
+      return res.status(401).json({ success: false, message: "Election already exists." });
+    }
+
     await knex("setup").insert({ uuid, setup });
     res.status(201).json({ success: true, uuid, setup });
   } catch (error) {
