@@ -3,6 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import Knex from "knex";
 import knexConfig from "./knexfile";
+import sendMail from "./sendMail"
+import { Credential } from "sirona"
 
 dotenv.config();
 const env = process.env.NODE_ENV || "development";
@@ -18,7 +20,16 @@ app.get("/", (_req, res) => {
 
 app.put("/:uuid", async (req, res) => {
   const { uuid } = req.params;
-  const { setup } = req.body;
+  const { emails, setup } = req.body;
+
+
+  // For email in emails
+  for (let email of emails) {
+    let priv = Credential.generatePriv()
+    let { pub } = Credential.derive(uuid, priv)
+    sendMail(email, uuid, "mytoken")
+    //sendMail("thomas.who@gmail.com", "myuuid", "mytoken")
+  }
 
   try {
     const election = await knex("setup").select().where({ uuid }).first();
