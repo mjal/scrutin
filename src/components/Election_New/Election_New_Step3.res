@@ -18,7 +18,7 @@ let make = (~state: Election_New_State.t, ~dispatch) => {
     <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
 
     <Title style=Style.textStyle(~color=Color.black, ~fontSize=40.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
-      { "Comment participer ?" -> React.string }
+      { "Comment on y participe ?" -> React.string }
     </Title>
 
     <View style=Style.viewStyle(~padding=16.0->Style.dp, ())>
@@ -40,7 +40,7 @@ let make = (~state: Election_New_State.t, ~dispatch) => {
                 (),
               )
             >
-              { "Participation ouverte"->React.string }
+              { "Participation par lien ouvert"->React.string }
             </Text>
           </View>
           <Text style=Style.textStyle(~color=Color.gray, ~marginLeft=36.0->Style.dp, ())>
