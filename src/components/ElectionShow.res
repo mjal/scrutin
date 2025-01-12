@@ -88,6 +88,15 @@ let make = (~electionData: ElectionData.t) => {
       }
     }
 
+    <S.Button
+      title="Administation: Dépouillement"
+      mode=#outlined
+      titleStyle=Style.textStyle(~color=Color.black, ())
+      onPress={_ => {
+        dispatch(Navigate(list{"elections", election.uuid, "tally"}))
+      }}
+    />  
+
     <View style={Style.viewStyle(~height=30.0->Style.dp, ())} />
   </>
 }
