@@ -2,7 +2,7 @@
 
 @react.component
 let make = (~electionData: ElectionData.t, ~state: Election_OpenBooth_State.t, ~dispatch) => {
-  let (_, globalDispatch) = StateContext.use()
+  let (_, _globalDispatch) = StateContext.use()
   let election = electionData.setup.election
 
   let vote = async _ => {
