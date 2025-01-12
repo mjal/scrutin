@@ -31,26 +31,26 @@ let make = () => {
         switch electionRoute {
         | list{} =>
           <ElectionShow electionData />
-        | list{"challenge", userToken} => // Unused
-          <ElectionChallenge electionData userToken />
-        | list{"token", secret} => // Unused
-          <ElectionToken electionData secret />
-        | list{"invite"} =>
-          <ElectionInvite electionData />
-        | list{"invite_link"} =>
-          <ElectionInviteLink electionData />
-        | list{"invite_email"} =>
-          <ElectionInviteEmail electionData />
-        | list{"invite_phone"} =>
-          <ElectionInvitePhone electionData />
-        | list{"invite_manage"} =>
-          <ElectionInviteManage electionData />
+        //| list{"challenge", userToken} => // Unused
+        //  <ElectionChallenge electionData userToken />
+        //| list{"token", secret} => // Unused
+        //  <ElectionToken electionData secret />
+        //| list{"invite"} =>
+        //  <ElectionInvite electionData />
+        //| list{"invite_link"} =>
+        //  <ElectionInviteLink electionData />
+        //| list{"invite_email"} =>
+        //  <ElectionInviteEmail electionData />
+        //| list{"invite_phone"} =>
+        //  <ElectionInvitePhone electionData />
+        //| list{"invite_manage"} =>
+        //  <ElectionInviteManage electionData />
         | list{"result"} =>
           <ElectionResult electionData />
         | list{"openbooth"} =>
           <Election_OpenBooth electionData />
-        | list{"avote"} =>
-          <ElectionAVote electionData />
+        //| list{"avote"} =>
+        //  <ElectionAVote electionData />
         | list{"tally"} =>
           <ElectionTally electionData />
         | route =>
@@ -59,14 +59,14 @@ let make = () => {
         }
       }
 
-    | list{"identities"} => <IdentityIndex />
-    | list{"identities", id} => <IdentityShow publicKey=id />
+    //| list{"identities"} => <IdentityIndex />
+    //| list{"identities", id} => <IdentityShow publicKey=id />
 
-    | list{"trustees"} => <TrusteeIndex />
-    | list{"events"} => <EventIndex />
-    | list{"contacts"} => <ContactIndex />
+    //| list{"trustees"} => <TrusteeIndex />
+    //| list{"events"} => <EventIndex />
+    //| list{"contacts"} => <ContactIndex />
 
-    | list{"settings"} => <SettingsView />
+    //| list{"settings"} => <SettingsView />
 
     | list{} | list{""} => <HomeView />
 
