@@ -15,9 +15,9 @@ export default async function(email: string, uuid: string, token: string) {
       const response = await sgMail.send({
         from: 'Scrutin <hello@scrutin-mailing.org>',
         to: email,
-        subject: "Vous êtes invité·e à une élection",
+        subject: "Vous êtes invité à une élection",
         text: `
-          Vous êtes invité·e à une élection.
+          Vous êtes invité à une élection.
           Cliquez ici pour voter :
           ${link}
         `})

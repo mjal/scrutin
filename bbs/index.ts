@@ -3,7 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import Knex from "knex";
 import knexConfig from "./knexfile";
-import sendMail from "./sendMail"
+import sendMailSMTP from "./sendMailSMTP"
+import sendMailSendgrid from "./sendMailSendgrid"
 import { Credential } from "sirona"
 
 dotenv.config();
@@ -27,8 +28,13 @@ app.put("/:uuid", async (req, res) => {
     let priv = Credential.generatePriv()
     let { pub } = Credential.derive(uuid, priv)
     setup.credentials.push(pub)
-    // TODO: Store uuid, email, pub(, priv?) in database
-    // sendMail(email, uuid, priv)
+
+    if (email.split("@")[1] == "deuxfleurs.fr") {
+      sendMailSMTP(email, uuid, priv)
+    } else {
+      sendMailSendgrid(email, uuid, priv)
+    }
+    // TODO: Store uuid, email, pub(, priv?) in database pour pouvoir les renvoyer/revoker ou regenerer
   }
 
   try {
