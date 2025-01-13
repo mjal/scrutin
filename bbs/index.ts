@@ -5,6 +5,7 @@ import Knex from "knex";
 import knexConfig from "./knexfile";
 import sendMailSMTP from "./sendMailSMTP"
 import sendMailSendgrid from "./sendMailSendgrid"
+import { promises as fs } from "fs"
 import { Credential } from "sirona"
 
 dotenv.config();
@@ -24,17 +25,30 @@ app.put("/:uuid", async (req, res) => {
   let { emails, setup } = req.body;
 
   // For email in emails
-  for (let email of emails) {
+  for (let to of emails) {
     let priv = Credential.generatePriv()
     let { pub } = Credential.derive(uuid, priv)
     setup.credentials.push(pub)
 
-    if (email.split("@")[1] == "deuxfleurs.fr") {
-      sendMailSMTP(email, uuid, priv)
-    } else {
-      sendMailSendgrid(email, uuid, priv)
-    }
+	  let link = `${process.env.BASE_URL}/elections/${uuid}/closedbooth#${priv}`
+    let subject = "Vous êtes invité à une élection";
+    let text = `Vous êtes invité à une élection.
+Cliquez ici pour voter :
+${link}`
+
     // TODO: Store uuid, email, pub(, priv?) in database pour pouvoir les renvoyer/revoker ou regenerer
+    if (env === 'production') {
+      if (to.split("@")[1] == "deuxfleurs.fr") {
+        let from = 'Scrutin <contact@scrutin.app>'
+        sendMailSMTP(from, to, subject, text)
+      } else {
+        let from = 'Scrutin <hello@scrutin-mailing.org>'
+        sendMailSendgrid(from, to, subject, text)
+      }
+    } else {
+      await fs.mkdir("emails", { recursive: true })
+      await fs.writeFile("emails/"+to, text)
+    }
   }
 
   try {
