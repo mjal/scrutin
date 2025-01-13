@@ -7,7 +7,7 @@ const env = process.env.NODE_ENV || "development";
 
 export default async function(email: string, uuid: string, token: string) {
 	let link = `${process.env.BASE_URL}/elections/${uuid}/closedbooth#${token}`
-  if (1) {//env === 'production') {
+  if (env === 'production') {
     if (process.env.SENDGRID_API_KEY) {
       sgMail.setApiKey(process.env.SENDGRID_API_KEY)
     }

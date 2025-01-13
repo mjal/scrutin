@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 
 export default async function(email: string, uuid: string, token: string) {
 	let link = `${process.env.BASE_URL}/elections/${uuid}/closedbooth#${token}`
-  if (1) {//env === 'production') {
+  if (env === 'production') {
     try {
       const response = await transporter.sendMail({
         from: process.env.SMTP_FROM,
@@ -38,9 +38,7 @@ export default async function(email: string, uuid: string, token: string) {
   } else {
     await fs.mkdir("emails", { recursive: true })
     await fs.writeFile("emails/"+email, JSON.stringify({
-      uuid,
-      token,
-      link
+      uuid, token, link
     }));
     console.log("mail written to disk")
   }
