@@ -1,7 +1,15 @@
 @react.component
-let make = (~electionData: ElectionData.t, ~state: Election_OpenBooth_State.t, ~dispatch) => {
+let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setState) => {
   let _ = (electionData, state)
   let (name, setName) = React.useState(_ => "")
+
+  let next = _ => {
+    setState(_ => {
+      ...state,
+      step: Step3,
+      name: Some(name),
+    })
+  }
 
   <>
     <Header title="S'identifier" />
@@ -19,10 +27,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_OpenBooth_State.t, ~
   
     <S.Button
       title="Valider"
-      onPress={_ => {
-        dispatch(Election_OpenBooth_State.SetName(name))
-        dispatch(Election_OpenBooth_State.SetStep(Step3))
-      }}
+      onPress=next
     />
   </>
 }

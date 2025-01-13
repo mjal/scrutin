@@ -49,8 +49,8 @@ let make = () => {
         //  <ElectionInviteManage electionData />
         | list{"result"} =>
           <ElectionResult electionData />
-        | list{"openbooth"} =>
-          <Election_OpenBooth electionData />
+        | list{"booth"} =>
+          <Election_Booth electionData />
         //| list{"avote"} =>
         //  <ElectionAVote electionData />
         | list{"tally"} =>

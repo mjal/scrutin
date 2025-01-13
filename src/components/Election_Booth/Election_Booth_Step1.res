@@ -1,8 +1,25 @@
 @react.component
-let make = (~electionData: ElectionData.t, ~state: Election_OpenBooth_State.t, ~dispatch) => {
+let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setState) => {
   let _ = state
   let { setup } = electionData
   let { election } = setup
+
+
+  let getSecret = () => {
+    if ReactNative.Platform.os == #web {
+      let url = RescriptReactRouter.dangerouslyGetInitialUrl()
+      if String.length(url.hash) > 12 { Some(url.hash) } else { None }
+    } else {
+      None
+    }
+  }
+
+  let next = _ => {
+    setState(_ => {
+      ...state,
+      step: Step2
+    })
+  }
 
   <>
     <Header title="Participer à l'élection" />
@@ -19,7 +36,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_OpenBooth_State.t, ~
 
     <S.Button
       title="Je participe"
-      onPress={_ => dispatch(Election_OpenBooth_State.SetStep(Step2))}
+      onPress=next
     />
   </>
 }

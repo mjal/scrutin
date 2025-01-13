@@ -1,7 +1,7 @@
 // TODO: Monitor the voting request (loading screen?)
 
 @react.component
-let make = (~electionData: ElectionData.t, ~state: Election_OpenBooth_State.t, ~dispatch) => {
+let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setState) => {
   let (_, _globalDispatch) = StateContext.use()
   let election = electionData.setup.election
 
@@ -31,8 +31,13 @@ let make = (~electionData: ElectionData.t, ~state: Election_OpenBooth_State.t, ~
       ("ballot", Ballot.toJSON(ballot)),
       ("election_uuid", Js.Json.string(election.uuid))
     ]))
+
     let _response = await X.post(`${URL.bbs_url}/${election.uuid}/ballots`, obj)
-    dispatch(Election_OpenBooth_State.SetStep(Step5))
+
+    setState(_ => {
+      ...state,
+      step: Step5
+    })
   }
 
   <>

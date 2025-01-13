@@ -1,7 +1,7 @@
 @react.component
-let make = (~electionData: ElectionData.t, ~state: Election_OpenBooth_State.t, ~dispatch) => {
+let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setState) => {
   let (_, globalDispatch) = StateContext.use()
-  let _ = (state, dispatch)
+  let _ = (state, setState)
   let election = electionData.setup.election
 
   <>

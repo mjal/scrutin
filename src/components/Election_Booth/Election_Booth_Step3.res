@@ -13,10 +13,18 @@ module Choice = {
 }
 
 @react.component
-let make = (~electionData: ElectionData.t, ~state: Election_OpenBooth_State.t, ~dispatch) => {
+let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setState) => {
   let _ = state
   let election = electionData.setup.election
   let (choice, setChoice) = React.useState(_ => None)
+
+  let next = _ => {
+    setState(_ => {
+      ...state,
+      choice,
+      step: Step4
+    })
+  }
 
   <>
     <Header title="Mon choix" />
@@ -53,10 +61,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_OpenBooth_State.t, ~
 
     <S.Button
       title="Confirmer mon choix"
-      onPress={_ => {
-        dispatch(Election_OpenBooth_State.SetChoice(choice))
-        dispatch(Election_OpenBooth_State.SetStep(Step4))
-      }}
+      onPress=next
     />
   </>
 }

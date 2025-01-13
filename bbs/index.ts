@@ -30,7 +30,7 @@ app.put("/:uuid", async (req, res) => {
     let { pub } = Credential.derive(uuid, priv)
     setup.credentials.push(pub)
 
-	  let link = `${process.env.BASE_URL}/elections/${uuid}/closedbooth#${priv}`
+	  let link = `${process.env.BASE_URL}/elections/${uuid}/booth#${priv}`
     let subject = "Vous êtes invité à une élection";
     let text = `Vous êtes invité à une élection.
 Cliquez ici pour voter :
