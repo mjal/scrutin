@@ -21,8 +21,6 @@ const transporter = nodemailer.createTransport({
 export default async function(email: string, uuid: string, token: string) {
 	let link = `${process.env.BASE_URL}/elections/${uuid}/closedbooth#${token}`
   if (1) {//env === 'production') {
-    console.log("FROM");
-    console.log(process.env.SMTP_FROM);
     try {
       const response = await transporter.sendMail({
         from: process.env.SMTP_FROM,
