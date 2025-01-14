@@ -51,6 +51,10 @@ let make = (~state: Election_New_State.t, ~setState) => {
         <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
           { "Le mot de passe a été sauvegardé sur cet appareil." -> React.string }
         </Text>
+
+        <Text style={S.flatten([S.title, Style.textStyle(~color=Color.orange, ()), Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+          { "Vous devrez utiliser cet appareil lors du dépouillement." -> React.string }
+        </Text>
       </>
     | Some(#file) =>
       let download = async _ => {
