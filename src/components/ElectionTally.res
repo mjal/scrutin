@@ -1,7 +1,7 @@
 @react.component
 let make = (~electionData: ElectionData.t) => {
   let { setup, ballots } = electionData
-  let { election } = setup
+  let { credentials, election } = setup
   let (_state, dispatch) = StateContext.use()
   let (passphrase, setPassphrase) = React.useState(_ => "")
 
@@ -52,6 +52,43 @@ let make = (~electionData: ElectionData.t) => {
 
   <>
     <ElectionHeader election />
+
+    <View style={Style.viewStyle(~height=20.0->Style.dp, ())} />
+
+    <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+    { 
+      let nBallot = Int.toString(Array.length(ballots))
+      `${nBallot} bulletin(s) dans l'urne.` -> React.string
+    }
+    </Text>
+
+    <View style={Style.viewStyle(~height=20.0->Style.dp, ())} />
+
+    { 
+      Array.map(ballots, (ballot) => {
+        let color = if Array.some(credentials, (c) => c == ballot.credential) {
+          Color.green
+        } else {
+          Color.orange
+        }
+        <>
+          // NOTE: Arf name are not stored, cause not on ballots...
+          //{ if ballot.name != "" {
+          //  <Text style=Style.textStyle(~color=Color.black, ~fontWeight=Style.FontWeight.bold, ())>
+          //    { `Name: ${ballot.name}`->React.string }
+          //  </Text>
+          //}
+          <Text style=Style.textStyle(~color, ~fontWeight=Style.FontWeight.bold, ())>
+            { `Credential: ${ballot.credential}`->React.string }
+          </Text>
+
+          <Text style=Style.textStyle(~color=Color.black, ~fontWeight=Style.FontWeight.bold, ())>
+            { `Condensat: ${ballot.signature.hash}`->React.string }
+          </Text>
+          <View style={Style.viewStyle(~height=20.0->Style.dp, ())} />
+        </>
+      }) -> React.array
+    }
 
     <View style={Style.viewStyle(~height=20.0->Style.dp, ())} />
 

@@ -3,7 +3,7 @@ type t = {
   step: step,
   name: option<string>,
   choice: option<int>,
-  priv: option<BigInt.t>
+  priv: option<string>
 }
 
 let empty = { step: Step1, name: None, choice: None, priv: None }

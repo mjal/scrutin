@@ -4,7 +4,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
   let election = electionData.setup.election
 
   let vote = async _ => {
-    let name = Option.getExn(state.name)
+    let name = Option.getWithDefault(state.name, "")
     let choices = Array.mapWithIndex(election.questions, (_j, question) => {
       Array.mapWithIndex(question.answers, (i, _name) => {
         switch state.choice {
@@ -13,17 +13,28 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
         }
       })
     })
-    let priv = Credential.generatePriv()
-    let { pub } = Credential.derive(election.uuid, priv)
-    let setup = {
-      ...electionData.setup,
-      credentials: Array.concat(electionData.setup.credentials, [pub])
+
+    let ballot = switch state.priv {
+    | Some(priv) =>
+      Ballot.generate(
+        electionData.setup,
+        priv,
+        choices
+      )
+    | None =>
+      let priv = Credential.generatePriv()
+      let { pub } = Credential.derive(election.uuid, priv)
+      let setup = {
+        ...electionData.setup,
+        credentials: Array.concat(electionData.setup.credentials, [pub])
+      }
+      Ballot.generate(
+        setup,
+        priv,
+        choices
+      )
     }
-    let ballot = Ballot.generate(
-      setup,
-      priv,
-      choices
-    )
+
     let obj: Js.Json.t = Js.Json.object_(Js.Dict.fromArray([
       ("name", Js.Json.string(name)),
       ("ballot", Ballot.toJSON(ballot)),

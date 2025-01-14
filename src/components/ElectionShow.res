@@ -83,7 +83,7 @@ let make = (~electionData: ElectionData.t) => {
           onPress={_ => {
             dispatch(Navigate(list{"elections", election.uuid, "share"}))
           }}
-        />  
+        />
       | _ => <></>
       }
     }
@@ -95,7 +95,7 @@ let make = (~electionData: ElectionData.t) => {
       onPress={_ => {
         dispatch(Navigate(list{"elections", election.uuid, "tally"}))
       }}
-    />  
+    />
 
     <View style={Style.viewStyle(~height=30.0->Style.dp, ())} />
   </>

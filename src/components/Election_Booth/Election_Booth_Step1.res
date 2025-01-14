@@ -19,9 +19,9 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
   })
 
   let priv = secret->Option.flatMap((secret) => {
-    let { pub, priv } = Credential.derive(election.uuid, secret)
+    let { pub } = Credential.derive(election.uuid, secret)
     if Array.some(credentials, (c) => c == pub) {
-      Some(priv)
+      Some(secret)
     } else {
       None
     }
