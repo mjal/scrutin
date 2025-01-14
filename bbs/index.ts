@@ -31,8 +31,8 @@ app.put("/:uuid", async (req, res) => {
     setup.credentials.push(pub)
 
 	  let link = `${process.env.BASE_URL}/elections/${uuid}/booth#${priv}`
-    let subject = "Vous êtes invité à une élection";
-    let text = `Vous êtes invité à une élection.
+    let subject = "Vous êtes invité·e à une élection";
+    let text = `Vous êtes invité·e à une élection.
 Cliquez ici pour voter :
 ${link}`
 

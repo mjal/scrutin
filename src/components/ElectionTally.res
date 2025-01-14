@@ -56,7 +56,7 @@ let make = (~electionData: ElectionData.t) => {
     <View style={Style.viewStyle(~height=20.0->Style.dp, ())} />
 
     <Title>
-      { "Entrer votre clé de gardien" -> React.string }
+      { "Entrez votre clé de gardien" -> React.string }
     </Title>
 
     <S.TextInput
