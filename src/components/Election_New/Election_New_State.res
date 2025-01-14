@@ -1,5 +1,3 @@
-// TODO: Replace reducer by a simple useState
-
 type access = [#"open" | #closed]
 let accessToString = (access) => {
   switch access {
