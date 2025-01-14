@@ -55,7 +55,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
     <Title style=Style.textStyle(~alignSelf=#center, ~color=Color.black, ~fontSize=40.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
       { "Êtes-vous sûr·e ?" -> React.string }
     </Title>
-  
+
     <S.Button
       title="Valider et envoyer"
       onPress={_ => {
