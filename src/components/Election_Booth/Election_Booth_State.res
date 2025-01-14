@@ -3,6 +3,7 @@ type t = {
   step: step,
   name: option<string>,
   choice: option<int>,
+  priv: option<BigInt.t>
 }
 
-let empty = { step: Step1, name: None, choice: None }
+let empty = { step: Step1, name: None, choice: None, priv: None }
