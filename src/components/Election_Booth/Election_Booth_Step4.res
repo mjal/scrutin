@@ -1,5 +1,3 @@
-// TODO: Monitor the voting request (loading screen?)
-
 @react.component
 let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setState) => {
   let (_, _globalDispatch) = StateContext.use()
