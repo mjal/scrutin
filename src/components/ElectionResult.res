@@ -36,10 +36,14 @@ let make = (~electionData: ElectionData.t) => {
 
     {Array.mapWithIndex(election.questions, (i, question) => {
       <View key={Int.toString(i)}>
+        <Text style=Style.textStyle(~fontSize=30.0, ())>
+          { question.question -> React.string }
+        </Text>
       {
         let row = Array.getExn(result, i)
         let total = Array.reduce(row, 0, (a, b) => a + b)
         let max = Array.reduce(row, 0, (a, b) => a > b ? a : b)
+
         {Array.mapWithIndex(question.answers, (j, name) => {
           let count = Array.getExn(row, j)
           let progress = Int.toFloat(count) /. Int.toFloat(total)
@@ -47,7 +51,7 @@ let make = (~electionData: ElectionData.t) => {
           <View
             style=Style.viewStyle(~marginBottom=30.0->Style.dp, ())
             key={Int.toString(i) ++ "-" ++ Int.toString(j)} >
-            <Text style=Style.textStyle(~fontSize=30.0, ())>
+            <Text style=Style.textStyle(~fontSize=20.0, ())>
               { name -> React.string }
             </Text>
             <View style=Style.viewStyle(~position=#relative, ~marginBottom=15.0->Style.dp, ())>
@@ -83,6 +87,7 @@ let make = (~electionData: ElectionData.t) => {
           </View>
         })->React.array}
       }
+      <View style=Style.viewStyle(~marginTop=30.0->Style.dp, ()) />
       </View>
     })->React.array}
   </>
