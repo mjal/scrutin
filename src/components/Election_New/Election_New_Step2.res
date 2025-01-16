@@ -2,7 +2,7 @@
 let make = (~state: Election_New_State.t, ~setState) => {
   let {t} = ReactI18next.useTranslation()
 
-  let question = "Question"
+  let (question, setQuestion) = React.useState(_ => "")
   let (answers, setAnswers) = React.useState(_ => ["", ""])
 
   let next = _ => {
@@ -21,6 +21,8 @@ let make = (~state: Election_New_State.t, ~setState) => {
     let question : QuestionH.t =  {
       question, answers, min: 1, max: 1
     }
+    setQuestion(_ => "")
+    setAnswers(_ => ["", ""])
     setState(_ => {
       ...state,
       step: Step2,
@@ -38,6 +40,16 @@ let make = (~state: Election_New_State.t, ~setState) => {
         { state.title->Option.getWithDefault("")->React.string }
       </Title>
     </View>
+
+    <S.Section title="Nom de la question (optionnel)" />
+
+    <S.TextInput
+      testID="election-question"
+      value=question
+      placeholder="Ma question"
+      placeholderTextColor="#bbb"
+      onChangeText={text => setQuestion(_ => text)}
+    />
 
     <Election_New_ChoiceList answers setAnswers />
 
