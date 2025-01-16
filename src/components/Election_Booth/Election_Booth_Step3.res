@@ -16,12 +16,13 @@ module Choice = {
 let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setState) => {
   let _ = state
   let election = electionData.setup.election
-  let (choice, setChoice) = React.useState(_ => None)
+  let nQuestions = Array.length(election.questions)
+  let (choices, setChoices) = React.useState(_ => Array.init(nQuestions, _ => None))
 
   let next = _ => {
     setState(_ => {
       ...state,
-      choice,
+      choices: Some(choices),
       step: Step4
     })
   }
@@ -30,13 +31,22 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
     <Header title="Mon choix" />
 
     {Array.mapWithIndex(election.questions, (j, question) => {
+      let choice = Array.getExn(choices, j)
       <View style=S.questionBox key={Int.toString(j)}>
         <S.Section title=question.question />
         {Array.mapWithIndex(question.answers, (i, name) => {
+          let onSelect = _ => {
+            let choices = Array.mapWithIndex(choices, (k, c) => {
+              if j == k {
+                Some(i)
+              } else {
+                c
+              }
+            })
+            setChoices(_ => choices)
+          }
           let selected = choice == Some(i)
-          <Choice
-            name selected key={Int.toString(i)} onSelect={_ => setChoice(_ => Some(i))}
-          />
+          <Choice name selected key={Int.toString(i)} onSelect />
         })->React.array}
       </View>
     })->React.array}

@@ -5,9 +5,9 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
 
   let vote = async _ => {
     let name = Option.getWithDefault(state.name, "")
-    let choices = Array.mapWithIndex(election.questions, (_j, question) => {
+    let choices = Array.mapWithIndex(election.questions, (j, question) => {
       Array.mapWithIndex(question.answers, (i, _name) => {
-        switch state.choice {
+        switch Array.getExn(Option.getExn(state.choices), j) {
             | None => 0
             | Some(n) => (i == n) ? 1 : 0
         }
