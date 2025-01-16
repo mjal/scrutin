@@ -21,8 +21,10 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
     </Title>
   
     <S.TextInput placeholder="Votre nom"
+      autoFocus=true
       value=name
       onChangeText={text => setName(_ => text)}
+      onSubmitEditing=next
     />
   
     <S.Button
