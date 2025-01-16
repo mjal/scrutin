@@ -121,13 +121,11 @@ let make = (~state: Election_New_State.t, ~setState) => {
           titleStyle=Style.textStyle(~color=Color.black, ())
           mode=#outlined
           onPress={_ => setPolicy(_ => None)}
-          //style=Style.viewStyle(~width=120.0->Style.dp, ())
         />
 
         <S.Button
           title={t(. "election.new.next")}
           onPress={_ => create()->ignore}
-          //style=Style.viewStyle(~width=120.0->Style.dp, ())
         />
       </View>
     } }

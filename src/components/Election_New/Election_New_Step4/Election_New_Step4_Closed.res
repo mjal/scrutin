@@ -35,10 +35,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
       onChangeText={text => setEmails(_ => text)}
     />
 
-    <S.Button
-      title={t(. "election.new.next")}
-      onPress=next
-      />
+    <Election_New_Previous_Next next previous={_ => setState(_ => {...state, step: Step3})} />
   </>
 }
 

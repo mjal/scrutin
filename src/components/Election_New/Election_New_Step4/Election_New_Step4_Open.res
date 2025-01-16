@@ -18,9 +18,6 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
     <Text>{ "Vous pourrez partager un lien permettant de voter" -> React.string }</Text>
 
-    <S.Button
-      title={t(. "election.new.next")}
-      onPress=next
-      />
+    <Election_New_Previous_Next next previous={_ => setState(_ => {...state, step: Step3})} />
   </>
 }

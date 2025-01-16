@@ -1,7 +1,5 @@
 @react.component
 let make = (~state: Election_New_State.t, ~setState) => {
-  let { t } = ReactI18next.useTranslation()
-  let _ = state
   let (access, setAccess) = React.useState(_ => None)
 
   let next = _ => {
@@ -9,12 +7,10 @@ let make = (~state: Election_New_State.t, ~setState) => {
     | Some(#closed) => Election_New_State.Step4
     | _ => Election_New_State.Step5
     }
-    setState(_ => {
-      ...state,
-      access,
-      step
-    })
+    setState(_ => {...state, access, step})
   }
+
+  let previous = _ => setState(_ => {...state, step: Step2})
 
   <>
     <Header title="Nouvelle élection" subtitle="3/5" />
@@ -81,9 +77,6 @@ let make = (~state: Election_New_State.t, ~setState) => {
       </RadioButton.Group>
     </View>
 
-    <S.Button
-      title={t(. "election.new.next")}
-      onPress=next
-      />
+    <Election_New_Previous_Next next previous />
   </>
 }

@@ -17,6 +17,19 @@ let make = (~state: Election_New_State.t, ~setState) => {
     })
   }
 
+  let newQuestion = _ => {
+    let question : QuestionH.t =  {
+      question, answers, min: 1, max: 1
+    }
+    setState(_ => {
+      ...state,
+      step: Step2,
+      questions: state.questions->Array.concat([question])
+    })
+  }
+
+  let previous = _ => setState(_ => {...state, step: Step1})
+
   <>
     <Header title="Nouvelle élection" subtitle="2/5" />
 
@@ -28,10 +41,6 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
     <Election_New_ChoiceList answers setAnswers />
 
-    <S.Button
-      title={t(. "election.new.next")}
-      disabled=(!Array.every(answers, (a) => a != ""))
-      onPress=next
-      />
+    <Election_New_Previous_NewQuestion_Next next newQuestion previous />
   </>
 }
