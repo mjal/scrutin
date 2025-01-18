@@ -1,6 +1,6 @@
 @react.component
 let make = (~title, ~answers, ~setAnswers) => {
-  let {t} = ReactI18next.useTranslation()
+  // let {t} = ReactI18next.useTranslation()
 
   let onRemove = i => {
     setAnswers(answers => Array.keepWithIndex(answers, (_name, index) => index != i))
