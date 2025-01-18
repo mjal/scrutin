@@ -1,6 +1,6 @@
 @react.component
 let make = (~state: Election_New_State.t, ~setState) => {
-  let {t} = ReactI18next.useTranslation()
+  let { t } = ReactI18next.useTranslation()
 
   let (question, setQuestion) = React.useState(_ => "")
   let (answers, setAnswers) = React.useState(_ => ["", ""])
@@ -51,7 +51,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
       onChangeText={text => setQuestion(_ => text)}
     />
 
-    <Election_New_ChoiceList answers setAnswers />
+    <Election_New_ChoiceList answers setAnswers title={t(. "election.new.choiceList.choices")} />
 
     <Election_New_Previous_NewQuestion_Next next newQuestion previous />
   </>

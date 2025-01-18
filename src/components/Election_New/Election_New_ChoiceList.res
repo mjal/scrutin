@@ -1,5 +1,5 @@
 @react.component
-let make = (~answers, ~setAnswers) => {
+let make = (~title, ~answers, ~setAnswers) => {
   let {t} = ReactI18next.useTranslation()
 
   let onRemove = i => {
@@ -15,7 +15,7 @@ let make = (~answers, ~setAnswers) => {
   }
 
   <View testID="choice-list">
-    <S.Section title={t(. "election.new.choiceList.choices")} />
+    <S.Section title />
     {Array.mapWithIndex(answers, (i, name) => {
       <Election_New_ChoiceItem
         name
