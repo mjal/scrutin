@@ -99,7 +99,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
               />
             } else {
               <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-                { `L'élection commencera à ${Js.Date.toTimeString(Option.getExn(election.startDate))}.` -> React.string }
+                { `L'élection commence le ${Js.Date.toDateString(Option.getExn(election.startDate))}.` -> React.string }
               </Text>
             }}
           //| _ => <></>
