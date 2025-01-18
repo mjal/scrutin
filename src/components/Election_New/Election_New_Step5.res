@@ -19,7 +19,14 @@ let make = (~state: Election_New_State.t, ~setState) => {
   })
   let access = Option.getWithDefault(state.access, #"open")
   let votingMethod = Option.getWithDefault(state.votingMethod, #uninominal)
-  let election = {...election, access, votingMethod}
+
+  let election = {
+    ...election,
+    access,
+    votingMethod,
+    startDate: ?state.startDate,
+    endDate: ?state.endDate,
+  }
 
   let create = async _ => {
     let setup : Setup.t = {

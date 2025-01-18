@@ -41,11 +41,24 @@ let make = (~electionData: ElectionData.t) => {
     </View>
 
     <Text style=Style.textStyle(~color=Color.black, ~fontWeight=Style.FontWeight.bold, ())>
-      { "Date de début: Non définie"->React.string }
+    {
+      Js.log(election)
+      let dateToString = switch election.startDate {
+      | Some(startDate) => Js.Date.toTimeString(startDate)
+      | None => "Non définie"
+      }
+      `Date de début: ${dateToString}`->React.string
+    }
     </Text>
 
     <Text style=Style.textStyle(~color=Color.black, ~fontWeight=Style.FontWeight.bold, ())>
-      { "Date de fin: Non définie"->React.string }
+    {
+      let dateToString = switch election.endDate {
+      | Some(startDate) => Js.Date.toUTCString(startDate)
+      | None => "Non définie"
+      }
+      `Date de fin: ${dateToString}`->React.string
+    }
     </Text>
 
     <Text>

@@ -41,6 +41,11 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
     })
   }
 
+  let started = switch election.startDate {
+  | Some(startDate) => startDate < Js.Date.fromFloat(Js.Date.now())
+  | None => true
+  }
+
   <>
     <Header title="Participer à l'élection" />
 
@@ -68,10 +73,16 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
               { "Vous êtes invité·e à voter à cette élection." -> React.string }
             </Text>
 
-            <S.Button
-              title="Je participe"
-              onPress=next
-            />
+            { if started {
+              <S.Button
+                title="Je participe"
+                onPress=next
+              />
+            } else {
+              <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+                { `L'élection commencera à ${Js.Date.toTimeString(Option.getExn(election.startDate))}.` -> React.string }
+              </Text>
+            }}
           </>
         }
       | None =>
@@ -81,10 +92,16 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
           </Text>
           //{ switch election.access {
           //| Some("open") =>
-            <S.Button
-              title="Participer en tant qu'invité·e"
-              onPress=next
-            />
+            { if started {
+              <S.Button
+                title="Participer en tant qu'invité·e"
+                onPress=next
+              />
+            } else {
+              <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+                { `L'élection commencera à ${Js.Date.toTimeString(Option.getExn(election.startDate))}.` -> React.string }
+              </Text>
+            }}
           //| _ => <></>
           //} }
         </>

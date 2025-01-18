@@ -4,6 +4,7 @@ let make = () => {
 
   switch (state.step) {
   | Step0 => <Election_New_Step0 state setState />
+  | Step0b => <Election_New_Step0b state setState />
   | Step1 => <Election_New_Step1 state setState />
   | Step2 =>
     switch state.votingMethod {

@@ -46,7 +46,9 @@ type t = {
   administrator?: string,
   credential_authority?: string,
   access?: access,
-  votingMethod?: votingMethod
+  votingMethod?: votingMethod,
+  startDate?: Js.Date.t,
+  endDate?: Js.Date.t
 }
 type serialized_t
 

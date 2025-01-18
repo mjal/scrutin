@@ -14,9 +14,29 @@ type serialized_t = {
   result: option<Result_.t>
 }
 
+type election_dates_t = { startDate?: string, endDate?: string }
 let parse = (o: serialized_t) : t => {
+  let dates : election_dates_t = Obj.magic(o.setup.election)
+  let startDate = switch dates.startDate {
+  | Some(str) => Some(Js.Date.fromString(str))
+  | None => None
+  }
+  let endDate = switch dates.endDate {
+  | Some(str) => Some(Js.Date.fromString(str))
+  | None => None
+  }
+  let setup = Setup.parse(o.setup)
+  let setup = {
+    ...setup,
+    election: {
+      ...setup.election,
+      ?startDate,
+      ?endDate
+    }
+  }
+
   {
-    setup: Setup.parse(o.setup),
+    setup,
     ballots: o.ballots,
     encryptedTally: o.encryptedTally,
     partialDecryptions: o.partialDecryptions,

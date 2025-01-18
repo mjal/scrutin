@@ -6,7 +6,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
   let next = _ => {
     setState(_ => {
       ...state,
-      step: Step1,
+      step: Step0b,
       title: Some(title),
     })
   }
