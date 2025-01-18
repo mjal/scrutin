@@ -1,5 +1,6 @@
 @react.component
 let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setState) => {
+  let _ = (state, setState)
   let (_, globalDispatch) = StateContext.use()
   let election = electionData.setup.election
 

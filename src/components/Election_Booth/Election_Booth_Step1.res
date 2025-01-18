@@ -1,8 +1,9 @@
 @react.component
 let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setState) => {
   let _ = state
-  let { setup } = electionData
+  let { setup, result } = electionData
   let { credentials, election } = setup
+  let ( _, globalDispatch ) = StateContext.use()
 
 
   let getSecret = () => {
@@ -50,32 +51,48 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
       { `${election.name}`->React.string }
     </Title>
 
-    { switch priv {
+    { switch result {
+    | None =>
+      { switch priv {
+      | Some(_) =>
+        <>
+          <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+            { "Vous êtes invité·e à voter à cette élection." -> React.string }
+          </Text>
+
+          <S.Button
+            title="Je participe"
+            onPress=next
+          />
+        </>
+      | None =>
+        <>
+          <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+            { "Vous n'avez pas d'invitation pour cette élection." -> React.string }
+          </Text>
+          //{ switch election.access {
+          //| Some("open") =>
+            <S.Button
+              title="Participer en tant qu'invité·e"
+              onPress=next
+            />
+          //| _ => <></>
+          //} }
+        </>
+      } }
     | Some(_) =>
       <>
-        <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-          { "Vous êtes invité·e à voter à cette élection." -> React.string }
+        <Text style={S.flatten([S.title, Style.viewStyle(~margin=30.0->Style.dp, ())])}>
+          { "Cette élection est terminée." -> React.string }
         </Text>
 
         <S.Button
-          title="Je participe"
-          onPress=next
+          title="Page de l'élection"
+          onPress={_ => {
+            globalDispatch(Navigate(list{"elections", election.uuid}))
+          }}
         />
       </>
-    | None =>
-      <>
-        <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-          { "Vous n'avez pas d'invitation pour cette élection." -> React.string }
-        </Text>
-        //{ switch election.access {
-        //| Some("open") =>
-          <S.Button
-            title="Participer en tant qu'invité·e"
-            onPress=next
-          />
-        //| _ => <></>
-        //} }
-      </>
-    } }
+    }}
   </>
 }
