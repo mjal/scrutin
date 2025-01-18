@@ -64,7 +64,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
       {
         switch endDate {
         | Some(endDate) =>
-          `Date de fin: ${Js.Date.toUTCString(endDate)}.` -> React.string
+          `Date de fin: ${Js.Date.toLocaleString(endDate)}.` -> React.string
         | None => `Sans date de fin (optionnelle)` -> React.string
         }
       }

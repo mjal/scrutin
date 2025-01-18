@@ -44,7 +44,7 @@ let make = (~electionData: ElectionData.t) => {
     {
       Js.log(election)
       let dateToString = switch election.startDate {
-      | Some(startDate) => Js.Date.toTimeString(startDate)
+      | Some(startDate) => Js.Date.toLocaleString(startDate)
       | None => "Non définie"
       }
       `Date de début: ${dateToString}`->React.string
@@ -54,7 +54,7 @@ let make = (~electionData: ElectionData.t) => {
     <Text style=Style.textStyle(~color=Color.black, ~fontWeight=Style.FontWeight.bold, ())>
     {
       let dateToString = switch election.endDate {
-      | Some(startDate) => Js.Date.toUTCString(startDate)
+      | Some(startDate) => Js.Date.toLocaleString(startDate)
       | None => "Non définie"
       }
       `Date de fin: ${dateToString}`->React.string
