@@ -17,8 +17,9 @@ let make = (~state: Election_New_State.t, ~setState) => {
   let election = React.useMemo(() => {
     Election.create(description, Option.getExn(title), trustees, questions)
   })
-  let access = Election_New_State.accessToString(state.access)
-  let election = {...election, access}
+  let access = Option.getWithDefault(state.access, #"open")
+  let votingMethod = Option.getWithDefault(state.votingMethod, #uninominal)
+  let election = {...election, access, votingMethod}
 
   let create = async _ => {
     let setup : Setup.t = {

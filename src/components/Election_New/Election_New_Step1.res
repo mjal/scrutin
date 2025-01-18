@@ -29,9 +29,9 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
     <View style=Style.viewStyle(~padding=16.0->Style.dp, ())>
       <RadioButton.Group
-        value={Election_New_State.votingMethodToString(votingMethod)}
+        value={Election.votingMethodToString(votingMethod)}
         onValueChange={v => {
-          setVotingMethod(_ => Election_New_State.stringToVotingMethod(v))
+          setVotingMethod(_ => Election.stringToVotingMethod(v))
           v
         }}
       >

@@ -23,9 +23,9 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
     <View style=Style.viewStyle(~padding=16.0->Style.dp, ())>
       <RadioButton.Group
-        value={Election_New_State.accessToString(access)}
+        value={Election.accessToString(access)}
         onValueChange={v => {
-          setAccess(_ => Election_New_State.stringToAccess(v))
+          setAccess(_ => Election.stringToAccess(v))
           v
         }}
       >

@@ -77,7 +77,7 @@ let make = (~electionData: ElectionData.t) => {
 
     {
       switch election.access {
-      | Some("open") =>
+      | Some(#"open") =>
         <S.Button
           title="Partager un lien d'accès"
           onPress={_ => {
