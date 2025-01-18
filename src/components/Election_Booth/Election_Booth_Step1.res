@@ -1,7 +1,7 @@
 @react.component
 let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setState) => {
   let _ = state
-  let { setup, result } = electionData
+  let { setup, result, ballots } = electionData
   let { credentials, election } = setup
   let ( _, globalDispatch ) = StateContext.use()
 
@@ -19,10 +19,11 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
     getSecret()
   })
 
-  let priv = secret->Option.flatMap((secret) => {
-    let { pub } = Credential.derive(election.uuid, secret)
+  let pub = Option.flatMap(secret, (secret) => Some(Credential.derive(election.uuid, secret).pub))
+
+  let priv = pub->Option.flatMap((pub) => {
     if Array.some(credentials, (c) => c == pub) {
-      Some(secret)
+      secret
     } else {
       None
     }
@@ -55,16 +56,29 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
     | None =>
       { switch priv {
       | Some(_) =>
-        <>
-          <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-            { "Vous êtes invité·e à voter à cette élection." -> React.string }
-          </Text>
+        if (Array.some(credentials, (c) => Some(c) == pub)) {
+          <>
+            <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+              { "Vous êtes invité·e à voter à cette élection." -> React.string }
+            </Text>
 
-          <S.Button
-            title="Je participe"
-            onPress=next
-          />
-        </>
+            <S.Button
+              title="Je participe"
+              onPress=next
+            />
+          </>
+        } else {
+          <>
+            <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+              { "Vous êtes invité·e à voter à cette élection." -> React.string }
+            </Text>
+
+            <S.Button
+              title="Je participe"
+              onPress=next
+            />
+          </>
+        }
       | None =>
         <>
           <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
