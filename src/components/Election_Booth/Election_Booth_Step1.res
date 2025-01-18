@@ -46,6 +46,11 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
   | None => true
   }
 
+  let ended = switch election.endDate {
+  | Some(endDate) => endDate < Js.Date.fromFloat(Js.Date.now())
+  | None => true
+  }
+
   <>
     <Header title="Participer à l'élection" />
 
@@ -78,6 +83,19 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
                 title="Je participe"
                 onPress=next
               />
+            } else if ended {
+              <>
+                <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+                  { `La periode de vote est closee.` -> React.string }
+                </Text>
+
+                <S.Button
+                  title="Page de l'élection"
+                  onPress={_ => {
+                    globalDispatch(Navigate(list{"elections", election.uuid}))
+                  }}
+                />
+              </>
             } else {
               <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
                 { `L'élection commencera à ${Js.Date.toLocaleString(Option.getExn(election.startDate))}.` -> React.string }
@@ -97,6 +115,19 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
                 title="Participer en tant qu'invité·e"
                 onPress=next
               />
+            } else if ended {
+              <>
+                <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+                  { `La periode de vote est closee.` -> React.string }
+                </Text>
+
+                <S.Button
+                  title="Page de l'élection"
+                  onPress={_ => {
+                    globalDispatch(Navigate(list{"elections", election.uuid}))
+                  }}
+                />
+              </>
             } else {
               <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
                 { `L'élection commence: ${Js.Date.toLocaleString(Option.getExn(election.startDate))}.` -> React.string }
