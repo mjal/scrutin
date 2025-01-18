@@ -62,40 +62,40 @@ let make = (~electionData: ElectionData.t) => {
       }
     </Text>
 
-    {
-      switch electionData.result {
-      | None => <></>
-      | Some(_result) =>
-        <S.Button
-          title="Voir les résultats"
-          onPress={_ => {
-            dispatch(Navigate(list{"elections", election.uuid, "result"}))
-          }}
-        />
-      }
-    }
+    { switch electionData.result {
+    | None => <></>
+    | Some(_result) =>
+      <S.Button
+        title="Voir les résultats"
+        onPress={_ => {
+          dispatch(Navigate(list{"elections", election.uuid, "result"}))
+        }}
+      />
+    }}
 
-    {
-      switch election.access {
-      | Some(#"open") =>
+    { switch electionData.result {
+    | Some(_result) => <></>
+    | None =>
+      <>
+        { switch election.access {
+        | Some(#"open") =>
+          <S.Button
+            title="Partager un lien d'accès"
+            onPress={_ => {
+              dispatch(Navigate(list{"elections", election.uuid, "share"}))
+            }}
+          />
+        | _ => <></>
+        } }
         <S.Button
-          title="Partager un lien d'accès"
+          title="Administation: Dépouillement"
+          mode=#outlined
+          titleStyle=Style.textStyle(~color=Color.black, ())
           onPress={_ => {
-            dispatch(Navigate(list{"elections", election.uuid, "share"}))
-          }}
-        />
-      | _ => <></>
-      }
-    }
-
-    <S.Button
-      title="Administation: Dépouillement"
-      mode=#outlined
-      titleStyle=Style.textStyle(~color=Color.black, ())
-      onPress={_ => {
-        dispatch(Navigate(list{"elections", election.uuid, "tally"}))
-      }}
-    />
+            dispatch(Navigate(list{"elections", election.uuid, "tally"}))
+          }} />
+      </>
+    }}
 
     <View style={Style.viewStyle(~height=30.0->Style.dp, ())} />
   </>
