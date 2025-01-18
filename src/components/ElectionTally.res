@@ -32,7 +32,7 @@ let make = (~electionData: ElectionData.t) => {
 
     // Add credentials to setup
     let credentials = Array.map(ballots, (b) => b.credential)
-    let setup = {...electionData.setup, credentials }
+    let setup = {...setup, credentials }
 
     let et = EncryptedTally.generate(setup, ballots)
     let pd = PartialDecryption.generate(setup, et, 1, privkey);
