@@ -26,6 +26,9 @@ app.put("/:uuid", async (req, res) => {
 
   // For email in emails
   for (let to of emails) {
+    if (to.trim() === "") {
+      continue 
+    }
     let priv = Credential.generatePriv()
     let { pub } = Credential.derive(uuid, priv)
     setup.credentials.push(pub)
