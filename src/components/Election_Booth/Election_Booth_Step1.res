@@ -56,16 +56,11 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
     | None =>
       { switch priv {
       | Some(_) =>
-        if (Array.some(credentials, (c) => Some(c) == pub)) {
+        if (Array.some(ballots, (b) => Some(b.credential) == pub)) {
           <>
             <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-              { "Vous êtes invité·e à voter à cette élection." -> React.string }
+              { "Vous avez déjà voté à cette élection." -> React.string }
             </Text>
-
-            <S.Button
-              title="Je participe"
-              onPress=next
-            />
           </>
         } else {
           <>
