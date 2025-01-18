@@ -1,6 +1,6 @@
 @react.component
 let make = (~state: Election_New_State.t, ~setState) => {
-  let { t } = ReactI18next.useTranslation()
+  // let { t } = ReactI18next.useTranslation()
 
   let next = _ => {
     setState(_ => {
