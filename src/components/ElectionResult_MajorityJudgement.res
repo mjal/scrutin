@@ -44,17 +44,35 @@ let make = (~electionData: ElectionData.t) => {
           let row = Array.getExn(result, i)
           let nbGrade = Array.length(row)
           let total = Array.reduce(row, 0, (a, b) => a + b)
-          Array.mapWithIndex(question.answers, (j, _name) => {
+          Array.mapWithIndex(question.answers, (j, grade) => {
             let count = Array.getExn(row, j)
             let pct = Int.toFloat(count) /. Int.toFloat(total)
 
-            let r = Float.toInt(255. /. Int.toFloat(nbGrade)) * j
-            let g = 0xff - r
+            // Color gradiant, adding some color anyway
+            let min = 0xff / 5
+            let r = Float.toInt(255. /. Int.toFloat(nbGrade)) * j * 8/10 + min
+            let g = (0xff - r) * 8/10 + min
             let color = Color.rgb(~r, ~g, ~b=r/2)
 
-            <View style=Style.viewStyle(~flex=pct, ~height=24.0->Style.dp, ()) key=Int.toString(j)>
-              <ProgressBar progress=100.0 color style=Style.viewStyle(~height=24.0->Style.dp, ()) />
-            </View>
+            if count >= 1 {
+              <View style=Style.viewStyle(~flex=pct, ~position=#relative, ~height=24.0->Style.dp, ()) key=Int.toString(j)>
+                <View style=Style.viewStyle(~width=100.0->Style.pct, ~position=#absolute, ~height=24.0->Style.dp, ())>
+                  <ProgressBar progress=100.0 color style=Style.viewStyle(~height=24.0->Style.dp, ()) />
+                </View>
+
+                <View style=Style.viewStyle(~width=100.0->Style.pct, ~position=#absolute, ~zIndex=1,
+                  ~alignItems=#center,
+                  ~justifyContent=#center,
+                  ~marginTop=6.0->Style.dp,
+                ())>
+                  <Text style=Style.textStyle(~fontSize=12.0, ())>
+                    {grade->React.string}
+                  </Text>
+                </View>
+              </View>
+            } else {
+              React.null
+            }
           }) -> React.array
         }
         </View>
