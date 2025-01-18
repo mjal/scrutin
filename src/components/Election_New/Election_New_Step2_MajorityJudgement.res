@@ -4,17 +4,10 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
   let (candidates, setCandidates) = React.useState(_ => ["", ""])
 
-  let grades = [
-    "Excellent",
-    "Bien",
-    "Passable",
-    "Insuffisant",
-  ]
-
   let questions = Array.map(candidates, candidate => {
     let question : QuestionH.t =  {
       question: candidate,
-      answers: grades,
+      answers: Election.grades,
       min: 1,
       max: 1
     }

@@ -34,23 +34,34 @@ let make = (~electionData: ElectionData.t) => {
     <View style=Style.viewStyle(~marginTop=30.0->Style.dp, ()) />
 
     {Array.mapWithIndex(election.questions, (i, question) => {
+      let row = Array.getExn(result, i)
+      let total = Array.reduce(row, 0, (a, b) => a + b)
+      let cumulativeSum = (grades) => {
+        Array.mapWithIndex(grades, (i, _value) =>
+          grades
+          ->Array.slice(~offset=0, ~len=i + 1)
+          ->Array.reduce(0, (a, b) => a + b)
+        )
+      }
+
+      let cumulativeGrades = cumulativeSum(row)
+      let medianIndex = Array.length(row) - Array.length(cumulativeGrades->Array.keep((x) => Int.toFloat(x) > Int.toFloat(total) /. 2.))
+      let grade = Option.getWithDefault(Array.get(Election.grades, medianIndex), "Undefined")
+
       <View key={Int.toString(i)}>
         <Text style=Style.textStyle(~fontSize=30.0, ())>
-          { question.question -> React.string }
+          { `${question.question} (${grade})` -> React.string } 
         </Text>
 
         <View style=Style.viewStyle(~position=#relative, ~marginBottom=15.0->Style.dp, ~height=24.0->Style.dp, ~flexDirection=#row, ~alignItems=#center, ())>
         {
-          let row = Array.getExn(result, i)
-          let nbGrade = Array.length(row)
-          let total = Array.reduce(row, 0, (a, b) => a + b)
           Array.mapWithIndex(question.answers, (j, grade) => {
             let count = Array.getExn(row, j)
             let pct = Int.toFloat(count) /. Int.toFloat(total)
 
             // Color gradiant, adding some color anyway
             let min = 0xff / 5
-            let r = Float.toInt(255. /. Int.toFloat(nbGrade)) * j * 8/10 + min
+            let r = Float.toInt(255. /. Int.toFloat(Array.length(row))) * j * 8/10 + min
             let g = (0xff - r) * 8/10 + min
             let color = Color.rgb(~r, ~g, ~b=r/2)
 

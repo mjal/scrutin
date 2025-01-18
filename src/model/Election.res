@@ -28,6 +28,13 @@ let stringToVotingMethod = (str) => {
   }
 }
 
+let grades = [
+  "Excellent",
+  "Bien",
+  "Passable",
+  "Insuffisant",
+]
+
 type t = {
   version: int,
   description: string,
