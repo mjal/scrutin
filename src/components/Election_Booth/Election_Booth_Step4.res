@@ -1,6 +1,6 @@
 @react.component
 let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setState) => {
-  let (_, _globalDispatch) = StateContext.use()
+  let (_, globalDispatch) = StateContext.use()
   let election = electionData.setup.election
 
   let vote = async _ => {
@@ -43,10 +43,11 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
 
     let _response = await X.post(`${URL.bbs_url}/${election.uuid}/ballots`, obj)
 
-    setState(_ => {
-      ...state,
-      step: Step5
-    })
+    globalDispatch(Navigate(list{"elections", election.uuid, "avote"}))
+    //setState(_ => {
+    //  ...state,
+    //  step: Step5
+    //})
   }
 
   <>

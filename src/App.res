@@ -54,8 +54,8 @@ let make = () => {
         }
         | list{"booth"} =>
           <Election_Booth electionData />
-        //| list{"avote"} =>
-        //  <ElectionAVote electionData />
+        | list{"avote"} =>
+          <ElectionAVote electionData />
         | list{"tally"} =>
           <ElectionTally electionData />
         | route =>
