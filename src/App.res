@@ -48,7 +48,10 @@ let make = () => {
         //| list{"invite_manage"} =>
         //  <ElectionInviteManage electionData />
         | list{"result"} =>
-          <ElectionResult electionData />
+          switch electionData.setup.election.votingMethod {
+          | Some(#majorityJudgement) => <ElectionResult_MajorityJudgement electionData />
+          | _ => <ElectionResult electionData />
+        }
         | list{"booth"} =>
           <Election_Booth electionData />
         //| list{"avote"} =>
