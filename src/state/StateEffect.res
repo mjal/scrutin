@@ -174,9 +174,6 @@ let fetchElection = async (uuid, dispatch) => {
       partialDecryptions,
       result: Js.Null.toOption(result)
     })
-    Js.log(1)
-    Js.log(electionData)
-    Js.log(2)
     dispatch(StateMsg.ElectionData_Set(uuid, electionData))
   }
 }
