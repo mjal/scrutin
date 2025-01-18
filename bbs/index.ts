@@ -36,9 +36,22 @@ app.put("/:uuid", async (req, res) => {
     const base_url = (env === "production") ? process.env.BASE_URL : "http://localhost:19006/"
 	  let link = `${base_url}/elections/${uuid}/booth#${priv}`
     let subject = "Vous êtes invité·e à une élection";
-    let text = `Vous êtes invité·e à une élection.
-Cliquez ici pour voter :
-${link}`
+//    let text = `Vous êtes invité·e à une élection.
+//Cliquez ici pour voter :
+//${link}`
+    let text = `Bonjour cher·e Deuxfleuriste,
+
+Vous êtes convié·es à l'élection du CA 2025 de l'association.
+
+Dans le cadre de l'Assemblé Générale Ordinaire du dimanche 19 janvier à 15h,
+
+Voici votre lien d'invitation:
+
+${link}
+
+En cas de soucis, contactez nous à contact@scrutin.app
+
+Bonne élection !`
 
     // TODO: Store uuid, email, pub(, priv?) in database pour pouvoir les renvoyer/revoker ou regenerer
     if (env === 'production') {
