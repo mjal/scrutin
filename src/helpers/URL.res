@@ -84,18 +84,7 @@ let base_url = switch env {
 | #prod => "https://scrutin.app"
 }
 
-let bbs_url = switch env {
+let server_url = switch env {
 | #dev => "http://localhost:8080"
 | #prod => "https://scrutin-bbs.fly.dev"
 }
-
-let server_auth_email = switch env {
-| #dev => "http://localhost:8081"
-| #prod => "https://scrutin-auth.fly.dev"
-}
-
-let registrar_url = switch env {
-| #dev => "http://localhost:8081"
-| #prod => "https://scrutin-registrar.fly.dev"
-}
-//let registrar_url = "https://scrutin-registrar.fly.dev"

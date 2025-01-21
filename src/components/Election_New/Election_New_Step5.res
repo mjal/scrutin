@@ -40,7 +40,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
       "setup": Setup.serialize(setup),
       "emails": state.emails
     })
-    let _response = await X.put(`${URL.bbs_url}/${election.uuid}`, obj)
+    let _response = await X.put(`${URL.server_url}/${election.uuid}`, obj)
     globalDispatch(StateMsg.Navigate(list{"elections", election.uuid}))
   }
 

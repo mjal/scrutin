@@ -42,7 +42,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
       ("election_uuid", Js.Json.string(election.uuid))
     ]))
 
-    let _response = await X.post(`${URL.bbs_url}/${election.uuid}/ballots`, obj)
+    let _response = await X.post(`${URL.server_url}/${election.uuid}/ballots`, obj)
 
     globalDispatch(Navigate(list{"elections", election.uuid, "avote"}))
     //setState(_ => {
