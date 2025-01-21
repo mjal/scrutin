@@ -38,3 +38,7 @@ yarn run re:start # compile rescript
 yarn run bbs # run the bulletin board server
 yarn start
 ```
+
+### Server configuration
+
+Provide the config in server/.env 
