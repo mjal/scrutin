@@ -48,7 +48,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
 
   let ended = switch election.endDate {
   | Some(endDate) => endDate < Js.Date.fromFloat(Js.Date.now())
-  | None => true
+  | None => false
   }
 
   <>
