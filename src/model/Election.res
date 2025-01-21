@@ -29,10 +29,11 @@ let stringToVotingMethod = (str) => {
 }
 
 let grades = [
-  "Excellent",
+  "Très bien",
   "Bien",
-  "Passable",
-  "Insuffisant",
+  "Neutre",
+  "Mauvais",
+  "Très mauvais",
 ]
 
 type t = {
