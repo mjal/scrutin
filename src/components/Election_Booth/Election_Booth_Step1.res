@@ -29,6 +29,8 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
     }
   })
 
+  let alreadyVoted = Array.some(ballots, (b) => Some(b.credential) == pub)
+
   let next = _ => {
     let step = switch priv {
     | None    => Election_Booth_State.Step2
@@ -89,7 +91,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
         { "Vous êtes invité·e à voter à cette élection." -> React.string }
       </Text>
 
-      { if (Array.some(ballots, (b) => Some(b.credential) == pub)) {
+      { if alreadyVoted {
         <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
           { "Vous avez déjà voté à cette élection." -> React.string }
         </Text>
@@ -118,7 +120,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
       { if started && !ended {
         if election.access == Some(#"open") || priv != None {
           <S.Button
-            title="Je participe"
+            title=(alreadyVoted ? "Revoter" : "Je participe")
             onPress=next
           />
         } else { <></> }
