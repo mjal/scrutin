@@ -2,23 +2,10 @@ node_modules/
 .expo/
 dist/
 npm-debug.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-*.orig.*
-web-build/
 .vscode
-Session.vim
-
-# macOS
 .DS_Store
-
-# local .env
 .env
 
-# rescript build artefacts
 lib/bs/*
 auth/lib/bs/*
 .merlin
@@ -29,12 +16,5 @@ cypress/screenshots/
 cypress/videos/
 cypress/fixtures/
 
-bbs/dev.sqlite3
-bbs/emails
-
-!auth/emails/.gitkeep
-!auth/sms/.gitkeep
-auth/emails/*
-auth/sms/*
-auth/dev.sqlite3
-registrar/emails/*
+server/dev.sqlite3
+server/emails

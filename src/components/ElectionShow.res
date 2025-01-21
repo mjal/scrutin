@@ -7,9 +7,9 @@ let make = (~electionData: ElectionData.t) => {
   React.useEffect1(() => {
     let uuid = setup.election.uuid
 
-    dispatch(StateMsg.ElectionFetch(uuid))
+    dispatch(StateMsg.Election_Fetch(uuid))
     let intervalId = Js.Global.setInterval(() => {
-      dispatch(StateMsg.ElectionFetch(uuid))
+      dispatch(StateMsg.Election_Fetch(uuid))
     }, 5000)
 
     Some(() => Js.Global.clearInterval(intervalId))

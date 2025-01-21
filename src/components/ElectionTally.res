@@ -51,7 +51,7 @@ let make = (~electionData: ElectionData.t) => {
   }
 
   <>
-    <ElectionHeader election />
+    <Header title="Dépouillement de l'élection" />
 
     <View style={Style.viewStyle(~height=20.0->Style.dp, ())} />
 

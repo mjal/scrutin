@@ -24,54 +24,33 @@ let make = () => {
       | None =>
         switch Map.String.get(state.electionsTryFetch, uuid) {
         | Some(true) => ()
-        | _ => dispatch(StateMsg.ElectionFetch(uuid))
+        | _ => dispatch(StateMsg.Election_Fetch(uuid))
         }
-        <NotFoundYet />
+        <Text style=S.flatten([S.title,Style.textStyle(~marginTop=50.0->Style.dp,())])>
+          { "Nous recherchons l'élection..."->React.string }
+        </Text>
       | Some(electionData) =>
         switch electionRoute {
         | list{} =>
           <ElectionShow electionData />
+        | list{"booth"} =>
+          <Election_Booth electionData />
+        | list{"tally"} =>
+          <ElectionTally electionData />
         | list{"share"} =>
           <ElectionShare electionData />
-        //| list{"challenge", userToken} => // Unused
-        //  <ElectionChallenge electionData userToken />
-        //| list{"token", secret} => // Unused
-        //  <ElectionToken electionData secret />
-        //| list{"invite"} =>
-        //  <ElectionInvite electionData />
-        //| list{"invite_link"} =>
-        //  <ElectionInviteLink electionData />
-        //| list{"invite_email"} =>
-        //  <ElectionInviteEmail electionData />
-        //| list{"invite_phone"} =>
-        //  <ElectionInvitePhone electionData />
-        //| list{"invite_manage"} =>
-        //  <ElectionInviteManage electionData />
         | list{"result"} =>
           switch electionData.setup.election.votingMethod {
           | Some(#majorityJudgement) => <ElectionResult_MajorityJudgement electionData />
           | _ => <ElectionResult electionData />
         }
-        | list{"booth"} =>
-          <Election_Booth electionData />
         | list{"avote"} =>
           <ElectionAVote electionData />
-        | list{"tally"} =>
-          <ElectionTally electionData />
         | route =>
           Js.log(("Unknown election route", route))
           <HomeView />
         }
       }
-
-    //| list{"identities"} => <IdentityIndex />
-    //| list{"identities", id} => <IdentityShow publicKey=id />
-
-    //| list{"trustees"} => <TrusteeIndex />
-    //| list{"events"} => <EventIndex />
-    //| list{"contacts"} => <ContactIndex />
-
-    //| list{"settings"} => <SettingsView />
 
     | list{} | list{""} => <HomeView />
 
