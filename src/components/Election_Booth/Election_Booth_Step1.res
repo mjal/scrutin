@@ -65,7 +65,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
     </Title>
 
     <View style=Style.viewStyle(~marginHorizontal=40.0->Style.dp, ())>
-      <Text style=Style.textStyle(~color=Color.black, ~fontWeight=Style.FontWeight.bold, ())>
+      <Text>
         { `${election.description}`->React.string }
       </Text>
     </View>

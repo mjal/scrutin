@@ -26,7 +26,7 @@ let make = (~electionData: ElectionData.t) => {
     </Title>
 
     <View style=Style.viewStyle(~margin=20.0->Style.dp, ())>
-      <Text style=Style.textStyle(~color=Color.black, ~fontWeight=Style.FontWeight.bold, ())>
+      <Text>
         { `${election.description}`->React.string }
       </Text>
     </View>
