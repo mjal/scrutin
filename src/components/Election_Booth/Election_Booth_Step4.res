@@ -3,6 +3,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
   let _ = (state, setState)
   let (_, globalDispatch) = StateContext.use()
   let election = electionData.setup.election
+  let (isSendingVote, setIsSendingVote) = React.useState(_ => false)
 
   let vote = async _ => {
     let name = Option.getWithDefault(state.name, "")
@@ -42,6 +43,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
       ("election_uuid", Js.Json.string(election.uuid))
     ]))
 
+    setIsSendingVote(_ => true)
     let _response = await HTTP.post(`${Config.server_url}/${election.uuid}/ballots`, obj)
 
     globalDispatch(Navigate(list{"elections", election.uuid, "avote"}))
@@ -54,27 +56,33 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
   <>
     <Header title="Voter" />
 
-    {
-      open Style
-      let viewStyle = viewStyle(~alignSelf=#center, ~margin=42.0->dp, ())
-      let textStyle = textStyle(~fontSize=120.0, ())
-      <View style=viewStyle>
-        <Text style=textStyle>
-          { "🗳️" -> React.string }
-        </Text>
-      </View>
-    }
+    { if isSendingVote {
+      <ActivityIndicator animation=true size=ActivityIndicator.Size.large color={Color.purple} style=Style.viewStyle(~marginTop=50.0->Style.dp, ()) />
+    } else {
+      <>
+        {
+          open Style
+          let viewStyle = viewStyle(~alignSelf=#center, ~margin=42.0->dp, ())
+          let textStyle = textStyle(~fontSize=120.0, ())
+          <View style=viewStyle>
+            <Text style=textStyle>
+              { "🗳️" -> React.string }
+            </Text>
+          </View>
+        }
 
-    <Title style=Style.textStyle(~alignSelf=#center, ~color=Color.black, ~fontSize=40.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
-      { "Êtes-vous sûr·e ?" -> React.string }
-    </Title>
+        <Title style=Style.textStyle(~alignSelf=#center, ~color=Color.black, ~fontSize=40.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
+          { "Êtes-vous sûr·e ?" -> React.string }
+        </Title>
 
-    <S.Button
-      title="Valider et envoyer"
-      onPress={_ => {
-        vote() -> ignore
-      }}
-    />
+        <S.Button
+          title="Valider et envoyer"
+          onPress={_ => {
+            vote() -> ignore
+          }}
+        />
+      </>
+    } }
   </>
 }
 
