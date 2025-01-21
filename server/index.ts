@@ -36,15 +36,19 @@ app.put("/:uuid", async (req, res) => {
     const base_url = (env === "production") ? process.env.BASE_URL : "http://localhost:19006/"
 	  let link = `${base_url}/elections/${uuid}/booth#${priv}`
 
-    let electionName = setup.election.name.length > 20 ? `${setup.election.name.substring(0, 18)}...` : setup.election.name
+    let electionName = setup.election.name.length > 70 ? `${setup.election.name.substring(0, 67)}...` : setup.election.name
     let subject = `Scrutin: ${electionName}`;
+    let description = (setup.election.description.trim() === "") ? '' : `
+Description:
+
+${setup.election.description.trim()}
+
+`
+
     let text = `Bonjour,
 
 Vous êtes invité·e à une élection: ${setup.election.name}
-
-Description:
-${setup.election.description}
-
+${description}
 Voici votre lien pour voter: ${link}
 
 En cas de soucis, contactez nous à contact@scrutin.app
