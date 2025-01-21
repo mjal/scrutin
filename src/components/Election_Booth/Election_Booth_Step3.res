@@ -32,8 +32,8 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
 
     {Array.mapWithIndex(election.questions, (j, question) => {
       let choice = Array.getExn(choices, j)
-      <>
-        <View style=S.questionBox key={Int.toString(j)}>
+      <View key={Int.toString(j)}>
+        <View style=S.questionBox>
           <S.Section title=question.question />
           {Array.mapWithIndex(question.answers, (i, name) => {
             let onSelect = _ => {
@@ -68,7 +68,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
             </Text>
           </View>
         </View>
-      </>
+      </View>
     })->React.array}
 
     <S.Button
