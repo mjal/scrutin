@@ -32,8 +32,6 @@
 
 ### Quick start
 
-Scrutin can be installed with `npm` or `yarn`.
-
 ```
 yarn
 yarn run re:start # compile rescript
