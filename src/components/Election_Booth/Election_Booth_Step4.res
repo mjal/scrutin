@@ -10,8 +10,8 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
     let choices = Array.mapWithIndex(election.questions, (j, question) => {
       Array.mapWithIndex(question.answers, (i, _name) => {
         switch Array.getExn(Option.getExn(state.choices), j) {
-            | None => 0
-            | Some(n) => (i == n) ? 1 : 0
+        | None => 0
+        | Some(n) => (i == n) ? 1 : 0
         }
       })
     })
@@ -44,13 +44,17 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
     ]))
 
     setIsSendingVote(_ => true)
+
     let _response = await HTTP.post(`${Config.server_url}/${election.uuid}/ballots`, obj)
 
     globalDispatch(Navigate(list{"elections", election.uuid, "avote"}))
-    //setState(_ => {
-    //  ...state,
-    //  step: Step5
-    //})
+  }
+
+  let previous = _ => {
+    setState(_ => {
+      ...state,
+      step: Step3
+    })
   }
 
   <>
@@ -75,12 +79,30 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
           { "Êtes-vous sûr·e ?" -> React.string }
         </Title>
 
-        <S.Button
-          title="Valider et envoyer"
-          onPress={_ => {
-            vote() -> ignore
-          }}
-        />
+
+        {
+          let style = Style.viewStyle(
+            ~flexDirection=#row,
+            ~justifyContent=#"space-between",
+            ~marginTop=20.0->Style.dp,
+            ())
+
+          <View style>
+            <S.Button
+              title="Précédent"
+              titleStyle=Style.textStyle(~color=Color.black, ())
+              mode=#outlined
+              onPress={_ => previous()}
+            />
+
+            <S.Button
+              title="Valider et envoyer"
+              onPress={_ => {
+                vote() -> ignore
+              }}
+            />
+          </View>
+        }
       </>
     } }
   </>
