@@ -75,7 +75,12 @@ let make = (~electionData: ElectionData.t) => {
 
     <Text>
       {
-        let nBallots = Int.toString(Array.length(electionData.ballots))
+
+        let ballots = electionData.ballots
+          ->Array.map(b => (b.credential, b))
+          ->Js.Dict.fromArray
+          ->Js.Dict.values
+        let nBallots = Int.toString(Array.length(ballots))
         `Nombre de votes enregistrés: ${nBallots}`->React.string
       }
     </Text>
