@@ -1,75 +1,42 @@
-A mobile app for secure voting using the Helios protocol and INRIA’s [Belenios](https://www.belenios.org) voting library.
+<p align="center">
+  <a href="https://scrutin.app/">
+    <img src="https://raw.githubusercontent.com/mjal/scrutin/master/.github/assets/logo.png" width="320" alt="Scrutin Logo">
+  </a>
+</p>
 
-## Install
+<p align="center">
+  <strong>
+    A mobile-first app for secret & transparent e-voting using the
+    <a href="https://www.belenios.org/">Belenios protocol</a>
+  </strong>
+</p>
+
+<p align="center">
+  🌐 Web, Android, iOS • 🗳️ Majority Judgment • 🔒 Vote Secrecy • ✅ End-to-End Verifiable
+</p>
+
+<p align="center">
+  <a href="https://squidfunk.github.io/mkdocs-material/getting-started/">
+    <img src="https://raw.githubusercontent.com/mjal/scrutin/master/.github/assets/screenshot-petit-pain.png" width="700" />
+  </a>
+</p>
+
+<p align="center">
+  <em>
+    Check out the demo –
+    <a
+      href="https://scrutin.app/"
+    >https://scrutin.app</a>.
+  </em>
+</p>
+
+### Quick start
+
+Scrutin can be installed with `npm` or `yarn`.
 
 ```
 yarn
-npx pod-install # for iOS
-npm run re:start # or use the VSCode plugin
-npm run bbs # run the bulletin board server
+yarn run re:start # compile rescript
+yarn run bbs # run the bulletin board server
 yarn start
 ```
-
-## Features
-
-##### Belenios integration
-
-- [x] Generate trustee keys on device
-- [x] Encrypt ballot on device
-- [x] Tally election on device
-- [ ] Verify result on device
-
-##### Architecture
-
-- [x] Every events must be signed by an authorized identity
-- [x] Events
-	- [x] Election creation. From election organizer
-	- [x] Ballot emission (adding a new voter identity). From election organizer
-	- [x] Ballot filling. From voter
-- [X] Running a main public pod
-
-##### UI/UX
-
-- [ ] Resuts as a pie chart
-- [ ] Inspect the progress of an elections (how many empty/filled ballots)
-
-##### Nice to have
-
-- [ ] Extract rescript-belenios
-- [ ] Extract rescript-sjcl
-
-
-## Documentation
-
-**TODO**
-
-There is no good documentation yet. You can find [some outdated informations here](https://scrutin.app/article/)
-
-```mermaid
-sequenceDiagram
-  participant Guardians
-  participant Election
-  participant Voters
-
-  Guardians->>Election: Create
-  Voters->>Election: Vote
-  Guardians->>Election: Tally
-	Voters->>Election: Verify
-```
-
-Some of the code is annotated in a literate programming style.
-
-<!--
-main | models
------|-------
-[Core](https://scrutin-app.github.io/scrutin/src/Core.html) | [Event](https://scrutin-app.github.io/scrutin/src/model/Event_.html)
-[State](https://scrutin-app.github.io/scrutin/src/State.html) | ~~[Ballot](https://scrutin-app.github.io/scrutin/src/model/Ballot.html)~~
-~~[StateEffect](https://scrutin-app.github.io/scrutin/src/StateEffect.html)~~ | ~~[Trustee](https://scrutin-app.github.io/scrutin/src/model/Trustee.html)~~
-. | ~~[Identity](https://scrutin-app.github.io/scrutin/src/model/Identity.html)~~
-. | ~~[Election](https://scrutin-app.github.io/scrutin/src/model/Election.html)~~
-
-
-## Release
-[Web demo](https://demo.scrutin.app)
-[Android APK](https://expo.dev/accounts/mlalisse/projects/scrutin/builds/e6bd66f5-ce96-4dac-b874-ab2c0a1f3b1b)
--->
