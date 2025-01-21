@@ -67,95 +67,75 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
         { `${election.description}`->React.string }
       </Text>
     </View>
-  
-    { switch result {
+
+    { if started && !ended {
+      <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+        { `La periode de vote est ouverte.` -> React.string }
+      </Text>
+    } else if ended {
+      <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+        { `La periode de vote est close.` -> React.string }
+      </Text>
+    } else {
+      <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+        { `L'élection commencera à ${Js.Date.toLocaleString(Option.getExn(election.startDate))}.` -> React.string }
+      </Text>
+    } }
+
+    { switch priv {
+    | Some(_) =>
+    <>
+      <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+        { "Vous êtes invité·e à voter à cette élection." -> React.string }
+      </Text>
+
+      { if (Array.some(ballots, (b) => Some(b.credential) == pub)) {
+        <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+          { "Vous avez déjà voté à cette élection." -> React.string }
+        </Text>
+      } else { <></> }}
+    </>
     | None =>
-      { switch priv {
-      | Some(_) =>
-        if (Array.some(ballots, (b) => Some(b.credential) == pub)) {
-          <>
-            <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-              { "Vous avez déjà voté à cette élection." -> React.string }
-            </Text>
-          </>
-        } else {
-          <>
-            <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-              { "Vous êtes invité·e à voter à cette élection." -> React.string }
-            </Text>
-
-            { if started {
-              <S.Button
-                title="Je participe"
-                onPress=next
-              />
-            } else if ended {
-              <>
-                <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-                  { `La periode de vote est closee.` -> React.string }
-                </Text>
-
-                <S.Button
-                  title="Page de l'élection"
-                  onPress={_ => {
-                    globalDispatch(Navigate(list{"elections", election.uuid}))
-                  }}
-                />
-              </>
-            } else {
-              <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-                { `L'élection commencera à ${Js.Date.toLocaleString(Option.getExn(election.startDate))}.` -> React.string }
-              </Text>
-            }}
-          </>
-        }
-      | None =>
+      switch election.access {
+      | Some(#"open") =>
         <>
           <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-            { "Vous n'avez pas d'invitation pour cette élection." -> React.string }
+            { "Vous pouvez participer en tant qu'invité." -> React.string }
           </Text>
-          //{ switch election.access {
-          //| Some("open") =>
-            { if started {
-              <S.Button
-                title="Participer en tant qu'invité·e"
-                onPress=next
-              />
-            } else if ended {
-              <>
-                <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-                  { `La periode de vote est closee.` -> React.string }
-                </Text>
-
-                <S.Button
-                  title="Page de l'élection"
-                  onPress={_ => {
-                    globalDispatch(Navigate(list{"elections", election.uuid}))
-                  }}
-                />
-              </>
-            } else {
-              <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-                { `L'élection commence: ${Js.Date.toLocaleString(Option.getExn(election.startDate))}.` -> React.string }
-              </Text>
-            }}
-          //| _ => <></>
-          //} }
         </>
-      } }
+      | _ =>
+        <>
+          <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+            { "Vous n'êtes pas d'invitation pour cette élection." -> React.string }
+          </Text>
+        </>
+      }
+    } }
+
+
+    { switch result {
+    | None =>
+      { if started && !ended {
+        if election.access == Some(#"open") || priv != None {
+          <S.Button
+            title="Je participe"
+            onPress=next
+          />
+        } else { <></> }
+      } else { <></> } }
     | Some(_) =>
       <>
         <Text style={S.flatten([S.title, Style.viewStyle(~margin=30.0->Style.dp, ())])}>
           { "Cette élection est terminée." -> React.string }
         </Text>
-
-        <S.Button
-          title="Page de l'élection"
-          onPress={_ => {
-            globalDispatch(Navigate(list{"elections", election.uuid}))
-          }}
-        />
       </>
-    }}
+    } }
+
+    <S.Button
+      title="Page de l'élection"
+      onPress={_ => {
+        globalDispatch(Navigate(list{"elections", election.uuid}))
+      }}
+    />
   </>
 }
