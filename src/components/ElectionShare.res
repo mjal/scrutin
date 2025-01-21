@@ -4,7 +4,7 @@ let make = (~electionData: ElectionData.t) => {
   let (_state, dispatch) = StateContext.use()
   let { setup } = electionData
   let election = setup.election
-  let inviteUrl = `${URL.base_url}/elections/${election.uuid}/booth`
+  let inviteUrl = `${Config.base_url}/elections/${election.uuid}/booth`
 
   <>
     <Header title="Inviter à l'élection" />

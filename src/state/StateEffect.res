@@ -30,7 +30,7 @@ type res_t = {
   result: Js.null<Result_.t>
 }
 let fetchElection = async (uuid, dispatch) => {
-  let response = await Webapi.Fetch.fetch(`${URL.server_url}/${uuid}`)
+  let response = await Webapi.Fetch.fetch(`${Config.server_url}/${uuid}`)
   switch Webapi.Fetch.Response.ok(response) { 
   | false =>
     Js.log("Can't find election")

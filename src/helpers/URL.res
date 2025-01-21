@@ -76,15 +76,3 @@ let getSearchParameter = name => {
   let res = %raw(`getParameterByName(name)`)
   res
 }
-
-let env = X.env
-
-let base_url = switch env {
-| #dev => "http://localhost:19006"
-| #prod => "https://scrutin.app"
-}
-
-let server_url = switch env {
-| #dev => "http://localhost:8080"
-| #prod => "https://scrutin-bbs.fly.dev"
-}

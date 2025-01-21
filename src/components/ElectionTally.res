@@ -45,7 +45,7 @@ let make = (~electionData: ElectionData.t) => {
       "result": result
     })
 
-    let _response = await X.put(`${URL.server_url}/${election.uuid}/result`, obj)
+    let _response = await HTTP.put(`${Config.server_url}/${election.uuid}/result`, obj)
 
     dispatch(Navigate(list{"elections", election.uuid}))
   }

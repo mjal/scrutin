@@ -18,20 +18,3 @@ let put = (url, json) => {
 
   Webapi.Fetch.fetchWithInit(url, Webapi.Fetch.RequestInit.make(~method_=Put, ~body, ~headers, ()))
 }
-
-// Forms
-let ev = event => ReactEvent.Form.target(event)["value"]
-let prevent = (f, e) => {
-  ReactEvent.Synthetic.preventDefault(e)
-  f(e)
-}
-let isKeyEnter: 'a => bool = %raw(`function(key) { return key.key == "Enter" }`)
-
-@val external nodeEnv: string = "process.env.NODE_ENV"
-
-let env = switch nodeEnv {
-| "production" => #prod
-| "development" => #dev
-| _ => #dev
-}
-//let env = #prod

@@ -1,6 +1,6 @@
 open Style
 
-let primaryColor = switch X.env {
+let primaryColor = switch Config.env {
 | #dev => Color.rgb(~r=255, ~g=128, ~b=128)
 | #prod => Color.rgb(~r=103, ~g=80, ~b=164)
 }
