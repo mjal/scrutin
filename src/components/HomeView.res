@@ -3,30 +3,6 @@ let make = () => {
   let (_state, dispatch) = StateContext.use()
   let {t} = ReactI18next.useTranslation()
 
-  //let styles = {
-  //  open Style
-  //  StyleSheet.create({
-  //    "aboutView": viewStyle(
-  //      ~position=#absolute,
-  //      ~left=145.0->dp,
-  //      ~top=150.0->dp,
-  //      ()),
-  //    "aboutButton": viewStyle(
-  //      ~width=80.0->dp,
-  //      ~height=80.0->dp,
-  //      ()),
-  //    "searchView": viewStyle(
-  //      ~position=#absolute,
-  //      ~right=145.0->dp,
-  //      ~top=150.0->dp,
-  //      ()),
-  //    "searchButton": viewStyle(
-  //      ~width=80.0->dp,
-  //      ~height=80.0->dp,
-  //      ())
-  //  })
-  //}
-
   <View>
     //<Header />
     <View style=Style.viewStyle(~height=50.0->Style.dp,()) />
@@ -38,6 +14,16 @@ let make = () => {
       titleStyle=Style.textStyle(~fontSize=18.0, ())
       onPress={_ => dispatch(Navigate(list{"elections", "new"}))}
     />
+    <TouchableOpacity
+      style=Style.viewStyle(~marginTop=20.0->Style.dp, ~alignItems=#center, ~paddingVertical=12.0->Style.dp, ())
+      onPress={_ => {
+        ReactNative.Linking.openURL("https://doc.scrutin.app")->ignore
+      }}
+    >
+      <Text style=Style.textStyle(~fontSize=20.0, ~color=Color.blue, ~textDecorationLine=#underline, ())>
+         { "Documentation" -> React.string }
+      </Text>
+    </TouchableOpacity>
     { switch ReactNative.Platform.os {
     | #web =>
       //<Button mode=#text onPress={_ => dispatch(Navigate(list{"elections", "search"}))}>
