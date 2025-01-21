@@ -73,6 +73,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
 
     <S.Button
       title="Confirmer mon choix"
+      disabled=(Array.some(choices, Option.isNone))
       onPress=next
     />
   </>
