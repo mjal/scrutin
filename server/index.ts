@@ -136,7 +136,7 @@ app.get("/:uuid", async (req, res) => {
       setup = (typeof response.setup === "string") ? JSON.parse(response.setup) : response.setup;
     }
     if (!setup) {
-      return response.status(404).json({ success: false, message: "Election not found." });
+      return res.status(404).json({ success: false, message: "Election not found." });
     }
 
     response = await knex("ballots").select().where({ uuid });
