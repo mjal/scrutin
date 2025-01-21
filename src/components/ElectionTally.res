@@ -30,8 +30,17 @@ let make = (~electionData: ElectionData.t) => {
       Window.alert("Bad password")
     }
 
-    // Add credentials to setup
-    let credentials = Array.map(ballots, (b) => b.credential)
+    let credentials = if setup.election.access == Some(#"open") {
+      // Add any credential to setup. Make sure they are uniques
+      Array.map(ballots, (b) => b.credential)
+        ->Array.map(c => (c, c))
+        ->Js.Dict.fromArray
+        ->Js.Dict.values
+    } else {
+      // Keep original credentials
+      setup.credentials
+    }
+
     let setup = {...setup, credentials }
 
     let et = EncryptedTally.generate(setup, ballots)
