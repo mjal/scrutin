@@ -19,7 +19,11 @@ let make = (~electionData: ElectionData.t) => {
 
     <Text style=Style.textStyle(~color=Color.grey, ())>
       {
-        let nBallots = Int.toString(Array.length(electionData.ballots))
+        let ballots = electionData.ballots
+          ->Array.map(b => (b.credential, b))
+          ->Js.Dict.fromArray
+          ->Js.Dict.values
+        let nBallots = Int.toString(Array.length(ballots))
         `Nombre de votes enregistrés: ${nBallots}`->React.string
       }
     </Text>
