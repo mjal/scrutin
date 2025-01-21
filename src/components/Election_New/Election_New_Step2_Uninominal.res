@@ -35,11 +35,11 @@ let make = (~state: Election_New_State.t, ~setState) => {
   <>
     <Header title="Nouvelle élection" subtitle="2/5" />
 
-    <View style={Style.viewStyle(~margin=30.0->Style.dp, ())}>
-      <Title style=Style.textStyle(~fontSize=32.0, ())>
-        { state.title->Option.getWithDefault("")->React.string }
-      </Title>
-    </View>
+    <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
+
+    <Title style=Style.textStyle(~color=Color.black, ~fontSize=40.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
+      { "Quelles sont les questions ?" -> React.string }
+    </Title>
 
     <S.Section title="Nom de la question (optionnel)" />
 
