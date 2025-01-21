@@ -35,19 +35,17 @@ app.put("/:uuid", async (req, res) => {
 
     const base_url = (env === "production") ? process.env.BASE_URL : "http://localhost:19006/"
 	  let link = `${base_url}/elections/${uuid}/booth#${priv}`
-    let subject = "Vous êtes invité·e à une élection";
-//    let text = `Vous êtes invité·e à une élection.
-//Cliquez ici pour voter :
-//${link}`
-    let text = `Bonjour cher·e Deuxfleuriste,
 
-Vous êtes convié·es à l'élection du CA 2025 de l'association.
+    let electionName = setup.election.name.length > 20 ? `${setup.election.name.substring(0, 18)}...` : setup.election.name
+    let subject = `Scrutin: ${electionName}`;
+    let text = `Bonjour,
 
-Dans le cadre de l'Assemblé Générale Ordinaire du dimanche 19 janvier à 15h,
+Vous êtes invité·e à une élection: ${setup.election.name}
 
-Voici votre lien d'invitation:
+Description:
+${setup.election.description}
 
-${link}
+Voici votre lien pour voter: ${link}
 
 En cas de soucis, contactez nous à contact@scrutin.app
 
