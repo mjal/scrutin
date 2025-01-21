@@ -81,7 +81,7 @@ let env = X.env
 
 let base_url = switch env {
 | #dev => "http://localhost:19006"
-| #prod => "https://demo.scrutin.app"
+| #prod => "https://scrutin.app"
 }
 
 let bbs_url = switch env {
