@@ -17,14 +17,6 @@ let make = (~electionData: ElectionData.t) => {
     <View style=Style.viewStyle(~marginTop=30.0->Style.dp, ()) />
 
     <Text style=Style.textStyle(~color=Color.grey, ())>
-      { "Date de début: Non définie"->React.string }
-    </Text>
-
-    <Text style=Style.textStyle(~color=Color.grey, ())>
-      { "Date de fin: Non définie"->React.string }
-    </Text>
-
-    <Text style=Style.textStyle(~color=Color.grey, ())>
       {
         let nBallots = Int.toString(Array.length(electionData.ballots))
         `Nombre de votes enregistrés: ${nBallots}`->React.string
