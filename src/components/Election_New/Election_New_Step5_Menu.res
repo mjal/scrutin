@@ -23,10 +23,8 @@ let make = (~updatePolicy) => {
   let (policy : policy_t, setPolicy) = React.useState(_ => None)
 
   <>
-    //<Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-    <Title style=Style.textStyle(~color=Color.black, ~fontSize=40.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
+    <Title style=Style.textStyle(~color=Color.black, ~fontSize=40.0, ~lineHeight=40.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
       { "Sauvegarde du mot de passe nécessaire au dépouillement" -> React.string }
-      //{ "Comment participer ?" -> React.string }
     </Title>
 
     <View style=Style.viewStyle(~padding=16.0->Style.dp, ())>
