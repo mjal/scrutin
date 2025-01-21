@@ -100,6 +100,7 @@ let make = (~updatePolicy) => {
 
       <S.Button
         title="Suivant"
+        disabled=Option.isNone(policy)
         onPress={ _ => updatePolicy(_ => policy) }
         />
     </View>

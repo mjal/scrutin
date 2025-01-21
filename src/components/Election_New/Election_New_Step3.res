@@ -1,5 +1,6 @@
 @react.component
 let make = (~state: Election_New_State.t, ~setState) => {
+  let { t } = ReactI18next.useTranslation()
   let (access, setAccess) = React.useState(_ => None)
 
   let next = _ => {
@@ -77,6 +78,27 @@ let make = (~state: Election_New_State.t, ~setState) => {
       </RadioButton.Group>
     </View>
 
-    <Election_New_Previous_Next next previous />
+    {
+      let style = Style.viewStyle(
+        ~flexDirection=#row,
+        ~justifyContent=#"space-between",
+        ~marginTop=20.0->Style.dp,
+        ())
+
+      <View style>
+        <S.Button
+          title="Précédent"
+          titleStyle=Style.textStyle(~color=Color.black, ())
+          mode=#outlined
+          onPress={_ => previous()}
+        />
+
+        <S.Button
+          title={t(. "election.new.next")}
+          disabled=Option.isNone(access)
+          onPress={_ => next()}
+        />
+      </View>
+    }
   </>
 }
