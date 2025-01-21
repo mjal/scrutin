@@ -17,8 +17,7 @@
     "eas-build-post-install": "npx rescript -v ; rescript clean && rescript build -with-deps",
     "test": "cypress run",
     "test:gui": "cypress open",
-    "bbs": "cd bbs && npm run start:dev",
-    "auth": "cd auth && npm run start:dev",
+    "server": "cd server && npm run start:dev",
     "build:android": "eas build --platform android --local --profile development"
   },
   "dependencies": {
