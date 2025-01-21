@@ -41,4 +41,4 @@ yarn start
 
 ### Server configuration
 
-Provide the config in server/.env 
+In `server/.env`
