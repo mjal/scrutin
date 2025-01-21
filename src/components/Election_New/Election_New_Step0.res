@@ -2,12 +2,14 @@
 let make = (~state: Election_New_State.t, ~setState) => {
   let {t} = ReactI18next.useTranslation()
   let (title, setTitle) = React.useState(_ => "")
+  let (desc, setDesc) = React.useState(_ => "")
 
   let next = _ => {
     setState(_ => {
       ...state,
       step: Step0b,
-      title: Some(title),
+      title,
+      desc,
     })
   }
 
@@ -24,8 +26,19 @@ let make = (~state: Election_New_State.t, ~setState) => {
       placeholder=t(. "election.new.titlePlaceholder")
       placeholderTextColor="#bbb"
       autoFocus=true
-      onSubmitEditing=next
       onChangeText={text => setTitle(_ => text)}
+    />
+
+    <View style=Style.viewStyle(~margin=15.0->Style.dp, ()) />
+
+    <S.TextInput
+      testID="election-description"
+      value=desc
+      placeholder="Description (optionelle)"
+      placeholderTextColor="#bbb"
+      multiline=true
+      numberOfLines=5
+      onChangeText={text => setDesc(_ => text)}
     />
 
     <S.Button

@@ -12,10 +12,12 @@ let make = (~state: Election_New_State.t, ~setState) => {
   let (_privkey, serializedTrustee) = Trustee.generateFromPriv(privkey)
   let trustee = Trustee.parse(serializedTrustee)
   let trustees = [trustee]
-  let description = ""
-  let { title, questions } = state
+  let { questions } = state
   let election = React.useMemo(() => {
-    Election.create(description, Option.getExn(title), trustees, questions)
+    switch (state.title, state.desc) {
+    | (Some(title), Some(desc)) => Election.create(desc, title, trustees, questions)
+    | _ => Js.Exn.raiseError("title and desc must be set")
+    }
   })
   let access = Option.getWithDefault(state.access, #"open")
   let votingMethod = Option.getWithDefault(state.votingMethod, #uninominal)

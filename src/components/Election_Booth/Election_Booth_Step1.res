@@ -62,6 +62,12 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
       { `${election.name}`->React.string }
     </Title>
 
+    <View style=Style.viewStyle(~marginHorizontal=40.0->Style.dp, ())>
+      <Text style=Style.textStyle(~color=Color.black, ~fontWeight=Style.FontWeight.bold, ())>
+        { `${election.description}`->React.string }
+      </Text>
+    </View>
+  
     { switch result {
     | None =>
       { switch priv {

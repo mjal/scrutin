@@ -5,7 +5,8 @@ type time_t = {
 }
 type t = {
   step: step,
-  title: option<string>,
+  title?: string,
+  desc?: string,
   questions: array<QuestionH.t>,
   access: option<Election.access>,
   emails: array<string>,
@@ -16,7 +17,6 @@ type t = {
 
 let empty = {
   step: Step0,
-  title: None,
   access: None,
   questions: [],
   emails: []

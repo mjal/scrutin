@@ -26,6 +26,12 @@ let make = (~electionData: ElectionData.t) => {
     </Title>
 
     <View style=Style.viewStyle(~margin=20.0->Style.dp, ())>
+      <Text style=Style.textStyle(~color=Color.black, ~fontWeight=Style.FontWeight.bold, ())>
+        { `${election.description}`->React.string }
+      </Text>
+    </View>
+
+    <View style=Style.viewStyle(~margin=20.0->Style.dp, ())>
       {
         switch electionData.result {
         | None =>
@@ -42,7 +48,6 @@ let make = (~electionData: ElectionData.t) => {
 
     <Text style=Style.textStyle(~color=Color.black, ~fontWeight=Style.FontWeight.bold, ())>
     {
-      Js.log(election)
       let dateToString = switch election.startDate {
       | Some(startDate) => Js.Date.toLocaleString(startDate)
       | None => "Non définie"
