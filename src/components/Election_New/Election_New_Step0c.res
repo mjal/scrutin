@@ -1,21 +1,21 @@
 @react.component
 let make = (~state: Election_New_State.t, ~setState) => {
-  let (startDate: Js.Nullable.t<Js.Date.t>, setStartDate) = React.useState(_ => Js.Nullable.null);
+  let (endDate: Js.Nullable.t<Js.Date.t>, setEndDate) = React.useState(_ => Js.Nullable.null);
   //let { t } = ReactI18next.useTranslation()
 
   let next = _ => {
-    let startDate = Js.Nullable.toOption(startDate)
+    let endDate = Js.Nullable.toOption(endDate)
     setState(_ => {
       ...state,
-      step: Step0c,
-      ?startDate,
+      step: Step1,
+      ?endDate,
     })
   }
 
   let previous = _ => {
     setState(_ => {
       ...state,
-      step: Step0,
+      step: Step0b,
     })
   }
 
@@ -25,10 +25,10 @@ let make = (~state: Election_New_State.t, ~setState) => {
     <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
 
     <S.Title>
-      { "Quand commence cette élection ?" -> React.string }
+      { "Quand se terminer cette élection ?" -> React.string }
     </S.Title>
 
-    <Election_New_Date date=startDate setDate=setStartDate noText="Dès maintenant" />
+    <Election_New_Date date=endDate setDate=setEndDate noText="Quand je le décide" />
 
     <Election_New_Previous_Next next previous />
   </>
