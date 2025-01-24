@@ -7,7 +7,13 @@ let make = () => {
     //<Header />
     <View style=Style.viewStyle(~height=50.0->Style.dp,()) />
     
-    <Image source=Logo.source style=Style.viewStyle(~alignSelf=#center, ~width=360.0->Style.dp, ~height=139.0->Style.dp, ()) />
+    //<Image source=Logo.source style=Style.viewStyle(~alignSelf=#center, ~width=360.0->Style.dp, ~height=139.0->Style.dp, ()) />
+
+    // Align the logo to the center
+    <View style=Style.viewStyle(~alignItems=#center, ~margin=20.0->Style.dp, ())>
+      <ScrutinLogo />
+    </View>
+
     <S.Button
       title={t(. "home.create")}
       style=Style.viewStyle(~width=300.0->Style.dp, ~paddingVertical=12.0->Style.dp, ())
