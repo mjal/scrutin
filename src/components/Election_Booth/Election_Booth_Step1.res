@@ -135,6 +135,8 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
 
     <S.Button
       title="Page de l'élection"
+      titleStyle=Style.textStyle(~color=Color.black, ())
+      mode=#outlined
       onPress={_ => {
         globalDispatch(Navigate(list{"elections", election.uuid}))
       }}
