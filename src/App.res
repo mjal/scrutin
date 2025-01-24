@@ -26,9 +26,7 @@ let make = () => {
         | Some(true) => ()
         | _ => dispatch(StateMsg.Election_Fetch(uuid))
         }
-        <Text style=S.flatten([S.title,Style.textStyle(~marginTop=50.0->Style.dp,())])>
-          { "Nous recherchons l'élection..."->React.string }
-        </Text>
+        <S.P text="Nous recherchons l'élection..." style=Style.textStyle(~marginTop=50.0->Style.dp,()) />
       | Some(electionData) =>
         switch electionRoute {
         | list{} =>

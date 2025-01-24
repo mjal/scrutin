@@ -5,7 +5,6 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
   let { credentials, election } = setup
   let ( _, globalDispatch ) = StateContext.use()
 
-
   let getSecret = () => {
     if ReactNative.Platform.os == #web {
       let url = RescriptReactRouter.dangerouslyGetInitialUrl()

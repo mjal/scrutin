@@ -56,15 +56,9 @@ let make = (~state: Election_New_State.t, ~setState) => {
       <Election_New_Step5_Menu updatePolicy=setPolicy />
     | Some(#local) =>
       ReactNativeAsyncStorage.setItem(election.uuid, mnemonic)->ignore
-
       <>
-        <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-          { "Le mot de passe a été sauvegardé sur cet appareil." -> React.string }
-        </Text>
-
-        <Text style={S.flatten([S.title, Style.textStyle(~color=Color.darkorange, ~fontWeight=Style.FontWeight.bold, ()), Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-          { "Vous devrez utiliser cet appareil lors du dépouillement." -> React.string }
-        </Text>
+        <S.P text="Le mot de passe a été sauvegardé sur cet appareil." />
+        <S.P text="Vous devrez utiliser cet appareil lors du dépouillement." style=Style.textStyle(~color=Color.darkorange, ~fontWeight=Style.FontWeight.bold, ()) />
       </>
     | Some(#file) =>
       let download = async _ => {
@@ -86,32 +80,29 @@ let make = (~state: Election_New_State.t, ~setState) => {
       }
 
       <>
-        <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-          { "Cliquez ici pour télécharger un fichier contenant le mot de passe de dépouillement." -> React.string }
-        </Text>
+        <S.P text="Cliquez ici pour télécharger un fichier contenant le mot de passe de dépouillement." />
 
         <S.Button
           title={"Télécharger"}
           onPress={_ => download()->ignore }
           />
 
-        <Text style={S.flatten([S.title, Style.viewStyle(~marginTop=20.0->Style.dp, ())])}>
-          { "Une fois le mot de passe sauvegardé, vous pouvez passer à la suite" -> React.string }
-        </Text>
+        <S.P text="Une fois le mot de passe sauvegardé, vous pouvez passer à la suite" />
       </>
     | Some(#extern) =>
       <>
-        <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-          { "Voici le mot de passe à sauvegarder :" -> React.string }
-        </Text>
+        <S.P text="Voici le mot de passe à sauvegarder :" />
 
-        <Text selectable=true style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ~borderColor=Color.green, ~borderWidth=4.0, ())])}>
+        <Text selectable=true style={S.flatten([
+          Style.textStyle(
+            ~fontFamily="Inter_400Regular",
+            ~textAlign=#center, ~fontSize=20.0, ~color=Color.black, ()),
+          Style.viewStyle(~margin=20.0->Style.dp, ~borderColor=Color.green, ~borderWidth=4.0, ())
+        ])}>
           { mnemonic -> React.string }
         </Text>
 
-        <Text style={S.flatten([S.title, Style.viewStyle(~marginTop=20.0->Style.dp, ())])}>
-          { "Une fois le mot de passe sauvegardé, vous pouvez passer à la suite" -> React.string }
-        </Text>
+        <S.P text="Une fois le mot de passe sauvegardé, vous pouvez passer à la suite"  />
       </>
     } }
 
