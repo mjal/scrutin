@@ -60,9 +60,9 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
 
     <Image source=Logo.source style=Style.viewStyle(~width=180.0->Style.dp, ~height=70.0->Style.dp, ()) />
 
-    <Title style=Style.textStyle(~color=Color.black, ~fontSize=40.0, ~lineHeight=40.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
+    <S.Title>
       { `${election.name}`->React.string }
-    </Title>
+    </S.Title>
 
     <View style=Style.viewStyle(~marginHorizontal=40.0->Style.dp, ())>
       <Text>
@@ -71,46 +71,28 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
     </View>
 
     { if started && !ended {
-      <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-        { `La periode de vote est ouverte.` -> React.string }
-      </Text>
+      <S.P text=`La periode de vote est ouverte.` />
     } else if ended {
-      <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-        { `La periode de vote est close.` -> React.string }
-      </Text>
+      <S.P text=`La periode de vote est close.` />
     } else {
-      <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-        { `L'élection commencera à ${Js.Date.toLocaleString(Option.getExn(election.startDate))}.` -> React.string }
-      </Text>
+      <S.P text=`L'élection commencera à ${Js.Date.toLocaleString(Option.getExn(election.startDate))}.` />
     } }
 
     { switch priv {
     | Some(_) =>
     <>
-      <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-        { "Vous êtes invité·e à voter à cette élection." -> React.string }
-      </Text>
+      <S.P text="Vous êtes invité·e à voter à cette élection." />
 
       { if alreadyVoted {
-        <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-          { "Vous avez déjà voté à cette élection." -> React.string }
-        </Text>
+        <S.P text="Vous avez déjà voté à cette élection." />
       } else { <></> }}
     </>
     | None =>
       switch election.access {
       | Some(#"open") =>
-        <>
-          <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-            { "Vous pouvez participer en tant qu'invité." -> React.string }
-          </Text>
-        </>
+        <S.P text="Vous pouvez participer en tant qu'invité." />
       | _ =>
-        <>
-          <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
-            { "Vous n'êtes pas d'invitation pour cette élection." -> React.string }
-          </Text>
-        </>
+        <S.P text="Vous n'êtes pas d'invitation pour cette élection." />
       }
     } }
 
@@ -126,11 +108,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
         } else { <></> }
       } else { <></> } }
     | Some(_) =>
-      <>
-        <Text style={S.flatten([S.title, Style.viewStyle(~margin=30.0->Style.dp, ())])}>
-          { "Cette élection est terminée." -> React.string }
-        </Text>
-      </>
+      <S.P text="Cette élection est terminée." />
     } }
 
     <S.Button
