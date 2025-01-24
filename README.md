@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://scrutin.app/">
-    <img src="https://raw.githubusercontent.com/mjal/scrutin/master/.github/assets/logo.png" width="320" alt="Scrutin Logo">
+    <img src="https://raw.githubusercontent.com/mjal/scrutin/master/.github/assets/logo.svg" width="320" alt="Scrutin Logo">
   </a>
 </p>
 
