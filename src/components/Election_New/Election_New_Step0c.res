@@ -24,9 +24,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
     <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
 
-    <S.Title>
-      { "Quand se terminer cette élection ?" -> React.string }
-    </S.Title>
+    <S.H1 text="Quand se terminer cette élection ?" />
 
     <Election_New_Date date=endDate setDate=setEndDate noText="Quand je le décide" />
 

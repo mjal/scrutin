@@ -59,9 +59,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
 
     <Image source=Logo.source style=Style.viewStyle(~width=180.0->Style.dp, ~height=70.0->Style.dp, ()) />
 
-    <S.Title>
-      { `${election.name}`->React.string }
-    </S.Title>
+    <S.H1 text=election.name />
 
     <View style=Style.viewStyle(~marginHorizontal=40.0->Style.dp, ())>
       <Text>

@@ -47,9 +47,9 @@ module Section = {
   }
 }
 
-module Title = {
+module H1 = {
   @react.component
-  let make = (~children) => {
+  let make = (~children=?, ~text=?) => {
     let style = textStyle(
       ~color=Color.black,
       ~fontSize=40.0,
@@ -59,7 +59,8 @@ module Title = {
     ())
 
     <Title style>
-      {children}
+      { Option.map(text, React.string)->Option.getWithDefault(<></>) }
+      { Option.getWithDefault(children, <></>) }
     </Title>
   }
 }
@@ -77,11 +78,8 @@ module P = {
     ])
 
     <Text style>
-      { switch text {
-      | Some(text) => text->React.string
-      | None => <></>
-      } }
-      {Option.getWithDefault(children, <></>)}
+      { Option.map(text, React.string)->Option.getWithDefault(<></>) }
+      { Option.getWithDefault(children, <></>) }
     </Text>
   }
 }
