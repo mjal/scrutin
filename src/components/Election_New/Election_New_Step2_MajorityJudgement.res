@@ -31,9 +31,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
       <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
 
-      <Title style=Style.textStyle(~color=Color.black, ~fontSize=40.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
-        { "Quelles sont les questions ?" -> React.string }
-      </Title>
+      <S.H1 text="Quelles sont les questions ?" />
 
       <Election_New_ChoiceList answers=candidates setAnswers=setCandidates title="Quels sont les candidats" />
 
