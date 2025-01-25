@@ -48,7 +48,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
         }
 
         <View style=Style.viewStyle(~borderWidth=3.0, ~marginVertical=10.0->Style.dp, ())>
-          <S.Section title="Nom de la quetion (optionnel)" />
+          <S.Section title="Nom de la question (optionnel)" />
 
           <S.TextInput
             testID="election-question"
