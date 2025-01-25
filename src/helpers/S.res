@@ -88,7 +88,7 @@ module Container = {
   @react.component
   let make = (~children, ~style=?) => {
     let style = StyleSheet.flatten([
-      viewStyle(~minHeight=600.0->Style.dp, ~marginHorizontal=30.0->dp, ~borderColor=Color.purple, ~borderRadius=2.0, ()),
+      viewStyle(~minHeight=400.0->Style.dp, ~marginHorizontal=30.0->dp, ~borderColor=Color.purple, ~borderRadius=2.0, ()),
       Option.getWithDefault(style, viewStyle()),
     ])
     <View style> {children} </View>
