@@ -2,7 +2,7 @@ type policy_t = [ #local | #file | #extern ]
 
 @react.component
 let make = (~state: Election_New_State.t, ~setState) => {
-  let { t } = ReactI18next.useTranslation()
+  //let { t } = ReactI18next.useTranslation()
   let (_globalState, globalDispatch) = StateContext.use()
   let (policy : option<policy_t>, setPolicy) = React.useState(_ => None)
   let _ = setState

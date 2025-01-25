@@ -96,17 +96,18 @@ let make = (~updatePolicy) => {
         </TouchableOpacity>
       </RadioButton.Group>
 
-    <S.Row>
-      <S.Col>
-        <></>
-      </S.Col>
-      <S.Col>
-        <S.Button
-          title="Suivant"
-          disabled=Option.isNone(policy)
-          onPress={ _ => updatePolicy(_ => policy) }
-          />
-      </S.Col>
-    </S.Row>
-  </View>
+      <S.Row>
+        <S.Col>
+          <></>
+        </S.Col>
+        <S.Col>
+          <S.Button
+            title="Suivant"
+            disabled=Option.isNone(policy)
+            onPress={ _ => updatePolicy(_ => policy) }
+            />
+        </S.Col>
+      </S.Row>
+    </View>
+  </>
 }
