@@ -64,12 +64,12 @@ let make = (~electionData: ElectionData.t) => {
 
     <View style={Style.viewStyle(~height=20.0->Style.dp, ())} />
 
-    <Text style={S.flatten([S.title, Style.viewStyle(~margin=20.0->Style.dp, ())])}>
+    <S.P style=Style.viewStyle(~margin=20.0->Style.dp, ())>
     { 
       let nBallot = Int.toString(Array.length(ballots))
       `${nBallot} bulletin(s) dans l'urne.` -> React.string
     }
-    </Text>
+    </S.P>
 
     <View style={Style.viewStyle(~height=20.0->Style.dp, ())} />
 

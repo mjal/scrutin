@@ -1,4 +1,4 @@
-type step = Step0 | Step0b | Step1 | Step2 | Step3 | Step4 | Step5
+type step = Step0 | Step0b | Step0c | Step1 | Step2 | Step3 | Step4 | Step5
 type time_t = {
   hours: int,
   minutes: int

@@ -7,10 +7,6 @@ let primaryColor = switch Config.env {
 
 let flatten = StyleSheet.flatten
 
-let title = textStyle(
-  ~fontFamily="Inter_400Regular",
-  ~textAlign=#center, ~fontSize=20.0, ~color=Color.black, ())
-
 let marginX = viewStyle(~marginLeft=15.0->dp, ~marginRight=15.0->dp, ())
 
 let marginY = size => {
@@ -51,10 +47,51 @@ module Section = {
   }
 }
 
-module Title = {
+module H1 = {
   @react.component
-  let make = (~children) => {
-    <Title style=title> {children} </Title>
+  let make = (~children=?, ~text=?) => {
+    let style = textStyle(
+      ~color=Color.black,
+      ~fontSize=40.0,
+      ~lineHeight=40.0,
+      ~fontWeight=Style.FontWeight._900,
+      ~margin=30.0->Style.dp,
+    ())
+
+    <Title style>
+      { Option.map(text, React.string)->Option.getWithDefault(<></>) }
+      { Option.getWithDefault(children, <></>) }
+    </Title>
+  }
+}
+
+module P = {
+  @react.component
+  let make = (~children=?, ~style=?, ~text=?) => {
+
+    let style = StyleSheet.flatten([
+      textStyle(
+        ~fontFamily="Inter_400Regular",
+        ~textAlign=#center, ~fontSize=20.0, ~color=Color.black, ()),
+      viewStyle(~margin=20.0->Style.dp, ()),
+      Option.getWithDefault(style, viewStyle()),
+    ])
+
+    <Text style>
+      { Option.map(text, React.string)->Option.getWithDefault(<></>) }
+      { Option.getWithDefault(children, <></>) }
+    </Text>
+  }
+}
+
+module Container = {
+  @react.component
+  let make = (~children, ~style=?) => {
+    let style = StyleSheet.flatten([
+      viewStyle(~minHeight=400.0->Style.dp, ~marginHorizontal=30.0->dp, ~borderColor=Color.purple, ~borderRadius=2.0, ()),
+      Option.getWithDefault(style, viewStyle()),
+    ])
+    <View style> {children} </View>
   }
 }
 

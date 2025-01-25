@@ -35,23 +35,25 @@ let make = (~state: Election_New_State.t, ~setState) => {
   <>
     <Header title="Nouvelle élection" subtitle="2/5" />
 
-    <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
+    <S.Container>
 
-    <Title style=Style.textStyle(~color=Color.black, ~fontSize=40.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
-      { "Quelles sont les questions ?" -> React.string }
-    </Title>
+      <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
 
-    <S.Section title="Nom de la question (optionnel)" />
+      <S.H1 text="Quelles sont les questions ?" />
 
-    <S.TextInput
-      testID="election-question"
-      value=question
-      placeholder="Ma question"
-      placeholderTextColor="#bbb"
-      onChangeText={text => setQuestion(_ => text)}
-    />
+      <S.Section title="Nom de la question (optionnel)" />
 
-    <Election_New_ChoiceList answers setAnswers title={t(. "election.new.choiceList.choices")} />
+      <S.TextInput
+        testID="election-question"
+        value=question
+        placeholder="Ma question"
+        placeholderTextColor="#bbb"
+        onChangeText={text => setQuestion(_ => text)}
+      />
+
+      <Election_New_ChoiceList answers setAnswers title={t(. "election.new.choiceList.choices")} />
+
+    </S.Container>
 
     <Election_New_Previous_NewQuestion_Next next newQuestion previous />
   </>
