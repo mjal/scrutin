@@ -14,10 +14,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
   let trustees = [trustee]
   let { questions } = state
   let election = React.useMemo(() => {
-    switch (state.title, state.desc) {
-    | (Some(title), Some(desc)) => Election.create(desc, title, trustees, questions)
-    | _ => Js.Exn.raiseError("title and desc must be set")
-    }
+    Election.create(state.desc, state.title, trustees, questions)
   })
   let access = Option.getWithDefault(state.access, #"open")
   let votingMethod = Option.getWithDefault(state.votingMethod, #uninominal)
