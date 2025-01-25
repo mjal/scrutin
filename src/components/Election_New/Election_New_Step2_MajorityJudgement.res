@@ -2,26 +2,22 @@
 let make = (~state: Election_New_State.t, ~setState) => {
   // let { t } = ReactI18next.useTranslation()
 
-  let (candidates, setCandidates) = React.useState(_ => ["", ""])
+  let candidates = Array.map(state.questions, (question) => question.question)
 
-  let questions = Array.map(candidates, candidate => {
-    let question : QuestionH.t =  {
-      question: candidate,
-      answers: Election.grades,
-      min: 1,
-      max: 1
-    }
-    question
-  })
-
-  let next = _ => {
-    setState(_ => {
-      ...state,
-      step: Step3,
-      questions
+  let updateAnswers = candidates => {
+    let questions = Array.map(candidates, candidate => {
+      let question : QuestionH.t =  {
+        question: candidate,
+        answers: Election.grades,
+        min: 1,
+        max: 1
+      }
+      question
     })
+    setState(_ => {...state, questions})
   }
 
+  let next = _ => setState(_ => { ...state, step: Step3, })
   let previous = _ => setState(_ => {...state, step: Step1})
 
   <>
@@ -33,7 +29,8 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
       <S.H1 text="Quelles sont les questions ?" />
 
-      <Election_New_ChoiceList answers=candidates setAnswers=setCandidates title="Quels sont les candidats" />
+      <Election_New_ChoiceList answers=candidates updateAnswers
+        title="Quels sont les candidats" />
 
     </S.Container>
 

@@ -1,17 +1,16 @@
 @react.component
-let make = (~title, ~answers, ~setAnswers) => {
+let make = (~title, ~answers, ~updateAnswers) => {
   // let {t} = ReactI18next.useTranslation()
 
   let onRemove = i => {
-    setAnswers(answers => Array.keepWithIndex(answers, (_name, index) => index != i))
+    updateAnswers(Array.keepWithIndex(answers, (_name, index) => index != i))
   }
 
   let onUpdate = (i, newName) => {
-    setAnswers(answers =>
-      Array.mapWithIndex(answers, (index, oldName) => {
-        index == i ? newName : oldName
-      })
-    )
+    let answers = Array.mapWithIndex(answers, (index, oldName) => {
+      index == i ? newName : oldName
+    })
+    updateAnswers(answers)
   }
 
   <View testID="choice-list">
@@ -28,7 +27,7 @@ let make = (~title, ~answers, ~setAnswers) => {
     <TouchableOpacity
       //style=Style.viewStyle(~alignSelf=#center,())
       style=Style.viewStyle(~marginLeft=60.0->Style.dp, ())
-      onPress={_ => setAnswers(choices => Array.concat(choices, [""]))}>
+      onPress={_ => updateAnswers(Array.concat(answers, [""]))}>
       <SIcon.ButtonPlus />
     </TouchableOpacity>
   </View>

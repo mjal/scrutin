@@ -2,31 +2,20 @@
 let make = (~state: Election_New_State.t, ~setState) => {
   let { t } = ReactI18next.useTranslation()
 
-  let (question, setQuestion) = React.useState(_ => "")
-  let (answers, setAnswers) = React.useState(_ => ["", ""])
-
   let next = _ => {
-    let question : QuestionH.t =  {
-      question, answers, min: 1, max: 1
-    }
-
     setState(_ => {
       ...state,
       step: Step3,
-      questions: state.questions->Array.concat([question])
     })
   }
 
   let newQuestion = _ => {
-    let question : QuestionH.t =  {
-      question, answers, min: 1, max: 1
-    }
-    setQuestion(_ => "")
-    setAnswers(_ => ["", ""])
+    let question : QuestionH.t = { question: "", answers: ["", ""], min: 1, max: 1 }
+    let questions = Array.concat(state.questions, [question])
     setState(_ => {
       ...state,
+      questions,
       step: Step2,
-      questions: state.questions->Array.concat([question])
     })
   }
 
@@ -36,25 +25,50 @@ let make = (~state: Election_New_State.t, ~setState) => {
     <Header title="Nouvelle élection" subtitle="2/5" />
 
     <S.Container>
-
       <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
 
       <S.H1 text="Quelles sont les questions ?" />
 
-      <S.Section title="Nom de la question (optionnel)" />
+      { Array.mapWithIndex(state.questions, (i, question) => {
+        let updateQuestion = name => {
+          let question : QuestionH.t = {...question, question: name}
+          let questions = Array.mapWithIndex(state.questions, (j, q) => {
+            if i == j { question } else { q }
+          })
+          setState(_ => {...state, questions})
+        }
 
-      <S.TextInput
-        testID="election-question"
-        value=question
-        placeholder="Ma question"
-        placeholderTextColor="#bbb"
-        onChangeText={text => setQuestion(_ => text)}
+        let answers = question.answers
+        let updateAnswers = answers => {
+          let question : QuestionH.t = {...question, answers}
+          let questions = Array.mapWithIndex(state.questions, (j, q) => {
+            if i == j { question } else { q }
+          })
+          setState(_ => {...state, questions})
+        }
+
+        <View style=Style.viewStyle(~borderWidth=3.0, ~marginVertical=10.0->Style.dp, ())>
+          <S.Section title="Nom de la quetion (optionnel)" />
+
+          <S.TextInput
+            testID="election-question"
+            value=question.question
+            placeholder="Ma question"
+            placeholderTextColor="#bbb"
+            onChangeText=updateQuestion
+          />
+
+          <Election_New_ChoiceList answers updateAnswers
+            title={t(. "election.new.choiceList.choices")} />
+        </View>
+      }) -> React.array }
+
+      <S.Button
+        title="Nouvelle question"
+        onPress={_ => newQuestion()}
       />
-
-      <Election_New_ChoiceList answers setAnswers title={t(. "election.new.choiceList.choices")} />
-
     </S.Container>
 
-    <Election_New_Previous_NewQuestion_Next next newQuestion previous />
+    <Election_New_Previous_Next next previous />
   </>
 }
