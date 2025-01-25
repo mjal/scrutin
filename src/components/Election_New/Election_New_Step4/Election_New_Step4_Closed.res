@@ -5,7 +5,6 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
   let next = _ => {
     let emails = Js.String.split("\n", emails)->Array.map(String.trim)
-    Js.log(emails)
     setState(_ => {
       ...state,
       step: Step5,
@@ -13,29 +12,33 @@ let make = (~state: Election_New_State.t, ~setState) => {
     })
   }
 
+  let previous = _ => setState(_ => {...state, step: Step3})
+
   <>
     <Header title="Nouvelle élection" subtitle="4/5" />
 
-    <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
+    <S.Container>
+      <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
 
-    <View style=Style.viewStyle(~margin=30.0->Style.dp, ())>
-      <Title style=Style.textStyle(~fontSize=32.0, ())>
-        { "Ajouter les emails des participants" -> React.string }
-      </Title>
-    </View>
+      <View style=Style.viewStyle(~margin=30.0->Style.dp, ())>
+        <Title style=Style.textStyle(~fontSize=32.0, ())>
+          { "Ajouter les emails des participants" -> React.string }
+        </Title>
+      </View>
 
-    <S.TextInput
-      testID="election-emails"
-      value=emails
-      placeholder="Emails des participants"
-      placeholderTextColor="#bbb"
-      autoFocus=true
-      multiline=true
-      numberOfLines=10
-      onChangeText={text => setEmails(_ => text)}
-    />
+      <S.TextInput
+        testID="election-emails"
+        value=emails
+        placeholder="Emails des participants"
+        placeholderTextColor="#bbb"
+        autoFocus=true
+        multiline=true
+        numberOfLines=10
+        onChangeText={text => setEmails(_ => text)}
+      />
+    </S.Container>
 
-    <Election_New_Previous_Next next previous={_ => setState(_ => {...state, step: Step3})} />
+    <Election_New_Previous_Next next previous />
   </>
 }
 
