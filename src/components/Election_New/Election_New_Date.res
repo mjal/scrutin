@@ -1,21 +1,21 @@
 @react.component
 let make = (~date, ~setDate, ~noText) => {
-  let (hasDate, setHasDate) = React.useState(_ => "no")
   let (visible, setVisible) = React.useState(_ => false);
+
+  let hasDate = switch Js.Nullable.toOption(date) {
+  | None => "no"
+  | Some(_) => "yes"
+  }
 
   <View style=Style.viewStyle(~padding=16.0->Style.dp, ())>
     <RadioButton.Group
       value=hasDate
       onValueChange={v => {
-        if v == "no" {
-          setDate(_ => Js.Nullable.null)
-        }
-        setHasDate(_ => v)
+        if v == "no" { setDate(_ => Js.Nullable.null) }
         v
       }}
     >
       <TouchableOpacity onPress={_ => {
-        setHasDate(_ => "no")
         setDate(_ => Js.Nullable.null)
       }}>
         <View style=Style.viewStyle(~flexDirection=#row, ~alignItems=#center, ())>
@@ -35,36 +35,33 @@ let make = (~date, ~setDate, ~noText) => {
 
       <View style=Style.viewStyle(~marginTop=16.0->Style.dp, ()) />
 
-      <TouchableOpacity onPress={_ => setHasDate(_ => "yes")}>
+      <TouchableOpacity>
         <View style=Style.viewStyle(~flexDirection=#row, ~alignItems=#center, ())>
           <RadioButton value="yes" status=(if hasDate == "yes" { #checked } else { #unchecked }) />
-          <Text
-            style=Style.textStyle(
-              ~color=Color.black,
-              ~fontSize=18.0,
-              ~fontWeight=Style.FontWeight._700,
-              (),
-            )
-          >
+          <Text style=Style.textStyle(
+            ~color=Color.black,
+            ~fontSize=18.0,
+            ~fontWeight=Style.FontWeight._700,
+            ())>
             { "À un moment précis"->React.string }
           </Text>
         </View>
 
+        <Paper__DatePickerInput
+          locale="fr"
+          label="Date"
+          inputMode=#start
+          value=date
+          onChange={(date) => {
+            switch (Js.Nullable.toOption(date)) {
+            | None => ()
+            | Some(date) => setDate(_ => Js.Nullable.return(date))
+            }
+          }}
+        />
+
         { if hasDate == "yes" {
           <>
-            <Paper__DatePickerInput
-              locale="fr"
-              label="Date"
-              inputMode=#start
-              value=date
-              onChange={(date) => {
-                switch (Js.Nullable.toOption(date)) {
-                | None => ()
-                | Some(date) => setDate(_ => Js.Nullable.return(date))
-                }
-              }}
-            />
-
             <S.Row>
               <S.Col>
                 {
