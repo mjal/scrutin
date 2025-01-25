@@ -16,13 +16,14 @@ let make = (~state: Election_New_State.t, ~setState) => {
   <>
     <Header title="Nouvelle élection" subtitle="3/5" />
 
-    <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
+    <S.Container>
 
-    <Title style=Style.textStyle(~color=Color.black, ~fontSize=40.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
-      { "Comment on y participe ?" -> React.string }
-    </Title>
+      <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
 
-    <View style=Style.viewStyle(~padding=16.0->Style.dp, ())>
+      <S.H1 text="Comment on y participe ?" />
+
+      <View style=Style.viewStyle(~padding=16.0->Style.dp, ()) />
+
       <RadioButton.Group
         value={Election.accessToString(access)}
         onValueChange={v => {
@@ -76,29 +77,9 @@ let make = (~state: Election_New_State.t, ~setState) => {
           </Text>
         </TouchableOpacity>
       </RadioButton.Group>
-    </View>
+    </S.Container>
 
-    {
-      let style = Style.viewStyle(
-        ~flexDirection=#row,
-        ~justifyContent=#"space-between",
-        ~marginTop=20.0->Style.dp,
-        ())
-
-      <View style>
-        <S.Button
-          title="Précédent"
-          titleStyle=Style.textStyle(~color=Color.black, ())
-          mode=#outlined
-          onPress={_ => previous()}
-        />
-
-        <S.Button
-          title={t(. "election.new.next")}
-          disabled=Option.isNone(access)
-          onPress={_ => next()}
-        />
-      </View>
-    }
+    // TODO: Next Disabled
+    <Election_New_Previous_Next next previous />
   </>
 }
