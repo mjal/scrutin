@@ -22,11 +22,13 @@ let make = (~state: Election_New_State.t, ~setState) => {
   <>
     <Header title="Nouvelle élection" subtitle="1/5" />
 
-    <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
+    <S.Container>
+      <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
 
-    <S.H1 text="Quand se terminer cette élection ?" />
+      <S.H1 text="Quand se terminer cette élection ?" />
 
-    <Election_New_Date date=endDate setDate=setEndDate noText="Quand je le décide" />
+      <Election_New_Date date=endDate setDate=setEndDate noText="Quand je le décide" />
+    </S.Container>
 
     <Election_New_Previous_Next next previous />
   </>

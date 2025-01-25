@@ -22,13 +22,13 @@ let make = (~state: Election_New_State.t, ~setState) => {
   <>
     <Header title="Nouvelle élection" subtitle="1/5" />
 
-    <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
+    <S.Container>
+      <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
 
-    <S.H1>
-      { "Quand commence cette élection ?" -> React.string }
-    </S.H1>
+      <S.H1 text="Quand commence cette élection ?" />
 
-    <Election_New_Date date=startDate setDate=setStartDate noText="Dès maintenant" />
+      <Election_New_Date date=startDate setDate=setStartDate noText="Dès maintenant" />
+    </S.Container>
 
     <Election_New_Previous_Next next previous />
   </>
