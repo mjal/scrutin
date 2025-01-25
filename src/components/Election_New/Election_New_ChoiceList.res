@@ -1,5 +1,5 @@
 @react.component
-let make = (~title, ~answers, ~updateAnswers) => {
+let make = (~title, ~answers, ~updateAnswers, ~removeQuestion=?) => {
   // let {t} = ReactI18next.useTranslation()
 
   let onRemove = i => {
@@ -24,11 +24,26 @@ let make = (~title, ~answers, ~updateAnswers) => {
         onUpdate={name => onUpdate(i, name)}
       />
     })->React.array}
-    <TouchableOpacity
-      //style=Style.viewStyle(~alignSelf=#center,())
-      style=Style.viewStyle(~marginLeft=60.0->Style.dp, ())
-      onPress={_ => updateAnswers(Array.concat(answers, [""]))}>
-      <SIcon.ButtonPlus />
-    </TouchableOpacity>
+
+      <S.Row>
+        <S.Col>
+          <S.Button
+            title="Nouvelle option"
+            onPress={_ => updateAnswers(Array.concat(answers, [""]))}
+          />
+        </S.Col>
+        <S.Col>
+          {switch removeQuestion {
+          | Some(removeQuestion) =>
+            <S.Button
+              title="Remove question"
+              titleStyle=Style.textStyle(~color=Color.black, ())
+              mode=#outlined
+              onPress={_ => removeQuestion()}
+            />
+          | None => <></>
+          }}
+        </S.Col>
+      </S.Row>
   </View>
 }

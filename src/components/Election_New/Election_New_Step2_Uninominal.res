@@ -1,6 +1,6 @@
 @react.component
 let make = (~state: Election_New_State.t, ~setState) => {
-  let { t } = ReactI18next.useTranslation()
+  // let { t } = ReactI18next.useTranslation()
 
   let next = _ => {
     setState(_ => {
@@ -18,6 +18,13 @@ let make = (~state: Election_New_State.t, ~setState) => {
       step: Step2,
     })
   }
+
+  React.useEffect0(() => {
+    if Array.length(state.questions) == 0 {
+      newQuestion()
+    }
+    None
+  })
 
   let previous = _ => setState(_ => {...state, step: Step1})
 
@@ -59,7 +66,12 @@ let make = (~state: Election_New_State.t, ~setState) => {
           />
 
           <Election_New_ChoiceList answers updateAnswers
-            title={t(. "election.new.choiceList.choices")} />
+            removeQuestion={_ => {
+              let questions = state.questions
+                ->Array.keepWithIndex((_x, j) => i != j)
+              setState(_ => {...state, questions})
+            }}
+            title="Quelles sont les options ?" />
         </View>
       }) -> React.array }
 
@@ -67,6 +79,8 @@ let make = (~state: Election_New_State.t, ~setState) => {
         title="Nouvelle question"
         onPress={_ => newQuestion()}
       />
+
+      <View style=Style.viewStyle(~margin=10.0->Style.dp, ()) />
     </S.Container>
 
     <Election_New_Previous_Next next previous />

@@ -27,10 +27,8 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
       <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
 
-      <S.H1 text="Quelles sont les questions ?" />
-
       <Election_New_ChoiceList answers=candidates updateAnswers
-        title="Quels sont les candidats" />
+        title="Quelles sont les options" />
 
     </S.Container>
 
