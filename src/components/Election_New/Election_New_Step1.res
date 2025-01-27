@@ -14,7 +14,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
   let previous = _ => {
     setState(_ => {
       ...state,
-      step: Step0b,
+      step: Step0c,
     })
   }
 
