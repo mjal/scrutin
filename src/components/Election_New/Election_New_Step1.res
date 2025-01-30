@@ -27,11 +27,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
     <Header title="Nouvelle élection" subtitle="1/5" />
 
     <S.Container>
-      <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
-
-      <Title style=Style.textStyle(~color=Color.black, ~fontSize=40.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
-        { "Comment on y participe ?" -> React.string }
-      </Title>
+      <S.H1 text ="Choisissez le type de scrutin" />
 
       <View style=Style.viewStyle(~padding=16.0->Style.dp, ())>
         <RadioButton.Group
@@ -94,7 +90,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
       </View>
     </S.Container>
 
-    <Election_New_Previous_Next next previous />
+    <Election_New_Previous_Next next previous disabled=Option.isNone(state.votingMethod) />
   </>
 }
 
