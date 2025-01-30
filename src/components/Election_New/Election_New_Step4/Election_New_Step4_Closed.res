@@ -1,7 +1,10 @@
 @react.component
 let make = (~state: Election_New_State.t, ~setState) => {
   // let { t } = ReactI18next.useTranslation()
-  let (emails, setEmails) = React.useState(_ => "")
+
+  let (emails, setEmails) = React.useState(_ => {
+    Js.Array2.joinWith(state.emails,"\n")
+  })
 
   let next = _ => {
     let emails = Js.String.split("\n", emails)->Array.map(String.trim)
