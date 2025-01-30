@@ -15,7 +15,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
         value=state.title
         placeholder=t(. "election.new.titlePlaceholder")
         placeholderTextColor="#bbb"
-        autoFocus=true
+        //autoFocus=true
         onSubmitEditing=next
         onChangeText={title => setState(_ => {...state, title})}
       />
