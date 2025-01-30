@@ -12,7 +12,7 @@ let make = (~title="", ~subtitle="", ~titleTextStyle=?, ~subtitleTextStyle=?) =>
     | #web =>
       Style.textStyle(
         ~fontWeight=Style.FontWeight._900,
-        ~marginTop=45.0->Style.dp,
+        ~marginTop=30.0->Style.dp,
         ~fontSize=28.0,
         ~lineHeight=24.0,
         ())
@@ -54,7 +54,7 @@ let make = (~title="", ~subtitle="", ~titleTextStyle=?, ~subtitleTextStyle=?) =>
   <Appbar.Header
     style={Style.viewStyle(
       ~backgroundColor,
-      ~marginBottom=40.0->Style.dp,
+      ~marginBottom=25.0->Style.dp,
       ~marginLeft=15.0->Style.dp,
       ())}>
     //{backButton}
