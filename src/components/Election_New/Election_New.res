@@ -16,5 +16,6 @@ let make = () => {
   | Step3 => <Election_New_Step3 state setState />
   | Step4 => <Election_New_Step4 state setState />
   | Step5 => <Election_New_Step5 state setState />
+  | Step6 => <Election_New_Step6 state setState />
   }
 }
