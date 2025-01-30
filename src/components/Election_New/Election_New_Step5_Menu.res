@@ -98,6 +98,7 @@ let make = (~updatePolicy, ~previous) => {
 
       <Election_New_Previous_Next
         next={_ => updatePolicy(_ => policy) }
+        disabled=Option.isNone(policy)
         previous
       />
     </View>
