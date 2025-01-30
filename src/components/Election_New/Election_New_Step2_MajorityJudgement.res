@@ -3,6 +3,11 @@ let make = (~state: Election_New_State.t, ~setState) => {
   // let { t } = ReactI18next.useTranslation()
 
   let candidates = Array.map(state.questions, (question) => question.question)
+  let candidates = if (Array.length(candidates) == 0) {
+    ["", ""]
+  } else {
+    candidates
+  }
 
   let updateAnswers = candidates => {
     let questions = Array.map(candidates, candidate => {
