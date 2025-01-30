@@ -37,9 +37,13 @@ let make = (~date, ~setDate, ~noText) => {
 
       <TouchableOpacity onPress={_ => {
         setDate(_ => {
-          let date = Js.Date.make()
-          let date = Js.Date.fromFloat(Js.Date.setHoursM(date, ~hours=0.0, ~minutes=0.0, ()))
-          Js.Nullable.return(date)
+          switch Js.Nullable.toOption(date) {
+          | Some(_) => date
+          | None =>
+            let date = Js.Date.make()
+            let date = Js.Date.fromFloat(Js.Date.setHoursM(date, ~hours=0.0, ~minutes=0.0, ()))
+            Js.Nullable.return(date)
+          }
         })
       }}>
         <View style=Style.viewStyle(~flexDirection=#row, ~alignItems=#center, ())>
