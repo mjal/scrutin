@@ -51,7 +51,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
       { switch policy {
       | None =>
-        <Election_New_Step5_Menu updatePolicy=setPolicy />
+        <Election_New_Step5_Menu updatePolicy=setPolicy previous={_ => setState(_ => {...state, step: Step4})} />
       | Some(#local) =>
         ReactNativeAsyncStorage.setItem(election.uuid, mnemonic)->ignore
         <>

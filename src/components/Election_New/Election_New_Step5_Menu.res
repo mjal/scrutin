@@ -19,7 +19,7 @@ let stringToPolicy = (value: string): policy_t => {
 }
 
 @react.component
-let make = (~updatePolicy) => {
+let make = (~updatePolicy, ~previous) => {
   let (policy : policy_t, setPolicy) = React.useState(_ => None)
 
   <>
@@ -96,18 +96,10 @@ let make = (~updatePolicy) => {
         </TouchableOpacity>
       </RadioButton.Group>
 
-      <S.Row>
-        <S.Col>
-          <></>
-        </S.Col>
-        <S.Col>
-          <S.Button
-            title="Suivant"
-            disabled=Option.isNone(policy)
-            onPress={ _ => updatePolicy(_ => policy) }
-            />
-        </S.Col>
-      </S.Row>
+      <Election_New_Previous_Next
+        next={_ => updatePolicy(_ => policy) }
+        previous
+      />
     </View>
   </>
 }
