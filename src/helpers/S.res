@@ -55,8 +55,9 @@ module H1 = {
       ~fontSize=30.0,
       ~lineHeight=30.0,
       ~fontWeight=Style.FontWeight._900,
-      ~margin=30.0->Style.dp,
+      ~marginBottom=30.0->Style.dp,
       ~marginTop=40.0->Style.dp,
+      ~marginHorizontal=10.0->Style.dp,
     ())
 
     <Title style>
@@ -179,7 +180,7 @@ module TextInput = {
   let make = (~label=?, ~testID=?, ~value,
     ~onChangeText, ~placeholder=?, ~placeholderTextColor=?, ~onSubmitEditing=?, ~autoFocus=?, ~multiline=?, ~numberOfLines=?) => {
     let style = viewStyle(
-      ~marginHorizontal=25.0->dp,
+      ~marginHorizontal=10.0->dp,
       ~backgroundColor=Color.white,
       ~borderWidth=1.0,
       ~shadowRadius=2.0,
