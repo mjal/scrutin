@@ -79,8 +79,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
       </RadioButton.Group>
     </S.Container>
 
-    // TODO: Next Disabled
-    <Election_New_Previous_Next next previous />
+    <Election_New_Previous_Next next previous disabled=Option.isNone(access) />
   </>
 }
 

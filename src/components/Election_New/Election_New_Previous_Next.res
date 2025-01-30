@@ -1,5 +1,5 @@
 @react.component
-let make = (~next, ~previous) => {
+let make = (~next, ~previous, ~disabled=false) => {
   let { t } = ReactI18next.useTranslation()
 
   //let style = Style.viewStyle(
@@ -23,6 +23,7 @@ let make = (~next, ~previous) => {
       <S.Button
         title={t(. "election.new.next")}
         onPress={_ => next()}
+        disabled
       />
     </S.Col>
   </S.Row>
