@@ -52,7 +52,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
           setState(_ => {...state, questions})
         }
 
-        <View style=Style.viewStyle(~borderWidth=3.0, ~marginVertical=10.0->Style.dp, ())>
+        <View style=Style.viewStyle(~borderWidth=3.0, ~marginVertical=10.0->Style.dp, ()) key=Int.toString(i)>
           <S.Section title="Nom de la question (optionnel)" />
 
           <S.TextInput
