@@ -1,4 +1,5 @@
 type access = [#"open" | #closed]
+// TODO: Move to component
 let accessToString = (access) => {
   switch access {
   | None => ""
@@ -15,6 +16,7 @@ let stringToAccess = (str) => {
 }
 
 type votingMethod = [#uninominal | #majorityJudgement]
+// TODO: Move to component
 let votingMethodToString = (votingMethod) => {
   switch votingMethod {
   | None => ""
