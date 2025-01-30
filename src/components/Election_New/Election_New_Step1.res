@@ -1,13 +1,18 @@
 @react.component
 let make = (~state: Election_New_State.t, ~setState) => {
   //let { t } = ReactI18next.useTranslation()
-  let (votingMethod, setVotingMethod) = React.useState(_ => #uninominal)
+
+  let setVotingMethod = votingMethod => {
+    setState(_ => {
+      ...state,
+      votingMethod
+    })
+  }
 
   let next = _ => {
     setState(_ => {
       ...state,
       step: Step2,
-      votingMethod,
     })
   }
 
@@ -30,15 +35,19 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
       <View style=Style.viewStyle(~padding=16.0->Style.dp, ())>
         <RadioButton.Group
-          value={Election.votingMethodToString(votingMethod)}
+          value={Option.map(state.votingMethod, Election.votingMethodToString)->Option.getWithDefault("")}
           onValueChange={v => {
-            setVotingMethod(_ => Election.stringToVotingMethod(v))
+            let votingMethod = Election.stringToVotingMethod(v)
+            setState(_ => {
+              ...state,
+              votingMethod
+            })
             v
           }}
         >
-          <TouchableOpacity onPress={_ => setVotingMethod(_ => #uninominal)}>
+          <TouchableOpacity onPress={_ => setVotingMethod(#uninominal)}>
             <View style=Style.viewStyle(~flexDirection=#row, ~alignItems=#center, ())>
-              <RadioButton value="uninominal" status=(if votingMethod == #uninominal { #checked } else { #unchecked }) />
+              <RadioButton value="uninominal" status=(if state.votingMethod == Some(#uninominal) { #checked } else { #unchecked }) />
               <Text
                 style=Style.textStyle(
                   ~color=Color.black,
@@ -60,9 +69,9 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
           <View style=Style.viewStyle(~marginTop=16.0->Style.dp, ()) />
 
-          <TouchableOpacity onPress={_ => setVotingMethod(_ => #majorityJudgement)}>
+          <TouchableOpacity onPress={_ => setVotingMethod(#majorityJudgement)}>
             <View style=Style.viewStyle(~flexDirection=#row, ~alignItems=#center, ())>
-              <RadioButton value="majorityJudgement" status=(if votingMethod == #majorityJudgement { #checked } else { #unchecked }) />
+              <RadioButton value="majorityJudgement" status=(if state.votingMethod == Some(#majorityJudgement) { #checked } else { #unchecked }) />
               <Text
                 style=Style.textStyle(
                   ~color=Color.black,
