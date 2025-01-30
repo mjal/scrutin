@@ -35,7 +35,13 @@ let make = (~date, ~setDate, ~noText) => {
 
       <View style=Style.viewStyle(~marginTop=16.0->Style.dp, ()) />
 
-      <TouchableOpacity>
+      <TouchableOpacity onPress={_ => {
+        setDate(_ => {
+          let date = Js.Date.make()
+          let date = Js.Date.fromFloat(Js.Date.setHoursM(date, ~hours=0.0, ~minutes=0.0, ()))
+          Js.Nullable.return(date)
+        })
+      }}>
         <View style=Style.viewStyle(~flexDirection=#row, ~alignItems=#center, ())>
           <RadioButton value="yes" status=(if hasDate == "yes" { #checked } else { #unchecked }) />
           <Text style=Style.textStyle(
