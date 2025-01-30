@@ -8,9 +8,9 @@ let make = (~state: Election_New_State.t, ~setState) => {
     <Header title="Nouvelle élection" subtitle="1/5" />
 
     <S.Container>
-      <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
+      <View style=Style.viewStyle(~margin=10.0->Style.dp, ()) />
 
-      <S.Section title={t(. "election.new.title")} />
+      <S.H1 text={t(. "election.new.title")} />
 
       <S.TextInput
         testID="election-title"
