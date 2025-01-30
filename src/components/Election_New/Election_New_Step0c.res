@@ -1,23 +1,15 @@
 @react.component
 let make = (~state: Election_New_State.t, ~setState) => {
-  let (endDate: Js.Nullable.t<Js.Date.t>, setEndDate) = React.useState(_ => Js.Nullable.null);
   //let { t } = ReactI18next.useTranslation()
 
-  let next = _ => {
-    let endDate = Js.Nullable.toOption(endDate)
-    setState(_ => {
-      ...state,
-      step: Step1,
-      ?endDate,
-    })
+  let endDate = Js.Nullable.fromOption(state.endDate)
+  let setEndDate = get => {
+    let endDate = Js.Nullable.toOption(get())
+    setState(_ => {...state, ?endDate})
   }
 
-  let previous = _ => {
-    setState(_ => {
-      ...state,
-      step: Step0b,
-    })
-  }
+  let next = _ => setState(_ => { ...state, step: Step1, })
+  let previous = _ => setState(_ => { ...state, step: Step0b, })
 
   <>
     <Header title="Nouvelle élection" subtitle="1/5" />

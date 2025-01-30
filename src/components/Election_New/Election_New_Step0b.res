@@ -1,7 +1,12 @@
 @react.component
 let make = (~state: Election_New_State.t, ~setState) => {
-  let (startDate: Js.Nullable.t<Js.Date.t>, setStartDate) = React.useState(_ => Js.Nullable.null);
   //let { t } = ReactI18next.useTranslation()
+
+  let startDate = Js.Nullable.fromOption(state.startDate)
+  let setStartDate = get => {
+    let startDate = Js.Nullable.toOption(get())
+    setState(_ => {...state, ?startDate})
+  }
 
   let next = _ => {
     let startDate = Js.Nullable.toOption(startDate)
