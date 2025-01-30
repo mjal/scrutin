@@ -17,14 +17,16 @@ let stringToAccess = (str) => {
 type votingMethod = [#uninominal | #majorityJudgement]
 let votingMethodToString = (votingMethod) => {
   switch votingMethod {
-  | #uninominal => "uninominal"
-  | #majorityJudgement => "majorityJudgement"
+  | None => ""
+  | Some(#uninominal) => "uninominal"
+  | Some(#majorityJudgement) => "majorityJudgement"
   }
 }
 let stringToVotingMethod = (str) => {
   switch str {
-  | "majorityJudgement" => #majorityJudgement
-  | _ => #uninominal
+  | "majorityJudgement" => Some(#majorityJudgement)
+  | "uninominal" => Some(#uninominal)
+  | _ => None
   }
 }
 
