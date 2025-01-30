@@ -136,9 +136,17 @@ module SegmentedButtons = {
 module Button = {
   @react.component
   let make = (~onPress, ~title, ~style=?, ~titleStyle=?, ~testID=?, ~disabled=?, ~mode=#contained) => {
+
+    let width = 200.0->dp
+    //let width = if Dimensions.get(#window).width > 1000.0 {
+    //  300.0->dp
+    //} else {
+    //  200.0->dp
+    //}
+
     let defaultStyle = viewStyle(
       ~alignSelf=#center,
-      ~width=300.0->dp,
+      ~width,
       ~marginTop=25.0->dp,
       ~paddingVertical=5.0->dp,
       ~borderRadius=0.0,
