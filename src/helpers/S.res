@@ -56,6 +56,7 @@ module H1 = {
       ~lineHeight=40.0,
       ~fontWeight=Style.FontWeight._900,
       ~margin=30.0->Style.dp,
+      ~marginTop=40.0->Style.dp,
     ())
 
     <Title style>
@@ -88,7 +89,7 @@ module Container = {
   @react.component
   let make = (~children, ~style=?) => {
     let style = StyleSheet.flatten([
-      viewStyle(~minHeight=400.0->Style.dp, ~marginHorizontal=30.0->dp, ~borderColor=Color.purple, ~borderRadius=2.0, ()),
+      viewStyle(~minHeight=350.0->Style.dp, ~marginHorizontal=30.0->dp, ~borderColor=Color.purple, ~borderRadius=2.0, ()),
       Option.getWithDefault(style, viewStyle()),
     ])
     <View style> {children} </View>

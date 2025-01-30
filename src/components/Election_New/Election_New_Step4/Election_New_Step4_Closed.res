@@ -21,13 +21,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
     <Header title="Nouvelle élection" subtitle="4/5" />
 
     <S.Container>
-      <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
-
-      <View style=Style.viewStyle(~margin=30.0->Style.dp, ())>
-        <Title style=Style.textStyle(~fontSize=32.0, ())>
-          { "Ajouter les emails des participants" -> React.string }
-        </Title>
-      </View>
+      <S.H1 text="Ajouter les emails des participants" />
 
       <S.TextInput
         testID="election-emails"

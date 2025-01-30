@@ -25,8 +25,6 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
     <S.Container>
 
-      <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
-
       <Election_New_ChoiceList answers=candidates updateAnswers
         title="Quelles sont les options" />
 

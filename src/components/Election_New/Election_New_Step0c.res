@@ -15,8 +15,6 @@ let make = (~state: Election_New_State.t, ~setState) => {
     <Header title="Nouvelle élection" subtitle="1/5" />
 
     <S.Container>
-      <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
-
       <S.H1 text="Quand se termine cette élection ?" />
 
       <Election_New_Date date=endDate setDate=setEndDate noText="Quand je le décide" />

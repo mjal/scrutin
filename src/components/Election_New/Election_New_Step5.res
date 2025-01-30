@@ -47,8 +47,6 @@ let make = (~state: Election_New_State.t, ~setState) => {
     <Header title="Nouvelle élection" subtitle="5/5" />
 
     <S.Container>
-      <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
-
       { switch policy {
       | None =>
         <Election_New_Step5_Menu updatePolicy=setPolicy previous={_ => setState(_ => {...state, step: Step3})} />

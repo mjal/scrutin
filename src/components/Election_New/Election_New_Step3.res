@@ -18,8 +18,6 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
     <S.Container>
 
-      <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
-
       <S.H1 text="Comment on y participe ?" />
 
       <View style=Style.viewStyle(~padding=16.0->Style.dp, ()) />

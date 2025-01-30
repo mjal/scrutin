@@ -32,8 +32,6 @@ let make = (~state: Election_New_State.t, ~setState) => {
     <Header title="Nouvelle élection" subtitle="2/5" />
 
     <S.Container>
-      <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
-
       <S.H1 text="Quelles sont les questions ?" />
 
       { Array.mapWithIndex(state.questions, (i, question) => {

@@ -9,8 +9,6 @@ let make = (~state: Election_New_State.t, ~setState) => {
     <Header title="Nouvelle élection" subtitle="4/5" />
 
     <S.Container>
-      <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
-
       <Text>{ "Cette election est ouverte." -> React.string }</Text>
 
       <Text>{ "Vous pourrez partager un lien permettant de voter" -> React.string }</Text>
