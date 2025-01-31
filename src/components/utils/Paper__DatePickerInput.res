@@ -5,4 +5,5 @@ external make: (
   ~value: Js.nullable<Js.Date.t>,
   ~inputMode: [#start],
   ~onChange: Js.nullable<Js.Date.t> => unit,
+  ~startWeekOnMonday: bool,
 ) => React.element = "DatePickerInput"

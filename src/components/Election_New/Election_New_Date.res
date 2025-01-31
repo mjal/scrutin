@@ -62,6 +62,7 @@ let make = (~date, ~setDate, ~noText) => {
           label="Date"
           inputMode=#start
           value=date
+          startWeekOnMonday=true
           onChange={(date) => {
             switch (Js.Nullable.toOption(date)) {
             | None => ()
