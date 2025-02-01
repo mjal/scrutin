@@ -1,7 +1,7 @@
 @react.component
 let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setState) => {
   let _ = (electionData, state)
-  let (name, setName) = React.useState(_ => "")
+  let (name, setName) = React.useState(_ => Option.getWithDefault(state.name, ""))
 
   let next = _ => {
     setState(_ => {
@@ -10,6 +10,8 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
       name: Some(name),
     })
   }
+
+  let previous = _ => setState(_ => { ...state, step: Step1 })
 
   <>
     <Header title="S'identifier" />
@@ -26,10 +28,27 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
       onChangeText={text => setName(_ => text)}
       onSubmitEditing=next
     />
-  
-    <S.Button
-      title="Valider"
-      onPress=next
-    />
+
+    {
+      let style = Style.viewStyle(
+        ~flexDirection=#row,
+        ~justifyContent=#"space-between",
+        ~marginTop=20.0->Style.dp,
+        ())
+
+      <View style>
+        <S.Button
+          title="Précédent"
+          titleStyle=Style.textStyle(~color=Color.black, ())
+          mode=#outlined
+          onPress={_ => previous()}
+        />
+
+        <S.Button
+          title="Valider"
+          onPress=next
+        />
+      </View>
+    }
   </>
 }

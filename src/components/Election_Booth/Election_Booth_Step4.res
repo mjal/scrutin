@@ -50,12 +50,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
     globalDispatch(Navigate(list{"elections", election.uuid, "avote"}))
   }
 
-  let previous = _ => {
-    setState(_ => {
-      ...state,
-      step: Step3
-    })
-  }
+  let previous = _ => setState(_ => { ...state, step: Step3 })
 
   <>
     <Header title="Voter" />

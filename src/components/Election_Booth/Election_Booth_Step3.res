@@ -17,7 +17,10 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
   let _ = state
   let election = electionData.setup.election
   let nQuestions = Array.length(election.questions)
-  let (choices, setChoices) = React.useState(_ => Array.init(nQuestions, _ => None))
+  let (choices, setChoices) = React.useState(_ => {
+    let default = Array.init(nQuestions, _ => None)
+    Option.getWithDefault(state.choices, default)
+  })
 
   let next = _ => {
     setState(_ => {
@@ -26,6 +29,12 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
       step: Step4
     })
   }
+
+  let previous = _ => setState(_ => {
+    ...state,
+    choices: None,
+    step: Step2
+  })
 
   <>
     <Header title="Mon choix" />
@@ -71,11 +80,28 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
       </View>
     })->React.array}
 
-    <S.Button
-      title="Confirmer mon choix"
-      disabled=(Array.some(choices, Option.isNone))
-      onPress=next
-    />
+    {
+      let style = Style.viewStyle(
+        ~flexDirection=#row,
+        ~justifyContent=#"space-between",
+        ~marginTop=20.0->Style.dp,
+        ())
+
+      <View style>
+        <S.Button
+          title="Précédent"
+          titleStyle=Style.textStyle(~color=Color.black, ())
+          mode=#outlined
+          onPress={_ => previous()}
+        />
+
+        <S.Button
+          title="Confirmer mon choix"
+          disabled=(Array.some(choices, Option.isNone))
+          onPress=next
+        />
+      </View>
+    }
   </>
 }
 
