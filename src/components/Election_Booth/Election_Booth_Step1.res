@@ -89,9 +89,9 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
       | None =>
         switch election.access {
         | Some(#"open") =>
-          <S.P text="Vous pouvez participer en tant qu'invité." />
+          <S.P text="Vous pouvez participer en tant qu'invité·e." />
         | _ =>
-          <S.P text="Vous n'êtes pas d'invitation pour cette élection." />
+          <S.P text="Vous n'avez pas d'invitation pour cette élection." />
         }
       } }
 
