@@ -14,12 +14,12 @@ let make = (~state: Election_New_State.t, ~setState) => {
   let options : array<RadioButtonGroup.option_t> = [
     {
       value: "open",
-      title: <RadioButtonGroup.SimpleTitle text="Participation par lien ouvert" />,
+      title: <RadioButtonGroup.SimpleTitle text="Participation ouverte" />,
       content: <RadioButtonGroup.SimpleContent text="Les participant·es peuvent rejoindre librement l'élection grâce à un lien ou un QR code." />
     },
     {
       value: "closed",
-      title: <RadioButtonGroup.SimpleTitle text="Participation par email" />,
+      title: <RadioButtonGroup.SimpleTitle text="Participation fermée" />,
       content: <RadioButtonGroup.SimpleContent text="L’administrateur·ice de l’élection doit inviter chaque participant·e via une liste d’e-mails." />
     }
   ]
