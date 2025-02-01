@@ -28,6 +28,12 @@ let make = (~state: Election_New_State.t, ~setState) => {
 
   let previous = _ => setState(_ => {...state, step: Step1})
 
+  let disabled = Array.some(state.questions, (question) => {
+    Array.some(question.answers, (answer) => {
+      Js.String.trim(answer) == ""
+    })
+  })
+
   <>
     <Header title="Nouvelle élection" subtitle="2/5" />
 
@@ -81,6 +87,6 @@ let make = (~state: Election_New_State.t, ~setState) => {
       <View style=Style.viewStyle(~margin=10.0->Style.dp, ()) />
     </S.Container>
 
-    <Election_New_Previous_Next next previous />
+    <Election_New_Previous_Next next disabled previous />
   </>
 }
