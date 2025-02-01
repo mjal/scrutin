@@ -139,12 +139,12 @@ module Button = {
   @react.component
   let make = (~onPress, ~title, ~style=?, ~titleStyle=?, ~testID=?, ~disabled=?, ~mode=#contained) => {
 
-    let width = 200.0->dp
-    //let width = if Dimensions.get(#window).width > 1000.0 {
-    //  300.0->dp
-    //} else {
-    //  200.0->dp
-    //}
+    //let width = 200.0->dp
+    let width = if Dimensions.get(#window).width > 1000.0 {
+      300.0->dp
+    } else {
+      200.0->dp
+    }
 
     let defaultStyle = viewStyle(
       ~alignSelf=#center,
