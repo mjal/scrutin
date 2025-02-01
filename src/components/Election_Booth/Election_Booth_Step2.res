@@ -16,19 +16,21 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
   <>
     <Header title="S'identifier" />
 
-    <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
+    <S.Container>
+      <View style=Style.viewStyle(~margin=30.0->Style.dp, ()) />
   
-    <Title style=Style.textStyle(~color=Color.black, ~fontSize=40.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
-      { "Qui êtes-vous ?" -> React.string }
-    </Title>
+      <Title style=Style.textStyle(~color=Color.black, ~fontSize=40.0, ~fontWeight=Style.FontWeight._900, ~margin=30.0->Style.dp, ())>
+        { "Qui êtes-vous ?" -> React.string }
+      </Title>
   
-    <S.TextInput placeholder="Votre nom"
-      autoFocus=true
-      value=name
-      onChangeText={text => setName(_ => text)}
-      onSubmitEditing=next
-    />
+      <S.TextInput placeholder="Votre nom"
+        autoFocus=true
+        value=name
+        onChangeText={text => setName(_ => text)}
+        onSubmitEditing=next
+      />
 
+    </S.Container>
     {
       let style = Style.viewStyle(
         ~flexDirection=#row,

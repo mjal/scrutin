@@ -39,6 +39,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
   <>
     <Header title="Mon choix" />
 
+    <S.Container>
     {Array.mapWithIndex(election.questions, (j, question) => {
       let choice = Array.getExn(choices, j)
       <View key={Int.toString(j)}>
@@ -80,6 +81,7 @@ let make = (~electionData: ElectionData.t, ~state: Election_Booth_State.t, ~setS
       </View>
     })->React.array}
 
+    </S.Container>
     {
       let style = Style.viewStyle(
         ~flexDirection=#row,
