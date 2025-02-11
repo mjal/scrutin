@@ -1,2 +1,2 @@
 @module("./ScrutinLogoJs") @react.component
-external make: () => React.element = "default"
+external make: (~width: int, ~height: int) => React.element = "default"

@@ -11,7 +11,7 @@ let make = () => {
 
     // Align the logo to the center
     <View style=Style.viewStyle(~alignItems=#center, ~margin=20.0->Style.dp, ())>
-      <ScrutinLogo />
+      <ScrutinLogo width=400 height=200 />
     </View>
 
     <S.Button
