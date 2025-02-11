@@ -30,25 +30,5 @@ let make = () => {
          { "Documentation" -> React.string }
       </Text>
     </TouchableOpacity>
-    { switch ReactNative.Platform.os {
-    | #web => <></>
-    | _ =>
-    <>
-      <View style=Style.viewStyle(~height=50.0->Style.dp,()) />
-      <View>
-        <View>// style=Style.viewStyle(~height=414.0->Style.dp,())>
-          <HomeBackground />
-        </View>
-        //<TouchableOpacity style=styles["aboutView"]
-        //  onPress={_ => dispatch(StateMsg.Navigate_About)} >
-        //  <SIcon.ButtonAbout />// style=styles["aboutButton"] />
-        //</TouchableOpacity>
-        //<TouchableOpacity style=styles["searchView"]
-        //  onPress={_ => dispatch(Navigate(list{"elections", "search"}))}>
-        //  <SIcon.ButtonSearch />// style=styles["searchButton"] />
-        //</TouchableOpacity>
-      </View>
-    </>
-    } }
   </View>
 }
