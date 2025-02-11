@@ -15,7 +15,7 @@ let make = () => {
     }
   | Step3 => <Election_New_Step3 state setState />
   | Step4 => <Election_New_Step4 state setState />
-  | Step_Password_Disclaimer => <Election_New_Password_Disclaimer state setState />
+  | Step_PasswordDisclaimer => <Election_New_PasswordDisclaimer state setState />
   | Step_Password => <Election_New_Password state setState />
   | Step6 => <Election_New_Step6 state setState />
   }

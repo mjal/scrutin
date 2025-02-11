@@ -4,7 +4,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
   let next = _ => {
     let step = switch state.access {
     | Some(#closed) => Election_New_State.Step4
-    | _ => Election_New_State.Step_Password_Disclaimer
+    | _ => Election_New_State.Step_PasswordDisclaimer
     }
     setState(_ => {...state, step})
   }

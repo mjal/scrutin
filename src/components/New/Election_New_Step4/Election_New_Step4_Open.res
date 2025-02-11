@@ -2,7 +2,7 @@
 let make = (~state: Election_New_State.t, ~setState) => {
   // let { t } = ReactI18next.useTranslation()
 
-  let next = _ => setState(_ => { ...state, step: Step_Password_Disclaimer, })
+  let next = _ => setState(_ => { ...state, step: Step_PasswordDisclaimer, })
   let previous = _ => setState(_ => { ...state, step: Step3, })
 
   <>
