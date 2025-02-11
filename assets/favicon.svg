@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="40mm"
+   height="40mm"
+   viewBox="0 0 40 40"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
+   sodipodi:docname="favicon.svg"
+   inkscape:export-filename="adaptive-icon.png"
+   inkscape:export-xdpi="650.23999"
+   inkscape:export-ydpi="650.23999"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="4.893879"
+     inkscape:cx="20.944531"
+     inkscape:cy="77.852354"
+     inkscape:window-width="2256"
+     inkscape:window-height="1424"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:export-bgcolor="#ffffff00" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       class="st0"
+       d="m 21.0211,3.880434 h 0.568891 c 5.430345,0 9.947013,4.08568 10.636581,9.34363 H 20.77975 c -0.465458,0 -0.86196,0.37927 -0.86196,0.86196 v 8.428313 2.777167 c -5.395865,-0.55166 -9.636706,-5.13728 -9.636706,-10.67106 v 0 c 0,-5.91304 4.826973,-10.74001 10.740016,-10.74001 z"
+       id="path239"
+       style="fill:#6750a4;stroke-width:0.172392"
+       sodipodi:nodetypes="sscssccsss" />
+    <path
+       class="st0"
+       d="m 18.780005,36.565934 h -0.568894 c -5.430343,0 -9.9470121,-4.08569 -10.6365801,-9.34365 H 19.021353 c 0.465457,0 0.861959,-0.37926 0.861959,-0.86196 v -11.20546 c 5.395865,0.55165 9.636707,5.13727 9.636707,10.67105 v 0 c 0,5.91304 -4.826973,10.74002 -10.740014,10.74002 z"
+       id="path240"
+       style="fill:#6750a4;stroke-width:0.172392"
+       sodipodi:nodetypes="sscsscsss" />
+    <rect
+       style="fill:#6750a4;fill-opacity:1;stroke-width:0.0757421"
+       id="rect1"
+       width="0.2862668"
+       height="10.13384"
+       x="19.809652"
+       y="15.200761" />
+  </g>
+</svg>
