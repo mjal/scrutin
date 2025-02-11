@@ -28,7 +28,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
     }
   }
 
-  let previous = _ => setState(_ => {...state, step: Step5})
+  let previous = _ => setState(_ => {...state, step: Step_Password})
 
   <>
     <Header title="Nouvelle élection" subtitle="Dernière étape" />

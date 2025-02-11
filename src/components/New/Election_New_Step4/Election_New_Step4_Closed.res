@@ -10,7 +10,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
     let emails = Js.String.split("\n", emails)->Array.map(String.trim)
     setState(_ => {
       ...state,
-      step: Step5,
+      step: Step_Password_Disclaimer,
       emails
     })
   }
