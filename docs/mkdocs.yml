@@ -1,0 +1,12 @@
+site_name: Scrutin documentation
+site_url: https://doc.scrutin.app
+theme:
+  name: material
+  palette:
+    primary: deep purple
+  features:
+    - navigation.tabs
+nav:
+  - Accueil: index.md
+  - Vérifiabilité: verifiabilite.md
+  - Secret du vote: secret.md
