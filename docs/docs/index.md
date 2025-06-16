@@ -17,6 +17,6 @@ Le code source est ouvert et disponible [ici](https://github.com/mjal/scrutin).
 
 Scrutin est développé en Rescript, une variante d'OCaml qui compile en Javascript, et en React Native, permettant de compiler pour iOS, Android et le web. (Les versions mobiles seront bientôt accessibles.)
 
-Scrutin utilise le protocole de vote de l'INRIA et du CNRS, [Belenios](https://www.belenios.org).
+Scrutin utilise le protocole de vote du CNRS et de l'INRIA, [Belenios](https://www.belenios.org).
 
 Une petite extension de protocole de Belenios est en développement. [(plus d'infos)](/extension)
