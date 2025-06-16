@@ -13,6 +13,7 @@
 ** TODO One-time-code by email
 ** TODO Bigger Button Most of the time
 ** TODO Majority judgement: Nombre de participation
+** TODO Une meilleure présentation vidéo (celle actuelle est un peu claquée au sol)
 * DatePicker
 * Sauvegarde mot de passe
 ** Interligne
