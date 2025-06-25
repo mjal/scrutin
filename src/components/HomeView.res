@@ -23,7 +23,7 @@ let make = () => {
     <TouchableOpacity
       style=Style.viewStyle(~marginTop=20.0->Style.dp, ~alignItems=#center, ~paddingVertical=12.0->Style.dp, ())
       onPress={_ => {
-        ReactNative.Linking.openURL("https://doc.scrutin.app")->ignore
+        ReactNative.Linking.openURL("https://docs.scrutin.app")->ignore
       }}
     >
       <Text style=Style.textStyle(~fontSize=20.0, ~color=Color.blue, ~textDecorationLine=#underline, ())>
