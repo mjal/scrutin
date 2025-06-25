@@ -30,5 +30,16 @@ let make = () => {
          { "Documentation" -> React.string }
       </Text>
     </TouchableOpacity>
+
+    <TouchableOpacity
+      style=Style.viewStyle(~marginTop=20.0->Style.dp, ~alignItems=#center, ~paddingVertical=12.0->Style.dp, ())
+      onPress={_ => {
+        ReactNative.Linking.openURL("https://framagroupes.org/sympa/subscribe/scrutin")->ignore
+      }}
+    >
+      <Text style=Style.textStyle(~fontSize=20.0, ~color=Color.blue, ~textDecorationLine=#underline, ())>
+         { "Join the mailing list" -> React.string }
+      </Text>
+    </TouchableOpacity>
   </View>
 }
