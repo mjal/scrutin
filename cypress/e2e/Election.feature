@@ -3,6 +3,9 @@ Feature: Organize elections
   Scenario: Creation
     When I go to new election
     And I add a title
+    And I click next
+    And I click next
+    And I click next
     And I add choices
     And I click next
     Then Election should be created
