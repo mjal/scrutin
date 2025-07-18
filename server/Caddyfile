@@ -1,3 +1,0 @@
-server.scrutin.app {
-    reverse_proxy app:8080
-}
