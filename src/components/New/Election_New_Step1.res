@@ -7,7 +7,7 @@ let make = (~state: Election_New_State.t, ~setState) => {
   //}
 
   let next = _ => setState(_ => {...state, step: Step2 })
-  let previous = _ => setState(_ => {...state, step: Step0c })
+  let previous = _ => setState(_ => {...state, step: Step0 })
 
   let options : array<RadioButtonGroup.option_t> = [
     {
