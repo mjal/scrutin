@@ -1,0 +1,28 @@
+services:
+  app:
+    build: .
+    environment:
+      DATABASE_URL: postgres://user:password@db:5432/scrutin
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    networks:
+      - default
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: scrutin
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - default
+
+volumes:
+  db_data:
+
+networks:
+  default:
