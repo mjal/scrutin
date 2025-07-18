@@ -13,5 +13,5 @@ let base_url = switch env {
 
 let server_url = switch env {
 | #dev => "http://localhost:8080"
-| #prod => "https://scrutin-bbs.fly.dev"
+| #prod => "https://server.scrutin.app"
 }
