@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>scrutin</title>
+    <link rel="stylesheet" href="reset.css">
+    <style>
+        body {
+            background: #fff;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 80px;
+        }
+        .logo {
+            width: 500px;
+            margin-bottom: 32px;
+        }
+        .description {
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 32px;
+            max-width: 400px;
+        }
+        .main-btn {
+            background: #7d62b7;
+            color: #fff;
+            border: none;
+            padding: 14px 40px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 24px;
+            transition: background 0.2s;
+        }
+        .main-btn:hover {
+            background: #6b50a9;
+        }
+        .links a {
+            display: block;
+            color: #1400ff;
+            text-decoration: underline;
+            margin: 6px 0;
+            font-size: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="logo.svg" alt="scrutin logo" class="logo" />
+        <p class="description">Confidential and end-to-end verifiable voting</p>
+        <a href="https://vote.scrutin.app/elections/new">
+          <button class="main-btn">Créer une élection</button>
+        </a>
+        <div class="links">
+            <a href="https://docs.scrutin.app">Documentation</a>
+            <a href="https://framagroupes.org/sympa/subscribe/scrutin">Join the mailing list</a>
+        </div>
+    </div>
+</body>
+</html>
