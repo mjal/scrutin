@@ -8,7 +8,7 @@ let env = switch nodeEnv {
 
 let base_url = switch env {
 | #dev => "http://localhost:19006"
-| #prod => "https://scrutin.app"
+| #prod => "https://vote.scrutin.app"
 }
 
 let server_url = switch env {
