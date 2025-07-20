@@ -6,8 +6,8 @@ npm-debug.*
 .DS_Store
 .env
 
-lib/bs/*
-auth/lib/bs/*
+vote/lib/bs/*
+vote/web-build/
 .merlin
 *.bs.js
 
@@ -20,5 +20,3 @@ server/dev.sqlite3
 server/emails
 
 docs/site
-
-web-build/
