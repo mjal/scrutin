@@ -1,7 +1,7 @@
 import { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
-  await knex.schema.createTable("partialDecryptions", (table) => {
+  await knex.schema.createTableIfNotExists("partialDecryptions", (table) => {
     table.increments("id").primary(); // Auto-increment ID
     table.string("uuid").notNullable(); // Foreign key to setup
     table.json("partialDecryption").notNullable(); // Partial decryption data
