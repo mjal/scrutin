@@ -9,6 +9,8 @@ services:
       - "8080:8080"
     networks:
       - default
+    env_file:
+      - .env
   db:
     image: postgres
     restart: always
