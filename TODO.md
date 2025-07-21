@@ -1,7 +1,5 @@
 # 🚧 Chantiers en cours
 
-Add an info icon at the right of options such as Invitation.
-
 ## 🗳️ Client de vote et de vérification
 - [ ] Reçu après le vote
 - [ ] All in one page (pseudo + choices) for open election
