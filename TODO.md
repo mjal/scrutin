@@ -7,6 +7,8 @@
 - [ ] Supprimer les pages obselete de creations
 ## ⚙️ Interface d’administration
 - [ ] Nouvelle interface web (uniquement) pour créer et administrer une élection
+## Serveur
+- [ ] Have more than one + auto-restart (orchestration by nomad + traefic/fabio?)
 ## ℹ️ Page d’accueil et documentation
 - [ ] Accueil: Short intro. Link to source code en plus de doc
 - [ ] Doc: Mentionner les 3 auteurs
