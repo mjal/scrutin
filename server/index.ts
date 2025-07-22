@@ -103,7 +103,6 @@ app.post("/:uuid/ballots", async (req, res) => {
   }
 });
 
-
 app.put("/:uuid/result", async (req, res) => {
   const { uuid } = req.params;
   const { encryptedTally, partialDecryptions, result } = req.body;
@@ -125,7 +124,6 @@ app.put("/:uuid/result", async (req, res) => {
     res.status(500).json({ success: false, message: "Error storing result." });
   }
 });
-
 
 app.get("/:uuid", async (req, res) => {
   const { uuid } = req.params;
