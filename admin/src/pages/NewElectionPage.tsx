@@ -136,6 +136,16 @@ const NewElectionPage: React.FC = () => {
       return false;
     }
 
+    // If multiple questions, check that each has a non-empty question name
+    if (state.questions.length > 1) {
+      for (const question of state.questions) {
+        const questionH = question as Question.QuestionH.t;
+        if (!questionH.question.trim()) {
+          return false;
+        }
+      }
+    }
+
     for (const question of state.questions) {
       const questionH = question as Question.QuestionH.t;
       const nonEmptyAnswers = questionH.answers.filter(answer => answer.trim() !== '');
@@ -269,13 +279,17 @@ const NewElectionPage: React.FC = () => {
                     elevation={1} 
                     sx={{ p: 3, border: '1px solid #e0e0e0' }}
                   >
-                    <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={2}>
-                      <Chip 
-                        label={`Question ${questionIndex + 1}`} 
-                        size="small" 
-                        color="primary" 
-                        variant="outlined"
-                      />
+                    <Box display="flex" justifyContent="space-between" alignItems="flex-start">
+                      {state.questions.length > 1 && (
+                        <Box mb={2}>
+                          <Chip
+                            label={`Question ${questionIndex + 1}`} 
+                            size="small" 
+                            color="primary" 
+                            variant="outlined"
+                          />
+                        </Box>
+                      )}
                       {state.questions.length > 1 && (
                         <IconButton
                           onClick={() => removeQuestion(questionIndex)}
@@ -288,18 +302,21 @@ const NewElectionPage: React.FC = () => {
                     </Box>
 
                     <Stack spacing={2}>
-                      <TextField
-                        label="Nom de la question (optionnel)"
-                        value={(question as Question.QuestionH.t).question}
-                        onChange={(e) => updateQuestion(questionIndex, 'question', e.target.value)}
-                        fullWidth
-                        placeholder="ex: Qui voulez-vous élire comme président ?"
-                      />
+                      {state.questions.length > 1 && (
+                        <TextField
+                          label="Nom de la question"
+                          value={(question as Question.QuestionH.t).question}
+                          onChange={(e) => updateQuestion(questionIndex, 'question', e.target.value)}
+                          required
+                          fullWidth
+                          placeholder="ex: Qui voulez-vous élire ?"
+                        />
+                      )}
 
                       <Box>
                         <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
                           <Typography variant="subtitle2" color="text.secondary">
-                            Choix (au moins 2)
+                            Options (au moins 2)
                           </Typography>
                           <Button
                             startIcon={<AddIcon />}
@@ -307,7 +324,7 @@ const NewElectionPage: React.FC = () => {
                             size="small"
                             variant="text"
                           >
-                            Ajouter un choix
+                            Ajouter une option
                           </Button>
                         </Box>
 
@@ -320,7 +337,7 @@ const NewElectionPage: React.FC = () => {
                                 onChange={(e) => updateAnswer(questionIndex, answerIndex, e.target.value)}
                                 fullWidth
                                 size="small"
-                                placeholder={`Choix ${answerIndex + 1}`}
+                                placeholder={`Option ${answerIndex + 1}`}
                               />
                               {(question as Question.QuestionH.t).answers.length > 2 && (
                                 <IconButton
@@ -343,7 +360,7 @@ const NewElectionPage: React.FC = () => {
 
             <Accordion>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Avancé</Typography>
+                <Typography>Dates</Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Stack spacing={3}>
@@ -378,7 +395,15 @@ const NewElectionPage: React.FC = () => {
                       }
                     }}
                   />
-
+                </Stack>
+              </AccordionDetails>
+            </Accordion>
+            <Accordion>
+              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography>Avancé</Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <Stack spacing={3}>
                   <FormControl component="fieldset">
                     <Box display="flex" justifyContent="space-between" alignItems="center" mb={1}>
                       <FormLabel component="legend">Type d'invitation</FormLabel>
@@ -492,8 +517,11 @@ const NewElectionPage: React.FC = () => {
                   sx={{ mt: 1, display: 'block', textAlign: 'center' }}
                 >
                   {!state.name.trim() && "Le titre est obligatoire. "}
+                  {state.questions.length > 1 && state.questions.some(q => !(q as Question.QuestionH.t).question.trim()) && 
+                  "Le nom de chaque question est obligatoire quand il y a plusieurs questions. "
+                  }
                   {state.questions.some(q => (q as Question.QuestionH.t).answers.filter(a => a.trim() !== '').length < 2) && 
-                  "Chaque question doit avoir au moins 2 choix non vides."
+                  "Chaque question doit avoir au moins 2 options non vides."
                   }
                 </Typography>
                 )}
