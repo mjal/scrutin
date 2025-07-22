@@ -24,6 +24,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import dayjs from 'dayjs';
 
 import { ElectionData } from '../types';
 import { Question, Setup, Election, Trustee, Point, Zq } from 'sirona';
@@ -40,8 +41,19 @@ const NewElectionPage: React.FC = () => {
     name: "",
     group: "Ed25519",
     public_key: Point.zero,
-    questions : [],
-    uuid: ""
+    questions : [
+      {
+        question: '',
+        answers: ['', ''],
+        min: 1,
+        max: 1
+      }
+    ],
+    uuid: "",
+    votingMethod: 'uninominal',
+    access: 'open',
+    startDate: undefined,
+    endDate: undefined,
   });
 
   // Help dialog states
@@ -73,12 +85,13 @@ const NewElectionPage: React.FC = () => {
     console.log('Generated trustees:', trustees);
 
     // Create election using sirona
-    const election = Election.create(
+    let election = Election.create(
       state.description || "",
       state.name,
       trustees,
       state.questions
     );
+    election = {...state, ...election};
 
     console.log('Election created successfully:', election);
 
@@ -100,7 +113,7 @@ const NewElectionPage: React.FC = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        setup,
+        setup: Setup.serialize(setup),
         emails
       }),
     });
@@ -336,8 +349,13 @@ const NewElectionPage: React.FC = () => {
                 <Stack spacing={3}>
                   <DateTimePicker
                     label="Date de début (optionnelle)"
-                    value={state.startDate}
-                    onChange={(newValue) => setState(prev => ({ ...prev, startDate: newValue || undefined }))}
+                    value={state.startDate ? dayjs(state.startDate) : null}
+                    onChange={(newValue) =>
+                      setState(prev => ({
+                        ...prev,
+                        startDate: newValue ? newValue.toDate() : undefined
+                      }))
+                    }
                     slotProps={{
                       textField: {
                         fullWidth: true
@@ -347,8 +365,13 @@ const NewElectionPage: React.FC = () => {
 
                   <DateTimePicker
                     label="Date de fin (optionnelle)"
-                    value={state.endDate}
-                    onChange={(newValue) => setState(prev => ({ ...prev, endDate: newValue || undefined }))}
+                    value={state.endDate ? dayjs(state.endDate) : null}
+                    onChange={(newValue) =>
+                      setState(prev => ({
+                        ...prev,
+                        endDate: newValue ? newValue.toDate() : undefined
+                      }))
+                    }
                     slotProps={{
                       textField: {
                         fullWidth: true
@@ -374,31 +397,33 @@ const NewElectionPage: React.FC = () => {
                       </IconButton>
                     </Box>
                     <RadioGroup
-                      value={state.invitationMethod}
-                      onChange={(e) => setState(prev => ({ ...prev, invitationMethod: e.target.value as InvitationMethod }))}
+                      value={state.access}
+                      onChange={(e) => setState(prev => ({ ...prev, invitationMethod: e.target.value }))}
                       row
                     >
                       <FormControlLabel
-                        value="lien"
+                        value="open"
                         control={<Radio />}
                         label="Par lien"
                       />
                       <FormControlLabel
-                        value="email"
+                        value="closed"
                         control={<Radio />}
                         label="Par email"
                       />
                     </RadioGroup>
 
                     {/* Email list section - only show when email is selected */}
-                    {state.invitationMethod === 'email' && (
+                    {state.access === 'open' && (
                       <Box sx={{ mt: 2 }}>
-                        <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-                          Liste des électeurs ({state.emails.length} email{state.emails.length !== 1 ? 's' : ''})
-                        </Typography>
+                        {emailInput.split(/\r?\n/).length >= 2 && (
+                          <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                            Liste des électeurs ({emailInput.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g)?.length || 0} email{(emailInput.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g)?.length || 0) !== 1 ? 's' : ''})
+                          </Typography>
+                        )}
                         
                         <TextField
-                          placeholder="Collez vos emails ici (un par ligne ou séparés par des virgules, espaces, etc.)&#10;Exemple:&#10;user1@example.com&#10;user2@example.com, user3@example.com"
+                          placeholder="Collez vos emails ici (un par ligne)&#10;Exemple:&#10;user1@example.com&#10;user2@example.com"
                           value={emailInput}
                           onChange={(e) => handleEmailTextChange(e.target.value)}
                           multiline

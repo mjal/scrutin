@@ -14,27 +14,11 @@ import {
   ListItemText
 } from '@mui/material';
 import { config } from '../config';
-
-interface ElectionData {
-  uuid: string;
-  title: string;
-  description?: string;
-  questions: Array<{
-    question: string;
-    answers: string[];
-    min: number;
-    max: number;
-  }>;
-  startDate?: string;
-  endDate?: string;
-  invitationMethod: string;
-  votingMethod: string;
-  status: string;
-}
+import { Question, Setup, Election, Trustee, Point, Zq } from 'sirona';
 
 const ElectionViewPage: React.FC = () => {
   const { uuid } = useParams<{ uuid: string }>();
-  const [election, setElection] = useState<ElectionData | null>(null);
+  const [election, setElection] = useState<Election.t | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -54,7 +38,7 @@ const ElectionViewPage: React.FC = () => {
         }
 
         const data = await response.json();
-        setElection(data);
+        setElection(data.setup.election);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Erreur inconnue');
       } finally {
@@ -103,22 +87,17 @@ const ElectionViewPage: React.FC = () => {
       <Paper elevation={3} sx={{ p: 4 }}>
         <Box sx={{ mb: 3 }}>
           <Typography variant="h4" component="h1" gutterBottom>
-            {election.title}
+            {election.name}
           </Typography>
           
           <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
-            <Chip 
-              label={election.status} 
-              color={election.status === 'active' ? 'success' : 'default'}
-              size="small"
-            />
             <Chip 
               label={election.votingMethod === 'uninominal' ? 'Scrutin uninominal' : 'Jugement majoritaire'} 
               variant="outlined"
               size="small"
             />
             <Chip 
-              label={election.invitationMethod === 'email' ? 'Par email' : 'Par lien'} 
+              label={election.access === 'open' ? 'Ouverte' : 'Fermée'} 
               variant="outlined"
               size="small"
             />
@@ -168,13 +147,15 @@ const ElectionViewPage: React.FC = () => {
           </Typography>
           
           <List>
-            {election.questions.map((question, index) => (
-              <ListItem key={index} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
+            {election.questions.map((question, index) => {
+              let q = (question as Question.QuestionH.t);
+
+              return <ListItem key={index} sx={{ flexDirection: 'column', alignItems: 'flex-start' }}>
                 <ListItemText
                   primary={
                     <Typography variant="h6" component="div">
                       Question {index + 1}
-                      {question.question && `: ${question.question}`}
+                      {q.question && `: ${q.question}`}
                     </Typography>
                   }
                   secondary={
@@ -183,7 +164,7 @@ const ElectionViewPage: React.FC = () => {
                         Choix disponibles :
                       </Typography>
                       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                        {question.answers.map((answer, answerIndex) => (
+                        {q.answers.map((answer, answerIndex) => (
                           <Chip
                             key={answerIndex}
                             label={answer}
@@ -193,14 +174,14 @@ const ElectionViewPage: React.FC = () => {
                         ))}
                       </Box>
                       <Typography variant="caption" color="text.secondary" sx={{ mt: 1, display: 'block' }}>
-                        Min: {question.min}, Max: {question.max}
+                        Min: {q.min}, Max: {q.max}
                       </Typography>
                     </Box>
                   }
                 />
                 {index < election.questions.length - 1 && <Divider sx={{ width: '100%', mt: 2 }} />}
               </ListItem>
-            ))}
+            })}
           </List>
         </Box>
       </Paper>
