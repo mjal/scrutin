@@ -24,4 +24,4 @@ WORKDIR /app
 ENV NODE_ENV production
 
 
-CMD ["sh", "-c", "npx knex migrate:latest && npm run start"]
+CMD ["sh", "-c", "npm run build && npx knex migrate:latest && npm run start"]
