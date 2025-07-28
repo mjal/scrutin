@@ -19,7 +19,7 @@ export default async function(
       text
     })
     console.log("mail sent", response[0].statusCode)
-  } catch(error) {
+  } catch (error) {
     console.error(error)
   }
 }

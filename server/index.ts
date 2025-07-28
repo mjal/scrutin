@@ -66,7 +66,7 @@ Bonne élection !`
       }
     } else {
       await fs.mkdir("emails", { recursive: true })
-      await fs.writeFile("emails/"+to, text)
+      await fs.writeFile("emails/" + to, text)
     }
   }
 
