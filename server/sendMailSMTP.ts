@@ -29,7 +29,7 @@ export default async function(
       text
     })
     console.log('E-mail envoyé avec succès.', response);
-  } catch(error) {
+  } catch (error) {
     console.error('Erreur lors de l\'envoi de l\'e-mail :', error);
   }
 }
