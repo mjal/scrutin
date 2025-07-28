@@ -27,14 +27,14 @@ app.put("/:uuid", async (req, res) => {
   // For email in emails
   for (let to of emails) {
     if (to.trim() === "") {
-      continue 
+      continue
     }
     let priv = Credential.generatePriv()
     let { pub } = Credential.derive(uuid, priv)
     setup.credentials.push(pub)
 
     const base_url = (env === "production") ? process.env.BASE_URL : "http://localhost:19006/"
-	  let link = `${base_url}/elections/${uuid}/booth#${priv}`
+    let link = `${base_url}/elections/${uuid}/booth#${priv}`
 
     let electionName = setup.election.name.length > 70 ? `${setup.election.name.substring(0, 67)}...` : setup.election.name
     let subject = `Scrutin: ${electionName}`;
