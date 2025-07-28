@@ -7,6 +7,7 @@ import sendMailSMTP from "./sendMailSMTP"
 import sendMailSendgrid from "./sendMailSendgrid"
 import { promises as fs } from "fs"
 import { Credential } from "sirona"
+import crypto from "crypto";
 
 dotenv.config();
 const env = process.env.NODE_ENV || "development";
@@ -16,13 +17,104 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
+if (!process.env.EMAIL_HASH_SECRET) {
+  throw "No EMAIL_HASH_SECRET provided";
+}
+
 app.get("/", (_req, res) => {
   res.send("<h1>Hello :)</h1>");
+});
+
+app.post("/challenge", async (req, res) => {
+  let { email } = req.body;
+  const secret = process.env.EMAIL_HASH_SECRET || 'default-secret-key';
+  const emailHash = crypto.createHmac('sha256', secret).update(email).digest('hex');
+  const derivedAuthCode = parseInt(emailHash.substring(0, 8), 16).toString().substring(0, 6).padStart(6, '0');
+
+  let subject = "Code de connexion - Scrutin.app"
+  let text = "Votre code : " + derivedAuthCode;
+
+  if (env === 'production') {
+    if (email.split("@")[1] == "deuxfleurs.fr") {
+      let from = 'Scrutin <contact@scrutin.app>'
+      sendMailSMTP(from, email, subject, text)
+    } else {
+      let from = 'Scrutin <hello@scrutin-mailing.org>'
+      sendMailSendgrid(from, email, subject, text)
+    }
+  } else {
+    await fs.mkdir("emails", { recursive: true })
+    await fs.writeFile("emails/" + email, text)
+  }
+
+  res.status(200).json({ success: true, message: "Auth code sent" });
+});
+
+app.post("/login", async (req, res) => {
+  let { email, auth_code } = req.body;
+
+  if (!email || !auth_code) {
+    return res.status(400).json({ success: false, message: "Email and auth code are required" });
+  }
+
+  try {
+    // Use the same secret and logic as in /challenge
+    const secret = process.env.EMAIL_HASH_SECRET;
+    const emailHash = crypto.createHmac('sha256', secret!).update(email).digest('hex');
+    const derivedAuthCode = parseInt(emailHash.substring(0, 8), 16).toString().substring(0, 6).padStart(6, '0');
+
+    // Verify the provided auth code matches the derived one
+    if (auth_code === derivedAuthCode) {
+      res.status(200).json({ success: true, message: "Authentication successful", email });
+    } else {
+      res.status(401).json({ success: false, message: "Invalid auth code" });
+    }
+  } catch (error) {
+    console.error('Error verifying auth code:', error);
+    res.status(500).json({ success: false, message: "Error verifying auth code" });
+  }
+});
+
+app.post("/elections", async (req, res) => {
+  let { email, auth_code } = req.body;
+
+  if (!email || !auth_code) {
+    return res.status(400).json({ success: false, message: "Email and auth code are required" });
+  }
+
+  try {
+    // Use the same secret and logic as in /challenge
+    const secret = process.env.EMAIL_HASH_SECRET;
+    const emailHash = crypto.createHmac('sha256', secret!).update(email).digest('hex');
+    const derivedAuthCode = parseInt(emailHash.substring(0, 8), 16).toString().substring(0, 6).padStart(6, '0');
+
+    // Verify the provided auth code matches the derived one
+    if (auth_code !== derivedAuthCode) {
+      return res.status(401).json({ success: false, message: "Invalid auth code" });
+    }
+
+    // Get elections created with this email
+    const elections = await knex("setup").select().where({ email });
+    
+    res.status(200).json({ success: true, elections });
+  } catch (error) {
+    console.error('Error fetching elections:', error);
+    res.status(500).json({ success: false, message: "Error fetching elections" });
+  }
 });
 
 app.put("/:uuid", async (req, res) => {
   const { uuid } = req.params;
   let { emails, setup } = req.body;
+
+  // Only allow logged in users
+  let { email, auth_code } = req.body;
+  const secret = process.env.EMAIL_HASH_SECRET;
+  const emailHash = crypto.createHmac('sha256', secret!).update(email).digest('hex');
+  const derivedAuthCode = parseInt(emailHash.substring(0, 8), 16).toString().substring(0, 6).padStart(6, '0');
+  if (auth_code !== derivedAuthCode) {
+    res.status(401).json({ success: false, message: "Invalid auth code" });
+  }
 
   // For email in emails
   for (let to of emails) {
@@ -76,7 +168,7 @@ Bonne élection !`
       return res.status(401).json({ success: false, message: "Election already exists." });
     }
 
-    await knex("setup").insert({ uuid, setup });
+    await knex("setup").insert({ uuid, setup, email });
     res.status(201).json({ success: true, uuid, setup });
   } catch (error) {
     console.error(error);

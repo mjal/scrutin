@@ -30,8 +30,9 @@ import { ElectionData } from '../types';
 import { Question, Setup, Election, Trustee, Point, Zq } from 'sirona';
 import HelpDialog from '../components/HelpDialog';
 import { config } from '../config';
+import Header from '../components/Header';
 
-const NewElectionPage: React.FC = () => {
+const ElectionNew: React.FC = () => {
   const navigate = useNavigate();
   
   // Single state object containing all election data
@@ -107,6 +108,10 @@ const NewElectionPage: React.FC = () => {
     let emails = Array.from(new Set(emailInput.match(emailRegex) || []));
     emails = Array.from(new Set(emails.map(email => email.trim())));
 
+    // Get authentication credentials from localStorage
+    const userEmail = localStorage.getItem('email');
+    const authCode = localStorage.getItem('auth_code');
+
     const response = await fetch(`${config.server.url}/${election.uuid}`, {
       method: 'PUT',
       headers: {
@@ -114,7 +119,9 @@ const NewElectionPage: React.FC = () => {
       },
       body: JSON.stringify({
         setup: Setup.serialize(setup),
-        emails
+        emails,
+        email: userEmail,
+        auth_code: authCode
       }),
     });
 
@@ -231,7 +238,9 @@ const NewElectionPage: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
+    <>
+      <Header />
+      <Container maxWidth="md" sx={{ py: 4 }}>
       <Paper elevation={3} sx={{ p: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           Créer une élection
@@ -538,7 +547,8 @@ const NewElectionPage: React.FC = () => {
         onClose={() => setHelpDialog(prev => ({ ...prev, open: false }))}
       />
     </Container>
+    </>
   );
 };
 
-export default NewElectionPage;
+export default ElectionNew;

@@ -1,32 +1,24 @@
-import React from 'react';
-import { Container, Typography, Button, Box, Paper } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const HomePage: React.FC = () => {
-  return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
-      <Paper elevation={3} sx={{ p: 4, textAlign: 'center' }}>
-        <Typography variant="h3" component="h1" gutterBottom>
-          Scrutin
-        </Typography>
-        
-        <Typography variant="h6" color="text.secondary" sx={{ mb: 4 }}>
-          Plateforme d'élections sécurisées
-        </Typography>
-        
-        <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
-          <Button
-            component={RouterLink}
-            to="/elections/new"
-            variant="contained"
-            size="large"
-          >
-            Créer une élection
-          </Button>
-        </Box>
-      </Paper>
-    </Container>
-  );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if user is logged in
+    const logged = localStorage.getItem('logged');
+    const authCode = localStorage.getItem('auth_code');
+    
+    if (logged && authCode) {
+      // User is logged, redirect to elections
+      navigate('/elections');
+    } else {
+      // User is not logged, redirect to login
+      navigate('/login');
+    }
+  }, [navigate]);
+
+  return null;
 };
 
 export default HomePage;

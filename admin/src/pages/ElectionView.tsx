@@ -19,8 +19,9 @@ import { OpenInNew as OpenInNewIcon } from '@mui/icons-material';
 import QRCode from 'react-qr-code';
 import { config } from '../config';
 import { Question, Setup, Election, Trustee, Point, Zq } from 'sirona';
+import Header from '../components/Header';
 
-const ElectionViewPage: React.FC = () => {
+const ElectionView: React.FC = () => {
   const { uuid } = useParams<{ uuid: string }>();
   const [election, setElection] = useState<Election.t | null>(null);
   const [loading, setLoading] = useState(true);
@@ -55,39 +56,50 @@ const ElectionViewPage: React.FC = () => {
 
   if (loading) {
     return (
-      <Container maxWidth="md" sx={{ py: 4, textAlign: 'center' }}>
+      <>
+        <Header />
+        <Container maxWidth="md" sx={{ py: 4, textAlign: 'center' }}>
         <CircularProgress />
         <Typography variant="h6" sx={{ mt: 2 }}>
           Chargement de l'élection...
         </Typography>
       </Container>
+      </>
     );
   }
 
   if (error) {
     return (
-      <Container maxWidth="md" sx={{ py: 4 }}>
+      <>
+        <Header />
+        <Container maxWidth="md" sx={{ py: 4 }}>
         <Alert severity="error">
           <Typography variant="h6">Erreur lors du chargement</Typography>
           <Typography>{error}</Typography>
         </Alert>
       </Container>
+      </>
     );
   }
 
   if (!election) {
     return (
-      <Container maxWidth="md" sx={{ py: 4 }}>
+      <>
+        <Header />
+        <Container maxWidth="md" sx={{ py: 4 }}>
         <Alert severity="warning">
           <Typography variant="h6">Élection non trouvée</Typography>
           <Typography>L'élection avec l'UUID "{uuid}" n'existe pas.</Typography>
         </Alert>
       </Container>
+      </>
     );
   }
 
   return (
-    <Container maxWidth="md" sx={{ py: 4 }}>
+    <>
+      <Header />
+      <Container maxWidth="md" sx={{ py: 4 }}>
       <Paper elevation={3} sx={{ p: 4 }}>
         <Box sx={{ mb: 3 }}>
           <Typography variant="h4" component="h1" gutterBottom>
@@ -228,7 +240,8 @@ const ElectionViewPage: React.FC = () => {
         </Box>
       </Paper>
     </Container>
+    </>
   );
 };
 
-export default ElectionViewPage;
+export default ElectionView;
