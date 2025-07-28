@@ -18,5 +18,7 @@ cypress/fixtures/
 
 server/dev.sqlite3
 server/emails
+server/*.js
+server/**/*.js
 
 docs/site
