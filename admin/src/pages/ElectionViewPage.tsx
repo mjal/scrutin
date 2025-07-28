@@ -11,8 +11,12 @@ import {
   Divider,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
+  Link,
+  Button
 } from '@mui/material';
+import { OpenInNew as OpenInNewIcon } from '@mui/icons-material';
+import QRCode from 'react-qr-code';
 import { config } from '../config';
 import { Question, Setup, Election, Trustee, Point, Zq } from 'sirona';
 
@@ -112,6 +116,44 @@ const ElectionViewPage: React.FC = () => {
               {election.description}
             </Typography>
           )}
+        </Box>
+
+        <Divider sx={{ my: 3 }} />
+
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h6" gutterBottom>
+            Lien de vote
+          </Typography>
+          <Box sx={{ mb: 2 }}>
+            <Link 
+              href={`${config.vote.url}/elections/${uuid}/booth`} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}
+            >
+              {config.vote.url}/elections/{uuid}/booth
+              <OpenInNewIcon fontSize="small" />
+            </Link>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => navigator.clipboard.writeText(`${config.vote.url}/elections/${uuid}/booth`)}
+              sx={{ mr: 2 }}
+            >
+              Copier le lien
+            </Button>
+          </Box>
+          <Box sx={{ mt: 2, p: 2, bgcolor: 'background.paper', border: 1, borderColor: 'divider', borderRadius: 1 }}>
+            <Typography variant="subtitle2" gutterBottom>
+              Code QR
+            </Typography>
+            <QRCode
+              size={128}
+              style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+              value={`${config.vote.url}/elections/${uuid}/booth`}
+              viewBox={`0 0 128 128`}
+            />
+          </Box>
         </Box>
 
         <Divider sx={{ my: 3 }} />
