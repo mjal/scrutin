@@ -423,7 +423,7 @@ const NewElectionPage: React.FC = () => {
                     </Box>
                     <RadioGroup
                       value={state.access}
-                      onChange={(e) => setState(prev => ({ ...prev, invitationMethod: e.target.value }))}
+                      onChange={(e) => setState(prev => ({ ...prev, access: e.target.value as 'open' | 'closed' }))}
                       row
                     >
                       <FormControlLabel
@@ -439,7 +439,7 @@ const NewElectionPage: React.FC = () => {
                     </RadioGroup>
 
                     {/* Email list section - only show when email is selected */}
-                    {state.access === 'open' && (
+                    {state.access === 'closed' && (
                       <Box sx={{ mt: 2 }}>
                         {emailInput.split(/\r?\n/).length >= 2 && (
                           <Typography variant="subtitle2" color="text.secondary" gutterBottom>
