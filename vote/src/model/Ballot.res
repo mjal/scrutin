@@ -1,6 +1,6 @@
 type signature_t = {
   hash: string,
-  proof: Proof.serialized_t
+  proof: Proof.serialized_t,
 }
 
 type t = {
@@ -8,10 +8,13 @@ type t = {
   election_hash: string,
   credential: string,
   answers: array<Answer.serialized_t>,
-  signature: signature_t
+  signature: signature_t,
 }
 
 @module("sirona") @scope("Ballot") @val
-external generate : (Setup.t, string, array<array<int>>) => t = "generate"
+external generate: (Setup.t, string, array<array<int>>) => t = "generate"
 
-external toJSON : t => Js.Json.t = "%identity"
+@module("sirona") @scope("Ballot") @val
+external b64hash: t => string = "b64hash"
+
+external toJSON: t => Js.Json.t = "%identity"

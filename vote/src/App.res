@@ -16,8 +16,7 @@ let make = () => {
 
   <Layout state dispatch>
     {switch state.route {
-    | list{"elections", "new"} =>
-      <Election_New />
+    | list{"elections", "new"} => <Election_New />
 
     | list{"elections", uuid, ...electionRoute} =>
       switch Map.String.get(state.electionDatas, uuid) {
@@ -26,24 +25,21 @@ let make = () => {
         | Some(true) => ()
         | _ => dispatch(StateMsg.Election_Fetch(uuid))
         }
-        <S.P text="Nous recherchons l'élection..." style=Style.textStyle(~marginTop=50.0->Style.dp,()) />
+        <S.P
+          text="Nous recherchons l'élection..."
+          style={Style.textStyle(~marginTop=50.0->Style.dp, ())}
+        />
       | Some(electionData) =>
         switch electionRoute {
-        | list{} =>
-          <ElectionShow electionData />
-        | list{"booth"} =>
-          <Election_Booth electionData />
-        | list{"tally"} =>
-          <ElectionTally electionData />
-        | list{"share"} =>
-          <ElectionShare electionData />
+        | list{} => <ElectionShow electionData />
+        | list{"booth"} => <Election_Booth electionData />
+        | list{"tally"} => <ElectionTally electionData />
+        | list{"share"} => <ElectionShare electionData />
         | list{"result"} =>
           switch electionData.setup.election.votingMethod {
           | Some(#majorityJudgement) => <ElectionResult_MajorityJudgement electionData />
           | _ => <ElectionResult electionData />
-        }
-        | list{"avote"} =>
-          <ElectionAVote electionData />
+          }
         | route =>
           Js.log(("Unknown election route", route))
           <HomeView />
@@ -56,6 +52,6 @@ let make = () => {
       Js.log(("Unknown route", route))
       <HomeView />
     }}
-    <View style=Style.viewStyle(~margin=60.0->Style.dp, ()) />
+    <View style={Style.viewStyle(~margin=60.0->Style.dp, ())} />
   </Layout>
 }
