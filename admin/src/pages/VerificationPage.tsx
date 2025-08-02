@@ -31,7 +31,7 @@ const Verification: React.FC = () => {
         },
         body: JSON.stringify({ 
           email: email,
-          auth_code: verificationCode
+          auth_code: verificationCode 
         }),
       });
 
