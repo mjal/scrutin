@@ -1,0 +1,32 @@
+{
+  "name": "scrutin",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Scrutin",
+  "workspaces": [
+    "admin",
+    "server",
+    "vote"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install:workspaces",
+    "install:workspaces": "npm install --workspaces",
+    "build": "npm run build --workspaces",
+    "build:admin": "npm run build -w admin",
+    "build:server": "npm run build -w server",
+    "build:vote": "npm run build -w vote",
+    "start:admin": "npm run start -w admin",
+    "start:server": "npm run start:dev -w server",
+    "start:vote": "npm run start -w vote",
+    "start": "concurrently \"npm run start:admin\" \"npm run start:server\"",
+    "clean": "rm -rf node_modules && npm run clean --workspaces",
+    "deploy": "npm run deploy --workspaces"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}

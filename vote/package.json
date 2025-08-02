@@ -1,5 +1,5 @@
 {
-  "name": "scrutin-app",
+  "name": "scrutin-vote",
   "version": "0.0.3",
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -8,7 +8,6 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "export:web": "expo export:web",
-    "export:web:_redirects": "echo '/*   /index.html   200' > web-build/_redirects",
     "re:build": "rescript build -with-deps",
     "re:clean": "rescript clean",
     "re:rebuild": "rescript clean && rescript build -with-deps",
@@ -17,8 +16,9 @@
     "eas-build-post-install": "npx rescript -v ; rescript clean && rescript build -with-deps",
     "test": "cypress run",
     "test:gui": "cypress open",
-    "server": "cd server && npm run start:dev",
-    "build:android": "eas build --platform android --local --profile development"
+    "build:android": "eas build --platform android --local --profile development",
+    "build": "echo 'skip' # npm run re:build && npm run export:web",
+    "deploy": "echo \"not implemented\""
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.3",
