@@ -369,6 +369,7 @@ const ElectionNewPage: React.FC = () => {
                       onClick={handleSubmit}
                       disabled={!isFormValid() || isSubmitting}
                       sx={{ minWidth: 160 }}
+                      data-testid="create-election-button"
                     >
                       {isSubmitting ? 'Création...' : 'Créer l\'élection'}
                     </Button>
