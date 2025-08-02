@@ -20,10 +20,16 @@
     "start:vote": "npm run start -w vote",
     "start": "concurrently \"npm run start:admin\" \"npm run start:server\"",
     "clean": "rm -rf node_modules && npm run clean --workspaces",
-    "deploy": "npm run deploy --workspaces"
+    "deploy": "npm run deploy --workspaces",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test:e2e": "concurrently --kill-others --success first \"npm run start\" \"npm run cypress:run\"",
+    "test:e2e:headed": "concurrently --kill-others --success first \"npm run start\" \"npm run cypress:open\""
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "@cypress/webpack-preprocessor": "^6.0.4",
+    "concurrently": "^8.2.2",
+    "cypress": "^14.5.3"
   },
   "engines": {
     "node": ">=16.0.0",
