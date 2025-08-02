@@ -95,7 +95,7 @@ app.post("/elections", async (req, res) => {
 
     // Get elections created with this email
     const elections = await knex("setup").select().where({ email });
-    
+
     res.status(200).json({ success: true, elections });
   } catch (error) {
     console.error('Error fetching elections:', error);
@@ -113,7 +113,7 @@ app.put("/:uuid", async (req, res) => {
   const emailHash = crypto.createHmac('sha256', secret!).update(email).digest('hex');
   const derivedAuthCode = parseInt(emailHash.substring(0, 8), 16).toString().substring(0, 6).padStart(6, '0');
   if (auth_code !== derivedAuthCode) {
-    res.status(401).json({ success: false, message: "Invalid auth code" });
+    return res.status(401).json({ success: false, message: "Invalid auth code" });
   }
 
   // For email in emails
