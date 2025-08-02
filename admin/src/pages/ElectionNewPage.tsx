@@ -16,6 +16,7 @@ import {
 import { Question, Setup, Election, Trustee, Point, Zq } from 'sirona';
 import { config } from '../config';
 import Header from '../components/Header';
+import { useLocalStorage } from '../hooks';
 
 // Step components
 import StepNavigation, { StepInfo } from '../components/election-new/StepNavigation';
@@ -28,6 +29,8 @@ type StepId = 'basic' | 'questions' | 'settings' | 'review';
 
 const ElectionNewPage: React.FC = () => {
   const navigate = useNavigate();
+  const [userEmail] = useLocalStorage('email', '');
+  const [authCode] = useLocalStorage('auth_code', '');
   
   // Current step state
   const [currentStep, setCurrentStep] = useState<StepId>('basic');
@@ -259,8 +262,6 @@ const ElectionNewPage: React.FC = () => {
       let emails = Array.from(new Set(emailInput.match(emailRegex) || []));
       emails = Array.from(new Set(emails.map(email => email.trim())));
 
-      const userEmail = localStorage.getItem('email');
-      const authCode = localStorage.getItem('auth_code');
 
       const response = await fetch(`${config.server.url}/${election.uuid}`, {
         method: 'PUT',

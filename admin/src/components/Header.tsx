@@ -2,11 +2,13 @@ import React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import ScrutinLogo from '../assets/ScrutinLogo';
+import { useLocalStorage } from '../hooks';
 
 const Header: React.FC = () => {
   const navigate = useNavigate();
-  const email = localStorage.getItem('email');
-  const logged = localStorage.getItem('logged');
+  const [email, setEmail] = useLocalStorage('email', '');
+  const [logged, setLogged] = useLocalStorage('logged', '');
+  const [authCode, setAuthCode] = useLocalStorage('auth_code', '');
   const isLoggedIn = Boolean(logged);
 
   const handleLogin = () => {
@@ -18,9 +20,9 @@ const Header: React.FC = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('email');
-    localStorage.removeItem('auth_code');
-    localStorage.removeItem('logged');
+    setEmail('');
+    setAuthCode('');
+    setLogged('');
     navigate('/');
   };
 

@@ -3,6 +3,7 @@ import { Container, Typography, Paper, List, ListItem, ListItemText, Button, Box
 import { useNavigate } from 'react-router-dom';
 import { config } from '../config';
 import Header from '../components/Header';
+import { useLocalStorage } from '../hooks';
 
 interface Election {
   id: string;
@@ -15,13 +16,12 @@ const ElectionIndex: React.FC = () => {
   const navigate = useNavigate();
   const [elections, setElections] = useState<{ uuid: string }[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [email] = useLocalStorage('email', '');
+  const [authCode] = useLocalStorage('auth_code', '');
 
   useEffect(() => {
     const loadElections = async () => {
       try {
-        const email = localStorage.getItem('email');
-        const authCode = localStorage.getItem('auth_code');
-        
         if (!email || !authCode) {
           navigate('/');
           return;
@@ -55,7 +55,7 @@ const ElectionIndex: React.FC = () => {
     };
 
     loadElections();
-  }, []);
+  }, [email, authCode, navigate]);
 
   if (isLoading) {
     return (

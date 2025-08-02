@@ -3,11 +3,15 @@ import { Container, Typography, Button, Box, Paper, TextField } from '@mui/mater
 import { useNavigate } from 'react-router-dom';
 import { config } from '../config';
 import Header from '../components/Header';
+import { useLocalStorage } from '../hooks';
 
 const Verification: React.FC = () => {
   const navigate = useNavigate();
   const [verificationCode, setVerificationCode] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useLocalStorage('email', '');
+  const [, setAuthCode] = useLocalStorage('auth_code', '');
+  const [, setLogged] = useLocalStorage('logged', '');
 
   const handleVerificationSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,7 +20,6 @@ const Verification: React.FC = () => {
     setIsLoading(true);
     try {
       // Get the email from localStorage (set from HomePage)
-      const email = localStorage.getItem('email');
       if (!email) {
         console.error('No email found in localStorage');
         navigate('/');
@@ -37,9 +40,9 @@ const Verification: React.FC = () => {
 
       if (response.status === 200) {
         // Store both email and auth_code in localStorage
-        localStorage.setItem('email', email);
-        localStorage.setItem('auth_code', verificationCode);
-        localStorage.setItem('logged', "true");
+        setEmail(email);
+        setAuthCode(verificationCode);
+        setLogged("true");
         
         // Navigate to ElectionIndexPage
         navigate('/elections');

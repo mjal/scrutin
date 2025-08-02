@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocalStorage } from '../hooks';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
+  const [logged] = useLocalStorage('logged', '');
+  const [authCode] = useLocalStorage('auth_code', '');
 
   useEffect(() => {
     // Check if user is logged in
-    const logged = localStorage.getItem('logged');
-    const authCode = localStorage.getItem('auth_code');
-    
     if (logged && authCode) {
       // User is logged, redirect to elections
       navigate('/elections');
@@ -16,7 +16,7 @@ const HomePage: React.FC = () => {
       // User is not logged, redirect to login
       navigate('/login');
     }
-  }, [navigate]);
+  }, [navigate, logged, authCode]);
 
   return null;
 };

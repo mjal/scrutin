@@ -3,10 +3,12 @@ import { Container, Typography, Button, Box, Paper, TextField } from '@mui/mater
 import { useNavigate } from 'react-router-dom';
 import { config } from '../config';
 import Header from '../components/Header';
+import { useLocalStorage } from '../hooks';
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
+  const [, setStoredEmail] = useLocalStorage('email', '');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
@@ -25,7 +27,7 @@ const Login: React.FC = () => {
 
       if (response.ok) {
         // Store email in localStorage for verification page
-        localStorage.setItem('email', email);
+        setStoredEmail(email);
         // Navigate to verification page
         navigate('/verify');
       }
