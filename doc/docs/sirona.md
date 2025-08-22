@@ -5,7 +5,7 @@ hide:
 
 # Sirona
 
-[Sirona](https://github.com/mjal/sirona) est une implémentation de Belenios en Typescript développée dans le cadre d'un projet universitaire.
+[Sirona](https://github.com/mjal/sirona) est une implémentation de Belenios en Typescript.
 
 Elle est compatible autant que possible avec Belenios (il est possible de vérifier une élection généré par Belenios avec Sirona et vice-versa).
 
