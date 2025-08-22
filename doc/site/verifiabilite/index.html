@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://doc.scrutin.app/verifiabilite/">
+        <link rel="canonical" href="https://docs.scrutin.app/verifiabilite/">
       
       
         <link rel="prev" href="..">
@@ -18,7 +18,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
     
     
       
@@ -476,35 +476,27 @@
 
 
 <h1 id="verifiabilite">Vérifiabilité</h1>
-<p>Le processus de vote est entièrement vérifiable, garantissant la transparence et
-l'intégrité du scrutin. La vérifiabilité se décline en plusieurs variantes :</p>
+<p>Le processus de vote est entièrement vérifiable, garantissant la transparence
+et l'intégrité du scrutin. La vérifiabilité se décline en plusieurs variantes :</p>
 <h2 id="verifiabilite-individuelle">Vérifiabilité individuelle</h2>
 <p>Chaque électeur peut s'assurer que son vote a bien été pris en compte
 conformément à son choix exprimé dans l'interface. Cette garantie repose
-notamment sur la possibilité d'auditer le logiciel pour vérifier qu'il
+notamment sur la possibilité d'auditer le logiciel afin de vérifier qu'il
 fonctionne correctement.</p>
 <h2 id="verifiabilite-universelle">Vérifiabilité universelle</h2>
 <p>Elle permet à toute personne, même extérieure au processus électoral, de
-vérifier que le résultat final correspond exactement à l'ensemble des
-votes exprimés.</p>
+vérifier que le résultat final correspond exactement à l'ensemble des votes
+exprimés.</p>
 <ol>
 <li>Vérification que les bulletins de votes sont bien formés sans dévoiler leur
-   contenu via l'utilisation preuves à divulgation nulle de connaissance
-   (Zero-Knowledge Proofs).</li>
-<li>Vérification de l'agrégation des votes en refaisant le calcul.</li>
-<li>Vérification que le déchiffrement est correct sans posséder les clés de
-   déchiffrement, encore à l'aide de zero-knowldege proofs</li>
+   contenu via l'utilisation de preuves zero-knowledge.</li>
+<li>Vérification que l'agrégation des votes est correcte en refaisant le calcul.</li>
+<li>Vérification des preuves de déchiffrement.</li>
 </ol>
-<p>Ce mécanisme repose sur plusieurs étapes de contrôle,
-incluant notamment : La vérification des bulletins de vote.
-L'utilisation de preuves à divulgation nulle de connaissance
-(Zero-Knowledge Proofs), qui permettent de prouver que les bulletins
-sont correctement formés (par path/to/your-file.mdexemple, qu'un électeur ne vote pas plus
-de fois qu'autorisé), sans révéler le contenu des votes.</p>
 <h2 id="verifiabilite-de-leligibilite">Vérifiabilité de l'éligibilité</h2>
-<p>Seules les personnes invités à l'élection peuvent voter. On utilise pour ça des
-signatures accolés aux bulletins de vote pour éviter tout bourrage de l'urne
-accolés aux bulle de vote pour éviter tout bourrage de l'urne.</p>
+<p>Seules les personnes invitées à l'élection peuvent voter. Pour ce faire, les
+bulletins sont signés avec le credential du votant. Cela permet d'éviter tout
+bourrage d'urne.</p>
 
 
 
@@ -561,7 +553,7 @@ accolés aux bulle de vote pour éviter tout bourrage de l'urne.</p>
       <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.13a4f30d.min.js"></script>
+      <script src="../assets/javascripts/bundle.56ea9cef.min.js"></script>
       
     
   </body>

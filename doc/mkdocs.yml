@@ -1,5 +1,5 @@
 site_name: Scrutin documentation
-site_url: https://doc.scrutin.app
+site_url: https://docs.scrutin.app
 theme:
   name: material
   palette:
